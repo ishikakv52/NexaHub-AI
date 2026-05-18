@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NEXA AI</title>
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, sans-serif;
+    }
+
+    body{
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:linear-gradient(135deg,#0f172a,#1e293b,#111827);
+      overflow:hidden;
+      color:white;
+    }
+
+    .bg-glow{
+      position:absolute;
+      width:300px;
+      height:300px;
+      border-radius:50%;
+      filter:blur(100px);
+      opacity:0.4;
+    }
+
+    .glow1{
+      background:#3b82f6;
+      top:-100px;
+      left:-100px;
+    }
+
+    .glow2{
+      background:#9333ea;
+      bottom:-100px;
+      right:-100px;
+    }
+
+    .container{
+      width:400px;
+      background:rgba(255,255,255,0.08);
+      backdrop-filter:blur(15px);
+      border:1px solid rgba(255,255,255,0.1);
+      border-radius:25px;
+      padding:35px;
+      position:relative;
+      z-index:10;
+      box-shadow:0 10px 40px rgba(0,0,0,0.4);
+    }
+
+    .logo{
+      text-align:center;
+      margin-bottom:30px;
+    }
+
+    .logo-circle{
+      width:80px;
+      height:80px;
+      border-radius:50%;
+      background:linear-gradient(135deg,#3b82f6,#9333ea);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin:auto;
+      font-size:34px;
+      font-weight:bold;
+      color:white;
+      box-shadow:0 0 25px rgba(59,130,246,0.5);
+    }
+
+    .logo h1{
+      margin-top:15px;
+      font-size:32px;
+      letter-spacing:2px;
+    }
+
+    .logo p{
+      color:#cbd5e1;
+      margin-top:8px;
+      font-size:14px;
+    }
+
+    .home-buttons{
+      display:flex;
+      flex-direction:column;
+      gap:15px;
+    }
+
+    button{
+      padding:14px;
+      border:none;
+      border-radius:14px;
+      font-size:15px;
+      font-weight:bold;
+      cursor:pointer;
+      transition:0.3s ease;
+    }
+
+    .primary-btn{
+      background:linear-gradient(135deg,#2563eb,#7c3aed);
+      color:white;
+    }
+
+    .primary-btn:hover{
+      transform:translateY(-3px);
+      box-shadow:0 8px 20px rgba(59,130,246,0.4);
+    }
+
+    .secondary-btn{
+      background:rgba(255,255,255,0.08);
+      color:white;
+      border:1px solid rgba(255,255,255,0.15);
+    }
+
+    .secondary-btn:hover{
+      background:rgba(255,255,255,0.15);
+      transform:translateY(-3px);
+    }
+
+    .page-title{
+      text-align:center;
+      margin-bottom:25px;
+    }
+
+    .page-title h2{
+      font-size:28px;
+      margin-bottom:8px;
+    }
+
+    .page-title p{
+      color:#cbd5e1;
+      font-size:14px;
+    }
+
+    .input-group{
+      margin-bottom:18px;
+    }
+
+    .input-group label{
+      display:block;
+      margin-bottom:8px;
+      font-size:14px;
+      color:#e2e8f0;
+    }
+
+    .input-group input{
+      width:100%;
+      padding:14px;
+      border:none;
+      outline:none;
+      border-radius:12px;
+      background:rgba(255,255,255,0.08);
+      color:white;
+      border:1px solid rgba(255,255,255,0.1);
+      font-size:14px;
+    }
+
+    .input-group input::placeholder{
+      color:#94a3b8;
+    }
+
+    .submit-btn{
+      width:100%;
+      background:linear-gradient(135deg,#2563eb,#7c3aed);
+      color:white;
+      margin-top:10px;
+    }
+
+    .submit-btn:hover{
+      transform:translateY(-3px);
+      box-shadow:0 8px 20px rgba(59,130,246,0.4);
+    }
+
+    .divider{
+      text-align:center;
+      margin:22px 0;
+      color:#94a3b8;
+      position:relative;
+      font-size:13px;
+    }
+
+    .divider::before,
+    .divider::after{
+      content:'';
+      position:absolute;
+      width:38%;
+      height:1px;
+      background:rgba(255,255,255,0.1);
+      top:50%;
+    }
+
+    .divider::before{
+      left:0;
+    }
+
+    .divider::after{
+      right:0;
+    }
+
+    .social-btn{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      margin-top:12px;
+      background:white;
+      color:black;
+    }
+
+    .social-btn:hover{
+      transform:translateY(-2px);
+    }
+
+    .apple-btn{
+      background:black;
+      color:white;
+      border:1px solid rgba(255,255,255,0.2);
+    }
+
+    .back-btn{
+      margin-top:22px;
+      text-align:center;
+      color:#93c5fd;
+      cursor:pointer;
+      font-size:14px;
+      transition:0.3s;
+    }
+
+    .back-btn:hover{
+      color:white;
+    }
+
+    .hidden{
+      display:none;
+    }
+
+    @media(max-width:480px){
+
+      .container{
+        width:92%;
+        padding:25px;
+      }
+
+      .logo h1{
+        font-size:26px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="bg-glow glow1"></div>
+  <div class="bg-glow glow2"></div>
+
+  <div class="container">
+
+    <!-- HOME PAGE -->
+
+    <div id="homePage">
+
+      <div class="logo">
+
+        <div class="logo-circle">
+          N
+        </div>
+
+        <h1>NEXA AI</h1>
+
+        <p>Next Generation Intelligence Platform</p>
+
+      </div>
+
+      <div class="home-buttons">
+
+        <button class="primary-btn" onclick="showLogin()">
+          Login Account
+        </button>
+
+        <button class="secondary-btn" onclick="showSignup()">
+          Create New Account
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- LOGIN PAGE -->
+
+    <div id="loginPage" class="hidden">
+
+      <div class="page-title">
+        <h2>Welcome Back</h2>
+        <p>Login to continue your journey</p>
+      </div>
+
+      <div class="input-group">
+        <label>Email or Username</label>
+        <input type="text" placeholder="Enter your email or username">
+      </div>
+
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" placeholder="Enter your password">
+      </div>
+
+      <button class="submit-btn">
+        Login Now
+      </button>
+
+      <div class="divider">
+        OR CONTINUE WITH
+      </div>
+
+      <button class="social-btn">
+        🔵 Continue with Google
+      </button>
+
+      <button class="social-btn apple-btn">
+        🍎 Continue with Apple
+      </button>
+
+      <div class="back-btn" onclick="goHome()">
+        ⬅ Back To Home
+      </div>
+
+    </div>
+
+    <!-- SIGNUP PAGE -->
+
+    <div id="signupPage" class="hidden">
+
+      <div class="page-title">
+        <h2>Create Account</h2>
+        <p>Start your professional AI journey</p>
+      </div>
+
+      <div class="input-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="Enter your email">
+      </div>
+
+      <div class="input-group">
+        <label>Mobile Number</label>
+        <input type="tel" placeholder="Enter mobile number">
+      </div>
+
+      <div class="input-group">
+        <label>Username</label>
+        <input type="text" placeholder="Create username">
+      </div>
+
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" placeholder="Create password">
+      </div>
+
+      <button class="submit-btn">
+        Create Account
+      </button>
+
+      <div class="divider">
+        OR SIGNUP WITH
+      </div>
+
+      <button class="social-btn">
+        🔵 Signup with Google
+      </button>
+
+      <button class="social-btn apple-btn">
+        🍎 Signup with Apple
+      </button>
+
+      <div class="back-btn" onclick="goHome()">
+        ⬅ Back To Home
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    function showLogin(){
+
+      document.getElementById('homePage').classList.add('hidden');
+      document.getElementById('signupPage').classList.add('hidden');
+      document.getElementById('loginPage').classList.remove('hidden');
+
+    }
+
+    function showSignup(){
+
+      document.getElementById('homePage').classList.add('hidden');
+      document.getElementById('loginPage').classList.add('hidden');
+      document.getElementById('signupPage').classList.remove('hidden');
+
+    }
+
+    function goHome(){
+
+      document.getElementById('loginPage').classList.add('hidden');
+      document.getElementById('signupPage').classList.add('hidden');
+      document.getElementById('homePage').classList.remove('hidden');
+
+    }
+
+  </script>
+
+</body>
+</html>
