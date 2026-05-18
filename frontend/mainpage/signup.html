@@ -1,423 +1,354 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>NEXA AI</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NEXA AI</title>
 
-  <style>
+<style>
 
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:Arial, sans-serif;
-    }
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, sans-serif;
+}
 
-    body{
-      height:100vh;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      background:linear-gradient(135deg,#0f172a,#1e293b,#111827);
-      overflow:hidden;
-      color:white;
-    }
+body{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  color:white;
+  background:linear-gradient(135deg,#020617,#050816,#0a0f1f,#000);
+}
 
-    .bg-glow{
-      position:absolute;
-      width:300px;
-      height:300px;
-      border-radius:50%;
-      filter:blur(100px);
-      opacity:0.4;
-    }
+/* glow */
+.bg-glow{
+  position:absolute;
+  width:350px;
+  height:350px;
+  border-radius:50%;
+  filter:blur(120px);
+}
 
-    .glow1{
-      background:#3b82f6;
-      top:-100px;
-      left:-100px;
-    }
+.glow1{
+  background:#2563eb;
+  top:-120px;
+  left:-120px;
+  opacity:0.25;
+}
 
-    .glow2{
-      background:#9333ea;
-      bottom:-100px;
-      right:-100px;
-    }
+.glow2{
+  background:#7c3aed;
+  bottom:-120px;
+  right:-120px;
+  opacity:0.2;
+}
 
-    .container{
-      width:400px;
-      background:rgba(255,255,255,0.08);
-      backdrop-filter:blur(15px);
-      border:1px solid rgba(255,255,255,0.1);
-      border-radius:25px;
-      padding:35px;
-      position:relative;
-      z-index:10;
-      box-shadow:0 10px 40px rgba(0,0,0,0.4);
-    }
+/* container */
+.container{
+  width:400px;
+  padding:35px;
+  border-radius:28px;
+  background:rgba(15,23,42,0.55);
+  backdrop-filter:blur(18px);
+  border:1px solid rgba(255,255,255,0.08);
+  box-shadow:0 10px 50px rgba(0,0,0,0.7);
+  position:relative;
+  z-index:5;
+}
 
-    .logo{
-      text-align:center;
-      margin-bottom:30px;
-    }
+/* logo */
+.logo{
+  text-align:center;
+  margin-bottom:25px;
+}
 
-    .logo-circle{
-      width:80px;
-      height:80px;
-      border-radius:50%;
-      background:linear-gradient(135deg,#3b82f6,#9333ea);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      margin:auto;
-      font-size:34px;
-      font-weight:bold;
-      color:white;
-      box-shadow:0 0 25px rgba(59,130,246,0.5);
-    }
+.logo-circle{
+  width:90px;
+  height:90px;
+  margin:auto;
+  border-radius:50%;
+  background:linear-gradient(135deg,#2563eb,#7c3aed);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:36px;
+  font-weight:bold;
+  box-shadow:0 0 30px rgba(37,99,235,0.5);
+}
 
-    .logo h1{
-      margin-top:15px;
-      font-size:32px;
-      letter-spacing:2px;
-    }
+.logo h1{
+  margin-top:15px;
+  font-size:34px;
+}
 
-    .logo p{
-      color:#cbd5e1;
-      margin-top:8px;
-      font-size:14px;
-    }
+.logo p{
+  margin-top:10px;
+  color:#cbd5e1;
+  font-size:14px;
+}
 
-    .home-buttons{
-      display:flex;
-      flex-direction:column;
-      gap:15px;
-    }
+/* buttons */
+button{
+  width:100%;
+  padding:14px;
+  margin-top:12px;
+  border:none;
+  border-radius:14px;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+}
 
-    button{
-      padding:14px;
-      border:none;
-      border-radius:14px;
-      font-size:15px;
-      font-weight:bold;
-      cursor:pointer;
-      transition:0.3s ease;
-    }
+/* primary */
+.primary-btn{
+  background:linear-gradient(135deg,#2563eb,#7c3aed);
+  color:white;
+}
 
-    .primary-btn{
-      background:linear-gradient(135deg,#2563eb,#7c3aed);
-      color:white;
-    }
+.primary-btn:hover{
+  transform:translateY(-3px);
+}
 
-    .primary-btn:hover{
-      transform:translateY(-3px);
-      box-shadow:0 8px 20px rgba(59,130,246,0.4);
-    }
+/* secondary */
+.secondary-btn{
+  background:rgba(255,255,255,0.08);
+  color:white;
+  border:1px solid rgba(255,255,255,0.15);
+}
 
-    .secondary-btn{
-      background:rgba(255,255,255,0.08);
-      color:white;
-      border:1px solid rgba(255,255,255,0.15);
-    }
+.secondary-btn:hover{
+  background:rgba(255,255,255,0.15);
+  transform:translateY(-3px);
+}
 
-    .secondary-btn:hover{
-      background:rgba(255,255,255,0.15);
-      transform:translateY(-3px);
-    }
+/* inputs */
+.input-group{
+  margin-bottom:15px;
+}
 
-    .page-title{
-      text-align:center;
-      margin-bottom:25px;
-    }
+.input-group label{
+  font-size:14px;
+  color:#e2e8f0;
+  display:block;
+  margin-bottom:6px;
+}
 
-    .page-title h2{
-      font-size:28px;
-      margin-bottom:8px;
-    }
+.input-group input{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.08);
+  color:white;
+  outline:none;
+}
 
-    .page-title p{
-      color:#cbd5e1;
-      font-size:14px;
-    }
+/* divider */
+.divider{
+  text-align:center;
+  margin:20px 0;
+  color:#94a3b8;
+  font-size:13px;
+}
 
-    .input-group{
-      margin-bottom:18px;
-    }
+/* social buttons */
+.social-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  font-weight:600;
+}
 
-    .input-group label{
-      display:block;
-      margin-bottom:8px;
-      font-size:14px;
-      color:#e2e8f0;
-    }
+.google-btn{
+  background:white;
+  color:black;
+  border:1px solid rgba(0,0,0,0.1);
+}
 
-    .input-group input{
-      width:100%;
-      padding:14px;
-      border:none;
-      outline:none;
-      border-radius:12px;
-      background:rgba(255,255,255,0.08);
-      color:white;
-      border:1px solid rgba(255,255,255,0.1);
-      font-size:14px;
-    }
+.google-btn:hover{
+  background:#f5f5f5;
+  transform:translateY(-3px);
+}
 
-    .input-group input::placeholder{
-      color:#94a3b8;
-    }
+.apple-btn{
+  background:black;
+  color:white;
+  border:1px solid rgba(255,255,255,0.15);
+}
 
-    .submit-btn{
-      width:100%;
-      background:linear-gradient(135deg,#2563eb,#7c3aed);
-      color:white;
-      margin-top:10px;
-    }
+.apple-btn:hover{
+  background:#111;
+  transform:translateY(-3px);
+}
 
-    .submit-btn:hover{
-      transform:translateY(-3px);
-      box-shadow:0 8px 20px rgba(59,130,246,0.4);
-    }
+/* back */
+.back-btn{
+  margin-top:20px;
+  text-align:center;
+  color:#93c5fd;
+  cursor:pointer;
+  font-size:14px;
+}
 
-    .divider{
-      text-align:center;
-      margin:22px 0;
-      color:#94a3b8;
-      position:relative;
-      font-size:13px;
-    }
+.hidden{display:none;}
 
-    .divider::before,
-    .divider::after{
-      content:'';
-      position:absolute;
-      width:38%;
-      height:1px;
-      background:rgba(255,255,255,0.1);
-      top:50%;
-    }
-
-    .divider::before{
-      left:0;
-    }
-
-    .divider::after{
-      right:0;
-    }
-
-    .social-btn{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      margin-top:12px;
-      background:white;
-      color:black;
-    }
-
-    .social-btn:hover{
-      transform:translateY(-2px);
-    }
-
-    .apple-btn{
-      background:black;
-      color:white;
-      border:1px solid rgba(255,255,255,0.2);
-    }
-
-    .back-btn{
-      margin-top:22px;
-      text-align:center;
-      color:#93c5fd;
-      cursor:pointer;
-      font-size:14px;
-      transition:0.3s;
-    }
-
-    .back-btn:hover{
-      color:white;
-    }
-
-    .hidden{
-      display:none;
-    }
-
-    @media(max-width:480px){
-
-      .container{
-        width:92%;
-        padding:25px;
-      }
-
-      .logo h1{
-        font-size:26px;
-      }
-
-    }
-
-  </style>
-
+</style>
 </head>
 
 <body>
 
-  <div class="bg-glow glow1"></div>
-  <div class="bg-glow glow2"></div>
+<div class="bg-glow glow1"></div>
+<div class="bg-glow glow2"></div>
 
-  <div class="container">
+<div class="container">
 
-    <!-- HOME PAGE -->
+<!-- HOME -->
+<div id="homePage">
 
-    <div id="homePage">
-
-      <div class="logo">
-
-        <div class="logo-circle">
-          N
-        </div>
-
-        <h1>NEXA AI</h1>
-
-        <p>Next Generation Intelligence Platform</p>
-
-      </div>
-
-      <div class="home-buttons">
-
-        <button class="primary-btn" onclick="showLogin()">
-          Login Account
-        </button>
-
-        <button class="secondary-btn" onclick="showSignup()">
-          Create New Account
-        </button>
-
-      </div>
-
-    </div>
-
-    <!-- LOGIN PAGE -->
-
-    <div id="loginPage" class="hidden">
-
-      <div class="page-title">
-        <h2>Welcome Back</h2>
-        <p>Login to continue your journey</p>
-      </div>
-
-      <div class="input-group">
-        <label>Email or Username</label>
-        <input type="text" placeholder="Enter your email or username">
-      </div>
-
-      <div class="input-group">
-        <label>Password</label>
-        <input type="password" placeholder="Enter your password">
-      </div>
-
-      <button class="submit-btn">
-        Login Now
-      </button>
-
-      <div class="divider">
-        OR CONTINUE WITH
-      </div>
-
-      <button class="social-btn">
-        🔵 Continue with Google
-      </button>
-
-      <button class="social-btn apple-btn">
-        🍎 Continue with Apple
-      </button>
-
-      <div class="back-btn" onclick="goHome()">
-        ⬅ Back To Home
-      </div>
-
-    </div>
-
-    <!-- SIGNUP PAGE -->
-
-    <div id="signupPage" class="hidden">
-
-      <div class="page-title">
-        <h2>Create Account</h2>
-        <p>Start your professional AI journey</p>
-      </div>
-
-      <div class="input-group">
-        <label>Email Address</label>
-        <input type="email" placeholder="Enter your email">
-      </div>
-
-      <div class="input-group">
-        <label>Mobile Number</label>
-        <input type="tel" placeholder="Enter mobile number">
-      </div>
-
-      <div class="input-group">
-        <label>Username</label>
-        <input type="text" placeholder="Create username">
-      </div>
-
-      <div class="input-group">
-        <label>Password</label>
-        <input type="password" placeholder="Create password">
-      </div>
-
-      <button class="submit-btn">
-        Create Account
-      </button>
-
-      <div class="divider">
-        OR SIGNUP WITH
-      </div>
-
-      <button class="social-btn">
-        🔵 Signup with Google
-      </button>
-
-      <button class="social-btn apple-btn">
-        🍎 Signup with Apple
-      </button>
-
-      <div class="back-btn" onclick="goHome()">
-        ⬅ Back To Home
-      </div>
-
-    </div>
-
+  <div class="logo">
+    <div class="logo-circle">N</div>
+    <h1>NEXA AI</h1>
+    <p>Next Generation Intelligence Platform</p>
   </div>
 
-  <script>
+  <button class="primary-btn" onclick="showLogin()">Login</button>
+  <button class="secondary-btn" onclick="showSignup()">Create Account</button>
 
-    function showLogin(){
+</div>
 
-      document.getElementById('homePage').classList.add('hidden');
-      document.getElementById('signupPage').classList.add('hidden');
-      document.getElementById('loginPage').classList.remove('hidden');
+<!-- LOGIN -->
+<div id="loginPage" class="hidden">
 
-    }
+  <h2 style="text-align:center;margin-bottom:15px;">Welcome Back</h2>
 
-    function showSignup(){
+  <div class="input-group">
+    <label>Email</label>
+    <input type="text" placeholder="Enter email">
+  </div>
 
-      document.getElementById('homePage').classList.add('hidden');
-      document.getElementById('loginPage').classList.add('hidden');
-      document.getElementById('signupPage').classList.remove('hidden');
+  <div class="input-group">
+    <label>Password</label>
+    <input type="password" placeholder="Enter password">
+  </div>
 
-    }
+  <button class="primary-btn">Login</button>
 
-    function goHome(){
+  <div class="divider">OR CONTINUE WITH</div>
 
-      document.getElementById('loginPage').classList.add('hidden');
-      document.getElementById('signupPage').classList.add('hidden');
-      document.getElementById('homePage').classList.remove('hidden');
+  <!-- 📱 MOBILE LOGIN BUTTON (ADDED) -->
+  <button class="secondary-btn" onclick="showPhone()">
+    📱 Continue with Mobile Number
+  </button>
 
-    }
+  <!-- GOOGLE -->
+  <button class="social-btn google-btn">
+    <svg width="20" height="20" viewBox="0 0 48 48">
+      <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.7 1.1 7.8 2.9l5.7-5.7C34.1 6.1 29.3 4 24 4C12.9 4 4 12.9 4 24s8.9 20 20 20s20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/>
+      <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 16 19 12 24 12c3 0 5.7 1.1 7.8 2.9l5.7-5.7C34.1 6.1 29.3 4 24 4c-7.7 0-14.3 4.3-17.7 10.7z"/>
+      <path fill="#4CAF50" d="M24 44c5.2 0 10-2 13.5-5.3l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.3 0-9.7-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/>
+      <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-1.1 3-3.3 5.4-6.2 6.9l6.2 5.2C39.9 36.5 44 30.8 44 24c0-1.3-.1-2.4-.4-3.5z"/>
+    </svg>
+    Continue with Google
+  </button>
 
-  </script>
+  <!-- APPLE -->
+  <button class="social-btn apple-btn">
+    <svg width="18" height="22" viewBox="0 0 384 512" fill="white">
+      <path d="M318.7 268.7c-.2-37.2 16.6-65.4 50.9-86.4-19.2-27.4-48.1-42.5-86.3-45.5-36.1-2.8-75.5 21-89.9 21-15.2 0-50.1-20-77.6-20.5-56.4-.9-115.4 44.9-115.4 137.9 0 27.5 5 55.9 15 85.2 13.3 38.2 61.3 131.9 111.4 130.3 26.2-.6 44.7-18.6 78.8-18.6 33.1 0 50.2 18.6 79.4 18.6 50.6-.8 94.1-86 106.7-124.3-70.5-33.2-67.4-97.4-67-98.7z"/>
+    </svg>
+    Continue with Apple
+  </button>
+
+  <div class="back-btn" onclick="goHome()">⬅ Back</div>
+
+</div>
+
+<!-- SIGNUP -->
+<div id="signupPage" class="hidden">
+
+  <h2 style="text-align:center;margin-bottom:15px;">Create Account</h2>
+
+  <div class="input-group">
+    <label>Email</label>
+    <input type="email" placeholder="Enter email">
+  </div>
+
+  <div class="input-group">
+    <label>Mobile</label>
+    <input type="tel" placeholder="Enter mobile">
+  </div>
+
+  <div class="input-group">
+    <label>Username</label>
+    <input type="text" placeholder="Create username">
+  </div>
+
+  <div class="input-group">
+    <label>Password</label>
+    <input type="password" placeholder="Create password">
+  </div>
+
+  <button class="primary-btn">Create Account</button>
+
+  <div class="back-btn" onclick="goHome()">⬅ Back</div>
+
+</div>
+
+<!-- PHONE LOGIN (NEW) -->
+<div id="phonePage" class="hidden">
+
+  <h2 style="text-align:center;margin-bottom:15px;">Mobile Login</h2>
+
+  <div class="input-group">
+    <label>Mobile Number</label>
+    <input type="tel" placeholder="Enter mobile number">
+  </div>
+
+  <button class="primary-btn">Send OTP</button>
+
+  <div class="back-btn" onclick="goHome()">⬅ Back</div>
+
+</div>
+
+</div>
+
+<script>
+
+function showLogin(){
+  document.getElementById('homePage').classList.add('hidden');
+  document.getElementById('signupPage').classList.add('hidden');
+  document.getElementById('phonePage').classList.add('hidden');
+  document.getElementById('loginPage').classList.remove('hidden');
+}
+
+function showSignup(){
+  document.getElementById('homePage').classList.add('hidden');
+  document.getElementById('loginPage').classList.add('hidden');
+  document.getElementById('phonePage').classList.add('hidden');
+  document.getElementById('signupPage').classList.remove('hidden');
+}
+
+function showPhone(){
+  document.getElementById('homePage').classList.add('hidden');
+  document.getElementById('loginPage').classList.add('hidden');
+  document.getElementById('signupPage').classList.add('hidden');
+  document.getElementById('phonePage').classList.remove('hidden');
+}
+
+function goHome(){
+  document.getElementById('loginPage').classList.add('hidden');
+  document.getElementById('signupPage').classList.add('hidden');
+  document.getElementById('phonePage').classList.add('hidden');
+  document.getElementById('homePage').classList.remove('hidden');
+}
+
+</script>
 
 </body>
 </html>
