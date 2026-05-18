@@ -37,12 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     'ImageToText',
     'TextToSpeech',
     'VoiceAssistant',
     'AiTeacher',
     'BusinessManagement',
+    'accounts',
 
 ]
 
