@@ -136,7 +136,23 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     )
 }
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:5500",
+    "http://localhost:5500",
+]
+CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_HTTPONLY = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+# 🔥 YAHAN TERA EMAIL AAYEGA
+EMAIL_HOST_USER = 'ainexahub@gmail.com'
+
+# 🔥 YAHAN APP PASSWORD AAYEGA (normal password nahi)
+EMAIL_HOST_PASSWORD = "qnbl dqef ifli zjhg".replace(" ", "")
