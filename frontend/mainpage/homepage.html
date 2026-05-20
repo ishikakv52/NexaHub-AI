@@ -168,6 +168,7 @@ body{
     margin-bottom:25px;
     position:relative;
     z-index:2;
+    gap:15px;
 }
 
 .search-box{
@@ -305,6 +306,7 @@ body{
     border:1px solid rgba(255,255,255,0.08);
     transition:0.3s;
     backdrop-filter:blur(12px);
+    cursor:pointer;
 }
 
 .card:hover{
@@ -324,29 +326,12 @@ body{
     margin-bottom:18px;
 }
 
-.purple{
-    background:#6d28d9;
-}
-
-.blue{
-    background:#2563eb;
-}
-
-.orange{
-    background:#ea580c;
-}
-
-.green{
-    background:#059669;
-}
-
-.pink{
-    background:#db2777;
-}
-
-.gold{
-    background:#ca8a04;
-}
+.purple{background:#6d28d9;}
+.blue{background:#2563eb;}
+.orange{background:#ea580c;}
+.green{background:#059669;}
+.pink{background:#db2777;}
+.gold{background:#ca8a04;}
 
 .card h2{
     margin-bottom:12px;
@@ -396,31 +381,105 @@ body{
     font-size:14px;
 }
 
+/* OUTPUT BOX */
+
+.output{
+    margin-top:30px;
+    background:#09132bcc;
+    padding:25px;
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,0.1);
+    backdrop-filter:blur(10px);
+    position:relative;
+    z-index:2;
+}
+
+.output h2{
+    margin-bottom:15px;
+    color:#00d4ff;
+}
+
+.output p{
+    line-height:1.8;
+    color:#dbeafe;
+}
+
+/* DARK LIGHT */
+
+.light-mode{
+    background:#f3f4f6;
+    color:#111;
+}
+
+.light-mode .sidebar{
+    background:#ffffff;
+    color:#111;
+}
+
+.light-mode .main{
+    background:#e2e8f0;
+}
+
+.light-mode .card,
+.light-mode .stat,
+.light-mode .output,
+.light-mode .profile,
+.light-mode .search-box,
+.light-mode .big-search{
+    background:white;
+    color:#111;
+}
+
+.light-mode input{
+    color:#111 !important;
+}
+
+.light-mode .card p,
+.light-mode .stat p,
+.light-mode .hero p{
+    color:#374151;
+}
+
 /* ANIMATION */
 
 @keyframes bgMove{
-
-    0%{
-        background-position:0% 50%;
-    }
-
-    50%{
-        background-position:100% 50%;
-    }
-
-    100%{
-        background-position:0% 50%;
-    }
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
 }
 
 @keyframes float{
-
     0%{
         transform:translateY(0px) translateX(0px) scale(1);
     }
 
     100%{
         transform:translateY(50px) translateX(30px) scale(1.15);
+    }
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+    body{
+        flex-direction:column;
+    }
+
+    .sidebar{
+        width:100%;
+    }
+
+    .topbar{
+        flex-direction:column;
+    }
+
+    .search-box{
+        width:100%;
+    }
+
+    .big-search{
+        width:100%;
     }
 }
 
@@ -439,36 +498,36 @@ body{
 
     <ul class="menu">
 
-        <li class="active">
+        <li class="active" onclick="menuClick(this)">
             <i class="fa-solid fa-house"></i>Home
         </li>
 
-        <li>
+        <li onclick="menuClick(this)">
             <i class="fa-solid fa-wand-magic-sparkles"></i>AI Tools
         </li>
 
-        <li>
+        <li onclick="menuClick(this)">
             <i class="fa-regular fa-folder"></i>Projects
         </li>
 
-        <li>
+        <li onclick="menuClick(this)">
             <i class="fa-solid fa-gear"></i>Automation
         </li>
 
-        <li>
+        <li onclick="menuClick(this)">
             <i class="fa-regular fa-file"></i>Documents
         </li>
 
-        <li>
+        <li onclick="menuClick(this)">
             <i class="fa-regular fa-heart"></i>Favorites
         </li>
 
-        <li>
+        <li onclick="menuClick(this)">
             <i class="fa-solid fa-clock-rotate-left"></i>History
         </li>
 
-        <li>
-            <i class="fa-solid fa-sliders"></i>Settings
+        <li onclick="toggleMode()">
+            <i class="fa-solid fa-moon"></i>Dark / Light
         </li>
 
     </ul>
@@ -480,8 +539,8 @@ body{
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTY0RJnQx6WRhQrsJ9ek2kTsvSup_zGZ1y3cQ&s">
 
         <div>
-            <h3>Ishika Rathi</h3>
-            <p>Pro Plan</p>
+            <h3 id="userName">Ishika Rathi</h3>
+            <p id="plan">Pro Plan</p>
         </div>
 
     </div>
@@ -507,19 +566,25 @@ body{
             <i class="fa-solid fa-magnifying-glass"></i>
 
             <input type="text"
+            id="topSearch"
             placeholder="Search anything...">
 
         </div>
 
         <div class="icons">
 
-            <button class="pro-btn">
+            <button class="pro-btn" onclick="upgradePlan()">
                 <i class="fa-solid fa-crown"></i> Pro
             </button>
 
-            <i class="fa-regular fa-bell"></i>
-            <i class="fa-regular fa-envelope"></i>
-            <i class="fa-regular fa-user"></i>
+            <i class="fa-regular fa-bell"
+            onclick="showNotification()"></i>
+
+            <i class="fa-regular fa-envelope"
+            onclick="showMessage()"></i>
+
+            <i class="fa-regular fa-user"
+            onclick="changeName()"></i>
 
         </div>
 
@@ -529,7 +594,7 @@ body{
 
     <div class="hero">
 
-        <h1>Nexa Hub AI</h1>
+        <h1 id="heroTitle">Nexa Hub AI</h1>
 
         <p>
             Premium SaaS AI Platform • Productivity • Automation
@@ -546,9 +611,10 @@ body{
     <div class="big-search">
 
         <input type="text"
+        id="mainSearch"
         placeholder="Search AI tools, ideas, automation...">
 
-        <button>Search</button>
+        <button onclick="searchAI()">Search</button>
 
     </div>
 
@@ -556,7 +622,8 @@ body{
 
     <div class="cards">
 
-        <div class="card">
+        <div class="card"
+        onclick="openTool('Image to Text AI Tool Opened')">
 
             <div class="icon purple">
                 <i class="fa-regular fa-image"></i>
@@ -570,7 +637,8 @@ body{
 
         </div>
 
-        <div class="card">
+        <div class="card"
+        onclick="openTool('AI Coding Teacher Opened')">
 
             <div class="icon green">
                 <i class="fa-solid fa-code"></i>
@@ -584,7 +652,8 @@ body{
 
         </div>
 
-        <div class="card">
+        <div class="card"
+        onclick="openTool('Business System Opened')">
 
             <div class="icon blue">
                 <i class="fa-solid fa-briefcase"></i>
@@ -598,7 +667,8 @@ body{
 
         </div>
 
-        <div class="card">
+        <div class="card"
+        onclick="openTool('Voice Assistant Started')">
 
             <div class="icon pink">
                 <i class="fa-solid fa-microphone"></i>
@@ -612,7 +682,8 @@ body{
 
         </div>
 
-        <div class="card">
+        <div class="card"
+        onclick="openTool('Text To Speech Running')">
 
             <div class="icon orange">
                 <i class="fa-solid fa-comment"></i>
@@ -626,7 +697,8 @@ body{
 
         </div>
 
-        <div class="card">
+        <div class="card"
+        onclick="openTool('AI Chat Assistant Activated')">
 
             <div class="icon gold">
                 <i class="fa-solid fa-robot"></i>
@@ -650,7 +722,7 @@ body{
 
             <i class="fa-solid fa-rocket fa-2x"></i>
 
-            <h1>24+</h1>
+            <h1 id="tools">24+</h1>
 
             <p>AI Tools</p>
 
@@ -688,7 +760,127 @@ body{
 
     </div>
 
+    <!-- OUTPUT -->
+
+    <div class="output">
+
+        <h2>System Output</h2>
+
+        <p id="outputText">
+            Welcome to Nexa Hub AI 🚀
+        </p>
+
+    </div>
+
 </div>
+
+<script>
+
+/* MENU ACTIVE */
+
+function menuClick(element){
+
+    let items = document.querySelectorAll(".menu li");
+
+    items.forEach(item=>{
+        item.classList.remove("active");
+    });
+
+    element.classList.add("active");
+
+    document.getElementById("outputText").innerHTML =
+    element.innerText + " Menu Opened";
+}
+
+/* SEARCH FUNCTION */
+
+function searchAI(){
+
+    let text =
+    document.getElementById("mainSearch").value;
+
+    if(text === ""){
+
+        alert("Please enter something!");
+
+    }else{
+
+        document.getElementById("outputText").innerHTML =
+        "Searching for: <b>" + text + "</b>";
+
+    }
+}
+
+/* CARD FUNCTION */
+
+function openTool(message){
+
+    document.getElementById("outputText").innerHTML =
+    message;
+}
+
+/* NOTIFICATION */
+
+function showNotification(){
+
+    alert("🔔 You have 3 new notifications!");
+}
+
+/* MESSAGE */
+
+function showMessage(){
+
+    alert("📩 New AI message received!");
+}
+
+/* CHANGE NAME */
+
+function changeName(){
+
+    let newName =
+    prompt("Enter New Username");
+
+    if(newName){
+
+        document.getElementById("userName").innerHTML =
+        newName;
+
+        document.getElementById("heroTitle").innerHTML =
+        "Welcome " + newName;
+
+    }
+}
+
+/* UPGRADE */
+
+function upgradePlan(){
+
+    document.getElementById("plan").innerHTML =
+    "Ultra Pro Plan";
+
+    alert("🔥 Upgraded to Ultra Pro!");
+}
+
+/* DARK LIGHT MODE */
+
+function toggleMode(){
+
+    document.body.classList.toggle("light-mode");
+}
+
+/* ENTER KEY SEARCH */
+
+document.getElementById("mainSearch")
+.addEventListener("keypress", function(event){
+
+    if(event.key === "Enter"){
+
+        searchAI();
+
+    }
+});
+
+</script>
 
 </body>
 </html>
