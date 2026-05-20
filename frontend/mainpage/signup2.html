@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#050816;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    color:white;
+    transition:0.4s;
+}
+
+/* LIGHT MODE */
+
+body.light-mode{
+    background:#edf2ff;
+    color:#111;
+}
+
+/* BACKGROUND */
+
+.bg{
+    position:absolute;
+    width:900px;
+    height:900px;
+    background:conic-gradient(
+    #00c6ff,
+    #0072ff,
+    #7b2cff,
+    #00c6ff);
+    border-radius:50%;
+    filter:blur(120px);
+    opacity:0.25;
+    animation:rotate 15s linear infinite;
+}
+
+@keyframes rotate{
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+/* THEME BUTTON */
+
+.theme-btn{
+    position:absolute;
+    top:20px;
+    right:20px;
+
+    width:50px;
+    height:50px;
+
+    border:none;
+    border-radius:50%;
+
+    background:rgba(255,255,255,0.1);
+
+    color:white;
+
+    font-size:20px;
+
+    cursor:pointer;
+
+    z-index:100;
+
+    transition:0.3s;
+}
+
+.theme-btn:hover{
+    transform:scale(1.1);
+}
+
+/* CONTAINER */
+
+.container{
+    width:420px;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.08);
+    backdrop-filter:blur(20px);
+    border-radius:25px;
+    padding:35px;
+    position:relative;
+    z-index:10;
+    box-shadow:0 10px 40px rgba(0,0,0,0.4);
+    transition:0.4s;
+}
+
+/* LIGHT CONTAINER */
+
+body.light-mode .container{
+    background:rgba(255,255,255,0.8);
+    border:1px solid rgba(0,0,0,0.08);
+}
+
+/* TITLE */
+
+.title{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.title h1{
+    font-size:32px;
+}
+
+.title span{
+    color:#00c6ff;
+}
+
+.title p{
+    color:#bbb;
+    margin-top:8px;
+    font-size:14px;
+}
+
+body.light-mode .title p{
+    color:#444;
+}
+
+/* INPUT */
+
+.input-box{
+    margin-bottom:18px;
+}
+
+.input-box label{
+    display:block;
+    margin-bottom:8px;
+    font-size:14px;
+    color:#ddd;
+}
+
+body.light-mode .input-box label{
+    color:#222;
+}
+
+.input-box input{
+    width:100%;
+    padding:14px;
+    border:none;
+    outline:none;
+    border-radius:12px;
+    background:rgba(255,255,255,0.08);
+    color:white;
+    font-size:15px;
+    transition:0.3s;
+}
+
+body.light-mode .input-box input{
+    background:rgba(0,0,0,0.05);
+    color:#111;
+}
+
+.input-box input:focus{
+    border:1px solid #00c6ff;
+    box-shadow:0 0 15px rgba(0,198,255,0.3);
+}
+
+.input-box input::placeholder{
+    color:#aaa;
+}
+
+/* BUTTON */
+
+.btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(
+    135deg,
+    #0072ff,
+    #00c6ff);
+    color:white;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+/* SOCIAL */
+
+.social{
+    display:flex;
+    gap:12px;
+    margin-top:20px;
+}
+
+.social button{
+    flex:1;
+    padding:12px;
+    border:none;
+    border-radius:12px;
+    background:rgba(255,255,255,0.08);
+    color:white;
+    cursor:pointer;
+    font-size:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    transition:0.3s;
+}
+
+body.light-mode .social button{
+    background:rgba(0,0,0,0.05);
+    color:#111;
+}
+
+.social button:hover{
+    background:rgba(255,255,255,0.15);
+}
+
+.social img{
+    width:20px;
+    height:20px;
+}
+
+/* OR */
+
+.or{
+    text-align:center;
+    margin-top:20px;
+    color:#aaa;
+}
+
+body.light-mode .or{
+    color:#444;
+}
+
+/* HIDE */
+
+#otpSection,
+#passwordSection{
+    display:none;
+}
+
+/* SUCCESS */
+
+.success{
+    text-align:center;
+}
+
+.success h2{
+    color:#00ff99;
+    margin-bottom:10px;
+}
+
+.success p{
+    color:#ddd;
+}
+
+body.light-mode .success p{
+    color:#333;
+}
+
+/* MOBILE */
+
+@media(max-width:500px){
+
+    .container{
+        width:90%;
+    }
+
+    .social{
+        flex-direction:column;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- THEME BUTTON -->
+
+<button class="theme-btn" onclick="toggleMode()">
+🌙
+</button>
+
+<!-- BACKGROUND -->
+
+<div class="bg"></div>
+
+<!-- CONTAINER -->
+
+<div class="container">
+
+    <div class="title">
+
+        <h1>NEXA <span>HUB AI</span></h1>
+
+        <p>Modern Registration System</p>
+
+    </div>
+
+    <!-- REGISTER -->
+
+    <div id="registerSection">
+
+        <div class="input-box">
+
+            <label>Email</label>
+
+            <input
+            type="email"
+            id="email"
+            placeholder="Enter your email">
+
+        </div>
+
+        <div class="input-box">
+
+            <label>Username</label>
+
+            <input
+            type="text"
+            id="username"
+            placeholder="Enter username">
+
+        </div>
+
+        <button class="btn" onclick="sendOTP()">
+            Send OTP
+        </button>
+
+        <div class="or">
+            OR CONNECT WITH
+        </div>
+
+        <!-- GOOGLE + APPLE -->
+
+        <div class="social">
+
+            <button onclick="googleLogin()">
+
+                <img
+                src="https://cdn-icons-png.flaticon.com/512/281/281764.png">
+
+                Google
+
+            </button>
+
+            <button onclick="appleLogin()">
+
+                <img
+                src="https://cdn-icons-png.flaticon.com/512/0/747.png">
+
+                Apple
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- OTP -->
+
+    <div id="otpSection">
+
+        <div class="input-box">
+
+            <label>Enter OTP</label>
+
+            <input
+            type="text"
+            id="otp"
+            placeholder="Enter OTP">
+
+        </div>
+
+        <button class="btn" onclick="verifyOTP()">
+            Verify OTP
+        </button>
+
+    </div>
+
+    <!-- PASSWORD -->
+
+    <div id="passwordSection">
+
+        <div class="title">
+
+            <h1>Create Password</h1>
+
+            <p>Secure your account</p>
+
+        </div>
+
+        <div class="input-box">
+
+            <label>Password</label>
+
+            <input
+            type="password"
+            id="password"
+            placeholder="Create password">
+
+        </div>
+
+        <div class="input-box">
+
+            <label>Re-enter Password</label>
+
+            <input
+            type="password"
+            id="repassword"
+            placeholder="Re-enter password">
+
+        </div>
+
+        <button class="btn" onclick="savePassword()">
+            Save Password
+        </button>
+
+    </div>
+
+    <!-- SUCCESS -->
+
+    <div id="successMessage"></div>
+
+</div>
+
+<script>
+
+/* DARK LIGHT MODE */
+
+function toggleMode(){
+
+    document.body.classList.toggle("light-mode");
+
+    let btn =
+    document.querySelector(".theme-btn");
+
+    if(document.body.classList.contains("light-mode")){
+
+        btn.innerHTML = "☀️";
+
+    }else{
+
+        btn.innerHTML = "🌙";
+    }
+}
+
+/* SEND OTP */
+
+function sendOTP(){
+
+    let email =
+    document.getElementById("email").value;
+
+    let username =
+    document.getElementById("username").value;
+
+    if(email === "" || username === ""){
+
+        alert("Fill all fields");
+        return;
+    }
+
+    alert("OTP Sent Successfully ✅");
+
+    document.getElementById("otpSection").style.display =
+    "block";
+}
+
+/* VERIFY OTP */
+
+function verifyOTP(){
+
+    let otp =
+    document.getElementById("otp").value;
+
+    if(otp === ""){
+
+        alert("Enter OTP");
+        return;
+    }
+
+    alert("OTP Verified ✅");
+
+    document.getElementById("registerSection").style.display =
+    "none";
+
+    document.getElementById("otpSection").style.display =
+    "none";
+
+    document.getElementById("passwordSection").style.display =
+    "block";
+}
+
+/* SAVE PASSWORD */
+
+function savePassword(){
+
+    let password =
+    document.getElementById("password").value;
+
+    let repassword =
+    document.getElementById("repassword").value;
+
+    let username =
+    document.getElementById("username").value;
+
+    if(password === "" || repassword === ""){
+
+        alert("Enter password");
+        return;
+    }
+
+    if(password !== repassword){
+
+        alert("Passwords do not match ❌");
+        return;
+    }
+
+    localStorage.setItem("username", username);
+
+    localStorage.setItem("password", password);
+
+    document.getElementById("passwordSection").style.display =
+    "none";
+
+    document.getElementById("successMessage").innerHTML = `
+
+        <div class="success">
+
+            <h2>
+                Registration Successful 🎉
+            </h2>
+
+            <p>
+                Welcome ${username}
+            </p>
+
+        </div>
+
+    `;
+}
+
+/* GOOGLE LOGIN */
+
+function googleLogin(){
+
+    alert("Google Connected Successfully ✅");
+}
+
+/* APPLE LOGIN */
+
+function appleLogin(){
+
+    alert("Apple Connected Successfully ✅");
+}
+
+</script>
+
+</body>
+</html>
