@@ -1,231 +1,345 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>NEXA AI</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI - Registration</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
 *{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Arial, sans-serif;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
 }
 
+/* BODY */
+
 body{
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  overflow:hidden;
-  color:white;
-  transition:0.4s;
-  background:linear-gradient(135deg,#020617,#050816,#0a0f1f,#000);
+    background:#050816;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    color:white;
+    transition:0.4s;
+}
+
+/* BACKGROUND */
+
+.bg{
+    position:absolute;
+    width:900px;
+    height:900px;
+
+    background:conic-gradient(
+    #00c6ff,
+    #0072ff,
+    #7b2cff,
+    #00c6ff);
+
+    border-radius:50%;
+
+    filter:blur(120px);
+
+    opacity:0.25;
+
+    animation:rotate 15s linear infinite;
+}
+
+@keyframes rotate{
+
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+/* THEME BUTTON */
+
+.theme-btn{
+    position:absolute;
+    top:20px;
+    right:20px;
+
+    width:45px;
+    height:45px;
+
+    border:none;
+    border-radius:50%;
+
+    background:rgba(255,255,255,0.12);
+
+    color:white;
+
+    font-size:20px;
+
+    cursor:pointer;
+
+    z-index:100;
+
+    transition:0.3s;
+}
+
+.theme-btn:hover{
+    transform:scale(1.1);
+}
+
+/* CARD */
+
+.container{
+    width:420px;
+
+    background:rgba(255,255,255,0.06);
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(20px);
+
+    border-radius:25px;
+
+    padding:35px;
+
+    position:relative;
+
+    z-index:10;
+
+    box-shadow:0 10px 40px rgba(0,0,0,0.4);
+
+    transition:0.4s;
+}
+
+/* TITLE */
+
+.title{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.title h1{
+    font-size:32px;
+}
+
+.title span{
+    color:#00c6ff;
+}
+
+.title p{
+    color:#bbb;
+    margin-top:8px;
+    font-size:14px;
+}
+
+/* INPUTS */
+
+.input-box{
+    margin-bottom:18px;
+}
+
+.input-box label{
+    display:block;
+    margin-bottom:8px;
+    font-size:14px;
+    color:#ddd;
+}
+
+.input-box input{
+    width:100%;
+    padding:14px;
+
+    border:none;
+    outline:none;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,0.08);
+
+    color:white;
+
+    font-size:15px;
+
+    border:1px solid transparent;
+
+    transition:0.3s;
+}
+
+.input-box input:focus{
+    border:1px solid #00c6ff;
+
+    box-shadow:0 0 15px rgba(0,198,255,0.3);
+}
+
+.input-box input::placeholder{
+    color:#aaa;
+}
+
+/* BUTTON */
+
+.btn{
+    width:100%;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:linear-gradient(
+    135deg,
+    #0072ff,
+    #00c6ff);
+
+    color:white;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+
+    box-shadow:0 8px 20px rgba(0,198,255,0.4);
+}
+
+/* OR */
+
+.or{
+    text-align:center;
+    margin:18px 0;
+    color:#aaa;
+}
+
+/* SOCIAL BUTTONS */
+
+.social{
+    display:flex;
+    gap:12px;
+}
+
+.social button{
+    flex:1;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,0.08);
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:14px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    transition:0.3s;
+}
+
+.social button img{
+    width:20px;
+    height:20px;
+}
+
+.social button:hover{
+    background:rgba(255,255,255,0.15);
+
+    transform:translateY(-2px);
+}
+
+/* OTP SECTION */
+
+#otpSection{
+    display:none;
+    margin-top:25px;
+}
+
+/* PASSWORD SECTION */
+
+#passwordSection{
+    display:none;
+    margin-top:25px;
+}
+
+/* FOOTER */
+
+.footer{
+    text-align:center;
+    margin-top:20px;
+    font-size:12px;
+    color:#777;
 }
 
 /* LIGHT MODE */
-body.light-mode{
-  background:linear-gradient(135deg,#f1f5f9,#e2e8f0,#ffffff);
-  color:#0f172a;
+
+.light-mode{
+    background:#eef3ff;
+    color:#111;
 }
 
-/* glow */
-.bg-glow{
-  position:absolute;
-  width:350px;
-  height:350px;
-  border-radius:50%;
-  filter:blur(120px);
+.light-mode .container{
+    background:rgba(255,255,255,0.75);
 }
 
-.glow1{
-  background:#2563eb;
-  top:-120px;
-  left:-120px;
-  opacity:0.25;
+.light-mode .input-box label{
+    color:#222;
 }
 
-.glow2{
-  background:#7c3aed;
-  bottom:-120px;
-  right:-120px;
-  opacity:0.2;
+.light-mode .input-box input{
+    background:rgba(0,0,0,0.05);
+    color:#111;
 }
 
-/* container */
-.container{
-  width:400px;
-  padding:35px;
-  border-radius:28px;
-  background:rgba(15,23,42,0.55);
-  backdrop-filter:blur(18px);
-  border:1px solid rgba(255,255,255,0.08);
-  box-shadow:0 10px 50px rgba(0,0,0,0.7);
-  position:relative;
-  z-index:5;
-  transition:0.4s;
+.light-mode .input-box input::placeholder{
+    color:#555;
 }
 
-body.light-mode .container{
-  background:rgba(255,255,255,0.75);
-  color:#0f172a;
-  border:1px solid rgba(0,0,0,0.08);
+.light-mode .title p,
+.light-mode .footer,
+.light-mode .or{
+    color:#444;
 }
 
-/* THEME TOGGLE */
-.theme-toggle{
-  position:absolute;
-  top:20px;
-  right:20px;
-  width:45px;
-  height:45px;
-  border-radius:50%;
-  border:none;
-  cursor:pointer;
-  font-size:18px;
-  background:rgba(255,255,255,0.1);
-  color:white;
-  backdrop-filter:blur(10px);
+.light-mode .social button{
+    background:rgba(0,0,0,0.05);
+    color:#111;
 }
 
-body.light-mode .theme-toggle{
-  background:rgba(0,0,0,0.08);
-  color:#111;
+.light-mode .theme-btn{
+    background:#111;
+    color:white;
 }
 
-/* logo */
-.logo{
-  text-align:center;
-  margin-bottom:25px;
-}
+/* MOBILE */
 
-.logo-circle{
-  width:90px;
-  height:90px;
-  margin:auto;
-  border-radius:50%;
-  background:linear-gradient(135deg,#2563eb,#7c3aed);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:36px;
-  font-weight:bold;
-}
+@media(max-width:500px){
 
-.logo h1{
-  margin-top:15px;
-  font-size:34px;
-}
+    .container{
+        width:90%;
+        padding:25px;
+    }
 
-.logo p{
-  margin-top:10px;
-  color:#cbd5e1;
-  font-size:14px;
-}
-
-body.light-mode .logo p{
-  color:#334155;
-}
-
-/* buttons */
-button{
-  width:100%;
-  padding:14px;
-  margin-top:12px;
-  border:none;
-  border-radius:14px;
-  font-size:15px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-/* primary */
-.primary-btn{
-  background:linear-gradient(135deg,#2563eb,#7c3aed);
-  color:white;
-}
-
-/* secondary */
-.secondary-btn{
-  background:rgba(255,255,255,0.08);
-  color:white;
-  border:1px solid rgba(255,255,255,0.15);
-}
-
-body.light-mode .secondary-btn{
-  background:rgba(0,0,0,0.05);
-  color:#0f172a;
-}
-
-/* inputs */
-.input-group{
-  margin-bottom:15px;
-}
-
-.input-group label{
-  font-size:14px;
-  display:block;
-  margin-bottom:6px;
-}
-
-.input-group input{
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,0.1);
-  background:rgba(255,255,255,0.08);
-  color:white;
-}
-
-body.light-mode .input-group input{
-  background:rgba(0,0,0,0.05);
-  color:#0f172a;
-}
-
-/* divider */
-.divider{
-  text-align:center;
-  margin:20px 0;
-  color:#94a3b8;
-  font-size:13px;
-}
-
-/* social buttons */
-.social-btn{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  font-weight:600;
-}
-
-.google-btn{
-  background:white;
-  color:black;
-}
-
-.apple-btn{
-  background:black;
-  color:white;
-}
-
-/* back */
-.back-btn{
-  margin-top:20px;
-  text-align:center;
-  color:#93c5fd;
-  cursor:pointer;
-  font-size:14px;
-}
-
-.hidden{
-  display:none;
-}
-
-.social-btn svg{
-  flex-shrink:0;
 }
 
 </style>
@@ -233,150 +347,234 @@ body.light-mode .input-group input{
 
 <body>
 
-<div class="bg-glow glow1"></div>
-<div class="bg-glow glow2"></div>
+<!-- BACKGROUND -->
+
+<div class="bg"></div>
+
+<!-- THEME BUTTON -->
+
+<button class="theme-btn" onclick="toggleMode()">
+    🌙
+</button>
+
+<!-- MAIN CONTAINER -->
 
 <div class="container">
 
-<button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+    <!-- TITLE -->
 
-<!-- HOME -->
-<div id="homePage">
+    <div class="title">
 
-  <div class="logo">
-    <div class="logo-circle">N</div>
-    <h1>NEXA AI</h1>
-    <p>Next Generation Intelligence Platform</p>
-  </div>
+        <h1>NEXA <span>HUB AI</span></h1>
 
-  <button class="primary-btn" onclick="showLogin()">Login</button>
-  <button class="secondary-btn" onclick="showSignup()">Create Account</button>
+        <p>Modern Registration System</p>
 
-</div>
+    </div>
 
-<!-- LOGIN -->
-<div id="loginPage" class="hidden">
+    <!-- REGISTER SECTION -->
 
-  <h2 style="text-align:center;margin-bottom:15px;">Welcome Back</h2>
+    <div id="registerSection">
 
-  <div class="input-group">
-    <label>Email</label>
-    <input type="text" placeholder="Enter email">
-  </div>
+        <div class="input-box">
 
-  <div class="input-group">
-    <label>Password</label>
-    <input type="password" placeholder="Enter password">
-  </div>
+            <label>Email</label>
 
-  <button class="primary-btn">Login</button>
+            <input
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            required>
 
-  <div class="divider">OR CONTINUE WITH</div>
+        </div>
 
-  <button class="secondary-btn" onclick="showPhone()">📱 Continue with Mobile</button>
+        <div class="input-box">
 
-  <!-- GOOGLE -->
-  <button class="social-btn google-btn">
-    <svg width="18" height="18" viewBox="0 0 48 48">
-      <path fill="#EA4335" d="M24 9.5c3.54 0 6.7 1.22 9.2 3.6l6.9-6.9C36.2 2.5 30.6 0 24 0 14.6 0 6.4 5.4 2.6 13.3l8.1 6.3C12.7 13.1 17.9 9.5 24 9.5z"/>
-      <path fill="#4285F4" d="M46.5 24.5c0-1.6-.2-3.2-.5-4.5H24v9h12.6c-.6 3.2-2.4 5.9-5.2 7.7l8 6.2c4.7-4.4 7.1-10.9 7.1-18.4z"/>
-      <path fill="#FBBC05" d="M10.7 28.2c-1-3.2-1-6.6 0-9.8l-8.1-6.3C.9 16.3 0 20 0 24s.9 7.7 2.6 11l8.1-6.8z"/>
-      <path fill="#34A853" d="M24 48c6.6 0 12.2-2.2 16.3-6l-8-6.2c-2.2 1.5-5 2.3-8.3 2.3-6.1 0-11.3-3.6-13.3-8.8l-8.1 6.3C6.4 42.6 14.6 48 24 48z"/>
-    </svg>
-    Continue with Google
-  </button>
+            <label>Create Unique Username</label>
 
-  <!-- APPLE -->
-  <button class="social-btn apple-btn">
-    <svg width="18" height="18" viewBox="0 0 24 24">
-      <path fill="white" d="M16.7 13.2c0-2.2 1.8-3.3 1.9-3.4-1-1.5-2.6-1.7-3.2-1.7-1.4-.1-2.7.8-3.4.8-.7 0-1.8-.8-3-.7-1.5 0-2.9.9-3.7 2.2-1.6 2.8-.4 6.9 1.2 9.1.8 1.1 1.7 2.3 2.9 2.2 1.1 0 1.5-.7 2.9-.7s1.8.7 3 .7 2-.9 2.8-2c.9-1.2 1.2-2.4 1.2-2.5-.1-.1-2.3-.9-2.3-3.3z"/>
-    </svg>
-    Continue with Apple
-  </button>
+            <input
+            type="text"
+            id="username"
+            placeholder="Enter username"
+            required>
 
-  <div class="back-btn" onclick="goHome()">⬅ Back</div>
+        </div>
 
-</div>
+        <button class="btn" onclick="sendOTP()">
+            Send OTP
+        </button>
 
-<!-- SIGNUP -->
-<div id="signupPage" class="hidden">
-  <h2 style="text-align:center;margin-bottom:15px;">Create Account</h2>
+        <div class="or">
+            OR
+        </div>
 
-  <div class="input-group">
-    <label>Email</label>
-    <input type="email">
-  </div>
+        <!-- GOOGLE + APPLE -->
 
-  <div class="input-group">
-    <label>Mobile</label>
-    <input type="tel">
-  </div>
+        <div class="social">
 
-  <div class="input-group">
-    <label>Username</label>
-    <input type="text">
-  </div>
+            <button>
 
-  <div class="input-group">
-    <label>Password</label>
-    <input type="password">
-  </div>
+                <img
+                src="https://cdn-icons-png.flaticon.com/512/281/281764.png"
+                alt="Google">
 
-  <button class="primary-btn">Create Account</button>
+                Google
 
-  <div class="back-btn" onclick="goHome()">⬅ Back</div>
-</div>
+            </button>
 
-<!-- PHONE -->
-<div id="phonePage" class="hidden">
-  <h2 style="text-align:center;margin-bottom:15px;">Mobile Login</h2>
+            <button>
 
-  <div class="input-group">
-    <label>Mobile Number</label>
-    <input type="tel">
-  </div>
+                <img
+                src="https://cdn-icons-png.flaticon.com/512/0/747.png"
+                alt="Apple">
 
-  <button class="primary-btn">Send OTP</button>
+                Apple
 
-  <div class="back-btn" onclick="goHome()">⬅ Back</div>
-</div>
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- OTP SECTION -->
+
+    <div id="otpSection">
+
+        <div class="input-box">
+
+            <label>Verify OTP</label>
+
+            <input
+            type="text"
+            id="otp"
+            placeholder="Enter OTP">
+
+        </div>
+
+        <button class="btn" onclick="verifyOTP()">
+            Submit OTP
+        </button>
+
+    </div>
+
+    <!-- PASSWORD SECTION -->
+
+    <div id="passwordSection">
+
+        <div class="input-box">
+
+            <label>Create Password</label>
+
+            <input
+            type="password"
+            id="password"
+            placeholder="Create password">
+
+        </div>
+
+        <div class="input-box">
+
+            <label>Re-enter Password</label>
+
+            <input
+            type="password"
+            id="repassword"
+            placeholder="Re-enter password">
+
+        </div>
+
+        <button class="btn" onclick="savePassword()">
+            Save Password
+        </button>
+
+    </div>
+
+    <!-- FOOTER -->
+
+    <div class="footer">
+        © 2026 NEXA HUB AI
+    </div>
 
 </div>
 
 <script>
 
-function showLogin(){
-  document.getElementById('homePage').classList.add('hidden');
-  document.getElementById('loginPage').classList.remove('hidden');
-  document.getElementById('signupPage').classList.add('hidden');
-  document.getElementById('phonePage').classList.add('hidden');
+/* SEND OTP */
+
+function sendOTP(){
+
+    let email = document.getElementById("email").value;
+
+    let username = document.getElementById("username").value;
+
+    if(email === "" || username === ""){
+
+        alert("Please fill all fields");
+        return;
+    }
+
+    alert("OTP Sent Successfully ✅");
+
+    document.getElementById("otpSection").style.display = "block";
 }
 
-function showSignup(){
-  document.getElementById('homePage').classList.add('hidden');
-  document.getElementById('signupPage').classList.remove('hidden');
-  document.getElementById('loginPage').classList.add('hidden');
-  document.getElementById('phonePage').classList.add('hidden');
+/* VERIFY OTP */
+
+function verifyOTP(){
+
+    let otp = document.getElementById("otp").value;
+
+    if(otp === ""){
+
+        alert("Enter OTP");
+        return;
+    }
+
+    alert("OTP Verified Successfully ✅");
+
+    document.getElementById("passwordSection").style.display = "block";
 }
 
-function showPhone(){
-  document.getElementById('homePage').classList.add('hidden');
-  document.getElementById('phonePage').classList.remove('hidden');
-  document.getElementById('loginPage').classList.add('hidden');
-  document.getElementById('signupPage').classList.add('hidden');
+/* SAVE PASSWORD */
+
+function savePassword(){
+
+    let password = document.getElementById("password").value;
+
+    let repassword = document.getElementById("repassword").value;
+
+    if(password === "" || repassword === ""){
+
+        alert("Please enter password");
+        return;
+    }
+
+    if(password !== repassword){
+
+        alert("Passwords do not match ❌");
+        return;
+    }
+
+    alert("Registration Successful ✅");
+
+    window.location.href = "dashboard.html";
 }
 
-function goHome(){
-  document.getElementById('homePage').classList.remove('hidden');
-  document.getElementById('loginPage').classList.add('hidden');
-  document.getElementById('signupPage').classList.add('hidden');
-  document.getElementById('phonePage').classList.add('hidden');
-}
+/* DARK / LIGHT MODE */
 
-function toggleTheme(){
-  document.body.classList.toggle("light-mode");
-  document.querySelector(".theme-toggle").innerHTML =
-    document.body.classList.contains("light-mode") ? "☀️" : "🌙";
+function toggleMode(){
+
+    document.body.classList.toggle("light-mode");
+
+    let btn = document.querySelector(".theme-btn");
+
+    if(document.body.classList.contains("light-mode")){
+
+        btn.innerHTML = "☀️";
+
+    }else{
+
+        btn.innerHTML = "🌙";
+    }
 }
 
 </script>
