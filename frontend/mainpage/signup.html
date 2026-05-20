@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>NEXA HUB AI - Registration</title>
+<title>NEXA HUB AI</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
@@ -16,8 +16,6 @@
     box-sizing:border-box;
     font-family:'Poppins',sans-serif;
 }
-
-/* BODY */
 
 body{
     background:#050816;
@@ -44,9 +42,7 @@ body{
     #00c6ff);
 
     border-radius:50%;
-
     filter:blur(120px);
-
     opacity:0.25;
 
     animation:rotate 15s linear infinite;
@@ -93,7 +89,7 @@ body{
     transform:scale(1.1);
 }
 
-/* CARD */
+/* CONTAINER */
 
 .container{
     width:420px;
@@ -166,14 +162,11 @@ body{
 
     font-size:15px;
 
-    border:1px solid transparent;
-
     transition:0.3s;
 }
 
 .input-box input:focus{
     border:1px solid #00c6ff;
-
     box-shadow:0 0 15px rgba(0,198,255,0.3);
 }
 
@@ -210,7 +203,6 @@ body{
 
 .btn:hover{
     transform:translateY(-2px);
-
     box-shadow:0 8px 20px rgba(0,198,255,0.4);
 }
 
@@ -264,22 +256,46 @@ body{
 
 .social button:hover{
     background:rgba(255,255,255,0.15);
-
-    transform:translateY(-2px);
 }
 
-/* OTP SECTION */
+/* HIDE SECTIONS */
 
-#otpSection{
-    display:none;
-    margin-top:25px;
-}
-
-/* PASSWORD SECTION */
-
+#otpSection,
 #passwordSection{
     display:none;
-    margin-top:25px;
+}
+
+/* PASSWORD FULL PAGE */
+
+.full-page{
+    width:100% !important;
+    height:100vh !important;
+    max-width:100% !important;
+
+    border-radius:0 !important;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+
+    padding:40px;
+}
+
+/* SUCCESS */
+
+.success{
+    text-align:center;
+}
+
+.success h2{
+    color:#00ff99;
+    margin-bottom:10px;
+}
+
+.success p{
+    color:#ddd;
+    margin-top:10px;
 }
 
 /* FOOTER */
@@ -340,6 +356,9 @@ body{
         padding:25px;
     }
 
+    .social{
+        flex-direction:column;
+    }
 }
 
 </style>
@@ -354,16 +373,16 @@ body{
 <!-- THEME BUTTON -->
 
 <button class="theme-btn" onclick="toggleMode()">
-    🌙
+🌙
 </button>
 
 <!-- MAIN CONTAINER -->
 
-<div class="container">
+<div class="container" id="mainContainer">
 
     <!-- TITLE -->
 
-    <div class="title">
+    <div class="title" id="mainTitle">
 
         <h1>NEXA <span>HUB AI</span></h1>
 
@@ -382,20 +401,18 @@ body{
             <input
             type="email"
             id="email"
-            placeholder="Enter your email"
-            required>
+            placeholder="Enter your email">
 
         </div>
 
         <div class="input-box">
 
-            <label>Create Unique Username</label>
+            <label>Create Username</label>
 
             <input
             type="text"
             id="username"
-            placeholder="Enter username"
-            required>
+            placeholder="Enter username">
 
         </div>
 
@@ -411,7 +428,7 @@ body{
 
         <div class="social">
 
-            <button>
+            <button onclick="googleLogin()">
 
                 <img
                 src="https://cdn-icons-png.flaticon.com/512/281/281764.png"
@@ -421,7 +438,7 @@ body{
 
             </button>
 
-            <button>
+            <button onclick="appleLogin()">
 
                 <img
                 src="https://cdn-icons-png.flaticon.com/512/0/747.png"
@@ -451,7 +468,7 @@ body{
         </div>
 
         <button class="btn" onclick="verifyOTP()">
-            Submit OTP
+            Verify OTP
         </button>
 
     </div>
@@ -459,6 +476,14 @@ body{
     <!-- PASSWORD SECTION -->
 
     <div id="passwordSection">
+
+        <div class="title">
+
+            <h1>Create Password</h1>
+
+            <p>Secure your account</p>
+
+        </div>
 
         <div class="input-box">
 
@@ -488,9 +513,13 @@ body{
 
     </div>
 
+    <!-- SUCCESS -->
+
+    <div id="successMessage"></div>
+
     <!-- FOOTER -->
 
-    <div class="footer">
+    <div class="footer" id="footer">
         © 2026 NEXA HUB AI
     </div>
 
@@ -502,9 +531,11 @@ body{
 
 function sendOTP(){
 
-    let email = document.getElementById("email").value;
+    let email =
+    document.getElementById("email").value;
 
-    let username = document.getElementById("username").value;
+    let username =
+    document.getElementById("username").value;
 
     if(email === "" || username === ""){
 
@@ -514,37 +545,72 @@ function sendOTP(){
 
     alert("OTP Sent Successfully ✅");
 
-    document.getElementById("otpSection").style.display = "block";
+    document.getElementById("otpSection").style.display =
+    "block";
 }
 
 /* VERIFY OTP */
 
 function verifyOTP(){
 
-    let otp = document.getElementById("otp").value;
+    let otp =
+    document.getElementById("otp").value;
 
     if(otp === ""){
 
-        alert("Enter OTP");
+        alert("Please enter OTP");
         return;
     }
 
     alert("OTP Verified Successfully ✅");
 
-    document.getElementById("passwordSection").style.display = "block";
+    /* HIDE OLD SECTIONS */
+
+    document.getElementById("registerSection").style.display =
+    "none";
+
+    document.getElementById("otpSection").style.display =
+    "none";
+
+    document.getElementById("mainTitle").style.display =
+    "none";
+
+    document.getElementById("footer").style.display =
+    "none";
+
+    /* SHOW PASSWORD PAGE */
+
+    document.getElementById("passwordSection").style.display =
+    "block";
+
+    /* FULL PAGE */
+
+    document.getElementById("mainContainer")
+    .classList.add("full-page");
 }
 
 /* SAVE PASSWORD */
 
 function savePassword(){
 
-    let password = document.getElementById("password").value;
+    let password =
+    document.getElementById("password").value;
 
-    let repassword = document.getElementById("repassword").value;
+    let repassword =
+    document.getElementById("repassword").value;
+
+    let username =
+    document.getElementById("username").value;
 
     if(password === "" || repassword === ""){
 
         alert("Please enter password");
+        return;
+    }
+
+    if(password.length < 6){
+
+        alert("Password must be at least 6 characters");
         return;
     }
 
@@ -554,9 +620,52 @@ function savePassword(){
         return;
     }
 
-    alert("Registration Successful ✅");
+    /* SAVE */
 
-    window.location.href = "dashboard.html";
+    localStorage.setItem("username", username);
+
+    localStorage.setItem("password", password);
+
+    /* HIDE PASSWORD SECTION */
+
+    document.getElementById("passwordSection").style.display =
+    "none";
+
+    /* SUCCESS MESSAGE */
+
+    document.getElementById("successMessage").innerHTML = `
+
+        <div class="success">
+
+            <h2>
+                Registration Successful 🎉
+            </h2>
+
+            <p>
+                Welcome ${username}
+            </p>
+
+            <p>
+                Password Saved Successfully ✅
+            </p>
+
+        </div>
+
+    `;
+}
+
+/* GOOGLE LOGIN */
+
+function googleLogin(){
+
+    alert("Google Login Connected ✅");
+}
+
+/* APPLE LOGIN */
+
+function appleLogin(){
+
+    alert("Apple Login Connected ✅");
 }
 
 /* DARK / LIGHT MODE */
@@ -565,7 +674,8 @@ function toggleMode(){
 
     document.body.classList.toggle("light-mode");
 
-    let btn = document.querySelector(".theme-btn");
+    let btn =
+    document.querySelector(".theme-btn");
 
     if(document.body.classList.contains("light-mode")){
 
