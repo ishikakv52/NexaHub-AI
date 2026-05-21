@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>OCR Translator</title>
+</head>
+
+<body>
+
+    <h1>OCR + Translation</h1>
+
+    <!-- IMAGE -->
+    <input type="file" id="imageInput">
+
+    <br><br>
+
+    <!-- LANGUAGE -->
+    <select id="targetLanguage">
+
+        <option value="hi">
+            Hindi
+        </option>
+
+        <option value="en">
+            English
+        </option>
+
+        <option value="ta">
+            Tamil
+        </option>
+
+        <option value="bn">
+            Bengali
+        </option>
+
+    </select>
+
+    <br><br>
+
+    <!-- BUTTON -->
+    <button onclick="uploadImage()">
+
+        Extract & Translate
+
+    </button>
+
+    <hr>
+
+    <!-- RESULT -->
+
+    <h3>Detected Language</h3>
+
+    <p id="language"></p>
+
+    <h3>Extracted Text</h3>
+
+    <p id="text"></p>
+
+    <h3>Translated Text</h3>
+
+    <p id="translated"></p>
+
+
+<script>
+
+async function uploadImage(){
+
+    const file =
+        document.getElementById(
+            'imageInput'
+        ).files[0]
+
+    const targetLanguage =
+        document.getElementById(
+            'targetLanguage'
+        ).value
+
+    if(!file){
+
+        alert("Select image first")
+
+        return
+    }
+
+    const formData = new FormData()
+
+    formData.append(
+        'image',
+        file
+    )
+
+    formData.append(
+        'target_language',
+        targetLanguage
+    )
+
+    const response = await fetch(
+
+        'http://127.0.0.1:8000/api/image-to-text/extract-text/',
+
+        {
+            method:'POST',
+            body:formData
+        }
+    )
+
+    const data =
+        await response.json()
+
+    document.getElementById(
+        'language'
+    ).innerText =
+        data.detected_language
+
+    document.getElementById(
+        'text'
+    ).innerText =
+        data.extracted_text
+
+    document.getElementById(
+        'translated'
+    ).innerText =
+        data.translated_text
+}
+
+</script>
+
+</body>
+</html>

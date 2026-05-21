@@ -1,580 +1,625 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXA HUB AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<title>NEXA HUB AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        body {
+            background: #050816;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: white;
+            transition: 0.4s;
+        }
 
-<style>
+        body.light-mode {
+            background: #edf2ff;
+            color: #111;
+        }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
-}
+        .bg {
+            position: absolute;
+            width: 900px;
+            height: 900px;
+            background: conic-gradient(#00c6ff, #0072ff, #7b2cff, #00c6ff);
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.25;
+            animation: rotate 15s linear infinite;
+        }
 
-body{
-    background:#050816;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    overflow:hidden;
-    color:white;
-    transition:0.4s;
-}
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
 
-/* LIGHT MODE */
+        .theme-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 100;
+            transition: 0.3s;
+        }
 
-body.light-mode{
-    background:#edf2ff;
-    color:#111;
-}
+        .theme-btn:hover { transform: scale(1.1); }
 
-/* BACKGROUND */
+        .container {
+            width: 420px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 35px;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            transition: 0.4s;
+        }
 
-.bg{
-    position:absolute;
-    width:900px;
-    height:900px;
-    background:conic-gradient(
-    #00c6ff,
-    #0072ff,
-    #7b2cff,
-    #00c6ff);
-    border-radius:50%;
-    filter:blur(120px);
-    opacity:0.25;
-    animation:rotate 15s linear infinite;
-}
+        body.light-mode .container {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
 
-@keyframes rotate{
-    from{
-        transform:rotate(0deg);
-    }
+        .title {
+            text-align: center;
+            margin-bottom: 25px;
+        }
 
-    to{
-        transform:rotate(360deg);
-    }
-}
+        .title h1 { font-size: 32px; }
+        .title span { color: #00c6ff; }
 
-/* THEME BUTTON */
+        .title p {
+            color: #bbb;
+            margin-top: 8px;
+            font-size: 14px;
+        }
 
-.theme-btn{
-    position:absolute;
-    top:20px;
-    right:20px;
+        body.light-mode .title p { color: #444; }
 
-    width:50px;
-    height:50px;
+        .input-box { margin-bottom: 18px; }
 
-    border:none;
-    border-radius:50%;
+        .input-box label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #ddd;
+        }
 
-    background:rgba(255,255,255,0.1);
+        body.light-mode .input-box label { color: #222; }
 
-    color:white;
+        .input-box input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid transparent;
+            outline: none;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            font-size: 15px;
+            transition: 0.3s;
+        }
 
-    font-size:20px;
+        body.light-mode .input-box input {
+            background: rgba(0, 0, 0, 0.05);
+            color: #111;
+        }
 
-    cursor:pointer;
+        .input-box input:focus {
+            border: 1px solid #00c6ff;
+            box-shadow: 0 0 15px rgba(0, 198, 255, 0.3);
+        }
 
-    z-index:100;
+        .input-box input::placeholder { color: #aaa; }
 
-    transition:0.3s;
-}
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #0072ff, #00c6ff);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
 
-.theme-btn:hover{
-    transform:scale(1.1);
-}
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
 
-/* CONTAINER */
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
 
-.container{
-    width:420px;
-    background:rgba(255,255,255,0.06);
-    border:1px solid rgba(255,255,255,0.08);
-    backdrop-filter:blur(20px);
-    border-radius:25px;
-    padding:35px;
-    position:relative;
-    z-index:10;
-    box-shadow:0 10px 40px rgba(0,0,0,0.4);
-    transition:0.4s;
-}
+        .social {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
 
-/* LIGHT CONTAINER */
+        .social button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: 0.3s;
+        }
 
-body.light-mode .container{
-    background:rgba(255,255,255,0.8);
-    border:1px solid rgba(0,0,0,0.08);
-}
+        body.light-mode .social button {
+            background: rgba(0, 0, 0, 0.05);
+            color: #111;
+        }
 
-/* TITLE */
+        .social button:hover { background: rgba(255, 255, 255, 0.15); }
 
-.title{
-    text-align:center;
-    margin-bottom:25px;
-}
+        .social img {
+            width: 20px;
+            height: 20px;
+        }
 
-.title h1{
-    font-size:32px;
-}
+        .or {
+            text-align: center;
+            margin-top: 20px;
+            color: #aaa;
+            font-size: 13px;
+        }
 
-.title span{
-    color:#00c6ff;
-}
+        body.light-mode .or { color: #444; }
 
-.title p{
-    color:#bbb;
-    margin-top:8px;
-    font-size:14px;
-}
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-80px);
+            background: #1a1a2e;
+            color: white;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 9999;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 1px solid rgba(255,255,255,0.1);
+            white-space: nowrap;
+        }
 
-body.light-mode .title p{
-    color:#444;
-}
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
 
-/* INPUT */
+        .toast.success { border-color: #00ff99; color: #00ff99; }
+        .toast.error   { border-color: #ff4d4d; color: #ff4d4d; }
+        .toast.info    { border-color: #00c6ff; color: #00c6ff; }
 
-.input-box{
-    margin-bottom:18px;
-}
+        /* Step indicator */
+        .steps {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 28px;
+        }
 
-.input-box label{
-    display:block;
-    margin-bottom:8px;
-    font-size:14px;
-    color:#ddd;
-}
+        .step-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transition: 0.3s;
+        }
 
-body.light-mode .input-box label{
-    color:#222;
-}
+        .step-dot.active {
+            background: #00c6ff;
+            width: 24px;
+            border-radius: 4px;
+        }
 
-.input-box input{
-    width:100%;
-    padding:14px;
-    border:none;
-    outline:none;
-    border-radius:12px;
-    background:rgba(255,255,255,0.08);
-    color:white;
-    font-size:15px;
-    transition:0.3s;
-}
+        .step-dot.done { background: #00ff99; }
 
-body.light-mode .input-box input{
-    background:rgba(0,0,0,0.05);
-    color:#111;
-}
+        .success-box {
+            text-align: center;
+            padding: 20px 0;
+        }
 
-.input-box input:focus{
-    border:1px solid #00c6ff;
-    box-shadow:0 0 15px rgba(0,198,255,0.3);
-}
+        .success-box .checkmark {
+            font-size: 56px;
+            display: block;
+            margin-bottom: 16px;
+            animation: pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
 
-.input-box input::placeholder{
-    color:#aaa;
-}
+        @keyframes pop {
+            from { transform: scale(0); }
+            to   { transform: scale(1); }
+        }
 
-/* BUTTON */
+        .success-box h2 { color: #00ff99; margin-bottom: 8px; }
+        .success-box p  { color: #bbb; font-size: 14px; }
 
-.btn{
-    width:100%;
-    padding:14px;
-    border:none;
-    border-radius:12px;
-    background:linear-gradient(
-    135deg,
-    #0072ff,
-    #00c6ff);
-    color:white;
-    font-size:16px;
-    font-weight:600;
-    cursor:pointer;
-    margin-top:10px;
-}
+        /* Section transition */
+        .section { animation: fadeIn 0.35s ease; }
 
-/* SOCIAL */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
 
-.social{
-    display:flex;
-    gap:12px;
-    margin-top:20px;
-}
-
-.social button{
-    flex:1;
-    padding:12px;
-    border:none;
-    border-radius:12px;
-    background:rgba(255,255,255,0.08);
-    color:white;
-    cursor:pointer;
-    font-size:14px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:10px;
-    transition:0.3s;
-}
-
-body.light-mode .social button{
-    background:rgba(0,0,0,0.05);
-    color:#111;
-}
-
-.social button:hover{
-    background:rgba(255,255,255,0.15);
-}
-
-.social img{
-    width:20px;
-    height:20px;
-}
-
-/* OR */
-
-.or{
-    text-align:center;
-    margin-top:20px;
-    color:#aaa;
-}
-
-body.light-mode .or{
-    color:#444;
-}
-
-/* HIDE */
-
-#otpSection,
-#passwordSection{
-    display:none;
-}
-
-/* SUCCESS */
-
-.success{
-    text-align:center;
-}
-
-.success h2{
-    color:#00ff99;
-    margin-bottom:10px;
-}
-
-.success p{
-    color:#ddd;
-}
-
-body.light-mode .success p{
-    color:#333;
-}
-
-/* MOBILE */
-
-@media(max-width:500px){
-
-    .container{
-        width:90%;
-    }
-
-    .social{
-        flex-direction:column;
-    }
-}
-
-</style>
+        @media(max-width: 500px) {
+            .container { width: 90%; }
+            .social { flex-direction: column; }
+        }
+    </style>
 </head>
 
 <body>
 
-<!-- THEME BUTTON -->
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
 
-<button class="theme-btn" onclick="toggleMode()">
-🌙
-</button>
+    <!-- THEME BUTTON -->
+    <button class="theme-btn" onclick="toggleMode()">🌙</button>
 
-<!-- BACKGROUND -->
+    <!-- BACKGROUND -->
+    <div class="bg"></div>
 
-<div class="bg"></div>
+    <!-- CONTAINER -->
+    <div class="container">
 
-<!-- CONTAINER -->
-
-<div class="container">
-
-    <div class="title">
-
-        <h1>NEXA <span>HUB AI</span></h1>
-
-        <p>Modern Luxury Intelligence Platform</p>
-
-    </div>
-
-    <!-- REGISTER -->
-
-    <div id="registerSection">
-
-        <div class="input-box">
-
-            <label>Email</label>
-
-            <input
-            type="email"
-            id="email"
-            placeholder="Enter your email">
-
+        <!-- STEP DOTS -->
+        <div class="steps">
+            <div class="step-dot active" id="dot1"></div>
+            <div class="step-dot"        id="dot2"></div>
+            <div class="step-dot"        id="dot3"></div>
         </div>
 
-        <div class="input-box">
+        <!-- ── STEP 1: REGISTER ── -->
+        <div id="registerSection" class="section">
 
-            <label>Username</label>
+            <div class="title">
+                <h1>NEXA <span>HUB AI</span></h1>
+                <p>Modern Luxury Intelligence Platform</p>
+            </div>
 
-            <input
-            type="text"
-            id="username"
-            placeholder="Enter username">
+            <div class="input-box">
+                <label>Email</label>
+                <input type="email" id="email" placeholder="Enter your email">
+            </div>
 
-        </div>
+            <div class="input-box">
+                <label>Username</label>
+                <input type="text" id="username" placeholder="Enter username">
+            </div>
 
-        <button class="btn" onclick="sendOTP()">
-            Send OTP
-        </button>
-
-        <div class="or">
-            OR CONNECT WITH
-        </div>
-
-        <!-- GOOGLE + APPLE -->
-
-        <div class="social">
-
-            <button onclick="googleLogin()">
-
-                <img
-                src="https://cdn-icons-png.flaticon.com/512/281/281764.png">
-
-                Google
-
+            <button type="button" class="btn" id="sendOtpBtn" onclick="sendOTP()">
+                Send OTP
             </button>
 
-            <button onclick="appleLogin()">
+            <div class="or">OR CONNECT WITH</div>
 
-                <img
-                src="https://cdn-icons-png.flaticon.com/512/0/747.png">
+            <div class="social">
+                <button type="button" onclick="googleLogin()">
+                    <img src="https://cdn-icons-png.flaticon.com/512/281/281764.png"> Google
+                </button>
+                <button type="button" onclick="appleLogin()">
+                    <img src="https://cdn-icons-png.flaticon.com/512/0/747.png"> Apple
+                </button>
+            </div>
 
-                Apple
+        </div>
 
+        <!-- ── STEP 2: OTP ── -->
+        <div id="otpSection" class="section" style="display:none;">
+
+            <div class="title">
+                <h1>Verify <span>OTP</span></h1>
+                <p id="otpSubtitle">We sent a code to your email</p>
+            </div>
+
+            <div class="input-box">
+                <label>Enter OTP</label>
+                <input type="text" id="otp" placeholder="Enter 6-digit OTP" maxlength="6">
+            </div>
+
+            <button type="button" class="btn" id="verifyOtpBtn" onclick="verifyOTP()">
+                Verify OTP
             </button>
 
         </div>
 
-    </div>
+        <!-- ── STEP 3: PASSWORD ── -->
+        <div id="passwordSection" class="section" style="display:none;">
 
-    <!-- OTP -->
+            <div class="title">
+                <h1>Create <span>Password</span></h1>
+                <p>Secure your account</p>
+            </div>
 
-    <div id="otpSection">
+            <div class="input-box">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="Create password">
+            </div>
 
-        <div class="input-box">
+            <div class="input-box">
+                <label>Re-enter Password</label>
+                <input type="password" id="repassword" placeholder="Re-enter password">
+            </div>
 
-            <label>Enter OTP</label>
-
-            <input
-            type="text"
-            id="otp"
-            placeholder="Enter OTP">
-
-        </div>
-
-        <button class="btn" onclick="verifyOTP()">
-            Verify OTP
-        </button>
-
-    </div>
-
-    <!-- PASSWORD -->
-
-    <div id="passwordSection">
-
-        <div class="title">
-
-            <h1>Create Password</h1>
-
-            <p>Secure your account</p>
+            <button type="button" class="btn" id="savePassBtn" onclick="savePassword()">
+                Save Password
+            </button>
 
         </div>
 
-        <div class="input-box">
-
-            <label>Password</label>
-
-            <input
-            type="password"
-            id="password"
-            placeholder="Create password">
-
+        <!-- ── STEP 4: SUCCESS ── -->
+        <div id="successSection" class="section" style="display:none;">
+            <div class="success-box">
+                <span class="checkmark">🎉</span>
+                <h2>Registration Successful!</h2>
+                <p id="successMsg">Redirecting to login...</p>
+            </div>
         </div>
-
-        <div class="input-box">
-
-            <label>Re-enter Password</label>
-
-            <input
-            type="password"
-            id="repassword"
-            placeholder="Re-enter password">
-
-        </div>
-
-        <button class="btn" onclick="savePassword()">
-            Save Password
-        </button>
 
     </div>
 
-    <!-- SUCCESS -->
+    <script>
 
-    <div id="successMessage"></div>
+        /* ─── CONFIG ─────────────────────────────────────── */
+        const API_BASE  = "http://127.0.0.1:8000/api";
 
-</div>
+        /*
+         * MOCK MODE — set to true while your backend is not running.
+         * The OTP will be shown in a toast so you can test the full flow.
+         * Set to false once your Django server is live.
+         */
+        const MOCK_MODE = false;
 
-<script>
+        let currentEmail    = "";
+        let currentUsername = "";
+        let mockOTP         = "";   // only used in MOCK_MODE
 
-/* DARK LIGHT MODE */
+        /* ─── TOAST ──────────────────────────────────────── */
+        let toastTimer;
 
-function toggleMode(){
+        function showToast(msg, type = "info", duration = 3500) {
+            const t = document.getElementById("toast");
+            t.textContent  = msg;
+            t.className    = `toast ${type} show`;
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => { t.classList.remove("show"); }, duration);
+        }
 
-    document.body.classList.toggle("light-mode");
+        /* ─── STEPS ──────────────────────────────────────── */
+        function showSection(id, activeDot) {
+            ["registerSection", "otpSection", "passwordSection", "successSection"]
+                .forEach(s => document.getElementById(s).style.display = "none");
 
-    let btn =
-    document.querySelector(".theme-btn");
+            document.getElementById(id).style.display = "block";
 
-    if(document.body.classList.contains("light-mode")){
+            // update step dots
+            [1, 2, 3].forEach(n => {
+                const d = document.getElementById("dot" + n);
+                d.className = "step-dot";
+                if (n < activeDot)  d.classList.add("done");
+                if (n === activeDot) d.classList.add("active");
+            });
+        }
 
-        btn.innerHTML = "☀️";
+        /* ─── THEME ──────────────────────────────────────── */
+        function toggleMode() {
+            document.body.classList.toggle("light-mode");
+            document.querySelector(".theme-btn").innerHTML =
+                document.body.classList.contains("light-mode") ? "☀️" : "🌙";
+        }
 
-    }else{
+        /* ─── STEP 1: SEND OTP ───────────────────────────── */
+        async function sendOTP() {
 
-        btn.innerHTML = "🌙";
-    }
-}
+            const email    = document.getElementById("email").value.trim();
+            const username = document.getElementById("username").value.trim();
 
-/* SEND OTP */
+            if (!email || !username) {
+                showToast("Please fill all fields ⚠️", "error"); return;
+            }
 
-function sendOTP(){
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showToast("Please enter a valid email ⚠️", "error"); return;
+            }
 
-    let email =
-    document.getElementById("email").value;
+            currentEmail    = email;
+            currentUsername = username;
 
-    let username =
-    document.getElementById("username").value;
+            /* ── MOCK MODE ── */
+            if (MOCK_MODE) {
+                mockOTP = String(Math.floor(100000 + Math.random() * 900000));
+                showToast(`MOCK OTP: ${mockOTP}  (mock mode)`, "info", 8000);
+                document.getElementById("otpSubtitle").textContent =
+                    `(Mock) OTP shown in notification above`;
+                showSection("otpSection", 2);
+                return;
+            }
 
-    if(email === "" || username === ""){
+            /* ── REAL API ── */
+            const btn = document.getElementById("sendOtpBtn");
+            btn.disabled    = true;
+            btn.textContent = "Sending...";
 
-        alert("Fill all fields");
-        return;
-    }
+            try {
+                const res  = await fetch(`${API_BASE}/send-signup-otp/`, {
+                    method:  "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body:    JSON.stringify({ email, username })
+                });
+                const data = await res.json();
 
-    alert("OTP Sent Successfully ✅");
+                if (res.ok) {
+                    showToast("OTP Sent Successfully ✅", "success");
+                    document.getElementById("otpSubtitle").textContent =
+                        `We sent a code to ${email}`;
+                    showSection("otpSection", 2);
+                } else {
+                    showToast(data.error || "Failed to send OTP ❌", "error");
+                }
+            } catch (err) {
+                console.error(err);
+                showToast("Cannot reach server. Is Django running? ❌", "error");
+            } finally {
+                btn.disabled    = false;
+                btn.textContent = "Send OTP";
+            }
+        }
 
-    document.getElementById("otpSection").style.display =
-    "block";
-}
+        /* ─── STEP 2: VERIFY OTP ─────────────────────────── */
+        async function verifyOTP() {
 
-/* VERIFY OTP */
+            const otp = document.getElementById("otp").value.trim();
 
-function verifyOTP(){
+            if (!otp) {
+                showToast("Please enter the OTP ⚠️", "error"); return;
+            }
 
-    let otp =
-    document.getElementById("otp").value;
+            /* ── MOCK MODE ── */
+            if (MOCK_MODE) {
+                if (otp === mockOTP) {
+                    showToast("OTP Verified ✅", "success");
+                    showSection("passwordSection", 3);
+                } else {
+                    showToast("Wrong OTP. Check the notification. ❌", "error");
+                }
+                return;
+            }
 
-    if(otp === ""){
+            /* ── REAL API ── */
+            const btn = document.getElementById("verifyOtpBtn");
+            btn.disabled    = true;
+            btn.textContent = "Verifying...";
 
-        alert("Enter OTP");
-        return;
-    }
+            try {
+                const res  = await fetch(`${API_BASE}/verify-signup-otp/`, {
+                    method:  "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body:    JSON.stringify({ email: currentEmail, otp })
+                });
+                const data = await res.json();
 
-    alert("OTP Verified ✅");
+                if (res.ok) {
+                    showToast("OTP Verified ✅", "success");
+                    showSection("passwordSection", 3);
+                } else {
+                    showToast(data.error || "Invalid OTP ❌", "error");
+                }
+            } catch (err) {
+                console.error(err);
+                showToast("Cannot reach server ❌", "error");
+            } finally {
+                btn.disabled    = false;
+                btn.textContent = "Verify OTP";
+            }
+        }
 
-    document.getElementById("registerSection").style.display =
-    "none";
+        /* ─── STEP 3: SAVE PASSWORD ──────────────────────── */
+        async function savePassword() {
 
-    document.getElementById("otpSection").style.display =
-    "none";
+            const password   = document.getElementById("password").value;
+            const repassword = document.getElementById("repassword").value;
 
-    document.getElementById("passwordSection").style.display =
-    "block";
-}
+            if (!password || !repassword) {
+                showToast("Please fill both password fields ⚠️", "error"); return;
+            }
 
-/* SAVE PASSWORD */
+            if (password.length < 6) {
+                showToast("Password must be at least 6 characters ⚠️", "error"); return;
+            }
 
-function savePassword(){
+            if (password !== repassword) {
+                showToast("Passwords do not match ❌", "error"); return;
+            }
 
-    let password =
-    document.getElementById("password").value;
+            /* ── MOCK MODE ── */
+            if (MOCK_MODE) {
+                showToast("Account created! (mock mode) ✅", "success");
+                showSection("successSection", 3);
+                document.getElementById("successMsg").textContent =
+                    "Mock registration complete. Redirecting...";
+                setTimeout(() => { window.location.href = "login.html"; }, 2500);
+                return;
+            }
 
-    let repassword =
-    document.getElementById("repassword").value;
+            /* ── REAL API ── */
+            const btn = document.getElementById("savePassBtn");
+            btn.disabled    = true;
+            btn.textContent = "Creating account...";
 
-    let username =
-    document.getElementById("username").value;
+            try {
+                const res  = await fetch(`${API_BASE}/signup/`, {
+                    method:  "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body:    JSON.stringify({
+                        username: currentUsername,
+                        email:    currentEmail,
+                        password
+                    })
+                });
+                const data = await res.json();
 
-    if(password === "" || repassword === ""){
+                if (res.ok) {
+                    showSection("successSection", 3);
+                    document.getElementById("successMsg").textContent =
+                        `Welcome, ${currentUsername}! Redirecting...`;
+                    setTimeout(() => { window.location.href = "login.html"; }, 2500);
+                } else {
+                    showToast(data.error || "Signup failed ❌", "error");
+                }
+            } catch (err) {
+                console.error(err);
+                showToast("Cannot reach server ❌", "error");
+            } finally {
+                btn.disabled    = false;
+                btn.textContent = "Save Password";
+            }
+        }
 
-        alert("Enter password");
-        return;
-    }
+        /* ─── SOCIAL ─────────────────────────────────────── */
+        function googleLogin() { showToast("Google login coming soon!", "info"); }
+        function appleLogin()  { showToast("Apple login coming soon!",  "info"); }
 
-    if(password !== repassword){
-
-        alert("Passwords do not match ❌");
-        return;
-    }
-
-    localStorage.setItem("username", username);
-
-    localStorage.setItem("password", password);
-
-    document.getElementById("passwordSection").style.display =
-    "none";
-
-    document.getElementById("successMessage").innerHTML = `
-
-        <div class="success">
-
-            <h2>
-                Registration Successful 🎉
-            </h2>
-
-            <p>
-                Welcome ${username}
-            </p>
-
-        </div>
-
-    `;
-}
-
-/* GOOGLE LOGIN */
-
-function googleLogin(){
-
-    alert("Google Connected Successfully ✅");
-}
-
-/* APPLE LOGIN */
-
-function appleLogin(){
-
-    alert("Apple Connected Successfully ✅");
-}
-
-</script>
+    </script>
 
 </body>
 </html>

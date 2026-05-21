@@ -13,6 +13,8 @@ from django.contrib.auth.models import User
 from accounts.models import *
 from django.conf import settings
 from config.settings import *
+from .models import OTPModel
+from django.views.decorators.csrf import csrf_exempt
 OTP_STORE = {}
 def signup_view(request):
 
@@ -172,3 +174,131 @@ def reset_password(request):
             return JsonResponse({"error": "User not found"}, status=404)
 
     return JsonResponse({"error": "Only POST allowed"})
+@csrf_exempt
+
+
+
+
+
+
+# =========================
+# STEP 1: SEND OTP
+# =========================
+@csrf_exempt
+
+
+
+
+
+
+
+
+@csrf_exempt
+def send_signup_otp(request):
+
+    if request.method == "POST":
+
+        try:
+            data = json.loads(request.body)
+
+            email = data.get("email")
+            username = data.get("username")
+
+            if not email or not username:
+                return JsonResponse({
+                    "error": "Email and username required"
+                }, status=400)
+
+            otp = str(random.randint(100000, 999999))
+
+            request.session["signup_otp"] = otp
+            request.session["signup_email"] = email
+
+            send_mail(
+                subject="NEXA HUB AI OTP",
+                message=f"Your OTP is: {otp}",
+                from_email="ainexahub@gmail.com",
+                recipient_list=[email],
+                fail_silently=False,
+            )
+
+            return JsonResponse({
+                "message": "OTP sent successfully"
+            })
+
+        except Exception as e:
+
+            return JsonResponse({
+                "error": str(e)
+            }, status=500)
+
+    return JsonResponse({
+        "error": "Only POST method allowed"
+    }, status=405)
+# =========================
+# STEP 2: VERIFY OTP
+# =========================
+@csrf_exempt
+def verify_signup_otp(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+
+        email = data.get("email")
+        otp = data.get("otp")
+
+        try:
+            obj = OTPModel.objects.get(email=email)
+
+            if obj.otp == otp:
+                obj.is_verified = True
+                obj.save()
+
+                return JsonResponse({"message": "OTP verified"})
+            else:
+                return JsonResponse({"error": "Invalid OTP"}, status=400)
+
+        except OTPModel.DoesNotExist:
+            return JsonResponse({"error": "OTP not found"}, status=404)
+
+
+# =========================
+# STEP 3: FINAL SIGNUP
+# =========================
+from django.contrib.auth.models import User
+
+@csrf_exempt
+def signup(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+
+        username = data.get("username")
+        email = data.get("email")
+        password = data.get("password")
+
+        if not username or not email or not password:
+            return JsonResponse({"error": "Missing fields"}, status=400)
+
+        try:
+            otp_obj = OTPModel.objects.get(email=email)
+
+            if not otp_obj.is_verified:
+                return JsonResponse({"error": "OTP not verified"}, status=400)
+
+        except OTPModel.DoesNotExist:
+            return JsonResponse({"error": "OTP not found"}, status=404)
+
+        if User.objects.filter(username=username).exists():
+            return JsonResponse({"error": "Username exists"}, status=400)
+
+        if User.objects.filter(email=email).exists():
+            return JsonResponse({"error": "Email exists"}, status=400)
+
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password
+        )
+
+        otp_obj.delete()
+
+        return JsonResponse({"message": "User created successfully"})
