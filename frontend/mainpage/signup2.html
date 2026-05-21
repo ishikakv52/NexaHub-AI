@@ -425,20 +425,48 @@
         }
 
         /* ─── STEPS ──────────────────────────────────────── */
-        function showSection(id, activeDot) {
-            ["registerSection", "otpSection", "passwordSection", "successSection"]
-                .forEach(s => document.getElementById(s).style.display = "none");
+        function showSection(showId, activeDot) {
 
-            document.getElementById(id).style.display = "block";
+    const sections = [
+        "registerSection",
+        "otpSection",
+        "passwordSection",
+        "successSection"
+    ];
 
-            // update step dots
-            [1, 2, 3].forEach(n => {
-                const d = document.getElementById("dot" + n);
-                d.className = "step-dot";
-                if (n < activeDot)  d.classList.add("done");
-                if (n === activeDot) d.classList.add("active");
-            });
+    sections.forEach(id => {
+
+        const el = document.getElementById(id);
+
+        if (el) {
+            el.style.display = "none";
         }
+    });
+
+    const active = document.getElementById(showId);
+
+    if (active) {
+        active.style.display = "block";
+    }
+
+    // dots update
+    [1, 2, 3].forEach(n => {
+
+        const d = document.getElementById("dot" + n);
+
+        if (!d) return;
+
+        d.className = "step-dot";
+
+        if (n < activeDot) {
+            d.classList.add("done");
+        }
+
+        if (n === activeDot) {
+            d.classList.add("active");
+        }
+    });
+}
 
         /* ─── THEME ──────────────────────────────────────── */
         function toggleMode() {
