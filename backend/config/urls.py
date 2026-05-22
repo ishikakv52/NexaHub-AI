@@ -31,5 +31,6 @@ urlpatterns = [
     'api/image-to-text/',
     include('ImageToText.urls')
 ),
+path("accounts/", include("allauth.urls")),
 
 ]

@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
+from django.http import HttpResponse
 import json
 import random
 from django.core.mail import send_mail
@@ -15,8 +16,13 @@ from django.conf import settings
 from config.settings import *
 from .models import OTPModel
 from django.views.decorators.csrf import csrf_exempt
+
+from datetime import timedelta
+from django.utils import timezone
+import re
 # OTP_STORE = {}
 otp_storage = {}
+otp_expiry = {}
 def signup_view(request):
 
     if request.method == "POST":
@@ -199,14 +205,23 @@ def send_signup_otp(request):
         email = body.get("email")
         username = body.get("username")
 
+        if User.objects.filter(email=email).exists():
+            return JsonResponse({
+                "error": "Email already exists"
+            }, status=400)
+
+        if User.objects.filter(username=username).exists():
+            return JsonResponse({
+                "error": "Username already taken"
+            }, status=400)
         if not email or not username:
             return JsonResponse({
                 "error": "Email and username required"
             }, status=400)
-
         otp = str(random.randint(100000, 999999))
 
         otp_storage[email] = otp
+        otp_expiry[email] = timezone.now() + timedelta(minutes=5)
 
         send_mail(
             subject="Nexa Hub AI OTP",
@@ -245,7 +260,7 @@ def verify_signup_otp(request):
 
         email = body.get("email")
         otp = body.get("otp")
-
+        # expiry check
         if not email or not otp:
             return JsonResponse({
                 "error": "Email and OTP required"
@@ -253,6 +268,8 @@ def verify_signup_otp(request):
 
         stored_otp = otp_storage.get(email)
 
+        if email in otp_expiry and timezone.now() > otp_expiry[email]:
+            return JsonResponse({"error": "OTP expired"}, status=400)
         print("Entered OTP:", otp)
         print("Stored OTP:", stored_otp)
 
@@ -306,7 +323,24 @@ def signup(request):
             return JsonResponse({
                 "error": "Email already exists"
             }, status=400)
+        # strong password check
+        password = body.get("password")
 
+        # STRONG PASSWORD VALIDATION
+        if len(password) < 8:
+            return JsonResponse({"error": "Password must be at least 8 characters"}, status=400)
+
+        if not re.search(r"[A-Z]", password):
+            return JsonResponse({"error": "Must include 1 uppercase letter"}, status=400)
+
+        if not re.search(r"[a-z]", password):
+            return JsonResponse({"error": "Must include 1 lowercase letter"}, status=400)
+
+        if not re.search(r"[0-9]", password):
+            return JsonResponse({"error": "Must include 1 number"}, status=400)
+
+        if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
+            return JsonResponse({"error": "Must include 1 special character"}, status=400)
         # create user
         user = User.objects.create_user(
             username=username,
@@ -324,3 +358,37 @@ def signup(request):
         return JsonResponse({
             "error": str(e)
         }, status=500)
+@csrf_exempt
+def resend_signup_otp(request):
+
+    if request.method != "POST":
+        return JsonResponse({"error": "Only POST allowed"}, status=405)
+
+    body = json.loads(request.body)
+    email = body.get("email")
+
+    if not email:
+        return JsonResponse({"error": "Email required"}, status=400)
+
+    # if not User.objects.filter(email=email).exists():
+    #     return JsonResponse({"error": "Email not registered"}, status=404)
+
+    otp = str(random.randint(100000, 999999))
+    otp_storage[email] = otp
+    otp_expiry[email] = timezone.now() + timedelta(minutes=5)
+
+    send_mail(
+        "Resend OTP",
+        f"Your new OTP is {otp}",
+        settings.EMAIL_HOST_USER,
+        [email],
+        fail_silently=False
+    )
+
+    return JsonResponse({"message": "OTP resent"})  
+
+def google_login(request):
+    return HttpResponse("Google OAuth coming soon (setup required)")
+
+def apple_login(request):
+    return HttpResponse("Apple OAuth coming soon (setup required)")
