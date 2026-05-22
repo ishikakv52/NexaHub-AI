@@ -5,6 +5,8 @@ urlpatterns = [
 
     path(
         'extract-text/',
-        ImageToTextView.as_view()
+        ImageToTextView.as_view(),
+        name='extract-text'
     ),
+
 ]
