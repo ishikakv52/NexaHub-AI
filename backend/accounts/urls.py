@@ -14,6 +14,5 @@ urlpatterns = [
     path("verify-signup-otp/", verify_signup_otp),
     path("signup/", signup),
     path('resend-signup-otp/', resend_signup_otp),
-    path("auth/google/", views.google_login),
-    path("auth/apple/", views.apple_login),
+
 ]

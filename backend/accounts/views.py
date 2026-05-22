@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
-from django.http import HttpResponse
+
 import json
 import random
 from django.core.mail import send_mail
@@ -386,9 +386,3 @@ def resend_signup_otp(request):
     )
 
     return JsonResponse({"message": "OTP resent"})  
-
-def google_login(request):
-    return HttpResponse("Google OAuth coming soon (setup required)")
-
-def apple_login(request):
-    return HttpResponse("Apple OAuth coming soon (setup required)")
