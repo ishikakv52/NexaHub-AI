@@ -334,10 +334,11 @@
 
             <div class="social">
                 <button type="button" onclick="googleLogin()">
-                    <img src="https://cdn-icons-png.flaticon.com/512/281/281764.png"> Google
-                </button>
+    <img src="https://cdn-icons-png.flaticon.com/512/281/281764.png">
+    Continue with Google
+</button>
                 <button type="button" onclick="appleLogin()">
-                    <img src="https://cdn-icons-png.flaticon.com/512/0/747.png"> Apple
+                    <img src="https://cdn-icons-png.flaticon.com/512/0/747.png"> Continue with Apple
                 </button>
             </div>
 
@@ -359,7 +360,9 @@
             <button type="button" class="btn" id="verifyOtpBtn" onclick="verifyOTP()">
                 Verify OTP
             </button>
-
+        <button type="button" class="btn" onclick="resendOTP()">
+    Resend OTP
+</button>
         </div>
 
         <!-- ── STEP 3: PASSWORD ── -->
@@ -630,7 +633,7 @@
                     showSection("successSection", 3);
                     document.getElementById("successMsg").textContent =
                         `Welcome, ${currentUsername}! Redirecting...`;
-                    setTimeout(() => { window.location.href = "login.html"; }, 2500);
+                    setTimeout(() => { window.location.href = "homepage.html"; }, 5000);
                 } else {
                     showToast(data.error || "Signup failed ❌", "error");
                 }
@@ -642,10 +645,31 @@
                 btn.textContent = "Save Password";
             }
         }
+        /*Resend OTP*/
+        async function resendOTP() {
 
-        /* ─── SOCIAL ─────────────────────────────────────── */
-        function googleLogin() { showToast("Google login coming soon!", "info"); }
-        function appleLogin()  { showToast("Apple login coming soon!",  "info"); }
+    try {
+        const res = await fetch(`${API_BASE}/resend-signup-otp/`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: currentEmail })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+            showToast("OTP resent successfully ✅", "success");
+        } else {
+            showToast(data.error || "Failed to resend OTP ❌", "error");
+        }
+
+    } catch (err) {
+        showToast("Server error ❌", "error");
+    }
+}
+
+
+      
 
     </script>
 

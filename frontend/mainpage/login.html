@@ -527,7 +527,7 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
             localStorage.setItem("token", data.access);
 
             alert("Login Successful ✅");
-
+            window.location.href = "homepage.html";
         } else {
 
             alert("Login Failed ❌");
