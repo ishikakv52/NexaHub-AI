@@ -48,17 +48,13 @@
 
     <!-- RESULT -->
 
-    <h3>Detected Language</h3>
-
-    <p id="language"></p>
+   
 
     <h3>Extracted Text</h3>
 
     <p id="text"></p>
 
-    <h3>Translated Text</h3>
-
-    <p id="translated"></p>
+   
 
 
 <script>
@@ -106,21 +102,11 @@ async function uploadImage(){
 
     const data =
         await response.json()
-
+console.log(data)
     document.getElementById(
-        'language'
-    ).innerText =
-        data.detected_language
-
-    document.getElementById(
-        'text'
-    ).innerText =
-        data.extracted_text
-
-    document.getElementById(
-        'translated'
-    ).innerText =
-        data.translated_text
+    'text'
+).innerText =
+    data.extracted_text
 }
 
 </script>

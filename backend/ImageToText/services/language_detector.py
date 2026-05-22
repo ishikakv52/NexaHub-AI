@@ -1,20 +1,22 @@
-from langdetect import detect
-from langdetect import DetectorFactory
+from langdetect import detect, DetectorFactory
 
 DetectorFactory.seed = 0
 
-
 def detect_language(text):
 
+    text = text.strip()
+
+    if len(text) < 5:
+        return "unknown"
+
     try:
-
-        if len(text.strip()) < 3:
-            return "unknown"
-
         lang = detect(text)
+
+        # force normalization
+        if lang not in ["en", "hi"]:
+            return "en"
 
         return lang
 
     except:
-
-        return "unknown"
+        return "en"

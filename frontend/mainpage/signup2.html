@@ -325,7 +325,8 @@
                 <label>Username</label>
                 <input type="text" id="username" placeholder="Enter username">
             </div>
-
+            <div id="usernameStatus" style="margin-top:5px;font-size:13px;"></div>
+<div id="usernameSuggestions" style="margin-top:8px;color:#00c6ff;font-size:13px;"></div>
             <button type="button" class="btn" id="sendOtpBtn" onclick="sendOTP()">
                 Send OTP
             </button>
@@ -479,6 +480,7 @@
         }
 
         /* ─── STEP 1: SEND OTP ───────────────────────────── */
+        
         async function sendOTP() {
 
             const email    = document.getElementById("email").value.trim();
@@ -633,7 +635,7 @@
                     showSection("successSection", 3);
                     document.getElementById("successMsg").textContent =
                         `Welcome, ${currentUsername}! Redirecting...`;
-                    setTimeout(() => { window.location.href = "homepage.html"; }, 5000);
+                    setTimeout(() => { window.location.href = "./homepage.html"; }, 5000);
                 } else {
                     showToast(data.error || "Signup failed ❌", "error");
                 }
@@ -668,9 +670,52 @@
     }
 }
 
+document.getElementById("username").addEventListener("input", async function () {
 
+    const username = this.value.trim();
+
+    if (username.length < 3) {
+        document.getElementById("usernameStatus").innerHTML = "";
+        document.getElementById("usernameSuggestions").innerHTML = "";
+        return;
+    }
+
+    try {
+        const res = await fetch(`${API_BASE}/check-username/`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username })
+        });
+
+        const data = await res.json();
+
+        const statusBox = document.getElementById("usernameStatus");
+        const suggestionBox = document.getElementById("usernameSuggestions");
+
+        if (data.exists) {
+
+            statusBox.innerHTML = "❌ Username already taken";
+
+            suggestionBox.innerHTML =
+                "Suggestions: " + data.suggestions.map(s =>
+                    `<span style="cursor:pointer" onclick="useSuggestion('${s}')">${s}</span>`
+                ).join(", ");
+
+        } else {
+            statusBox.innerHTML = "✅ Username available";
+            suggestionBox.innerHTML = "";
+        }
+
+    } catch (err) {
+        console.log(err);
+    }
+});
       
-
+    function useSuggestion(name) {
+    document.getElementById("username").value = name;
+    document.getElementById("usernameStatus").innerHTML = "✅ Username available";
+    document.getElementById("usernameSuggestions").innerHTML = "";
+}
     </script>
 
 </body>

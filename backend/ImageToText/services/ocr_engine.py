@@ -1,115 +1,80 @@
 import easyocr
-import pytesseract
+import cv2
 
-from PIL import Image
-
-from .preprocess import preprocess_image
-
-from .image_classifier import (
-    is_handwritten
-)
-
-# ONLY stable EasyOCR languages
-easyocr_reader = easyocr.Reader([
-    'en',
-    'hi'
-])
-
-# Mac Tesseract path
-pytesseract.pytesseract.tesseract_cmd = (
-    r'/opt/homebrew/bin/tesseract'
+reader = easyocr.Reader(
+    ['en', 'hi'],
+    gpu=False
 )
 
 
 def extract_text(image_path):
 
-    # ---------- PREPROCESS ----------
-    processed_image = preprocess_image(
-        image_path
+    img = cv2.imread(image_path)
+
+    if img is None:
+        return "Image not readable"
+
+    results = reader.readtext(
+        img,
+        detail=1
     )
 
-    # ---------- HANDWRITTEN CHECK ----------
-    handwritten = is_handwritten(
-        processed_image
+    if not results:
+        return "No text detected"
+
+    # SORT RESULTS
+    results = sorted(
+        results,
+        key=lambda x: (
+            int(x[0][0][1] / 20),
+            x[0][0][0]
+        )
     )
 
-    extracted_text = ""
+    final_lines = []
 
-    try:
+    current_line = ""
 
-        # =================================================
-        # HANDWRITTEN → EASYOCR
-        # =================================================
+    prev_y = None
 
-        if handwritten:
+    for item in results:
 
-            result = easyocr_reader.readtext(
-                processed_image
-            )
+        try:
 
-            easy_text = " ".join([
-                item[1]
-                for item in result
-            ])
+            bbox = item[0]
+            text = item[1]
+            confidence = item[2]
 
-            extracted_text = easy_text
+            if confidence < 0.20:
+                continue
 
-        # =================================================
-        # PRINTED → TRY EASYOCR FIRST
-        # =================================================
+            current_y = bbox[0][1]
 
-        else:
+            # NEW LINE
+            if prev_y is not None and abs(current_y - prev_y) > 18:
 
-            result = easyocr_reader.readtext(
-                processed_image
-            )
-
-            easy_text = " ".join([
-                item[1]
-                for item in result
-            ])
-
-            # If EasyOCR gives good output
-            if len(easy_text.strip()) > 5:
-
-                extracted_text = easy_text
-
-            # Otherwise fallback to Tesseract
-            else:
-
-                extracted_text = (
-                    pytesseract.image_to_string(
-                        Image.open(processed_image),
-
-                        lang=(
-                            'eng+hin+ben+tam+tel+'
-                            'kan+mal+guj+pan+'
-                            'mar+urd+san+ori'
-                        )
-                    )
+                final_lines.append(
+                    current_line
                 )
 
-    except Exception as e:
+                current_line = text
 
-        print(
-            "OCR Error:",
-            e
-        )
+            else:
 
-    # ---------- CLEAN DUPLICATES ----------
+                if current_line == "":
+                    current_line = text
+                else:
+                    current_line += " " + text
 
-    lines = extracted_text.splitlines()
+            prev_y = current_y
 
-    cleaned_lines = []
+        except:
+            continue
 
-    for line in lines:
+    # LAST LINE
+    if current_line:
+        final_lines.append(current_line)
 
-        cleaned = line.strip()
-
-        if cleaned and cleaned not in cleaned_lines:
-
-            cleaned_lines.append(cleaned)
-
-    final_text = "\n".join(cleaned_lines)
+    final_text = "\n".join(final_lines)
 
     return final_text
