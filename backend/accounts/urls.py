@@ -14,5 +14,5 @@ urlpatterns = [
     path("verify-signup-otp/", verify_signup_otp),
     path("signup/", signup),
     path('resend-signup-otp/', resend_signup_otp),
-
+    path("check-username/", check_username),
 ]

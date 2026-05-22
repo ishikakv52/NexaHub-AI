@@ -386,3 +386,32 @@ def resend_signup_otp(request):
     )
 
     return JsonResponse({"message": "OTP resent"})  
+@csrf_exempt
+def check_username(request):
+
+    if request.method == "POST":
+
+        data = json.loads(request.body)
+        username = data.get("username")
+
+        if not username:
+            return JsonResponse({"error": "Username required"}, status=400)
+
+        exists = User.objects.filter(username=username).exists()
+
+        suggestions = []
+
+        if exists:
+            suggestions = [
+                username + str(random.randint(10, 99)),
+                username + "_ai",
+                username + "_hub",
+                username + str(random.randint(100, 999))
+            ]
+
+        return JsonResponse({
+            "exists": exists,
+            "suggestions": suggestions
+        })
+
+    return JsonResponse({"error": "Only POST allowed"}, status=405)

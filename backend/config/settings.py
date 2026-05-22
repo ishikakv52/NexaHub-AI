@@ -51,7 +51,7 @@ INSTALLED_APPS = [
 
 
 ]
-SITE_ID = 1
+
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -89,7 +89,11 @@ AUTHENTICATION_BACKENDS = [
 
 ]
 
-
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    )
+}
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
@@ -140,11 +144,7 @@ CORS_ALLOWED_ORIGINS = [
 CSRF_TRUSTED_ORIGINS = [
     "https://yourfrontenddomain.com",
 ]
-REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    )
-}
+
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:5500",
     "http://localhost:5500",
@@ -167,7 +167,5 @@ EMAIL_HOST_USER = 'ainexahub@gmail.com'
 EMAIL_HOST_PASSWORD = "qnbl dqef ifli zjhg".replace(" ", "")
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
-    "allauth.account.auth_backends.AuthenticationBackend",
+
 ]
-LOGIN_REDIRECT_URL = "/home/"
-LOGOUT_REDIRECT_URL = "/login/"
