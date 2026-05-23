@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
+
 import json
 import random
 from django.core.mail import send_mail
@@ -13,7 +14,15 @@ from django.contrib.auth.models import User
 from accounts.models import *
 from django.conf import settings
 from config.settings import *
-OTP_STORE = {}
+from .models import OTPModel
+from django.views.decorators.csrf import csrf_exempt
+
+from datetime import timedelta
+from django.utils import timezone
+import re
+# OTP_STORE = {}
+otp_storage = {}
+otp_expiry = {}
 def signup_view(request):
 
     if request.method == "POST":
@@ -101,7 +110,7 @@ def forgot_password(request):
             user = User.objects.get(email=email)
 
             otp = random.randint(100000, 999999)
-            OTP_STORE[email] = otp
+            otp_storage[email] = otp
 
             try:
                 send_mail(
@@ -134,8 +143,8 @@ def verify_otp(request):
         otp = str(data.get("otp"))
 
         if (
-            email in OTP_STORE
-            and str(OTP_STORE[email]) == otp
+            email in otp_storage
+            and str(otp_storage[email]) == otp
         ):
 
             return JsonResponse({
@@ -164,7 +173,7 @@ def reset_password(request):
             user.password = make_password(new_password)
             user.save()
 
-            OTP_STORE.pop(email, None)
+            otp_storage.pop(email, None)
 
             return JsonResponse({"message": "Password updated"})
 
@@ -172,3 +181,237 @@ def reset_password(request):
             return JsonResponse({"error": "User not found"}, status=404)
 
     return JsonResponse({"error": "Only POST allowed"})
+
+
+
+
+
+
+# =========================
+# STEP 1: SEND OTP
+# =========================
+
+@csrf_exempt
+def send_signup_otp(request):
+
+    if request.method != "POST":
+        return JsonResponse({
+            "error": "Only POST method allowed"
+        }, status=405)
+
+    try:
+        body = json.loads(request.body)
+
+        email = body.get("email")
+        username = body.get("username")
+
+        if User.objects.filter(email=email).exists():
+            return JsonResponse({
+                "error": "Email already exists"
+            }, status=400)
+
+        if User.objects.filter(username=username).exists():
+            return JsonResponse({
+                "error": "Username already taken"
+            }, status=400)
+        if not email or not username:
+            return JsonResponse({
+                "error": "Email and username required"
+            }, status=400)
+        otp = str(random.randint(100000, 999999))
+
+        otp_storage[email] = otp
+        otp_expiry[email] = timezone.now() + timedelta(minutes=5)
+
+        send_mail(
+            subject="Nexa Hub AI OTP",
+            message=f"Your OTP is: {otp}",
+            from_email="ainexahub@gmail.com",
+            recipient_list=[email],
+            fail_silently=False,
+        )
+
+        return JsonResponse({
+            "message": "OTP sent successfully"
+        })
+
+    except Exception as e:
+        return JsonResponse({
+            "error": str(e)
+        }, status=500)
+# =========================
+# STEP 2: VERIFY OTP
+# =========================
+
+
+
+
+
+@csrf_exempt
+def verify_signup_otp(request):
+
+    if request.method != "POST":
+        return JsonResponse({
+            "error": "Only POST method allowed"
+        }, status=405)
+
+    try:
+        body = json.loads(request.body)
+
+        email = body.get("email")
+        otp = body.get("otp")
+        # expiry check
+        if not email or not otp:
+            return JsonResponse({
+                "error": "Email and OTP required"
+            }, status=400)
+
+        stored_otp = otp_storage.get(email)
+
+        if email in otp_expiry and timezone.now() > otp_expiry[email]:
+            return JsonResponse({"error": "OTP expired"}, status=400)
+        print("Entered OTP:", otp)
+        print("Stored OTP:", stored_otp)
+
+        if stored_otp and str(stored_otp) == str(otp):
+
+            return JsonResponse({
+                "message": "OTP verified successfully"
+            }, status=200)
+
+        return JsonResponse({
+            "error": "Invalid OTP"
+        }, status=400)
+
+    except Exception as e:
+        return JsonResponse({
+            "error": str(e)
+        }, status=500)
+# =========================
+# STEP 3: FINAL SIGNUP
+# =========================
+from django.contrib.auth.models import User
+
+@csrf_exempt
+
+def signup(request):
+
+    if request.method != "POST":
+        return JsonResponse({
+            "error": "Only POST method allowed"
+        }, status=405)
+
+    try:
+        body = json.loads(request.body)
+
+        username = body.get("username")
+        email = body.get("email")
+        password = body.get("password")
+
+        if not username or not email or not password:
+            return JsonResponse({
+                "error": "All fields are required"
+            }, status=400)
+
+        # check existing user
+        if User.objects.filter(username=username).exists():
+            return JsonResponse({
+                "error": "Username already exists"
+            }, status=400)
+
+        if User.objects.filter(email=email).exists():
+            return JsonResponse({
+                "error": "Email already exists"
+            }, status=400)
+        # strong password check
+        password = body.get("password")
+
+        # STRONG PASSWORD VALIDATION
+        if len(password) < 8:
+            return JsonResponse({"error": "Password must be at least 8 characters"}, status=400)
+
+        if not re.search(r"[A-Z]", password):
+            return JsonResponse({"error": "Must include 1 uppercase letter"}, status=400)
+
+        if not re.search(r"[a-z]", password):
+            return JsonResponse({"error": "Must include 1 lowercase letter"}, status=400)
+
+        if not re.search(r"[0-9]", password):
+            return JsonResponse({"error": "Must include 1 number"}, status=400)
+
+        if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
+            return JsonResponse({"error": "Must include 1 special character"}, status=400)
+        # create user
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password
+        )
+
+        user.save()
+
+        return JsonResponse({
+            "message": "Account created successfully"
+        }, status=201)
+
+    except Exception as e:
+        return JsonResponse({
+            "error": str(e)
+        }, status=500)
+@csrf_exempt
+def resend_signup_otp(request):
+
+    if request.method != "POST":
+        return JsonResponse({"error": "Only POST allowed"}, status=405)
+
+    body = json.loads(request.body)
+    email = body.get("email")
+
+    if not email:
+        return JsonResponse({"error": "Email required"}, status=400)
+
+    # if not User.objects.filter(email=email).exists():
+    #     return JsonResponse({"error": "Email not registered"}, status=404)
+
+    otp = str(random.randint(100000, 999999))
+    otp_storage[email] = otp
+    otp_expiry[email] = timezone.now() + timedelta(minutes=5)
+
+    send_mail(
+        "Resend OTP",
+        f"Your new OTP is {otp}",
+        settings.EMAIL_HOST_USER,
+        [email],
+        fail_silently=False
+    )
+
+    return JsonResponse({"message": "OTP resent"})  
+@csrf_exempt
+def check_username(request):
+
+    if request.method == "POST":
+
+        data = json.loads(request.body)
+        username = data.get("username")
+
+        if not username:
+            return JsonResponse({"error": "Username required"}, status=400)
+
+        exists = User.objects.filter(username=username).exists()
+
+        suggestions = []
+
+        if exists:
+            suggestions = [
+                username + str(random.randint(10, 99)),
+                username + "_ai",
+                username + "_hub",
+                username + str(random.randint(100, 999))
+            ]
+
+        return JsonResponse({
+            "exists": exists,
+            "suggestions": suggestions
+        })
+
+    return JsonResponse({"error": "Only POST allowed"}, status=405)
