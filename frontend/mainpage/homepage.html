@@ -9,13 +9,15 @@
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
 <style>
 
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial,sans-serif;
+    font-family:'Poppins',sans-serif;
 }
 
 html{
@@ -26,6 +28,22 @@ body{
     background:#020617;
     color:white;
     overflow-x:hidden;
+    transition:0.4s;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+    width:8px;
+}
+
+::-webkit-scrollbar-track{
+    background:#020617;
+}
+
+::-webkit-scrollbar-thumb{
+    background:linear-gradient(#06b6d4,#7c3aed);
+    border-radius:20px;
 }
 
 /* NAVBAR */
@@ -47,7 +65,7 @@ body{
 
 .logo{
     font-size:32px;
-    font-weight:bold;
+    font-weight:800;
 }
 
 .logo span{
@@ -62,13 +80,80 @@ body{
 .nav-links a{
     color:white;
     text-decoration:none;
-    transition:0.3s;
     font-size:15px;
+    position:relative;
+    transition:0.3s;
+}
+
+.nav-links a::after{
+    content:'';
+    width:0;
+    height:2px;
+    background:#00d4ff;
+    position:absolute;
+    left:0;
+    bottom:-5px;
+    transition:0.3s;
+}
+
+.nav-links a:hover::after{
+    width:100%;
 }
 
 .nav-links a:hover{
     color:#00d4ff;
 }
+
+/* NAV ICONS */
+
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.nav-icons{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.icon-box{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.1);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.icon-box:hover{
+    background:linear-gradient(135deg,#4f46e5,#06b6d4);
+    transform:translateY(-4px);
+}
+
+.icon-box i{
+    color:white;
+    font-size:17px;
+}
+
+.dot{
+    width:10px;
+    height:10px;
+    background:#00d4ff;
+    border-radius:50%;
+    position:absolute;
+    top:9px;
+    right:10px;
+    border:2px solid #020617;
+}
+
+/* BUTTON */
 
 .nav-btn{
     padding:13px 28px;
@@ -76,13 +161,13 @@ body{
     border-radius:50px;
     background:linear-gradient(90deg,#4f46e5,#06b6d4);
     color:white;
-    font-weight:bold;
+    font-weight:600;
     cursor:pointer;
     transition:0.3s;
 }
 
 .nav-btn:hover{
-    transform:scale(1.05);
+    transform:translateY(-3px);
 }
 
 /* HERO */
@@ -109,7 +194,7 @@ body{
     animation:bgMove 15s ease infinite;
 }
 
-/* BACKGROUND EFFECT */
+/* BLUR */
 
 .blur{
     position:absolute;
@@ -155,7 +240,7 @@ body{
 }
 
 .hero-left h1{
-    font-size:74px;
+    font-size:72px;
     line-height:1.1;
     margin-bottom:25px;
 
@@ -168,7 +253,6 @@ body{
     color:#cbd5e1;
     font-size:18px;
     line-height:1.8;
-    max-width:700px;
 }
 
 /* BUTTONS */
@@ -185,7 +269,7 @@ body{
     border:none;
     border-radius:50px;
     cursor:pointer;
-    font-weight:bold;
+    font-weight:600;
     transition:0.3s;
     font-size:15px;
 }
@@ -199,7 +283,6 @@ body{
     background:rgba(255,255,255,0.08);
     border:1px solid rgba(255,255,255,0.1);
     color:white;
-    backdrop-filter:blur(10px);
 }
 
 .btn:hover{
@@ -211,7 +294,7 @@ body{
 .search-box{
     margin-top:35px;
     width:100%;
-    max-width:750px;
+    max-width:720px;
     background:rgba(255,255,255,0.06);
     border:1px solid rgba(255,255,255,0.1);
     border-radius:60px;
@@ -228,6 +311,10 @@ body{
     background:none;
     color:white;
     font-size:15px;
+}
+
+.search-box input::placeholder{
+    color:#94a3b8;
 }
 
 .search-box button{
@@ -277,7 +364,7 @@ body{
     padding:8px 14px;
     border-radius:30px;
     font-size:12px;
-    font-weight:bold;
+    font-weight:700;
 }
 
 .ai-card{
@@ -325,6 +412,11 @@ body{
     padding:18px;
     text-align:center;
     border:1px solid rgba(255,255,255,0.08);
+    transition:0.3s;
+}
+
+.stat:hover{
+    transform:scale(1.05);
 }
 
 .stat h1{
@@ -401,6 +493,54 @@ body{
     line-height:1.7;
 }
 
+/* NEWSLETTER */
+
+.newsletter{
+    padding:100px 8%;
+    text-align:center;
+}
+
+.newsletter-box{
+    max-width:800px;
+    margin:auto;
+    background:linear-gradient(135deg,#4f46e5,#06b6d4);
+    padding:60px;
+    border-radius:30px;
+}
+
+.newsletter-box h2{
+    font-size:42px;
+    margin-bottom:15px;
+}
+
+.newsletter-box p{
+    color:#e2e8f0;
+    margin-bottom:30px;
+}
+
+.subscribe{
+    display:flex;
+    overflow:hidden;
+    border-radius:60px;
+    background:white;
+}
+
+.subscribe input{
+    flex:1;
+    padding:20px;
+    border:none;
+    outline:none;
+    font-size:15px;
+}
+
+.subscribe button{
+    padding:20px 35px;
+    border:none;
+    background:#020617;
+    color:white;
+    cursor:pointer;
+}
+
 /* FOOTER */
 
 footer{
@@ -473,6 +613,78 @@ footer{
     color:#94a3b8;
 }
 
+/* LIGHT MODE */
+
+.light-mode{
+    background:#f8fafc;
+    color:#020617;
+}
+
+.light-mode .navbar{
+    background:rgba(255,255,255,0.8);
+}
+
+.light-mode .nav-links a{
+    color:#020617;
+}
+
+.light-mode .icon-box{
+    background:white;
+    border:1px solid rgba(0,0,0,0.08);
+}
+
+.light-mode .icon-box i{
+    color:#020617;
+}
+
+.light-mode .dot{
+    border:2px solid white;
+}
+
+.light-mode .hero{
+    background:linear-gradient(
+    135deg,
+    #f8fafc,
+    #e2e8f0,
+    #f1f5f9,
+    #ffffff);
+}
+
+.light-mode .hero-left p,
+.light-mode .section-title p,
+.light-mode .feature-card p,
+.light-mode .ai-card p,
+.light-mode .stat p,
+.light-mode .footer-box p,
+.light-mode .footer-links a,
+.light-mode .copy{
+    color:#334155;
+}
+
+.light-mode .features{
+    background:#f1f5f9;
+}
+
+.light-mode .feature-card,
+.light-mode .ai-box,
+.light-mode .stat,
+.light-mode .ai-card{
+    background:white;
+    border:1px solid rgba(0,0,0,0.08);
+}
+
+.light-mode footer{
+    background:#ffffff;
+}
+
+.light-mode .search-box{
+    background:white;
+}
+
+.light-mode .search-box input{
+    color:#020617;
+}
+
 /* ANIMATION */
 
 @keyframes bgMove{
@@ -517,6 +729,22 @@ footer{
     }
 }
 
+@media(max-width:700px){
+
+    .subscribe{
+        flex-direction:column;
+        border-radius:25px;
+    }
+
+    .subscribe button{
+        width:100%;
+    }
+
+    .newsletter-box{
+        padding:35px;
+    }
+}
+
 @media(max-width:600px){
 
     .hero-left h1{
@@ -534,6 +762,19 @@ footer{
 
     .search-box button{
         width:100%;
+    }
+
+    .nav-right{
+        gap:8px;
+    }
+
+    .icon-box{
+        width:40px;
+        height:40px;
+    }
+
+    .section-title h2{
+        font-size:34px;
     }
 }
 
@@ -558,9 +799,44 @@ footer{
         <a href="#">Contact</a>
     </div>
 
-    <button class="nav-btn">
-        Start Free
-    </button>
+    <div class="nav-right">
+
+        <div class="nav-icons">
+
+            <!-- MESSAGE -->
+
+            <div class="icon-box">
+                <i class="fa-regular fa-message"></i>
+                <span class="dot"></span>
+            </div>
+
+            <!-- NOTIFICATION -->
+
+            <div class="icon-box">
+                <i class="fa-regular fa-bell"></i>
+                <span class="dot"></span>
+            </div>
+
+            <!-- USER -->
+
+            <div class="icon-box">
+                <i class="fa-regular fa-user"></i>
+            </div>
+
+            <!-- DARK/LIGHT MODE -->
+
+            <div class="icon-box" id="themeToggle">
+                <i class="fa-solid fa-moon" id="themeIcon"></i>
+            </div>
+
+        </div>
+
+        <button class="nav-btn">
+            <i class="fa-solid fa-right-to-bracket"></i>
+            SIGNUP
+        </button>
+
+    </div>
 
 </nav>
 
@@ -570,8 +846,6 @@ footer{
 
     <div class="blur blur1"></div>
     <div class="blur blur2"></div>
-
-    <!-- LEFT -->
 
     <div class="hero-left">
 
@@ -679,7 +953,7 @@ footer{
                 </div>
 
                 <div class="stat">
-                    <h1>12K+</h1>
+                    <h1>30K+</h1>
                     <p>Users</p>
                 </div>
 
@@ -717,55 +991,106 @@ footer{
 
     <div class="feature-grid">
 
+        <!-- IMAGE TO TEXT -->
+
         <div class="feature-card">
 
-            <i class="fa-solid fa-image"></i>
+            <i class="fa-solid fa-file-lines"></i>
 
-            <h3>Image AI</h3>
+            <h3>Image To Text</h3>
 
             <p>
-                Convert images to text and generate visual
-                content using smart AI image technology.
+                Extract text from images instantly using
+                powerful AI OCR technology with high accuracy.
             </p>
 
         </div>
 
+        <!-- AI CODING TEACHER -->
+
         <div class="feature-card">
 
-            <i class="fa-solid fa-briefcase"></i>
+            <i class="fa-solid fa-laptop-code"></i>
 
-            <h3>Business Automation</h3>
+            <h3>AI Coding Teacher</h3>
 
             <p>
-                Automate workflow and increase productivity
-                with advanced AI business tools.
+                Learn programming with smart AI guidance,
+                code explanations and real-time examples.
             </p>
 
         </div>
 
+        <!-- BUSINESS SYSTEM -->
+
         <div class="feature-card">
 
-            <i class="fa-solid fa-comment"></i>
+            <i class="fa-solid fa-chart-line"></i>
 
-            <h3>AI Chat System</h3>
+            <h3>Business System</h3>
 
             <p>
-                Smart conversation AI for support,
-                education and productivity tasks.
+                Manage business operations, automation
+                and workflow using advanced AI systems.
             </p>
 
         </div>
 
+        <!-- VOICE ASSISTANT -->
+
         <div class="feature-card">
 
-            <i class="fa-solid fa-shield"></i>
+            <i class="fa-solid fa-microphone-lines"></i>
 
-            <h3>Secure Cloud</h3>
+            <h3>Voice Assistant</h3>
 
             <p>
-                Fast and secure cloud system for
-                AI processing and data storage.
+                Real-time AI voice assistant for smart
+                communication and voice interaction.
             </p>
+
+        </div>
+
+        <!-- TEXT TO SPEECH -->
+
+        <div class="feature-card">
+
+            <i class="fa-solid fa-volume-high"></i>
+
+            <h3>Text To Speech</h3>
+
+            <p>
+                Convert text into natural sounding speech
+                with modern AI voice generation technology.
+            </p>
+
+        </div>
+
+    </div>
+
+
+</section>
+
+<!-- NEWSLETTER -->
+
+<section class="newsletter">
+
+    <div class="newsletter-box">
+
+        <h2>Join The AI Revolution</h2>
+
+        <p>
+            Subscribe for latest AI updates, tools and automation news.
+        </p>
+
+        <div class="subscribe">
+
+            <input type="email"
+            placeholder="Enter your email address">
+
+            <button>
+                Subscribe
+            </button>
 
         </div>
 
@@ -792,23 +1117,27 @@ footer{
 
             <div class="social-icons">
 
-                <a href="https://facebook.com">
+                <!-- <a href="#">
                     <i class="fab fa-facebook-f"></i>
-                </a>
+                </a> -->
 
-                <a href="https://instagram.com">
+                <a href="#">
                     <i class="fab fa-instagram"></i>
                 </a>
 
-                <a href="https://twitter.com">
+                <!-- <a href="#">
                     <i class="fab fa-x-twitter"></i>
-                </a>
+                </a> -->
 
-                <a href="https://youtube.com">
+                <a href="#">
                     <i class="fab fa-youtube"></i>
                 </a>
 
-                <a href="https://linkedin.com">
+                <a href="#">
+                    <i class="fa-brands fa-telegram"></i>
+                </a>
+
+                <a href="#">
                     <i class="fab fa-linkedin-in"></i>
                 </a>
 
@@ -852,10 +1181,41 @@ footer{
 
     <div class="copy">
         © 2026 Nexa Hub AI | All Rights Reserved | Designed By Nexa Hub Team 🚀
-
     </div>
 
 </footer>
+
+<!-- SCRIPT -->
+
+<script>
+
+/* LIGHT / DARK MODE */
+
+const themeToggle =
+document.getElementById("themeToggle");
+
+const themeIcon =
+document.getElementById("themeIcon");
+
+themeToggle.addEventListener("click",()=>{
+
+    document.body.classList.toggle("light-mode");
+
+    if(document.body.classList.contains("light-mode")){
+
+        themeIcon.classList.remove("fa-moon");
+        themeIcon.classList.add("fa-sun");
+
+    }else{
+
+        themeIcon.classList.remove("fa-sun");
+        themeIcon.classList.add("fa-moon");
+
+    }
+
+});
+
+</script>
 
 </body>
 </html>
