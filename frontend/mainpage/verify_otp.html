@@ -165,22 +165,34 @@ body.light-mode .container{
     0 10px 35px rgba(15,23,42,0.12);
 }
 
-/* APP NAME */
-
-.app-name{
+/* ========== APP NAME - NEW COLOR SCHEME ========== */
+/* Nexa = White color, Hub AI = Blue color */
+.app-name {
     font-size:32px;
     font-weight:800;
     margin-bottom:18px;
+    text-align:center;
+}
 
-    background:
-    linear-gradient(
-    90deg,
-    #3b82f6,
-    #2563eb,
-    #60a5fa);
+.nexa-white {
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(255,255,255,0.4);
+}
 
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
+.hub-blue {
+    color: #3b82f6;
+    text-shadow: 0 0 8px rgba(59,130,246,0.5);
+}
+
+/* Light mode adjustments */
+body.light-mode .nexa-white {
+    color: #1e293b;
+    text-shadow: none;
+}
+
+body.light-mode .hub-blue {
+    color: #1d4ed8;
+    text-shadow: 0 1px 3px rgba(29,78,216,0.2);
 }
 
 /* LOGO */
@@ -391,8 +403,10 @@ body.light-mode .resend{
 
 <div class="container">
 
+    <!-- Updated username colors: Nexa = White, Hub AI = Blue -->
     <div class="app-name">
-        Nexa Hub AI
+        <span class="nexa-white">Nexa</span>
+        <span class="hub-blue"> Hub AI</span>
     </div>
 
     <div class="logo">
