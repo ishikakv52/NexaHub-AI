@@ -33,7 +33,7 @@
     border-radius: 12px;
   }
 
-  /* ----- LIGHT MODE GLOBAL OVERRIDES (all text becomes dark & readable) ----- */
+  /* ----- LIGHT MODE GLOBAL OVERRIDES ----- */
   body.light-mode {
     background: #F9FAFE;
     color: #0F172A;
@@ -179,6 +179,13 @@
   body.light-mode .live {
     background: #0f172a;
     color: white;
+  }
+  body.light-mode .footer-highlight {
+    background: #F1F5F9;
+  }
+  body.light-mode .app-badge {
+    background: #E2E8F0;
+    color: #0F172A;
   }
 
   /* ----- navbar ----- */
@@ -561,66 +568,201 @@
     transition: 0.2s;
   }
 
-  /* footer */
+  /* ========== HIGH LEVEL FOOTER ========== */
   footer {
     background: #020617;
-    padding: 70px 7% 30px;
-    border-top: 1px solid rgba(255,255,255,0.05);
+    padding: 60px 7% 25px;
+    border-top: 1px solid rgba(255,255,255,0.06);
   }
-  .footer-content {
+
+  .footer-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 48px;
-    margin-bottom: 40px;
+    grid-template-columns: 1.5fr repeat(4, 1fr);
+    gap: 40px;
+    margin-bottom: 50px;
   }
-  .footer-box h3 {
-    margin-bottom: 22px;
-    font-size: 1.3rem;
+
+  .footer-brand p {
+    color: #94A3B8;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin: 18px 0 22px;
   }
+
+  .app-badges {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .app-badge {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    transition: 0.2s;
+  }
+
+  .app-badge i {
+    font-size: 1.2rem;
+  }
+
+  .app-badge:hover {
+    background: rgba(45,212,191,0.15);
+    border-color: #2dd4bf;
+    transform: translateY(-2px);
+  }
+
+  .footer-col h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    background: linear-gradient(95deg, #E2E8F0, #94A3F8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
   .footer-links {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-  }
-  .footer-links a {
-    text-decoration: none;
-    color: #CBD5E1;
-    transition: 0.2s;
-  }
-  .footer-links a:hover {
-    color: #2dd4bf;
-    transform: translateX(3px);
-  }
-  .social-icons {
-    margin-top: 28px;
-    display: flex;
     gap: 14px;
   }
-  .social-icons a {
-    width: 42px;
-    height: 42px;
+
+  .footer-links a {
+    color: #94A3B8;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: 0.25s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .footer-links a i {
+    font-size: 0.7rem;
+    opacity: 0.7;
+  }
+
+  .footer-links a:hover {
+    color: #2dd4bf;
+    transform: translateX(5px);
+  }
+
+  .contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 5px;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: #94A3B8;
+    font-size: 0.85rem;
+    transition: 0.25s;
+  }
+
+  .contact-item i {
+    width: 34px;
+    height: 34px;
+    background: rgba(255,255,255,0.06);
     border-radius: 50%;
-    background: rgba(255,255,255,0.05);
     display: flex;
     align-items: center;
     justify-content: center;
-    text-decoration: none;
-    color: #E2E8F0;
-    transition: 0.25s;
-  }
-  .social-icons a:hover {
-    background: #06b6d4;
-    color: #020617;
-    transform: translateY(-4px);
-  }
-  .copy {
-    text-align: center;
-    padding-top: 26px;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    font-size: 0.85rem;
-    color: #94A3B8;
+    font-size: 0.9rem;
   }
 
+  .contact-item:hover {
+    color: #2dd4bf;
+    transform: translateX(3px);
+  }
+
+  .contact-item:hover i {
+    background: rgba(45,212,191,0.2);
+  }
+
+  .social-icons-group {
+    display: flex;
+    gap: 14px;
+    margin-top: 20px;
+  }
+
+  .social-icons-group a {
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #CBD5E1;
+    transition: 0.25s;
+  }
+
+  .social-icons-group a:hover {
+    background: linear-gradient(135deg, #06b6d4, #6366f1);
+    color: white;
+    transform: translateY(-4px);
+  }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-size: 0.8rem;
+    color: #64748B;
+  }
+
+  .payment-icons {
+    display: flex;
+    gap: 15px;
+    font-size: 1.2rem;
+  }
+
+  /* light mode footer overrides */
+  body.light-mode .footer-col h4 {
+    background: linear-gradient(95deg, #1E293B, #2563eb);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  body.light-mode .app-badge {
+    background: #F1F5F9;
+    border-color: #E2E8F0;
+    color: #1E293B;
+  }
+  body.light-mode .contact-item i {
+    background: #F1F5F9;
+  }
+
+  @media (max-width: 1100px) {
+    .footer-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 35px;
+    }
+  }
+  @media (max-width: 680px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+    .footer-bottom {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
   @media (max-width: 1000px) {
     .hero { flex-direction: column; text-align: center; }
     .hero-left h1 { font-size: 3rem; }
@@ -722,22 +864,83 @@
   </div>
 </section>
 
+<!-- HIGH LEVEL FOOTER -->
 <footer>
-  <div class="footer-content">
-    <div class="footer-box">
+  <div class="footer-grid">
+    <!-- Brand column -->
+    <div class="footer-brand">
       <div class="logo">NEXA <span>HUB AI</span></div>
-      <p style="margin-top: 18px;">Premium AI SaaS platform for automation, coding, productivity and smart business tools.</p>
-      <div class="social-icons">
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-youtube"></i></a>
-        <a href="#"><i class="fa-brands fa-telegram"></i></a>
-        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+      <p>Premium AI SaaS platform for automation, coding, productivity and smart business tools. Empowering the future of work with artificial intelligence.</p>
+      <div class="app-badges">
+        <div class="app-badge"><i class="fab fa-google-play"></i> <span>Google Play</span></div>
+        <div class="app-badge"><i class="fab fa-apple"></i> <span>App Store</span></div>
       </div>
     </div>
-    <div class="footer-box"><h3>Quick Links</h3><div class="footer-links"><a href="#">Home</a><a href="#">AI Tools</a><a href="#">Pricing</a><a href="#">Projects</a><a href="#">Contact</a></div></div>
-    <div class="footer-box"><h3>Services</h3><div class="footer-links"><a href="#">AI Automation</a><a href="#">Voice AI</a><a href="#">Cloud Security</a><a href="#">AI Coding</a><a href="#">Support</a></div></div>
+
+    <!-- Quick Links -->
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <div class="footer-links">
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> Home</a>
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> Features</a>
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> AI Tools</a>
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> Pricing</a>
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> About Us</a>
+      </div>
+    </div>
+
+    <!-- Resources -->
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <div class="footer-links">
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> Blog</a>
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> Help Center</a>
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> API Docs</a>
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> Community</a>
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> Status</a>
+      </div>
+    </div>
+
+    <!-- Legal -->
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <div class="footer-links">
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> Privacy Policy</a>
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> Terms of Service</a>
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> Cookie Policy</a>
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> GDPR</a>
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> Security</a>
+      </div>
+    </div>
+
+    <!-- Contact Info -->
+    <div class="footer-col">
+      <h4>Contact Us</h4>
+      <div class="contact-details">
+        <div class="contact-item"><i class="fa-solid fa-phone"></i> <span>+91 9548575572</span></div>
+        <div class="contact-item"><i class="fa-regular fa-envelope"></i> <span>support@nexahubai.com</span></div>
+        <div class="contact-item"><i class="fa-solid fa-location-dot"></i> <span>Niwari road Modinagar District Ghaziabad (Pin Code: 201204)</span></div>
+      </div>
+      <div class="social-icons-group">
+        <a href="#"><i class="fab fa-telegram"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#"><i class="fab fa-google-play"></i></a>
+      </div>
+    </div>
   </div>
-  <div class="copy">© 2026 Nexa Hub AI | All Rights Reserved | Designed By Nexa Hub Team</div>
+
+  <div class="footer-bottom">
+    <div>© 2026 Nexa Hub AI | All Rights Reserved | Designed By Nexa Hub Team</div>
+    <div class="payment-icons">
+      <i class="fab fa-cc-visa"></i>
+      <i class="fab fa-cc-mastercard"></i>
+      <i class="fab fa-cc-amex"></i>
+      <i class="fab fa-cc-paypal"></i>
+      
+    </div>
+  </div>
 </footer>
 
 <script>
