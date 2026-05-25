@@ -28,22 +28,6 @@ body{
     background:#020617;
     color:white;
     overflow-x:hidden;
-    transition:0.4s;
-}
-
-/* SCROLLBAR */
-
-::-webkit-scrollbar{
-    width:8px;
-}
-
-::-webkit-scrollbar-track{
-    background:#020617;
-}
-
-::-webkit-scrollbar-thumb{
-    background:linear-gradient(#06b6d4,#7c3aed);
-    border-radius:20px;
 }
 
 /* NAVBAR */
@@ -58,8 +42,8 @@ body{
     top:0;
     left:0;
     z-index:1000;
-    background:rgba(2,6,23,0.7);
-    backdrop-filter:blur(12px);
+    background:rgba(2,6,23,0.8);
+    backdrop-filter:blur(10px);
     border-bottom:1px solid rgba(255,255,255,0.08);
 }
 
@@ -80,31 +64,12 @@ body{
 .nav-links a{
     color:white;
     text-decoration:none;
-    font-size:15px;
-    position:relative;
     transition:0.3s;
-}
-
-.nav-links a::after{
-    content:'';
-    width:0;
-    height:2px;
-    background:#00d4ff;
-    position:absolute;
-    left:0;
-    bottom:-5px;
-    transition:0.3s;
-}
-
-.nav-links a:hover::after{
-    width:100%;
 }
 
 .nav-links a:hover{
     color:#00d4ff;
 }
-
-/* NAV ICONS */
 
 .nav-right{
     display:flex;
@@ -112,22 +77,14 @@ body{
     gap:15px;
 }
 
-.nav-icons{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
 .icon-box{
     width:45px;
     height:45px;
     border-radius:50%;
     background:rgba(255,255,255,0.08);
-    border:1px solid rgba(255,255,255,0.1);
     display:flex;
     justify-content:center;
     align-items:center;
-    position:relative;
     cursor:pointer;
     transition:0.3s;
 }
@@ -139,21 +96,7 @@ body{
 
 .icon-box i{
     color:white;
-    font-size:17px;
 }
-
-.dot{
-    width:10px;
-    height:10px;
-    background:#00d4ff;
-    border-radius:50%;
-    position:absolute;
-    top:9px;
-    right:10px;
-    border:2px solid #020617;
-}
-
-/* BUTTON */
 
 .nav-btn{
     padding:13px 28px;
@@ -161,71 +104,24 @@ body{
     border-radius:50px;
     background:linear-gradient(90deg,#4f46e5,#06b6d4);
     color:white;
-    font-weight:600;
     cursor:pointer;
-    transition:0.3s;
-}
-
-.nav-btn:hover{
-    transform:translateY(-3px);
+    font-weight:600;
 }
 
 /* HERO */
 
 .hero{
     min-height:100vh;
-    padding:140px 8% 70px;
+    padding:150px 8% 80px;
     display:flex;
     align-items:center;
     justify-content:space-between;
     gap:60px;
-    position:relative;
-    overflow:hidden;
-
-    background:
-    linear-gradient(
-    135deg,
-    #020617,
-    #07122e,
-    #0f172a,
-    #020617);
-
-    background-size:400% 400%;
-    animation:bgMove 15s ease infinite;
+    background:linear-gradient(135deg,#020617,#0f172a,#020617);
 }
-
-/* BLUR */
-
-.blur{
-    position:absolute;
-    border-radius:50%;
-    filter:blur(100px);
-    opacity:0.5;
-    animation:float 10s infinite alternate;
-}
-
-.blur1{
-    width:400px;
-    height:400px;
-    background:#00d4ff;
-    top:-100px;
-    left:-100px;
-}
-
-.blur2{
-    width:350px;
-    height:350px;
-    background:#7c3aed;
-    bottom:-100px;
-    right:-100px;
-}
-
-/* LEFT */
 
 .hero-left{
     flex:1;
-    position:relative;
-    z-index:2;
 }
 
 .tag{
@@ -233,17 +129,14 @@ body{
     padding:10px 22px;
     border-radius:40px;
     background:rgba(255,255,255,0.08);
-    border:1px solid rgba(255,255,255,0.1);
     color:#00d4ff;
     margin-bottom:25px;
-    backdrop-filter:blur(10px);
 }
 
 .hero-left h1{
     font-size:72px;
     line-height:1.1;
     margin-bottom:25px;
-
     background:linear-gradient(to right,#ffffff,#00d4ff);
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
@@ -255,13 +148,10 @@ body{
     line-height:1.8;
 }
 
-/* BUTTONS */
-
 .hero-buttons{
     margin-top:35px;
     display:flex;
     gap:18px;
-    flex-wrap:wrap;
 }
 
 .btn{
@@ -271,7 +161,6 @@ body{
     cursor:pointer;
     font-weight:600;
     transition:0.3s;
-    font-size:15px;
 }
 
 .primary{
@@ -281,40 +170,31 @@ body{
 
 .secondary{
     background:rgba(255,255,255,0.08);
-    border:1px solid rgba(255,255,255,0.1);
     color:white;
 }
 
 .btn:hover{
-    transform:translateY(-4px);
+    transform:translateY(-5px);
 }
 
 /* SEARCH */
 
 .search-box{
     margin-top:35px;
-    width:100%;
-    max-width:720px;
-    background:rgba(255,255,255,0.06);
-    border:1px solid rgba(255,255,255,0.1);
-    border-radius:60px;
     display:flex;
     overflow:hidden;
-    backdrop-filter:blur(12px);
+    border-radius:60px;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.08);
 }
 
 .search-box input{
     flex:1;
-    padding:20px 24px;
+    padding:20px;
     border:none;
     outline:none;
     background:none;
     color:white;
-    font-size:15px;
-}
-
-.search-box input::placeholder{
-    color:#94a3b8;
 }
 
 .search-box button{
@@ -323,111 +203,42 @@ body{
     background:linear-gradient(90deg,#7c3aed,#06b6d4);
     color:white;
     cursor:pointer;
-    font-size:15px;
 }
 
-/* RIGHT */
+/* RIGHT BOX */
 
 .hero-right{
     flex:1;
-    display:flex;
-    justify-content:center;
-    position:relative;
-    z-index:2;
 }
 
 .ai-box{
-    width:100%;
-    max-width:500px;
-    background:rgba(255,255,255,0.06);
-    border:1px solid rgba(255,255,255,0.1);
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
     border-radius:30px;
     padding:35px;
-    backdrop-filter:blur(15px);
-    box-shadow:0 0 40px rgba(0,212,255,0.15);
-}
-
-.ai-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:25px;
-}
-
-.ai-top h2{
-    font-size:26px;
-}
-
-.live{
-    background:#00d4ff;
-    color:#020617;
-    padding:8px 14px;
-    border-radius:30px;
-    font-size:12px;
-    font-weight:700;
 }
 
 .ai-card{
     background:rgba(255,255,255,0.05);
-    border-radius:18px;
     padding:20px;
-    margin-bottom:18px;
-    border:1px solid rgba(255,255,255,0.06);
+    border-radius:20px;
+    margin-bottom:20px;
     transition:0.3s;
 }
 
 .ai-card:hover{
     transform:translateY(-5px);
-    border-color:#00d4ff;
+    border:1px solid #00d4ff;
 }
 
 .ai-card i{
+    font-size:28px;
     color:#00d4ff;
     margin-bottom:15px;
-    font-size:28px;
-}
-
-.ai-card h3{
-    margin-bottom:10px;
 }
 
 .ai-card p{
     color:#cbd5e1;
-    line-height:1.6;
-    font-size:14px;
-}
-
-/* STATS */
-
-.stats{
-    margin-top:25px;
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:18px;
-}
-
-.stat{
-    background:rgba(255,255,255,0.05);
-    border-radius:18px;
-    padding:18px;
-    text-align:center;
-    border:1px solid rgba(255,255,255,0.08);
-    transition:0.3s;
-}
-
-.stat:hover{
-    transform:scale(1.05);
-}
-
-.stat h1{
-    color:#00d4ff;
-    margin-bottom:10px;
-    font-size:32px;
-}
-
-.stat p{
-    color:#cbd5e1;
-    font-size:14px;
 }
 
 /* FEATURES */
@@ -461,36 +272,169 @@ body{
     background:rgba(255,255,255,0.05);
     padding:35px;
     border-radius:26px;
-    border:1px solid rgba(255,255,255,0.08);
     transition:0.4s;
 }
 
 .feature-card:hover{
     transform:translateY(-10px);
-    border-color:#00d4ff;
-    box-shadow:0 0 30px rgba(0,212,255,0.2);
+    border:1px solid #00d4ff;
 }
 
 .feature-card i{
     width:70px;
     height:70px;
+    border-radius:18px;
+    background:linear-gradient(135deg,#4f46e5,#06b6d4);
     display:flex;
     justify-content:center;
     align-items:center;
-    border-radius:18px;
-    background:linear-gradient(135deg,#4f46e5,#06b6d4);
     font-size:28px;
-    margin-bottom:22px;
-}
-
-.feature-card h3{
-    margin-bottom:15px;
-    font-size:24px;
+    margin-bottom:20px;
 }
 
 .feature-card p{
     color:#cbd5e1;
-    line-height:1.7;
+}
+
+/* DASHBOARD */
+
+.dashboard{
+    padding:100px 8%;
+    background:#020617;
+}
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:280px 1fr;
+    gap:30px;
+    margin-top:60px;
+}
+
+.dashboard-sidebar{
+    background:rgba(255,255,255,0.05);
+    border-radius:30px;
+    padding:30px;
+}
+
+.sidebar-logo{
+    font-size:24px;
+    font-weight:700;
+    color:#00d4ff;
+    margin-bottom:35px;
+}
+
+.sidebar-menu{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+.sidebar-menu a{
+    text-decoration:none;
+    color:white;
+    padding:15px 18px;
+    border-radius:16px;
+    transition:0.3s;
+}
+
+.sidebar-menu a:hover,
+.sidebar-menu .active{
+    background:linear-gradient(90deg,#4f46e5,#06b6d4);
+}
+
+.dashboard-main{
+    display:flex;
+    flex-direction:column;
+    gap:30px;
+}
+
+.dashboard-cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+}
+
+.dashboard-card{
+    background:rgba(255,255,255,0.05);
+    padding:30px;
+    border-radius:26px;
+    transition:0.3s;
+}
+
+.dashboard-card:hover{
+    transform:translateY(-8px);
+}
+
+.card-icon{
+    width:65px;
+    height:65px;
+    border-radius:18px;
+    background:linear-gradient(135deg,#4f46e5,#06b6d4);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.card-icon i{
+    font-size:26px;
+}
+
+.dashboard-card p{
+    color:#cbd5e1;
+}
+
+.activity-box{
+    background:rgba(255,255,255,0.05);
+    border-radius:30px;
+    padding:35px;
+}
+
+.activity-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+.activity-top button{
+    padding:12px 24px;
+    border:none;
+    border-radius:40px;
+    background:linear-gradient(90deg,#4f46e5,#06b6d4);
+    color:white;
+}
+
+.activity-list{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+.activity-item{
+    display:flex;
+    gap:18px;
+    background:rgba(255,255,255,0.04);
+    padding:20px;
+    border-radius:20px;
+}
+
+.activity-icon{
+    width:60px;
+    height:60px;
+    border-radius:18px;
+    background:linear-gradient(135deg,#4f46e5,#06b6d4);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.activity-icon i{
+    font-size:24px;
+}
+
+.activity-item p{
+    color:#cbd5e1;
 }
 
 /* NEWSLETTER */
@@ -508,21 +452,12 @@ body{
     border-radius:30px;
 }
 
-.newsletter-box h2{
-    font-size:42px;
-    margin-bottom:15px;
-}
-
-.newsletter-box p{
-    color:#e2e8f0;
-    margin-bottom:30px;
-}
-
 .subscribe{
     display:flex;
     overflow:hidden;
     border-radius:60px;
     background:white;
+    margin-top:25px;
 }
 
 .subscribe input{
@@ -530,7 +465,6 @@ body{
     padding:20px;
     border:none;
     outline:none;
-    font-size:15px;
 }
 
 .subscribe button{
@@ -538,7 +472,6 @@ body{
     border:none;
     background:#020617;
     color:white;
-    cursor:pointer;
 }
 
 /* FOOTER */
@@ -546,7 +479,6 @@ body{
 footer{
     padding:70px 8% 30px;
     background:#020617;
-    border-top:1px solid rgba(255,255,255,0.08);
 }
 
 .footer-content{
@@ -556,14 +488,9 @@ footer{
     margin-bottom:35px;
 }
 
-.footer-box h3{
-    margin-bottom:20px;
-    font-size:22px;
-}
-
 .footer-box p{
     color:#cbd5e1;
-    line-height:1.7;
+    margin-top:20px;
 }
 
 .footer-links{
@@ -575,7 +502,6 @@ footer{
 .footer-links a{
     color:#cbd5e1;
     text-decoration:none;
-    transition:0.3s;
 }
 
 .footer-links a:hover{
@@ -592,114 +518,24 @@ footer{
     width:45px;
     height:45px;
     border-radius:50%;
+    background:rgba(255,255,255,0.08);
     display:flex;
     justify-content:center;
     align-items:center;
-    text-decoration:none;
-    background:rgba(255,255,255,0.08);
     color:white;
+    text-decoration:none;
     transition:0.3s;
 }
 
 .social-icons a:hover{
     background:#00d4ff;
-    transform:translateY(-5px);
 }
 
 .copy{
-    border-top:1px solid rgba(255,255,255,0.08);
-    padding-top:22px;
     text-align:center;
     color:#94a3b8;
-}
-
-/* LIGHT MODE */
-
-.light-mode{
-    background:#f8fafc;
-    color:#020617;
-}
-
-.light-mode .navbar{
-    background:rgba(255,255,255,0.8);
-}
-
-.light-mode .nav-links a{
-    color:#020617;
-}
-
-.light-mode .icon-box{
-    background:white;
-    border:1px solid rgba(0,0,0,0.08);
-}
-
-.light-mode .icon-box i{
-    color:#020617;
-}
-
-.light-mode .dot{
-    border:2px solid white;
-}
-
-.light-mode .hero{
-    background:linear-gradient(
-    135deg,
-    #f8fafc,
-    #e2e8f0,
-    #f1f5f9,
-    #ffffff);
-}
-
-.light-mode .hero-left p,
-.light-mode .section-title p,
-.light-mode .feature-card p,
-.light-mode .ai-card p,
-.light-mode .stat p,
-.light-mode .footer-box p,
-.light-mode .footer-links a,
-.light-mode .copy{
-    color:#334155;
-}
-
-.light-mode .features{
-    background:#f1f5f9;
-}
-
-.light-mode .feature-card,
-.light-mode .ai-box,
-.light-mode .stat,
-.light-mode .ai-card{
-    background:white;
-    border:1px solid rgba(0,0,0,0.08);
-}
-
-.light-mode footer{
-    background:#ffffff;
-}
-
-.light-mode .search-box{
-    background:white;
-}
-
-.light-mode .search-box input{
-    color:#020617;
-}
-
-/* ANIMATION */
-
-@keyframes bgMove{
-    0%{background-position:0% 50%;}
-    50%{background-position:100% 50%;}
-    100%{background-position:0% 50%;}
-}
-
-@keyframes float{
-    0%{
-        transform:translateY(0px) translateX(0px);
-    }
-    100%{
-        transform:translateY(40px) translateX(30px);
-    }
+    border-top:1px solid rgba(255,255,255,0.08);
+    padding-top:20px;
 }
 
 /* MOBILE */
@@ -715,67 +551,28 @@ footer{
         font-size:52px;
     }
 
-    .hero-buttons{
-        justify-content:center;
-    }
-
-    .search-box{
-        margin:auto;
-        margin-top:30px;
+    .dashboard-grid{
+        grid-template-columns:1fr;
     }
 
     .nav-links{
         display:none;
     }
-}
 
-@media(max-width:700px){
-
-    .subscribe{
-        flex-direction:column;
-        border-radius:25px;
-    }
-
-    .subscribe button{
-        width:100%;
-    }
-
-    .newsletter-box{
-        padding:35px;
-    }
 }
 
 @media(max-width:600px){
 
     .hero-left h1{
-        font-size:42px;
+        font-size:40px;
     }
 
-    .stats{
-        grid-template-columns:1fr;
-    }
-
-    .search-box{
+    .search-box,
+    .subscribe{
         flex-direction:column;
         border-radius:25px;
     }
 
-    .search-box button{
-        width:100%;
-    }
-
-    .nav-right{
-        gap:8px;
-    }
-
-    .icon-box{
-        width:40px;
-        height:40px;
-    }
-
-    .section-title h2{
-        font-size:34px;
-    }
 }
 
 </style>
@@ -794,45 +591,27 @@ footer{
     <div class="nav-links">
         <a href="#">Home</a>
         <a href="#">Features</a>
-        <a href="#">AI Tools</a>
+        <a href="#">Dashboard</a>
         <a href="#">Pricing</a>
         <a href="#">Contact</a>
     </div>
 
     <div class="nav-right">
 
-        <div class="nav-icons">
+        <div class="icon-box">
+            <i class="fa-regular fa-message"></i>
+        </div>
 
-            <!-- MESSAGE -->
+        <div class="icon-box">
+            <i class="fa-regular fa-bell"></i>
+        </div>
 
-            <div class="icon-box">
-                <i class="fa-regular fa-message"></i>
-                <span class="dot"></span>
-            </div>
-
-            <!-- NOTIFICATION -->
-
-            <div class="icon-box">
-                <i class="fa-regular fa-bell"></i>
-                <span class="dot"></span>
-            </div>
-
-            <!-- USER -->
-
-            <div class="icon-box">
-                <i class="fa-regular fa-user"></i>
-            </div>
-
-            <!-- DARK/LIGHT MODE -->
-
-            <div class="icon-box" id="themeToggle">
-                <i class="fa-solid fa-moon" id="themeIcon"></i>
-            </div>
-
+        <div class="icon-box">
+            <i class="fa-regular fa-user"></i>
         </div>
 
         <button class="nav-btn">
-            
+        <i class="fa-solid fa-right-to-bracket"></i> 
             SIGNUP
         </button>
 
@@ -843,9 +622,6 @@ footer{
 <!-- HERO -->
 
 <section class="hero">
-
-    <div class="blur blur1"></div>
-    <div class="blur blur2"></div>
 
     <div class="hero-left">
 
@@ -860,9 +636,7 @@ footer{
 
         <p>
             Nexa Hub AI helps creators, developers and businesses
-            automate work, generate ideas, create content,
-            build AI systems and increase productivity faster
-            than ever before.
+            automate work and build powerful AI systems.
         </p>
 
         <div class="hero-buttons">
@@ -880,7 +654,7 @@ footer{
         <div class="search-box">
 
             <input type="text"
-            placeholder="Search AI tools, coding, automation...">
+            placeholder="Search AI tools...">
 
             <button>
                 Search
@@ -890,21 +664,9 @@ footer{
 
     </div>
 
-    <!-- RIGHT -->
-
     <div class="hero-right">
 
         <div class="ai-box">
-
-            <div class="ai-top">
-
-                <h2>AI Dashboard</h2>
-
-                <div class="live">
-                    LIVE
-                </div>
-
-            </div>
 
             <div class="ai-card">
 
@@ -913,8 +675,7 @@ footer{
                 <h3>AI Assistant</h3>
 
                 <p>
-                    Smart chatbot for solving problems,
-                    answering questions and automation.
+                    Smart chatbot for solving problems.
                 </p>
 
             </div>
@@ -923,11 +684,10 @@ footer{
 
                 <i class="fa-solid fa-code"></i>
 
-                <h3>AI Coding System</h3>
+                <h3>AI Coding</h3>
 
                 <p>
-                    Generate clean and fast code with
-                    advanced AI coding engine.
+                    Generate clean and fast code instantly.
                 </p>
 
             </div>
@@ -939,33 +699,8 @@ footer{
                 <h3>Voice AI</h3>
 
                 <p>
-                    Real-time AI voice assistant with
-                    speech recognition technology.
+                    Real-time voice assistant technology.
                 </p>
-
-            </div>
-
-            <div class="stats">
-
-                <div class="stat">
-                    <h1>24+</h1>
-                    <p>AI Tools</p>
-                </div>
-
-                <div class="stat">
-                    <h1>30K+</h1>
-                    <p>Users</p>
-                </div>
-
-                <div class="stat">
-                    <h1>1.2M+</h1>
-                    <p>Automation</p>
-                </div>
-
-                <div class="stat">
-                    <h1>98%</h1>
-                    <p>Success</p>
-                </div>
 
             </div>
 
@@ -1036,13 +771,6 @@ footer{
 
         </div>
 
-         <div class="feature-card">
-            <i class="fa-solid fa-robot"></i>
-            <h3>Smart AI Assistant</h3>
-            <p>Human-like assistant that handles tasks, answers queries and automates workflows instantly.</p>
-        </div>
-
-
         <!-- VOICE ASSISTANT -->
 
         <div class="feature-card">
@@ -1056,12 +784,6 @@ footer{
                 communication and voice interaction.
             </p>
 
-        </div>
-
-         <div class="feature-card">
-            <i class="fa-solid fa-shield-halved"></i>
-            <h3>AI Security Shield</h3>
-            <p>Real-time threat detection system powered by machine learning security models.</p>
         </div>
 
         <!-- TEXT TO SPEECH -->
@@ -1081,6 +803,167 @@ footer{
 
     </div>
 
+</section>
+
+<!-- DASHBOARD -->
+
+<section class="dashboard">
+
+    <div class="section-title">
+
+        <h2>Smart AI Dashboard</h2>
+
+        <p>
+            Real-time analytics and AI management system
+        </p>
+
+    </div>
+
+    <div class="dashboard-grid">
+
+        <!-- SIDEBAR -->
+
+        <div class="dashboard-sidebar">
+
+            <div class="sidebar-logo">
+                <i class="fa-solid fa-layer-group"></i>
+                Dashboard
+            </div>
+
+            <div class="sidebar-menu">
+
+                <a href="#" class="active">
+                    <i class="fa-solid fa-house"></i>
+                    Overview
+                </a>
+
+                <a href="#">
+                    <i class="fa-solid fa-robot"></i>
+                    AI Assistant
+                </a>
+
+                <a href="#">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    Analytics
+                </a>
+
+                <a href="#">
+                    <i class="fa-solid fa-code"></i>
+                    AI Coding
+                </a>
+
+                <a href="#">
+                    <i class="fa-solid fa-gear"></i>
+                    Settings
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- MAIN -->
+
+        <div class="dashboard-main">
+
+            <div class="dashboard-cards">
+
+                <div class="dashboard-card">
+
+                    <div class="card-icon">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+
+                    <h2>45K+</h2>
+                    <p>Total Users</p>
+
+                </div>
+
+                <div class="dashboard-card">
+
+                    <div class="card-icon">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+
+                    <h2>2.4M</h2>
+                    <p>AI Requests</p>
+
+                </div>
+
+                <div class="dashboard-card">
+
+                    <div class="card-icon">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+
+                    <h2>98%</h2>
+                    <p>Growth Rate</p>
+
+                </div>
+
+            </div>
+
+            <!-- ACTIVITY -->
+
+            <div class="activity-box">
+
+                <div class="activity-top">
+
+                    <h3>Recent Activity</h3>
+
+                    <button>
+                        View All
+                    </button>
+
+                </div>
+
+                <div class="activity-list">
+
+                    <div class="activity-item">
+
+                        <div class="activity-icon">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+
+                        <div>
+                            <h4>AI Assistant Updated</h4>
+                            <p>New AI model integrated successfully.</p>
+                        </div>
+
+                    </div>
+
+                    <div class="activity-item">
+
+                        <div class="activity-icon">
+                            <i class="fa-solid fa-code"></i>
+                        </div>
+
+                        <div>
+                            <h4>Code Generated</h4>
+                            <p>Advanced HTML dashboard created.</p>
+                        </div>
+
+                    </div>
+
+                    <div class="activity-item">
+
+                        <div class="activity-icon">
+                            <i class="fa-solid fa-chart-simple"></i>
+                        </div>
+
+                        <div>
+                            <h4>Analytics Increased</h4>
+                            <p>User growth increased this week.</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </section>
 
@@ -1093,13 +976,13 @@ footer{
         <h2>Join The AI Revolution</h2>
 
         <p>
-            Subscribe for latest AI updates, tools and automation news.
+            Subscribe for latest AI updates and tools.
         </p>
 
         <div class="subscribe">
 
             <input type="email"
-            placeholder="Enter your email address">
+            placeholder="Enter your email">
 
             <button>
                 Subscribe
@@ -1123,31 +1006,19 @@ footer{
                 NEXA <span>HUB AI</span>
             </div>
 
-            <p style="margin-top:20px;">
-                Premium AI SaaS platform for automation,
-                coding, productivity and smart business tools.
+            <p>
+                Premium AI platform for automation,
+                coding and smart productivity.
             </p>
 
             <div class="social-icons">
-
-                <!-- <a href="#">
-                    <i class="fab fa-facebook-f"></i>
-                </a> -->
 
                 <a href="#">
                     <i class="fab fa-instagram"></i>
                 </a>
 
-                <!-- <a href="#">
-                    <i class="fab fa-x-twitter"></i>
-                </a> -->
-
                 <a href="#">
                     <i class="fab fa-youtube"></i>
-                </a>
-
-                <a href="#">
-                    <i class="fa-brands fa-telegram"></i>
                 </a>
 
                 <a href="#">
@@ -1165,10 +1036,9 @@ footer{
             <div class="footer-links">
 
                 <a href="#">Home</a>
+                <a href="#">Dashboard</a>
                 <a href="#">AI Tools</a>
                 <a href="#">Pricing</a>
-                <a href="#">Projects</a>
-                <a href="#">Contact</a>
 
             </div>
 
@@ -1182,7 +1052,6 @@ footer{
 
                 <a href="#">AI Automation</a>
                 <a href="#">Voice AI</a>
-                <a href="#">Cloud Security</a>
                 <a href="#">AI Coding</a>
                 <a href="#">Support</a>
 
@@ -1193,42 +1062,10 @@ footer{
     </div>
 
     <div class="copy">
-        © 2026 Nexa Hub AI | All Rights Reserved | Designed By Nexa Hub Team .
+        © 2026 Nexa Hub AI | All Rights Reserved | Designed By Nexa Hub Team 🚀
     </div>
 
 </footer>
-
-<!-- SCRIPT -->
-
-<script>
-
-/* LIGHT / DARK MODE */
-
-const themeToggle =
-document.getElementById("themeToggle");
-
-const themeIcon =
-document.getElementById("themeIcon");
-
-themeToggle.addEventListener("click",()=>{
-
-    document.body.classList.toggle("light-mode");
-
-    if(document.body.classList.contains("light-mode")){
-
-        themeIcon.classList.remove("fa-moon");
-        themeIcon.classList.add("fa-sun");
-
-    }else{
-
-        themeIcon.classList.remove("fa-sun");
-        themeIcon.classList.add("fa-moon");
-
-    }
-
-});
-
-</script>
 
 </body>
 </html>
