@@ -187,6 +187,21 @@
     background: #E2E8F0;
     color: #0F172A;
   }
+  body.light-mode .footer-brand p {
+    color: #475569;
+  }
+  body.light-mode .footer-links a {
+    color: #475569;
+  }
+  body.light-mode .contact-item {
+    color: #475569;
+  }
+  body.light-mode .footer-bottom {
+    color: #64748B;
+  }
+  body.light-mode .payment-icons i {
+    color: #475569;
+  }
 
   /* ----- navbar ----- */
   .navbar {
@@ -568,7 +583,7 @@
     transition: 0.2s;
   }
 
-  /* ========== HIGH LEVEL FOOTER ========== */
+  /* ========== HIGH LEVEL FOOTER - FIXED DARK TEXT ========== */
   footer {
     background: #020617;
     padding: 60px 7% 25px;
@@ -583,7 +598,7 @@
   }
 
   .footer-brand p {
-    color: #94A3B8;
+    color: #CBD5E1;
     font-size: 0.85rem;
     line-height: 1.6;
     margin: 18px 0 22px;
@@ -606,6 +621,7 @@
     font-size: 0.75rem;
     font-weight: 500;
     transition: 0.2s;
+    color: #E2E8F0;
   }
 
   .app-badge i {
@@ -723,29 +739,68 @@
     padding-top: 30px;
     border-top: 1px solid rgba(255,255,255,0.06);
     font-size: 0.8rem;
-    color: #64748B;
+    color: #94A3B8;
   }
 
   .payment-icons {
     display: flex;
-    gap: 15px;
-    font-size: 1.2rem;
+    gap: 20px;
+    align-items: center;
   }
 
-  /* light mode footer overrides */
-  body.light-mode .footer-col h4 {
-    background: linear-gradient(95deg, #1E293B, #2563eb);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+  .payment-icons i {
+    font-size: 1.8rem;
+    transition: 0.2s;
+    cursor: default;
+    color: #94A3B8;
+  }
+
+  .payment-icons i:hover {
+    color: #2dd4bf;
+    transform: translateY(-2px);
+  }
+
+  /* light mode footer overrides - ensuring dark text is visible */
+  body.light-mode footer {
+    background: #FFFFFF;
+  }
+  body.light-mode .footer-brand p {
+    color: #475569;
+  }
+  body.light-mode .footer-links a {
+    color: #475569;
+  }
+  body.light-mode .contact-item {
+    color: #475569;
+  }
+  body.light-mode .contact-item i {
+    background: #F1F5F9;
+    color: #475569;
+  }
+  body.light-mode .footer-bottom {
+    color: #64748B;
+  }
+  body.light-mode .payment-icons i {
+    color: #475569;
   }
   body.light-mode .app-badge {
     background: #F1F5F9;
     border-color: #E2E8F0;
     color: #1E293B;
   }
-  body.light-mode .contact-item i {
+  body.light-mode .footer-col h4 {
+    background: linear-gradient(95deg, #1E293B, #2563eb);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  body.light-mode .social-icons-group a {
     background: #F1F5F9;
+    color: #475569;
+  }
+  body.light-mode .social-icons-group a:hover {
+    background: linear-gradient(135deg, #06b6d4, #6366f1);
+    color: white;
   }
 
   @media (max-width: 1100px) {
@@ -783,6 +838,9 @@
     .hero-left h1 { font-size: 2.3rem; }
     .stats { grid-template-columns: 1fr; }
     .feature-card { padding: 24px; }
+    .payment-icons i {
+      font-size: 1.4rem;
+    }
   }
 </style>
 </head>
@@ -864,7 +922,7 @@
   </div>
 </section>
 
-<!-- HIGH LEVEL FOOTER -->
+<!-- HIGH LEVEL FOOTER WITH PROPER TEXT VISIBILITY -->
 <footer>
   <div class="footer-grid">
     <!-- Brand column -->
@@ -919,7 +977,6 @@
       <div class="contact-details">
         <div class="contact-item"><i class="fa-solid fa-phone"></i> <span>+91 9548575572</span></div>
         <div class="contact-item"><i class="fa-regular fa-envelope"></i> <span>ainexahub@gmail.com</span></div>
-        <!-- <div class="contact-item"><i class="fa-solid fa-location-dot"></i> <span>Niwari road Modinagar District Ghaziabad (Pin Code: 201204)</span></div> -->
       </div>
       <div class="social-icons-group">
         <a href="#"><i class="fab fa-telegram"></i></a>
@@ -938,7 +995,6 @@
       <i class="fab fa-cc-mastercard"></i>
       <i class="fab fa-cc-amex"></i>
       <i class="fab fa-cc-paypal"></i>
-      
     </div>
   </div>
 </footer>
