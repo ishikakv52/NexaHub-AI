@@ -635,7 +635,7 @@
                     showSection("successSection", 3);
                     document.getElementById("successMsg").textContent =
                         `Welcome, ${currentUsername}! Redirecting...`;
-                    setTimeout(() => { window.location.href = "./homepage.html"; }, 5000);
+                    setTimeout(() => { window.location.href = "homepage.html"; }, 5000);
                 } else {
                     showToast(data.error || "Signup failed ❌", "error");
                 }

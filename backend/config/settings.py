@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-ff-$bm=083+2vw078ve(h=h#x1xsoos-eap36j9ky)^=_z-ewg
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -39,12 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
      "rest_framework",
     "corsheaders",
-    'ImageToText',
     'TextToSpeech',
     'VoiceAssistant',
     'AiTeacher',
     'BusinessManagement',
     'accounts',
+     
+    'ImageToText',
 
 
 
@@ -139,6 +140,10 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5500",
     "http://127.0.0.1:5500",
     "https://yourfrontenddomain.com",
+]
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:5500",
+    "http://localhost:5500",
 ]
 # CORS_ALLOW_ALL_ORIGINS = True
 CSRF_TRUSTED_ORIGINS = [
