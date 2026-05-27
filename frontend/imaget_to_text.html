@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>NEXA HUB AI · Image to Text | Neural OCR Studio</title>
+  <!-- Google Fonts + Font Awesome 6 -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Tesseract.js OCR Engine -->
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    /* ========== LIGHT & DARK THEMES ========== */
+    :root {
+      --bg-gradient-start: #0a0f1a;
+      --bg-gradient-end: #03060c;
+      --card-bg: rgba(12, 20, 30, 0.88);
+      --card-border: rgba(58, 134, 255, 0.35);
+      --text-primary: #edf4fc;
+      --text-secondary: #aac8e5;
+      --accent-glow: #3a86ff;
+      --accent-primary: #3a86ff;
+      --accent-hover: #2a6ad4;
+      --input-bg: #0a2a3c;
+      --border-dim: #2f6180;
+      --chip-bg: rgba(58, 134, 255, 0.15);
+      --shadow-lg: 0 20px 35px -10px rgba(0,0,0,0.5);
+      --toast-bg: #3a86ffe6;
+      --brand-blue: #3a86ff;
+      --brand-white: #ffffff;
+    }
+
+    body.light {
+      --bg-gradient-start: #eef2f9;
+      --bg-gradient-end: #d9e2ef;
+      --card-bg: rgba(255, 255, 255, 0.94);
+      --card-border: rgba(58, 134, 255, 0.4);
+      --text-primary: #0a2b3e;
+      --text-secondary: #1f5e7e;
+      --accent-glow: #3a86ff;
+      --accent-primary: #3a86ff;
+      --accent-hover: #2a6ad4;
+      --input-bg: #f0f5fa;
+      --border-dim: #bdd4e5;
+      --chip-bg: rgba(58, 134, 255, 0.1);
+      --shadow-lg: 0 20px 35px -12px rgba(0,0,0,0.1);
+      --toast-bg: #3a86ffe6;
+      --brand-white: #1a2a3e;
+    }
+
+    body {
+      background: radial-gradient(ellipse at 20% 30%, var(--bg-gradient-start), var(--bg-gradient-end));
+      font-family: 'Inter', sans-serif;
+      color: var(--text-primary);
+      padding: 1.8rem 1.5rem;
+      min-height: 100vh;
+    }
+
+    .app-container {
+      max-width: 1480px;
+      margin: 0 auto;
+    }
+
+    /* premium glass header */
+    .hero-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2.2rem;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      padding: 0.6rem 2rem;
+      border-radius: 80px;
+      border: 1px solid var(--card-border);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .nexa-white {
+      font-size: 1.9rem;
+      font-weight: 800;
+      color: var(--brand-white);
+      letter-spacing: -0.3px;
+    }
+    .hubai-blue {
+      font-size: 1.9rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #3a86ff, #5e9bff, #2a6ad4);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .logo-badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      background: rgba(58, 134, 255, 0.2);
+      padding: 0.2rem 0.8rem;
+      border-radius: 80px;
+      margin-left: 10px;
+      color: var(--accent-glow);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.7rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: 0.2s;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-links a i { font-size: 1rem; }
+    .nav-links a:hover { color: var(--accent-glow); text-shadow: 0 0 6px; transform: translateY(-1px); }
+
+    .theme-toggle {
+      background: var(--chip-bg);
+      border: 1px solid var(--border-dim);
+      border-radius: 40px;
+      padding: 0.4rem 1rem;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .theme-toggle:hover { background: var(--accent-primary); color: white; }
+
+    .grid-main {
+      display: grid;
+      grid-template-columns: 1fr 1.05fr;
+      gap: 2rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(8px);
+      border-radius: 2rem;
+      box-shadow: var(--shadow-lg);
+      padding: 1.6rem 1.8rem;
+      border: 1px solid var(--card-border);
+    }
+
+    /* UPLOAD AREA */
+    .upload-area {
+      background: rgba(1, 14, 24, 0.5);
+      border: 2px dashed var(--accent-primary);
+      border-radius: 1.6rem;
+      padding: 1.8rem 1rem;
+      text-align: center;
+      transition: 0.2s;
+      cursor: pointer;
+      margin-bottom: 1.4rem;
+    }
+    body.light .upload-area { background: rgba(240, 248, 255, 0.7); }
+    .upload-area.drag-over { border-color: var(--accent-glow); background: rgba(58, 134, 255, 0.12); box-shadow: 0 0 12px var(--accent-glow); }
+
+    .upload-icon i { font-size: 3.5rem; color: var(--accent-glow); margin-bottom: 0.6rem; filter: drop-shadow(0 0 6px rgba(58,134,255,0.5));}
+    .browse-btn {
+      background: var(--accent-primary);
+      color: white;
+      border: none;
+      padding: 0.7rem 2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      margin: 0.8rem 0 0.4rem;
+      cursor: pointer;
+    }
+    .browse-btn:hover { background: var(--accent-hover); transform: scale(0.97); }
+    .file-info { font-size: 0.7rem; color: var(--text-secondary); margin-top: 6px; }
+
+    .options-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin: 0.8rem 0 1rem;
+    }
+    .opt-chip {
+      background: var(--chip-bg);
+      padding: 0.3rem 1.2rem;
+      border-radius: 100px;
+      font-size: 0.78rem;
+      border: 0.5px solid var(--border-dim);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .opt-chip i { font-size: 0.8rem; }
+    .quick-tip {
+      background: rgba(9, 40, 58, 0.5);
+      border-radius: 1rem;
+      padding: 0.7rem 1rem;
+      font-size: 0.78rem;
+      border-left: 3px solid var(--accent-glow);
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    body.light .quick-tip { background: rgba(220, 240, 255, 0.7); }
+
+    /* Extract Button only (no cancel) */
+    .extract-btn {
+      background: linear-gradient(105deg, var(--accent-primary), #1a4e7a);
+      width: 100%;
+      border: none;
+      padding: 0.9rem;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 60px;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 1rem;
+    }
+    .extract-btn:active { transform: scale(0.98);}
+    .extract-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .result-card { display: flex; flex-direction: column; gap: 1.4rem; }
+    .lang-badge {
+      background: rgba(12, 44, 65, 0.7);
+      border-radius: 56px;
+      padding: 0.5rem 1.2rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      border: 1px solid var(--border-dim);
+    }
+    body.light .lang-badge { background: #e3f0fa; }
+    .detected span {
+      font-weight: 700;
+      background: var(--accent-primary);
+      padding: 0.2rem 0.9rem;
+      border-radius: 40px;
+      margin-left: 10px;
+      color: white;
+    }
+    .text-original {
+      background: rgba(2, 18, 31, 0.6);
+      border-left: 5px solid var(--accent-glow);
+      padding: 1rem;
+      border-radius: 1.2rem;
+      font-size: 0.93rem;
+      line-height: 1.5;
+      max-height: 210px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      font-family: 'Inter', monospace;
+    }
+    body.light .text-original { background: #f9fcff; }
+
+    .action-buttons {
+      display: flex;
+      gap: 0.9rem;
+      margin-top: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .action-btn {
+      background: var(--chip-bg);
+      border: 1px solid var(--border-dim);
+      padding: 0.45rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .action-btn:hover { background: var(--accent-primary); color: white; }
+
+    .translate-row {
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 0.5rem 0;
+    }
+    .translate-row select {
+      flex: 1;
+      padding: 0.55rem 0.9rem;
+      border-radius: 60px;
+      background: var(--input-bg);
+      border: 1px solid var(--border-dim);
+      color: var(--text-primary);
+    }
+    .translate-row button {
+      background: var(--accent-primary);
+      border: none;
+      padding: 0.55rem 1.3rem;
+      border-radius: 60px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .translated-box {
+      background: rgba(4, 30, 45, 0.6);
+      border-radius: 1.2rem;
+      padding: 1rem;
+      font-size: 0.93rem;
+      line-height: 1.5;
+      border: 1px solid var(--border-dim);
+    }
+    body.light .translated-box { background: #f0f7fe; }
+    .stats {
+      display: flex;
+      gap: 1.3rem;
+      font-size: 0.75rem;
+      background: var(--chip-bg);
+      padding: 0.5rem 1.2rem;
+      border-radius: 50px;
+      width: fit-content;
+    }
+    footer {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+    }
+    .toast-msg {
+      position: fixed;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--toast-bg);
+      backdrop-filter: blur(12px);
+      padding: 8px 18px;
+      border-radius: 60px;
+      font-size: 0.8rem;
+      color: white;
+      z-index: 999;
+      pointer-events: none;
+      font-weight: 500;
+    }
+    @media (max-width: 860px) {
+      .grid-main { grid-template-columns: 1fr; gap: 1.2rem; }
+      .hero-header { flex-direction: column; gap: 0.8rem; border-radius: 2rem; }
+      .nexa-white, .hubai-blue { font-size: 1.5rem; }
+    }
+    .loader {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 0.8s linear infinite;
+      margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    button i, .action-btn i { margin-right: 5px; }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <div class="hero-header">
+    <div class="logo-area">
+      <span class="nexa-white">NEXA</span>
+      <span class="hubai-blue">HUB AI</span>
+      <span class="logo-badge"><i class="fas fa-image"></i> <i class="fas fa-arrow-right"></i> <i class="fas fa-font"></i> Image to Text</span>
+    </div>
+    <div class="nav-links">
+      <a href="#"><i class="fas fa-language"></i> Translation</a>
+      <a href="#"><i class="fas fa-history"></i> History</a>
+      <a href="#"><i class="fas fa-save"></i> Saved Texts</a>
+      <button id="themeToggleBtn" class="theme-toggle"><i class="fas fa-moon"></i> <span id="themeText">Dark</span></button>
+    </div>
+  </div>
+
+  <div class="grid-main">
+    <!-- LEFT CARD -->
+    <div class="card">
+      <h3 style="font-weight: 700; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 8px;"><i class="fas fa-cloud-upload-alt" style="color:var(--accent-glow);"></i> Upload Your Image</h3>
+      <div id="dropZone" class="upload-area">
+        <div class="upload-icon"><i class="fas fa-file-image"></i></div>
+        <p style="font-weight: 500;">Drag & Drop your image here or</p>
+        <button id="browseFileBtn" class="browse-btn"><i class="fas fa-folder-open"></i> Browse File</button>
+        <input type="file" id="fileInput" accept="image/jpeg,image/png,image/jpg,image/webp" style="display: none;">
+        <div class="file-info"><i class="fas fa-info-circle"></i> Supported: JPG, PNG, JPEG, WEBP (Max 10MB)</div>
+        <div id="fileNameDisplay" style="font-size:0.7rem; margin-top: 5px;"></div>
+      </div>
+      <div class="options-row">
+        <div class="opt-chip"><i class="fas fa-pen-fancy"></i> Handwritten Text</div>
+        <div class="opt-chip"><i class="fas fa-language"></i> Hindi Text</div>
+        <div class="opt-chip"><i class="fas fa-globe"></i> 31+ Languages</div>
+      </div>
+      <div class="quick-tip"><i class="fas fa-microchip"></i> <strong>NEXA HUB AI Engine v3.0</strong> · High-precision OCR</div>
+      <div class="quick-tip"><i class="fas fa-shield-alt"></i> Zero data retention · Fast & Secure</div>
+      
+      <!-- Extract Button only (Cancel removed) -->
+      <button id="extractBtn" class="extract-btn"><i class="fas fa-robot"></i> Extract Text</button>
+    </div>
+
+    <!-- RIGHT CARD: Results -->
+    <div class="card result-card">
+      <div class="lang-badge">
+        <div class="detected"><i class="fas fa-microchip"></i> Detected Language (AI) <span id="detectedLang">—</span></div>
+        <div><i class="fas fa-code"></i> ISO: <span id="isoCode">en</span></div>
+      </div>
+      <div>
+        <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+          <h4 style="font-weight: 700;"><i class="fas fa-file-alt"></i> Extracted Text (Original)</h4>
+          <div class="action-buttons">
+            <button id="copyOriginalBtn" class="action-btn"><i class="fas fa-copy"></i> Copy</button>
+            <button id="downloadOriginalBtn" class="action-btn"><i class="fas fa-download"></i> Download .txt</button>
+          </div>
+        </div>
+        <div id="originalTextDiv" class="text-original">✨ Ready. Upload image & click "Extract Text".</div>
+      </div>
+      <div>
+        <h4 style="font-weight: 700;"><i class="fas fa-language"></i> Translate to:</h4>
+        <div class="translate-row">
+          <select id="targetLangSelect">
+            <option value="en">English</option><option value="hi">हिन्दी (Hindi)</option><option value="es">Español</option>
+            <option value="fr">Français</option><option value="de">Deutsch</option><option value="ja">日本語</option>
+            <option value="zh-CN">中文 (简体)</option><option value="ar">العربية</option>
+          </select>
+          <button id="translateBtn"><i class="fas fa-exchange-alt"></i> Translate</button>
+        </div>
+        <div style="display: flex; justify-content: flex-end; margin-top: 6px;">
+          <button id="copyTranslatedBtn" class="action-btn"><i class="fas fa-copy"></i> Copy Translation</button>
+          <button id="downloadTranslatedBtn" class="action-btn" style="margin-left: 8px;"><i class="fas fa-save"></i> Save Translation</button>
+        </div>
+        <div class="translated-box" id="translatedTextDiv"><i class="fas fa-language"></i> Translation will appear after extraction...</div>
+      </div>
+      <div class="stats">
+        <span><i class="far fa-file"></i> Characters: <strong id="charCount">0</strong></span>
+        <span><i class="fas fa-font"></i> Words: <strong id="wordCount">0</strong></span>
+        <span><i class="fas fa-align-left"></i> Lines: <strong id="lineCount">0</strong></span>
+      </div>
+      <div class="quick-tip"><i class="fas fa-info-circle"></i> Tip: For best results, upload clear images with good lighting.</div>
+    </div>
+  </div>
+  <footer><i class="fas fa-"></i>  © 2026 NEXA HUB AI </footer>
+</div>
+
+<script>
+  // DOM elements
+  const dropZone = document.getElementById('dropZone');
+  const fileInput = document.getElementById('fileInput');
+  const browseBtn = document.getElementById('browseFileBtn');
+  const extractBtn = document.getElementById('extractBtn');
+  const originalTextDiv = document.getElementById('originalTextDiv');
+  const detectedLangSpan = document.getElementById('detectedLang');
+  const isoCodeSpan = document.getElementById('isoCode');
+  const translateBtn = document.getElementById('translateBtn');
+  const targetLangSelect = document.getElementById('targetLangSelect');
+  const translatedTextDiv = document.getElementById('translatedTextDiv');
+  const charCountSpan = document.getElementById('charCount');
+  const wordCountSpan = document.getElementById('wordCount');
+  const lineCountSpan = document.getElementById('lineCount');
+  const fileNameDisplay = document.getElementById('fileNameDisplay');
+  const copyOriginalBtn = document.getElementById('copyOriginalBtn');
+  const downloadOriginalBtn = document.getElementById('downloadOriginalBtn');
+  const copyTranslatedBtn = document.getElementById('copyTranslatedBtn');
+  const downloadTranslatedBtn = document.getElementById('downloadTranslatedBtn');
+  const themeToggleBtn = document.getElementById('themeToggleBtn');
+  const themeTextSpan = document.getElementById('themeText');
+
+  // STATE
+  let currentExtractedText = "";
+  let currentImageFile = null;
+  let isOcrRunning = false;
+
+  // THEME
+  function initTheme() {
+    const saved = localStorage.getItem('nexaTheme');
+    if (saved === 'light') {
+      document.body.classList.add('light');
+      themeTextSpan.innerText = 'Light';
+      themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i> <span id="themeText">Light</span>';
+    } else {
+      document.body.classList.remove('light');
+      themeTextSpan.innerText = 'Dark';
+      themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i> <span id="themeText">Dark</span>';
+    }
+    const span = themeToggleBtn.querySelector('#themeText');
+    if (span) themeTextSpan.innerText = span.innerText;
+  }
+  function toggleTheme() {
+    if (document.body.classList.contains('light')) {
+      document.body.classList.remove('light');
+      localStorage.setItem('nexaTheme', 'dark');
+      themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i> <span id="themeText">Dark</span>';
+    } else {
+      document.body.classList.add('light');
+      localStorage.setItem('nexaTheme', 'light');
+      themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i> <span id="themeText">Light</span>';
+    }
+    const updated = themeToggleBtn.querySelector('#themeText');
+    if (updated) themeTextSpan.innerText = updated.innerText;
+  }
+  themeToggleBtn.addEventListener('click', toggleTheme);
+  initTheme();
+
+  // Helper functions
+  function updateStats(text) {
+    if (!text) { charCountSpan.innerText = "0"; wordCountSpan.innerText = "0"; lineCountSpan.innerText = "0"; return; }
+    charCountSpan.innerText = text.length;
+    wordCountSpan.innerText = text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
+    const lines = text.split(/\r?\n/).filter(l => l.trim().length > 0).length || (text.length > 0 ? 1 : 0);
+    lineCountSpan.innerText = lines;
+  }
+
+  function getLanguageDisplay(code) {
+    const map = { 'eng':'English','en':'English','hin':'Hindi','hi':'Hindi','spa':'Spanish','es':'Spanish','fra':'French','fr':'French','deu':'German','de':'German','jpn':'Japanese','ja':'Japanese','chi_sim':'Chinese','zh-CN':'Chinese' };
+    return map[code] || code.toUpperCase();
+  }
+
+  function updateUIWithText(text, langCode = "en") {
+    currentExtractedText = text;
+    originalTextDiv.innerText = text || "⚠️ No text detected. Try again with clearer image or better contrast.";
+    detectedLangSpan.innerText = getLanguageDisplay(langCode);
+    isoCodeSpan.innerText = langCode;
+    updateStats(text);
+  }
+
+  // OCR function without cancel
+  async function performOCR(imageFile) {
+    if (!imageFile) { showToast("Please select an image first", 2000); return false; }
+    if (isOcrRunning) { showToast("OCR already in progress", 1500); return false; }
+    
+    isOcrRunning = true;
+    extractBtn.disabled = true;
+    originalTextDiv.innerText = "🧠 Neural OCR engine running... Please wait";
+    
+    try {
+      const worker = await Tesseract.createWorker();
+      await worker.loadLanguage('eng+hin');
+      await worker.initialize('eng+hin');
+      
+      const { data: { text } } = await worker.recognize(imageFile);
+      await worker.terminate();
+      
+      let recognized = text.trim();
+      if (!recognized) recognized = "⚠️ No text extracted. Use clearer image, better lighting, or handwritten sample.";
+      const devanagariRegex = /[\u0900-\u097F]/;
+      const langFinal = devanagariRegex.test(recognized) ? 'hi' : 'en';
+      updateUIWithText(recognized, langFinal);
+      showToast("✅ Extraction complete! Text ready.", 1800);
+      return true;
+      
+    } catch (err) {
+      console.error(err);
+      originalTextDiv.innerText = "❌ OCR error: " + (err.message || "unknown");
+      updateUIWithText("", "en");
+      showToast("OCR failed", 2000);
+      return false;
+    } finally {
+      isOcrRunning = false;
+      extractBtn.disabled = false;
+    }
+  }
+
+  async function translateText(sourceText, targetLang) {
+    if (!sourceText || sourceText.trim() === "" || sourceText.includes("No text detected") || sourceText.includes("Ready.")) {
+      translatedTextDiv.innerHTML = "⚠️ No extracted text. Run OCR first.";
+      return;
+    }
+    translatedTextDiv.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Translating...';
+    try {
+      const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(sourceText)}&langpair=en|${targetLang}`;
+      const resp = await fetch(url);
+      const data = await resp.json();
+      let translated = data.responseData?.translatedText || sourceText;
+      if (translated === sourceText && targetLang !== 'en') translated = "⚠️ Partial translation (fallback).";
+      translatedTextDiv.innerHTML = translated;
+    } catch (error) {
+      translatedTextDiv.innerHTML = "⚠️ Translation error. Check network.";
+    }
+  }
+
+  async function copyToClipboard(text, successMsg) {
+    if (!text || text.trim() === "" || text.includes("⚠️") || text.includes("Ready.")) {
+      showToast("Nothing to copy! Extract text first.", 1600);
+      return;
+    }
+    try { await navigator.clipboard.writeText(text); showToast(successMsg, 1500); } catch { showToast("Copy failed", 1500); }
+  }
+
+  function downloadAsTxt(content, filename = "nexa_text.txt") {
+    if (!content || content.trim() === "" || content.includes("Ready.") || content.includes("⚠️ No text")) {
+      showToast("No valid text to download", 1800);
+      return;
+    }
+    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    showToast("Download started ✓", 1500);
+  }
+
+  function showToast(msg, duration = 2000) {
+    let existing = document.querySelector('.toast-msg');
+    if (existing) existing.remove();
+    const toast = document.createElement('div');
+    toast.className = 'toast-msg';
+    toast.innerText = msg;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), duration);
+  }
+
+  function validateAndSetImage(file) {
+    const allowed = ['image/jpeg','image/png','image/jpg','image/webp'];
+    if (!allowed.includes(file.type)) { alert("Only JPG, PNG, WEBP images."); return false; }
+    if (file.size > 10 * 1024 * 1024) { alert("Max size 10MB"); return false; }
+    currentImageFile = file;
+    fileNameDisplay.innerHTML = `<i class="fas fa-check-circle" style="color:var(--accent-glow);"></i> ${file.name} (${(file.size/1024).toFixed(0)} KB)`;
+    originalTextDiv.innerText = "📸 Image ready. Click 'Extract Text' to run Neural OCR.";
+    translatedTextDiv.innerHTML = "<i class='fas fa-language'></i> Translation after extraction...";
+    updateUIWithText("", "en");
+    return true;
+  }
+
+  // Event listeners
+  browseBtn.addEventListener('click', () => fileInput.click());
+  fileInput.addEventListener('change', (e) => { if(e.target.files?.[0]) validateAndSetImage(e.target.files[0]); });
+  dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+  dropZone.addEventListener('drop', (e) => {
+    e.preventDefault(); dropZone.classList.remove('drag-over');
+    if (e.dataTransfer.files[0]) validateAndSetImage(e.dataTransfer.files[0]);
+  });
+  
+  extractBtn.addEventListener('click', async () => {
+    if (!currentImageFile) { showToast("Please upload an image first", 1800); return; }
+    await performOCR(currentImageFile);
+  });
+  
+  translateBtn.addEventListener('click', async () => {
+    if (!currentExtractedText || currentExtractedText.includes("Ready.") || currentExtractedText.includes("No text")) {
+      translatedTextDiv.innerHTML = "⚠️ No extracted text. Run OCR first.";
+      return;
+    }
+    await translateText(currentExtractedText, targetLangSelect.value);
+  });
+  
+  copyOriginalBtn.addEventListener('click', () => copyToClipboard(currentExtractedText, "📋 Original text copied!"));
+  downloadOriginalBtn.addEventListener('click', () => downloadAsTxt(currentExtractedText, "nexa_extracted.txt"));
+  copyTranslatedBtn.addEventListener('click', () => {
+    let content = translatedTextDiv.innerText;
+    if (content.includes("Translation will appear") || content.includes("No extracted text")) showToast("No translation available", 1500);
+    else copyToClipboard(content, "🌐 Translation copied!");
+  });
+  downloadTranslatedBtn.addEventListener('click', () => {
+    let content = translatedTextDiv.innerText;
+    if (content.includes("Translation will appear") || content.includes("No extracted text")) showToast("No translation to save", 1600);
+    else downloadAsTxt(content, "nexa_translation.txt");
+  });
+  
+  updateUIWithText("", "en");
+</script>
+</body>
+</html>
