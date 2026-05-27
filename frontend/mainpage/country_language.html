@@ -395,33 +395,51 @@
     }
 
     function handleContinue() {
-        const country = countrySelect.value;
-        const language = languageSelect.value;
+    const country = countrySelect.value;
+    const language = languageSelect.value;
 
-        if (!country) { 
-            alert("🌍 Please select your country"); 
-            countrySelect.focus(); 
-            return; 
-        }
-        if (!language) { 
-            alert("🗣️ Please select your language"); 
-            languageSelect.focus(); 
-            return; 
-        }
-
-        const countryFlag = getFlagEmoji(country);
-        const geoCode = generateGeoCode(country, language);
-        
-        resultText.innerHTML = `
-            <div>📍 <strong>Country:</strong> ${escapeHtml(country)} ${countryFlag}</div>
-            <div>🗣️ <strong>Language:</strong> ${escapeHtml(language)}</div>
-            <div style="font-size:0.6rem; color:#60a5fa; margin-top:0.2rem;">🔑 ${escapeHtml(geoCode)}</div>
-        `;
-        resultPreview.style.display = "block";
-        resultPreview.scrollIntoView({ behavior: "smooth", block: "nearest" });
-        sessionStorage.setItem('nexaProfile', JSON.stringify({ country, language, timestamp: Date.now() }));
+    if (!country) { 
+        alert("🌍 Please select your country"); 
+        countrySelect.focus(); 
+        return; 
     }
 
+    if (!language) { 
+        alert("🗣️ Please select your language"); 
+        languageSelect.focus(); 
+        return; 
+    }
+
+    const countryFlag = getFlagEmoji(country);
+    const geoCode = generateGeoCode(country, language);
+    
+    resultText.innerHTML = `
+        <div>📍 <strong>Country:</strong> ${escapeHtml(country)} ${countryFlag}</div>
+        <div>🗣️ <strong>Language:</strong> ${escapeHtml(language)}</div>
+        <div style="font-size:0.6rem; color:#60a5fa; margin-top:0.2rem;">
+            🔑 ${escapeHtml(geoCode)}
+        </div>
+    `;
+
+    resultPreview.style.display = "block";
+
+    resultPreview.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+    });
+
+    // Save profile
+    sessionStorage.setItem('nexaProfile', JSON.stringify({
+        country,
+        language,
+        timestamp: Date.now()
+    }));
+
+    // Redirect to gender page
+    setTimeout(() => {
+        window.location.href = "gender.html";
+    }, 1000);
+}
     // Event Listeners
     continueBtn.addEventListener('click', handleContinue);
     countrySelect.addEventListener('change', () => { 

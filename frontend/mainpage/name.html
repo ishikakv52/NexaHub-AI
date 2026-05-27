@@ -571,47 +571,40 @@
         }
 
         continueBtn.addEventListener('click', () => {
-            let rawName = nameInput.value.trim();
-            if (rawName === '') {
-                showFriendlyError();
-                return;
-            }
+    let rawName = nameInput.value.trim();
 
-            const formattedName = capitalizeName(rawName);
-            const welcomeMsg = getUniqueWelcomeMessage(formattedName);
-            const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    if (rawName === '') {
+        showFriendlyError();
+        return;
+    }
 
-            resultMessage.innerHTML = `
-                <div style="display: flex; flex-direction: column; gap: 8px;">
-                    <div><i class="fa-regular fa-id-card"></i> <strong>Hello, ${escapeHtml(formattedName)}</strong> — identity confirmed.</div>
-                    <div><i class="fa-regular fa-comment-dots"></i> ${escapeHtml(welcomeMsg)}</div>
-                    <div style="font-size: 0.65rem; color: #6b7280; margin-top: 6px;"><i class="fa-regular fa-clock"></i> ${timestamp} · NEXA quantum handshake complete</div>
-                </div>
-            `;
-            
-            resultArea.style.display = 'block';
-            resultArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            
-            // Store profile
-            const profile = {
-                name: formattedName,
-                raw: rawName,
-                timestamp: new Date().toISOString()
-            };
-            sessionStorage.setItem('nexaUserName', JSON.stringify(profile));
-            
-            // button animation feedback
-            continueBtn.style.transform = 'scale(0.97)';
-            setTimeout(() => { continueBtn.style.transform = ''; }, 150);
-            
-            // change button text temporarily
-            const originalSpan = continueBtn.querySelector('span');
-            const originalText = originalSpan.textContent;
-            originalSpan.textContent = '✓ Connected';
-            setTimeout(() => {
-                originalSpan.textContent = originalText;
-            }, 1500);
-        });
+    const formattedName = capitalizeName(rawName);
+
+    // Store profile
+    const profile = {
+        name: formattedName,
+        raw: rawName,
+        timestamp: new Date().toISOString()
+    };
+
+    sessionStorage.setItem('nexaUserName', JSON.stringify(profile));
+
+    // Button animation
+    continueBtn.style.transform = 'scale(0.97)';
+
+    setTimeout(() => {
+        continueBtn.style.transform = '';
+    }, 150);
+
+    // Change button text
+    const originalSpan = continueBtn.querySelector('span');
+    originalSpan.textContent = '✓ Connected';
+
+    // Redirect to next page
+    setTimeout(() => {
+        window.location.href = "country_language.html";
+    }, 1200);
+});
 
         nameInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {

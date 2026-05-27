@@ -648,7 +648,7 @@
          * The OTP will be shown in a toast so you can test the full flow.
          * Set to false once your Django server is live.
          */
-        const MOCK_MODE = true; // Changed to true for testing without backend
+        const MOCK_MODE = false; // Changed to true for testing without backend
 
         let currentEmail    = "";
         let currentUsername = "";
@@ -845,10 +845,10 @@
                 showToast("Account created! (mock mode) ✅", "success");
                 showSection("successSection", 3);
                 document.getElementById("successMsg").textContent =
-                    `Welcome, ${currentUsername}! Redirecting to homepage...`;
+                    `Welcome, ${currentUsername}! `;
                 setTimeout(() => { 
                     showToast("Redirecting to Homepage (demo)", "info");
-                    window.location.href = "./homepage.html"; 
+                    window.location.href = "./name.html"; 
                 }, 2500);
                 return;
             }
