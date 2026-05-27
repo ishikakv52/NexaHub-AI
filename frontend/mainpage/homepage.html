@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nexa Hub AI | Next-Gen AI Platform</title>
+<title>Nexa Hub AI | Text to Image · Next-Gen AI Platform</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
 <style>
@@ -21,7 +21,7 @@
     transition: background 0.35s ease, color 0.3s ease;
   }
 
-  /* ----- scrollbar (dark) ----- */
+  /* scrollbar (dark) */
   ::-webkit-scrollbar {
     width: 7px;
   }
@@ -33,7 +33,7 @@
     border-radius: 12px;
   }
 
-  /* ----- LIGHT MODE GLOBAL OVERRIDES ----- */
+  /* LIGHT MODE GLOBAL OVERRIDES */
   body.light-mode {
     background: #F9FAFE;
     color: #0F172A;
@@ -202,8 +202,22 @@
   body.light-mode .payment-icons i {
     color: #475569;
   }
+  body.light-mode .footer-col h4 {
+    background: linear-gradient(95deg, #1E293B, #2563eb);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  body.light-mode .social-icons-group a {
+    background: #F1F5F9;
+    color: #475569;
+  }
+  body.light-mode .social-icons-group a:hover {
+    background: linear-gradient(135deg, #06b6d4, #6366f1);
+    color: white;
+  }
 
-  /* ----- navbar ----- */
+  /* navbar */
   .navbar {
     width: 100%;
     padding: 18px 7%;
@@ -583,7 +597,7 @@
     transition: 0.2s;
   }
 
-  /* ========== HIGH LEVEL FOOTER - FIXED DARK TEXT ========== */
+  /* footer */
   footer {
     background: #020617;
     padding: 60px 7% 25px;
@@ -760,49 +774,7 @@
     transform: translateY(-2px);
   }
 
-  /* light mode footer overrides - ensuring dark text is visible */
-  body.light-mode footer {
-    background: #FFFFFF;
-  }
-  body.light-mode .footer-brand p {
-    color: #475569;
-  }
-  body.light-mode .footer-links a {
-    color: #475569;
-  }
-  body.light-mode .contact-item {
-    color: #475569;
-  }
-  body.light-mode .contact-item i {
-    background: #F1F5F9;
-    color: #475569;
-  }
-  body.light-mode .footer-bottom {
-    color: #64748B;
-  }
-  body.light-mode .payment-icons i {
-    color: #475569;
-  }
-  body.light-mode .app-badge {
-    background: #F1F5F9;
-    border-color: #E2E8F0;
-    color: #1E293B;
-  }
-  body.light-mode .footer-col h4 {
-    background: linear-gradient(95deg, #1E293B, #2563eb);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  body.light-mode .social-icons-group a {
-    background: #F1F5F9;
-    color: #475569;
-  }
-  body.light-mode .social-icons-group a:hover {
-    background: linear-gradient(135deg, #06b6d4, #6366f1);
-    color: white;
-  }
-
+  /* responsive */
   @media (max-width: 1100px) {
     .footer-grid {
       grid-template-columns: repeat(2, 1fr);
@@ -838,9 +810,7 @@
     .hero-left h1 { font-size: 2.3rem; }
     .stats { grid-template-columns: 1fr; }
     .feature-card { padding: 24px; }
-    .payment-icons i {
-      font-size: 1.4rem;
-    }
+    .payment-icons i { font-size: 1.4rem; }
   }
 </style>
 </head>
@@ -908,6 +878,8 @@
     <div class="feature-card"><i class="fa-solid fa-microphone-lines"></i><h3>Voice Assistant</h3><p>Real-time AI voice assistant for smart communication and voice interaction.</p></div>
     <div class="feature-card"><i class="fa-solid fa-shield-halved"></i><h3>AI Security Shield</h3><p>Real-time threat detection system powered by machine learning security models.</p></div>
     <div class="feature-card"><i class="fa-solid fa-volume-high"></i><h3>Text To Speech</h3><p>Convert text into natural sounding speech with modern AI voice generation technology.</p></div>
+    <!-- NEW Text to Image Feature Card -->
+    <div class="feature-card"><i class="fa-solid fa-palette"></i><h3>Text to Image</h3><p>Generate stunning, high-resolution images from textual descriptions using advanced diffusion AI models. Perfect for creatives, designers, and storytellers.</p></div>
   </div>
 </section>
 
@@ -922,10 +894,8 @@
   </div>
 </section>
 
-<!-- HIGH LEVEL FOOTER WITH PROPER TEXT VISIBILITY -->
 <footer>
   <div class="footer-grid">
-    <!-- Brand column -->
     <div class="footer-brand">
       <div class="logo">NEXA <span>HUB AI</span></div>
       <p>Premium AI SaaS platform for automation, coding, productivity and smart business tools. Empowering the future of work with artificial intelligence.</p>
@@ -935,7 +905,6 @@
       </div>
     </div>
 
-    <!-- Quick Links -->
     <div class="footer-col">
       <h4>Quick Links</h4>
       <div class="footer-links">
@@ -947,7 +916,6 @@
       </div>
     </div>
 
-    <!-- Resources -->
     <div class="footer-col">
       <h4>Resources</h4>
       <div class="footer-links">
@@ -959,7 +927,6 @@
       </div>
     </div>
 
-    <!-- Legal -->
     <div class="footer-col">
       <h4>Legal</h4>
       <div class="footer-links">
@@ -971,7 +938,6 @@
       </div>
     </div>
 
-    <!-- Contact Info -->
     <div class="footer-col">
       <h4>Contact Us</h4>
       <div class="contact-details">

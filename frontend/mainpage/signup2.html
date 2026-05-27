@@ -71,7 +71,7 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(20px);
             border-radius: 25px;
-            padding: 35px;
+            padding: 35px 35px 25px 35px;
             position: relative;
             z-index: 10;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
@@ -159,43 +159,10 @@
             transform: none;
         }
 
-        .social {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .social button {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.08);
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: 0.3s;
-        }
-
-        body.light-mode .social button {
-            background: rgba(0, 0, 0, 0.05);
-            color: #111;
-        }
-
-        .social button:hover { background: rgba(255, 255, 255, 0.15); }
-
-        .social img {
-            width: 20px;
-            height: 20px;
-        }
-
         .or {
             text-align: center;
             margin-top: 20px;
+            margin-bottom: 10px;
             color: #aaa;
             font-size: 13px;
         }
@@ -280,9 +247,71 @@
             to   { opacity: 1; transform: translateY(0); }
         }
 
+        /* Footer copyright */
+        .footer-copyright {
+            text-align: center;
+            margin-top: 28px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            transition: 0.3s;
+        }
+
+        body.light-mode .footer-copyright {
+            border-top-color: rgba(0, 0, 0, 0.1);
+            color: rgba(0, 0, 0, 0.5);
+        }
+
+        .footer-copyright span {
+            color: #00c6ff;
+        }
+
         @media(max-width: 500px) {
-            .container { width: 90%; }
-            .social { flex-direction: column; }
+            .container { width: 90%; padding: 25px 25px 20px 25px; }
+            .footer-copyright { margin-top: 20px; }
+        }
+
+        /* Additional styling for username suggestions */
+        #usernameSuggestions {
+            margin-top: 8px;
+            font-size: 13px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        #usernameSuggestions span {
+            background: rgba(0, 198, 255, 0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #00c6ff;
+            font-size: 12px;
+        }
+        #usernameSuggestions span:hover {
+            background: #00c6ff;
+            color: white;
+        }
+        body.light-mode #usernameSuggestions span {
+            background: rgba(0, 114, 255, 0.1);
+            color: #0072ff;
+        }
+        body.light-mode #usernameSuggestions span:hover {
+            background: #0072ff;
+            color: white;
+        }
+        #usernameStatus {
+            font-size: 13px;
+            margin-top: 5px;
+        }
+        .resend-btn {
+            background: rgba(255, 255, 255, 0.05);
+            margin-top: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        body.light-mode .resend-btn {
+            background: rgba(0, 0, 0, 0.03);
         }
     </style>
 </head>
@@ -326,22 +355,11 @@
                 <input type="text" id="username" placeholder="Enter username">
             </div>
             <div id="usernameStatus" style="margin-top:5px;font-size:13px;"></div>
-<div id="usernameSuggestions" style="margin-top:8px;color:#00c6ff;font-size:13px;"></div>
+            <div id="usernameSuggestions" style="margin-top:8px;"></div>
+            
             <button type="button" class="btn" id="sendOtpBtn" onclick="sendOTP()">
                 Send OTP
             </button>
-
-            <div class="or">OR CONNECT WITH</div>
-
-            <div class="social">
-                <button type="button" onclick="googleLogin()">
-    <img src="https://cdn-icons-png.flaticon.com/512/281/281764.png">
-    Continue with Google
-</button>
-                <button type="button" onclick="appleLogin()">
-                    <img src="https://cdn-icons-png.flaticon.com/512/0/747.png"> Continue with Apple
-                </button>
-            </div>
 
         </div>
 
@@ -361,9 +379,9 @@
             <button type="button" class="btn" id="verifyOtpBtn" onclick="verifyOTP()">
                 Verify OTP
             </button>
-        <button type="button" class="btn" onclick="resendOTP()">
-    Resend OTP
-</button>
+            <button type="button" class="btn resend-btn" onclick="resendOTP()">
+                Resend OTP
+            </button>
         </div>
 
         <!-- ── STEP 3: PASSWORD ── -->
@@ -395,8 +413,13 @@
             <div class="success-box">
                 <span class="checkmark">🎉</span>
                 <h2>Registration Successful!</h2>
-                <p id="successMsg">Redirecting to login...</p>
+                <p id="successMsg">Redirecting to homepage...</p>
             </div>
+        </div>
+
+        <!-- FOOTER COPYRIGHT (visible on all sections) -->
+        <div class="footer-copyright">
+            © 2026 NEXA HUB AI
         </div>
 
     </div>
@@ -430,47 +453,38 @@
 
         /* ─── STEPS ──────────────────────────────────────── */
         function showSection(showId, activeDot) {
+            const sections = [
+                "registerSection",
+                "otpSection",
+                "passwordSection",
+                "successSection"
+            ];
 
-    const sections = [
-        "registerSection",
-        "otpSection",
-        "passwordSection",
-        "successSection"
-    ];
+            sections.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.style.display = "none";
+                }
+            });
 
-    sections.forEach(id => {
+            const active = document.getElementById(showId);
+            if (active) {
+                active.style.display = "block";
+            }
 
-        const el = document.getElementById(id);
-
-        if (el) {
-            el.style.display = "none";
+            // dots update
+            [1, 2, 3].forEach(n => {
+                const d = document.getElementById("dot" + n);
+                if (!d) return;
+                d.className = "step-dot";
+                if (n < activeDot) {
+                    d.classList.add("done");
+                }
+                if (n === activeDot) {
+                    d.classList.add("active");
+                }
+            });
         }
-    });
-
-    const active = document.getElementById(showId);
-
-    if (active) {
-        active.style.display = "block";
-    }
-
-    // dots update
-    [1, 2, 3].forEach(n => {
-
-        const d = document.getElementById("dot" + n);
-
-        if (!d) return;
-
-        d.className = "step-dot";
-
-        if (n < activeDot) {
-            d.classList.add("done");
-        }
-
-        if (n === activeDot) {
-            d.classList.add("active");
-        }
-    });
-}
 
         /* ─── THEME ──────────────────────────────────────── */
         function toggleMode() {
@@ -482,17 +496,23 @@
         /* ─── STEP 1: SEND OTP ───────────────────────────── */
         
         async function sendOTP() {
-
             const email    = document.getElementById("email").value.trim();
             const username = document.getElementById("username").value.trim();
 
             if (!email || !username) {
-                showToast("Please fill all fields ⚠️", "error"); return;
+                showToast("Please fill all fields ⚠️", "error"); 
+                return;
             }
 
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
-                showToast("Please enter a valid email ⚠️", "error"); return;
+                showToast("Please enter a valid email ⚠️", "error"); 
+                return;
+            }
+
+            if (username.length < 3) {
+                showToast("Username must be at least 3 characters ⚠️", "error");
+                return;
             }
 
             currentEmail    = email;
@@ -540,11 +560,11 @@
 
         /* ─── STEP 2: VERIFY OTP ─────────────────────────── */
         async function verifyOTP() {
-
             const otp = document.getElementById("otp").value.trim();
 
             if (!otp) {
-                showToast("Please enter the OTP ⚠️", "error"); return;
+                showToast("Please enter the OTP ⚠️", "error"); 
+                return;
             }
 
             /* ── MOCK MODE ── */
@@ -588,20 +608,22 @@
 
         /* ─── STEP 3: SAVE PASSWORD ──────────────────────── */
         async function savePassword() {
-
             const password   = document.getElementById("password").value;
             const repassword = document.getElementById("repassword").value;
 
             if (!password || !repassword) {
-                showToast("Please fill both password fields ⚠️", "error"); return;
+                showToast("Please fill both password fields ⚠️", "error"); 
+                return;
             }
 
             if (password.length < 6) {
-                showToast("Password must be at least 6 characters ⚠️", "error"); return;
+                showToast("Password must be at least 6 characters ⚠️", "error"); 
+                return;
             }
 
             if (password !== repassword) {
-                showToast("Passwords do not match ❌", "error"); return;
+                showToast("Passwords do not match ❌", "error"); 
+                return;
             }
 
             /* ── MOCK MODE ── */
@@ -609,8 +631,11 @@
                 showToast("Account created! (mock mode) ✅", "success");
                 showSection("successSection", 3);
                 document.getElementById("successMsg").textContent =
-                    "Mock registration complete. Redirecting...";
-                setTimeout(() => { window.location.href = "login.html"; }, 2500);
+                    "Mock registration complete. Redirecting to homepage...";
+                setTimeout(() => { 
+                    showToast("Redirecting to Homepage (demo)", "info");
+                    window.location.href = "./homepage.html"; 
+                }, 2500);
                 return;
             }
 
@@ -634,8 +659,10 @@
                 if (res.ok) {
                     showSection("successSection", 3);
                     document.getElementById("successMsg").textContent =
-                        `Welcome, ${currentUsername}! Redirecting...`;
-                    setTimeout(() => { window.location.href = "./homepage.html"; }, 5000);
+                        `Welcome, ${currentUsername}! Redirecting to homepage...`;
+                    setTimeout(() => { 
+                        window.location.href = "./homepage.html"; 
+                    }, 3000);
                 } else {
                     showToast(data.error || "Signup failed ❌", "error");
                 }
@@ -647,76 +674,116 @@
                 btn.textContent = "Save Password";
             }
         }
-        /*Resend OTP*/
+        
+        /* ─── RESEND OTP ─────────────────────────────────── */
         async function resendOTP() {
+            if (!currentEmail) {
+                showToast("Session expired. Please restart signup.", "error");
+                showSection("registerSection", 1);
+                return;
+            }
 
-    try {
-        const res = await fetch(`${API_BASE}/resend-signup-otp/`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email: currentEmail })
-        });
+            if (MOCK_MODE) {
+                mockOTP = String(Math.floor(100000 + Math.random() * 900000));
+                showToast(`MOCK OTP RESENT: ${mockOTP}  (mock mode)`, "info", 8000);
+                return;
+            }
 
-        const data = await res.json();
+            try {
+                const res = await fetch(`${API_BASE}/resend-signup-otp/`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email: currentEmail })
+                });
+                const data = await res.json();
 
-        if (res.ok) {
-            showToast("OTP resent successfully ✅", "success");
-        } else {
-            showToast(data.error || "Failed to resend OTP ❌", "error");
+                if (res.ok) {
+                    showToast("OTP resent successfully ✅", "success");
+                } else {
+                    showToast(data.error || "Failed to resend OTP ❌", "error");
+                }
+            } catch (err) {
+                showToast("Server error while resending OTP ❌", "error");
+            }
         }
 
-    } catch (err) {
-        showToast("Server error ❌", "error");
-    }
-}
+        /* ─── USERNAME AVAILABILITY CHECK + SUGGESTIONS ──── */
+        let usernameCheckTimeout;
+        document.getElementById("username").addEventListener("input", function () {
+            const username = this.value.trim();
+            const statusBox = document.getElementById("usernameStatus");
+            const suggestionBox = document.getElementById("usernameSuggestions");
 
-document.getElementById("username").addEventListener("input", async function () {
+            if (username.length < 3) {
+                statusBox.innerHTML = "";
+                suggestionBox.innerHTML = "";
+                return;
+            }
 
-    const username = this.value.trim();
+            // Debounce to avoid excessive API calls
+            clearTimeout(usernameCheckTimeout);
+            usernameCheckTimeout = setTimeout(async () => {
+                try {
+                    // In MOCK mode, simulate availability check
+                    if (MOCK_MODE) {
+                        if (username.toLowerCase() === "admin" || username.toLowerCase() === "test") {
+                            statusBox.innerHTML = "❌ Username taken (mock)";
+                            suggestionBox.innerHTML = "Suggestions: " + 
+                                `<span onclick="useSuggestion('${username}_123')">${username}_123</span> ` +
+                                `<span onclick="useSuggestion('${username}_ai')">${username}_ai</span>`;
+                        } else {
+                            statusBox.innerHTML = "✅ Username available (mock)";
+                            suggestionBox.innerHTML = "";
+                        }
+                        return;
+                    }
 
-    if (username.length < 3) {
-        document.getElementById("usernameStatus").innerHTML = "";
-        document.getElementById("usernameSuggestions").innerHTML = "";
-        return;
-    }
+                    const res = await fetch(`${API_BASE}/check-username/`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ username })
+                    });
+                    const data = await res.json();
 
-    try {
-        const res = await fetch(`${API_BASE}/check-username/`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username })
+                    if (data.exists) {
+                        statusBox.innerHTML = "❌ Username already taken";
+                        if (data.suggestions && data.suggestions.length) {
+                            let suggestionsHtml = "Suggestions: ";
+                            suggestionsHtml += data.suggestions.map(s =>
+                                `<span onclick="useSuggestion('${s.replace(/'/g, "\\'")}')">${s}</span>`
+                            ).join(", ");
+                            suggestionBox.innerHTML = suggestionsHtml;
+                        } else {
+                            suggestionBox.innerHTML = "";
+                        }
+                    } else {
+                        statusBox.innerHTML = "✅ Username available";
+                        suggestionBox.innerHTML = "";
+                    }
+                } catch (err) {
+                    console.log("Username check error:", err);
+                    // Don't show error to user for this non-critical feature
+                }
+            }, 500);
         });
 
-        const data = await res.json();
-
-        const statusBox = document.getElementById("usernameStatus");
-        const suggestionBox = document.getElementById("usernameSuggestions");
-
-        if (data.exists) {
-
-            statusBox.innerHTML = "❌ Username already taken";
-
-            suggestionBox.innerHTML =
-                "Suggestions: " + data.suggestions.map(s =>
-                    `<span style="cursor:pointer" onclick="useSuggestion('${s}')">${s}</span>`
-                ).join(", ");
-
-        } else {
-            statusBox.innerHTML = "✅ Username available";
-            suggestionBox.innerHTML = "";
+        function useSuggestion(name) {
+            document.getElementById("username").value = name;
+            document.getElementById("usernameStatus").innerHTML = "✅ Username available (selected)";
+            document.getElementById("usernameSuggestions").innerHTML = "";
+            // Trigger any additional validation
+            const event = new Event('input', { bubbles: true });
+            document.getElementById("username").dispatchEvent(event);
         }
 
-    } catch (err) {
-        console.log(err);
-    }
-});
-      
-    function useSuggestion(name) {
-    document.getElementById("username").value = name;
-    document.getElementById("usernameStatus").innerHTML = "✅ Username available";
-    document.getElementById("usernameSuggestions").innerHTML = "";
-}
+        /* Remove any references to googleLogin / appleLogin functions */
+        window.googleLogin = function() {
+            showToast("Social login is currently disabled. Please use email signup.", "info");
+        };
+        window.appleLogin = function() {
+            showToast("Social login is currently disabled. Please use email signup.", "info");
+        };
+        
     </script>
-
 </body>
 </html>
