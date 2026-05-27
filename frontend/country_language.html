@@ -3,103 +3,384 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>NEXA HUB AI · 195 | Dark Blue Theme</title>
+    <title>NEXA HUB AI · 195 Nations | Global AI Companion</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        /* DARK BLUE BACKGROUND - MAIN COLOR SCHEME */
-        :root {
-            --bg-body: #0a0e2a;
-            --bg-card: #0f1535;
-            --text-primary: #f1f5f9;
-            --text-secondary: #e2e8f0;
-            --text-muted: #a0aec0;
-            --border-color: #1e2a5e;
-            --input-bg: #1a2352;
-            --input-border: #2a3568;
-            --input-focus: #3b82f6;
-            --btn-bg: #2563eb;
-            --btn-hover: #3b82f6;
-            --result-bg: #0f1a4a;
-            --badge-bg: #1e3a8a;
-            --shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            --nexa-white: #ffffff;
-            --hub-blue: #60a5fa;
-            --question-color: #cbd5e6;
-            --label-color: #94a3b8;
-            --footer-color: #7c8ba0;
         }
 
         body {
-            background: var(--bg-body);
+            background: linear-gradient(135deg, #0a0e2a 0%, #0f1535 50%, #0a0e2a 100%);
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0.8rem;
+            padding: 1.5rem;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* SMALL SIZE CARD - compact */
-        .nexa-compact {
+        /* Animated background orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .orb-1 {
+            width: 350px;
+            height: 350px;
+            background: #3b82f6;
+            top: -100px;
+            left: -80px;
+            animation: float1 20s infinite ease-in-out;
+        }
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: #8b5cf6;
+            bottom: -150px;
+            right: -120px;
+            animation: float2 25s infinite ease-in-out;
+        }
+        .orb-3 {
+            width: 250px;
+            height: 250px;
+            background: #06b6d4;
+            top: 50%;
+            right: 5%;
+            animation: float3 18s infinite ease-in-out;
+            opacity: 0.2;
+        }
+        @keyframes float1 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(50px, 40px); }
+        }
+        @keyframes float2 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-40px, -50px); }
+        }
+        @keyframes float3 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+
+        /* MAIN CARD - TALLER AND NARROWER */
+        .nexa-card {
+            position: relative;
+            z-index: 10;
             max-width: 380px;
             width: 100%;
-            background: var(--bg-card);
-            border-radius: 1.2rem;
-            box-shadow: var(--shadow);
+            background: rgba(15, 21, 53, 0.75);
+            backdrop-filter: blur(20px);
+            border-radius: 2rem;
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            box-shadow: 0 30px 50px -20px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(59, 130, 246, 0.2);
             overflow: hidden;
-            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            min-height: 580px;
+            display: flex;
+            flex-direction: column;
         }
 
-        .compact-header {
-            padding: 0.7rem 1rem 0.5rem 1rem;
+        /* Header */
+        .card-header {
+            padding: 1.2rem 1.5rem 0.8rem;
             text-align: center;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             position: relative;
         }
 
-        .nexa-title {
-            font-size: 1.3rem;
+        .logo-area {
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+            gap: 0;
+            font-size: 1.8rem;
             font-weight: 800;
-            letter-spacing: -0.3px;
-            margin-bottom: 0.15rem;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.4rem;
         }
-
-        .nexa-white {
+        .nexa-glow {
             color: #ffffff;
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
         }
-
-        .hub-blue {
+        .hub-glow {
             color: #60a5fa;
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
         }
 
-        .badge-small {
+        .badge-large {
             display: inline-block;
-            background: var(--badge-bg);
-            padding: 0.1rem 0.6rem;
-            border-radius: 30px;
-            font-size: 0.5rem;
-            font-weight: 600;
-            color: #93c5fd;
-        }
-
-        .question-small {
-            margin-top: 0.4rem;
+            background: linear-gradient(95deg, rgba(59,130,246,0.2), rgba(6,182,212,0.2));
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
             font-size: 0.6rem;
             font-weight: 600;
-            color: var(--question-color);
+            color: #93c5fd;
+            margin-top: 0.2rem;
+            border: 1px solid rgba(59,130,246,0.3);
+        }
+
+        .status-row {
+            margin-top: 0.6rem;
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 0.4rem;
+            font-size: 0.6rem;
+            color: #cbd5e6;
+        }
+        .pulse-dot {
+            width: 6px;
+            height: 6px;
+            background: #10b981;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 0.4; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Body - taller padding */
+        .card-body {
+            padding: 1.5rem 1.5rem 1.2rem;
+            flex: 1;
+        }
+
+        /* Form groups */
+        .form-group {
+            margin-bottom: 1.3rem;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #94a3b8;
+            margin-bottom: 0.4rem;
+        }
+        .form-group label i {
+            margin-right: 0.3rem;
+            color: #60a5fa;
+            font-size: 0.65rem;
+        }
+
+        select {
+            width: 100%;
+            padding: 0.75rem 0.9rem;
+            background: rgba(26, 35, 82, 0.8);
+            border: 1.5px solid rgba(59, 130, 246, 0.3);
+            border-radius: 0.9rem;
+            font-size: 0.8rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            color: #f1f5f9;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="%2360a5fa" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+            background-repeat: no-repeat;
+            background-position: right 0.9rem center;
+        }
+        select:hover {
+            border-color: #3b82f6;
+            background-color: rgba(26, 35, 82, 1);
+        }
+        select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+        }
+        select option {
+            background: #0f1535;
+            color: #f1f5f9;
+            padding: 0.4rem;
+        }
+
+        .info-note {
+            font-size: 0.6rem;
+            color: #7c8ba0;
+            margin-top: 0.2rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
             gap: 0.3rem;
         }
 
-        .pulse-dot {
+        /* Button */
+        .btn-continue {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(105deg, #2563eb, #3b82f6);
+            border: none;
+            border-radius: 1.8rem;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: 'Inter', sans-serif;
+            margin-top: 0.3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-continue::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        .btn-continue:hover::before {
+            left: 100%;
+        }
+        .btn-continue:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px -6px #2563eb;
+        }
+
+        /* Result Preview */
+        .result-preview {
+            background: rgba(15, 26, 74, 0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 1rem;
+            padding: 0.8rem 1rem;
+            margin-top: 1rem;
+            border-left: 3px solid #f59e0b;
+            animation: slideUp 0.35s ease;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .result-title {
+            font-size: 0.55rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #f59e0b;
+            margin-bottom: 0.5rem;
+        }
+        .result-content {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+        .result-content i {
+            width: 20px;
+            color: #60a5fa;
+            font-size: 0.7rem;
+        }
+        .geo-code {
+            font-family: monospace;
+            background: rgba(0,0,0,0.3);
+            padding: 0.15rem 0.45rem;
+            border-radius: 0.4rem;
+            font-size: 0.65rem;
+            display: inline-block;
+            color: #60a5fa;
+        }
+
+        /* ========== NEW SECTION - BOTTOM CONTENT ADDED ========== */
+        .bottom-features {
+            margin-top: 1.2rem;
+            padding-top: 0.8rem;
+            border-top: 1px dashed rgba(96, 165, 250, 0.3);
+        }
+
+        .feature-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            justify-content: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .feature-chip {
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.25);
+            border-radius: 30px;
+            padding: 0.25rem 0.7rem;
+            font-size: 0.55rem;
+            font-weight: 500;
+            color: #93c5fd;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: all 0.2s;
+        }
+
+        .feature-chip i {
+            font-size: 0.5rem;
+            color: #60a5fa;
+        }
+
+        .feature-chip:hover {
+            background: rgba(59, 130, 246, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .global-stats {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 0.8rem;
+            padding: 0.5rem 0.7rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: #60a5fa;
+            letter-spacing: -0.5px;
+        }
+
+        .stat-label {
+            font-size: 0.45rem;
+            text-transform: uppercase;
+            color: #8b9ac0;
+            letter-spacing: 0.5px;
+        }
+
+        .connection-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            margin-top: 0.6rem;
+            font-size: 0.5rem;
+            color: #6b7280;
+        }
+
+        .green-dot {
             width: 5px;
             height: 5px;
             background: #10b981;
@@ -108,328 +389,406 @@
             animation: pulse 1.5s infinite;
         }
 
-        @keyframes pulse {
-            0% { opacity: 0.5; transform: scale(0.8); }
-            100% { opacity: 1; transform: scale(1.2); }
-        }
-
-        .compact-body {
-            padding: 0.9rem 1rem 1rem 1rem;
-        }
-
-        .form-group {
-            margin-bottom: 0.8rem;
-        }
-
-        .form-group label {
-            display: block;
+        /* Footer */
+        .card-footer {
+            padding: 0.7rem 1.5rem 1rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
             font-size: 0.55rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--label-color);
-            margin-bottom: 0.2rem;
+            color: #6b7280;
         }
 
-        select {
-            width: 100%;
-            padding: 0.5rem 0.7rem;
-            background: var(--input-bg);
-            border: 1px solid var(--input-border);
-            border-radius: 0.7rem;
-            font-size: 0.7rem;
-            font-family: inherit;
-            font-weight: 500;
-            color: var(--text-primary);
-            outline: none;
+        /* Theme toggle */
+        .theme-touch {
+            position: absolute;
+            top: 1rem;
+            right: 1.2rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 40px;
+            padding: 0.25rem 0.7rem;
             cursor: pointer;
-        }
-
-        select:focus {
-            border-color: var(--input-focus);
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
-        }
-
-        select {
-            appearance: none;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="%2394a3b8" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>');
-            background-repeat: no-repeat;
-            background-position: right 0.7rem center;
-        }
-
-        .info-note {
-            font-size: 0.55rem;
-            color: var(--text-muted);
-            margin-top: -0.2rem;
-            margin-bottom: 0.5rem;
-            padding-left: 0.2rem;
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: #cbd5e6;
             display: flex;
             align-items: center;
-            gap: 0.2rem;
-        }
-
-        .btn-continue {
-            background: linear-gradient(105deg, #2563eb, #3b82f6);
-            border: none;
-            width: 100%;
-            padding: 0.55rem;
-            border-radius: 1.5rem;
-            font-weight: 700;
-            font-size: 0.7rem;
-            color: white;
-            cursor: pointer;
+            gap: 0.3rem;
             transition: all 0.2s;
-            margin-top: 0.3rem;
-            font-family: inherit;
+            backdrop-filter: blur(4px);
+            z-index: 20;
+        }
+        .theme-touch:hover {
+            background: #2563eb;
+            color: white;
+            border-color: #2563eb;
         }
 
-        .btn-continue:hover {
-            background: linear-gradient(105deg, #3b82f6, #60a5fa);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        body.light-mode {
+            background: linear-gradient(135deg, #eef2f8 0%, #e0e8f2 100%);
+        }
+        body.light-mode .nexa-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(37, 99, 235, 0.25);
+        }
+        body.light-mode .nexa-glow {
+            color: #0f172a;
+            text-shadow: none;
+        }
+        body.light-mode .hub-glow {
+            color: #2563eb;
+            text-shadow: none;
+        }
+        body.light-mode select {
+            background: rgba(240, 242, 255, 0.9);
+            border-color: #cbd5e1;
+            color: #0f172a;
+        }
+        body.light-mode select option {
+            background: white;
+            color: #0f172a;
+        }
+        body.light-mode .result-preview {
+            background: rgba(240, 242, 255, 0.8);
+        }
+        body.light-mode .result-content {
+            color: #1e293b;
+        }
+        body.light-mode .info-note {
+            color: #5b6e8c;
+        }
+        body.light-mode .feature-chip {
+            background: rgba(37, 99, 235, 0.1);
+            color: #2563eb;
+        }
+        body.light-mode .global-stats {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        body.light-mode .stat-number {
+            color: #2563eb;
         }
 
-        .result-preview {
-            background: var(--result-bg);
-            border-radius: 0.8rem;
-            padding: 0.6rem 0.8rem;
-            margin-top: 0.8rem;
-            border-left: 2.5px solid #f59e0b;
-        }
-
-        .result-title {
-            font-size: 0.5rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #f59e0b;
-            margin-bottom: 0.3rem;
-        }
-
-        .result-content {
-            font-size: 0.65rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            display: flex;
-            flex-direction: column;
-            gap: 0.2rem;
-        }
-
-        .footer-note {
-            font-size: 0.45rem;
-            font-weight: 500;
-            text-align: center;
-            color: var(--footer-color);
-            margin-top: 0.7rem;
-        }
-
-        select optgroup {
-            font-weight: 700;
-            background: var(--bg-card);
-            color: var(--text-primary);
+        @media (max-width: 450px) {
+            body { padding: 1rem; }
+            .nexa-card { max-width: 340px; }
+            .card-body { padding: 1.2rem; }
+            .logo-area { font-size: 1.5rem; }
+            select { padding: 0.65rem 0.8rem; font-size: 0.75rem; }
+            .feature-grid { gap: 0.4rem; }
+            .feature-chip { font-size: 0.5rem; padding: 0.2rem 0.6rem; }
         }
     </style>
 </head>
 <body>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
 
-<div class="nexa-compact">
-    <div class="compact-header">
-        <div class="nexa-title">
-            <span class="nexa-white">NEXA</span>
-            <span class="hub-blue"> HUB AI</span>
+    <div class="nexa-card">
+        <div class="card-header">
+            <div class="theme-touch" id="themeToggle">
+                <i class="fa-solid fa-moon" id="themeIcon"></i>
+                <span id="themeLabel">Dark</span>
+            </div>
+            <div class="logo-area">
+                <span class="nexa-glow">NEXA</span>
+                <span class="hub-glow"> HUB AI</span>
+            </div>
+            <div class="badge-large">
+                <i class="fa-regular "></i> 195 Nations · 195 Languages
+            </div>
+            <div class="status-row">
+                <span class="pulse-dot"></span>
+                <span>Where do you live & language?</span>
+                <i class="fa-regular fa-circle-check" style="color: #10b981; font-size: 0.6rem;"></i>
+            </div>
         </div>
-        <div class="badge-small">✦ 195 nations · 195 languages ✦</div>
-        <div class="question-small">
-            <span class="pulse-dot"></span>
-            <span>Where do you live & language?</span>
+
+        <div class="card-body">
+            <!-- COUNTRY SELECT -->
+            <div class="form-group">
+                <label><i class="fa-regular fa-flag"></i> Your Country</label>
+                <select id="countrySelect">
+                    <option value="" disabled selected>— Select your nation —</option>
+                </select>
+            </div>
+
+            <!-- LANGUAGE SELECT -->
+            <div class="form-group">
+                <label><i class="fa-regular fa-comment"></i> Your Language</label>
+                <select id="languageSelect">
+                    <option value="" disabled selected>— Select your language —</option>
+                </select>
+            </div>
+
+            <div class="info-note">
+                <i class="fa-regular fa-star"></i> Every sovereign nation · Every major tongue
+            </div>
+
+            <button class="btn-continue" id="continueBtn">
+                <span>Continue</span>
+                <!-- <i class="fa-regular fa-arrow-right"></i> -->
+            </button>
+
+            <div id="resultPreview" class="result-preview" style="display: none;">
+                <div class="result-title">
+                    <i class="fa-regular fa-circle-check"></i> AI GLOBAL PROFILE
+                </div>
+                <div class="result-content" id="resultText"></div>
+            </div>
+
+            <!-- ========== NEW CONTENT ADDED AT BOTTOM ========== -->
+            <div class="bottom-features">
+                <!-- <div class="feature-grid">
+                    <span class="feature-chip"><i class="fa-regular fa-cloud"></i> Neural Bridge</span>
+                    <span class="feature-chip"><i class="fa-regular fa-lock"></i> Encrypted</span>
+                    <span class="feature-chip"><i class="fa-regular fa-bolt"></i> Real-time</span>
+                    <span class="feature-chip"><i class="fa-regular fa-microchip"></i> Quantum Ready</span>
+                </div> -->
+
+                <div class="global-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">195</div>
+                        <div class="stat-label">Countries</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">195</div>
+                        <div class="stat-label">Languages</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">8B+</div>
+                        <div class="stat-label">Connected</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">∞</div>
+                        <div class="stat-label">Possibilities</div>
+                    </div>
+                </div>
+
+                <div class="connection-status">
+                    <span class="green-dot"></span>
+                    <span>NEXA Neural Network · Secure Handshake</span>
+                    <i class="fa-regular fa-shield-haltered" style="font-size: 0.45rem;"></i>
+                </div>
+                <div class="connection-status" style="margin-top: 0.2rem; font-size: 0.45rem;">
+                    <i class="fa-regular fa-clock"></i>
+                    <span id="liveTime">--:--:--</span>
+                    <i class="fa-regular fa-satellite-dish" style="margin-left: 0.3rem;"></i>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer">
+            <i class="fa-regular fa-copyright"></i> 2026 NEXA HUB AI
         </div>
     </div>
 
-    <div class="compact-body">
-        <!-- COUNTRY SELECT: 195 COUNTRIES -->
-        <div class="form-group">
-            <label>🌍 Country</label>
-            <select id="countrySelect">
-                <option value="" disabled selected>— Select —</option>
-            </select>
-        </div>
+    <script>
+        // ========== THEME TOGGLE ==========
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const themeLabel = document.getElementById('themeLabel');
 
-        <!-- LANGUAGE SELECT: 195 LANGUAGES -->
-        <div class="form-group">
-            <label>🗣️ Language</label>
-            <select id="languageSelect">
-                <option value="" disabled selected>— Select —</option>
-            </select>
-        </div>
-
-        <div class="info-note">
-            ✨ Every nation · Every major tongue
-        </div>
-
-        <button class="btn-continue" id="continueBtn">Continue →</button>
-
-        <div id="resultPreview" class="result-preview" style="display: none;">
-            <div class="result-title">✓ AI Global Profile</div>
-            <div class="result-content" id="resultText"></div>
-        </div>
-        
-        <div class="footer-note">
-            © 2026 NEXA HUB AI
-        </div>
-    </div>
-</div>
-
-<script>
-    // --------------------------------------------------------------
-    // COMPLETE LIST OF 195 SOVEREIGN NATIONS
-    // --------------------------------------------------------------
-    const allCountries = [
-        "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria",
-        "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan",
-        "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cabo Verde", "Cambodia",
-        "Cameroon", "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo", "Costa Rica",
-        "Côte d'Ivoire", "Croatia", "Cuba", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador",
-        "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia", "Fiji", "Finland", "France",
-        "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau",
-        "Guyana", "Haiti", "Honduras", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland",
-        "Israel", "Italy", "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Korea, North", "Korea, South",
-        "Kosovo", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein",
-        "Lithuania", "Luxembourg", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania",
-        "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar",
-        "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Macedonia", "Norway",
-        "Oman", "Pakistan", "Palau", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland",
-        "Portugal", "Qatar", "Romania", "Russia", "Rwanda", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino",
-        "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands",
-        "Somalia", "South Africa", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria",
-        "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey",
-        "Turkmenistan", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "Uzbekistan", "Vanuatu",
-        "Vatican City", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
-    ];
-
-    // --------------------------------------------------------------
-    // COMPLETE LIST OF 195 MAJOR LANGUAGES
-    // --------------------------------------------------------------
-    const allLanguages = [
-        "Abkhaz", "Afar", "Afrikaans", "Akan", "Albanian", "Amharic", "Arabic", "Aragonese", "Armenian", "Assamese",
-        "Avar", "Avestan", "Aymara", "Azerbaijani", "Bambara", "Bashkir", "Basque", "Belarusian", "Bengali", "Bihari",
-        "Bislama", "Bosnian", "Breton", "Bulgarian", "Burmese", "Catalan", "Chamorro", "Chechen", "Chichewa", "Chinese",
-        "Chuvash", "Cornish", "Corsican", "Cree", "Croatian", "Czech", "Danish", "Divehi", "Dutch", "Dzongkha",
-        "English", "Esperanto", "Estonian", "Ewe", "Faroese", "Fijian", "Finnish", "Flemish", "French", "Fulah",
-        "Galician", "Georgian", "German", "Greek", "Guarani", "Gujarati", "Haitian Creole", "Hausa", "Hebrew", "Herero",
-        "Hindi", "Hiri Motu", "Hungarian", "Icelandic", "Ido", "Igbo", "Indonesian", "Interlingua", "Inuktitut", "Inupiaq",
-        "Irish", "Italian", "Japanese", "Javanese", "Kalaallisut", "Kannada", "Kanuri", "Kashmiri", "Kazakh", "Khmer",
-        "Kikuyu", "Kinyarwanda", "Kirundi", "Komi", "Kongo", "Korean", "Kurdish", "Kwanyama", "Kyrgyz", "Lao",
-        "Latin", "Latvian", "Limburgish", "Lingala", "Lithuanian", "Luba-Katanga", "Luxembourgish", "Macedonian", "Malagasy", "Malay",
-        "Malayalam", "Maltese", "Manx", "Maori", "Marathi", "Marshallese", "Mongolian", "Nauruan", "Navajo", "Ndonga",
-        "Nepali", "North Ndebele", "Northern Sami", "Norwegian", "Norwegian Bokmål", "Norwegian Nynorsk", "Nuosu", "Occitan", "Ojibwe", "Oriya",
-        "Oromo", "Ossetian", "Pali", "Pashto", "Persian", "Polish", "Portuguese", "Punjabi", "Quechua", "Romanian",
-        "Romansh", "Russian", "Samoan", "Sango", "Sanskrit", "Sardinian", "Scottish Gaelic", "Serbian", "Shona", "Sindhi",
-        "Sinhala", "Slovak", "Slovenian", "Somali", "South Ndebele", "Southern Sotho", "Spanish", "Sundanese", "Swahili", "Swati",
-        "Swedish", "Tagalog", "Tahitian", "Tajik", "Tamil", "Tatar", "Telugu", "Thai", "Tibetan", "Tigrinya",
-        "Tonga", "Tsonga", "Tswana", "Turkish", "Turkmen", "Twi", "Uighur", "Ukrainian", "Urdu", "Uzbek",
-        "Venda", "Vietnamese", "Volapük", "Walloon", "Welsh", "Western Frisian", "Wolof", "Xhosa", "Yiddish", "Yoruba",
-        "Zhuang", "Zulu"
-    ];
-
-    // Flag mapping for countries
-    function getFlagEmoji(countryName) {
-        const flagMap = {
-            "Afghanistan": "🇦🇫", "Albania": "🇦🇱", "Algeria": "🇩🇿", "Andorra": "🇦🇩", "Angola": "🇦🇴", "Antigua and Barbuda": "🇦🇬", "Argentina": "🇦🇷", "Armenia": "🇦🇲", "Australia": "🇦🇺", "Austria": "🇦🇹",
-            "Azerbaijan": "🇦🇿", "Bahamas": "🇧🇸", "Bahrain": "🇧🇭", "Bangladesh": "🇧🇩", "Barbados": "🇧🇧", "Belarus": "🇧🇾", "Belgium": "🇧🇪", "Belize": "🇧🇿", "Benin": "🇧🇯", "Bhutan": "🇧🇹",
-            "Bolivia": "🇧🇴", "Bosnia and Herzegovina": "🇧🇦", "Botswana": "🇧🇼", "Brazil": "🇧🇷", "Brunei": "🇧🇳", "Bulgaria": "🇧🇬", "Burkina Faso": "🇧🇫", "Burundi": "🇧🇮", "Cabo Verde": "🇨🇻", "Cambodia": "🇰🇭",
-            "Cameroon": "🇨🇲", "Canada": "🇨🇦", "Central African Republic": "🇨🇫", "Chad": "🇹🇩", "Chile": "🇨🇱", "China": "🇨🇳", "Colombia": "🇨🇴", "Comoros": "🇰🇲", "Congo": "🇨🇬", "Costa Rica": "🇨🇷",
-            "Côte d'Ivoire": "🇨🇮", "Croatia": "🇭🇷", "Cuba": "🇨🇺", "Cyprus": "🇨🇾", "Czech Republic": "🇨🇿", "Denmark": "🇩🇰", "Djibouti": "🇩🇯", "Dominica": "🇩🇲", "Dominican Republic": "🇩🇴", "Ecuador": "🇪🇨",
-            "Egypt": "🇪🇬", "El Salvador": "🇸🇻", "Equatorial Guinea": "🇬🇶", "Eritrea": "🇪🇷", "Estonia": "🇪🇪", "Eswatini": "🇸🇿", "Ethiopia": "🇪🇹", "Fiji": "🇫🇯", "Finland": "🇫🇮", "France": "🇫🇷",
-            "Gabon": "🇬🇦", "Gambia": "🇬🇲", "Georgia": "🇬🇪", "Germany": "🇩🇪", "Ghana": "🇬🇭", "Greece": "🇬🇷", "Grenada": "🇬🇩", "Guatemala": "🇬🇹", "Guinea": "🇬🇳", "Guinea-Bissau": "🇬🇼",
-            "Guyana": "🇬🇾", "Haiti": "🇭🇹", "Honduras": "🇭🇳", "Hungary": "🇭🇺", "Iceland": "🇮🇸", "India": "🇮🇳", "Indonesia": "🇮🇩", "Iran": "🇮🇷", "Iraq": "🇮🇶", "Ireland": "🇮🇪",
-            "Israel": "🇮🇱", "Italy": "🇮🇹", "Jamaica": "🇯🇲", "Japan": "🇯🇵", "Jordan": "🇯🇴", "Kazakhstan": "🇰🇿", "Kenya": "🇰🇪", "Kiribati": "🇰🇮", "Korea, North": "🇰🇵", "Korea, South": "🇰🇷",
-            "Kosovo": "🇽🇰", "Kuwait": "🇰🇼", "Kyrgyzstan": "🇰🇬", "Laos": "🇱🇦", "Latvia": "🇱🇻", "Lebanon": "🇱🇧", "Lesotho": "🇱🇸", "Liberia": "🇱🇷", "Libya": "🇱🇾", "Liechtenstein": "🇱🇮",
-            "Lithuania": "🇱🇹", "Luxembourg": "🇱🇺", "Madagascar": "🇲🇬", "Malawi": "🇲🇼", "Malaysia": "🇲🇾", "Maldives": "🇲🇻", "Mali": "🇲🇱", "Malta": "🇲🇹", "Marshall Islands": "🇲🇭", "Mauritania": "🇲🇷",
-            "Mauritius": "🇲🇺", "Mexico": "🇲🇽", "Micronesia": "🇫🇲", "Moldova": "🇲🇩", "Monaco": "🇲🇨", "Mongolia": "🇲🇳", "Montenegro": "🇲🇪", "Morocco": "🇲🇦", "Mozambique": "🇲🇿", "Myanmar": "🇲🇲",
-            "Namibia": "🇳🇦", "Nauru": "🇳🇷", "Nepal": "🇳🇵", "Netherlands": "🇳🇱", "New Zealand": "🇳🇿", "Nicaragua": "🇳🇮", "Niger": "🇳🇪", "Nigeria": "🇳🇬", "North Macedonia": "🇲🇰", "Norway": "🇳🇴",
-            "Oman": "🇴🇲", "Pakistan": "🇵🇰", "Palau": "🇵🇼", "Palestine": "🇵🇸", "Panama": "🇵🇦", "Papua New Guinea": "🇵🇬", "Paraguay": "🇵🇾", "Peru": "🇵🇪", "Philippines": "🇵🇭", "Poland": "🇵🇱",
-            "Portugal": "🇵🇹", "Qatar": "🇶🇦", "Romania": "🇷🇴", "Russia": "🇷🇺", "Rwanda": "🇷🇼", "Saint Kitts and Nevis": "🇰🇳", "Saint Lucia": "🇱🇨", "Saint Vincent and the Grenadines": "🇻🇨", "Samoa": "🇼🇸", "San Marino": "🇸🇲",
-            "Sao Tome and Principe": "🇸🇹", "Saudi Arabia": "🇸🇦", "Senegal": "🇸🇳", "Serbia": "🇷🇸", "Seychelles": "🇸🇨", "Sierra Leone": "🇸🇱", "Singapore": "🇸🇬", "Slovakia": "🇸🇰", "Slovenia": "🇸🇮", "Solomon Islands": "🇸🇧",
-            "Somalia": "🇸🇴", "South Africa": "🇿🇦", "South Sudan": "🇸🇸", "Spain": "🇪🇸", "Sri Lanka": "🇱🇰", "Sudan": "🇸🇩", "Suriname": "🇸🇷", "Sweden": "🇸🇪", "Switzerland": "🇨🇭", "Syria": "🇸🇾",
-            "Taiwan": "🇹🇼", "Tajikistan": "🇹🇯", "Tanzania": "🇹🇿", "Thailand": "🇹🇭", "Timor-Leste": "🇹🇱", "Togo": "🇹🇬", "Tonga": "🇹🇴", "Trinidad and Tobago": "🇹🇹", "Tunisia": "🇹🇳", "Turkey": "🇹🇷",
-            "Turkmenistan": "🇹🇲", "Tuvalu": "🇹🇻", "Uganda": "🇺🇬", "Ukraine": "🇺🇦", "United Arab Emirates": "🇦🇪", "United Kingdom": "🇬🇧", "United States": "🇺🇸", "Uruguay": "🇺🇾", "Uzbekistan": "🇺🇿", "Vanuatu": "🇻🇺",
-            "Vatican City": "🇻🇦", "Venezuela": "🇻🇪", "Vietnam": "🇻🇳", "Yemen": "🇾🇪", "Zambia": "🇿🇲", "Zimbabwe": "🇿🇼"
-        };
-        return flagMap[countryName] || "🌍";
-    }
-
-    // Populate country dropdown
-    const countrySelect = document.getElementById('countrySelect');
-    allCountries.forEach(country => {
-        const option = document.createElement('option');
-        option.value = country;
-        const flag = getFlagEmoji(country);
-        option.textContent = `${flag} ${country}`;
-        countrySelect.appendChild(option);
-    });
-
-    // Populate language dropdown
-    const languageSelect = document.getElementById('languageSelect');
-    allLanguages.forEach(lang => {
-        const option = document.createElement('option');
-        option.value = lang;
-        option.textContent = lang;
-        languageSelect.appendChild(option);
-    });
-
-    // UI elements
-    const continueBtn = document.getElementById('continueBtn');
-    const resultPreview = document.getElementById('resultPreview');
-    const resultText = document.getElementById('resultText');
-
-    // Helper functions
-    function generateGeoCode(country, language) {
-        const cPrefix = country.substring(0, 2).toUpperCase().replace(/[^A-Z]/g, '');
-        const lPrefix = language.substring(0, 2).toUpperCase().replace(/[^A-Z]/g, '');
-        return `NEXA·${cPrefix}${lPrefix}`;
-    }
-
-    function escapeHtml(str) { 
-        if (!str) return ''; 
-        return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m])); 
-    }
-
-    function handleContinue() {
-        const country = countrySelect.value;
-        const language = languageSelect.value;
-
-        if (!country) { 
-            alert("🌍 Please select your country"); 
-            countrySelect.focus(); 
-            return; 
+        function setTheme(theme) {
+            if (theme === 'light') {
+                document.body.classList.add('light-mode');
+                localStorage.setItem('nexaTheme', 'light');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                themeLabel.textContent = 'Light';
+            } else {
+                document.body.classList.remove('light-mode');
+                localStorage.setItem('nexaTheme', 'dark');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                themeLabel.textContent = 'Dark';
+            }
         }
-        if (!language) { 
-            alert("🗣️ Please select your language"); 
-            languageSelect.focus(); 
-            return; 
+        const savedTheme = localStorage.getItem('nexaTheme');
+        setTheme(savedTheme === 'light' ? 'light' : 'dark');
+        themeToggle.addEventListener('click', () => {
+            const isLight = document.body.classList.contains('light-mode');
+            setTheme(isLight ? 'dark' : 'light');
+        });
+
+        // ========== LIVE CLOCK ==========
+        function updateLiveTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const timeElement = document.getElementById('liveTime');
+            if (timeElement) timeElement.textContent = timeString;
+        }
+        updateLiveTime();
+        setInterval(updateLiveTime, 1000);
+
+        // ========== 195 COUNTRIES ==========
+        const allCountries = [
+            "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria",
+            "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan",
+            "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cabo Verde", "Cambodia",
+            "Cameroon", "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo", "Costa Rica",
+            "Côte d'Ivoire", "Croatia", "Cuba", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador",
+            "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia", "Fiji", "Finland", "France",
+            "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau",
+            "Guyana", "Haiti", "Honduras", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland",
+            "Israel", "Italy", "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Korea, North", "Korea, South",
+            "Kosovo", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein",
+            "Lithuania", "Luxembourg", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania",
+            "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar",
+            "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Macedonia", "Norway",
+            "Oman", "Pakistan", "Palau", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland",
+            "Portugal", "Qatar", "Romania", "Russia", "Rwanda", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino",
+            "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands",
+            "Somalia", "South Africa", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria",
+            "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey",
+            "Turkmenistan", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "Uzbekistan", "Vanuatu",
+            "Vatican City", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
+        ];
+
+        // ========== 195 LANGUAGES ==========
+        const allLanguages = [
+            "Abkhaz", "Afar", "Afrikaans", "Akan", "Albanian", "Amharic", "Arabic", "Aragonese", "Armenian", "Assamese",
+            "Avar", "Avestan", "Aymara", "Azerbaijani", "Bambara", "Bashkir", "Basque", "Belarusian", "Bengali", "Bihari",
+            "Bislama", "Bosnian", "Breton", "Bulgarian", "Burmese", "Catalan", "Chamorro", "Chechen", "Chichewa", "Chinese",
+            "Chuvash", "Cornish", "Corsican", "Cree", "Croatian", "Czech", "Danish", "Divehi", "Dutch", "Dzongkha",
+            "English", "Esperanto", "Estonian", "Ewe", "Faroese", "Fijian", "Finnish", "Flemish", "French", "Fulah",
+            "Galician", "Georgian", "German", "Greek", "Guarani", "Gujarati", "Haitian Creole", "Hausa", "Hebrew", "Herero",
+            "Hindi", "Hiri Motu", "Hungarian", "Icelandic", "Ido", "Igbo", "Indonesian", "Interlingua", "Inuktitut", "Inupiaq",
+            "Irish", "Italian", "Japanese", "Javanese", "Kalaallisut", "Kannada", "Kanuri", "Kashmiri", "Kazakh", "Khmer",
+            "Kikuyu", "Kinyarwanda", "Kirundi", "Komi", "Kongo", "Korean", "Kurdish", "Kwanyama", "Kyrgyz", "Lao",
+            "Latin", "Latvian", "Limburgish", "Lingala", "Lithuanian", "Luba-Katanga", "Luxembourgish", "Macedonian", "Malagasy", "Malay",
+            "Malayalam", "Maltese", "Manx", "Maori", "Marathi", "Marshallese", "Mongolian", "Nauruan", "Navajo", "Ndonga",
+            "Nepali", "North Ndebele", "Northern Sami", "Norwegian", "Norwegian Bokmål", "Norwegian Nynorsk", "Nuosu", "Occitan", "Ojibwe", "Oriya",
+            "Oromo", "Ossetian", "Pali", "Pashto", "Persian", "Polish", "Portuguese", "Punjabi", "Quechua", "Romanian",
+            "Romansh", "Russian", "Samoan", "Sango", "Sanskrit", "Sardinian", "Scottish Gaelic", "Serbian", "Shona", "Sindhi",
+            "Sinhala", "Slovak", "Slovenian", "Somali", "South Ndebele", "Southern Sotho", "Spanish", "Sundanese", "Swahili", "Swati",
+            "Swedish", "Tagalog", "Tahitian", "Tajik", "Tamil", "Tatar", "Telugu", "Thai", "Tibetan", "Tigrinya",
+            "Tonga", "Tsonga", "Tswana", "Turkish", "Turkmen", "Twi", "Uighur", "Ukrainian", "Urdu", "Uzbek",
+            "Venda", "Vietnamese", "Volapük", "Walloon", "Welsh", "Western Frisian", "Wolof", "Xhosa", "Yiddish", "Yoruba",
+            "Zhuang", "Zulu"
+        ];
+
+        // Flag mapping
+        function getFlagEmoji(countryName) {
+            const flagMap = {
+                "Afghanistan": "🇦🇫", "Albania": "🇦🇱", "Algeria": "🇩🇿", "Andorra": "🇦🇩", "Angola": "🇦🇴", "Antigua and Barbuda": "🇦🇬", "Argentina": "🇦🇷", "Armenia": "🇦🇲", "Australia": "🇦🇺", "Austria": "🇦🇹",
+                "Azerbaijan": "🇦🇿", "Bahamas": "🇧🇸", "Bahrain": "🇧🇭", "Bangladesh": "🇧🇩", "Barbados": "🇧🇧", "Belarus": "🇧🇾", "Belgium": "🇧🇪", "Belize": "🇧🇿", "Benin": "🇧🇯", "Bhutan": "🇧🇹",
+                "Bolivia": "🇧🇴", "Bosnia and Herzegovina": "🇧🇦", "Botswana": "🇧🇼", "Brazil": "🇧🇷", "Brunei": "🇧🇳", "Bulgaria": "🇧🇬", "Burkina Faso": "🇧🇫", "Burundi": "🇧🇮", "Cabo Verde": "🇨🇻", "Cambodia": "🇰🇭",
+                "Cameroon": "🇨🇲", "Canada": "🇨🇦", "Central African Republic": "🇨🇫", "Chad": "🇹🇩", "Chile": "🇨🇱", "China": "🇨🇳", "Colombia": "🇨🇴", "Comoros": "🇰🇲", "Congo": "🇨🇬", "Costa Rica": "🇨🇷",
+                "Côte d'Ivoire": "🇨🇮", "Croatia": "🇭🇷", "Cuba": "🇨🇺", "Cyprus": "🇨🇾", "Czech Republic": "🇨🇿", "Denmark": "🇩🇰", "Djibouti": "🇩🇯", "Dominica": "🇩🇲", "Dominican Republic": "🇩🇴", "Ecuador": "🇪🇨",
+                "Egypt": "🇪🇬", "El Salvador": "🇸🇻", "Equatorial Guinea": "🇬🇶", "Eritrea": "🇪🇷", "Estonia": "🇪🇪", "Eswatini": "🇸🇿", "Ethiopia": "🇪🇹", "Fiji": "🇫🇯", "Finland": "🇫🇮", "France": "🇫🇷",
+                "Gabon": "🇬🇦", "Gambia": "🇬🇲", "Georgia": "🇬🇪", "Germany": "🇩🇪", "Ghana": "🇬🇭", "Greece": "🇬🇷", "Grenada": "🇬🇩", "Guatemala": "🇬🇹", "Guinea": "🇬🇳", "Guinea-Bissau": "🇬🇼",
+                "Guyana": "🇬🇾", "Haiti": "🇭🇹", "Honduras": "🇭🇳", "Hungary": "🇭🇺", "Iceland": "🇮🇸", "India": "🇮🇳", "Indonesia": "🇮🇩", "Iran": "🇮🇷", "Iraq": "🇮🇶", "Ireland": "🇮🇪",
+                "Israel": "🇮🇱", "Italy": "🇮🇹", "Jamaica": "🇯🇲", "Japan": "🇯🇵", "Jordan": "🇯🇴", "Kazakhstan": "🇰🇿", "Kenya": "🇰🇪", "Kiribati": "🇰🇮", "Korea, North": "🇰🇵", "Korea, South": "🇰🇷",
+                "Kosovo": "🇽🇰", "Kuwait": "🇰🇼", "Kyrgyzstan": "🇰🇬", "Laos": "🇱🇦", "Latvia": "🇱🇻", "Lebanon": "🇱🇧", "Lesotho": "🇱🇸", "Liberia": "🇱🇷", "Libya": "🇱🇾", "Liechtenstein": "🇱🇮",
+                "Lithuania": "🇱🇹", "Luxembourg": "🇱🇺", "Madagascar": "🇲🇬", "Malawi": "🇲🇼", "Malaysia": "🇲🇾", "Maldives": "🇲🇻", "Mali": "🇲🇱", "Malta": "🇲🇹", "Marshall Islands": "🇲🇭", "Mauritania": "🇲🇷",
+                "Mauritius": "🇲🇺", "Mexico": "🇲🇽", "Micronesia": "🇫🇲", "Moldova": "🇲🇩", "Monaco": "🇲🇨", "Mongolia": "🇲🇳", "Montenegro": "🇲🇪", "Morocco": "🇲🇦", "Mozambique": "🇲🇿", "Myanmar": "🇲🇲",
+                "Namibia": "🇳🇦", "Nauru": "🇳🇷", "Nepal": "🇳🇵", "Netherlands": "🇳🇱", "New Zealand": "🇳🇿", "Nicaragua": "🇳🇮", "Niger": "🇳🇪", "Nigeria": "🇳🇬", "North Macedonia": "🇲🇰", "Norway": "🇳🇴",
+                "Oman": "🇴🇲", "Pakistan": "🇵🇰", "Palau": "🇵🇼", "Palestine": "🇵🇸", "Panama": "🇵🇦", "Papua New Guinea": "🇵🇬", "Paraguay": "🇵🇾", "Peru": "🇵🇪", "Philippines": "🇵🇭", "Poland": "🇵🇱",
+                "Portugal": "🇵🇹", "Qatar": "🇶🇦", "Romania": "🇷🇴", "Russia": "🇷🇺", "Rwanda": "🇷🇼", "Saint Kitts and Nevis": "🇰🇳", "Saint Lucia": "🇱🇨", "Saint Vincent and the Grenadines": "🇻🇨", "Samoa": "🇼🇸", "San Marino": "🇸🇲",
+                "Sao Tome and Principe": "🇸🇹", "Saudi Arabia": "🇸🇦", "Senegal": "🇸🇳", "Serbia": "🇷🇸", "Seychelles": "🇸🇨", "Sierra Leone": "🇸🇱", "Singapore": "🇸🇬", "Slovakia": "🇸🇰", "Slovenia": "🇸🇮", "Solomon Islands": "🇸🇧",
+                "Somalia": "🇸🇴", "South Africa": "🇿🇦", "South Sudan": "🇸🇸", "Spain": "🇪🇸", "Sri Lanka": "🇱🇰", "Sudan": "🇸🇩", "Suriname": "🇸🇷", "Sweden": "🇸🇪", "Switzerland": "🇨🇭", "Syria": "🇸🇾",
+                "Taiwan": "🇹🇼", "Tajikistan": "🇹🇯", "Tanzania": "🇹🇿", "Thailand": "🇹🇭", "Timor-Leste": "🇹🇱", "Togo": "🇹🇬", "Tonga": "🇹🇴", "Trinidad and Tobago": "🇹🇹", "Tunisia": "🇹🇳", "Turkey": "🇹🇷",
+                "Turkmenistan": "🇹🇲", "Tuvalu": "🇹🇻", "Uganda": "🇺🇬", "Ukraine": "🇺🇦", "United Arab Emirates": "🇦🇪", "United Kingdom": "🇬🇧", "United States": "🇺🇸", "Uruguay": "🇺🇾", "Uzbekistan": "🇺🇿", "Vanuatu": "🇻🇺",
+                "Vatican City": "🇻🇦", "Venezuela": "🇻🇪", "Vietnam": "🇻🇳", "Yemen": "🇾🇪", "Zambia": "🇿🇲", "Zimbabwe": "🇿🇼"
+            };
+            return flagMap[countryName] || "🌍";
         }
 
-        const countryFlag = getFlagEmoji(country);
-        const geoCode = generateGeoCode(country, language);
-        
-        resultText.innerHTML = `
-            <div>📍 <strong>Country:</strong> ${escapeHtml(country)} ${countryFlag}</div>
-            <div>🗣️ <strong>Language:</strong> ${escapeHtml(language)}</div>
-            <div style="font-size:0.6rem; color:#60a5fa; margin-top:0.2rem;">🔑 ${escapeHtml(geoCode)}</div>
-        `;
-        resultPreview.style.display = "block";
-        resultPreview.scrollIntoView({ behavior: "smooth", block: "nearest" });
-        sessionStorage.setItem('nexaProfile', JSON.stringify({ country, language, timestamp: Date.now() }));
-    }
+        // Populate dropdowns
+        const countrySelect = document.getElementById('countrySelect');
+        allCountries.forEach(country => {
+            const option = document.createElement('option');
+            option.value = country;
+            option.textContent = `${getFlagEmoji(country)} ${country}`;
+            countrySelect.appendChild(option);
+        });
 
-    // Event Listeners
-    continueBtn.addEventListener('click', handleContinue);
-    countrySelect.addEventListener('change', () => { 
-        if (resultPreview.style.display === 'block') resultPreview.style.display = 'none'; 
-    });
-    languageSelect.addEventListener('change', () => { 
-        if (resultPreview.style.display === 'block') resultPreview.style.display = 'none'; 
-    });
-</script>
+        const languageSelect = document.getElementById('languageSelect');
+        allLanguages.forEach(lang => {
+            const option = document.createElement('option');
+            option.value = lang;
+            option.textContent = lang;
+            languageSelect.appendChild(option);
+        });
+
+        // Main logic
+        const continueBtn = document.getElementById('continueBtn');
+        const resultPreview = document.getElementById('resultPreview');
+        const resultText = document.getElementById('resultText');
+
+        function generateGeoCode(country, language) {
+            const cPrefix = country.substring(0, 2).toUpperCase().replace(/[^A-Z]/g, 'X');
+            const lPrefix = language.substring(0, 2).toUpperCase().replace(/[^A-Z]/g, 'X');
+            return `NEXA·${cPrefix}${lPrefix}`;
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
+        }
+
+        continueBtn.addEventListener('click', () => {
+            const country = countrySelect.value;
+            const language = languageSelect.value;
+
+            if (!country) {
+                alert("🌍 Please select your country");
+                countrySelect.focus();
+                return;
+            }
+            if (!language) {
+                alert("🗣️ Please select your language");
+                languageSelect.focus();
+                return;
+            }
+
+            const flag = getFlagEmoji(country);
+            const geoCode = generateGeoCode(country, language);
+            const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            resultText.innerHTML = `
+                <div><i class="fa-regular fa-flag"></i> <strong>Country:</strong> ${escapeHtml(country)} ${flag}</div>
+                <div><i class="fa-regular fa-comment"></i> <strong>Language:</strong> ${escapeHtml(language)}</div>
+                <div><i class="fa-regular fa-id-card"></i> <strong>Geo ID:</strong> <span class="geo-code">${escapeHtml(geoCode)}</span></div>
+                <div style="font-size:0.6rem; color:#7c8ba0; margin-top:0.2rem;"><i class="fa-regular fa-clock"></i> ${timestamp} · NEXA Global Network</div>
+            `;
+            resultPreview.style.display = 'block';
+            resultPreview.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            
+            sessionStorage.setItem('nexaGlobalProfile', JSON.stringify({ country, language, geoCode, timestamp: Date.now() }));
+            
+            continueBtn.style.transform = 'scale(0.97)';
+            setTimeout(() => { continueBtn.style.transform = ''; }, 150);
+        });
+
+        countrySelect.addEventListener('change', () => { if (resultPreview.style.display === 'block') resultPreview.style.display = 'none'; });
+        languageSelect.addEventListener('change', () => { if (resultPreview.style.display === 'block') resultPreview.style.display = 'none'; });
+        
+        const savedProfile = sessionStorage.getItem('nexaGlobalProfile');
+        if (savedProfile) {
+            try {
+                const parsed = JSON.parse(savedProfile);
+                if (parsed.country) {
+                    for(let i = 0; i < countrySelect.options.length; i++) {
+                        if(countrySelect.options[i].value === parsed.country) {
+                            countrySelect.selectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+                if (parsed.language) {
+                    for(let i = 0; i < languageSelect.options.length; i++) {
+                        if(languageSelect.options[i].value === parsed.language) {
+                            languageSelect.selectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+            } catch(e) {}
+        }
+    </script>
 </body>
 </html>
