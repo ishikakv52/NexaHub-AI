@@ -26,7 +26,6 @@
             overflow-x: hidden;
         }
 
-        /* animated gradient orbs */
         .orb {
             position: fixed;
             border-radius: 50%;
@@ -80,7 +79,6 @@
             opacity: 0.2;
         }
 
-        /* MAIN CARD - UNIQUE GLASS DESIGN */
         .nexa-card {
             position: relative;
             z-index: 10;
@@ -102,7 +100,6 @@
             box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
         }
 
-        /* header with unique elements */
         .card-header {
             padding: 1.3rem 1.8rem 0.8rem;
             text-align: center;
@@ -114,6 +111,7 @@
             border-bottom: 1px solid rgba(0, 0, 0, 0.06);
         }
 
+        /* Theme toggle button - kept only right side, removed left profile */
         .theme-touch {
             position: absolute;
             top: 1rem;
@@ -183,38 +181,86 @@
             border: 1px solid rgba(59,130,246,0.3);
         }
 
-        /* main content */
         .card-content {
             padding: 2rem 1.8rem 2rem;
         }
 
-        /* unique animated avatar */
+        /* MAIN PROFILE PHOTO - Center, clickable upload */
         .avatar-ring {
             display: flex;
             justify-content: center;
             margin-bottom: 1.2rem;
         }
-        .ai-avatar {
-            width: 80px;
-            height: 80px;
+        .main-profile-container {
+            cursor: pointer;
+            position: relative;
+            text-align: center;
+        }
+        .main-avatar-photo {
+            width: 100px;
+            height: 100px;
             background: linear-gradient(135deg, #1e293b, #0f172a);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
-            color: #3b82f6;
-            border: 2px solid rgba(59, 130, 246, 0.5);
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-            animation: pulseGlow 2s infinite;
+            border: 3px solid rgba(59, 130, 246, 0.6);
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
+            transition: all 0.2s ease;
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto;
         }
-        body.light-mode .ai-avatar {
+        body.light-mode .main-avatar-photo {
             background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+            border-color: rgba(37, 99, 235, 0.5);
+        }
+        .main-avatar-photo i {
+            font-size: 3rem;
+            color: #3b82f6;
+        }
+        body.light-mode .main-avatar-photo i {
             color: #2563eb;
         }
-        @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 5px rgba(59,130,246,0.3); border-color: rgba(59,130,246,0.5); }
-            50% { box-shadow: 0 0 25px rgba(59,130,246,0.6); border-color: #3b82f6; }
+        .main-avatar-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        .main-avatar-photo:hover {
+            transform: scale(1.02);
+            border-color: #3b82f6;
+            box-shadow: 0 0 30px rgba(59,130,246,0.6);
+        }
+        .upload-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            border-radius: 0 0 50px 50px;
+            padding: 4px;
+            font-size: 0.6rem;
+            text-align: center;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+        .main-profile-container:hover .upload-overlay {
+            opacity: 1;
+        }
+        .avatar-label {
+            text-align: center;
+            margin-top: 8px;
+            font-size: 0.65rem;
+            color: #60a5fa;
+            letter-spacing: 0.5px;
+        }
+        body.light-mode .avatar-label {
+            color: #2563eb;
         }
 
         .greeting-text {
@@ -236,15 +282,7 @@
             background-clip: text;
             color: transparent;
         }
-        .greeting-text p {
-            font-size: 0.85rem;
-            color: #94a3b8;
-        }
-        body.light-mode .greeting-text p {
-            color: #5b6e8c;
-        }
 
-        /* floating input design */
         .floating-group {
             margin-bottom: 1.8rem;
         }
@@ -259,7 +297,6 @@
             color: #60a5fa;
             font-size: 1rem;
             pointer-events: none;
-            transition: all 0.2s;
         }
         .floating-input {
             width: 100%;
@@ -283,14 +320,6 @@
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
             background: rgba(255, 255, 255, 0.08);
         }
-        body.light-mode .floating-input:focus {
-            background: white;
-        }
-        .floating-input::placeholder {
-            color: #64748b;
-            font-weight: 400;
-        }
-
         .hint-text {
             display: flex;
             justify-content: space-between;
@@ -300,7 +329,6 @@
             padding: 0 0.3rem;
         }
 
-        /* unique button */
         .nexa-button {
             width: 100%;
             padding: 1rem;
@@ -338,7 +366,6 @@
             box-shadow: 0 10px 25px -8px #2563eb;
         }
 
-        /* result card */
         .result-card {
             margin-top: 1.8rem;
             background: rgba(0, 0, 0, 0.3);
@@ -376,7 +403,6 @@
             width: 22px;
         }
 
-        /* footer */
         .card-footer {
             padding: 0.8rem 1.8rem 1.3rem;
             text-align: center;
@@ -384,23 +410,27 @@
             font-size: 0.6rem;
             color: #6b7280;
         }
-        body.light-mode .card-footer {
-            border-top: 1px solid rgba(0, 0, 0, 0.06);
+
+        #mainProfileInput {
+            display: none;
+        }
+        .photo-toast {
+            animation: fadeInUp 0.2s ease;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        @keyframes rippleAnim {
+            0% { width: 0px; height: 0px; opacity: 0.6; }
+            100% { width: 100px; height: 100px; opacity: 0; }
         }
 
-        /* responsive */
         @media (max-width: 480px) {
-            .card-content {
-                padding: 1.5rem;
-            }
-            .greeting-text h2 {
-                font-size: 1.5rem;
-            }
-            .ai-avatar {
-                width: 70px;
-                height: 70px;
-                font-size: 2rem;
-            }
+            .card-content { padding: 1.5rem; }
+            .greeting-text h2 { font-size: 1.5rem; }
+            .main-avatar-photo { width: 80px; height: 80px; }
+            .main-avatar-photo i { font-size: 2.3rem; }
         }
     </style>
 </head>
@@ -411,6 +441,7 @@
 
     <div class="nexa-card">
         <div class="card-header">
+            <!-- Removed upper profile photo - only theme toggle remains -->
             <div class="theme-touch" id="themeToggle">
                 <i class="fa-solid fa-moon" id="themeIcon"></i>
                 <span id="themeLabel">Dark</span>
@@ -419,20 +450,28 @@
                 <span class="nexa-glow">NEXA</span>
                 <span class="hub-glow"> HUB AI</span>
             </div>
-            <div class="chip">✦ neural introduction ✦</div>
+            <!-- <div class="chip">✦ profile avatar ✦</div> -->
         </div>
 
         <div class="card-content">
+            <!-- MAIN PROFILE PHOTO - Click to upload, no upper profile -->
             <div class="avatar-ring">
-                <div class="ai-avatar">
-                    <i class="fa-regular fa-hand-peace"></i>
+                <div class="main-profile-container" id="mainProfileContainer">
+                    <div class="main-avatar-photo" id="mainAvatarPhoto">
+                        <i class="fa-regular fa-circle-user"></i>
+                    </div>
+                    <div class="upload-overlay">
+                        <i class="fa-solid fa-camera"></i> tap to upload
+                    </div>
+                    <div class="avatar-label">
+                        <i class="fa-regular fa-id-card"></i> your profile photo
+                    </div>
                 </div>
+                <input type="file" id="mainProfileInput" accept="image/jpeg,image/png,image/jpg,image/webp">
             </div>
             
             <div class="greeting-text">
                 <h2>Nice to meet you!</h2>
-
-                <!-- <p>What's your name ? </p> -->
             </div>
 
             <div class="floating-group">
@@ -462,7 +501,7 @@
         </div>
 
         <div class="card-footer">
-            <i class="fa-regular "></i> © 2026 NEXA HUB AI
+            <i class="fa-regular"></i> © 2026 NEXA HUB AI 
         </div>
     </div>
 
@@ -487,74 +526,80 @@
                 themeLabel.textContent = 'Dark';
             }
         }
-
-        const saved = localStorage.getItem('nexaTheme');
-        setTheme(saved === 'light' ? 'light' : 'dark');
-
+        const savedTheme = localStorage.getItem('nexaTheme');
+        setTheme(savedTheme === 'light' ? 'light' : 'dark');
         themeToggle.addEventListener('click', () => {
             const isLight = document.body.classList.contains('light-mode');
             setTheme(isLight ? 'dark' : 'light');
         });
 
-        // === NAME LOGIC ===
-        const nameInput = document.getElementById('nameInput');
-        const charCounter = document.getElementById('charCounter');
-        const continueBtn = document.getElementById('continueBtn');
-        const resultArea = document.getElementById('resultArea');
-        const resultMessage = document.getElementById('resultMessage');
+        // ========== PROFILE PHOTO FEATURE (Only Main Center Avatar) ==========
+        const mainProfileContainer = document.getElementById('mainProfileContainer');
+        const mainAvatarPhoto = document.getElementById('mainAvatarPhoto');
+        const mainProfileInput = document.getElementById('mainProfileInput');
 
-        function updateCounter() {
-            const len = nameInput.value.length;
-            charCounter.textContent = `${len}/50`;
-        }
-        nameInput.addEventListener('input', updateCounter);
-        updateCounter();
-
-        function capitalizeName(name) {
-            if (!name) return '';
-            return name.trim().split(/\s+/).map(word => {
-                if (word.length === 0) return word;
-                return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-            }).join(' ');
-        }
-
-        // Unique welcome messages with futuristic vibe
-        function getUniqueWelcomeMessage(name) {
-            const hour = new Date().getHours();
-            let period = '';
-            if (hour < 12) period = 'dawn';
-            else if (hour < 18) period = 'day';
-            else period = 'evening';
-            
-            const messages = [
-                `✨ ${name}, your neural signature is registered. I'm NEXA AI, ready to explore the infinite dimensions of intelligence with you.`,
-                `🌌 Hello, ${name}. The quantum connection is stable. Let's build something extraordinary together.`,
-                `🤖 ${name}, I've been waiting for you. From code to consciousness — your AI companion is online.`,
-                `💫 Great to meet you, ${name}! Every great journey begins with a name — and yours is now part of the NEXA constellation.`,
-                `⚡ Welcome, ${name}. The future isn't just coming — we're creating it, right now. What shall we explore first?`
-            ];
-            const index = (name.length + hour) % messages.length;
-            return messages[index];
+        // Function to update main avatar photo
+        function updateProfilePhoto(imageDataUrl) {
+            if (imageDataUrl) {
+                const img = document.createElement('img');
+                img.src = imageDataUrl;
+                img.style.width = '100%';
+                img.style.height = '100%';
+                img.style.objectFit = 'cover';
+                img.style.borderRadius = '50%';
+                mainAvatarPhoto.innerHTML = '';
+                mainAvatarPhoto.appendChild(img);
+                localStorage.setItem('nexaMainProfilePhoto', imageDataUrl);
+            } else {
+                // reset to default icon
+                mainAvatarPhoto.innerHTML = '<i class="fa-regular fa-circle-user"></i>';
+                localStorage.removeItem('nexaMainProfilePhoto');
+            }
         }
 
-        function escapeHtml(str) {
-            if (!str) return '';
-            return str.replace(/[&<>]/g, m => {
-                if (m === '&') return '&amp;';
-                if (m === '<') return '&lt;';
-                if (m === '>') return '&gt;';
-                return m;
-            });
+        // Load saved photo on startup
+        function loadSavedProfilePhoto() {
+            const savedPhoto = localStorage.getItem('nexaMainProfilePhoto');
+            if (savedPhoto) {
+                updateProfilePhoto(savedPhoto);
+            }
         }
 
-        function showFriendlyError() {
-            const container = document.querySelector('.input-container');
-            container.style.transform = 'translateX(4px)';
-            setTimeout(() => { container.style.transform = ''; }, 200);
-            const toast = document.createElement('div');
-            toast.textContent = '✨ Please share your name to continue ✨';
+        // Handle file upload from main avatar click
+        mainProfileContainer.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mainProfileInput.click();
+        });
+
+        mainProfileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                // Limit file size to 2MB for performance
+                if (file.size > 2 * 1024 * 1024) {
+                    showToast('Image too large! Max 2MB', '#ef4444');
+                    mainProfileInput.value = '';
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    updateProfilePhoto(e.target.result);
+                    showToast('Profile photo updated ✓', '#3b82f6');
+                };
+                reader.readAsDataURL(file);
+            } else if (file) {
+                showToast('Please select a valid image (PNG, JPG)', '#ef4444');
+            }
+            mainProfileInput.value = '';
+        });
+
+        function showToast(msg, color = '#3b82f6') {
+            let toast = document.querySelector('.dynamic-toast');
+            if(toast) toast.remove();
+            toast = document.createElement('div');
+            toast.className = 'dynamic-toast photo-toast';
+            toast.textContent = msg;
             toast.style.position = 'fixed';
-            toast.style.bottom = '25px';
+            toast.style.bottom = '80px';
             toast.style.left = '50%';
             toast.style.transform = 'translateX(-50%)';
             toast.style.backgroundColor = '#1e293b';
@@ -565,7 +610,58 @@
             toast.style.fontWeight = '500';
             toast.style.zIndex = '1000';
             toast.style.backdropFilter = 'blur(8px)';
-            toast.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
+            toast.style.border = `1px solid ${color}`;
+            toast.style.animation = 'fadeInUp 0.2s ease';
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
+        }
+
+        loadSavedProfilePhoto();
+
+        // === NAME HANDLING ===
+        const nameInput = document.getElementById('nameInput');
+        const charCounter = document.getElementById('charCounter');
+        const continueBtn = document.getElementById('continueBtn');
+        const resultArea = document.getElementById('resultArea');
+        const resultMessage = document.getElementById('resultMessage');
+
+        function updateCounter() {
+            charCounter.textContent = `${nameInput.value.length}/50`;
+        }
+        nameInput.addEventListener('input', updateCounter);
+        updateCounter();
+
+        function capitalizeName(name) {
+            if (!name) return '';
+            return name.trim().split(/\s+/).map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+        }
+
+        function getUniqueWelcomeMessage(name) {
+            const hour = new Date().getHours();
+            const messages = [
+                `✨ ${name}, your neural signature is registered. I'm NEXA AI, ready to explore with you.`,
+                `🌌 Hello ${name}, quantum connection stable. Let's create something extraordinary.`,
+                `🤖 ${name}, from code to consciousness — your AI companion is online.`,
+                `💫 Great to meet you, ${name}! Your name is now part of the NEXA constellation.`,
+                `⚡ Welcome ${name}, the future isn't coming — we're creating it now.`,
+                `🔐 ${name}, your unique profile is secured. NEXA AI stands ready.`
+            ];
+            const index = (name.length + hour) % messages.length;
+            return messages[index];
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
+        }
+
+        function showNameError() {
+            const container = document.querySelector('.input-container');
+            container.style.transform = 'translateX(4px)';
+            setTimeout(() => { container.style.transform = ''; }, 200);
+            const toast = document.createElement('div');
+            toast.textContent = '✨ Please share your name to continue ✨';
+            toast.style.cssText = 'position:fixed; bottom:25px; left:50%; transform:translateX(-50%); background:#1e293b; color:white; padding:8px 20px; border-radius:50px; font-size:0.75rem; z-index:1000; backdrop-filter:blur(8px);';
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 2000);
         }
@@ -573,63 +669,69 @@
         continueBtn.addEventListener('click', () => {
             let rawName = nameInput.value.trim();
             if (rawName === '') {
-                showFriendlyError();
+                showNameError();
                 return;
             }
-
             const formattedName = capitalizeName(rawName);
             const welcomeMsg = getUniqueWelcomeMessage(formattedName);
-            const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-
+            const timestamp = new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+            const hasPhoto = localStorage.getItem('nexaMainProfilePhoto') ? true : false;
+            const photoIndicator = hasPhoto ? '<i class="fa-solid fa-image"></i> Profile photo set · ' : '';
             resultMessage.innerHTML = `
                 <div style="display: flex; flex-direction: column; gap: 8px;">
-                    <div><i class="fa-regular fa-id-card"></i> <strong>Hello, ${escapeHtml(formattedName)}</strong> — identity confirmed.</div>
+                    <div><i class="fa-regular fa-id-card"></i> <strong>Hello, ${escapeHtml(formattedName)}</strong> — identity confirmed. ${photoIndicator}</div>
                     <div><i class="fa-regular fa-comment-dots"></i> ${escapeHtml(welcomeMsg)}</div>
-                    <div style="font-size: 0.65rem; color: #6b7280; margin-top: 6px;"><i class="fa-regular fa-clock"></i> ${timestamp} · NEXA quantum handshake complete</div>
+                    <div style="font-size: 0.65rem; color: #6b7280; margin-top: 6px;"><i class="fa-regular fa-clock"></i> ${timestamp} · NEXA handshake complete</div>
                 </div>
             `;
-            
             resultArea.style.display = 'block';
             resultArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            
-            // Store profile
-            const profile = {
-                name: formattedName,
-                raw: rawName,
-                timestamp: new Date().toISOString()
-            };
+            const profile = { name: formattedName, timestamp: new Date().toISOString() };
             sessionStorage.setItem('nexaUserName', JSON.stringify(profile));
-            
-            // button animation feedback
             continueBtn.style.transform = 'scale(0.97)';
             setTimeout(() => { continueBtn.style.transform = ''; }, 150);
-            
-            // change button text temporarily
             const originalSpan = continueBtn.querySelector('span');
             const originalText = originalSpan.textContent;
             originalSpan.textContent = '✓ Connected';
-            setTimeout(() => {
-                originalSpan.textContent = originalText;
-            }, 1500);
+            setTimeout(() => { originalSpan.textContent = originalText; }, 1500);
         });
 
-        nameInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                continueBtn.click();
-            }
-        });
-
-        // Restore previous name if exists
+        nameInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') continueBtn.click(); });
+        
         const savedName = sessionStorage.getItem('nexaUserName');
         if (savedName) {
             try {
                 const parsed = JSON.parse(savedName);
-                if (parsed.name) {
-                    nameInput.value = parsed.name;
-                    updateCounter();
-                }
+                if (parsed.name) { nameInput.value = parsed.name; updateCounter(); }
             } catch(e) {}
+        }
+
+        // ripple effect on main avatar click for delight
+        const mainAvatarDiv = document.querySelector('.main-avatar-photo');
+        if (mainAvatarDiv) {
+            mainAvatarDiv.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const ripple = document.createElement('div');
+                ripple.style.position = 'fixed';
+                ripple.style.width = '20px';
+                ripple.style.height = '20px';
+                ripple.style.borderRadius = '50%';
+                ripple.style.backgroundColor = '#3b82f6';
+                ripple.style.opacity = '0.5';
+                ripple.style.pointerEvents = 'none';
+                const rect = mainAvatarDiv.getBoundingClientRect();
+                ripple.style.left = (rect.left + rect.width/2) + 'px';
+                ripple.style.top = (rect.top + rect.height/2) + 'px';
+                ripple.style.animation = 'rippleAnim 0.5s ease-out forwards';
+                document.body.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 500);
+            });
+        }
+        if (!document.querySelector('#rippleStyle')) {
+            const style = document.createElement('style');
+            style.id = 'rippleStyle';
+            style.textContent = `@keyframes rippleAnim { 0% { width: 0px; height: 0px; opacity: 0.6; } 100% { width: 100px; height: 100px; opacity: 0; } }`;
+            document.head.appendChild(style);
         }
     </script>
 </body>
