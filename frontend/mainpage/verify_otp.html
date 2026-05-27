@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0"/>
+
+<title>NEXA HUB AI - Verify OTP</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<style>
+
+/* RESET */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+/* BODY */
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    position:relative;
+    transition:0.4s ease;
+
+    background:
+    linear-gradient(
+    135deg,
+    #020617,
+    #0f172a,
+    #1e3a8a);
+}
+
+/* LIGHT MODE */
+
+body.light-mode{
+    background:
+    linear-gradient(
+    135deg,
+    #dbeafe,
+    #bfdbfe,
+    #93c5fd);
+}
+
+/* BACKGROUND GLOW */
+
+body::before{
+    content:"";
+    position:absolute;
+    width:350px;
+    height:350px;
+    border-radius:50%;
+    top:-120px;
+    left:-120px;
+
+    background:
+    rgba(59,130,246,0.25);
+
+    filter:blur(100px);
+}
+
+body::after{
+    content:"";
+    position:absolute;
+    width:320px;
+    height:320px;
+    border-radius:50%;
+    bottom:-120px;
+    right:-120px;
+
+    background:
+    rgba(96,165,250,0.20);
+
+    filter:blur(100px);
+}
+
+/* THEME TOGGLE */
+
+.theme-toggle{
+    position:absolute;
+    top:25px;
+    right:25px;
+
+    width:52px;
+    height:52px;
+
+    border:none;
+    border-radius:50%;
+
+    background:
+    rgba(255,255,255,0.12);
+
+    color:white;
+    font-size:20px;
+
+    cursor:pointer;
+
+    backdrop-filter:blur(10px);
+
+    transition:0.3s;
+
+    z-index:100;
+}
+
+.theme-toggle:hover{
+    transform:scale(1.08);
+}
+
+body.light-mode .theme-toggle{
+    background:
+    rgba(255,255,255,0.9);
+
+    color:#1d4ed8;
+}
+
+/* CARD */
+
+.container{
+    position:relative;
+    width:410px;
+    padding:45px 35px;
+
+    background:
+    rgba(255,255,255,0.08);
+
+    border:
+    1px solid rgba(255,255,255,0.15);
+
+    backdrop-filter:blur(18px);
+
+    border-radius:28px;
+
+    box-shadow:
+    0 8px 32px rgba(0,0,0,0.35);
+
+    text-align:center;
+
+    z-index:10;
+
+    transition:0.4s ease;
+}
+
+/* LIGHT CARD */
+
+body.light-mode .container{
+    background:
+    rgba(255,255,255,0.72);
+
+    border:
+    1px solid rgba(255,255,255,0.5);
+
+    box-shadow:
+    0 10px 35px rgba(15,23,42,0.12);
+}
+
+/* ========== APP NAME - NEW COLOR SCHEME ========== */
+/* Nexa = White color, Hub AI = Blue color */
+.app-name {
+    font-size:32px;
+    font-weight:800;
+    margin-bottom:18px;
+    text-align:center;
+}
+
+.nexa-white {
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(255,255,255,0.4);
+}
+
+.hub-blue {
+    color: #3b82f6;
+    text-shadow: 0 0 8px rgba(59,130,246,0.5);
+}
+
+/* Light mode adjustments */
+body.light-mode .nexa-white {
+    color: #1e293b;
+    text-shadow: none;
+}
+
+body.light-mode .hub-blue {
+    color: #1d4ed8;
+    text-shadow: 0 1px 3px rgba(29,78,216,0.2);
+}
+
+/* LOGO */
+
+.logo{
+    width:85px;
+    height:85px;
+
+    margin:auto;
+    margin-bottom:22px;
+
+    border-radius:22px;
+
+    background:
+    linear-gradient(
+    135deg,
+    #3b82f6,
+    #2563eb,
+    #60a5fa);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:34px;
+    color:#fff;
+    font-weight:700;
+
+    box-shadow:
+    0 10px 25px rgba(59,130,246,0.35);
+}
+
+/* HEADING */
+
+h2{
+    color:#fff;
+    font-size:30px;
+    margin-bottom:10px;
+}
+
+body.light-mode h2{
+    color:#1e3a8a;
+}
+
+/* SUBTITLE */
+
+p{
+    color:#cbd5e1;
+    font-size:14px;
+    margin-bottom:30px;
+    line-height:1.7;
+}
+
+body.light-mode p{
+    color:#1d4ed8;
+}
+
+/* INPUT */
+
+.input-box{
+    width:100%;
+    margin-bottom:25px;
+}
+
+.input-box input{
+    width:100%;
+    height:58px;
+
+    background:
+    rgba(255,255,255,0.08);
+
+    border:
+    1px solid rgba(255,255,255,0.15);
+
+    border-radius:16px;
+
+    outline:none;
+
+    color:#fff;
+
+    font-size:18px;
+
+    text-align:center;
+
+    letter-spacing:8px;
+
+    font-weight:600;
+
+    transition:0.3s;
+}
+
+body.light-mode .input-box input{
+    background:
+    rgba(255,255,255,0.92);
+
+    border:
+    1px solid rgba(96,165,250,0.3);
+
+    color:#1e3a8a;
+}
+
+.input-box input::placeholder{
+    color:#cbd5e1;
+    letter-spacing:2px;
+}
+
+body.light-mode .input-box input::placeholder{
+    color:#3b82f6;
+}
+
+.input-box input:focus{
+    border-color:#3b82f6;
+
+    box-shadow:
+    0 0 15px rgba(59,130,246,0.35);
+}
+
+/* BUTTON */
+
+.submit-btn{
+    width:100%;
+    height:58px;
+
+    border:none;
+
+    border-radius:16px;
+
+    background:
+    linear-gradient(
+    135deg,
+    #3b82f6,
+    #2563eb,
+    #60a5fa);
+
+    color:#fff;
+
+    font-size:17px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:0.3s;
+
+    box-shadow:
+    0 5px 20px rgba(37,99,235,0.35);
+}
+
+.submit-btn:hover{
+    transform:translateY(-2px);
+
+    box-shadow:
+    0 8px 25px rgba(37,99,235,0.5);
+}
+
+/* RESEND */
+
+.resend{
+    margin-top:20px;
+    color:#cbd5e1;
+    font-size:14px;
+}
+
+body.light-mode .resend{
+    color:#1d4ed8;
+}
+
+.resend a{
+    color:#60a5fa;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.resend a:hover{
+    text-decoration:underline;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:450px){
+
+    .container{
+        width:92%;
+        padding:35px 25px;
+    }
+
+    h2{
+        font-size:26px;
+    }
+
+    .app-name{
+        font-size:28px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- THEME TOGGLE -->
+
+<button class="theme-toggle" id="themeBtn">
+    <i class="fa-solid fa-moon"></i>
+</button>
+
+<!-- OTP CARD -->
+
+<div class="container">
+
+    <!-- Updated username colors: Nexa = White, Hub AI = Blue -->
+    <div class="app-name">
+        <span class="nexa-white">NEXA</span>
+        <span class="hub-blue"> HUB AI</span>
+    </div>
+
+    <div class="logo">
+        <i class="fa-solid fa-shield-halved"></i>
+    </div>
+
+    <h2>Verify OTP</h2>
+
+    <p>
+        Enter the OTP sent to your email address
+    </p>
+
+    <form id="otpForm">
+
+        <div class="input-box">
+
+            <input 
+                type="text" 
+                id="otp" 
+                placeholder="Enter OTP"
+                maxlength="6"
+                required
+            >
+
+        </div>
+
+        <button
+            type="submit"
+            class="submit-btn"
+        >
+            <i class="fa-solid fa-check"></i>
+            Verify OTP
+        </button>
+
+    </form>
+
+    <div class="resend">
+        Didn’t receive OTP?
+        <a href="#">
+            Resend
+        </a>
+    </div>
+
+</div>
+
+<script>
+
+/* THEME TOGGLE */
+
+const themeBtn =
+document.getElementById("themeBtn");
+
+themeBtn.addEventListener("click", ()=>{
+
+    document.body.classList.toggle(
+        "light-mode"
+    );
+
+    if(
+        document.body.classList.contains(
+            "light-mode"
+        )
+    ){
+        themeBtn.innerHTML =
+        '<i class="fa-solid fa-sun"></i>';
+    }
+    else{
+        themeBtn.innerHTML =
+        '<i class="fa-solid fa-moon"></i>';
+    }
+
+});
+
+/* VERIFY OTP */
+
+document.getElementById("otpForm")
+.addEventListener("submit", async (e)=>{
+
+    e.preventDefault();
+
+    const otp =
+    document.getElementById("otp").value;
+
+    const email =
+    localStorage.getItem("reset_email");
+
+    try{
+
+        const res = await fetch(
+          "http://127.0.0.1:8000/api/verify-otp/",
+          {
+            method:"POST",
+
+            headers:{
+              "Content-Type":"application/json"
+            },
+
+            body: JSON.stringify({
+                email: email,
+                otp: otp
+            })
+          }
+        );
+
+        const data = await res.json();
+
+        console.log(data);
+
+        if(res.ok){
+
+            alert("OTP Verified Successfully ✅");
+
+            window.location.href =
+            "reset_password.html";
+
+        }else{
+
+            alert(
+                data.error ||
+                "Invalid OTP ❌"
+            );
+
+        }
+
+    }
+    catch(error){
+
+        console.log(error);
+
+        alert("Server Error ❌");
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXA HUB AI · Identity</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+            font-family:'Inter',sans-serif;
+            background:#0a0f1f;
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:20px;
+            transition:0.3s;
+            overflow:hidden;
+        }
+
+        body.light-mode{
+            background:#edf2f7;
+        }
+
+        .container{
+            width:100%;
+            max-width:420px;
+            background:#111827;
+            border:1px solid rgba(255,255,255,0.08);
+            border-radius:28px;
+            overflow:hidden;
+            box-shadow:0 20px 50px rgba(0,0,0,0.45);
+            transition:0.3s;
+        }
+
+        body.light-mode .container{
+            background:white;
+            border:1px solid #e2e8f0;
+            box-shadow:0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .header{
+            padding:24px 24px 18px;
+            position:relative;
+            border-bottom:1px solid rgba(255,255,255,0.06);
+        }
+
+        body.light-mode .header{
+            border-bottom:1px solid #edf2f7;
+        }
+
+        .theme-btn{
+            position:absolute;
+            top:20px;
+            right:20px;
+            width:42px;
+            height:42px;
+            border:none;
+            border-radius:14px;
+            background:rgba(255,255,255,0.06);
+            color:#f8fafc;
+            cursor:pointer;
+            font-size:15px;
+            transition:0.25s;
+        }
+
+        body.light-mode .theme-btn{
+            background:#f1f5f9;
+            color:#0f172a;
+        }
+
+        .theme-btn:hover{
+            background:#2563eb;
+            color:white;
+        }
+
+        .logo{
+            font-size:1.7rem;
+            font-weight:800;
+            letter-spacing:-1px;
+        }
+
+        .logo-white{
+            color:white;
+        }
+
+        body.light-mode .logo-white{
+            color:#0f172a;
+        }
+
+        .logo-blue{
+            color:#3b82f6;
+        }
+
+        .badge{
+            margin-top:10px;
+            display:inline-flex;
+            align-items:center;
+            gap:6px;
+            padding:6px 12px;
+            border-radius:999px;
+            background:rgba(59,130,246,0.12);
+            color:#60a5fa;
+            font-size:12px;
+            font-weight:600;
+        }
+
+        body.light-mode .badge{
+            background:#eff6ff;
+            color:#2563eb;
+        }
+
+        .body{
+            padding:28px 24px 26px;
+        }
+
+        .icon-wrap{
+            width:72px;
+            height:72px;
+            margin:auto;
+            border-radius:22px;
+            background:rgba(59,130,246,0.12);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#60a5fa;
+            font-size:30px;
+            margin-bottom:18px;
+        }
+
+        body.light-mode .icon-wrap{
+            background:#eff6ff;
+            color:#2563eb;
+        }
+
+        .title{
+            text-align:center;
+            font-size:1.5rem;
+            font-weight:700;
+            color:#f8fafc;
+            margin-bottom:8px;
+        }
+
+        body.light-mode .title{
+            color:#0f172a;
+        }
+
+        .subtitle{
+            text-align:center;
+            font-size:14px;
+            color:#94a3b8;
+            margin-bottom:28px;
+        }
+
+        .options{
+            display:flex;
+            flex-direction:column;
+            gap:14px;
+        }
+
+        .option{
+            display:flex;
+            align-items:center;
+            gap:16px;
+            padding:16px;
+            border-radius:20px;
+            background:rgba(255,255,255,0.03);
+            border:1.5px solid rgba(255,255,255,0.08);
+            cursor:pointer;
+            transition:0.25s;
+        }
+
+        body.light-mode .option{
+            background:#f8fafc;
+            border:1.5px solid #e2e8f0;
+        }
+
+        .option:hover{
+            border-color:#3b82f6;
+            transform:translateY(-2px);
+        }
+
+        .option.selected{
+            border-color:#3b82f6;
+            background:rgba(59,130,246,0.12);
+        }
+
+        body.light-mode .option.selected{
+            background:#eff6ff;
+        }
+
+        .option-icon{
+            width:52px;
+            height:52px;
+            border-radius:16px;
+            background:rgba(255,255,255,0.05);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#60a5fa;
+            font-size:20px;
+            flex-shrink:0;
+        }
+
+        body.light-mode .option-icon{
+            background:white;
+            color:#2563eb;
+        }
+
+        .option.selected .option-icon{
+            background:#2563eb;
+            color:white;
+        }
+
+        .option-text{
+            flex:1;
+        }
+
+        .option-text h4{
+            color:#f8fafc;
+            font-size:16px;
+            margin-bottom:4px;
+        }
+
+        body.light-mode .option-text h4{
+            color:#0f172a;
+        }
+
+        .option-text p{
+            color:#94a3b8;
+            font-size:13px;
+        }
+
+        .radio{
+            width:20px;
+            height:20px;
+            border-radius:50%;
+            border:2px solid rgba(255,255,255,0.25);
+        }
+
+        body.light-mode .radio{
+            border-color:#cbd5e1;
+        }
+
+        .option.selected .radio{
+            background:#3b82f6;
+            border-color:#3b82f6;
+            box-shadow:inset 0 0 0 4px #111827;
+        }
+
+        body.light-mode .option.selected .radio{
+            box-shadow:inset 0 0 0 4px white;
+        }
+
+        .other-field{
+            margin-top:14px;
+            display:none;
+        }
+
+        .other-field input{
+            width:100%;
+            padding:15px 16px;
+            border-radius:18px;
+            border:1.5px solid rgba(255,255,255,0.08);
+            background:rgba(255,255,255,0.04);
+            color:#f8fafc;
+            outline:none;
+            font-size:14px;
+        }
+
+        body.light-mode .other-field input{
+            background:#f8fafc;
+            border:1.5px solid #e2e8f0;
+            color:#0f172a;
+        }
+
+        .other-field input:focus{
+            border-color:#3b82f6;
+        }
+
+        .continue-btn{
+            width:100%;
+            margin-top:22px;
+            padding:15px;
+            border:none;
+            border-radius:18px;
+            background:linear-gradient(135deg,#2563eb,#3b82f6);
+            color:white;
+            font-size:15px;
+            font-weight:700;
+            cursor:pointer;
+            transition:0.25s;
+        }
+
+        .continue-btn:hover{
+            transform:translateY(-2px);
+            box-shadow:0 12px 30px rgba(37,99,235,0.35);
+        }
+
+        .footer{
+            padding:18px;
+            border-top:1px solid rgba(255,255,255,0.06);
+            text-align:center;
+            color:#64748b;
+            font-size:12px;
+        }
+
+        body.light-mode .footer{
+            border-top:1px solid #edf2f7;
+        }
+
+        /* POPUP */
+
+        .popup-overlay{
+            position:fixed;
+            inset:0;
+            background:rgba(0,0,0,0.55);
+            backdrop-filter:blur(5px);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            z-index:9999;
+            opacity:0;
+            visibility:hidden;
+            transition:0.3s;
+        }
+
+        .popup-overlay.active{
+            opacity:1;
+            visibility:visible;
+        }
+
+        .popup{
+            width:90%;
+            max-width:360px;
+            background:#111827;
+            border-radius:24px;
+            padding:28px 24px;
+            text-align:center;
+            border:1px solid rgba(255,255,255,0.08);
+            transform:translateY(20px) scale(0.96);
+            transition:0.3s;
+        }
+
+        body.light-mode .popup{
+            background:white;
+            border:1px solid #e2e8f0;
+        }
+
+        .popup-overlay.active .popup{
+            transform:translateY(0) scale(1);
+        }
+
+        .popup-icon{
+            width:74px;
+            height:74px;
+            margin:auto;
+            border-radius:22px;
+            background:rgba(59,130,246,0.12);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#60a5fa;
+            font-size:30px;
+            margin-bottom:18px;
+        }
+
+        body.light-mode .popup-icon{
+            background:#eff6ff;
+            color:#2563eb;
+        }
+
+        .popup-title{
+            font-size:1.3rem;
+            font-weight:700;
+            color:#f8fafc;
+            margin-bottom:10px;
+        }
+
+        body.light-mode .popup-title{
+            color:#0f172a;
+        }
+
+        .popup-text{
+            color:#94a3b8;
+            font-size:14px;
+            line-height:1.6;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <button class="theme-btn" id="themeBtn">
+            <i class="fa-solid fa-moon" id="themeIcon"></i>
+        </button>
+
+        <div class="logo">
+            <span class="logo-white">NEXA</span>
+            <span class="logo-blue"> HUB AI</span>
+        </div>
+
+        <div class="badge">
+            <i class="fa-solid fa-shield"></i>
+            identity setup
+        </div>
+
+    </div>
+
+    <div class="body">
+
+        <div class="icon-wrap">
+            <i class="fa-regular fa-user"></i>
+        </div>
+
+        <div class="title">
+            How do you identify?
+        </div>
+
+        <div class="subtitle">
+            This helps personalize your AI experience.
+        </div>
+
+        <div class="options">
+
+            <div class="option" data-value="male">
+
+                <div class="option-icon">
+                    <i class="fa-solid fa-person"></i>
+                </div>
+
+                <div class="option-text">
+                    <h4>Male</h4>
+                    <p>He / Him</p>
+                </div>
+
+                <div class="radio"></div>
+
+            </div>
+
+            <div class="option" data-value="female">
+
+                <div class="option-icon">
+                    <i class="fa-solid fa-person-dress"></i>
+                </div>
+
+                <div class="option-text">
+                    <h4>Female</h4>
+                    <p>She / Her</p>
+                </div>
+
+                <div class="radio"></div>
+
+            </div>
+
+            <div class="option" data-value="other">
+
+                <div class="option-icon">
+                    <i class="fa-solid fa-genderless"></i>
+                </div>
+
+                <div class="option-text">
+                    <h4>Other</h4>
+                    <p>Non-binary / custom</p>
+                </div>
+
+                <div class="radio"></div>
+
+            </div>
+
+        </div>
+
+        <div class="other-field" id="otherField">
+            <input type="text"
+                   id="otherInput"
+                   placeholder="Describe your identity...">
+        </div>
+
+        <button class="continue-btn" id="continueBtn">
+            Continue
+        </button>
+
+    </div>
+
+    <div class="footer">
+        © 2026 NEXA HUB AI
+    </div>
+
+</div>
+
+<!-- POPUP -->
+
+<div class="popup-overlay" id="popupOverlay">
+
+    <div class="popup">
+
+        <div class="popup-icon">
+            <i class="fa-regular fa-circle-check"></i>
+        </div>
+
+        <div class="popup-title">
+            Identity Updated
+        </div>
+
+        <div class="popup-text" id="popupText">
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    // THEME
+
+    const themeBtn = document.getElementById('themeBtn');
+    const themeIcon = document.getElementById('themeIcon');
+
+    function setTheme(mode){
+
+        if(mode === 'light'){
+
+            document.body.classList.add('light-mode');
+
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+
+            localStorage.setItem('nexaTheme','light');
+
+        }else{
+
+            document.body.classList.remove('light-mode');
+
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+
+            localStorage.setItem('nexaTheme','dark');
+        }
+    }
+
+    const savedTheme = localStorage.getItem('nexaTheme');
+
+    if(savedTheme === 'light'){
+        setTheme('light');
+    }else{
+        setTheme('dark');
+    }
+
+    themeBtn.addEventListener('click',()=>{
+
+        const light = document.body.classList.contains('light-mode');
+
+        setTheme(light ? 'dark' : 'light');
+    });
+
+    // OPTIONS
+
+    const options = document.querySelectorAll('.option');
+    const otherField = document.getElementById('otherField');
+    const otherInput = document.getElementById('otherInput');
+
+    let selected = '';
+
+    options.forEach(option=>{
+
+        option.addEventListener('click',()=>{
+
+            options.forEach(opt=>{
+                opt.classList.remove('selected');
+            });
+
+            option.classList.add('selected');
+
+            selected = option.dataset.value;
+
+            if(selected === 'other'){
+                otherField.style.display = 'block';
+            }else{
+                otherField.style.display = 'none';
+            }
+        });
+    });
+
+    // CONTINUE
+
+    const continueBtn = document.getElementById('continueBtn');
+
+    const popupOverlay = document.getElementById('popupOverlay');
+
+    const popupText = document.getElementById('popupText');
+
+    continueBtn.addEventListener('click',()=>{
+
+        if(!selected){
+
+            alert('Please select an option');
+
+            return;
+        }
+
+        let message = '';
+
+        if(selected === 'male'){
+
+            message = 'Using he/him pronouns for your AI experience.';
+
+        }else if(selected === 'female'){
+
+            message = 'Using she/her pronouns for your AI experience.';
+
+        }else{
+
+            const custom = otherInput.value.trim();
+
+            if(custom){
+
+                message = `Identity set as "${custom}". Inclusive language enabled.`;
+
+            }else{
+
+                message = 'Inclusive language enabled for your AI experience.';
+            }
+        }
+
+        popupText.innerHTML = message;
+
+        popupOverlay.classList.add('active');
+
+        // redirect after popup
+
+        setTimeout(()=>{
+
+            window.location.href = "homepage.html";
+
+        },2200);
+
+    });
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexa Hub AI | Text to Image · Next-Gen AI Platform</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #020617;
+    color: #F1F5F9;
+    overflow-x: hidden;
+    transition: background 0.35s ease, color 0.3s ease;
+  }
+
+  /* scrollbar (dark) */
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0B1120;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(145deg, #06b6d4, #7c3aed);
+    border-radius: 12px;
+  }
+
+  /* LIGHT MODE GLOBAL OVERRIDES */
+  body.light-mode {
+    background: #F9FAFE;
+    color: #0F172A;
+  }
+
+  body.light-mode .navbar {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  body.light-mode .logo,
+  body.light-mode .logo span {
+    color: #0A0F2A;
+  }
+  body.light-mode .logo span {
+    color: #2563eb;
+  }
+
+  body.light-mode .nav-links a {
+    color: #1E293B;
+  }
+  body.light-mode .nav-links a:hover {
+    color: #2563eb;
+  }
+
+  body.light-mode .icon-box {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+  }
+  body.light-mode .icon-box i {
+    color: #1F2A44;
+  }
+  body.light-mode .dot {
+    background: #3b82f6;
+    border: 2px solid white;
+  }
+  body.light-mode .nav-btn {
+    background: linear-gradient(95deg, #2563eb, #0ea5e9);
+    color: white;
+    box-shadow: 0 8px 18px rgba(37,99,235,0.2);
+  }
+  body.light-mode .hero {
+    background: radial-gradient(circle at 10% 20%, rgba(241, 245, 255, 0.9), #F0F4FE);
+  }
+  body.light-mode .tag {
+    background: rgba(37, 99, 235, 0.12);
+    border-color: rgba(37, 99, 235, 0.25);
+    color: #1e40af;
+  }
+  body.light-mode .hero-left h1 {
+    background: linear-gradient(125deg, #0F172A, #1E3A8A);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  body.light-mode .hero-left p {
+    color: #2D3A5E;
+  }
+  body.light-mode .btn.secondary {
+    background: white;
+    border: 1px solid #CBD5E1;
+    color: #1E293B;
+  }
+  body.light-mode .search-box {
+    background: white;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+  }
+  body.light-mode .search-box input {
+    color: #0F172A;
+  }
+  body.light-mode .search-box input::placeholder {
+    color: #5B6E8C;
+  }
+  body.light-mode .ai-box,
+  body.light-mode .ai-card,
+  body.light-mode .stat {
+    background: #FFFFFF;
+    border: 1px solid #EFF3F8;
+    box-shadow: 0 12px 28px -8px rgba(0,0,0,0.04);
+  }
+  body.light-mode .ai-card p,
+  body.light-mode .stat p {
+    color: #334155;
+  }
+  body.light-mode .features {
+    background: #F8FAFE;
+  }
+  body.light-mode .feature-card {
+    background: white;
+    border: 1px solid #E9EDF2;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+  }
+  body.light-mode .feature-card p {
+    color: #2C3E5C;
+  }
+  body.light-mode .section-title p {
+    color: #475569;
+  }
+  body.light-mode .newsletter-box {
+    background: linear-gradient(125deg, #2563eb, #0b9bcb);
+    color: white;
+  }
+  body.light-mode .newsletter-box p {
+    color: #EFF6FF;
+  }
+  body.light-mode .subscribe {
+    background: white;
+    border-radius: 60px;
+  }
+  body.light-mode .subscribe button {
+    background: #0F172A;
+    color: white;
+  }
+  body.light-mode footer {
+    background: #FFFFFF;
+    border-top: 1px solid #E9EDF2;
+  }
+  body.light-mode .footer-box p,
+  body.light-mode .footer-links a,
+  body.light-mode .copy {
+    color: #2D3A5E;
+  }
+  body.light-mode .footer-links a:hover {
+    color: #2563eb;
+  }
+  body.light-mode .social-icons a {
+    background: #F1F5F9;
+    color: #1E293B;
+  }
+  body.light-mode .social-icons a:hover {
+    background: #2563eb;
+    color: white;
+  }
+  body.light-mode .stat h1 {
+    color: #2563eb;
+  }
+  body.light-mode .ai-top h2 {
+    color: #0F172A;
+  }
+  body.light-mode .live {
+    background: #0f172a;
+    color: white;
+  }
+  body.light-mode .footer-highlight {
+    background: #F1F5F9;
+  }
+  body.light-mode .app-badge {
+    background: #E2E8F0;
+    color: #0F172A;
+  }
+  body.light-mode .footer-brand p {
+    color: #475569;
+  }
+  body.light-mode .footer-links a {
+    color: #475569;
+  }
+  body.light-mode .contact-item {
+    color: #475569;
+  }
+  body.light-mode .footer-bottom {
+    color: #64748B;
+  }
+  body.light-mode .payment-icons i {
+    color: #475569;
+  }
+  body.light-mode .footer-col h4 {
+    background: linear-gradient(95deg, #1E293B, #2563eb);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  body.light-mode .social-icons-group a {
+    background: #F1F5F9;
+    color: #475569;
+  }
+  body.light-mode .social-icons-group a:hover {
+    background: linear-gradient(135deg, #06b6d4, #6366f1);
+    color: white;
+  }
+
+  /* navbar */
+  .navbar {
+    width: 100%;
+    padding: 18px 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background: rgba(2, 6, 23, 0.75);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    transition: all 0.3s;
+  }
+
+  .logo {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+  }
+  .logo span {
+    color: #38bdf8;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 34px;
+  }
+  .nav-links a {
+    color: #F1F5F9;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: 0.25s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 0;
+    height: 2.5px;
+    background: #2dd4bf;
+    transition: 0.25s;
+    border-radius: 4px;
+  }
+  .nav-links a:hover::after {
+    width: 100%;
+  }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .nav-icons {
+    display: flex;
+    gap: 12px;
+  }
+  .icon-box {
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.25s;
+    position: relative;
+  }
+  .icon-box:hover {
+    background: linear-gradient(145deg, #4f46e5, #0ea5e9);
+    transform: translateY(-3px);
+  }
+  .dot {
+    width: 9px;
+    height: 9px;
+    background: #2dd4bf;
+    border-radius: 50%;
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    border: 1.5px solid #020617;
+  }
+  .nav-btn {
+    padding: 11px 28px;
+    border: none;
+    background: linear-gradient(95deg, #6366f1, #0ea5e9);
+    border-radius: 60px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 0.85rem;
+    letter-spacing: 0.3px;
+  }
+  .nav-btn:hover {
+    transform: scale(0.97);
+    opacity: 0.9;
+  }
+
+  /* hero */
+  .hero {
+    min-height: 100vh;
+    padding: 150px 7% 90px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+    position: relative;
+    background: radial-gradient(circle at 10% 30%, #030a1f, #010314);
+  }
+  .blur {
+    position: absolute;
+    filter: blur(110px);
+    border-radius: 50%;
+    opacity: 0.45;
+    z-index: 0;
+  }
+  .blur1 {
+    width: 450px;
+    height: 450px;
+    background: #2dd4bf;
+    top: -120px;
+    left: -100px;
+  }
+  .blur2 {
+    width: 400px;
+    height: 400px;
+    background: #a855f7;
+    bottom: -80px;
+    right: -50px;
+  }
+  .hero-left {
+    flex: 1.2;
+    z-index: 2;
+  }
+  .tag {
+    display: inline-block;
+    padding: 8px 22px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 40px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #7dd3fc;
+    margin-bottom: 28px;
+    backdrop-filter: blur(4px);
+  }
+  .hero-left h1 {
+    font-size: 4.2rem;
+    font-weight: 800;
+    line-height: 1.2;
+    background: linear-gradient(to right, #FFFFFF, #94a3f8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 24px;
+  }
+  .hero-left p {
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: #CBD5E1;
+    max-width: 550px;
+  }
+  .hero-buttons {
+    margin-top: 36px;
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 14px 32px;
+    border: none;
+    border-radius: 60px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: 0.25s;
+  }
+  .primary {
+    background: linear-gradient(95deg, #6366f1, #06b6d4);
+    color: white;
+    box-shadow: 0 6px 14px rgba(6,182,212,0.25);
+  }
+  .secondary {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #F1F5F9;
+  }
+  .btn:hover {
+    transform: translateY(-3px);
+  }
+  .search-box {
+    margin-top: 38px;
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 80px;
+    backdrop-filter: blur(8px);
+    max-width: 540px;
+  }
+  .search-box input {
+    flex: 1;
+    background: transparent;
+    padding: 15px 22px;
+    border: none;
+    outline: none;
+    color: #F8FAFC;
+    font-size: 0.9rem;
+  }
+  .search-box button {
+    background: linear-gradient(95deg, #8b5cf6, #0ea5e9);
+    border: none;
+    padding: 15px 32px;
+    border-radius: 80px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    margin: 5px;
+    transition: 0.2s;
+  }
+  .hero-right {
+    flex: 1;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+  }
+  .ai-box {
+    width: 100%;
+    max-width: 480px;
+    background: rgba(15, 25, 45, 0.55);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 38px;
+    padding: 28px 28px 32px;
+    transition: all 0.2s;
+  }
+  .ai-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 24px;
+  }
+  .live {
+    background: #2dd4bf;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 5px 12px;
+    border-radius: 40px;
+    color: #0f172a;
+  }
+  .ai-card {
+    background: rgba(255,255,255,0.03);
+    border-radius: 28px;
+    padding: 20px;
+    margin-bottom: 16px;
+    transition: 0.2s;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .ai-card i {
+    font-size: 1.9rem;
+    color: #2dd4bf;
+    margin-bottom: 12px;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-top: 18px;
+  }
+  .stat {
+    background: rgba(255,255,255,0.03);
+    border-radius: 24px;
+    padding: 16px;
+    text-align: center;
+    transition: 0.2s;
+  }
+  .stat h1 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #6ee7ff;
+  }
+  /* features */
+  .features {
+    padding: 100px 7%;
+    background: #030b1c;
+  }
+  .section-title {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .section-title h2 {
+    font-size: 2.7rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 28px;
+  }
+  .feature-card {
+    background: rgba(255,255,255,0.03);
+    border-radius: 32px;
+    padding: 32px 28px;
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: 0.25s;
+  }
+  .feature-card:hover {
+    transform: translateY(-6px);
+    border-color: #2dd4bf;
+    box-shadow: 0 20px 30px -15px rgba(0,212,255,0.15);
+  }
+  .feature-card i {
+    width: 58px;
+    height: 58px;
+    background: linear-gradient(135deg, #4f46e5, #06b6d4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    font-size: 1.7rem;
+    margin-bottom: 24px;
+  }
+  .feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+  }
+  .feature-card p {
+    color: #B9C8E9;
+    line-height: 1.55;
+  }
+
+  /* newsletter */
+  .newsletter {
+    padding: 100px 7%;
+    text-align: center;
+  }
+  .newsletter-box {
+    max-width: 780px;
+    margin: auto;
+    background: linear-gradient(135deg, #4f46e5, #06b6d4);
+    padding: 56px 48px;
+    border-radius: 46px;
+  }
+  .newsletter-box h2 {
+    font-size: 2.6rem;
+    margin-bottom: 14px;
+  }
+  .subscribe {
+    display: flex;
+    margin-top: 32px;
+    background: #ffffff;
+    border-radius: 90px;
+    overflow: hidden;
+  }
+  .subscribe input {
+    flex: 1;
+    padding: 16px 24px;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    color: #0F172A;
+  }
+  .subscribe button {
+    background: #020617;
+    border: none;
+    padding: 16px 36px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  /* footer */
+  footer {
+    background: #020617;
+    padding: 60px 7% 25px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr repeat(4, 1fr);
+    gap: 40px;
+    margin-bottom: 50px;
+  }
+
+  .footer-brand p {
+    color: #CBD5E1;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin: 18px 0 22px;
+  }
+
+  .app-badges {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .app-badge {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    transition: 0.2s;
+    color: #E2E8F0;
+  }
+
+  .app-badge i {
+    font-size: 1.2rem;
+  }
+
+  .app-badge:hover {
+    background: rgba(45,212,191,0.15);
+    border-color: #2dd4bf;
+    transform: translateY(-2px);
+  }
+
+  .footer-col h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    background: linear-gradient(95deg, #E2E8F0, #94A3F8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .footer-links a {
+    color: #94A3B8;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: 0.25s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .footer-links a i {
+    font-size: 0.7rem;
+    opacity: 0.7;
+  }
+
+  .footer-links a:hover {
+    color: #2dd4bf;
+    transform: translateX(5px);
+  }
+
+  .contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 5px;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: #94A3B8;
+    font-size: 0.85rem;
+    transition: 0.25s;
+  }
+
+  .contact-item i {
+    width: 34px;
+    height: 34px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+  }
+
+  .contact-item:hover {
+    color: #2dd4bf;
+    transform: translateX(3px);
+  }
+
+  .contact-item:hover i {
+    background: rgba(45,212,191,0.2);
+  }
+
+  .social-icons-group {
+    display: flex;
+    gap: 14px;
+    margin-top: 20px;
+  }
+
+  .social-icons-group a {
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #CBD5E1;
+    transition: 0.25s;
+  }
+
+  .social-icons-group a:hover {
+    background: linear-gradient(135deg, #06b6d4, #6366f1);
+    color: white;
+    transform: translateY(-4px);
+  }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-size: 0.8rem;
+    color: #94A3B8;
+  }
+
+  .payment-icons {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .payment-icons i {
+    font-size: 1.8rem;
+    transition: 0.2s;
+    cursor: default;
+    color: #94A3B8;
+  }
+
+  .payment-icons i:hover {
+    color: #2dd4bf;
+    transform: translateY(-2px);
+  }
+
+  /* responsive */
+  @media (max-width: 1100px) {
+    .footer-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 35px;
+    }
+  }
+  @media (max-width: 680px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+    .footer-bottom {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+  @media (max-width: 1000px) {
+    .hero { flex-direction: column; text-align: center; }
+    .hero-left h1 { font-size: 3rem; }
+    .hero-buttons { justify-content: center; }
+    .search-box { margin: 30px auto 0 auto; }
+    .nav-links { display: none; }
+    .section-title h2 { font-size: 2.2rem; }
+  }
+  @media (max-width: 680px) {
+    .newsletter-box { padding: 40px 24px; }
+    .subscribe { flex-direction: column; border-radius: 40px; }
+    .subscribe button { width: 100%; border-radius: 0 0 40px 40px; padding: 14px; }
+    .navbar { padding: 14px 5%; }
+    .nav-right { gap: 8px; }
+    .icon-box { width: 38px; height: 38px; }
+  }
+  @media (max-width: 480px) {
+    .hero-left h1 { font-size: 2.3rem; }
+    .stats { grid-template-columns: 1fr; }
+    .feature-card { padding: 24px; }
+    .payment-icons i { font-size: 1.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo">NEXA <span>HUB AI</span></div>
+  <div class="nav-links">
+    <a href="#">Home</a>
+    <a href="#">Features</a>
+    <a href="#">AI Tools</a>
+    <a href="#">Pricing</a>
+    <a href="#">Contact</a>
+  </div>
+  <div class="nav-right">
+    <div class="nav-icons">
+      <div class="icon-box"><i class="fa-regular fa-message"></i><span class="dot"></span></div>
+      <div class="icon-box"><i class="fa-regular fa-bell"></i><span class="dot"></span></div>
+      <div class="icon-box"><i class="fa-regular fa-user"></i></div>
+      <div class="icon-box" id="themeToggle"><i class="fa-solid fa-moon" id="themeIcon"></i></div>
+    </div>
+    <button class="nav-btn">Log Out</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="blur blur1"></div>
+  <div class="blur blur2"></div>
+  <div class="hero-left">
+    <div class="tag">⚡ Next Generation AI Platform</div>
+    <h1>Build Your Future <br> With AI Technology</h1>
+    <p>Nexa Hub AI helps creators, developers and businesses automate work, generate ideas, create content, build AI systems and increase productivity faster than ever before.</p>
+    <div class="hero-buttons">
+      <button class="btn primary">Explore AI</button>
+      <button class="btn secondary">Watch Demo</button>
+    </div>
+    <div class="search-box">
+      <input type="text" placeholder="Search AI tools, coding, automation...">
+      <button>Search</button>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="ai-box">
+      <div class="ai-top"><h2>AI Dashboard</h2><div class="live">LIVE</div></div>
+      <div class="ai-card"><i class="fa-solid fa-robot"></i><h3>AI Assistant</h3><p>Smart chatbot for solving problems, answering questions and automation.</p></div>
+      <div class="ai-card"><i class="fa-solid fa-code"></i><h3>AI Coding System</h3><p>Generate clean and fast code with advanced AI coding engine.</p></div>
+      <div class="ai-card"><i class="fa-solid fa-microphone"></i><h3>Voice AI</h3><p>Real-time AI voice assistant with speech recognition technology.</p></div>
+      <div class="stats">
+        <div class="stat"><h1>24+</h1><p>AI Tools</p></div>
+        <div class="stat"><h1>30K+</h1><p>Users</p></div>
+        <div class="stat"><h1>1.2M+</h1><p>Automation</p></div>
+        <div class="stat"><h1>98%</h1><p>Success</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="section-title"><h2>Powerful AI Features</h2><p>Modern tools designed for creators, developers and businesses</p></div>
+  <div class="feature-grid">
+    <div class="feature-card"><i class="fa-solid fa-file-lines"></i><h3>Image To Text</h3><p>Extract text from images instantly using powerful AI OCR technology with high accuracy.</p></div>
+    <div class="feature-card"><i class="fa-solid fa-laptop-code"></i><h3>AI Coding Teacher</h3><p>Learn programming with smart AI guidance, code explanations and real-time examples.</p></div>
+    <div class="feature-card"><i class="fa-solid fa-chart-line"></i><h3>Business System</h3><p>Manage business operations, automation and workflow using advanced AI systems.</p></div>
+    <div class="feature-card"><i class="fa-solid fa-robot"></i><h3>Smart AI Assistant</h3><p>Human-like assistant that handles tasks, answers queries and automates workflows instantly.</p></div>
+    <div class="feature-card"><i class="fa-solid fa-microphone-lines"></i><h3>Voice Assistant</h3><p>Real-time AI voice assistant for smart communication and voice interaction.</p></div>
+    <div class="feature-card"><i class="fa-solid fa-shield-halved"></i><h3>AI Security Shield</h3><p>Real-time threat detection system powered by machine learning security models.</p></div>
+    <div class="feature-card"><i class="fa-solid fa-volume-high"></i><h3>Text To Speech</h3><p>Convert text into natural sounding speech with modern AI voice generation technology.</p></div>
+    <!-- NEW Text to Image Feature Card -->
+    <div class="feature-card"><i class="fa-solid fa-palette"></i><h3>Text to Image</h3><p>Generate stunning, high-resolution images from textual descriptions using advanced diffusion AI models. Perfect for creatives, designers, and storytellers.</p></div>
+  </div>
+</section>
+
+<section class="newsletter">
+  <div class="newsletter-box">
+    <h2>Join The AI Revolution</h2>
+    <p>Subscribe for latest AI updates, tools and automation news.</p>
+    <div class="subscribe">
+      <input type="email" placeholder="Enter your email address">
+      <button>Subscribe</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">NEXA <span>HUB AI</span></div>
+      <p>Premium AI SaaS platform for automation, coding, productivity and smart business tools. Empowering the future of work with artificial intelligence.</p>
+      <div class="app-badges">
+        <div class="app-badge"><i class="fab fa-google-play"></i> <span>Google Play</span></div>
+        <div class="app-badge"><i class="fab fa-apple"></i> <span>App Store</span></div>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <div class="footer-links">
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> Home</a>
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> Features</a>
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> AI Tools</a>
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> Pricing</a>
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> About Us</a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <div class="footer-links">
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> Blog</a>
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> Help Center</a>
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> API Docs</a>
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> Community</a>
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> Status</a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <div class="footer-links">
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> Privacy Policy</a>
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> Terms of Service</a>
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> Cookie Policy</a>
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> GDPR</a>
+        <a href="#"><i class="fa-solid fa-chevron-right"></i> Security</a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Contact Us</h4>
+      <div class="contact-details">
+        <div class="contact-item"><i class="fa-solid fa-phone"></i> <span>+91 9548575572</span></div>
+        <div class="contact-item"><i class="fa-regular fa-envelope"></i> <span>ainexahub@gmail.com</span></div>
+      </div>
+      <div class="social-icons-group">
+        <a href="#"><i class="fab fa-telegram"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#"><i class="fab fa-google-play"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div>© 2026 Nexa Hub AI | All Rights Reserved | Designed By Nexa Hub Team</div>
+    <div class="payment-icons">
+      <i class="fab fa-cc-visa"></i>
+      <i class="fab fa-cc-mastercard"></i>
+      <i class="fab fa-cc-amex"></i>
+      <i class="fab fa-cc-paypal"></i>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const themeToggle = document.getElementById('themeToggle');
+  const themeIcon = document.getElementById('themeIcon');
+
+  themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
+    const isLight = document.body.classList.contains('light-mode');
+    if (isLight) {
+      themeIcon.classList.remove('fa-moon');
+      themeIcon.classList.add('fa-sun');
+    } else {
+      themeIcon.classList.remove('fa-sun');
+      themeIcon.classList.add('fa-moon');
+    }
+  });
+</script>
+</body>
+</html>
