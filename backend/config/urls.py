@@ -31,5 +31,4 @@ urlpatterns = [
     path("", include("ImageToText.urls")),
     # path('voice-to-text/', include('VoiceToText.urls')),
 
-
 ]
