@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>NEXA HUB AI · 195 Countries + 195 Languages | Global Identity</title>
+    <title>NEXA HUB AI · 195 | Dark Blue Theme</title>
     <style>
         * {
             margin: 0;
@@ -12,50 +12,27 @@
             transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
         }
 
-        /* LIGHT MODE VARIABLES */
+        /* DARK BLUE BACKGROUND - MAIN COLOR SCHEME */
         :root {
-            --bg-body: #f1f5f9;
-            --bg-card: #ffffff;
-            --text-primary: #0f172a;
-            --text-secondary: #1e293b;
-            --text-muted: #475569;
-            --border-color: #e2e8f0;
-            --input-bg: #ffffff;
-            --input-border: #cbd5e1;
-            --input-focus: #2563eb;
-            --btn-bg: #2563eb;
-            --btn-hover: #3b82f6;
-            --result-bg: #f8fafc;
-            --badge-bg: #eef2ff;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            --nexa-white: #1e293b;
-            --hub-blue: #2563eb;
-            --question-color: #334155;
-            --label-color: #334155;
-            --footer-color: #64748b;
-        }
-
-        /* DARK MODE VARIABLES */
-        body.dark {
-            --bg-body: #0a0f1c;
-            --bg-card: #0f172f;
+            --bg-body: #0a0e2a;
+            --bg-card: #0f1535;
             --text-primary: #f1f5f9;
             --text-secondary: #e2e8f0;
-            --text-muted: #cbd5e6;
-            --border-color: #1e293b;
-            --input-bg: #1e293b;
-            --input-border: #334155;
+            --text-muted: #a0aec0;
+            --border-color: #1e2a5e;
+            --input-bg: #1a2352;
+            --input-border: #2a3568;
             --input-focus: #3b82f6;
             --btn-bg: #2563eb;
             --btn-hover: #3b82f6;
-            --result-bg: #0f172f;
-            --badge-bg: #1e293b;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            --nexa-white: #f1f5f9;
+            --result-bg: #0f1a4a;
+            --badge-bg: #1e3a8a;
+            --shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            --nexa-white: #ffffff;
             --hub-blue: #60a5fa;
             --question-color: #cbd5e6;
-            --label-color: #cbd5e6;
-            --footer-color: #94a3b8;
+            --label-color: #94a3b8;
+            --footer-color: #7c8ba0;
         }
 
         body {
@@ -65,95 +42,66 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 1.2rem;
+            padding: 0.8rem;
         }
 
+        /* SMALL SIZE CARD - compact */
         .nexa-compact {
-            max-width: 480px;
+            max-width: 380px;
             width: 100%;
             background: var(--bg-card);
-            border-radius: 1.5rem;
+            border-radius: 1.2rem;
             box-shadow: var(--shadow);
             overflow: hidden;
             border: 1px solid var(--border-color);
         }
 
         .compact-header {
-            padding: 1rem 1.2rem 0.8rem 1.2rem;
+            padding: 0.7rem 1rem 0.5rem 1rem;
             text-align: center;
             border-bottom: 1px solid var(--border-color);
             position: relative;
         }
 
-        .theme-toggle-small {
-            position: absolute;
-            top: 0.8rem;
-            right: 1rem;
-            background: var(--input-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 2rem;
-            padding: 0.25rem 0.7rem;
-            cursor: pointer;
-            font-size: 0.65rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-            transition: all 0.2s;
-        }
-
-        .theme-toggle-small:hover {
-            background: var(--btn-bg);
-            color: white;
-            border-color: var(--input-focus);
-        }
-
         .nexa-title {
-            font-size: 1.6rem;
+            font-size: 1.3rem;
             font-weight: 800;
             letter-spacing: -0.3px;
-            margin-bottom: 0.2rem;
+            margin-bottom: 0.15rem;
         }
 
         .nexa-white {
-            background: linear-gradient(135deg, var(--nexa-white), #64748b);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
+            color: #ffffff;
         }
 
         .hub-blue {
-            background: linear-gradient(135deg, var(--hub-blue), #60a5fa);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
+            color: #60a5fa;
         }
 
         .badge-small {
             display: inline-block;
             background: var(--badge-bg);
-            padding: 0.15rem 0.7rem;
+            padding: 0.1rem 0.6rem;
             border-radius: 30px;
-            font-size: 0.6rem;
+            font-size: 0.5rem;
             font-weight: 600;
-            color: var(--hub-blue);
+            color: #93c5fd;
         }
 
         .question-small {
-            margin-top: 0.6rem;
-            font-size: 0.7rem;
+            margin-top: 0.4rem;
+            font-size: 0.6rem;
             font-weight: 600;
             color: var(--question-color);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.4rem;
+            gap: 0.3rem;
         }
 
         .pulse-dot {
-            width: 6px;
-            height: 6px;
+            width: 5px;
+            height: 5px;
             background: #10b981;
             border-radius: 50%;
             display: inline-block;
@@ -166,30 +114,30 @@
         }
 
         .compact-body {
-            padding: 1.2rem 1.2rem 1.3rem 1.2rem;
+            padding: 0.9rem 1rem 1rem 1rem;
         }
 
         .form-group {
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
         }
 
         .form-group label {
             display: block;
-            font-size: 0.65rem;
+            font-size: 0.55rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: var(--label-color);
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.2rem;
         }
 
-        select, input {
+        select {
             width: 100%;
-            padding: 0.6rem 0.8rem;
+            padding: 0.5rem 0.7rem;
             background: var(--input-bg);
             border: 1px solid var(--input-border);
-            border-radius: 0.8rem;
-            font-size: 0.8rem;
+            border-radius: 0.7rem;
+            font-size: 0.7rem;
             font-family: inherit;
             font-weight: 500;
             color: var(--text-primary);
@@ -197,85 +145,82 @@
             cursor: pointer;
         }
 
-        select:focus, input:focus {
+        select:focus {
             border-color: var(--input-focus);
-            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
         }
 
         select {
             appearance: none;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="%23475569" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="%2394a3b8" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>');
             background-repeat: no-repeat;
-            background-position: right 0.8rem center;
+            background-position: right 0.7rem center;
         }
 
-        body.dark select {
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="%2394a3b8" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+        .info-note {
+            font-size: 0.55rem;
+            color: var(--text-muted);
+            margin-top: -0.2rem;
+            margin-bottom: 0.5rem;
+            padding-left: 0.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
         }
 
         .btn-continue {
-            background: linear-gradient(105deg, var(--btn-bg), #3b82f6);
+            background: linear-gradient(105deg, #2563eb, #3b82f6);
             border: none;
             width: 100%;
-            padding: 0.7rem;
-            border-radius: 2rem;
+            padding: 0.55rem;
+            border-radius: 1.5rem;
             font-weight: 700;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: white;
             cursor: pointer;
             transition: all 0.2s;
-            margin-top: 0.5rem;
+            margin-top: 0.3rem;
             font-family: inherit;
         }
 
         .btn-continue:hover {
             background: linear-gradient(105deg, #3b82f6, #60a5fa);
             transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
         }
 
         .result-preview {
             background: var(--result-bg);
-            border-radius: 1rem;
-            padding: 0.8rem 1rem;
-            margin-top: 1rem;
-            border-left: 3px solid #f59e0b;
+            border-radius: 0.8rem;
+            padding: 0.6rem 0.8rem;
+            margin-top: 0.8rem;
+            border-left: 2.5px solid #f59e0b;
         }
 
         .result-title {
-            font-size: 0.6rem;
+            font-size: 0.5rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: #f59e0b;
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.3rem;
         }
 
         .result-content {
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             font-weight: 600;
             color: var(--text-primary);
             display: flex;
             flex-direction: column;
-            gap: 0.3rem;
+            gap: 0.2rem;
         }
 
         .footer-note {
-            font-size: 0.55rem;
+            font-size: 0.45rem;
             font-weight: 500;
             text-align: center;
             color: var(--footer-color);
-            margin-top: 0.9rem;
-        }
-
-        .info-note {
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            margin-top: -0.2rem;
-            margin-bottom: 0.6rem;
-            padding-left: 0.2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
+            margin-top: 0.7rem;
         }
 
         select optgroup {
@@ -289,9 +234,6 @@
 
 <div class="nexa-compact">
     <div class="compact-header">
-        <div class="theme-toggle-small" id="themeToggle">
-            <span>🌓</span> <span id="themeLabel">Dark mode</span>
-        </div>
         <div class="nexa-title">
             <span class="nexa-white">NEXA</span>
             <span class="hub-blue"> HUB AI</span>
@@ -299,30 +241,29 @@
         <div class="badge-small">✦ 195 nations · 195 languages ✦</div>
         <div class="question-small">
             <span class="pulse-dot"></span>
-            <span>Where do you live & language?
-</span>
+            <span>Where do you live & language?</span>
         </div>
     </div>
 
     <div class="compact-body">
         <!-- COUNTRY SELECT: 195 COUNTRIES -->
         <div class="form-group">
-            <label>🌍 Country / Nation (195)</label>
+            <label>🌍 Country</label>
             <select id="countrySelect">
-                <option value="" disabled selected>— Select your country —</option>
+                <option value="" disabled selected>— Select —</option>
             </select>
         </div>
 
-        <!-- LANGUAGE SELECT: 195 MAJOR LANGUAGES -->
+        <!-- LANGUAGE SELECT: 195 LANGUAGES -->
         <div class="form-group">
-            <label>🗣️ Language (195 major languages)</label>
+            <label>🗣️ Language</label>
             <select id="languageSelect">
-                <option value="" disabled selected>— Select your language —</option>
+                <option value="" disabled selected>— Select —</option>
             </select>
         </div>
 
         <div class="info-note">
-            
+            ✨ Every nation · Every major tongue
         </div>
 
         <button class="btn-continue" id="continueBtn">Continue →</button>
@@ -333,14 +274,14 @@
         </div>
         
         <div class="footer-note">
-            © 2026 NEXA HUB AI 
+            © 2026 NEXA HUB AI
         </div>
     </div>
 </div>
 
 <script>
     // --------------------------------------------------------------
-    // 1. COMPLETE LIST OF 195 SOVEREIGN NATIONS (UN members + observers)
+    // COMPLETE LIST OF 195 SOVEREIGN NATIONS
     // --------------------------------------------------------------
     const allCountries = [
         "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria",
@@ -366,8 +307,7 @@
     ];
 
     // --------------------------------------------------------------
-    // 2. COMPLETE LIST OF 195 MAJOR LANGUAGES (global coverage)
-    //    Includes official, national, widely spoken languages from every continent
+    // COMPLETE LIST OF 195 MAJOR LANGUAGES
     // --------------------------------------------------------------
     const allLanguages = [
         "Abkhaz", "Afar", "Afrikaans", "Akan", "Albanian", "Amharic", "Arabic", "Aragonese", "Armenian", "Assamese",
@@ -390,13 +330,8 @@
         "Venda", "Vietnamese", "Volapük", "Walloon", "Welsh", "Western Frisian", "Wolof", "Xhosa", "Yiddish", "Yoruba",
         "Zhuang", "Zulu"
     ];
-    
-    // Ensure exactly 195 items (trim/fix if any duplication, but list curated to 195)
-    // Final check: allLanguages.length === 195? we have 195 exactly after counting.
-    // For safety adjust: remove any extra if miscount but trust the list (compiled from ISO and major langs)
-    // Actually the list above contains exactly 195 entries - verified.
 
-    // Flag mapping for countries (common unicode flags)
+    // Flag mapping for countries
     function getFlagEmoji(countryName) {
         const flagMap = {
             "Afghanistan": "🇦🇫", "Albania": "🇦🇱", "Algeria": "🇩🇿", "Andorra": "🇦🇩", "Angola": "🇦🇴", "Antigua and Barbuda": "🇦🇬", "Argentina": "🇦🇷", "Armenia": "🇦🇲", "Australia": "🇦🇺", "Austria": "🇦🇹",
@@ -433,7 +368,7 @@
         countrySelect.appendChild(option);
     });
 
-    // Populate language dropdown with 195 languages (simple text)
+    // Populate language dropdown
     const languageSelect = document.getElementById('languageSelect');
     allLanguages.forEach(lang => {
         const option = document.createElement('option');
@@ -442,27 +377,10 @@
         languageSelect.appendChild(option);
     });
 
-    // Additional UI elements
+    // UI elements
     const continueBtn = document.getElementById('continueBtn');
     const resultPreview = document.getElementById('resultPreview');
     const resultText = document.getElementById('resultText');
-    const themeToggle = document.getElementById('themeToggle');
-    const themeLabel = document.getElementById('themeLabel');
-
-    // Theme handling
-    function setTheme(theme) {
-        if (theme === 'dark') {
-            document.body.classList.add('dark');
-            localStorage.setItem('nexaTheme', 'dark');
-            themeLabel.innerText = 'Light mode';
-        } else {
-            document.body.classList.remove('dark');
-            localStorage.setItem('nexaTheme', 'light');
-            themeLabel.innerText = 'Dark mode';
-        }
-    }
-    function toggleTheme() { setTheme(document.body.classList.contains('dark') ? 'light' : 'dark'); }
-    function loadSavedTheme() { const saved = localStorage.getItem('nexaTheme'); setTheme(saved === 'dark' ? 'dark' : 'light'); }
 
     // Helper functions
     function generateGeoCode(country, language) {
@@ -471,14 +389,25 @@
         return `NEXA·${cPrefix}${lPrefix}`;
     }
 
-    function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m])); }
+    function escapeHtml(str) { 
+        if (!str) return ''; 
+        return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m])); 
+    }
 
     function handleContinue() {
         const country = countrySelect.value;
         const language = languageSelect.value;
 
-        if (!country) { alert("🌍 Please select your country from 195 nations"); countrySelect.focus(); return; }
-        if (!language) { alert("🗣️ Please select your language from 195 languages"); languageSelect.focus(); return; }
+        if (!country) { 
+            alert("🌍 Please select your country"); 
+            countrySelect.focus(); 
+            return; 
+        }
+        if (!language) { 
+            alert("🗣️ Please select your language"); 
+            languageSelect.focus(); 
+            return; 
+        }
 
         const countryFlag = getFlagEmoji(country);
         const geoCode = generateGeoCode(country, language);
@@ -486,8 +415,7 @@
         resultText.innerHTML = `
             <div>📍 <strong>Country:</strong> ${escapeHtml(country)} ${countryFlag}</div>
             <div>🗣️ <strong>Language:</strong> ${escapeHtml(language)}</div>
-            <div style="font-size:0.7rem; color:var(--hub-blue); margin-top:0.3rem;">🔑 ${escapeHtml(geoCode)} · global access</div>
-            <div style="font-size:0.6rem; margin-top:0.2rem; opacity:0.7;">🌐 195 nations · 195 languages · inclusive identity</div>
+            <div style="font-size:0.6rem; color:#60a5fa; margin-top:0.2rem;">🔑 ${escapeHtml(geoCode)}</div>
         `;
         resultPreview.style.display = "block";
         resultPreview.scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -496,11 +424,12 @@
 
     // Event Listeners
     continueBtn.addEventListener('click', handleContinue);
-    themeToggle.addEventListener('click', toggleTheme);
-    countrySelect.addEventListener('change', () => { if (resultPreview.style.display === 'block') resultPreview.style.display = 'none'; });
-    languageSelect.addEventListener('change', () => { if (resultPreview.style.display === 'block') resultPreview.style.display = 'none'; });
-    
-    loadSavedTheme();
+    countrySelect.addEventListener('change', () => { 
+        if (resultPreview.style.display === 'block') resultPreview.style.display = 'none'; 
+    });
+    languageSelect.addEventListener('change', () => { 
+        if (resultPreview.style.display === 'block') resultPreview.style.display = 'none'; 
+    });
 </script>
 </body>
 </html>

@@ -1,12 +1,8 @@
 from django.urls import path
-from .views import ImageToTextView
+from .views import *
 
 urlpatterns = [
-
-    path(
-        'extract-text/',
-        ImageToTextView.as_view(),
-        name='extract-text'
-    ),
+    path("ocr/", ocr_view, name="ocr"),
+    path("translate/", translate_view, name="translate"),  # ✅ add this line
 
 ]
