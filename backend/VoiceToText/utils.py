@@ -99,8 +99,8 @@ def transcribe_with_groq(file_path, language=None):
         response = client.audio.transcriptions.create(file=f, **kwargs)
 
     return {
-        "text": response.text.strip(),
-        "language": getattr(response, "language", "unknown"),
+        "text": response["text"].strip() if "text" in response else "",
+        "language": response.get("language", "unknown"),
     }
 
 
