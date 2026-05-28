@@ -7,11 +7,16 @@ import subprocess
 # Same pattern as ImageToText's MODEL_CACHE
 # ---------------------------------------------------------------------------
 CLIENT_CACHE = {}
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 # ---------------------------------------------------------------------------
 # YOUR GROQ API KEY — paste it here
 # ---------------------------------------------------------------------------
-GROQ_API_KEY = "GROQ_API_KEY"  # 🔑 Replace with your actual key
+ # 🔑 Replace with your actual key
 
 # ---------------------------------------------------------------------------
 # Whisper model to use via Groq

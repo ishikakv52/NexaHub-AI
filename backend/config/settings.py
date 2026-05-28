@@ -1,3 +1,8 @@
+
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 """
 Django settings for config project.
 
@@ -20,8 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ff-$bm=083+2vw078ve(h=h#x1xsoos-eap36j9ky)^=_z-ewg'
-
+SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -166,10 +170,8 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 # 🔥 YAHAN TERA EMAIL AAYEGA
-EMAIL_HOST_USER = 'ainexahub@gmail.com'
-
-# 🔥 YAHAN APP PASSWORD AAYEGA (normal password nahi)
-EMAIL_HOST_PASSWORD = "qnbl dqef ifli zjhg".replace(" ", "")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
 
