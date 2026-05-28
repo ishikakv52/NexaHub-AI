@@ -726,6 +726,14 @@
                 document.body.appendChild(ripple);
                 setTimeout(() => ripple.remove(), 500);
             });
+
+    // ONLY ADDITION: redirect to next page after continue
+    document.getElementById('continueBtn').addEventListener('click', function () {
+
+            window.location.href = 'country_language.html';
+
+    });
+
         }
         if (!document.querySelector('#rippleStyle')) {
             const style = document.createElement('style');
