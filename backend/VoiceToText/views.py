@@ -1,7 +1,4 @@
 from django.shortcuts import render
-
-# Create your views here.
-from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
@@ -11,14 +8,12 @@ from .utils import (
     transcribe_microphone_blob,
 )
 
-
 # ---------------------------------------------------------------------------
 # Main page
 # ---------------------------------------------------------------------------
 
 def index(request):
     return render(request, "VoiceToText/index.html")
-
 
 # ---------------------------------------------------------------------------
 # Transcribe uploaded audio file
@@ -33,11 +28,13 @@ def transcribe_audio(request):
     if not audio_file:
         return JsonResponse({"error": "No audio file provided."}, status=400)
 
-    language = request.POST.get("language", "auto")
-    lang_code = None if language == "auto" else language
+    language = request.POST.get("language", "").strip()
+
+    if language.lower() in ["", "auto"]:
+        language = None
 
     try:
-        result = transcribe_uploaded_audio(audio_file, language=lang_code)
+        result = transcribe_uploaded_audio(audio_file, language=language)
         return JsonResponse({
             "success": True,
             "text": result["text"],
@@ -45,11 +42,8 @@ def transcribe_audio(request):
         })
     except ValueError as e:
         return JsonResponse({"success": False, "error": str(e)}, status=400)
-    except ImportError as e:
-        return JsonResponse({"success": False, "error": str(e)}, status=500)
     except Exception as e:
         return JsonResponse({"success": False, "error": f"Transcription failed: {str(e)}"}, status=500)
-
 
 # ---------------------------------------------------------------------------
 # Transcribe uploaded video file
@@ -64,11 +58,10 @@ def transcribe_video(request):
     if not video_file:
         return JsonResponse({"error": "No video file provided."}, status=400)
 
-    language = request.POST.get("language", "auto")
-    lang_code = None if language == "auto" else language
+    language = request.POST.get("language")
 
     try:
-        result = transcribe_uploaded_video(video_file, language=lang_code)
+        result = transcribe_uploaded_video(video_file, language=language)
         return JsonResponse({
             "success": True,
             "text": result["text"],
@@ -76,11 +69,8 @@ def transcribe_video(request):
         })
     except ValueError as e:
         return JsonResponse({"success": False, "error": str(e)}, status=400)
-    except RuntimeError as e:
-        return JsonResponse({"success": False, "error": str(e)}, status=500)
     except Exception as e:
         return JsonResponse({"success": False, "error": f"Transcription failed: {str(e)}"}, status=500)
-
 
 # ---------------------------------------------------------------------------
 # Transcribe microphone recording
@@ -95,12 +85,11 @@ def transcribe_microphone(request):
     if not audio_blob:
         return JsonResponse({"error": "No microphone audio received."}, status=400)
 
-    language = request.POST.get("language", "auto")
-    lang_code = None if language == "auto" else language
+    language = request.POST.get("language")
 
     try:
         audio_bytes = audio_blob.read()
-        result = transcribe_microphone_blob(audio_bytes, language=lang_code)
+        result = transcribe_microphone_blob(audio_bytes, language=language)
         return JsonResponse({
             "success": True,
             "text": result["text"],

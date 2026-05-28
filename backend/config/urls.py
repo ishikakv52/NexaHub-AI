@@ -28,4 +28,5 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('', include('ImageToText.urls')),
     # path('voice-to-text/', include('VoiceToText.urls')),
+    path('voice-to-text/', include('VoiceToText.urls')),
 ]

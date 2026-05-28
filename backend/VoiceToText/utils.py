@@ -13,11 +13,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-# ---------------------------------------------------------------------------
-# YOUR GROQ API KEY — paste it here
-# ---------------------------------------------------------------------------
- # 🔑 Replace with your actual key
 
+ # 🔑 Replace with your actual key
+if not GROQ_API_KEY:
+    raise ValueError("GROQ_API_KEY not found in .env")
 # ---------------------------------------------------------------------------
 # Whisper model to use via Groq
 # Options: "whisper-large-v3" (best) or "whisper-large-v3-turbo" (faster)
@@ -81,32 +80,30 @@ def extract_audio_from_video(video_path):
 
 
 def transcribe_with_groq(file_path, language=None):
-    """
-    Send audio file to Groq's Whisper API and get transcription.
-
-    Args:
-        file_path : path to audio file on disk
-        language  : 'en', 'hi', or None (auto-detect)
-
-    Returns:
-        dict: { 'text': str, 'language': str }
-    """
     client = get_groq_client()
 
     kwargs = {
         "model": GROQ_WHISPER_MODEL,
-        "response_format": "verbose_json",  # gives us language info too
+        "response_format": "verbose_json",
     }
+    if language:
+        language = language.strip().lower()
+
     if language and language != "auto":
         kwargs["language"] = language
+
 
     with open(file_path, "rb") as f:
         response = client.audio.transcriptions.create(file=f, **kwargs)
 
+    # Debug log to see what fields exist
+    print("Groq raw response:", response.__dict__)
+
     return {
-        "text": response["text"].strip() if "text" in response else "",
-        "language": response.get("language", "unknown"),
+        "text": response.text.strip() if hasattr(response, "text") else "",
+        "language": getattr(response, "language", "unknown"),
     }
+
 
 
 # ---------------------------------------------------------------------------

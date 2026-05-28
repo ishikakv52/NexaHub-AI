@@ -7,266 +7,250 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ *, *::before, *::after{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-    :root {
-      --bg:       #080810;
-      --surface:  #10101c;
-      --surface2: #18182a;
-      --border:   #252538;
-      --accent:   #7c6aff;
-      --accent2:  #ff6a9e;
-      --accent3:  #6affd4;
-      --text:     #e8e8f2;
-      --muted:    #60607a;
-      --success:  #4ade80;
-      --error:    #f87171;
-      --radius:   14px;
-    }
+:root{
+  --bg:#f4f4f4;
+  --card:#ffffff;
+  --border:#dcdcdc;
+  --primary:#4f46e5;
+  --text:#222;
+  --muted:#666;
+  --success:#22c55e;
+  --error:#ef4444;
+  --radius:10px;
+}
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Mono', monospace;
-      min-height: 100vh;
-    }
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,sans-serif;
+  min-height:100vh;
+}
 
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image:
-        linear-gradient(rgba(124,106,255,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(124,106,255,0.04) 1px, transparent 1px);
-      background-size: 44px 44px;
-      pointer-events: none;
-      z-index: 0;
-    }
+body::before,
+.orb{
+  display:none;
+}
 
-    .orb {
-      position: fixed; border-radius: 50%;
-      filter: blur(90px); opacity: 0.15; pointer-events: none; z-index: 0;
-    }
-    .orb1 { width:520px;height:520px;background:var(--accent);top:-120px;left:-120px; }
-    .orb2 { width:420px;height:420px;background:var(--accent2);bottom:-100px;right:-100px; }
+.wrapper{
+  max-width:800px;
+  margin:auto;
+  padding:30px 20px;
+}
 
-    .wrapper {
-      position: relative; z-index: 1;
-      max-width: 800px; margin: 0 auto;
-      padding: 52px 24px 80px;
-    }
+header{
+  text-align:center;
+  margin-bottom:30px;
+}
 
-    /* ── Header ── */
-    header { text-align: center; margin-bottom: 48px; }
+h1{
+  font-size:2rem;
+  color:var(--text);
+}
 
-    .badge {
-      display: inline-flex; align-items: center; gap: 7px;
-      background: rgba(124,106,255,0.1);
-      border: 1px solid rgba(124,106,255,0.28);
-      color: var(--accent); font-size: 11px;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      padding: 5px 16px; border-radius: 999px; margin-bottom: 22px;
-    }
-    .badge-dot {
-      width: 7px; height: 7px; border-radius: 50%;
-      background: var(--accent3);
-      animation: blink 2s ease-in-out infinite;
-    }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.subtitle{
+  color:var(--muted);
+  margin-top:8px;
+  font-size:14px;
+}
 
-    h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 800; letter-spacing: -0.02em;
-      background: linear-gradient(135deg, #ffffff 25%, var(--accent) 60%, var(--accent2));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .subtitle { margin-top: 10px; color: var(--muted); font-size: 12px; letter-spacing: 0.04em; }
+.lang-bar{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  margin-bottom:25px;
+}
 
-    /* ── Language bar ── */
-    .lang-bar {
-      display: flex; align-items: center; justify-content: center;
-      gap: 8px; margin-bottom: 32px;
-    }
-    .lang-bar span { color: var(--muted); font-size: 11px; letter-spacing: 0.06em; }
-    .lang-btn {
-      background: var(--surface); border: 1px solid var(--border);
-      color: var(--muted); padding: 6px 18px; border-radius: 999px;
-      font-family: 'DM Mono', monospace; font-size: 11px;
-      cursor: pointer; transition: all 0.2s;
-    }
-    .lang-btn:hover { border-color: var(--accent); color: var(--accent); }
-    .lang-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+select{
+  padding:8px 12px;
+  border:1px solid var(--border);
+  border-radius:6px;
+}
 
-    /* ── Tabs ── */
-    .tabs {
-      display: flex; gap: 4px;
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 4px; margin-bottom: 24px;
-    }
-    .tab-btn {
-      flex: 1; display: flex; align-items: center; justify-content: center;
-      gap: 7px; padding: 10px 12px; border-radius: 10px; border: none;
-      background: transparent; color: var(--muted);
-      font-family: 'DM Mono', monospace; font-size: 11px;
-      cursor: pointer; transition: all 0.2s; white-space: nowrap;
-    }
-    .tab-btn:hover { color: var(--text); background: var(--surface2); }
-    .tab-btn.active {
-      background: var(--accent); color: #fff;
-      box-shadow: 0 4px 18px rgba(124,106,255,0.35);
-    }
+.tabs{
+  display:flex;
+  gap:10px;
+  margin-bottom:20px;
+}
 
-    /* ── Panels ── */
-    .panel { display: none; }
-    .panel.active { display: block; animation: fadeUp 0.25s ease; }
-    @keyframes fadeUp { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+.tab-btn{
+  flex:1;
+  padding:12px;
+  border:none;
+  border-radius:8px;
+  background:#e8e8e8;
+  cursor:pointer;
+}
 
-    /* ── Card ── */
-    .card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 26px;
-    }
+.tab-btn.active{
+  background:var(--primary);
+  color:white;
+}
 
-    /* ── Drop zone ── */
-    .drop-zone {
-      border: 2px dashed var(--border); border-radius: var(--radius);
-      padding: 38px 24px; text-align: center;
-      cursor: pointer; transition: all 0.25s; position: relative; overflow: hidden;
-    }
-    .drop-zone:hover, .drop-zone.drag-over {
-      border-color: var(--accent); background: rgba(124,106,255,0.04);
-    }
-    .drop-zone input[type="file"] {
-      position: absolute; inset: 0; opacity: 0; cursor: pointer;
-    }
-    .drop-icon {
-      width: 46px; height: 46px; border-radius: 12px;
-      background: rgba(124,106,255,0.12);
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 12px;
-    }
-    .drop-title { font-family:'Syne',sans-serif; font-size:14px; font-weight:600; margin-bottom:5px; }
-    .drop-sub { font-size:11px; color:var(--muted); }
-    .file-chosen { margin-top:10px; font-size:11px; color:var(--accent3); word-break:break-all; }
+.panel{
+  display:none;
+}
 
-    /* ── Mic UI ── */
-    .mic-wrap { text-align:center; padding:8px 0; }
-    .mic-btn {
-      width:84px; height:84px; border-radius:50%; border:2px solid var(--border);
-      background:var(--surface2); color:var(--muted);
-      display:flex; align-items:center; justify-content:center;
-      margin:0 auto 14px; cursor:pointer; transition:all 0.25s;
-    }
-    .mic-btn:hover { border-color:var(--accent); color:var(--accent); }
-    .mic-btn.recording {
-      background:rgba(255,106,158,0.1); border-color:var(--accent2); color:var(--accent2);
-      animation: pulse 1.2s ease-out infinite;
-    }
-    @keyframes pulse {
-      0%  {box-shadow:0 0 0 0 rgba(255,106,158,0.4)}
-      70% {box-shadow:0 0 0 16px rgba(255,106,158,0)}
-      100%{box-shadow:0 0 0 0 rgba(255,106,158,0)}
-    }
-    .mic-label { font-family:'Syne',sans-serif; font-size:13px; font-weight:600; color:var(--muted); }
-    .mic-label.on { color:var(--accent2); }
-    .mic-timer { font-size:11px; color:var(--muted); margin-top:5px; letter-spacing:0.1em; }
+.panel.active{
+  display:block;
+}
 
-    .waveform {
-      display:flex; align-items:center; justify-content:center;
-      gap:3px; height:34px; margin:10px 0; opacity:0; transition:opacity 0.3s;
-    }
-    .waveform.on { opacity:1; }
-    .wbar {
-      width:3px; background:var(--accent2); border-radius:2px;
-      animation: wav 0.55s ease-in-out infinite alternate; height:6px;
-    }
-    .wbar:nth-child(1){animation-delay:0s}   .wbar:nth-child(2){animation-delay:.07s}
-    .wbar:nth-child(3){animation-delay:.14s}  .wbar:nth-child(4){animation-delay:.21s}
-    .wbar:nth-child(5){animation-delay:.28s}  .wbar:nth-child(6){animation-delay:.35s}
-    .wbar:nth-child(7){animation-delay:.28s}  .wbar:nth-child(8){animation-delay:.21s}
-    .wbar:nth-child(9){animation-delay:.14s}  .wbar:nth-child(10){animation-delay:.07s}
-    @keyframes wav { from{height:4px} to{height:26px} }
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:var(--radius);
+  border:1px solid var(--border);
+}
 
-    /* ── Submit button ── */
-    .btn {
-      width:100%; padding:13px; margin-top:18px;
-      border-radius:var(--radius); border:none;
-      background:var(--accent); color:#fff;
-      font-family:'Syne',sans-serif; font-size:13px; font-weight:700;
-      letter-spacing:0.04em; cursor:pointer; transition:all 0.2s;
-      display:flex; align-items:center; justify-content:center; gap:8px;
-    }
-    .btn:hover { background:#9080ff; box-shadow:0 6px 22px rgba(124,106,255,0.4); transform:translateY(-1px); }
-    .btn:active { transform:translateY(0); }
-    .btn:disabled { opacity:0.45; cursor:not-allowed; transform:none; box-shadow:none; }
-    .btn.video-btn { background:#ff6a9e; }
-    .btn.video-btn:hover { background:#ff85b3; box-shadow:0 6px 22px rgba(255,106,158,0.4); }
-    .btn.mic-submit { background:#1a1a2e; border:1px solid var(--accent3); color:var(--accent3); }
-    .btn.mic-submit:hover { background:rgba(106,255,212,0.08); box-shadow:0 6px 22px rgba(106,255,212,0.2); }
+.drop-zone{
+  border:2px dashed var(--border);
+  padding:30px;
+  border-radius:10px;
+  text-align:center;
+  cursor:pointer;
+}
 
-    .spinner {
-      width:15px; height:15px; border:2px solid rgba(255,255,255,0.3);
-      border-top-color:#fff; border-radius:50%;
-      animation:spin 0.7s linear infinite; display:none;
-    }
-    .btn.loading .spinner { display:block; }
-    .btn.loading .btn-label::after { content:"Processing…"; }
-    .btn:not(.loading) .btn-label::after { content:attr(data-label); }
-    @keyframes spin { to{transform:rotate(360deg)} }
+.drop-zone:hover{
+  border-color:var(--primary);
+}
 
-    /* ── Result box ── */
-    .result-box {
-      margin-top:22px; background:var(--surface2);
-      border:1px solid var(--border); border-radius:var(--radius);
-      overflow:hidden; display:none;
-    }
-    .result-box.show { display:block; animation:fadeUp 0.3s ease; }
-    .result-head {
-      display:flex; align-items:center; justify-content:space-between;
-      padding:11px 16px; border-bottom:1px solid var(--border);
-      background:var(--surface);
-    }
-    .result-title { display:flex; align-items:center; gap:8px; font-family:'Syne',sans-serif; font-size:12px; font-weight:700; }
-    .rdot { width:8px;height:8px;border-radius:50%;background:var(--success); }
-    .rdot.err { background:var(--error); }
-    .lang-tag {
-      font-size:10px; background:rgba(124,106,255,0.12);
-      border:1px solid rgba(124,106,255,0.25); color:var(--accent);
-      padding:2px 10px; border-radius:999px; letter-spacing:0.06em;
-    }
-    .copy-btn {
-      width:28px; height:28px; border-radius:7px;
-      border:1px solid var(--border); background:transparent;
-      color:var(--muted); cursor:pointer; display:flex;
-      align-items:center; justify-content:center; transition:all 0.2s;
-    }
-    .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
-    .result-text {
-      padding:18px; font-size:13px; line-height:1.85;
-      color:var(--text); white-space:pre-wrap; word-break:break-word;
-    }
-    .result-text.err { color:var(--error); }
+.drop-icon{
+  margin-bottom:10px;
+}
 
-    /* ── Info note ── */
-    .note {
-      margin-top:14px; padding:11px 15px;
-      background:rgba(106,255,212,0.05);
-      border:1px solid rgba(106,255,212,0.18);
-      border-radius:10px; font-size:11px; color:var(--accent3); line-height:1.7;
-    }
-    .note b { font-weight:600; }
+.drop-title{
+  font-weight:bold;
+  margin-bottom:5px;
+}
 
-    /* ── Toast ── */
-    .toast {
-      position:fixed; bottom:22px; right:22px;
-      background:var(--success); color:#080810;
-      font-family:'Syne',sans-serif; font-size:12px; font-weight:700;
-      padding:9px 20px; border-radius:999px;
-      opacity:0; transform:translateY(8px); transition:all 0.3s;
-      z-index:999; pointer-events:none;
-    }
-    .toast.show { opacity:1; transform:translateY(0); }
+.drop-sub{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.btn{
+  width:100%;
+  margin-top:15px;
+  padding:12px;
+  border:none;
+  border-radius:8px;
+  background:var(--primary);
+  color:white;
+  cursor:pointer;
+}
+
+.btn:disabled{
+  opacity:.6;
+}
+
+.video-btn{
+  background:#e91e63;
+}
+
+.mic-submit{
+  background:#222;
+}
+
+.result-box{
+  margin-top:20px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  overflow:hidden;
+  display:none;
+}
+
+.result-box.show{
+  display:block;
+}
+
+.result-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px;
+  background:#f0f0f0;
+}
+
+.result-text{
+  padding:15px;
+  line-height:1.6;
+}
+
+.result-text.err{
+  color:var(--error);
+}
+
+.rdot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--success);
+}
+
+.rdot.err{
+  background:var(--error);
+}
+
+.copy-btn{
+  border:none;
+  background:none;
+  cursor:pointer;
+}
+
+.note{
+  margin-top:15px;
+  padding:12px;
+  background:#f7f7f7;
+  border:1px solid var(--border);
+  border-radius:8px;
+  font-size:13px;
+}
+
+.mic-wrap{
+  text-align:center;
+}
+
+.mic-btn{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  border:none;
+  background:#eee;
+  cursor:pointer;
+}
+
+.mic-btn.recording{
+  background:#ffd6df;
+}
+
+.waveform{
+  display:flex;
+  justify-content:center;
+  gap:3px;
+  margin:10px 0;
+}
+
+.wbar{
+  width:4px;
+  height:20px;
+  background:#ff4d6d;
+}
+
+.toast{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:black;
+  color:white;
+  padding:10px 18px;
+  border-radius:8px;
+}
   </style>
 </head>
 <body>
@@ -278,21 +262,43 @@
 
   <!-- Header -->
   <header>
-    <div class="badge">
-      <div class="badge-dot"></div>
-      Powered by Groq · Whisper Large V3 · Free
-    </div>
+    
     <h1>Voice to Text</h1>
     <p class="subtitle">Upload audio · Upload video · Record mic · Hindi & English supported</p>
   </header>
 
-  <!-- Language selector -->
-  <div class="lang-bar">
-    <span>Language :</span>
-    <button class="lang-btn active" data-lang="auto">Auto Detect</button>
-    <button class="lang-btn" data-lang="en">English</button>
-    <button class="lang-btn" data-lang="hi">हिन्दी</button>
-  </div>
+ <!-- Language selector -->
+<div class="lang-bar">
+  <span>Language :</span>
+  <select id="lang-select">
+  <option value="">Auto Detect</option>
+  <option value="en">English</option>
+  <option value="hi">Hindi</option>
+  <option value="fr">French</option>
+  <option value="de">German</option>
+  <option value="es">Spanish</option>
+  <option value="ru">Russian</option>
+  <option value="ar">Arabic</option>
+  <option value="bn">Bengali</option>
+  <option value="ta">Tamil</option>
+  <option value="te">Telugu</option>
+  <option value="ml">Malayalam</option>
+  <option value="mr">Marathi</option>
+  <option value="gu">Gujarati</option>
+  <option value="ur">Urdu</option>
+  <option value="zh">Chinese</option>
+  <option value="ja">Japanese</option>
+  <option value="pt">Portuguese</option>
+  <option value="pa">Punjabi</option>
+  <option value="vi">Vietnamese</option>
+  <option value="ko">Korean</option>
+  <option value="kn">Kannada</option>
+  <option value="ne">Nepali</option>
+  <option value="sd">Sindhi</option>
+</select>
+
+</div>
+
 
   <!-- Tabs -->
   <div class="tabs">
@@ -420,18 +426,15 @@
 
 <script>
   // ── State
-  let selectedLang = "auto";
+  let selectedLang = "";
   let mediaRecorder = null, audioChunks = [], recordedBlob = null;
   let timerInterval = null, seconds = 0;
 
-  // ── Language buttons
-  document.querySelectorAll(".lang-btn").forEach(b => {
-    b.addEventListener("click", () => {
-      document.querySelectorAll(".lang-btn").forEach(x => x.classList.remove("active"));
-      b.classList.add("active");
-      selectedLang = b.dataset.lang;
-    });
-  });
+  // ── Language dropdown
+document.getElementById("lang-select").addEventListener("change", e => {
+  selectedLang = e.target.value;
+});
+
 
   // ── Tabs
   document.querySelectorAll(".tab-btn").forEach(b => {
@@ -493,7 +496,11 @@
     fd.append("audio_file", file);
     fd.append("language", selectedLang);
     try {
-      const res = await fetch("/voice-to-text/transcribe/audio/", { method:"POST", body:fd });
+const res = await fetch("http://127.0.0.1:8000/voice-to-text/transcribe/audio/", {
+  method: "POST",
+  body: fd
+});
+
       showResult("audio", await res.json());
     } catch(e) {
       showResult("audio", { success:false, error:"Network error: " + e.message });
@@ -510,7 +517,11 @@
     fd.append("video_file", file);
     fd.append("language", selectedLang);
     try {
-      const res = await fetch("/voice-to-text/transcribe/video/", { method:"POST", body:fd });
+const res = await fetch("http://127.0.0.1:8000/voice-to-text/transcribe/video/", {
+  method: "POST",
+  body: fd
+});
+
       showResult("video", await res.json());
     } catch(e) {
       showResult("video", { success:false, error:"Network error: " + e.message });
@@ -566,7 +577,11 @@
     fd.append("audio_blob", recordedBlob, "recording.webm");
     fd.append("language", selectedLang);
     try {
-      const res = await fetch("/voice-to-text/transcribe/microphone/", { method:"POST", body:fd });
+const res = await fetch("http://127.0.0.1:8000/voice-to-text/transcribe/microphone/", {
+  method: "POST",
+  body: fd
+});
+
       showResult("mic", await res.json());
     } catch(e) {
       showResult("mic", { success:false, error:"Network error: " + e.message });
