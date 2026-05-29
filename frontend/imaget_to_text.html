@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>NEXA HUB AI · Neural OCR Studio | 50+ Languages Translation</title>
+  <title>IMAGE → TEXT · Neural OCR Studio | NEXA HUB AI</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300,400,500,600,700,800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
@@ -89,12 +89,47 @@
       z-index: 2;
     }
 
+    /* ===== PAGE HEADLINE "IMAGE TO TEXT" - BOLD & DIRECT ===== */
+    .page-headline {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .headline-main {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      padding: 0.5rem 2rem;
+      border-radius: 80px;
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+    }
+    .headline-main i {
+      font-size: 2.3rem;
+      color: var(--accent-primary);
+      background: none;
+      -webkit-background-clip: unset;
+      background-clip: unset;
+    }
+    .headline-sub {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-top: 8px;
+      letter-spacing: 0.6px;
+    }
+
     .hero-header {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem;
       background: var(--card-bg);
       backdrop-filter: blur(20px);
       padding: 0.6rem 2rem;
@@ -111,13 +146,13 @@
       flex-wrap: wrap;
     }
     .nexa-white {
-      font-size: 2rem;
+      font-size: 1.6rem;
       font-weight: 800;
       color: var(--nexa-white);
       letter-spacing: -0.5px;
     }
     .hubai-blue {
-      font-size: 2rem;
+      font-size: 1.6rem;
       font-weight: 800;
       color: var(--hubai-blue);
       letter-spacing: -0.5px;
@@ -362,6 +397,7 @@
       justify-content: center;
       gap: 10px;
       transition: all 0.3s;
+      font-size: 1rem;
     }
     .extract-neon-btn:hover { transform: scale(0.98); box-shadow: 0 0 20px var(--accent-glow); }
 
@@ -384,6 +420,7 @@
       font-size: 0.9rem;
       line-height: 1.5;
       white-space: pre-wrap;
+      font-family: monospace;
     }
     body.light-mode .text-box { background: #f9fcff; }
     .action-mini {
@@ -454,17 +491,29 @@
       .grid-main { grid-template-columns: 1fr; gap: 1.2rem; }
       .input-row { flex-direction: column; }
       .hero-header { flex-direction: column; gap: 1rem; border-radius: 2rem; }
-      .nexa-white, .hubai-blue { font-size: 1.5rem; }
+      .nexa-white, .hubai-blue { font-size: 1.3rem; }
+      .headline-main { font-size: 1.6rem; gap: 8px; }
     }
   </style>
 </head>
 <body>
 <div class="app-container">
+  <!-- PAGE HEADLINE "IMAGE TO TEXT" - CLEAR, BOLD, DIRECT -->
+  <div class="page-headline">
+    <div class="headline-main">
+      <i class="fas fa-image"></i>
+      IMAGE → TEXT
+      <i class="fas fa-arrow-right"></i>
+      <i class="fas fa-font"></i>
+    </div>
+    <div class="headline-sub"> Extract text from any image </div>
+  </div>
+
   <div class="hero-header">
     <div class="logo-area">
       <span class="nexa-white">NEXA</span>
       <span class="hubai-blue">HUB AI</span>
-      <!-- <span class="logo-badge"><i class="fas fa-camera"></i> Image to Text | 50+ Languages</span> -->
+      <!-- <div class="logo-badge"><i class="fas fa-ocr"></i> OCR v5.0</div> -->
     </div>
     <div class="nav-links">
       <a href="#" class="nav-item"><i class="fas fa-language"></i> Polyglot AI</a>
@@ -474,18 +523,18 @@
   </div>
 
   <div class="grid-main">
-    <!-- LEFT CARD -->
+    <!-- LEFT CARD: IMAGE TO TEXT main zone -->
     <div class="glass-card">
       <div class="card-inner">
-        <h3 style="margin-bottom: 1rem;"><i class="fas fa-cloud-upload-alt" style="color: var(--accent-primary);"></i> Upload Your Image</h3>
+        <h3 style="margin-bottom: 1rem;"><i class="fas fa-cloud-upload-alt" style="color: var(--accent-primary);"></i> Upload Image → Extract Text</h3>
         
         <div class="input-row">
           <div id="dropZone" class="upload-zone">
             <div class="upload-icon"><i class="fas fa-file-image"></i></div>
-            <p style="font-size:0.8rem;">Drag & Drop your image here or</p>
-            <button id="browseFileBtn" class="browse-neon" style="padding:0.4rem 1rem; font-size:0.8rem;"><i class="fas fa-folder-open"></i> Browse File</button>
+            <p style="font-size:0.8rem;">Drag & Drop here or</p>
+            <button id="browseFileBtn" class="browse-neon" style="padding:0.4rem 1rem; font-size:0.8rem;"><i class="fas fa-folder-open"></i> Browse Image</button>
             <input type="file" id="fileInput" accept="image/jpeg,image/png,image/jpg,image/webp" style="display: none;">
-            <div class="file-info" style="font-size:0.65rem; margin-top:8px;"><i class="fas fa-info-circle"></i> Supported: JPG, PNG, JPEG, WEBP (Max 10MB)</div>
+            <div class="file-info" style="font-size:0.65rem; margin-top:8px;"><i class="fas fa-info-circle"></i> JPG, PNG, WEBP · Max 10MB</div>
             <div id="fileNameDisplay" style="font-size: 0.7rem; margin-top: 5px; color: var(--accent-primary);"></div>
           </div>
           
@@ -517,17 +566,17 @@
               <label for="hindiRadio">Hindi </label>
             </div>
           </div>
-          <div style="font-size:0.65rem; margin-top:8px;"><i class="fas fa-bolt"></i> Default: English printed text</div>
+          <div style="font-size:0.65rem; margin-top:8px;"><i class="fas fa-bolt"></i> Default: English printed text (high accuracy)</div>
         </div>
 
         <div class="quick-tip"><i class="fas fa-microchip"></i> <strong>NEXA HUB AI Engine v4.0</strong> · High-precision OCR</div>
         <div class="quick-tip"><i class="fas fa-shield-alt"></i> Zero data retention · Fast & Secure</div>
         
-        <button id="extractBtn" class="extract-neon-btn"><i class="fas fa-robot"></i> Extract Text</button>
+        <button id="extractBtn" class="extract-neon-btn"><i class="fas fa-robot"></i> EXTRACT TEXT FROM IMAGE →</button>
       </div>
     </div>
 
-    <!-- RIGHT CARD -->
+    <!-- RIGHT CARD: TEXT OUTPUT & TRANSLATION -->
     <div class="glass-card">
       <div class="card-inner">
         <div class="lang-glow">
@@ -543,7 +592,7 @@
               <button id="downloadOriginalBtn" class="action-mini"><i class="fas fa-download"></i> Download .txt</button>
             </div>
           </div>
-          <div id="originalTextDiv" class="text-box">✨ Ready. Upload image & click "Extract Text".</div>
+          <div id="originalTextDiv" class="text-box">✨ Ready. Upload image & click "EXTRACT TEXT FROM IMAGE →".</div>
         </div>
 
         <div style="margin-top: 1.2rem;">
@@ -553,7 +602,6 @@
           </h4>
           <div style="display: flex; gap: 10px; margin: 10px 0; flex-wrap:wrap;">
             <select id="targetLangSelect" class="translate-select" style="flex:1;">
-              <!-- 50+ Languages -->
               <option value="en">English</option>
               <option value="hi" selected>हिन्दी (Hindi)</option>
               <option value="bn">বাংলা (Bengali)</option>
@@ -564,56 +612,18 @@
               <option value="gu">ગુજરાતી (Gujarati)</option>
               <option value="ur">اردو (Urdu)</option>
               <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
-              <option value="or">ଓଡ଼ିଆ (Odia)</option>
-              <option value="as">অসমীয়া (Assamese)</option>
-              <option value="ne">नेपाली (Nepali)</option>
-              <option value="sd">سنڌي (Sindhi)</option>
               <option value="fr">Français (French)</option>
               <option value="de">Deutsch (German)</option>
               <option value="es">Español (Spanish)</option>
-              <option value="it">Italiano (Italian)</option>
-              <option value="pt">Português (Portuguese)</option>
               <option value="ru">Русский (Russian)</option>
               <option value="ar">العربية (Arabic)</option>
               <option value="ja">日本語 (Japanese)</option>
               <option value="ko">한국어 (Korean)</option>
               <option value="zh-CN">中文 (Simplified)</option>
-              <option value="zh-TW">中文 (Traditional)</option>
               <option value="th">ไทย (Thai)</option>
               <option value="vi">Tiếng Việt (Vietnamese)</option>
-              <option value="ms">Melayu (Malay)</option>
-              <option value="id">Bahasa Indonesia</option>
               <option value="tr">Türkçe (Turkish)</option>
               <option value="pl">Polski (Polish)</option>
-              <option value="nl">Nederlands (Dutch)</option>
-              <option value="sv">Svenska (Swedish)</option>
-              <option value="da">Dansk (Danish)</option>
-              <option value="no">Norsk (Norwegian)</option>
-              <option value="fi">Suomi (Finnish)</option>
-              <option value="el">Ελληνικά (Greek)</option>
-              <option value="cs">Čeština (Czech)</option>
-              <option value="hu">Magyar (Hungarian)</option>
-              <option value="ro">Română (Romanian)</option>
-              <option value="uk">Українська (Ukrainian)</option>
-              <option value="he">עברית (Hebrew)</option>
-              <option value="fa">فارسی (Persian)</option>
-              <option value="sw">Kiswahili (Swahili)</option>
-              <option value="tl">Filipino (Tagalog)</option>
-              <option value="km">ភាសាខ្មែរ (Khmer)</option>
-              <option value="my">မြန်မာစာ (Burmese)</option>
-              <option value="lo">ລາວ (Lao)</option>
-              <option value="mn">Монгол (Mongolian)</option>
-              <option value="ka">ქართული (Georgian)</option>
-              <option value="hy">Հայերեն (Armenian)</option>
-              <option value="af">Afrikaans</option>
-              <option value="sr">Српски (Serbian)</option>
-              <option value="hr">Hrvatski (Croatian)</option>
-              <option value="bg">Български (Bulgarian)</option>
-              <option value="et">Eesti (Estonian)</option>
-              <option value="lv">Latviešu (Latvian)</option>
-              <option value="lt">Lietuvių (Lithuanian)</option>
-              <option value="is">Íslenska (Icelandic)</option>
-              <option value="mt">Malti (Maltese)</option>
             </select>
             <button id="translateBtn" class="action-mini" style="background: var(--chip-bg);"><i class="fas fa-exchange-alt"></i> Translate</button>
           </div>
@@ -635,7 +645,7 @@
     </div>
   </div>
 
-  <footer><i class=""></i> © 2026 NEXA HUB AI </footer>
+  <footer><i class=""></i>© 2026 NEXA HUB AI</footer>
 </div>
 
 <!-- Camera Modal -->
@@ -651,241 +661,239 @@
 </div>
 
 <script>
-  // DOM Elements
-  const dropZone = document.getElementById('dropZone');
-  const fileInput = document.getElementById('fileInput');
-  const browseBtn = document.getElementById('browseFileBtn');
-  const extractBtn = document.getElementById('extractBtn');
-  const originalTextDiv = document.getElementById('originalTextDiv');
-  const detectedLangSpan = document.getElementById('detectedLang');
-  const isoCodeSpan = document.getElementById('isoCode');
-  const translateBtn = document.getElementById('translateBtn');
-  const targetLangSelect = document.getElementById('targetLangSelect');
-  const translatedTextDiv = document.getElementById('translatedTextDiv');
-  const charCountSpan = document.getElementById('charCount');
-  const wordCountSpan = document.getElementById('wordCount');
-  const lineCountSpan = document.getElementById('lineCount');
-  const fileNameDisplay = document.getElementById('fileNameDisplay');
-  const copyOriginalBtn = document.getElementById('copyOriginalBtn');
-  const downloadOriginalBtn = document.getElementById('downloadOriginalBtn');
-  const copyTranslatedBtn = document.getElementById('copyTranslatedBtn');
-  const downloadTranslatedBtn = document.getElementById('downloadTranslatedBtn');
-  const themeToggleBtn = document.getElementById('themeToggleBtn');
-  const previewOrbit = document.getElementById('previewOrbit');
-  const previewImg = document.getElementById('previewImg');
-  const removeImageBtn = document.getElementById('removeImageBtn');
-  const handRadio = document.getElementById('handRadio');
-  const hindiRadio = document.getElementById('hindiRadio');
-  const modeHandwritten = document.getElementById('modeHandwritten');
-  const modeHindi = document.getElementById('modeHindi');
-  const cameraTriggerBtn = document.getElementById('cameraTriggerBtn');
-  const cameraModal = document.getElementById('cameraModal');
-  const video = document.getElementById('video');
-  const canvas = document.getElementById('canvas');
-  const captureBtn = document.getElementById('captureBtn');
-  const closeCameraBtn = document.getElementById('closeCameraBtn');
+  (function(){
+    // DOM Elements
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const browseBtn = document.getElementById('browseFileBtn');
+    const extractBtn = document.getElementById('extractBtn');
+    const originalTextDiv = document.getElementById('originalTextDiv');
+    const detectedLangSpan = document.getElementById('detectedLang');
+    const isoCodeSpan = document.getElementById('isoCode');
+    const translateBtn = document.getElementById('translateBtn');
+    const targetLangSelect = document.getElementById('targetLangSelect');
+    const translatedTextDiv = document.getElementById('translatedTextDiv');
+    const charCountSpan = document.getElementById('charCount');
+    const wordCountSpan = document.getElementById('wordCount');
+    const lineCountSpan = document.getElementById('lineCount');
+    const fileNameDisplay = document.getElementById('fileNameDisplay');
+    const copyOriginalBtn = document.getElementById('copyOriginalBtn');
+    const downloadOriginalBtn = document.getElementById('downloadOriginalBtn');
+    const copyTranslatedBtn = document.getElementById('copyTranslatedBtn');
+    const downloadTranslatedBtn = document.getElementById('downloadTranslatedBtn');
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const previewOrbit = document.getElementById('previewOrbit');
+    const previewImg = document.getElementById('previewImg');
+    const removeImageBtn = document.getElementById('removeImageBtn');
+    const handRadio = document.getElementById('handRadio');
+    const hindiRadio = document.getElementById('hindiRadio');
+    const modeHandwritten = document.getElementById('modeHandwritten');
+    const modeHindi = document.getElementById('modeHindi');
+    const cameraTriggerBtn = document.getElementById('cameraTriggerBtn');
+    const cameraModal = document.getElementById('cameraModal');
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const captureBtn = document.getElementById('captureBtn');
+    const closeCameraBtn = document.getElementById('closeCameraBtn');
 
-  let currentExtractedText = "";
-  let currentImageFile = null;
-  let isOcrRunning = false;
-  let stream = null;
+    let currentExtractedText = "";
+    let currentImageFile = null;
+    let isOcrRunning = false;
+    let stream = null;
 
-  // Dark/Light Mode
-  function initTheme() {
-    const saved = localStorage.getItem('nexaTheme');
-    if (saved === 'light') {
-      document.body.classList.add('light-mode');
-      themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i> <span>Light Mode</span>';
-    } else {
-      document.body.classList.remove('light-mode');
-      themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i> <span>Dark Mode</span>';
+    function showToast(msg) {
+      let t = document.querySelector('.toast-msg');
+      if(t) t.remove();
+      let toast = document.createElement('div');
+      toast.className = 'toast-msg';
+      toast.innerText = msg;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 2000);
     }
-  }
-  function toggleTheme() {
-    if (document.body.classList.contains('light-mode')) {
-      document.body.classList.remove('light-mode');
-      localStorage.setItem('nexaTheme', 'dark');
-      themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i> <span>Dark Mode</span>';
-    } else {
-      document.body.classList.add('light-mode');
-      localStorage.setItem('nexaTheme', 'light');
-      themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i> <span>Light Mode</span>';
+
+    function updateStats(text) {
+      if (!text || text === "✨ Ready. Upload image & click \"EXTRACT TEXT FROM IMAGE →\".") { charCountSpan.innerText = "0"; wordCountSpan.innerText = "0"; lineCountSpan.innerText = "0"; return; }
+      charCountSpan.innerText = text.length;
+      wordCountSpan.innerText = text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
+      let lines = text.split(/\r?\n/).filter(l => l.trim().length > 0).length;
+      lineCountSpan.innerText = lines || (text.length ? 1 : 0);
     }
-  }
-  themeToggleBtn.addEventListener('click', toggleTheme);
-  initTheme();
 
-  // Mode UI
-  function updateModeUI() {
-    if (handRadio.checked) { modeHandwritten.classList.add('selected'); modeHindi.classList.remove('selected'); }
-    else if (hindiRadio.checked) { modeHindi.classList.add('selected'); modeHandwritten.classList.remove('selected'); }
-    else { modeHandwritten.classList.remove('selected'); modeHindi.classList.remove('selected'); }
-  }
-  handRadio.addEventListener('change', updateModeUI);
-  hindiRadio.addEventListener('change', updateModeUI);
-  modeHandwritten.addEventListener('click', () => { handRadio.checked = true; updateModeUI(); });
-  modeHindi.addEventListener('click', () => { hindiRadio.checked = true; updateModeUI(); });
-
-  function showToast(msg) {
-    let t = document.querySelector('.toast-msg');
-    if(t) t.remove();
-    let toast = document.createElement('div');
-    toast.className = 'toast-msg';
-    toast.innerText = msg;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 2000);
-  }
-
-  function updateStats(text) {
-    if (!text) { charCountSpan.innerText = "0"; wordCountSpan.innerText = "0"; lineCountSpan.innerText = "0"; return; }
-    charCountSpan.innerText = text.length;
-    wordCountSpan.innerText = text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
-    let lines = text.split(/\r?\n/).filter(l => l.trim().length > 0).length;
-    lineCountSpan.innerText = lines || (text.length ? 1 : 0);
-  }
-
-  function updateUIText(text, lang = "en") {
-    currentExtractedText = text;
-    originalTextDiv.innerText = text || "⚠️ No text detected. Try again with clearer image.";
-    const langMap = { en:"English", hi:"Hindi", bn:"Bengali", ta:"Tamil", te:"Telugu", ml:"Malayalam", mr:"Marathi", gu:"Gujarati", ur:"Urdu", pa:"Punjabi", fr:"French", de:"German", es:"Spanish", ru:"Russian", ar:"Arabic", ja:"Japanese", ko:"Korean", th:"Thai", vi:"Vietnamese", "zh-CN":"Chinese" };
-    detectedLangSpan.innerText = langMap[lang] || lang.toUpperCase();
-    isoCodeSpan.innerText = lang;
-    updateStats(text);
-  }
-
-  function showImagePreview(file) {
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => { previewImg.src = e.target.result; previewOrbit.classList.add('show'); };
-      reader.readAsDataURL(file);
+    function updateUIText(text, lang = "en") {
+      currentExtractedText = text;
+      originalTextDiv.innerText = text || "⚠️ No text detected. Try again with clearer image.";
+      const langMap = { en:"English", hi:"Hindi (Devanagari)", bn:"Bengali", ta:"Tamil", te:"Telugu", ml:"Malayalam", mr:"Marathi", gu:"Gujarati", ur:"Urdu", pa:"Punjabi", fr:"French", de:"German", es:"Spanish", ru:"Russian", ar:"Arabic", ja:"Japanese", ko:"Korean", th:"Thai", vi:"Vietnamese", "zh-CN":"Chinese" };
+      detectedLangSpan.innerText = langMap[lang] || lang.toUpperCase();
+      isoCodeSpan.innerText = lang;
+      updateStats(text);
     }
-  }
-  function clearPreview() { previewImg.src = ""; previewOrbit.classList.remove('show'); }
-  function removeImage() {
-    currentImageFile = null;
-    fileInput.value = "";
-    fileNameDisplay.innerHTML = "";
-    clearPreview();
+
+    function showImagePreview(file) {
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => { previewImg.src = e.target.result; previewOrbit.classList.add('show'); };
+        reader.readAsDataURL(file);
+      }
+    }
+    function clearPreview() { previewImg.src = ""; previewOrbit.classList.remove('show'); }
+    function removeImage() {
+      currentImageFile = null;
+      fileInput.value = "";
+      fileNameDisplay.innerHTML = "";
+      clearPreview();
+      updateUIText("", "en");
+      originalTextDiv.innerText = "✨ Ready. Upload image & click \"EXTRACT TEXT FROM IMAGE →\".";
+      translatedTextDiv.innerHTML = "<i class='fas fa-language'></i> Translation will appear after extraction...";
+      showToast("Image removed");
+    }
+    removeImageBtn.addEventListener('click', removeImage);
+
+    function setImageFile(file) {
+      if (!file.type.startsWith('image/')) { showToast("Not an image"); return false; }
+      if (file.size > 10*1024*1024) { showToast("Max 10MB"); return false; }
+      currentImageFile = file;
+      fileNameDisplay.innerHTML = `<i class="fas fa-check-circle"></i> ${file.name} (${(file.size/1024).toFixed(0)} KB)`;
+      showImagePreview(file);
+      updateUIText("", "en");
+      originalTextDiv.innerText = "📸 Image ready. Click 'EXTRACT TEXT FROM IMAGE →' to run Neural OCR.";
+      translatedTextDiv.innerHTML = "<i class='fas fa-language'></i> Translation will appear after extraction...";
+      return true;
+    }
+
+    async function openCamera() {
+      try {
+        if (stream) { stream.getTracks().forEach(track => track.stop()); }
+        stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        video.srcObject = stream;
+        cameraModal.classList.add('active');
+      } catch (err) { showToast("Camera access denied"); }
+    }
+    function closeCamera() {
+      if (stream) { stream.getTracks().forEach(track => track.stop()); stream = null; }
+      cameraModal.classList.remove('active');
+    }
+    function capturePhoto() {
+      const context = canvas.getContext('2d');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob(blob => {
+        const file = new File([blob], "camera_capture.jpg", { type: "image/jpeg" });
+        setImageFile(file);
+        closeCamera();
+        showToast("Photo captured & ready for OCR");
+      }, 'image/jpeg', 0.9);
+    }
+    cameraTriggerBtn.addEventListener('click', openCamera);
+    captureBtn.addEventListener('click', capturePhoto);
+    closeCameraBtn.addEventListener('click', closeCamera);
+
+    async function performOCR() {
+      if (!currentImageFile) { showToast("Please upload an image first"); return; }
+      if (isOcrRunning) return;
+      isOcrRunning = true;
+      extractBtn.disabled = true;
+      let modeLang = 'eng';
+      let modeMsg = "English printed";
+      if (handRadio.checked) { modeLang = 'eng'; modeMsg = "Handwriting (enhanced)"; originalTextDiv.innerText = "✍️ Handwriting OCR in progress..."; }
+      else if (hindiRadio.checked) { modeLang = 'hin'; modeMsg = "Hindi"; originalTextDiv.innerText = "📖 Hindi OCR scanning..."; }
+      else { originalTextDiv.innerText = "🧠 Neural OCR engine running... Please wait"; }
+      try {
+        const worker = await Tesseract.createWorker();
+        await worker.loadLanguage(modeLang);
+        await worker.initialize(modeLang);
+        const { data: { text } } = await worker.recognize(currentImageFile);
+        await worker.terminate();
+        let result = text.trim() || "⚠️ No text detected. Use clearer image, better lighting.";
+        let finalLang = /[\u0900-\u097F]/.test(result) ? 'hi' : 'en';
+        if (hindiRadio.checked) finalLang = 'hi';
+        updateUIText(result, finalLang);
+        showToast(`✅ OCR complete (${modeMsg})`);
+      } catch (err) {
+        originalTextDiv.innerText = "❌ OCR error: " + (err.message || "unknown");
+        showToast("OCR failed");
+      } finally {
+        isOcrRunning = false;
+        extractBtn.disabled = false;
+      }
+    }
+
+    async function translateNow() {
+      if (!currentExtractedText || currentExtractedText.includes("Ready") || currentExtractedText.includes("No text") || currentExtractedText.length === 0 || currentExtractedText.includes("⚠️")) {
+        translatedTextDiv.innerHTML = "⚠️ No extracted text. Run OCR first.";
+        showToast("No extracted text to translate");
+        return;
+      }
+      let target = targetLangSelect.value;
+      let targetName = targetLangSelect.options[targetLangSelect.selectedIndex]?.text.split('(')[0].trim();
+      translatedTextDiv.innerHTML = `<i class="fas fa-spinner fa-pulse"></i> Translating to ${targetName}...`;
+      try {
+        let url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(currentExtractedText)}&langpair=en|${target}`;
+        let res = await fetch(url);
+        let data = await res.json();
+        let translated = data.responseData?.translatedText || currentExtractedText;
+        if (translated.includes('&quot;')) translated = translated.replace(/&quot;/g, '"');
+        translatedTextDiv.innerHTML = translated;
+        showToast(`✓ Translated to ${targetName}`);
+      } catch(e) { 
+        translatedTextDiv.innerHTML = "⚠️ Translation error. Please check your network connection.";
+        showToast("Translation failed");
+      }
+    }
+
+    function copyText(text, msg) { if (!text || text.includes("Ready") || text.includes("⚠️") || text.includes("Translation will appear")) { showToast("No text to copy"); return; } navigator.clipboard.writeText(text); showToast(msg); }
+    function downloadTxt(content, name) { if (!content || content.includes("Ready") || content.includes("⚠️") || content.includes("Translation will appear")) { showToast("No content to save"); return; } let blob = new Blob([content], {type: "text/plain"}); let a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; a.click(); URL.revokeObjectURL(a.href); showToast("Downloaded"); }
+
+    browseBtn.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', (e) => { if(e.target.files[0]) setImageFile(e.target.files[0]); });
+    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+    dropZone.addEventListener('drop', (e) => { e.preventDefault(); dropZone.classList.remove('drag-over'); let f = e.dataTransfer.files[0]; if(f && f.type.startsWith('image/')) setImageFile(f); else showToast("Need image file"); });
+
+    extractBtn.addEventListener('click', performOCR);
+    translateBtn.addEventListener('click', translateNow);
+    copyOriginalBtn.addEventListener('click', () => copyText(currentExtractedText, "📋 Original text copied!"));
+    downloadOriginalBtn.addEventListener('click', () => downloadTxt(currentExtractedText, "nexa_extracted.txt"));
+    copyTranslatedBtn.addEventListener('click', () => copyText(translatedTextDiv.innerText, "🌐 Translation copied!"));
+    downloadTranslatedBtn.addEventListener('click', () => downloadTxt(translatedTextDiv.innerText, "nexa_translation.txt"));
+
+    // mode UI
+    function updateModeUI() {
+      if (handRadio.checked) { modeHandwritten.classList.add('selected'); modeHindi.classList.remove('selected'); }
+      else if (hindiRadio.checked) { modeHindi.classList.add('selected'); modeHandwritten.classList.remove('selected'); }
+      else { modeHandwritten.classList.remove('selected'); modeHindi.classList.remove('selected'); }
+    }
+    handRadio.addEventListener('change', updateModeUI);
+    hindiRadio.addEventListener('change', updateModeUI);
+    modeHandwritten.addEventListener('click', () => { handRadio.checked = true; updateModeUI(); });
+    modeHindi.addEventListener('click', () => { hindiRadio.checked = true; updateModeUI(); });
     updateUIText("", "en");
-    originalTextDiv.innerText = "✨ Ready. Upload image & click 'Extract Text'.";
-    translatedTextDiv.innerHTML = "<i class='fas fa-language'></i> Translation will appear after extraction...";
-    showToast("Image removed");
-  }
-  removeImageBtn.addEventListener('click', removeImage);
 
-  function setImageFile(file) {
-    if (!file.type.startsWith('image/')) { showToast("Not an image"); return false; }
-    if (file.size > 10*1024*1024) { showToast("Max 10MB"); return false; }
-    currentImageFile = file;
-    fileNameDisplay.innerHTML = `<i class="fas fa-check-circle"></i> ${file.name} (${(file.size/1024).toFixed(0)} KB)`;
-    showImagePreview(file);
-    updateUIText("", "en");
-    originalTextDiv.innerText = "📸 Image ready. Click 'Extract Text' to run Neural OCR.";
-    translatedTextDiv.innerHTML = "<i class='fas fa-language'></i> Translation will appear after extraction...";
-    return true;
-  }
-
-  // Camera Functions
-  async function openCamera() {
-    try {
-      if (stream) { stream.getTracks().forEach(track => track.stop()); }
-      stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      video.srcObject = stream;
-      cameraModal.classList.add('active');
-    } catch (err) { showToast("Camera access denied"); }
-  }
-  function closeCamera() {
-    if (stream) { stream.getTracks().forEach(track => track.stop()); stream = null; }
-    cameraModal.classList.remove('active');
-  }
-  function capturePhoto() {
-    const context = canvas.getContext('2d');
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
-    canvas.toBlob(blob => {
-      const file = new File([blob], "camera_capture.jpg", { type: "image/jpeg" });
-      setImageFile(file);
-      closeCamera();
-      showToast("Photo captured & ready for OCR");
-    }, 'image/jpeg', 0.9);
-  }
-  cameraTriggerBtn.addEventListener('click', openCamera);
-  captureBtn.addEventListener('click', capturePhoto);
-  closeCameraBtn.addEventListener('click', closeCamera);
-
-  // OCR Function
-  async function performOCR() {
-    if (!currentImageFile) { showToast("Please upload an image first"); return; }
-    if (isOcrRunning) return;
-    isOcrRunning = true;
-    extractBtn.disabled = true;
-    let modeLang = 'eng';
-    let modeMsg = "English";
-    if (handRadio.checked) { modeLang = 'eng'; modeMsg = "Handwritten"; originalTextDiv.innerText = "✍️ Handwriting OCR in progress..."; }
-    else if (hindiRadio.checked) { modeLang = 'hin'; modeMsg = "Hindi"; originalTextDiv.innerText = "📖 Hindi OCR scanning..."; }
-    else { originalTextDiv.innerText = "🧠 Neural OCR engine running... Please wait"; }
-    try {
-      const worker = await Tesseract.createWorker();
-      await worker.loadLanguage(modeLang);
-      await worker.initialize(modeLang);
-      const { data: { text } } = await worker.recognize(currentImageFile);
-      await worker.terminate();
-      let result = text.trim() || "⚠️ No text detected. Use clearer image, better lighting.";
-      let finalLang = /[\u0900-\u097F]/.test(result) ? 'hi' : 'en';
-      if (hindiRadio.checked) finalLang = 'hi';
-      updateUIText(result, finalLang);
-      showToast(`✅ OCR complete (${modeMsg})`);
-    } catch (err) {
-      originalTextDiv.innerText = "❌ OCR error: " + (err.message || "unknown");
-      showToast("OCR failed");
-    } finally {
-      isOcrRunning = false;
-      extractBtn.disabled = false;
+    // dark/light mode persistence
+    function initTheme() {
+      const saved = localStorage.getItem('nexaTheme');
+      if (saved === 'light') {
+        document.body.classList.add('light-mode');
+        themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i> <span>Light Mode</span>';
+      } else {
+        document.body.classList.remove('light-mode');
+        themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i> <span>Dark Mode</span>';
+      }
     }
-  }
-
-  // Translation with MyMemory API (supports 50+ languages)
-  async function translateNow() {
-    if (!currentExtractedText || currentExtractedText.includes("Ready") || currentExtractedText.includes("No text") || currentExtractedText.length === 0) {
-      translatedTextDiv.innerHTML = "⚠️ No extracted text. Run OCR first.";
-      showToast("No extracted text to translate");
-      return;
+    function toggleTheme() {
+      if (document.body.classList.contains('light-mode')) {
+        document.body.classList.remove('light-mode');
+        localStorage.setItem('nexaTheme', 'dark');
+        themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i> <span>Dark Mode</span>';
+      } else {
+        document.body.classList.add('light-mode');
+        localStorage.setItem('nexaTheme', 'light');
+        themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i> <span>Light Mode</span>';
+      }
     }
-    let target = targetLangSelect.value;
-    let targetName = targetLangSelect.options[targetLangSelect.selectedIndex]?.text.split('(')[0].trim();
-    translatedTextDiv.innerHTML = `<i class="fas fa-spinner fa-pulse"></i> Translating to ${targetName}...`;
-    try {
-      let url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(currentExtractedText)}&langpair=en|${target}`;
-      let res = await fetch(url);
-      let data = await res.json();
-      let translated = data.responseData?.translatedText || currentExtractedText;
-      if (translated.includes('&quot;')) translated = translated.replace(/&quot;/g, '"');
-      translatedTextDiv.innerHTML = translated;
-      showToast(`✓ Translated to ${targetName}`);
-    } catch(e) { 
-      translatedTextDiv.innerHTML = "⚠️ Translation error. Please check your network connection.";
-      showToast("Translation failed");
-    }
-  }
-
-  function copyText(text, msg) { if (!text || text.includes("Ready") || text.includes("⚠️")) { showToast("No text to copy"); return; } navigator.clipboard.writeText(text); showToast(msg); }
-  function downloadTxt(content, name) { if (!content || content.includes("Ready") || content.includes("⚠️")) { showToast("No content to save"); return; } let blob = new Blob([content], {type: "text/plain"}); let a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; a.click(); URL.revokeObjectURL(a.href); showToast("Downloaded"); }
-
-  browseBtn.addEventListener('click', () => fileInput.click());
-  fileInput.addEventListener('change', (e) => { if(e.target.files[0]) setImageFile(e.target.files[0]); });
-  dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('drag-over'); });
-  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
-  dropZone.addEventListener('drop', (e) => { e.preventDefault(); dropZone.classList.remove('drag-over'); let f = e.dataTransfer.files[0]; if(f && f.type.startsWith('image/')) setImageFile(f); else showToast("Need image file"); });
-
-  extractBtn.addEventListener('click', performOCR);
-  translateBtn.addEventListener('click', translateNow);
-  copyOriginalBtn.addEventListener('click', () => copyText(currentExtractedText, "📋 Original text copied!"));
-  downloadOriginalBtn.addEventListener('click', () => downloadTxt(currentExtractedText, "nexa_extracted.txt"));
-  copyTranslatedBtn.addEventListener('click', () => copyText(translatedTextDiv.innerText, "🌐 Translation copied!"));
-  downloadTranslatedBtn.addEventListener('click', () => downloadTxt(translatedTextDiv.innerText, "nexa_translation.txt"));
-
-  updateUIText("", "en");
+    themeToggleBtn.addEventListener('click', toggleTheme);
+    initTheme();
+  })();
 </script>
 </body>
 </html>
