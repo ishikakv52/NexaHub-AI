@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Nexa Hub AI - Voice To Text</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#0f172a;
+    color:white;
+    overflow-x:hidden;
+    padding:30px 20px;
+}
+
+/* Simple Glow Background */
+
+body::before{
+    content:'';
+    position:fixed;
+    width:350px;
+    height:350px;
+    background:#7c3aed;
+    filter:blur(120px);
+    opacity:0.15;
+    top:-120px;
+    left:-120px;
+    z-index:-1;
+}
+
+body::after{
+    content:'';
+    position:fixed;
+    width:300px;
+    height:300px;
+    background:#06b6d4;
+    filter:blur(120px);
+    opacity:0.12;
+    bottom:-100px;
+    right:-100px;
+    z-index:-1;
+}
+
+.container{
+    width:100%;
+    max-width:1100px;
+    margin:auto;
+}
+
+/* Navbar */
+
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:50px;
+    flex-wrap:wrap;
+    gap:20px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.logo-icon{
+    width:65px;
+    height:65px;
+    border-radius:18px;
+    background:linear-gradient(135deg,#7c3aed,#06b6d4);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:28px;
+    box-shadow:0 0 25px rgba(124,58,237,0.5);
+}
+
+.logo-text h1{
+    font-size:30px;
+    font-weight:700;
+}
+
+.logo-text p{
+    color:#94a3b8;
+    font-size:14px;
+}
+
+/* Hero */
+
+.hero{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.hero h2{
+    font-size:60px;
+    font-weight:800;
+    background:linear-gradient(to right,#ffffff,#7c3aed,#06b6d4);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.hero p{
+    margin-top:12px;
+    color:#94a3b8;
+    font-size:17px;
+}
+
+/* Main Card */
+
+.card{
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:30px;
+    padding:35px;
+    backdrop-filter:blur(15px);
+}
+
+/* Controls */
+
+.controls{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.control-box{
+    background:rgba(255,255,255,0.05);
+    border-radius:20px;
+    padding:18px;
+    border:1px solid rgba(255,255,255,0.08);
+}
+
+.control-box label{
+    display:block;
+    margin-bottom:12px;
+    color:#cbd5e1;
+    font-size:14px;
+}
+
+select{
+    width:100%;
+    padding:14px;
+    border:none;
+    outline:none;
+    border-radius:14px;
+    background:#111827;
+    color:white;
+    font-size:15px;
+}
+
+/* Upload Box */
+
+.upload-box{
+    border:2px dashed rgba(255,255,255,0.15);
+    border-radius:28px;
+    padding:45px 20px;
+    text-align:center;
+    transition:0.3s;
+}
+
+.upload-box:hover{
+    border-color:#7c3aed;
+    background:rgba(255,255,255,0.03);
+}
+
+.upload-icon{
+    width:100px;
+    height:100px;
+    margin:auto;
+    border-radius:50%;
+    background:linear-gradient(135deg,#7c3aed,#06b6d4);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:40px;
+    margin-bottom:25px;
+    box-shadow:0 0 25px rgba(124,58,237,0.5);
+}
+
+.upload-box h3{
+    font-size:30px;
+    margin-bottom:10px;
+}
+
+.upload-box p{
+    color:#94a3b8;
+    margin-bottom:25px;
+}
+
+.file-input{
+    display:none;
+}
+
+.upload-btn{
+    display:inline-block;
+    padding:15px 28px;
+    border-radius:16px;
+    background:linear-gradient(135deg,#7c3aed,#06b6d4);
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.upload-btn:hover{
+    transform:translateY(-4px);
+}
+
+/* Microphone */
+
+.mic-area{
+    margin-top:35px;
+    display:flex;
+    justify-content:center;
+}
+
+.mic-btn{
+    width:140px;
+    height:140px;
+    border:none;
+    border-radius:50%;
+    background:linear-gradient(135deg,#7c3aed,#06b6d4);
+    color:white;
+    font-size:50px;
+    cursor:pointer;
+    transition:0.3s;
+    box-shadow:0 0 35px rgba(124,58,237,0.5);
+}
+
+.mic-btn:hover{
+    transform:scale(1.08);
+}
+
+.mic-btn.active{
+    animation:pulse 1.2s infinite;
+}
+
+@keyframes pulse{
+
+    0%{
+        box-shadow:0 0 0 0 rgba(124,58,237,0.7);
+    }
+
+    70%{
+        box-shadow:0 0 0 35px rgba(124,58,237,0);
+    }
+
+    100%{
+        box-shadow:0 0 0 0 rgba(124,58,237,0);
+    }
+
+}
+
+.status{
+    text-align:center;
+    margin-top:18px;
+    color:#06b6d4;
+    font-size:17px;
+    font-weight:600;
+}
+
+/* Output */
+
+.output{
+    margin-top:35px;
+}
+
+textarea{
+    width:100%;
+    min-height:260px;
+    border:none;
+    outline:none;
+    resize:none;
+    padding:25px;
+    border-radius:24px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+    color:white;
+    font-size:16px;
+    line-height:1.7;
+}
+
+/* Buttons */
+
+.actions{
+    margin-top:25px;
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+}
+
+.action-btn{
+    flex:1;
+    min-width:180px;
+    padding:16px;
+    border:none;
+    border-radius:16px;
+    color:white;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.copy-btn{
+    background:linear-gradient(135deg,#7c3aed,#5b21b6);
+}
+
+.clear-btn{
+    background:linear-gradient(135deg,#ef4444,#dc2626);
+}
+
+.download-btn{
+    background:linear-gradient(135deg,#10b981,#059669);
+}
+
+.action-btn:hover{
+    transform:translateY(-4px);
+}
+
+/* Footer */
+
+.footer{
+    margin-top:35px;
+    text-align:center;
+    color:#94a3b8;
+    font-size:14px;
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+    .hero h2{
+        font-size:42px;
+    }
+
+    .card{
+        padding:25px;
+    }
+
+    .navbar{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Navbar -->
+
+    <div class="navbar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                <i class="fa-solid fa-wave-square"></i>
+            </div>
+
+            <div class="logo-text">
+                <h1>Nexa Hub AI</h1>
+                <p>Modern Voice Recognition</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Hero -->
+
+    <div class="hero">
+
+        <h2>Voice To Text</h2>
+
+        <p>
+            Upload audio • Upload video • Record microphone •
+            Hindi & English Supported
+        </p>
+
+    </div>
+
+    <!-- Main Card -->
+
+    <div class="card">
+
+        <!-- Controls -->
+
+        <div class="controls">
+
+            <div class="control-box">
+
+                <label>Select Language</label>
+
+                <select id="language">
+                    <option value="en-US">English</option>
+                    <option value="hi-IN">Hindi</option>
+                    <option value="en-IN">Indian English</option>
+                </select>
+
+            </div>
+
+            <div class="control-box">
+
+                <label>Recognition Mode</label>
+
+                <select>
+                    <option>Ultra Accuracy</option>
+                    <option>Fast Recognition</option>
+                    <option>AI Detect</option>
+                </select>
+
+            </div>
+
+            <div class="control-box">
+
+                <label>Export Format</label>
+
+                <select>
+                    <option>TXT File</option>
+                    <option>DOC File</option>
+                    <option>Clipboard</option>
+                </select>
+
+            </div>
+
+        </div>
+
+        <!-- Upload -->
+
+        <div class="upload-box">
+
+            <div class="upload-icon">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+            </div>
+
+            <h3>Upload Audio or Video</h3>
+
+            <p>
+                Drag & Drop files or browse from your device
+            </p>
+
+            <input type="file"
+            id="fileInput"
+            class="file-input"
+            accept="audio/*,video/*">
+
+            <label for="fileInput" class="upload-btn">
+                <i class="fa-solid fa-folder-open"></i>
+                Choose File
+            </label>
+
+        </div>
+
+        <!-- Microphone -->
+
+        <div class="mic-area">
+
+            <button class="mic-btn" id="micBtn">
+                <i class="fa-solid fa-microphone"></i>
+            </button>
+
+        </div>
+
+        <div class="status" id="status">
+            Click microphone to start listening...
+        </div>
+
+        <!-- Output -->
+
+        <div class="output">
+
+            <textarea id="outputText"
+            placeholder="Your converted text will appear here..."></textarea>
+
+        </div>
+
+        <!-- Buttons -->
+
+        <div class="actions">
+
+            <button class="action-btn copy-btn"
+            onclick="copyText()">
+
+                <i class="fa-solid fa-copy"></i>
+                Copy Text
+
+            </button>
+
+            <button class="action-btn clear-btn"
+            onclick="clearText()">
+
+                <i class="fa-solid fa-trash"></i>
+                Clear
+
+            </button>
+
+            <button class="action-btn download-btn"
+            onclick="downloadText()">
+
+                <i class="fa-solid fa-download"></i>
+                Download
+
+            </button>
+
+        </div>
+
+        <div class="footer">
+            © 2026 NEXA HUB AI
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* Speech Recognition */
+
+const micBtn =
+document.getElementById("micBtn");
+
+const outputText =
+document.getElementById("outputText");
+
+const statusText =
+document.getElementById("status");
+
+const language =
+document.getElementById("language");
+
+let listening = false;
+
+const SpeechRecognition =
+window.SpeechRecognition ||
+window.webkitSpeechRecognition;
+
+if(!SpeechRecognition){
+
+    alert("Speech Recognition not supported!");
+
+}
+
+const recognition =
+new SpeechRecognition();
+
+recognition.continuous = true;
+recognition.interimResults = true;
+
+micBtn.addEventListener("click",()=>{
+
+    if(!listening){
+
+        recognition.lang =
+        language.value;
+
+        recognition.start();
+
+        listening = true;
+
+        micBtn.classList.add("active");
+
+        micBtn.innerHTML =
+        '<i class="fa-solid fa-wave-square"></i>';
+
+        statusText.innerText =
+        "AI Listening... Speak now";
+
+    }else{
+
+        recognition.stop();
+
+        listening = false;
+
+        micBtn.classList.remove("active");
+
+        micBtn.innerHTML =
+        '<i class="fa-solid fa-microphone"></i>';
+
+        statusText.innerText =
+        "Recognition stopped";
+
+    }
+
+});
+
+recognition.onresult = (event)=>{
+
+    let transcript = "";
+
+    for(let i=0;i<event.results.length;i++){
+
+        transcript +=
+        event.results[i][0].transcript;
+
+    }
+
+    outputText.value = transcript;
+
+};
+
+recognition.onerror = (event)=>{
+
+    statusText.innerText =
+    "Error : " + event.error;
+
+};
+
+recognition.onend = ()=>{
+
+    listening = false;
+
+    micBtn.classList.remove("active");
+
+    micBtn.innerHTML =
+    '<i class="fa-solid fa-microphone"></i>';
+
+    statusText.innerText =
+    "Click microphone to start listening...";
+
+};
+
+/* Copy */
+
+function copyText(){
+
+    outputText.select();
+
+    document.execCommand("copy");
+
+    alert("Text copied!");
+
+}
+
+/* Clear */
+
+function clearText(){
+
+    outputText.value = "";
+
+}
+
+/* Download */
+
+function downloadText(){
+
+    const blob =
+    new Blob([outputText.value],
+    {type:"text/plain"});
+
+    const link =
+    document.createElement("a");
+
+    link.href =
+    URL.createObjectURL(blob);
+
+    link.download =
+    "voice-text.txt";
+
+    link.click();
+
+}
+
+</script>
+
+</body>
+</html>
