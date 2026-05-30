@@ -2,4 +2,6 @@ from django.apps import AppConfig
 
 
 class TexttospeechConfig(AppConfig):
-    name = 'TextToSpeech'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "TextToSpeech"
+    verbose_name = "Text To Speech"

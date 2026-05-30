@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Text to Speech — NexaHub AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #080b10; --surface: #0d1117; --surface-2: #131920;
+      --border: #1e2a35; --border-glow: #2a4a5e;
+      --accent: #00d4ff; --accent-dim: #007a99; --accent-glow: rgba(0,212,255,.18);
+      --male: #4d9fff; --female: #ff6eb4;
+      --text: #e2eaf2; --text-muted: #5a7a8a;
+      --error: #ff4d6d; --success: #00ffb3;
+      --mono: 'DM Mono', monospace; --sans: 'Syne', sans-serif;
+      --radius: 12px; --radius-lg: 20px;
+    }
+    html, body { min-height: 100%; background: var(--bg); color: var(--text); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+    body::before {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .022;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    }
+    .blob { position: fixed; border-radius: 50%; filter: blur(100px); pointer-events: none; z-index: 0; animation: drift 12s ease-in-out infinite alternate; }
+    .blob-1 { width:500px;height:500px;top:-150px;right:-100px;background:rgba(0,212,255,.07); }
+    .blob-2 { width:400px;height:400px;bottom:-100px;left:-80px;background:rgba(0,120,200,.06);animation-delay:-6s; }
+    @keyframes drift { from{transform:translate(0,0) scale(1)} to{transform:translate(30px,20px) scale(1.08)} }
+
+    .page { position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px 60px; }
+
+    .header { text-align:center;margin-bottom:44px;animation:fadeUp .6s ease both; }
+    .brand { font-size:11px;font-family:var(--mono);letter-spacing:.22em;color:var(--accent);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:10px; }
+    .brand-dot { width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s ease infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+    .header h1 { font-size:clamp(30px,5vw,50px);font-weight:800;letter-spacing:-.02em;background:linear-gradient(135deg,#fff 30%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text; }
+    .header p { margin-top:10px;font-size:13px;font-family:var(--mono);color:var(--text-muted);letter-spacing:.05em; }
+
+    .card { width:100%;max-width:700px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:36px 36px 32px;box-shadow:0 0 0 1px rgba(0,212,255,.04),0 40px 80px rgba(0,0,0,.5);animation:fadeUp .7s .1s ease both;position:relative;overflow:hidden; }
+    .card::before { content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent-dim),transparent);opacity:.6; }
+
+    .field { margin-bottom:26px; }
+    label { display:block;font-size:11px;font-family:var(--mono);letter-spacing:.16em;color:var(--text-muted);text-transform:uppercase;margin-bottom:10px; }
+
+    textarea { width:100%;min-height:150px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-family:var(--mono);font-size:14px;line-height:1.7;padding:16px 18px;resize:vertical;transition:border-color .2s,box-shadow .2s;outline:none; }
+    textarea::placeholder { color:var(--text-muted);opacity:.5; }
+    textarea:focus { border-color:var(--accent-dim);box-shadow:0 0 0 3px var(--accent-glow); }
+    .char-count { text-align:right;font-family:var(--mono);font-size:11px;color:var(--text-muted);margin-top:6px;transition:color .2s; }
+    .char-count.warn { color:#f0a500; } .char-count.over { color:var(--error); }
+
+    /* Voice toggle */
+    .voice-toggle { display:flex;gap:10px;margin-bottom:26px; }
+    .vtoggle-btn {
+      flex:1;padding:12px 8px;background:var(--surface-2);border:1px solid var(--border);
+      border-radius:var(--radius);cursor:pointer;font-family:var(--mono);font-size:11px;
+      letter-spacing:.1em;text-transform:uppercase;transition:all .2s;
+      display:flex;align-items:center;justify-content:center;gap:8px;color:var(--text-muted);
+    }
+    .vtoggle-btn.male-btn.active   { border-color:var(--male);   color:var(--male);   background:rgba(77,159,255,.1);  box-shadow:0 0 16px rgba(77,159,255,.15); }
+    .vtoggle-btn.female-btn.active { border-color:var(--female); color:var(--female); background:rgba(255,110,180,.1); box-shadow:0 0 16px rgba(255,110,180,.15); }
+    .vtoggle-btn.both-btn.active   { border-color:var(--accent); color:var(--accent); background:rgba(0,212,255,.1);  box-shadow:0 0 16px var(--accent-glow); }
+    .vtoggle-btn:hover:not(.active){ border-color:var(--border-glow);color:var(--text); }
+
+    /* Style grid */
+    .style-grid { display:grid;grid-template-columns:repeat(5,1fr);gap:10px; }
+    @media(max-width:520px){ .style-grid{grid-template-columns:repeat(3,1fr)} }
+    .style-btn { background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 8px 12px;cursor:pointer;transition:border-color .2s,background .2s,transform .15s;text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative; }
+    .style-btn:hover { border-color:var(--accent-dim);background:rgba(0,212,255,.05);transform:translateY(-2px); }
+    .style-btn.active { border-color:var(--accent);background:rgba(0,212,255,.1);box-shadow:0 0 18px var(--accent-glow); }
+    .style-icon { font-size:22px;line-height:1; }
+    .style-name { font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--text-muted);text-transform:uppercase; }
+    .style-btn.active .style-name { color:var(--accent); }
+    #styleSelect { display:none; }
+
+    /* Button */
+    .btn-generate { width:100%;margin-top:8px;padding:17px 24px;background:transparent;border:1px solid var(--accent);border-radius:var(--radius);color:var(--accent);font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;position:relative;overflow:hidden;transition:color .2s,box-shadow .2s; }
+    .btn-generate::before { content:'';position:absolute;inset:0;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .25s ease;z-index:0; }
+    .btn-generate:hover::before { transform:scaleX(1); }
+    .btn-generate:hover { color:var(--bg);box-shadow:0 0 30px var(--accent-glow); }
+    .btn-generate:disabled { opacity:.4;cursor:not-allowed;pointer-events:none; }
+    .btn-text { position:relative;z-index:1; }
+    .spinner { display:none;position:relative;z-index:1;width:18px;height:18px;border:2px solid rgba(255,255,255,.2);border-top-color:currentColor;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto; }
+    @keyframes spin { to{transform:rotate(360deg)} }
+    .btn-generate.loading .btn-text { display:none; }
+    .btn-generate.loading .spinner  { display:block; }
+
+    .error-msg { display:none;margin-top:16px;padding:12px 16px;background:rgba(255,77,109,.08);border:1px solid rgba(255,77,109,.3);border-radius:var(--radius);font-family:var(--mono);font-size:12px;color:var(--error); }
+    .error-msg.show { display:block; }
+
+    /* Audio panel */
+    .audio-panel { display:none;margin-top:28px;background:var(--surface-2);border:1px solid var(--border-glow);border-radius:var(--radius);padding:22px 24px;animation:fadeUp .4s ease both; }
+    .audio-panel.show { display:block; }
+
+    .panel-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:18px; }
+    .panel-label { font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--accent);text-transform:uppercase;display:flex;align-items:center;gap:8px; }
+    .panel-label::before { content:'';display:block;width:6px;height:6px;border-radius:50%;background:var(--success);box-shadow:0 0 8px var(--success); }
+    .emotion-badge { font-family:var(--mono);font-size:10px;letter-spacing:.12em;background:rgba(0,212,255,.12);border:1px solid var(--accent-dim);color:var(--accent);border-radius:20px;padding:3px 10px;text-transform:uppercase; }
+
+    .waveform { display:flex;align-items:center;gap:3px;height:20px; }
+    .waveform-bar { width:3px;border-radius:2px;background:var(--accent);opacity:.5;animation:wave 1.2s ease-in-out infinite; }
+    .waveform-bar:nth-child(1){height:8px;animation-delay:0s} .waveform-bar:nth-child(2){height:16px;animation-delay:.1s}
+    .waveform-bar:nth-child(3){height:20px;animation-delay:.2s} .waveform-bar:nth-child(4){height:12px;animation-delay:.3s}
+    .waveform-bar:nth-child(5){height:18px;animation-delay:.4s} .waveform-bar:nth-child(6){height:10px;animation-delay:.15s}
+    .waveform-bar:nth-child(7){height:15px;animation-delay:.25s}
+    @keyframes wave { 0%,100%{transform:scaleY(.4);opacity:.3} 50%{transform:scaleY(1);opacity:.8} }
+    .waveform.idle .waveform-bar { animation:none;transform:scaleY(.35);opacity:.25; }
+
+    .voice-grid { display:grid;grid-template-columns:1fr 1fr;gap:14px; }
+    @media(max-width:480px){ .voice-grid{grid-template-columns:1fr} }
+    .voice-card { background:var(--surface);border-radius:var(--radius);padding:16px 18px;border:1px solid var(--border); }
+    .voice-card.male-card   { border-top:2px solid var(--male); }
+    .voice-card.female-card { border-top:2px solid var(--female); }
+    .voice-card-header { display:flex;align-items:center;gap:8px;margin-bottom:12px; }
+    .voice-icon { font-size:18px; }
+    .voice-title { font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase; }
+    .male-card .voice-title   { color:var(--male); }
+    .female-card .voice-title { color:var(--female); }
+    .voice-sub { font-family:var(--mono);font-size:10px;color:var(--text-muted);margin-left:auto; }
+    audio { width:100%;height:36px;border-radius:8px;display:block;accent-color:var(--accent); }
+
+    .download-row { display:flex;gap:12px;margin-top:16px;justify-content:flex-end; }
+    .dl-btn { font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-decoration:none;padding:6px 14px;border-radius:20px;border:1px solid;transition:opacity .2s;display:flex;align-items:center;gap:5px; }
+    .dl-btn.male-dl   { color:var(--male);  border-color:var(--male); }
+    .dl-btn.female-dl { color:var(--female);border-color:var(--female); }
+    .dl-btn:hover { opacity:.65; }
+
+    /* hide individual cards based on voice mode */
+    .audio-panel[data-mode="male"]   .female-card,
+    .audio-panel[data-mode="male"]   .female-dl   { display:none; }
+    .audio-panel[data-mode="female"] .male-card,
+    .audio-panel[data-mode="female"] .male-dl     { display:none; }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+  </style>
+</head>
+<body>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="page">
+    <header class="header">
+      <div class="brand"><span class="brand-dot"></span>NexaHub AI<span class="brand-dot"></span></div>
+      <h1>Text to Speech</h1>
+      <p>// human neural voices · 5 emotions · male &amp; female</p>
+    </header>
+
+    <div class="card">
+
+      <!-- Text -->
+      <div class="field">
+        <label for="textInput">Input Text</label>
+        <textarea id="textInput" placeholder="Type or paste your text here…" maxlength="2000" spellcheck="false"></textarea>
+        <div class="char-count" id="charCount">0 / 2000</div>
+      </div>
+
+      <!-- Voice mode -->
+      <div class="field">
+        <label>Voice</label>
+        <div class="voice-toggle" id="voiceToggle">
+          <button type="button" class="vtoggle-btn both-btn active" data-mode="both">
+            🎙️🎤 Both
+          </button>
+          <button type="button" class="vtoggle-btn male-btn" data-mode="male">
+            🎙️ Male
+          </button>
+          <button type="button" class="vtoggle-btn female-btn" data-mode="female">
+            🎤 Female
+          </button>
+        </div>
+      </div>
+
+      <!-- Emotion -->
+      <div class="field">
+        <label>Emotion Style</label>
+        <div class="style-grid" id="styleGrid">
+          <button type="button" class="style-btn active" data-value="friendly">
+            <span class="style-icon">😊</span><span class="style-name">Friendly</span>
+          </button>
+          <button type="button" class="style-btn" data-value="confident">
+            <span class="style-icon">💼</span><span class="style-name">Confident</span>
+          </button>
+          <button type="button" class="style-btn" data-value="calm">
+            <span class="style-icon">🌊</span><span class="style-name">Calm</span>
+          </button>
+          <button type="button" class="style-btn" data-value="excited">
+            <span class="style-icon">⚡</span><span class="style-name">Excited</span>
+          </button>
+          <button type="button" class="style-btn" data-value="apologetic">
+            <span class="style-icon">🙏</span><span class="style-name">Apologetic</span>
+          </button>
+        </div>
+        <select id="styleSelect" name="style">
+          <option value="friendly">Friendly</option>
+          <option value="confident">Confident</option>
+          <option value="calm">Calm</option>
+          <option value="excited">Excited</option>
+          <option value="apologetic">Apologetic</option>
+        </select>
+      </div>
+
+      <!-- Button -->
+      <button type="button" class="btn-generate" id="generateBtn">
+        <span class="btn-text">▶ &nbsp;Generate Speech</span>
+        <span class="spinner"></span>
+      </button>
+
+      <!-- Error -->
+      <div class="error-msg" id="errorMsg"></div>
+
+      <!-- Output -->
+      <div class="audio-panel" id="audioPanel">
+        <div class="panel-header">
+          <div class="panel-label">
+            Output Ready
+            <div class="waveform idle" id="waveform">
+              <div class="waveform-bar"></div><div class="waveform-bar"></div>
+              <div class="waveform-bar"></div><div class="waveform-bar"></div>
+              <div class="waveform-bar"></div><div class="waveform-bar"></div>
+              <div class="waveform-bar"></div>
+            </div>
+          </div>
+          <span class="emotion-badge" id="emotionBadge"></span>
+          <span id="langBadge" style="display:none;font-family:var(--mono);font-size:10px;letter-spacing:.1em;background:rgba(255,255,255,.06);border:1px solid var(--border-glow);color:var(--text-muted);border-radius:20px;padding:3px 10px;margin-left:8px;"></span>
+        </div>
+
+        <div class="voice-grid">
+          <div class="voice-card male-card">
+            <div class="voice-card-header">
+              <span class="voice-icon">🎙️</span>
+              <span class="voice-title">Male</span>
+
+            </div>
+            <audio id="malePlayer" controls></audio>
+          </div>
+          <div class="voice-card female-card">
+            <div class="voice-card-header">
+              <span class="voice-icon">🎤</span>
+              <span class="voice-title">Female</span>
+
+            </div>
+            <audio id="femalePlayer" controls></audio>
+          </div>
+        </div>
+
+        <div class="download-row">
+          <a class="dl-btn male-dl"   id="dlMale"   download="male_speech.mp3">↓ Male</a>
+          <a class="dl-btn female-dl" id="dlFemale" download="female_speech.mp3">↓ Female</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+if (window.ttsInitialized) return;
+window.ttsInitialized = true;
+
+const textInput = document.getElementById('textInput');
+const charCount = document.getElementById('charCount');
+const generateBtn = document.getElementById('generateBtn');
+
+const malePlayer = document.getElementById('malePlayer');
+const femalePlayer = document.getElementById('femalePlayer');
+
+const waveform = document.getElementById('waveform');
+const panel = document.getElementById('audioPanel');
+
+let voiceMode='both';
+
+
+// Character count
+textInput.addEventListener('input', () => {
+ const len=textInput.value.length;
+ charCount.textContent=`${len} / 2000`;
+});
+
+
+// Voice toggle
+document.querySelectorAll('.vtoggle-btn').forEach(btn=>{
+ btn.addEventListener('click',()=>{
+
+ document.querySelectorAll('.vtoggle-btn')
+ .forEach(x=>x.classList.remove('active'));
+
+ btn.classList.add('active');
+
+ voiceMode=btn.dataset.mode;
+
+ });
+});
+
+
+// Emotion selector
+document.querySelectorAll('.style-btn').forEach(btn=>{
+
+ btn.addEventListener('click',()=>{
+
+ document.querySelectorAll('.style-btn')
+ .forEach(x=>x.classList.remove('active'));
+
+ btn.classList.add('active');
+
+ document.getElementById('styleSelect').value=
+ btn.dataset.value;
+
+ });
+
+});
+
+
+// waveform
+
+[malePlayer,femalePlayer].forEach(p=>{
+
+ p.addEventListener('play',()=>{
+ waveform.classList.remove('idle');
+ });
+
+ p.addEventListener('pause',()=>{
+ waveform.classList.add('idle');
+ });
+
+ p.addEventListener('ended',()=>{
+ waveform.classList.add('idle');
+ });
+
+});
+
+
+
+async function generateSpeech(e){
+
+if(e) e.preventDefault();
+
+const text=textInput.value.trim();
+
+if(!text){
+
+showError("Please enter text");
+
+return;
+
+}
+
+generateBtn.disabled=true;
+
+try{
+
+generateBtn.classList.add("loading");
+
+const fd=new FormData();
+
+fd.append("text",text);
+
+fd.append(
+ "style",
+ document.getElementById('styleSelect').value
+);
+
+const res=await fetch(
+"http://127.0.0.1:8000/tts/generate/",
+{
+method:"POST",
+body:fd
+}
+);
+
+const data=await res.json();
+
+if(!data.success){
+
+throw new Error(data.error);
+
+}
+
+malePlayer.src=data.male;
+femalePlayer.src=data.female;
+
+document.getElementById("dlMale").href=data.male;
+document.getElementById("dlFemale").href=data.female;
+
+panel.dataset.mode=voiceMode;
+
+panel.classList.add("show");
+
+if(voiceMode==="female"){
+
+femalePlayer.play().catch(()=>{});
+
+}else{
+
+malePlayer.play().catch(()=>{});
+
+}
+
+}catch(err){
+
+showError(err.message);
+
+}finally{
+
+generateBtn.disabled=false;
+
+generateBtn.classList.remove("loading");
+
+}
+
+}
+
+
+
+function showError(msg){
+
+const el=document.getElementById("errorMsg");
+
+el.textContent="⚠ "+msg;
+
+el.classList.add("show");
+
+}
+
+
+
+generateBtn.onclick=generateSpeech;
+
+
+textInput.addEventListener("keydown",(e)=>{
+
+if((e.ctrlKey || e.metaKey) && e.key==="Enter"){
+
+generateSpeech(e);
+
+}
+
+});
+
+
+});
+</script>
+</body>
+</html>
+
+<!-- http://127.0.0.1:8000/tts/ -->
