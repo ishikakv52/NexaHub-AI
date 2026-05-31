@@ -62,45 +62,118 @@ DEFAULT_EMOTION = "friendly"
 
 
 # ---------------------------------------------------------------------------
-# Language detection
+# Hinglish detection markers — comprehensive list
 # ---------------------------------------------------------------------------
 HINGLISH_MARKERS = {
-    "namaste", "namaskar", "kaise", "kaisi", "kya", "kyun", "kyunki",
-    "aap", "hum", "yeh", "woh", "yah", "vah",
-    "hai", "hain", "hoga", "hogi", "tha", "thi",
-    "nahi", "nahin", "mujhe", "tumhe", "unhe",
-    "accha", "achha", "theek", "bahut", "bohot", "bilkul",
-    "sundar", "pyaar", "pyar", "yaar", "bhai",
-    "khana", "paani", "ghar", "kaam", "raat",
-    "aaj", "abhi", "jaldi", "thoda",
-    "mera", "tera", "apna", "unka", "inke", "uske",
-    "karo", "karna", "bolo", "suno", "dekho",
-    "dhanyavaad", "shukriya", "maafi",
-    "lekin", "agar", "toh", "isliye",
-    "haan", "arre", "oye",
+    # Greetings
+    "namaste", "namaskar", "pranam", "adaab",
+
+    # Pronouns
+    "aap", "tum", "main", "hum", "yeh", "woh", "yah", "vah", "vo", "ye", "wo",
+    "mujhe", "tumhe", "unhe", "inhe", "usse", "isse", "humein",
+    "meri", "teri", "uski", "unki", "hamari", "tumhari",
+    "mera", "tera", "uska", "unka", "hamara", "tumhara", "apna", "apni",
+
+    # Common verbs
+    "hai", "hain", "hoga", "hogi", "tha", "thi", "hoon", "ho",
+    "karo", "karna", "kar", "kiya", "karte", "karti",
+    "bolo", "bola", "boli", "bol",
+    "suno", "suna", "sun",
+    "dekho", "dekha", "dekh",
+    "jao", "gaya", "gayi", "gaye",
+    "aao", "aaya", "aayi", "aaye",
+    "liya", "lene", "lega",
+    "diya", "dene", "dega",
+    "hua", "hui", "hue", "hona",
+    "raha", "rahi", "rahe", "rehna",
+    "chahiye", "chahta", "chahti",
+    "sakta", "sakti", "sakte",
+    "milna", "mila", "mili",
+    "samajh", "samjha", "samjhi",
+    "lagta", "lagti", "laga",
+    "pata", "malum",
+    "chal", "chalo", "chalte",
+    "ruko", "ruk",
+    "bata", "batao",
+
+    # Questions
+    "kya", "kyun", "kyunki", "kaise", "kaisi", "kaun", "kahan",
+    "kab", "kitna", "kitni", "kitne", "kidhar",
+
+    # Expressions / fillers
+    "accha", "achha", "theek", "thik", "bahut", "bohot", "bilkul",
+    "zyada", "jyada", "thoda", "thodi", "kam", "bas", "sirf",
+    "haan", "nahi", "nahin", "naa",
+    "are", "arre", "oye", "yaar", "bhai",
+    "wah", "waah", "shabash", "shayad",
+    "zaroor", "zarur", "pakka", "sach",
+    "matlab", "seedha", "seedhi",
+    "vgera", "wagera", "waghera", "aadi",
+    "kaafi", "itna", "utna",
+
+    # Adjectives
+    "sundar", "acha", "bura", "naya", "purana", "bada", "chota",
+    "lamba", "saaf", "ganda", "sahi", "galat",
+    "mushkil", "aasaan", "asaan",
+    "mahan", "mahaan", "bekar", "bakwas",
+    "gehri", "halka", "bhari",
+
+    # Nouns
+    "ghar", "kaam", "naam", "din", "raat", "subah", "shaam",
+    "khana", "paani", "chai", "roti", "daal", "chawal",
+    "dost", "behan", "maa", "baap", "papa", "mama",
+    "beta", "beti", "bhaiya", "didi", "chacha",
+    "shahar", "gaon", "raasta", "dukan", "bazaar",
+    "paisa", "rupya", "naukri", "padhai",
+    "samay", "waqt", "jagah",
+
+    # Time
+    "aaj", "kal", "parso", "abhi", "jaldi", "dhire",
+    "pehle", "baad", "phir", "dobara",
+
+    # Connectors
+    "aur", "lekin", "magar", "toh", "to", "isliye",
+    "jabki", "jab", "tab", "agar", "agr", "warna",
+    "fir", "bhi", "hi",
+
+    # Numbers (commonly used in Hinglish)
+    "ek", "do", "teen", "char", "paanch",
+
+    # Misc
+    "sab", "sabhi", "koi",
+    "yani", "yaane",
+    "ji", "sahab",
+    "shukriya", "dhanyavaad", "maafi",
 }
 
+
 def detect_language(text: str) -> str:
-    # Devanagari
+    """
+    Returns 'hi' (Devanagari), 'hinglish' (Roman Hindi), or 'en' (English).
+    """
+    # Devanagari check
     for ch in text:
         if "\u0900" <= ch <= "\u097F":
             return "hi"
-    # Hinglish
+
+    # Hinglish — ratio based
     words   = set(re.findall(r"[a-zA-Z]+", text.lower()))
     matches = words & HINGLISH_MARKERS
     ratio   = len(matches) / len(words) if words else 0
+
     if len(matches) >= 2:
         return "hinglish"
     if len(matches) >= 1 and ratio >= 0.3:
         return "hinglish"
+
     return "en"
 
 
 # ---------------------------------------------------------------------------
-# Auto-cleanup — delete files after delay
+# Auto-cleanup
 # ---------------------------------------------------------------------------
-def _schedule_cleanup(*paths: str, delay: int = 1):
-    """Delete given file paths after `delay` seconds in a background thread."""
+def _schedule_cleanup(*paths: str, delay: int = 60):
+    """Delete files after delay seconds in background thread."""
     def _delete():
         time.sleep(delay)
         for path in paths:
@@ -206,7 +279,7 @@ def generate_speech(request):
             if not os.path.exists(path) or os.path.getsize(path) == 0:
                 raise RuntimeError(f"Empty output: {os.path.basename(path)}")
 
-        # Schedule auto-delete after 60 seconds
+        # Auto-delete after 60 seconds
         _schedule_cleanup(male_path, female_path, delay=60)
 
         lang_label = {"en": "English", "hi": "Hindi", "hinglish": "Hinglish"}.get(lang, "English")
