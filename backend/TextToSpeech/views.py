@@ -1,14 +1,21 @@
 """
 NexaHub AI — TextToSpeech views.py
 Human-like TTS using Microsoft edge-tts (free, no API key).
-Auto-detects Hindi vs English text and uses correct neural voice.
-Male/female voices with 5 emotion styles via SSML prosody.
+
+Supports:
+  - English text        → en-US-GuyNeural / en-US-JennyNeural
+  - Hindi (Devanagari)  → hi-IN-MadhurNeural / hi-IN-SwaraNeural
+  - Hinglish (Roman)    → hi-IN voices with xml:lang=hi-IN
+
+Auto-deletes generated files after 60 seconds.
 """
 
 import os
+import re
 import uuid
 import asyncio
-import unicodedata
+import threading
+import time
 
 import edge_tts
 
@@ -27,7 +34,7 @@ os.makedirs(MEDIA_FOLDER, exist_ok=True)
 
 
 # ---------------------------------------------------------------------------
-# Voices — English + Hindi, Male + Female
+# Voices
 # ---------------------------------------------------------------------------
 VOICES = {
     "en": {
@@ -41,78 +48,106 @@ VOICES = {
 }
 
 # ---------------------------------------------------------------------------
-# Emotion presets — SSML prosody per style
+# Emotion presets
 # ---------------------------------------------------------------------------
 EMOTIONS = {
-    "friendly": {
-        "rate": "+5%", "pitch": "+8Hz", "volume": "+10%",
-        "style_en": "friendly",   "style_hi": "friendly",
-    },
-    "confident": {
-        "rate": "-5%", "pitch": "-5Hz", "volume": "+15%",
-        "style_en": "customerservice", "style_hi": "customerservice",
-    },
-    "calm": {
-        "rate": "-20%", "pitch": "-8Hz", "volume": "-10%",
-        "style_en": "gentle",    "style_hi": "gentle",
-    },
-    "excited": {
-        "rate": "+30%", "pitch": "+15Hz", "volume": "+20%",
-        "style_en": "excited",   "style_hi": "excited",
-    },
-    "apologetic": {
-        "rate": "-15%", "pitch": "-10Hz", "volume": "-15%",
-        "style_en": "empathetic", "style_hi": "empathetic",
-    },
+    "friendly":   {"rate": "+5%",  "pitch": "+8Hz",  "volume": "+10%", "style_en": "friendly",        "style_hi": "friendly"},
+    "confident":  {"rate": "-5%",  "pitch": "-5Hz",  "volume": "+15%", "style_en": "customerservice", "style_hi": "customerservice"},
+    "calm":       {"rate": "-20%", "pitch": "-8Hz",  "volume": "-10%", "style_en": "gentle",          "style_hi": "gentle"},
+    "excited":    {"rate": "+30%", "pitch": "+15Hz", "volume": "+20%", "style_en": "excited",         "style_hi": "excited"},
+    "apologetic": {"rate": "-15%", "pitch": "-10Hz", "volume": "-15%", "style_en": "empathetic",      "style_hi": "empathetic"},
 }
 
 DEFAULT_EMOTION = "friendly"
 
 
 # ---------------------------------------------------------------------------
-# Language detection — checks for Devanagari Unicode block
+# Language detection
 # ---------------------------------------------------------------------------
+HINGLISH_MARKERS = {
+    "namaste", "namaskar", "kaise", "kaisi", "kya", "kyun", "kyunki",
+    "aap", "hum", "yeh", "woh", "yah", "vah",
+    "hai", "hain", "hoga", "hogi", "tha", "thi",
+    "nahi", "nahin", "mujhe", "tumhe", "unhe",
+    "accha", "achha", "theek", "bahut", "bohot", "bilkul",
+    "sundar", "pyaar", "pyar", "yaar", "bhai",
+    "khana", "paani", "ghar", "kaam", "raat",
+    "aaj", "abhi", "jaldi", "thoda",
+    "mera", "tera", "apna", "unka", "inke", "uske",
+    "karo", "karna", "bolo", "suno", "dekho",
+    "dhanyavaad", "shukriya", "maafi",
+    "lekin", "agar", "toh", "isliye",
+    "haan", "arre", "oye",
+}
+
 def detect_language(text: str) -> str:
-    """Returns 'hi' if text contains Devanagari characters, else 'en'."""
+    # Devanagari
     for ch in text:
-        if "\u0900" <= ch <= "\u097F":   # Devanagari block
+        if "\u0900" <= ch <= "\u097F":
             return "hi"
+    # Hinglish
+    words   = set(re.findall(r"[a-zA-Z]+", text.lower()))
+    matches = words & HINGLISH_MARKERS
+    ratio   = len(matches) / len(words) if words else 0
+    if len(matches) >= 2:
+        return "hinglish"
+    if len(matches) >= 1 and ratio >= 0.3:
+        return "hinglish"
     return "en"
 
 
 # ---------------------------------------------------------------------------
-# Core synthesis
+# Auto-cleanup — delete files after delay
 # ---------------------------------------------------------------------------
-async def _synthesize(text: str, voice: str, emotion: dict, lang: str, out_path: str):
-    """
-    Build SSML with prosody + speaking style, save to MP3.
-    Falls back to plain prosody if SSML style fails.
-    """
-    style_key = f"style_{lang}"
-    style     = emotion.get(style_key, "friendly")
+def _schedule_cleanup(*paths: str, delay: int = 1):
+    """Delete given file paths after `delay` seconds in a background thread."""
+    def _delete():
+        time.sleep(delay)
+        for path in paths:
+            try:
+                if os.path.exists(path):
+                    os.remove(path)
+            except Exception:
+                pass
+    threading.Thread(target=_delete, daemon=True).start()
 
-    ssml = (
-        "<speak version='1.0' "
-        "xmlns='http://www.w3.org/2001/10/synthesis' "
-        "xmlns:mstts='http://www.w3.org/2001/mstts' "
-        f"xml:lang='{'hi-IN' if lang == 'hi' else 'en-US'}'>"
-        f"<voice name='{voice}'>"
-        f"<mstts:express-as style='{style}'>"
-        f"<prosody rate='{emotion['rate']}' "
-        f"pitch='{emotion['pitch']}' "
-        f"volume='{emotion['volume']}'>"
-        f"{text}"
-        "</prosody>"
-        "</mstts:express-as>"
-        "</voice>"
-        "</speak>"
+
+# ---------------------------------------------------------------------------
+# SSML builder
+# ---------------------------------------------------------------------------
+def build_ssml(text: str, voice: str, emotion: dict, lang: str) -> str:
+    xml_lang  = "hi-IN" if lang in ("hi", "hinglish") else "en-US"
+    style_key = "style_hi" if lang in ("hi", "hinglish") else "style_en"
+    style     = emotion.get(style_key, "friendly")
+    inner     = f'<lang xml:lang="hi-IN">{text}</lang>' if lang == "hinglish" else text
+
+    return (
+        f'<speak version="1.0" '
+        f'xmlns="http://www.w3.org/2001/10/synthesis" '
+        f'xmlns:mstts="http://www.w3.org/2001/mstts" '
+        f'xml:lang="{xml_lang}">'
+        f'<voice name="{voice}">'
+        f'<mstts:express-as style="{style}">'
+        f'<prosody rate="{emotion["rate"]}" '
+        f'pitch="{emotion["pitch"]}" '
+        f'volume="{emotion["volume"]}">'
+        f'{inner}'
+        f'</prosody>'
+        f'</mstts:express-as>'
+        f'</voice>'
+        f'</speak>'
     )
 
+
+# ---------------------------------------------------------------------------
+# Async synthesis
+# ---------------------------------------------------------------------------
+async def _synthesize(text: str, voice: str, emotion: dict, lang: str, out_path: str):
+    ssml = build_ssml(text, voice, emotion, lang)
     try:
         comm = edge_tts.Communicate(ssml, voice, ssml=True)
         await comm.save(out_path)
     except Exception:
-        # Fallback: plain prosody without style tag
         comm = edge_tts.Communicate(
             text, voice,
             rate=emotion["rate"],
@@ -123,16 +158,13 @@ async def _synthesize(text: str, voice: str, emotion: dict, lang: str, out_path:
 
 
 async def _generate_both(text: str, emotion_cfg: dict, lang: str) -> tuple[str, str]:
-    """Generate male and female MP3s concurrently."""
-    male_voice   = VOICES[lang]["male"]
-    female_voice = VOICES[lang]["female"]
-
+    voice_lang  = "hi" if lang in ("hi", "hinglish") else "en"
     male_path   = os.path.join(MEDIA_FOLDER, f"{uuid.uuid4().hex}.mp3")
     female_path = os.path.join(MEDIA_FOLDER, f"{uuid.uuid4().hex}.mp3")
 
     await asyncio.gather(
-        _synthesize(text, male_voice,   emotion_cfg, lang, male_path),
-        _synthesize(text, female_voice, emotion_cfg, lang, female_path),
+        _synthesize(text, VOICES[voice_lang]["male"],   emotion_cfg, lang, male_path),
+        _synthesize(text, VOICES[voice_lang]["female"], emotion_cfg, lang, female_path),
     )
     return male_path, female_path
 
@@ -147,11 +179,6 @@ def index(request):
 @csrf_exempt
 @require_POST
 def generate_speech(request):
-    """
-    POST /texttospeech/generate/
-    Fields : text, style
-    Returns: { success, male, female, emotion, language }
-    """
     text  = request.POST.get("text", "").strip()
     style = request.POST.get("style", DEFAULT_EMOTION).strip().lower()
 
@@ -162,7 +189,7 @@ def generate_speech(request):
     if style not in EMOTIONS:
         style = DEFAULT_EMOTION
 
-    lang        = detect_language(text)   # "hi" or "en"
+    lang        = detect_language(text)
     emotion_cfg = EMOTIONS[style]
 
     try:
@@ -179,13 +206,18 @@ def generate_speech(request):
             if not os.path.exists(path) or os.path.getsize(path) == 0:
                 raise RuntimeError(f"Empty output: {os.path.basename(path)}")
 
-        base_url = request.build_absolute_uri(settings.MEDIA_URL + "tts/")
+        # Schedule auto-delete after 60 seconds
+        _schedule_cleanup(male_path, female_path, delay=60)
+
+        lang_label = {"en": "English", "hi": "Hindi", "hinglish": "Hinglish"}.get(lang, "English")
+        base_url   = request.build_absolute_uri(settings.MEDIA_URL + "tts/")
+
         return JsonResponse({
             "success":  True,
             "male":     base_url + os.path.basename(male_path),
             "female":   base_url + os.path.basename(female_path),
             "emotion":  style,
-            "language": "Hindi" if lang == "hi" else "English",
+            "language": lang_label,
         })
 
     except Exception as e:
