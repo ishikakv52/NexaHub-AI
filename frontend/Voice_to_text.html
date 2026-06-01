@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>NEXA HUB AI | Voice to Text Studio</title>
-  <!-- Font Awesome & Google Fonts -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -12,674 +11,640 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      transition: background-color 0.25s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
     body {
       font-family: 'Inter', sans-serif;
       min-height: 100vh;
+      background: linear-gradient(145deg, #f9fafc 0%, #f1f5f9 100%);
+      color: #0f172a;
       padding: 2rem 1.5rem;
       transition: background 0.3s, color 0.2s;
     }
 
-    /* Light theme (default) */
-    body.light {
-      background: linear-gradient(145deg, #f9fafc 0%, #f1f5f9 100%);
-      color: #0f172a;
-    }
     body.dark {
       background: radial-gradient(circle at 10% 20%, #0f172a, #020617);
       color: #eef2ff;
     }
 
-    /* ========== FIXED BRANDING: NEXA HUB AI LEFT CORNER - SIMPLE WORD ONLY ========== */
-    .nexa-fixed-brand {
+    /* SIMPLE BRAND - NEXA white, HUB AI blue */
+    .simple-brand {
       position: fixed;
       top: 24px;
       left: 24px;
       z-index: 1100;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(79, 70, 229, 0.9);
-      backdrop-filter: blur(12px);
-      padding: 10px 22px;
-      border-radius: 60px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      border: 1px solid rgba(255,255,255,0.2);
-      transition: all 0.2s;
-    }
-    body.light .nexa-fixed-brand {
-      background: linear-gradient(135deg, #4f46e5, #7c3aed);
-      box-shadow: 0 8px 20px rgba(79,70,229,0.3);
-    }
-    body.dark .nexa-fixed-brand {
-      background: linear-gradient(135deg, #4f46e5, #6d28d9);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-    }
-    .nexa-fixed-brand i {
-      font-size: 1.4rem;
-      color: white;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-    }
-    .nexa-fixed-brand .brand-text {
       font-size: 1.2rem;
-      font-weight: 800;
-      color: white;
-      letter-spacing: -0.3px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      background: transparent;
+      padding: 0;
     }
-    /* on small screens adjust */
-    @media (max-width: 640px) {
-      .nexa-fixed-brand { padding: 6px 16px; top: 16px; left: 16px; }
-      .nexa-fixed-brand i { font-size: 1.1rem; }
-      .nexa-fixed-brand .brand-text { font-size: 0.9rem; }
-      body { padding-top: 5rem; }
+    body.light .simple-brand {
+      color: #1e293b;
+    }
+    body.dark .simple-brand {
+      color: #e2e8f0;
+    }
+    /* NEXA - white color */
+    .simple-brand .nexa-white {
+      color: #ffffff;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+    body.light .simple-brand .nexa-white {
+      color: #1e293b;
+      text-shadow: none;
+    }
+    body.dark .simple-brand .nexa-white {
+      color: #ffffff;
+    }
+    /* HUB AI - blue color */
+    .simple-brand .hub-blue {
+      color: #3b82f6;
+      font-weight: 700;
+    }
+    body.dark .simple-brand .hub-blue {
+      color: #60a5fa;
     }
 
-    /* theme toggle - adjusted to not overlap brand */
+    @media (max-width: 640px) {
+      .simple-brand { top: 18px; left: 18px; font-size: 1rem; }
+      body { padding-top: 4rem; }
+    }
+
     .theme-toggle {
       position: fixed;
-      top: 1.5rem;
-      right: 1.8rem;
+      top: 22px;
+      right: 22px;
       z-index: 1000;
-      background: rgba(255,255,255,0.2);
-      backdrop-filter: blur(10px);
-      border-radius: 60px;
-      padding: 6px;
+      background: rgba(0,0,0,0.05);
+      backdrop-filter: blur(8px);
+      border-radius: 40px;
+      padding: 6px 12px;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      border: 1px solid rgba(255,255,255,0.3);
+      font-size: 0.9rem;
+      display: flex;
+      gap: 10px;
+      border: 1px solid rgba(0,0,0,0.08);
     }
-    .theme-toggle i {
-      font-size: 1.4rem;
-      padding: 8px 12px;
-      border-radius: 50px;
-      transition: 0.2s;
+    body.dark .theme-toggle {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.1);
     }
-    body.light .theme-toggle i.fa-moon { background: #e2e8f0; color: #1e293b; }
-    body.light .theme-toggle i.fa-sun { color: #94a3b8; }
-    body.dark .theme-toggle i.fa-sun { background: #facc15; color: #0f172a; }
-    body.dark .theme-toggle i.fa-moon { color: #cbd5e1; }
+    .theme-toggle i { font-size: 1rem; }
+    body.light .theme-toggle .fa-moon { color: #64748b; }
+    body.light .theme-toggle .fa-sun { color: #f59e0b; }
+    body.dark .theme-toggle .fa-sun { color: #fbbf24; }
+    body.dark .theme-toggle .fa-moon { color: #94a3b8; }
 
-    .container {
-      max-width: 1300px;
-      margin: 0 auto;
-    }
+    .container { max-width: 1300px; margin: 0 auto; }
 
-    /* Hero section */
-    .hero-section {
-      text-align: center;
-      margin-bottom: 2.5rem;
-      margin-top: 0.5rem;
-    }
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(79,70,229,0.15);
-      padding: 5px 18px;
-      border-radius: 60px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      margin-bottom: 1rem;
-    }
-    body.light .hero-badge { background: #e0e7ff; color: #4f46e5; }
-    body.dark .hero-badge { background: #1e293b; color: #a5b4fc; }
-    h1 {
-      font-size: 3rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-    }
-    body.light h1 { color: #0f172a; }
-    body.dark h1 { color: #f1f5f9; }
-    h1 span.ai-gradient {
-      background: linear-gradient(135deg, #4f46e5, #c084fc, #2dd4bf);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-    .tagline {
-      margin-top: 0.6rem;
-      font-size: 1rem;
-    }
-    body.light .tagline { color: #334155; }
-    body.dark .tagline { color: #94a3b8; }
+    .hero { text-align: center; margin-bottom: 2.5rem; margin-top: 0.5rem; }
+    .hero h1 { font-size: 2.8rem; font-weight: 700; letter-spacing: -0.02em; }
+    body.light .hero h1 { color: #0f172a; }
+    body.dark .hero h1 { color: #f1f5f9; }
+    .hero .tagline { font-size: 0.95rem; margin-top: 0.5rem; opacity: 0.7; }
 
-    /* dashboard grid */
     .dashboard {
       display: grid;
       grid-template-columns: 1fr 1.2fr;
       gap: 1.8rem;
     }
-    @media (max-width: 860px) {
-      .dashboard { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 860px) { .dashboard { grid-template-columns: 1fr; } }
 
-    /* glassmorphic cards */
     .card {
-      border-radius: 2rem;
-      padding: 1.6rem;
+      border-radius: 1.5rem;
+      padding: 1.5rem;
       transition: all 0.2s;
     }
     body.light .card {
-      background: rgba(255,255,255,0.85);
-      backdrop-filter: blur(2px);
-      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08);
-      border: 1px solid rgba(0,0,0,0.05);
+      background: white;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e2e8f0;
     }
     body.dark .card {
-      background: rgba(15, 23, 42, 0.75);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,0.1);
-      box-shadow: 0 20px 30px -15px rgba(0,0,0,0.5);
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     }
 
     .section-title {
-      font-size: 1.2rem;
-      font-weight: 700;
+      font-size: 1.1rem;
+      font-weight: 600;
       margin-bottom: 1.2rem;
       display: flex;
       align-items: center;
-      gap: 10px;
-      border-left: 4px solid #4f46e5;
-      padding-left: 14px;
+      gap: 8px;
+      border-left: 3px solid #3b82f6;
+      padding-left: 12px;
     }
 
-    /* method selector */
     .method-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin-bottom: 1.8rem;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
     }
     .method-card {
-      border-radius: 1.2rem;
-      padding: 0.9rem 0.5rem;
+      border-radius: 1rem;
+      padding: 0.8rem 0.3rem;
       text-align: center;
       cursor: pointer;
       transition: 0.2s;
-      border: 2px solid transparent;
+      border: 1px solid transparent;
     }
     body.light .method-card {
-      background: #f1f5f9;
+      background: #f8fafc;
+      border-color: #e2e8f0;
     }
     body.dark .method-card {
-      background: #0f172a;
+      background: #1e293b;
       border-color: #334155;
     }
     .method-card.active-method {
-      border-color: #4f46e5;
-      background: rgba(79,70,229,0.15);
+      border-color: #3b82f6;
+      background: rgba(59,130,246,0.1);
     }
     body.dark .method-card.active-method {
-      background: #1e1b4b;
-      border-color: #818cf8;
+      background: #1e3a5f;
+      border-color: #60a5fa;
     }
-    .method-card i {
-      font-size: 1.6rem;
-      margin-bottom: 6px;
-      color: #4f46e5;
-    }
+    .method-card i { font-size: 1.4rem; margin-bottom: 4px; color: #3b82f6; }
+    .method-card h4 { font-size: 0.85rem; font-weight: 600; }
+    .method-card p { font-size: 0.65rem; opacity: 0.7; }
 
-    /* language box */
-    .lang-box {
-      border-radius: 1.2rem;
-      padding: 1rem;
-      margin-bottom: 1.5rem;
+    .lang-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 12px;
+      padding: 0.8rem 0;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid;
+      border-top: 1px solid;
+      border-color: inherit;
     }
-    body.light .lang-box { background: #f8fafc; }
-    body.dark .lang-box { background: #0a0f1f; border: 1px solid #2d3a5e; }
     select {
-      padding: 10px 16px;
+      padding: 8px 14px;
       border-radius: 2rem;
       border: 1px solid;
       background: inherit;
       font-weight: 500;
       cursor: pointer;
     }
-    body.light select { background: white; border-color: #cbd5e1; color: #0f172a; }
-    body.dark select { background: #111827; border-color: #334155; color: #e2e8f0; }
+    body.light select { background: white; border-color: #cbd5e1; }
+    body.dark select { background: #0f172a; border-color: #334155; color: #e2e8f0; }
 
-    /* upload zone */
     .upload-zone {
       border: 2px dashed;
-      border-radius: 1.5rem;
-      padding: 1.8rem 1rem;
+      border-radius: 1.2rem;
+      padding: 1.5rem 1rem;
       text-align: center;
       transition: 0.2s;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
     }
     body.light .upload-zone { border-color: #cbd5e1; background: #fefce8; }
     body.dark .upload-zone { border-color: #475569; background: #111827; }
-    .upload-zone.drag-over { border-color: #4f46e5; background: rgba(79,70,229,0.1); }
+    .upload-zone.drag-over { border-color: #3b82f6; background: rgba(59,130,246,0.08); }
     .upload-btn {
-      background: #4f46e5;
+      background: #3b82f6;
       color: white;
       border: none;
-      padding: 10px 24px;
+      padding: 8px 20px;
       border-radius: 2rem;
-      font-weight: 600;
-      margin: 12px 0 8px;
+      font-weight: 500;
+      margin: 10px 0 6px;
       cursor: pointer;
+      font-size: 0.85rem;
     }
-    .file-info { font-size: 0.75rem; margin-top: 8px; opacity: 0.8; }
+    .upload-btn:hover { background: #2563eb; }
+    .file-info { font-size: 0.7rem; margin-top: 6px; opacity: 0.7; }
 
-    /* mic section */
-    .mic-section { text-align: center; padding: 1rem 0; }
+    .mic-section { text-align: center; padding: 0.8rem 0; }
     .mic-btn {
-      width: 100px;
-      height: 100px;
-      border-radius: 100px;
+      width: 80px;
+      height: 80px;
+      border-radius: 80px;
       border: none;
-      font-size: 3rem;
+      font-size: 2.2rem;
       cursor: pointer;
       transition: 0.2s;
     }
-    body.light .mic-btn { background: linear-gradient(145deg, #e2e8f0, #cbd5e1); color: #4f46e5; }
-    body.dark .mic-btn { background: #1e293b; color: #a5b4fc; border: 1px solid #4f46e5; }
+    body.light .mic-btn { background: #e2e8f0; color: #3b82f6; }
+    body.dark .mic-btn { background: #1e293b; color: #60a5fa; border: 1px solid #3b82f6; }
     .mic-btn.recording {
       background: #ef4444;
       color: white;
-      animation: pulseRed 1.2s infinite;
+      animation: pulse 1.2s infinite;
     }
-    @keyframes pulseRed {
+    @keyframes pulse {
       0% { box-shadow: 0 0 0 0 #ef444480; }
-      70% { box-shadow: 0 0 0 15px #ef444400; }
+      70% { box-shadow: 0 0 0 12px #ef444400; }
       100% { box-shadow: 0 0 0 0 #ef444400; }
     }
-    .mic-status { margin-top: 12px; font-size: 0.8rem; font-weight: 500; }
+    .mic-status { margin-top: 8px; font-size: 0.75rem; font-weight: 500; }
 
-    /* textarea */
     textarea {
       width: 100%;
-      min-height: 300px;
-      border-radius: 1.2rem;
-      padding: 1.2rem;
-      font-size: 0.95rem;
-      line-height: 1.6;
+      min-height: 280px;
+      border-radius: 1rem;
+      padding: 1rem;
+      font-size: 0.9rem;
+      line-height: 1.5;
       font-family: 'Inter', monospace;
       resize: vertical;
     }
     body.light textarea { background: #fefce8; border: 1px solid #e2e8f0; color: #0f172a; }
     body.dark textarea { background: #020617; border: 1px solid #334155; color: #e2e8f0; }
-    textarea:focus { outline: none; border-color: #4f46e5; box-shadow: 0 0 0 3px #c7d2fe; }
+    textarea:focus { outline: none; border-color: #3b82f6; }
 
     .action-group {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       margin-top: 1rem;
       flex-wrap: wrap;
     }
     .action-btn {
       flex: 1;
-      padding: 12px;
+      padding: 10px;
       border-radius: 1rem;
-      font-weight: 600;
+      font-weight: 500;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
       cursor: pointer;
       border: none;
+      font-size: 0.85rem;
       transition: 0.2s;
     }
     body.light .action-btn { background: #f1f5f9; color: #1e293b; }
     body.dark .action-btn { background: #1e293b; color: #e2e8f0; }
-    .action-btn.primary { background: #4f46e5; color: white; }
+    .action-btn.primary { background: #3b82f6; color: white; }
+    .action-btn.primary:hover { background: #2563eb; }
     .footer-note {
-      margin-top: 1.5rem;
+      margin-top: 1.2rem;
       text-align: center;
-      font-size: 0.7rem;
-      opacity: 0.7;
+      font-size: 0.65rem;
+      opacity: 0.5;
     }
-    .toast-msg {
+    .toast {
       position: fixed;
       bottom: 20px;
       right: 20px;
-      padding: 10px 20px;
+      background: #0f172a;
+      color: white;
+      padding: 8px 18px;
       border-radius: 40px;
-      font-size: 0.8rem;
-      z-index: 1100;
+      font-size: 0.75rem;
+      z-index: 1200;
       opacity: 0;
       transition: 0.2s;
       pointer-events: none;
     }
-    body.light .toast-msg { background: #0f172a; color: white; }
-    body.dark .toast-msg { background: #f1f5f9; color: #0f172a; }
+    body.dark .toast { background: #f1f5f9; color: #0f172a; }
   </style>
 </head>
 <body class="light">
-  <!-- FIXED BRANDING: NEXA HUB AI - SIMPLE WORD ONLY -->
-  <div class="nexa-fixed-brand">
-    <i class="fa-solid fa-microchip"></i>
-    <span class="brand-text">NEXA HUB AI</span>
+  <!-- BRAND: NEXA (white) + HUB AI (blue) -->
+  <div class="simple-brand">
+    <span class="nexa-white">NEXA</span>
+    <span class="hub-blue"> HUB AI</span>
   </div>
 
-  <div class="theme-toggle" id="themeToggleBtn">
-    <i class="fa-regular fa-sun" id="sunIcon"></i>
-    <i class="fa-regular fa-moon" id="moonIcon"></i>
+  <div class="theme-toggle" id="themeToggle">
+    <i class="fa-regular fa-sun"></i>
+    <i class="fa-regular fa-moon"></i>
   </div>
 
-<div class="container">
-  <div class="hero-section">
-    <div class="hero-badge">
-      <!-- v3.0 · Groq-Ready -->
-    </div>
-    <h1>
-      Voice to <span class="ai-gradient">Text </span>
-    </h1>
-    <p class="tagline"><i class="fa-regular fa-waveform"></i> Upload Audio · Upload Video · Record Microphone .</p>
-  </div>
-
-  <div class="dashboard">
-    <!-- LEFT PANEL -->
-    <div class="card">
-      <div class="section-title"><i class="fa-solid fa-waveform"></i> Input source</div>
-      <div class="method-grid">
-        <div class="method-card" data-method="audio" id="methodAudio">
-          <i class="fa-solid fa-headphones"></i>
-          <h4>Audio File</h4>
-          <p style="font-size: 0.7rem;">MP3, WAV, M4A, OGG</p>
-        </div>
-        <div class="method-card" data-method="video" id="methodVideo">
-          <i class="fa-solid fa-video"></i>
-          <h4>Video File</h4>
-          <p style="font-size: 0.7rem;">MP4, WEBM, MOV</p>
-        </div>
-        <div class="method-card" data-method="mic" id="methodMic">
-          <i class="fa-solid fa-microphone"></i>
-          <h4>Microphone</h4>
-          <p style="font-size: 0.7rem;">Live speech</p>
-        </div>
-      </div>
-
-      <div class="lang-box">
-        <span><i class=""></i> Language / Auto Detect</span>
-        <select id="langSelect">
-          <option value="auto">🌐 Auto Detect</option>
-          <option value="en-US">🇺🇸 English (US)</option>
-          <option value="hi-IN">🇮🇳 Hindi</option>
-          <option value="en-IN">🇮🇳 Indian English</option>
-          <option value="es-ES">🇪🇸 Spanish</option>
-          <option value="fr-FR">🇫🇷 French</option>
-          <option value="de-DE">🇩🇪 German</option>
-        </select>
-      </div>
-
-      <!-- File upload zone (audio/video dynamic) -->
-      <div id="fileUploadZone">
-        <div class="upload-zone" id="dropZone">
-          <div class="upload-icon" style="font-size: 2.2rem;"><i class="fa-regular fa-cloud-arrow-up"></i></div>
-          <h4 id="uploadTitle">Drop audio or video file</h4>
-          <p id="uploadSubtitle" style="font-size: 0.8rem; margin: 6px 0;">MP3, WAV, M4A, OGG, MP4, WEBM | Max 25MB</p>
-          <input type="file" id="fileInput" style="display: none;" accept="audio/*,video/*">
-          <button class="upload-btn" id="browseBtn"><i class="fa-regular fa-folder-open"></i> Choose File</button>
-          <div id="fileStatus" class="file-info">No file selected</div>
-        </div>
-      </div>
-
-      <!-- Microphone zone -->
-      <div id="micZone" style="display: none;">
-        <div class="mic-section">
-          <button class="mic-btn" id="micRecordBtn"><i class="fa-solid fa-microphone"></i></button>
-          <div class="mic-status" id="micStatusMsg">Click mic to start</div>
-          <p style="font-size: 11px; margin-top: 12px;"><i class="fa-regular fa-circle-info"></i> Web Speech API | Chrome/Edge recommended</p>
-        </div>
-      </div>
-      <div class="footer-note">© 2026 NEXA HUB AI</div>
+  <div class="container">
+    <div class="hero">
+      <h1>Voice to Text</h1>
+      <p class="tagline">Upload audio · Video · Live microphone</p>
     </div>
 
-    <!-- RIGHT PANEL -->
-    <div class="card">
-      <div class="section-title"><i class="fa-regular fa-rectangle-history"></i> Transcription result</div>
-      <textarea id="outputText" placeholder="Your transcribed text will appear here... (Hindi, English, etc.)"></textarea>
-      <div class="action-group">
-        <button class="action-btn" id="copyBtn"><i class="fa-regular fa-copy"></i> Copy</button>
-        <button class="action-btn" id="clearBtn"><i class="fa-regular fa-trash-can"></i> Clear</button>
-        <button class="action-btn primary" id="downloadBtn"><i class="fa-regular fa-download"></i> Download .txt</button>
+    <div class="dashboard">
+      <!-- LEFT PANEL -->
+      <div class="card">
+        <div class="section-title"><i class="fa-solid fa-microphone"></i> Input source</div>
+        <div class="method-grid">
+          <div class="method-card active-method" data-method="audio" id="methodAudio">
+            <i class="fa-solid fa-headphones"></i>
+            <h4>Audio</h4>
+            <p>MP3, WAV, M4A</p>
+          </div>
+          <div class="method-card" data-method="video" id="methodVideo">
+            <i class="fa-solid fa-video"></i>
+            <h4>Video</h4>
+            <p>MP4, WEBM, MOV</p>
+          </div>
+          <div class="method-card" data-method="mic" id="methodMic">
+            <i class="fa-solid fa-microphone"></i>
+            <h4>Microphone</h4>
+            <p>Live speech</p>
+          </div>
+        </div>
+
+        <div class="lang-row">
+          <span><i class="fa-regular fa-globe"></i> Language</span>
+          <select id="langSelect">
+            <option value="auto">🌐 Auto detect</option>
+            <option value="en-US">🇺🇸 English (US)</option>
+            <option value="hi-IN">🇮🇳 हिंदी (Hindi)</option>
+            <option value="en-IN">🇮🇳 Indian English</option>
+            <option value="es-ES">🇪🇸 Spanish</option>
+            <option value="fr-FR">🇫🇷 French</option>
+          </select>
+        </div>
+
+        <!-- File upload area -->
+        <div id="fileUploadArea">
+          <div class="upload-zone" id="dropZone">
+            <div style="font-size: 1.8rem;"><i class="fa-regular fa-cloud-arrow-up"></i></div>
+            <h4 id="uploadTitle">Audio file</h4>
+            <p id="uploadSub" style="font-size: 0.7rem;">MP3, WAV, M4A, OGG | Max 25MB</p>
+            <input type="file" id="fileInput" style="display: none;" accept="audio/*">
+            <button class="upload-btn" id="browseBtn"><i class="fa-regular fa-folder-open"></i> Choose file</button>
+            <div id="fileStatus" class="file-info">No file selected</div>
+          </div>
+        </div>
+
+        <!-- Mic live area -->
+        <div id="micArea" style="display: none;">
+          <div class="mic-section">
+            <button class="mic-btn" id="micRecordBtn"><i class="fa-solid fa-microphone"></i></button>
+            <div class="mic-status" id="micStatusMsg">Tap to start</div>
+            <p style="font-size: 10px; margin-top: 10px;"><i class="fa-regular fa-circle-info"></i> Chrome/Edge recommended</p>
+          </div>
+        </div>
+        <div class="footer-note">© 2026 NEXA HUB AI</div>
       </div>
-      <div class="footer-note">AI transcription respects selected language · Real-time accuracy</div>
+
+      <!-- RIGHT PANEL -->
+      <div class="card">
+        <div class="section-title"><i class="fa-regular fa-rectangle-list"></i> Transcription</div>
+        <textarea id="outputText" placeholder="Transcribed text will appear here..."></textarea>
+        <div class="action-group">
+          <button class="action-btn" id="copyBtn"><i class="fa-regular fa-copy"></i> Copy</button>
+          <button class="action-btn" id="clearBtn"><i class="fa-regular fa-trash-can"></i> Clear</button>
+          <button class="action-btn primary" id="downloadBtn"><i class="fa-regular fa-download"></i> Download</button>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-<div id="toast" class="toast-msg">Copied!</div>
+  <div id="toastMsg" class="toast">Copied</div>
 
-<script>
-  // ------------------- DARK / LIGHT MODE -------------------
-  const themeToggle = document.getElementById('themeToggleBtn');
-  const body = document.body;
-  function setTheme(theme) {
-    if (theme === 'dark') {
-      body.classList.remove('light');
-      body.classList.add('dark');
-      localStorage.setItem('nexa-theme', 'dark');
-    } else {
-      body.classList.remove('dark');
-      body.classList.add('light');
-      localStorage.setItem('nexa-theme', 'light');
-    }
-  }
-  const savedTheme = localStorage.getItem('nexa-theme');
-  if (savedTheme === 'dark') setTheme('dark');
-  else setTheme('light');
-  themeToggle.addEventListener('click', () => {
-    if (body.classList.contains('light')) setTheme('dark');
-    else setTheme('light');
-  });
+  <script>
+    (function() {
+      // Theme Toggle
+      const themeToggle = document.getElementById('themeToggle');
+      const body = document.body;
+      function setTheme(theme) {
+        if (theme === 'dark') {
+          body.classList.remove('light');
+          body.classList.add('dark');
+          localStorage.setItem('theme', 'dark');
+        } else {
+          body.classList.remove('dark');
+          body.classList.add('light');
+          localStorage.setItem('theme', 'light');
+        }
+      }
+      if (localStorage.getItem('theme') === 'dark') setTheme('dark');
+      else setTheme('light');
+      themeToggle.addEventListener('click', () => {
+        body.classList.contains('light') ? setTheme('dark') : setTheme('light');
+      });
 
-  // ------------------- APP LOGIC -------------------
-  const methodAudio = document.getElementById('methodAudio');
-  const methodVideo = document.getElementById('methodVideo');
-  const methodMic = document.getElementById('methodMic');
-  const fileZoneDiv = document.getElementById('fileUploadZone');
-  const micZoneDiv = document.getElementById('micZone');
-  const fileInput = document.getElementById('fileInput');
-  const browseBtn = document.getElementById('browseBtn');
-  const dropZone = document.getElementById('dropZone');
-  const fileStatusSpan = document.getElementById('fileStatus');
-  const uploadTitle = document.getElementById('uploadTitle');
-  const uploadSubtitle = document.getElementById('uploadSubtitle');
-  const outputTextarea = document.getElementById('outputText');
-  const langSelect = document.getElementById('langSelect');
-  const micBtn = document.getElementById('micRecordBtn');
-  const micStatusMsg = document.getElementById('micStatusMsg');
-  const toastDiv = document.getElementById('toast');
+      // DOM Elements
+      const methodAudio = document.getElementById('methodAudio');
+      const methodVideo = document.getElementById('methodVideo');
+      const methodMic = document.getElementById('methodMic');
+      const fileArea = document.getElementById('fileUploadArea');
+      const micArea = document.getElementById('micArea');
+      const fileInput = document.getElementById('fileInput');
+      const browseBtn = document.getElementById('browseBtn');
+      const dropZone = document.getElementById('dropZone');
+      const fileStatus = document.getElementById('fileStatus');
+      const uploadTitle = document.getElementById('uploadTitle');
+      const uploadSub = document.getElementById('uploadSub');
+      const outputText = document.getElementById('outputText');
+      const langSelect = document.getElementById('langSelect');
+      const micBtn = document.getElementById('micRecordBtn');
+      const micStatus = document.getElementById('micStatusMsg');
+      const toast = document.getElementById('toastMsg');
 
-  let currentMethod = 'audio';
-  let recognition = null;
-  let isMicActive = false;
+      let currentMethod = 'audio';
+      let recognition = null;
+      let isRecording = false;
 
-  function showToast(msg) {
-    toastDiv.innerText = msg;
-    toastDiv.style.opacity = '1';
-    setTimeout(() => { toastDiv.style.opacity = '0'; }, 2000);
-  }
+      function showToast(msg) {
+        toast.innerText = msg;
+        toast.style.opacity = '1';
+        setTimeout(() => { toast.style.opacity = '0'; }, 2000);
+      }
 
-  function setActiveMethod(method) {
-    currentMethod = method;
-    [methodAudio, methodVideo, methodMic].forEach(card => card.classList.remove('active-method'));
-    if (method === 'audio') methodAudio.classList.add('active-method');
-    if (method === 'video') methodVideo.classList.add('active-method');
-    if (method === 'mic') methodMic.classList.add('active-method');
+      // Method Switching
+      function switchMethod(method) {
+        currentMethod = method;
+        document.querySelectorAll('.method-card').forEach(c => c.classList.remove('active-method'));
+        if (method === 'audio') methodAudio.classList.add('active-method');
+        if (method === 'video') methodVideo.classList.add('active-method');
+        if (method === 'mic') methodMic.classList.add('active-method');
 
-    if (method === 'mic') {
-      fileZoneDiv.style.display = 'none';
-      micZoneDiv.style.display = 'block';
-      if (isMicActive && recognition) stopMicrophone();
-    } else {
-      fileZoneDiv.style.display = 'block';
-      micZoneDiv.style.display = 'none';
-      if (isMicActive && recognition) stopMicrophone();
-      if (method === 'audio') {
-        uploadTitle.innerText = 'Drop audio file';
-        uploadSubtitle.innerText = 'MP3, WAV, M4A, OGG, FLAC | Max 25MB';
-        fileInput.setAttribute('accept', 'audio/*');
+        // Stop mic if active
+        if (recognition && isRecording) {
+          recognition.stop();
+          isRecording = false;
+          micBtn.classList.remove('recording');
+          micBtn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
+          micStatus.innerText = 'Tap to start';
+        }
+
+        if (method === 'mic') {
+          fileArea.style.display = 'none';
+          micArea.style.display = 'block';
+        } else {
+          fileArea.style.display = 'block';
+          micArea.style.display = 'none';
+          if (method === 'audio') {
+            uploadTitle.innerText = 'Audio file';
+            uploadSub.innerText = 'MP3, WAV, M4A, OGG | Max 25MB';
+            fileInput.setAttribute('accept', 'audio/*');
+          } else {
+            uploadTitle.innerText = 'Video file';
+            uploadSub.innerText = 'MP4, WEBM, MOV | Max 25MB';
+            fileInput.setAttribute('accept', 'video/*');
+          }
+        }
+      }
+
+      // File Processing (AI Transcription Simulation)
+      function processFile(file) {
+        if (!file) return;
+        if (file.size > 25 * 1024 * 1024) {
+          fileStatus.innerHTML = '❌ File exceeds 25MB';
+          return;
+        }
+        
+        const lang = langSelect.value;
+        const langName = langSelect.options[langSelect.selectedIndex]?.text || 'Auto';
+        fileStatus.innerHTML = `<i class="fa-regular fa-spinner fa-pulse"></i> Transcribing "${file.name}"...`;
+        
+        setTimeout(() => {
+          let text = '';
+          const isHindi = (lang === 'hi-IN');
+          
+          if (currentMethod === 'audio') {
+            if (isHindi) {
+              text = `🎙️ NEXA HUB AI · ऑडियो ट्रांसक्रिप्शन\n\nफ़ाइल: ${file.name}\nभाषा: हिंदी\n\n"नमस्ते! यह आपकी ऑडियो फ़ाइल का लिप्यंतरण है। NEXA HUB AI हिंदी और अंग्रेजी दोनों का समर्थन करता है। सटीकता और गति के साथ वॉइस टू टेक्स्ट का अनुभव करें।"\n\n— NEXA HUB AI —`;
+            } else {
+              text = `🎤 NEXA HUB AI · Audio Transcription\n\nFile: ${file.name}\nLanguage: ${langName}\n\n"Hello from NEXA HUB AI. This audio file has been successfully transcribed. Our voice-to-text engine supports multiple languages including English and Hindi. Upload any audio and get instant results."\n\n— NEXA HUB AI —`;
+            }
+          } else {
+            if (isHindi) {
+              text = `📹 NEXA HUB AI · वीडियो ट्रांसक्रिप्शन\n\nफ़ाइल: ${file.name}\nभाषा: हिंदी\n\n"वीडियो फ़ाइल से निकाली गई ध्वनि: NEXA HUB AI वीडियो से ऑडियो निकालकर टेक्स्ट में बदलता है। हिंदी और अंग्रेजी मिक्स भाषा समर्थित।"\n\n— NEXA HUB AI —`;
+            } else {
+              text = `📽️ NEXA HUB AI · Video Transcription\n\nFile: ${file.name}\nLanguage: ${langName}\n\n"Video to text conversion complete. The system extracted audio from your video file and generated this transcript. Supports MP4, MOV, WEBM formats."\n\n— NEXA HUB AI —`;
+            }
+          }
+          outputText.value = text;
+          fileStatus.innerHTML = `✅ "${file.name}" transcribed successfully`;
+          showToast('Transcription complete!');
+        }, 1000);
+      }
+
+      // File Upload Events
+      browseBtn.addEventListener('click', () => fileInput.click());
+      fileInput.addEventListener('change', (e) => {
+        if (e.target.files[0]) processFile(e.target.files[0]);
+        fileInput.value = '';
+      });
+      dropZone.addEventListener('click', () => fileInput.click());
+      dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('drag-over');
+      });
+      dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+      dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('drag-over');
+        const file = e.dataTransfer.files[0];
+        if (file && (file.type.startsWith('audio/') || file.type.startsWith('video/'))) {
+          processFile(file);
+        } else {
+          fileStatus.innerHTML = '❌ Invalid file type';
+        }
+      });
+
+      // Microphone using Web Speech API
+      const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+      
+      if (SpeechRecognitionAPI) {
+        recognition = new SpeechRecognitionAPI();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        
+        recognition.onstart = () => {
+          isRecording = true;
+          micBtn.classList.add('recording');
+          micBtn.innerHTML = '<i class="fa-solid fa-microphone-slash"></i>';
+          micStatus.innerText = '🔴 Recording... Speak now';
+        };
+        
+        recognition.onend = () => {
+          isRecording = false;
+          micBtn.classList.remove('recording');
+          micBtn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
+          micStatus.innerText = 'Tap to start';
+        };
+        
+        recognition.onresult = (event) => {
+          let transcript = '';
+          for (let i = 0; i < event.results.length; i++) {
+            transcript += event.results[i][0].transcript;
+          }
+          outputText.value = transcript;
+        };
+        
+        recognition.onerror = (event) => {
+          console.error('Speech recognition error:', event.error);
+          micStatus.innerText = `Error: ${event.error}`;
+          isRecording = false;
+          micBtn.classList.remove('recording');
+          micBtn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
+        };
       } else {
-        uploadTitle.innerText = 'Drop video file';
-        uploadSubtitle.innerText = 'MP4, WEBM, MOV, AVI | Extract audio track';
-        fileInput.setAttribute('accept', 'video/*');
+        micStatus.innerText = '❌ Web Speech API not supported';
+        micBtn.disabled = true;
       }
-    }
-  }
-
-  methodAudio.addEventListener('click', () => setActiveMethod('audio'));
-  methodVideo.addEventListener('click', () => setActiveMethod('video'));
-  methodMic.addEventListener('click', () => setActiveMethod('mic'));
-
-  // ---------- AI TRANSCRIPTION for Audio / Video (respects language) ----------
-  function processFileTranscription(file, method) {
-    if (!file) return;
-    const maxSize = 25 * 1024 * 1024;
-    if (file.size > maxSize) {
-      fileStatusSpan.innerHTML = `<span style="color:#ef4444;">❌ File exceeds 25MB limit.</span>`;
-      return;
-    }
-    const langValue = langSelect.value;
-    let langLabel = langSelect.options[langSelect.selectedIndex]?.text || 'Auto';
-    fileStatusSpan.innerHTML = `<i class="fa-regular fa-spinner fa-pulse"></i> NEXA AI processing "${file.name}" with ${langLabel} ...`;
-    setTimeout(() => {
-      let transcription = '';
-      const isHindi = (langValue === 'hi-IN');
-      if (method === 'audio') {
-        if (isHindi) {
-          transcription = `🎙️ NEXA HUB AI — ऑडियो ट्रांसक्रिप्शन (${file.name})\n\nभाषा: हिंदी — नेक्सा एआई द्वारा संसाधित।\n\n"नमस्ते! यह आपकी ऑडियो फ़ाइल का लिप्यंतरण है। हमारा वॉइस टू टेक्स्ट टूल हिंदी और अंग्रेजी दोनों का समर्थन करता है। कृपया अपनी फ़ाइलें अपलोड करें और तुरंत ट्रांसक्रिप्ट प्राप्त करें। धन्यवाद!"\n\n— NEXA HUB AI · सटीकता: उच्च —`;
-        } else {
-          transcription = `🎤 NEXA HUB AI — Audio Transcription\nFile: ${file.name}\nLanguage: ${langLabel}\n\n"Hello and welcome to NEXA HUB AI Voice Studio. This audio file has been successfully transcribed using advanced AI models. The system supports Hindi, English, and multiple languages. Upload any audio format like MP3, WAV, or M4A to convert speech to text with Groq-like performance. Experience next-gen voice intelligence."\n\n— End of transcript —`;
+      
+      function startRecording() {
+        if (!recognition) {
+          alert('Speech recognition not supported in this browser. Please use Chrome or Edge.');
+          return;
         }
-      } else { // video transcription
-        if (isHindi) {
-          transcription = `📹 NEXA HUB AI — वीडियो ट्रांसक्रिप्शन (${file.name})\n\nभाषा: ${langLabel}\nवीडियो से निकाली गई ऑडियो:\n\n"इस वीडियो में हम वॉइस रिकग्निशन तकनीक पर चर्चा कर रहे हैं। NEXA HUB AI वीडियो फ़ाइलों को भी टेक्स्ट में बदल सकता है। अंग्रेजी और हिंदी का मिश्रण समर्थित है।"`;
-        } else {
-          transcription = `📽️ NEXA HUB AI — Video Transcription\nFile: ${file.name}\nLanguage: ${langLabel}\n\nExtracted transcript: "Welcome to the NEXA HUB AI video-to-text demonstration. This sample shows how the platform converts spoken content from video files into accurate text. Supports MP4, WEBM, and MOV. The result is a clean, editable transcript ready for download. Multi-language AI ensures global accessibility. NEXA HUB AI — where voice meets intelligence."\n\n(Processed by neural engine)`;
-        }
-      }
-      outputTextarea.value = transcription;
-      fileStatusSpan.innerHTML = `✅ Transcribed "${file.name}" — ${langLabel} | NEXA HUB AI`;
-      showToast('Transcription complete');
-    }, 1000);
-  }
-
-  browseBtn.addEventListener('click', () => fileInput.click());
-  fileInput.addEventListener('change', (e) => {
-    if (e.target.files.length) processFileTranscription(e.target.files[0], currentMethod);
-    fileInput.value = '';
-  });
-  dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('drag-over'); });
-  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
-  dropZone.addEventListener('drop', (e) => {
-    e.preventDefault();
-    dropZone.classList.remove('drag-over');
-    const file = e.dataTransfer.files[0];
-    if (file && (file.type.startsWith('audio/') || file.type.startsWith('video/'))) processFileTranscription(file, currentMethod);
-    else fileStatusSpan.innerHTML = '<span style="color:#f97316;">⚠️ Invalid file type</span>';
-  });
-
-  // ---------- MICROPHONE with Web Speech API ----------
-  const SpeechRecog = window.SpeechRecognition || window.webkitSpeechRecognition;
-  function initSpeech() {
-    if (!SpeechRecog) {
-      micStatusMsg.innerText = '❌ Mic not supported. Use Chrome/Edge.';
-      micBtn.disabled = true;
-      return false;
-    }
-    recognition = new SpeechRecog();
-    recognition.continuous = true;
-    recognition.interimResults = true;
-    function updateMicLang() {
-      if (recognition) {
-        let code = langSelect.value === 'auto' ? 'en-US' : langSelect.value;
-        recognition.lang = code;
-      }
-    }
-    updateMicLang();
-    recognition.onstart = () => {
-      isMicActive = true;
-      micBtn.classList.add('recording');
-      micBtn.innerHTML = '<i class="fa-solid fa-microphone-lines"></i>';
-      micStatusMsg.innerText = '🔴 NEXA AI Listening... Speak now';
-    };
-    recognition.onend = () => {
-      isMicActive = false;
-      micBtn.classList.remove('recording');
-      micBtn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
-      micStatusMsg.innerText = 'Click mic to start';
-    };
-    recognition.onresult = (event) => {
-      let transcript = '';
-      for (let i = 0; i < event.results.length; i++) {
-        transcript += event.results[i][0].transcript;
-        if (event.results[i].isFinal) transcript += ' ';
-      }
-      outputTextarea.value = transcript.trim();
-    };
-    recognition.onerror = (err) => {
-      micStatusMsg.innerText = `Error: ${err.error}`;
-      stopMicrophone();
-    };
-    return true;
-  }
-  function startMicrophone() {
-    if (!recognition && !initSpeech()) return;
-    if (recognition) {
-      try {
         let langCode = langSelect.value === 'auto' ? 'en-US' : langSelect.value;
         recognition.lang = langCode;
         recognition.start();
-      } catch(e) { console.warn(e); }
-    }
-  }
-  function stopMicrophone() {
-    if (recognition && isMicActive) recognition.stop();
-  }
-  micBtn.addEventListener('click', () => {
-    if (!SpeechRecog) { alert("Browser does not support Web Speech API."); return; }
-    if (isMicActive) stopMicrophone();
-    else startMicrophone();
-  });
-  langSelect.addEventListener('change', () => {
-    if (recognition) {
-      const newLang = langSelect.value === 'auto' ? 'en-US' : langSelect.value;
-      recognition.lang = newLang;
-      if (isMicActive) {
-        stopMicrophone();
-        setTimeout(() => startMicrophone(), 200);
-        micStatusMsg.innerText = `🔄 Language changed, restarting...`;
-      } else {
-        micStatusMsg.innerText = `✅ Language set to ${langSelect.options[langSelect.selectedIndex]?.text}`;
       }
-    }
-    if (currentMethod !== 'mic') fileStatusSpan.innerHTML = `🌐 Language pref: ${langSelect.options[langSelect.selectedIndex]?.text} (next upload)`;
-  });
-  if (SpeechRecog) initSpeech();
-
-  // ------- Action Buttons -------
-  document.getElementById('copyBtn').addEventListener('click', () => {
-    if (!outputTextarea.value.trim()) return showToast('Nothing to copy');
-    outputTextarea.select();
-    navigator.clipboard.writeText(outputTextarea.value);
-    showToast('📋 Copied to clipboard!');
-  });
-  document.getElementById('clearBtn').addEventListener('click', () => {
-    outputTextarea.value = '';
-    showToast('Cleared');
-  });
-  document.getElementById('downloadBtn').addEventListener('click', () => {
-    if (!outputTextarea.value.trim()) return showToast('No text');
-    const blob = new Blob([outputTextarea.value], { type: 'text/plain' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `nexa_hub_ai_transcript_${Date.now()}.txt`;
-    a.click();
-    URL.revokeObjectURL(a.href);
-    showToast('Download started');
-  });
-
-  setActiveMethod('audio');
-</script>
+      
+      function stopRecording() {
+        if (recognition && isRecording) recognition.stop();
+      }
+      
+      micBtn.addEventListener('click', () => {
+        if (isRecording) stopRecording();
+        else startRecording();
+      });
+      
+      langSelect.addEventListener('change', () => {
+        if (recognition && isRecording) {
+          stopRecording();
+          setTimeout(() => startRecording(), 100);
+        }
+      });
+      
+      // Action Buttons
+      document.getElementById('copyBtn').addEventListener('click', () => {
+        if (!outputText.value.trim()) {
+          showToast('Nothing to copy');
+          return;
+        }
+        outputText.select();
+        navigator.clipboard.writeText(outputText.value);
+        showToast('Copied to clipboard!');
+      });
+      
+      document.getElementById('clearBtn').addEventListener('click', () => {
+        outputText.value = '';
+        showToast('Cleared');
+      });
+      
+      document.getElementById('downloadBtn').addEventListener('click', () => {
+        if (!outputText.value.trim()) {
+          showToast('No text to download');
+          return;
+        }
+        const blob = new Blob([outputText.value], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `nexa_transcript_${Date.now()}.txt`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('Download started!');
+      });
+      
+      // Method switch listeners
+      methodAudio.addEventListener('click', () => switchMethod('audio'));
+      methodVideo.addEventListener('click', () => switchMethod('video'));
+      methodMic.addEventListener('click', () => switchMethod('mic'));
+      
+      // Initialize
+      switchMethod('audio');
+    })();
+  </script>
 </body>
 </html>
