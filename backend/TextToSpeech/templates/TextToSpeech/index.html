@@ -14,6 +14,7 @@
       --border: #1e2a35; --border-glow: #2a4a5e;
       --accent: #00d4ff; --accent-dim: #007a99; --accent-glow: rgba(0,212,255,.18);
       --male: #4d9fff; --female: #ff6eb4;
+      --translate: #a78bfa;
       --text: #e2eaf2; --text-muted: #5a7a8a;
       --error: #ff4d6d; --success: #00ffb3;
       --mono: 'DM Mono', monospace; --sans: 'Syne', sans-serif;
@@ -43,27 +44,19 @@
 
     .field { margin-bottom:26px; }
     label { display:block;font-size:11px;font-family:var(--mono);letter-spacing:.16em;color:var(--text-muted);text-transform:uppercase;margin-bottom:10px; }
-
     textarea { width:100%;min-height:150px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-family:var(--mono);font-size:14px;line-height:1.7;padding:16px 18px;resize:vertical;transition:border-color .2s,box-shadow .2s;outline:none; }
     textarea::placeholder { color:var(--text-muted);opacity:.5; }
     textarea:focus { border-color:var(--accent-dim);box-shadow:0 0 0 3px var(--accent-glow); }
     .char-count { text-align:right;font-family:var(--mono);font-size:11px;color:var(--text-muted);margin-top:6px;transition:color .2s; }
     .char-count.warn { color:#f0a500; } .char-count.over { color:var(--error); }
 
-    /* Voice toggle */
     .voice-toggle { display:flex;gap:10px;margin-bottom:26px; }
-    .vtoggle-btn {
-      flex:1;padding:12px 8px;background:var(--surface-2);border:1px solid var(--border);
-      border-radius:var(--radius);cursor:pointer;font-family:var(--mono);font-size:11px;
-      letter-spacing:.1em;text-transform:uppercase;transition:all .2s;
-      display:flex;align-items:center;justify-content:center;gap:8px;color:var(--text-muted);
-    }
+    .vtoggle-btn { flex:1;padding:12px 8px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--text-muted); }
     .vtoggle-btn.male-btn.active   { border-color:var(--male);   color:var(--male);   background:rgba(77,159,255,.1);  box-shadow:0 0 16px rgba(77,159,255,.15); }
     .vtoggle-btn.female-btn.active { border-color:var(--female); color:var(--female); background:rgba(255,110,180,.1); box-shadow:0 0 16px rgba(255,110,180,.15); }
     .vtoggle-btn.both-btn.active   { border-color:var(--accent); color:var(--accent); background:rgba(0,212,255,.1);  box-shadow:0 0 16px var(--accent-glow); }
     .vtoggle-btn:hover:not(.active){ border-color:var(--border-glow);color:var(--text); }
 
-    /* Style grid */
     .style-grid { display:grid;grid-template-columns:repeat(5,1fr);gap:10px; }
     @media(max-width:520px){ .style-grid{grid-template-columns:repeat(3,1fr)} }
     .style-btn { background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 8px 12px;cursor:pointer;transition:border-color .2s,background .2s,transform .15s;text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative; }
@@ -74,7 +67,6 @@
     .style-btn.active .style-name { color:var(--accent); }
     #styleSelect { display:none; }
 
-    /* Button */
     .btn-generate { width:100%;margin-top:8px;padding:17px 24px;background:transparent;border:1px solid var(--accent);border-radius:var(--radius);color:var(--accent);font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;position:relative;overflow:hidden;transition:color .2s,box-shadow .2s; }
     .btn-generate::before { content:'';position:absolute;inset:0;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .25s ease;z-index:0; }
     .btn-generate:hover::before { transform:scaleX(1); }
@@ -92,11 +84,12 @@
     /* Audio panel */
     .audio-panel { display:none;margin-top:28px;background:var(--surface-2);border:1px solid var(--border-glow);border-radius:var(--radius);padding:22px 24px;animation:fadeUp .4s ease both; }
     .audio-panel.show { display:block; }
-
-    .panel-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:18px; }
+    .panel-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:8px; }
     .panel-label { font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--accent);text-transform:uppercase;display:flex;align-items:center;gap:8px; }
     .panel-label::before { content:'';display:block;width:6px;height:6px;border-radius:50%;background:var(--success);box-shadow:0 0 8px var(--success); }
-    .emotion-badge { font-family:var(--mono);font-size:10px;letter-spacing:.12em;background:rgba(0,212,255,.12);border:1px solid var(--accent-dim);color:var(--accent);border-radius:20px;padding:3px 10px;text-transform:uppercase; }
+    .badge { font-family:var(--mono);font-size:10px;letter-spacing:.1em;border-radius:20px;padding:3px 10px;text-transform:uppercase; }
+    .emotion-badge { background:rgba(0,212,255,.12);border:1px solid var(--accent-dim);color:var(--accent); }
+    .lang-badge { background:rgba(255,255,255,.06);border:1px solid var(--border-glow);color:var(--text-muted); }
 
     .waveform { display:flex;align-items:center;gap:3px;height:20px; }
     .waveform-bar { width:3px;border-radius:2px;background:var(--accent);opacity:.5;animation:wave 1.2s ease-in-out infinite; }
@@ -126,11 +119,92 @@
     .dl-btn.female-dl { color:var(--female);border-color:var(--female); }
     .dl-btn:hover { opacity:.65; }
 
-    /* hide individual cards based on voice mode */
     .audio-panel[data-mode="male"]   .female-card,
     .audio-panel[data-mode="male"]   .female-dl   { display:none; }
     .audio-panel[data-mode="female"] .male-card,
     .audio-panel[data-mode="female"] .male-dl     { display:none; }
+
+    /* ── Translation panel ───────────────────────────────────────── */
+    .translate-panel {
+      display:none;margin-top:16px;
+      border:1px solid rgba(167,139,250,.3);
+      border-radius:var(--radius);
+      background:rgba(167,139,250,.05);
+      overflow:hidden;
+      animation:fadeUp .4s ease both;
+    }
+    .translate-panel.show { display:block; }
+
+    .translate-header {
+      padding:14px 20px;
+      border-bottom:1px solid rgba(167,139,250,.2);
+      display:flex;align-items:center;gap:10px;
+      font-family:var(--mono);font-size:10px;letter-spacing:.15em;
+      color:var(--translate);text-transform:uppercase;
+    }
+    .translate-header::before {
+      content:'🌐';font-size:14px;
+    }
+
+    .translate-body { padding:16px 20px; }
+
+    .translate-row { display:flex;gap:10px;align-items:stretch; }
+    .lang-select {
+      flex:1;background:var(--surface-2);border:1px solid var(--border);
+      border-radius:var(--radius);color:var(--text);
+      font-family:var(--mono);font-size:12px;padding:10px 14px;
+      outline:none;cursor:pointer;transition:border-color .2s;
+      appearance:none;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a7a8a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat:no-repeat;background-position:right 12px center;
+      padding-right:32px;
+    }
+    .lang-select:focus { border-color:var(--translate); }
+    .lang-select option { background:var(--surface-2); }
+
+    .btn-translate {
+      padding:10px 20px;background:transparent;
+      border:1px solid var(--translate);border-radius:var(--radius);
+      color:var(--translate);font-family:var(--sans);font-size:12px;
+      font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+      cursor:pointer;white-space:nowrap;position:relative;overflow:hidden;
+      transition:color .2s,box-shadow .2s;
+    }
+    .btn-translate::before { content:'';position:absolute;inset:0;background:var(--translate);transform:scaleX(0);transform-origin:left;transition:transform .25s ease;z-index:0; }
+    .btn-translate:hover::before { transform:scaleX(1); }
+    .btn-translate:hover { color:var(--bg);box-shadow:0 0 20px rgba(167,139,250,.3); }
+    .btn-translate:disabled { opacity:.4;cursor:not-allowed;pointer-events:none; }
+    .btn-translate .btn-text { position:relative;z-index:1; }
+    .btn-translate .spinner  { display:none;position:relative;z-index:1;width:14px;height:14px;border:2px solid rgba(255,255,255,.2);border-top-color:currentColor;border-radius:50%;animation:spin .7s linear infinite; }
+    .btn-translate.loading .btn-text { display:none; }
+    .btn-translate.loading .spinner  { display:inline-block; }
+
+    /* Translated text preview */
+    .translated-text {
+      display:none;margin-top:14px;padding:12px 14px;
+      background:var(--surface);border:1px solid var(--border);
+      border-radius:var(--radius);font-family:var(--mono);font-size:13px;
+      color:var(--text);line-height:1.6;
+    }
+    .translated-text.show { display:block; }
+    .translated-text-label {
+      font-size:10px;letter-spacing:.12em;color:var(--translate);
+      text-transform:uppercase;margin-bottom:6px;
+    }
+
+    /* Translated audio */
+    .translate-audio { display:none;margin-top:14px; }
+    .translate-audio.show { display:grid;grid-template-columns:1fr 1fr;gap:10px; }
+    @media(max-width:480px){ .translate-audio.show{grid-template-columns:1fr} }
+    .t-voice-card {
+      background:var(--surface);border-radius:var(--radius);
+      padding:12px 14px;border:1px solid var(--border);
+    }
+    .t-voice-card.male-card   { border-top:2px solid var(--male); }
+    .t-voice-card.female-card { border-top:2px solid var(--female); }
+    .t-voice-label { font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px; }
+    .t-voice-card.male-card   .t-voice-label { color:var(--male); }
+    .t-voice-card.female-card .t-voice-label { color:var(--female); }
 
     @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
   </style>
@@ -142,7 +216,7 @@
     <header class="header">
       <div class="brand"><span class="brand-dot"></span>NexaHub AI<span class="brand-dot"></span></div>
       <h1>Text to Speech</h1>
-      <p>// human neural voices · 5 emotions · male &amp; female</p>
+      <p>// 25 languages · human neural voices · translate &amp; speak</p>
     </header>
 
     <div class="card">
@@ -150,7 +224,7 @@
       <!-- Text -->
       <div class="field">
         <label for="textInput">Input Text</label>
-        <textarea id="textInput" placeholder="Type or paste your text here…" maxlength="2000" spellcheck="false"></textarea>
+        <textarea id="textInput" placeholder="Type in English, Hindi, Hinglish, or any language…" maxlength="2000" spellcheck="false"></textarea>
         <div class="char-count" id="charCount">0 / 2000</div>
       </div>
 
@@ -158,15 +232,9 @@
       <div class="field">
         <label>Voice</label>
         <div class="voice-toggle" id="voiceToggle">
-          <button type="button" class="vtoggle-btn both-btn active" data-mode="both">
-            🎙️🎤 Both
-          </button>
-          <button type="button" class="vtoggle-btn male-btn" data-mode="male">
-            🎙️ Male
-          </button>
-          <button type="button" class="vtoggle-btn female-btn" data-mode="female">
-            🎤 Female
-          </button>
+          <button type="button" class="vtoggle-btn both-btn active" data-mode="both">🎙️🎤 Both</button>
+          <button type="button" class="vtoggle-btn male-btn" data-mode="male">🎙️ Male</button>
+          <button type="button" class="vtoggle-btn female-btn" data-mode="female">🎤 Female</button>
         </div>
       </div>
 
@@ -174,21 +242,11 @@
       <div class="field">
         <label>Emotion Style</label>
         <div class="style-grid" id="styleGrid">
-          <button type="button" class="style-btn active" data-value="friendly">
-            <span class="style-icon">😊</span><span class="style-name">Friendly</span>
-          </button>
-          <button type="button" class="style-btn" data-value="confident">
-            <span class="style-icon">💼</span><span class="style-name">Confident</span>
-          </button>
-          <button type="button" class="style-btn" data-value="calm">
-            <span class="style-icon">🌊</span><span class="style-name">Calm</span>
-          </button>
-          <button type="button" class="style-btn" data-value="excited">
-            <span class="style-icon">⚡</span><span class="style-name">Excited</span>
-          </button>
-          <button type="button" class="style-btn" data-value="apologetic">
-            <span class="style-icon">🙏</span><span class="style-name">Apologetic</span>
-          </button>
+          <button type="button" class="style-btn active" data-value="friendly"><span class="style-icon">😊</span><span class="style-name">Friendly</span></button>
+          <button type="button" class="style-btn" data-value="confident"><span class="style-icon">💼</span><span class="style-name">Confident</span></button>
+          <button type="button" class="style-btn" data-value="calm"><span class="style-icon">🌊</span><span class="style-name">Calm</span></button>
+          <button type="button" class="style-btn" data-value="excited"><span class="style-icon">⚡</span><span class="style-name">Excited</span></button>
+          <button type="button" class="style-btn" data-value="apologetic"><span class="style-icon">🙏</span><span class="style-name">Apologetic</span></button>
         </div>
         <select id="styleSelect" name="style">
           <option value="friendly">Friendly</option>
@@ -199,7 +257,7 @@
         </select>
       </div>
 
-      <!-- Button -->
+      <!-- Generate button -->
       <button type="button" class="btn-generate" id="generateBtn">
         <span class="btn-text">▶ &nbsp;Generate Speech</span>
         <span class="spinner"></span>
@@ -220,8 +278,10 @@
               <div class="waveform-bar"></div>
             </div>
           </div>
-          <span class="emotion-badge" id="emotionBadge"></span>
-          <span id="langBadge" style="display:none;font-family:var(--mono);font-size:10px;letter-spacing:.1em;background:rgba(255,255,255,.06);border:1px solid var(--border-glow);color:var(--text-muted);border-radius:20px;padding:3px 10px;margin-left:8px;"></span>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <span class="badge emotion-badge" id="emotionBadge"></span>
+            <span class="badge lang-badge" id="langBadge" style="display:none;"></span>
+          </div>
         </div>
 
         <div class="voice-grid">
@@ -229,7 +289,7 @@
             <div class="voice-card-header">
               <span class="voice-icon">🎙️</span>
               <span class="voice-title">Male</span>
-
+              <span class="voice-sub" id="maleVoiceName">GuyNeural</span>
             </div>
             <audio id="malePlayer" controls></audio>
           </div>
@@ -237,7 +297,7 @@
             <div class="voice-card-header">
               <span class="voice-icon">🎤</span>
               <span class="voice-title">Female</span>
-
+              <span class="voice-sub" id="femaleVoiceName">JennyNeural</span>
             </div>
             <audio id="femalePlayer" controls></audio>
           </div>
@@ -247,200 +307,292 @@
           <a class="dl-btn male-dl"   id="dlMale"   download="male_speech.mp3">↓ Male</a>
           <a class="dl-btn female-dl" id="dlFemale" download="female_speech.mp3">↓ Female</a>
         </div>
-      </div>
 
-    </div>
-  </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-
-if (window.ttsInitialized) return;
-window.ttsInitialized = true;
-
-const textInput = document.getElementById('textInput');
-const charCount = document.getElementById('charCount');
-const generateBtn = document.getElementById('generateBtn');
-
-const malePlayer = document.getElementById('malePlayer');
-const femalePlayer = document.getElementById('femalePlayer');
-
-const waveform = document.getElementById('waveform');
-const panel = document.getElementById('audioPanel');
-
-let voiceMode='both';
-
-
-// Character count
-textInput.addEventListener('input', () => {
- const len=textInput.value.length;
- charCount.textContent=`${len} / 2000`;
-});
-
-
-// Voice toggle
-document.querySelectorAll('.vtoggle-btn').forEach(btn=>{
- btn.addEventListener('click',()=>{
-
- document.querySelectorAll('.vtoggle-btn')
- .forEach(x=>x.classList.remove('active'));
-
- btn.classList.add('active');
-
- voiceMode=btn.dataset.mode;
-
- });
-});
-
-
-// Emotion selector
-document.querySelectorAll('.style-btn').forEach(btn=>{
-
- btn.addEventListener('click',()=>{
-
- document.querySelectorAll('.style-btn')
- .forEach(x=>x.classList.remove('active'));
-
- btn.classList.add('active');
-
- document.getElementById('styleSelect').value=
- btn.dataset.value;
-
- });
-
-});
-
-
-// waveform
-
-[malePlayer,femalePlayer].forEach(p=>{
-
- p.addEventListener('play',()=>{
- waveform.classList.remove('idle');
- });
-
- p.addEventListener('pause',()=>{
- waveform.classList.add('idle');
- });
-
- p.addEventListener('ended',()=>{
- waveform.classList.add('idle');
- });
-
-});
-
-
-
-async function generateSpeech(e){
-
-if(e) e.preventDefault();
-
-const text=textInput.value.trim();
-
-if(!text){
-
-showError("Please enter text");
-
-return;
-
-}
-
-generateBtn.disabled=true;
-
-try{
-
-generateBtn.classList.add("loading");
-
-const fd=new FormData();
-
-fd.append("text",text);
-
-fd.append(
- "style",
- document.getElementById('styleSelect').value
-);
-
-const res=await fetch(
-"http://127.0.0.1:8000/tts/generate/",
-{
-method:"POST",
-body:fd
-}
-);
-
-const data=await res.json();
-
-if(!data.success){
-
-throw new Error(data.error);
-
-}
-
-malePlayer.src=data.male;
-femalePlayer.src=data.female;
-
-document.getElementById("dlMale").href=data.male;
-document.getElementById("dlFemale").href=data.female;
-
-panel.dataset.mode=voiceMode;
-
-panel.classList.add("show");
-
-if(voiceMode==="female"){
-
-femalePlayer.play().catch(()=>{});
-
-}else{
-
-malePlayer.play().catch(()=>{});
-
-}
-
-}catch(err){
-
-showError(err.message);
-
-}finally{
-
-generateBtn.disabled=false;
-
-generateBtn.classList.remove("loading");
-
-}
-
-}
-
-
-
-function showError(msg){
-
-const el=document.getElementById("errorMsg");
-
-el.textContent="⚠ "+msg;
-
-el.classList.add("show");
-
-}
-
-
-
-generateBtn.onclick=generateSpeech;
-
-
-textInput.addEventListener("keydown",(e)=>{
-
-if((e.ctrlKey || e.metaKey) && e.key==="Enter"){
-
-generateSpeech(e);
-
-}
-
-});
-
-
-});
-</script>
+        <!-- Translation panel — shown after generate -->
+        <div class="translate-panel show" id="translatePanel">
+          <div class="translate-header">Translate &amp; Speak</div>
+          <div class="translate-body">
+            <div class="translate-row">
+              <select class="lang-select" id="translateLang">
+                <option value="original">— Select Language —</option>
+                <option value="en">🇺🇸 English</option>
+                <option value="hi">🇮🇳 Hindi</option>
+                <option value="fr">🇫🇷 French</option>
+                <option value="de">🇩🇪 German</option>
+                <option value="es">🇪🇸 Spanish</option>
+                <option value="ru">🇷🇺 Russian</option>
+                <option value="ar">🇸🇦 Arabic</option>
+                <option value="bn">🇧🇩 Bengali</option>
+                <option value="ta">🇮🇳 Tamil</option>
+                <option value="te">🇮🇳 Telugu</option>
+                <option value="ml">🇮🇳 Malayalam</option>
+                <option value="mr">🇮🇳 Marathi</option>
+                <option value="gu">🇮🇳 Gujarati</option>
+                <option value="ur">🇵🇰 Urdu</option>
+                <option value="zh">🇨🇳 Chinese</option>
+                <option value="ja">🇯🇵 Japanese</option>
+                <option value="pt">🇧🇷 Portuguese</option>
+                <option value="pa">🇮🇳 Punjabi</option>
+                <option value="ms">🇲🇾 Malay</option>
+                <option value="vi">🇻🇳 Vietnamese</option>
+                <option value="ko">🇰🇷 Korean</option>
+                <option value="kn">🇮🇳 Kannada</option>
+                <option value="ne">🇳🇵 Nepali</option>
+                <option value="or">🇮🇳 Odia</option>
+                <option value="sd">🇵🇰 Sindhi</option>
+              </select>
+              <button type="button" class="btn-translate" id="translateBtn">
+                <span class="btn-text">🌐 Translate</span>
+                <span class="spinner"></span>
+              </button>
+            </div>
+
+            <!-- Translated text preview -->
+            <div class="translated-text" id="translatedText">
+              <div class="translated-text-label" id="translatedTextLabel">Translated Text</div>
+              <div id="translatedTextContent"></div>
+            </div>
+
+            <!-- Translated audio players -->
+            <div class="translate-audio" id="translateAudio">
+              <div class="t-voice-card male-card">
+                <div class="t-voice-label">🎙️ Male</div>
+                <audio id="tMalePlayer" controls></audio>
+              </div>
+              <div class="t-voice-card female-card">
+                <div class="t-voice-label">🎤 Female</div>
+                <audio id="tFemalePlayer" controls></audio>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div><!-- /audio-panel -->
+
+    </div><!-- /card -->
+  </div><!-- /page -->
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+
+    // ── State ──────────────────────────────────────────────────────
+    let voiceMode     = 'both';
+    let currentText   = '';
+    let currentStyle  = 'friendly';
+
+    // ── Char counter ───────────────────────────────────────────────
+    const textInput = document.getElementById('textInput');
+    const charCount = document.getElementById('charCount');
+    textInput.addEventListener('input', () => {
+      const len = textInput.value.length;
+      charCount.textContent = `${len} / 2000`;
+      charCount.className = 'char-count' + (len > 1800 ? ' over' : len > 1400 ? ' warn' : '');
+    });
+
+    // ── Voice toggle ───────────────────────────────────────────────
+    document.getElementById('voiceToggle').querySelectorAll('.vtoggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.vtoggle-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        voiceMode = btn.dataset.mode;
+      });
+    });
+
+    // ── Emotion selector ───────────────────────────────────────────
+    const styleGrid   = document.getElementById('styleGrid');
+    const styleSelect = document.getElementById('styleSelect');
+    styleGrid.querySelectorAll('.style-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        styleGrid.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        styleSelect.value = btn.dataset.value;
+      });
+    });
+
+    // ── Waveform ───────────────────────────────────────────────────
+    const waveform     = document.getElementById('waveform');
+    const malePlayer   = document.getElementById('malePlayer');
+    const femalePlayer = document.getElementById('femalePlayer');
+    [malePlayer, femalePlayer].forEach(p => {
+      p.addEventListener('play',  () => waveform.classList.remove('idle'));
+      p.addEventListener('pause', () => waveform.classList.add('idle'));
+      p.addEventListener('ended', () => waveform.classList.add('idle'));
+    });
+
+    // ── Voice name map ─────────────────────────────────────────────
+    const VOICE_NAMES = {
+      en: { male: 'GuyNeural',      female: 'JennyNeural' },
+      hi: { male: 'MadhurNeural',   female: 'SwaraNeural' },
+      fr: { male: 'HenriNeural',    female: 'DeniseNeural' },
+      de: { male: 'ConradNeural',   female: 'KatjaNeural' },
+      es: { male: 'AlvaroNeural',   female: 'ElviraNeural' },
+      ru: { male: 'DmitryNeural',   female: 'SvetlanaNeural' },
+      ar: { male: 'HamedNeural',    female: 'ZariyahNeural' },
+      bn: { male: 'PradeepNeural',  female: 'NabanitaNeural' },
+      ta: { male: 'ValluvarNeural', female: 'PallaviNeural' },
+      te: { male: 'MohanNeural',    female: 'ShrutiNeural' },
+      ml: { male: 'MidhunNeural',   female: 'SobhanaNeural' },
+      mr: { male: 'ManoharNeural',  female: 'AarohiNeural' },
+      gu: { male: 'NiranjanNeural', female: 'DhwaniNeural' },
+      ur: { male: 'AsadNeural',     female: 'UzmaNeural' },
+      zh: { male: 'YunxiNeural',    female: 'XiaoxiaoNeural' },
+      ja: { male: 'KeitaNeural',    female: 'NanamiNeural' },
+      pt: { male: 'AntonioNeural',  female: 'FranciscaNeural' },
+      pa: { male: 'OjasNeural',     female: 'VaaniNeural' },
+      ms: { male: 'OsmanNeural',    female: 'YasminNeural' },
+      vi: { male: 'NamMinhNeural',  female: 'HoaiMyNeural' },
+      ko: { male: 'InJoonNeural',   female: 'SunHiNeural' },
+      kn: { male: 'GaganNeural',    female: 'SapnaNeural' },
+      ne: { male: 'SagarNeural',    female: 'HemkalaNeural' },
+      or: { male: 'SukantNeural',   female: 'SubhasiniNeural' },
+      sd: { male: 'FirasNeural',    female: 'FirasNeural' },
+    };
+
+    // ── Generate ───────────────────────────────────────────────────
+    async function generateSpeech() {
+      const text  = textInput.value.trim();
+      const style = styleSelect.value;
+      const btn   = document.getElementById('generateBtn');
+      const errEl = document.getElementById('errorMsg');
+      const panel = document.getElementById('audioPanel');
+
+      errEl.classList.remove('show');
+      panel.classList.remove('show');
+      resetTranslation();
+
+      if (!text) { showError('Please enter some text first.'); return; }
+
+      btn.classList.add('loading');
+      btn.disabled = true;
+
+      try {
+        const fd = new FormData();
+        fd.append('text', text);
+        fd.append('style', style);
+
+        const res  = await fetch('http://127.0.0.1:8000/texttospeech/generate/', { method: 'POST', body: fd });
+        const data = await res.json();
+        if (!data.success) throw new Error(data.error || 'Generation failed.');
+
+        // Store for translation
+        currentText  = text;
+        currentStyle = style;
+
+        // Players
+        malePlayer.src   = data.male;
+        femalePlayer.src = data.female;
+        malePlayer.load();
+        femalePlayer.load();
+
+        document.getElementById('dlMale').href   = data.male;
+        document.getElementById('dlFemale').href = data.female;
+
+        // Badges
+        const eLabels = { friendly:'😊 Friendly', confident:'💼 Confident', calm:'🌊 Calm', excited:'⚡ Excited', apologetic:'🙏 Apologetic' };
+        document.getElementById('emotionBadge').textContent = eLabels[data.emotion] || data.emotion;
+        const lb = document.getElementById('langBadge');
+        lb.textContent = data.language === 'Hindi' ? '🇮🇳 Hindi' : data.language === 'Hinglish' ? '🌐 Hinglish' : '🇺🇸 English';
+        lb.style.display = 'inline-block';
+
+        // Voice names
+        const vn = VOICE_NAMES[data.detected_lang] || VOICE_NAMES['en'];
+        document.getElementById('maleVoiceName').textContent   = vn.male;
+        document.getElementById('femaleVoiceName').textContent = vn.female;
+
+        panel.dataset.mode = voiceMode;
+        waveform.classList.add('idle');
+        panel.classList.add('show');
+
+        if (voiceMode === 'female') femalePlayer.play().catch(() => {});
+        else malePlayer.play().catch(() => {});
+
+      } catch (err) {
+        showError(err.message);
+      } finally {
+        btn.classList.remove('loading');
+        btn.disabled = false;
+      }
+    }
+
+    // ── Translate & Speak ──────────────────────────────────────────
+    async function translateSpeech() {
+      const targetLang = document.getElementById('translateLang').value;
+      const btn        = document.getElementById('translateBtn');
+
+      if (targetLang === 'original') {
+        showError('Please select a language to translate to.');
+        return;
+      }
+      if (!currentText) {
+        showError('Generate speech first before translating.');
+        return;
+      }
+
+      btn.classList.add('loading');
+      btn.disabled = true;
+      resetTranslation();
+
+      try {
+        const fd = new FormData();
+        fd.append('text',        currentText);
+        fd.append('target_lang', targetLang);
+        fd.append('style',       currentStyle);
+
+        const res  = await fetch('http://127.0.0.1:8000/texttospeech/translate/', { method: 'POST', body: fd });
+        const data = await res.json();
+        if (!data.success) throw new Error(data.error || 'Translation failed.');
+
+        // Show translated text
+        const ttEl = document.getElementById('translatedText');
+        document.getElementById('translatedTextLabel').textContent =
+          `Translated to ${document.getElementById('translateLang').options[document.getElementById('translateLang').selectedIndex].text.replace(/^[^\s]+\s/, '')}`;
+        document.getElementById('translatedTextContent').textContent = data.translated_text;
+        ttEl.classList.add('show');
+
+        // Show translated audio
+        document.getElementById('tMalePlayer').src   = data.male;
+        document.getElementById('tFemalePlayer').src = data.female;
+        document.getElementById('tMalePlayer').load();
+        document.getElementById('tFemalePlayer').load();
+
+        const taEl = document.getElementById('translateAudio');
+        taEl.classList.add('show');
+
+        // Auto-play
+        document.getElementById('tMalePlayer').play().catch(() => {});
+
+      } catch (err) {
+        showError(err.message);
+      } finally {
+        btn.classList.remove('loading');
+        btn.disabled = false;
+      }
+    }
+
+    function resetTranslation() {
+      document.getElementById('translatedText').classList.remove('show');
+      document.getElementById('translateAudio').classList.remove('show');
+      document.getElementById('translatedTextContent').textContent = '';
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('errorMsg');
+      el.textContent = '⚠ ' + msg;
+      el.classList.add('show');
+    }
+
+    // ── Wire up ────────────────────────────────────────────────────
+    document.getElementById('generateBtn').addEventListener('click', generateSpeech);
+    document.getElementById('translateBtn').addEventListener('click', translateSpeech);
+    window.generateSpeech = generateSpeech;
+
+    textInput.addEventListener('keydown', e => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') generateSpeech();
+    });
+
+  });
+  </script>
 </body>
 </html>
-
 <!-- http://127.0.0.1:8000/tts/ -->
