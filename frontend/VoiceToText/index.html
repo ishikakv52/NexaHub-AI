@@ -1,601 +1,604 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Voice to Text — NexaHub AI</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>NEXA HUB AI | Voice to Text Studio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
- *, *::before, *::after{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-:root{
-  --bg:#f4f4f4;
-  --card:#ffffff;
-  --border:#dcdcdc;
-  --primary:#4f46e5;
-  --text:#222;
-  --muted:#666;
-  --success:#22c55e;
-  --error:#ef4444;
-  --radius:10px;
-}
+    body {
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(145deg, #f9fafc 0%, #f1f5f9 100%);
+      color: #0f172a;
+      padding: 2rem 1.5rem;
+      transition: background 0.3s, color 0.2s;
+    }
+    body.dark {
+      background: radial-gradient(circle at 10% 20%, #0f172a, #020617);
+      color: #eef2ff;
+    }
 
-body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:Arial,sans-serif;
-  min-height:100vh;
-}
+    .simple-brand {
+      position: fixed; top: 24px; left: 24px; z-index: 1100;
+      font-size: 1.2rem; font-weight: 700; letter-spacing: -0.2px;
+    }
+    body.light .simple-brand .nexa-white { color: #1e293b; }
+    body.dark .simple-brand .nexa-white  { color: #ffffff; }
+    .simple-brand .hub-blue { color: #3b82f6; font-weight: 700; }
+    body.dark .simple-brand .hub-blue    { color: #60a5fa; }
 
-body::before,
-.orb{
-  display:none;
-}
+    @media (max-width: 640px) {
+      .simple-brand { top: 18px; left: 18px; font-size: 1rem; }
+      body { padding-top: 4rem; }
+    }
 
-.wrapper{
-  max-width:800px;
-  margin:auto;
-  padding:30px 20px;
-}
+    .theme-toggle {
+      position: fixed; top: 22px; right: 22px; z-index: 1000;
+      background: rgba(0,0,0,0.05); backdrop-filter: blur(8px);
+      border-radius: 40px; padding: 6px 12px; cursor: pointer;
+      font-size: 0.9rem; display: flex; gap: 10px;
+      border: 1px solid rgba(0,0,0,0.08);
+    }
+    body.dark .theme-toggle { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.1); }
+    body.light .theme-toggle .fa-moon { color: #64748b; }
+    body.light .theme-toggle .fa-sun  { color: #f59e0b; }
+    body.dark  .theme-toggle .fa-sun  { color: #fbbf24; }
+    body.dark  .theme-toggle .fa-moon { color: #94a3b8; }
 
-header{
-  text-align:center;
-  margin-bottom:30px;
-}
+    .container { max-width: 1300px; margin: 0 auto; }
 
-h1{
-  font-size:2rem;
-  color:var(--text);
-}
+    .hero { text-align: center; margin-bottom: 2.5rem; margin-top: 0.5rem; }
+    .hero h1 {
+      font-size: 2.8rem; font-weight: 700; letter-spacing: -0.02em;
+      background: linear-gradient(90deg, #1e90ff, #8a2be2);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero .tagline { font-size: 0.95rem; margin-top: 0.5rem; opacity: 0.7; }
 
-.subtitle{
-  color:var(--muted);
-  margin-top:8px;
-  font-size:14px;
-}
+    .dashboard { display: grid; grid-template-columns: 1fr 1.2fr; gap: 1.8rem; }
+    @media (max-width: 860px) { .dashboard { grid-template-columns: 1fr; } }
 
-.lang-bar{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:10px;
-  margin-bottom:25px;
-}
+    .card {
+      border-radius: 1.5rem; padding: 1.5rem; transition: all 0.2s;
+    }
+    body.light .card { background: white; box-shadow: 0 8px 20px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+    body.dark  .card { background: #0f172a; border: 1px solid #1e293b; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
 
-select{
-  padding:8px 12px;
-  border:1px solid var(--border);
-  border-radius:6px;
-}
+    .section-title {
+      font-size: 1.1rem; font-weight: 600; margin-bottom: 1.2rem;
+      display: flex; align-items: center; gap: 8px;
+      border-left: 3px solid #3b82f6; padding-left: 12px;
+    }
 
-.tabs{
-  display:flex;
-  gap:10px;
-  margin-bottom:20px;
-}
+    .method-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem; margin-bottom: 1.5rem; }
+    .method-card {
+      border-radius: 1rem; padding: 0.8rem 0.3rem; text-align: center;
+      cursor: pointer; transition: 0.2s; border: 1px solid transparent;
+    }
+    body.light .method-card { background: #f8fafc; border-color: #e2e8f0; }
+    body.dark  .method-card { background: #1e293b; border-color: #334155; }
+    .method-card.active-method { border-color: #3b82f6; background: rgba(59,130,246,0.1); }
+    body.dark .method-card.active-method { background: #1e3a5f; border-color: #60a5fa; }
+    .method-card i { font-size: 1.4rem; margin-bottom: 4px; color: #3b82f6; }
+    .method-card h4 { font-size: 0.85rem; font-weight: 600; }
+    .method-card p  { font-size: 0.65rem; opacity: 0.7; }
 
-.tab-btn{
-  flex:1;
-  padding:12px;
-  border:none;
-  border-radius:8px;
-  background:#e8e8e8;
-  cursor:pointer;
-}
+    .lang-row {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px; padding: 0.8rem 0; margin-bottom: 1rem;
+      border-bottom: 1px solid; border-top: 1px solid;
+    }
+    body.light .lang-row { border-color: #e2e8f0; }
+    body.dark  .lang-row { border-color: #1e293b; }
 
-.tab-btn.active{
-  background:var(--primary);
-  color:white;
-}
+    select {
+      padding: 8px 14px; border-radius: 2rem; border: 1px solid;
+      font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif;
+    }
+    body.light select { background: white; border-color: #cbd5e1; color: #0f172a; }
+    body.dark  select { background: #0f172a; border-color: #334155; color: #e2e8f0; }
 
-.panel{
-  display:none;
-}
+    .upload-zone {
+      border: 2px dashed; border-radius: 1.2rem; padding: 1.5rem 1rem;
+      text-align: center; transition: 0.2s; margin-bottom: 1rem; cursor: pointer;
+    }
+    body.light .upload-zone { border-color: #cbd5e1; background: #fefce8; }
+    body.dark  .upload-zone { border-color: #475569; background: #111827; }
+    .upload-zone.drag-over { border-color: #3b82f6; background: rgba(59,130,246,0.08); }
 
-.panel.active{
-  display:block;
-}
+    .upload-btn {
+      background: #3b82f6; color: white; border: none;
+      padding: 8px 20px; border-radius: 2rem; font-weight: 500;
+      margin: 10px 0 6px; cursor: pointer; font-size: 0.85rem;
+    }
+    .upload-btn:hover { background: #2563eb; }
+    .file-info { font-size: 0.7rem; margin-top: 6px; opacity: 0.7; }
 
-.card{
-  background:var(--card);
-  padding:20px;
-  border-radius:var(--radius);
-  border:1px solid var(--border);
-}
+    /* Transcribe button */
+    .transcribe-btn {
+      width: 100%; margin-top: 12px; padding: 11px;
+      border: none; border-radius: 1rem; background: #3b82f6; color: white;
+      font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .transcribe-btn:hover { background: #2563eb; }
+    .transcribe-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .transcribe-btn.video-btn { background: #e91e63; }
+    .transcribe-btn.video-btn:hover { background: #c2185b; }
 
-.drop-zone{
-  border:2px dashed var(--border);
-  padding:30px;
-  border-radius:10px;
-  text-align:center;
-  cursor:pointer;
-}
+    /* Spinner */
+    .spinner {
+      width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite;
+      display: none;
+    }
+    .transcribe-btn.loading .spinner { display: block; }
+    .transcribe-btn.loading .btn-label { opacity: 0.7; }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-.drop-zone:hover{
-  border-color:var(--primary);
-}
+    /* Mic */
+    .mic-section { text-align: center; padding: 0.8rem 0; }
+    .mic-btn {
+      width: 80px; height: 80px; border-radius: 80px; border: none;
+      font-size: 2.2rem; cursor: pointer; transition: 0.2s;
+    }
+    body.light .mic-btn { background: #e2e8f0; color: #3b82f6; }
+    body.dark  .mic-btn { background: #1e293b; color: #60a5fa; border: 1px solid #3b82f6; }
+    .mic-btn.recording { background: #ef4444; color: white; animation: pulse 1.2s infinite; }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 #ef444480; }
+      70%  { box-shadow: 0 0 0 12px #ef444400; }
+      100% { box-shadow: 0 0 0 0 #ef444400; }
+    }
+    .mic-status { margin-top: 8px; font-size: 0.75rem; font-weight: 500; }
+    .mic-timer  { font-size: 0.7rem; opacity: 0.6; margin-top: 4px; }
 
-.drop-icon{
-  margin-bottom:10px;
-}
+    /* Waveform */
+    .waveform { display: flex; justify-content: center; gap: 3px; margin: 8px 0; height: 24px; align-items: flex-end; }
+    .wbar { width: 4px; background: #ef4444; border-radius: 2px; height: 8px; transition: height 0.1s; }
+    .waveform.on .wbar { animation: wave 0.6s ease-in-out infinite alternate; }
+    .wbar:nth-child(1)  { animation-delay: 0.0s; }
+    .wbar:nth-child(2)  { animation-delay: 0.06s; }
+    .wbar:nth-child(3)  { animation-delay: 0.12s; }
+    .wbar:nth-child(4)  { animation-delay: 0.18s; }
+    .wbar:nth-child(5)  { animation-delay: 0.24s; }
+    .wbar:nth-child(6)  { animation-delay: 0.30s; }
+    .wbar:nth-child(7)  { animation-delay: 0.24s; }
+    .wbar:nth-child(8)  { animation-delay: 0.18s; }
+    .wbar:nth-child(9)  { animation-delay: 0.12s; }
+    .wbar:nth-child(10) { animation-delay: 0.06s; }
+    @keyframes wave { from { height: 4px; } to { height: 20px; } }
 
-.drop-title{
-  font-weight:bold;
-  margin-bottom:5px;
-}
+    /* Submit mic btn */
+    .mic-submit-btn {
+      width: 100%; margin-top: 12px; padding: 11px;
+      border: none; border-radius: 1rem; background: #1e293b; color: white;
+      font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    body.dark .mic-submit-btn { background: #334155; }
+    .mic-submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .mic-submit-btn.loading .spinner { display: block; }
 
-.drop-sub{
-  color:var(--muted);
-  font-size:13px;
-}
+    /* Output textarea */
+    textarea {
+      width: 100%; min-height: 260px; border-radius: 1rem; padding: 1rem;
+      font-size: 0.9rem; line-height: 1.6; font-family: 'Inter', monospace; resize: vertical;
+    }
+    body.light textarea { background: #fefce8; border: 1px solid #e2e8f0; color: #0f172a; }
+    body.dark  textarea { background: #020617; border: 1px solid #334155; color: #e2e8f0; }
+    textarea:focus { outline: none; border-color: #3b82f6; }
 
-.btn{
-  width:100%;
-  margin-top:15px;
-  padding:12px;
-  border:none;
-  border-radius:8px;
-  background:var(--primary);
-  color:white;
-  cursor:pointer;
-}
+    /* Result meta */
+    .result-meta {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 0.5rem; font-size: 0.7rem; opacity: 0.65;
+    }
+    .rdot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; flex-shrink: 0; }
+    .rdot.err { background: #ef4444; }
 
-.btn:disabled{
-  opacity:.6;
-}
+    .action-group { display: flex; gap: 10px; margin-top: 1rem; flex-wrap: wrap; }
+    .action-btn {
+      flex: 1; padding: 10px; border-radius: 1rem; font-weight: 500;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      cursor: pointer; border: none; font-size: 0.85rem; transition: 0.2s;
+    }
+    body.light .action-btn { background: #f1f5f9; color: #1e293b; }
+    body.dark  .action-btn { background: #1e293b; color: #e2e8f0; }
+    .action-btn.primary { background: #3b82f6; color: white; }
+    .action-btn.primary:hover { background: #2563eb; }
 
-.video-btn{
-  background:#e91e63;
-}
+    .footer-note { margin-top: 1.2rem; text-align: center; font-size: 0.65rem; opacity: 0.5; }
 
-.mic-submit{
-  background:#222;
-}
-
-.result-box{
-  margin-top:20px;
-  border:1px solid var(--border);
-  border-radius:10px;
-  overflow:hidden;
-  display:none;
-}
-
-.result-box.show{
-  display:block;
-}
-
-.result-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:12px;
-  background:#f0f0f0;
-}
-
-.result-text{
-  padding:15px;
-  line-height:1.6;
-}
-
-.result-text.err{
-  color:var(--error);
-}
-
-.rdot{
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:var(--success);
-}
-
-.rdot.err{
-  background:var(--error);
-}
-
-.copy-btn{
-  border:none;
-  background:none;
-  cursor:pointer;
-}
-
-.note{
-  margin-top:15px;
-  padding:12px;
-  background:#f7f7f7;
-  border:1px solid var(--border);
-  border-radius:8px;
-  font-size:13px;
-}
-
-.mic-wrap{
-  text-align:center;
-}
-
-.mic-btn{
-  width:80px;
-  height:80px;
-  border-radius:50%;
-  border:none;
-  background:#eee;
-  cursor:pointer;
-}
-
-.mic-btn.recording{
-  background:#ffd6df;
-}
-
-.waveform{
-  display:flex;
-  justify-content:center;
-  gap:3px;
-  margin:10px 0;
-}
-
-.wbar{
-  width:4px;
-  height:20px;
-  background:#ff4d6d;
-}
-
-.toast{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:black;
-  color:white;
-  padding:10px 18px;
-  border-radius:8px;
-}
+    .toast {
+      position: fixed; bottom: 20px; right: 20px;
+      background: #0f172a; color: white; padding: 8px 18px;
+      border-radius: 40px; font-size: 0.75rem; z-index: 1200;
+      opacity: 0; transition: opacity 0.2s; pointer-events: none;
+    }
+    body.dark .toast { background: #f1f5f9; color: #0f172a; }
+    .toast.show { opacity: 1; }
   </style>
 </head>
-<body>
+<body class="light">
 
-<div class="orb orb1"></div>
-<div class="orb orb2"></div>
-
-<div class="wrapper">
-
-  <!-- Header -->
-  <header>
-    
-    <h1>Voice to Text</h1>
-    <p class="subtitle">Upload audio · Upload video · Record mic · Hindi & English supported</p>
-  </header>
-
- <!-- Language selector -->
-<div class="lang-bar">
-  <span>Language :</span>
-  <select id="lang-select">
-  <option value="">Auto Detect</option>
-  <option value="en">English</option>
-  <option value="hi">Hindi</option>
-  <option value="fr">French</option>
-  <option value="de">German</option>
-  <option value="es">Spanish</option>
-  <option value="ru">Russian</option>
-  <option value="ar">Arabic</option>
-  <option value="bn">Bengali</option>
-  <option value="ta">Tamil</option>
-  <option value="te">Telugu</option>
-  <option value="ml">Malayalam</option>
-  <option value="mr">Marathi</option>
-  <option value="gu">Gujarati</option>
-  <option value="ur">Urdu</option>
-  <option value="zh">Chinese</option>
-  <option value="ja">Japanese</option>
-  <option value="pt">Portuguese</option>
-  <option value="pa">Punjabi</option>
-  <option value="vi">Vietnamese</option>
-  <option value="ko">Korean</option>
-  <option value="kn">Kannada</option>
-  <option value="ne">Nepali</option>
-  <option value="sd">Sindhi</option>
-</select>
-
-</div>
-
-
-  <!-- Tabs -->
-  <div class="tabs">
-    <button class="tab-btn active" data-tab="audio">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-      Audio File
-    </button>
-    <button class="tab-btn" data-tab="video">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-      Video File
-    </button>
-    <button class="tab-btn" data-tab="mic">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-      Microphone
-    </button>
+  <div class="simple-brand">
+    <span class="nexa-white">NEXA</span><span class="hub-blue"> HUB AI</span>
   </div>
 
-  <!-- ── AUDIO PANEL ── -->
-  <div class="panel active" id="panel-audio">
-    <div class="card">
-      <div class="drop-zone" id="audio-drop">
-        <input type="file" id="audio-input" accept="audio/*">
-        <div class="drop-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7c6aff" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-        </div>
-        <div class="drop-title">Drop audio file or click to browse</div>
-        <div class="drop-sub">MP3 · WAV · M4A · OGG · FLAC · WEBM &nbsp;|&nbsp; Max 25MB</div>
-        <div class="file-chosen" id="audio-name"></div>
-      </div>
-      <button class="btn" id="audio-btn">
-        <div class="spinner"></div>
-        <span class="btn-label" data-label="Transcribe Audio"></span>
-      </button>
-      <div class="result-box" id="audio-result">
-        <div class="result-head">
-          <div class="result-title"><div class="rdot" id="audio-dot"></div>Transcription</div>
-          <div style="display:flex;align-items:center;gap:8px">
-            <span class="lang-tag" id="audio-lang"></span>
-            <button class="copy-btn" onclick="copyText('audio-text')">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            </button>
+  <div class="theme-toggle" id="themeToggle">
+    <i class="fa-regular fa-sun"></i>
+    <i class="fa-regular fa-moon"></i>
+  </div>
+
+  <div class="container">
+    <div class="hero">
+      <h1>Voice to Text</h1>
+      <p class="tagline">Upload audio · Video · Live microphone</p>
+    </div>
+
+    <div class="dashboard">
+      <!-- LEFT PANEL -->
+      <div class="card">
+        <div class="section-title"><i class="fa-solid fa-microphone"></i> Input source</div>
+
+        <div class="method-grid">
+          <div class="method-card active-method" id="methodAudio">
+            <i class="fa-solid fa-headphones"></i>
+            <h4>Audio</h4><p>MP3, WAV, M4A</p>
+          </div>
+          <div class="method-card" id="methodVideo">
+            <i class="fa-solid fa-video"></i>
+            <h4>Video</h4><p>MP4, WEBM, MOV</p>
+          </div>
+          <div class="method-card" id="methodMic">
+            <i class="fa-solid fa-microphone"></i>
+            <h4>Microphone</h4><p>Live recording</p>
           </div>
         </div>
-        <div class="result-text" id="audio-text"></div>
-      </div>
-    </div>
-    <div class="note"><b>Supported:</b> MP3, WAV, M4A, OGG, FLAC, WEBM. Max file size 25MB. Processes audio/video in seconds.</div>
-  </div>
 
-  <!-- ── VIDEO PANEL ── -->
-  <div class="panel" id="panel-video">
-    <div class="card">
-      <div class="drop-zone" id="video-drop">
-        <input type="file" id="video-input" accept="video/*">
-        <div class="drop-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff6a9e" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+        <!-- Language -->
+        <div class="lang-row">
+          <span><i class="fa-regular fa-globe"></i> Language</span>
+          <select id="langSelect">
+            <option value="">🌐 Auto Detect</option>
+            <option value="en">🇺🇸 English</option>
+            <option value="hi">🇮🇳 Hindi</option>
+            <option value="en-IN">🇮🇳 Indian English</option>
+            <option value="es">🇪🇸 Spanish</option>
+            <option value="fr">🇫🇷 French</option>
+            <option value="de">🇩🇪 German</option>
+            <option value="ru">🇷🇺 Russian</option>
+            <option value="ar">🇸🇦 Arabic</option>
+            <option value="bn">🇧🇩 Bengali</option>
+            <option value="ta">Tamil</option>
+            <option value="te">Telugu</option>
+            <option value="ml">Malayalam</option>
+            <option value="mr">Marathi</option>
+            <option value="gu">Gujarati</option>
+            <option value="ur">Urdu</option>
+            <option value="zh">🇨🇳 Chinese</option>
+            <option value="ja">🇯🇵 Japanese</option>
+            <option value="pt">🇵🇹 Portuguese</option>
+            <option value="pa">Punjabi</option>
+            <option value="ko">🇰🇷 Korean</option>
+            <option value="kn">Kannada</option>
+            <option value="ne">Nepali</option>
+          </select>
         </div>
-        <div class="drop-title">Drop video file or click to browse</div>
-        <div class="drop-sub">MP4 · MKV · AVI · MOV · WEBM &nbsp;|&nbsp; Max 25MB · FFmpeg required</div>
-        <div class="file-chosen" id="video-name"></div>
-      </div>
-      <button class="btn video-btn" id="video-btn">
-        <div class="spinner"></div>
-        <span class="btn-label" data-label="Extract & Transcribe"></span>
-      </button>
-      <div class="result-box" id="video-result">
-        <div class="result-head">
-          <div class="result-title"><div class="rdot" id="video-dot"></div>Transcription</div>
-          <div style="display:flex;align-items:center;gap:8px">
-            <span class="lang-tag" id="video-lang"></span>
-            <button class="copy-btn" onclick="copyText('video-text')">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            </button>
+
+        <!-- Audio/Video upload area -->
+        <div id="fileUploadArea">
+          <div class="upload-zone" id="dropZone">
+            <div style="font-size: 1.8rem;"><i class="fa-regular fa-cloud-arrow-up"></i></div>
+            <h4 id="uploadTitle">Audio file</h4>
+            <p id="uploadSub" style="font-size: 0.7rem; margin: 4px 0;">MP3, WAV, M4A, OGG | Max 25MB</p>
+            <input type="file" id="fileInput" style="display:none;" accept="audio/*">
+            <button class="upload-btn" id="browseBtn"><i class="fa-regular fa-folder-open"></i> Choose file</button>
+            <div id="fileStatus" class="file-info">No file selected</div>
           </div>
-        </div>
-        <div class="result-text" id="video-text"></div>
-      </div>
-    </div>
-    <div class="note">
-      <b>FFmpeg required</b> for video audio extraction.<br>
-      Ubuntu: <code style="background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:4px">sudo apt install ffmpeg</code> &nbsp;·&nbsp;
-      Mac: <code style="background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:4px">brew install ffmpeg</code>
-    </div>
-  </div>
 
-  <!-- ── MIC PANEL ── -->
-  <div class="panel" id="panel-mic">
-    <div class="card">
-      <div class="mic-wrap">
-        <button class="mic-btn" id="mic-btn">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-        </button>
-        <div class="waveform" id="waveform">
-          <div class="wbar"></div><div class="wbar"></div><div class="wbar"></div>
-          <div class="wbar"></div><div class="wbar"></div><div class="wbar"></div>
-          <div class="wbar"></div><div class="wbar"></div><div class="wbar"></div>
-          <div class="wbar"></div>
+          <!-- Transcribe button for file -->
+          <button class="transcribe-btn" id="transcribeFileBtn" disabled>
+            <div class="spinner"></div>
+            <span class="btn-label">Transcribe</span>
+          </button>
         </div>
-        <div class="mic-label" id="mic-label">Click to start recording</div>
-        <div class="mic-timer" id="mic-timer"></div>
-      </div>
-      <button class="btn mic-submit" id="mic-submit" disabled>
-        <div class="spinner"></div>
-        <span class="btn-label" data-label="Transcribe Recording"></span>
-      </button>
-      <div class="result-box" id="mic-result">
-        <div class="result-head">
-          <div class="result-title"><div class="rdot" id="mic-dot"></div>Transcription</div>
-          <div style="display:flex;align-items:center;gap:8px">
-            <span class="lang-tag" id="mic-lang"></span>
-            <button class="copy-btn" onclick="copyText('mic-text')">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            </button>
+
+        <!-- Mic live area -->
+        <div id="micArea" style="display:none;">
+          <div class="mic-section">
+            <button class="mic-btn" id="micRecordBtn"><i class="fa-solid fa-microphone"></i></button>
+            <div class="waveform" id="waveform">
+              <div class="wbar"></div><div class="wbar"></div><div class="wbar"></div>
+              <div class="wbar"></div><div class="wbar"></div><div class="wbar"></div>
+              <div class="wbar"></div><div class="wbar"></div><div class="wbar"></div>
+              <div class="wbar"></div>
+            </div>
+            <div class="mic-status" id="micStatusMsg">Click to start recording</div>
+            <div class="mic-timer" id="micTimer"></div>
           </div>
+          <button class="mic-submit-btn" id="micSubmitBtn" disabled>
+            <div class="spinner"></div>
+            <span class="btn-label">Transcribe Recording</span>
+          </button>
         </div>
-        <div class="result-text" id="mic-text"></div>
+
+        <div class="footer-note">© 2026 NEXA HUB AI</div>
+      </div>
+
+      <!-- RIGHT PANEL -->
+      <div class="card">
+        <div class="section-title"><i class="fa-regular fa-rectangle-list"></i> Transcription</div>
+        <div class="result-meta" id="resultMeta" style="display:none;">
+          <div class="rdot" id="resultDot"></div>
+          <span id="resultLangTag"></span>
+        </div>
+        <textarea id="outputText" placeholder="Transcribed text will appear here..."></textarea>
+        <div class="action-group">
+          <button class="action-btn" id="copyBtn"><i class="fa-regular fa-copy"></i> Copy</button>
+          <button class="action-btn" id="clearBtn"><i class="fa-regular fa-trash-can"></i> Clear</button>
+          <button class="action-btn primary" id="downloadBtn"><i class="fa-regular fa-download"></i> Download</button>
+        </div>
       </div>
     </div>
-    <div class="note">Click mic to <b>start</b> recording, click again to <b>stop</b>. Then hit "Transcribe Recording". Browser will ask mic permission on first use.</div>
   </div>
 
-</div>
+  <div id="toastMsg" class="toast">Copied</div>
 
-<div class="toast" id="toast">Copied to clipboard!</div>
+  <script>
+  (function () {
+    // ── Theme
+    const body = document.body;
+    function setTheme(t) {
+      body.classList.toggle('dark', t === 'dark');
+      body.classList.toggle('light', t !== 'dark');
+      localStorage.setItem('theme', t);
+    }
+    setTheme(localStorage.getItem('theme') === 'dark' ? 'dark' : 'light');
+    document.getElementById('themeToggle').addEventListener('click', () =>
+      setTheme(body.classList.contains('light') ? 'dark' : 'light'));
 
-<script>
-  // ── State
-  let selectedLang = "";
-  let mediaRecorder = null, audioChunks = [], recordedBlob = null;
-  let timerInterval = null, seconds = 0;
+    // ── State
+    let currentMethod = 'audio';
+    let selectedFile = null;
+    let mediaRecorder = null, audioChunks = [], recordedBlob = null;
+    let timerInterval = null, seconds = 0;
+    let isRecording = false;
 
-  // ── Language dropdown
-document.getElementById("lang-select").addEventListener("change", e => {
-  selectedLang = e.target.value;
-});
+    // ── DOM refs
+    const langSelect       = document.getElementById('langSelect');
+    const fileInput        = document.getElementById('fileInput');
+    const browseBtn        = document.getElementById('browseBtn');
+    const dropZone         = document.getElementById('dropZone');
+    const fileStatus       = document.getElementById('fileStatus');
+    const uploadTitle      = document.getElementById('uploadTitle');
+    const uploadSub        = document.getElementById('uploadSub');
+    const fileUploadArea   = document.getElementById('fileUploadArea');
+    const micArea          = document.getElementById('micArea');
+    const transcribeFileBtn= document.getElementById('transcribeFileBtn');
+    const micRecordBtn     = document.getElementById('micRecordBtn');
+    const micSubmitBtn     = document.getElementById('micSubmitBtn');
+    const micStatusMsg     = document.getElementById('micStatusMsg');
+    const micTimer         = document.getElementById('micTimer');
+    const waveform         = document.getElementById('waveform');
+    const outputText       = document.getElementById('outputText');
+    const toast            = document.getElementById('toastMsg');
+    const resultMeta       = document.getElementById('resultMeta');
+    const resultDot        = document.getElementById('resultDot');
+    const resultLangTag    = document.getElementById('resultLangTag');
 
+    // ── Toast
+    function showToast(msg) {
+      toast.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2200);
+    }
 
-  // ── Tabs
-  document.querySelectorAll(".tab-btn").forEach(b => {
-    b.addEventListener("click", () => {
-      document.querySelectorAll(".tab-btn").forEach(x => x.classList.remove("active"));
-      document.querySelectorAll(".panel").forEach(x => x.classList.remove("active"));
-      b.classList.add("active");
-      document.getElementById("panel-" + b.dataset.tab).classList.add("active");
+    // ── Show result in textarea
+    function showResult(data) {
+      resultMeta.style.display = 'flex';
+      if (data.success) {
+        resultDot.className = 'rdot';
+        outputText.value = data.text || '(No speech detected)';
+        resultLangTag.textContent = data.language ? 'lang: ' + data.language : '';
+        showToast('Transcription complete!');
+      } else {
+        resultDot.className = 'rdot err';
+        outputText.value = '❌ ' + (data.error || 'Unknown error');
+        resultLangTag.textContent = '';
+      }
+    }
+
+    // ── Loading state helper
+    function setLoading(btn, on) {
+      btn.disabled = on;
+      btn.classList.toggle('loading', on);
+    }
+
+    // ── Method switching
+    function switchMethod(method) {
+      currentMethod = method;
+      document.querySelectorAll('.method-card').forEach(c => c.classList.remove('active-method'));
+      document.getElementById('method' + method.charAt(0).toUpperCase() + method.slice(1)).classList.add('active-method');
+
+      if (method === 'mic') {
+        fileUploadArea.style.display = 'none';
+        micArea.style.display = 'block';
+        // Stop any recording
+        if (mediaRecorder && mediaRecorder.state === 'recording') mediaRecorder.stop();
+      } else {
+        fileUploadArea.style.display = 'block';
+        micArea.style.display = 'none';
+        if (method === 'audio') {
+          uploadTitle.innerText = 'Audio file';
+          uploadSub.innerText = 'MP3, WAV, M4A, OGG | Max 25MB';
+          fileInput.setAttribute('accept', 'audio/*');
+        } else {
+          uploadTitle.innerText = 'Video file';
+          uploadSub.innerText = 'MP4, WEBM, MOV | Max 25MB';
+          fileInput.setAttribute('accept', 'video/*');
+        }
+        selectedFile = null;
+        fileStatus.innerHTML = 'No file selected';
+        transcribeFileBtn.disabled = true;
+      }
+    }
+
+    document.getElementById('methodAudio').addEventListener('click', () => switchMethod('audio'));
+    document.getElementById('methodVideo').addEventListener('click', () => switchMethod('video'));
+    document.getElementById('methodMic').addEventListener('click', () => switchMethod('mic'));
+
+    // ── File selection
+    function handleFile(file) {
+      if (!file) return;
+      if (file.size > 25 * 1024 * 1024) {
+        fileStatus.innerHTML = '❌ File exceeds 25MB limit';
+        transcribeFileBtn.disabled = true;
+        return;
+      }
+      selectedFile = file;
+      fileStatus.innerHTML = `✅ ${file.name}`;
+      transcribeFileBtn.disabled = false;
+    }
+
+    browseBtn.addEventListener('click', e => { e.stopPropagation(); fileInput.click(); });
+    dropZone.addEventListener('click', e => {
+      // Only open picker if click is directly on zone (not on button)
+      if (e.target === browseBtn || browseBtn.contains(e.target)) return;
+      fileInput.click();
     });
-  });
-
-  // ── Drag styling
-  ["audio-drop","video-drop"].forEach(id => {
-    const z = document.getElementById(id);
-    z.addEventListener("dragover",  e => { e.preventDefault(); z.classList.add("drag-over"); });
-    z.addEventListener("dragleave", () => z.classList.remove("drag-over"));
-    z.addEventListener("drop",      e => { e.preventDefault(); z.classList.remove("drag-over"); });
-  });
-
-  // ── File name labels
-  document.getElementById("audio-input").addEventListener("change", e =>
-    document.getElementById("audio-name").textContent = e.target.files[0]?.name || "");
-  document.getElementById("video-input").addEventListener("change", e =>
-    document.getElementById("video-name").textContent = e.target.files[0]?.name || "");
-
-  // ── Loading helper
-  function setLoading(btn, on) {
-    btn.disabled = on;
-    btn.classList.toggle("loading", on);
-  }
-
-  // ── Show result
-  function showResult(prefix, data) {
-    const box  = document.getElementById(prefix + "-result");
-    const text = document.getElementById(prefix + "-text");
-    const dot  = document.getElementById(prefix + "-dot");
-    const lang = document.getElementById(prefix + "-lang");
-    box.classList.add("show");
-    if (data.success) {
-      dot.className = "rdot";
-      text.className = "result-text";
-      text.textContent = data.text || "(No speech detected)";
-      lang.textContent  = "lang: " + (data.language || "?");
-    } else {
-      dot.className = "rdot err";
-      text.className = "result-text err";
-      text.textContent = data.error || "Unknown error.";
-      lang.textContent  = "";
-    }
-  }
-
-  // ── Audio submit
-  document.getElementById("audio-btn").addEventListener("click", async () => {
-    const file = document.getElementById("audio-input").files[0];
-    if (!file) { alert("Please select an audio file first."); return; }
-    const btn = document.getElementById("audio-btn");
-    setLoading(btn, true);
-    const fd = new FormData();
-    fd.append("audio_file", file);
-    fd.append("language", selectedLang);
-    try {
-const res = await fetch("http://127.0.0.1:8000/voice-to-text/transcribe/audio/", {
-  method: "POST",
-  body: fd
-});
-
-      showResult("audio", await res.json());
-    } catch(e) {
-      showResult("audio", { success:false, error:"Network error: " + e.message });
-    } finally { setLoading(btn, false); }
-  });
-
-  // ── Video submit
-  document.getElementById("video-btn").addEventListener("click", async () => {
-    const file = document.getElementById("video-input").files[0];
-    if (!file) { alert("Please select a video file first."); return; }
-    const btn = document.getElementById("video-btn");
-    setLoading(btn, true);
-    const fd = new FormData();
-    fd.append("video_file", file);
-    fd.append("language", selectedLang);
-    try {
-const res = await fetch("http://127.0.0.1:8000/voice-to-text/transcribe/video/", {
-  method: "POST",
-  body: fd
-});
-
-      showResult("video", await res.json());
-    } catch(e) {
-      showResult("video", { success:false, error:"Network error: " + e.message });
-    } finally { setLoading(btn, false); }
-  });
-
-  // ── Microphone recording
-  const micBtn    = document.getElementById("mic-btn");
-  const micLabel  = document.getElementById("mic-label");
-  const micTimer  = document.getElementById("mic-timer");
-  const waveform  = document.getElementById("waveform");
-  const micSubmit = document.getElementById("mic-submit");
-
-  const fmt = s => `${String(Math.floor(s/60)).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`;
-
-  micBtn.addEventListener("click", async () => {
-    if (mediaRecorder && mediaRecorder.state === "recording") {
-      mediaRecorder.stop(); return;
-    }
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      audioChunks = []; recordedBlob = null; micSubmit.disabled = true;
-      mediaRecorder = new MediaRecorder(stream);
-      mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-      mediaRecorder.onstop = () => {
-        recordedBlob = new Blob(audioChunks, { type:"audio/webm" });
-        stream.getTracks().forEach(t => t.stop());
-        clearInterval(timerInterval);
-        micBtn.classList.remove("recording");
-        waveform.classList.remove("on");
-        micLabel.className = "mic-label";
-        micLabel.textContent = `Saved · ${fmt(seconds)}`;
-        micTimer.textContent = "";
-        micSubmit.disabled = false;
-      };
-      mediaRecorder.start();
-      seconds = 0;
-      micBtn.classList.add("recording");
-      waveform.classList.add("on");
-      micLabel.className = "mic-label on";
-      micLabel.textContent = "Recording… click to stop";
-      micTimer.textContent = fmt(0);
-      timerInterval = setInterval(() => { seconds++; micTimer.textContent = fmt(seconds); }, 1000);
-    } catch(err) {
-      alert("Microphone access denied.\n" + err.message);
-    }
-  });
-
-  micSubmit.addEventListener("click", async () => {
-    if (!recordedBlob) { alert("No recording found."); return; }
-    setLoading(micSubmit, true);
-    const fd = new FormData();
-    fd.append("audio_blob", recordedBlob, "recording.webm");
-    fd.append("language", selectedLang);
-    try {
-const res = await fetch("http://127.0.0.1:8000/voice-to-text/transcribe/microphone/", {
-  method: "POST",
-  body: fd
-});
-
-      showResult("mic", await res.json());
-    } catch(e) {
-      showResult("mic", { success:false, error:"Network error: " + e.message });
-    } finally { setLoading(micSubmit, false); micSubmit.disabled = false; }
-  });
-
-  // ── Copy
-  function copyText(id) {
-    navigator.clipboard.writeText(document.getElementById(id).textContent).then(() => {
-      const t = document.getElementById("toast");
-      t.classList.add("show");
-      setTimeout(() => t.classList.remove("show"), 2200);
+    fileInput.addEventListener('change', e => { handleFile(e.target.files[0]); fileInput.value = ''; });
+    dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+    dropZone.addEventListener('drop', e => {
+      e.preventDefault(); dropZone.classList.remove('drag-over');
+      const file = e.dataTransfer.files[0];
+      if (file && (file.type.startsWith('audio/') || file.type.startsWith('video/'))) handleFile(file);
+      else fileStatus.innerHTML = '❌ Invalid file type';
     });
-  }
-</script>
+
+    // ── Transcribe file (audio or video) → real API call
+    transcribeFileBtn.addEventListener('click', async () => {
+      if (!selectedFile) { showToast('Please select a file first'); return; }
+      setLoading(transcribeFileBtn, true);
+      const fd = new FormData();
+      const lang = langSelect.value;
+
+      if (currentMethod === 'audio') {
+        fd.append('audio_file', selectedFile);
+        fd.append('language', lang);
+        try {
+          const res = await fetch('http://127.0.0.1:8000/voice-to-text/transcribe/audio/', {
+            method: 'POST', body: fd
+          });
+          showResult(await res.json());
+        } catch (e) {
+          showResult({ success: false, error: 'Network error: ' + e.message });
+        }
+      } else {
+        fd.append('video_file', selectedFile);
+        fd.append('language', lang);
+        try {
+          const res = await fetch('http://127.0.0.1:8000/voice-to-text/transcribe/video/', {
+            method: 'POST', body: fd
+          });
+          showResult(await res.json());
+        } catch (e) {
+          showResult({ success: false, error: 'Network error: ' + e.message });
+        }
+      }
+      setLoading(transcribeFileBtn, false);
+    });
+
+    // ── Microphone Recording (MediaRecorder)
+    const fmt = s => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
+
+    micRecordBtn.addEventListener('click', async () => {
+      // If already recording → stop
+      if (mediaRecorder && mediaRecorder.state === 'recording') {
+        mediaRecorder.stop();
+        return;
+      }
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        audioChunks = []; recordedBlob = null; micSubmitBtn.disabled = true;
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+        mediaRecorder.onstop = () => {
+          recordedBlob = new Blob(audioChunks, { type: 'audio/webm' });
+          stream.getTracks().forEach(t => t.stop());
+          clearInterval(timerInterval);
+          micRecordBtn.classList.remove('recording');
+          micRecordBtn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
+          waveform.classList.remove('on');
+          micStatusMsg.textContent = `Saved · ${fmt(seconds)}`;
+          micTimer.textContent = '';
+          micSubmitBtn.disabled = false;
+          isRecording = false;
+        };
+        mediaRecorder.start();
+        seconds = 0; isRecording = true;
+        micRecordBtn.classList.add('recording');
+        micRecordBtn.innerHTML = '<i class="fa-solid fa-microphone-slash"></i>';
+        waveform.classList.add('on');
+        micStatusMsg.textContent = '🔴 Recording… click to stop';
+        micTimer.textContent = fmt(0);
+        timerInterval = setInterval(() => { seconds++; micTimer.textContent = fmt(seconds); }, 1000);
+      } catch (err) {
+        showToast('Mic access denied: ' + err.message);
+      }
+    });
+
+    // ── Submit mic recording → real API call
+    micSubmitBtn.addEventListener('click', async () => {
+      if (!recordedBlob) { showToast('No recording found'); return; }
+      setLoading(micSubmitBtn, true);
+      const fd = new FormData();
+      fd.append('audio_blob', recordedBlob, 'recording.webm');
+      fd.append('language', langSelect.value);
+      try {
+        const res = await fetch('http://127.0.0.1:8000/voice-to-text/transcribe/microphone/', {
+          method: 'POST', body: fd
+        });
+        showResult(await res.json());
+      } catch (e) {
+        showResult({ success: false, error: 'Network error: ' + e.message });
+      }
+      setLoading(micSubmitBtn, false);
+      micSubmitBtn.disabled = false;
+    });
+
+    // ── Action buttons
+    document.getElementById('copyBtn').addEventListener('click', () => {
+      if (!outputText.value.trim()) { showToast('Nothing to copy'); return; }
+      navigator.clipboard.writeText(outputText.value);
+      showToast('Copied to clipboard!');
+    });
+
+    document.getElementById('clearBtn').addEventListener('click', () => {
+      outputText.value = '';
+      resultMeta.style.display = 'none';
+      showToast('Cleared');
+    });
+
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      if (!outputText.value.trim()) { showToast('No text to download'); return; }
+      const blob = new Blob([outputText.value], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = `nexa_transcript_${Date.now()}.txt`;
+      a.click(); URL.revokeObjectURL(url);
+      showToast('Download started!');
+    });
+
+    // ── Init
+    switchMethod('audio');
+  })();
+  </script>
 </body>
 </html>
