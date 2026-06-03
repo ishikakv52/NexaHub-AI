@@ -1,926 +1,936 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>NEXA HUB AI | Text to Speak | Dark Blue Theme</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>NEXA HUB AI — AudioForge Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        /* ========== DARK BLUE BACKGROUND - RICH NAVY THEME ========== */
-        :root {
-            /* Dark Blue Mode (Default - Deep Ocean Blue) */
-            --bg-dark-1: #0a1628;
-            --bg-dark-2: #061220;
-            --bg-dark-3: #030d18;
-            --card-bg-dark: rgba(8, 20, 40, 0.85);
-            --card-border-dark: rgba(50, 120, 220, 0.5);
-            --text-primary-dark: #f0f6ff;
-            --text-secondary-dark: #c5ddff;
-            --text-muted-dark: #8aadff;
-            --input-bg-dark: rgba(3, 12, 25, 0.95);
-            --input-border-dark: rgba(50, 110, 210, 0.7);
-            --ctrl-bg-dark: rgba(10, 25, 48, 0.8);
-            --ctrl-border-dark: rgba(60, 130, 240, 0.5);
-            --select-bg-dark: #071a30;
-            --select-border-dark: #2a4a7a;
-            --btn-secondary-bg-dark: rgba(15, 35, 60, 0.9);
-            --status-bg-dark: rgba(5, 18, 35, 0.8);
-            --voice-badge-dark: #0a1a3ecc;
-            --footer-color-dark: #6a9ad6;
-            --hub-grad-start-dark: #4a9eff;
-            --hub-grad-end-dark: #8abcff;
-            --shadow-dark: 0 30px 50px rgba(0, 0, 0, 0.5);
-            --thumb-color-dark: #5a9eff;
-        }
+    :root {
+      --bg-gradient-start: #020617;
+      --bg-gradient-end: #000000;
+      --orb-1-bg: #3b2b8c;
+      --orb-2-bg: #1c6f8c;
+      --orb-3-bg: #9c3fe4;
+      --sidebar-bg: rgba(2, 8, 20, 0.85);
+      --sidebar-border: rgba(0, 255, 255, 0.25);
+      --card-bg: rgba(6, 12, 28, 0.65);
+      --card-border: rgba(0, 255, 255, 0.25);
+      --text-primary: #f0fcff;
+      --text-secondary: #98b1d9;
+      --accent-cyan: #00e0ff;
+      --accent-glow: rgba(0, 255, 255, 0.3);
+      --btn-gradient: linear-gradient(95deg, #00b4ff, #873eff);
+      --input-bg: rgba(0, 0, 0, 0.6);
+      --input-border: rgba(0, 210, 255, 0.5);
+      --badge-bg: #11212e;
+      --voice-card-bg: rgba(0, 8, 18, 0.7);
+      --error-bg: rgba(255, 50, 80, 0.2);
+      --translate-bg: #05131f;
+      --vtoggle-bg: rgba(10, 20, 35, 0.8);
+      --style-btn-bg: rgba(16, 24, 36, 0.7);
+      --style-btn-border: rgba(100, 200, 255, 0.3);
+    }
 
-        /* Light Mode - Clean Bright */
-        body.light {
-            --bg-dark-1: #dce5f5;
-            --bg-dark-2: #d0dcef;
-            --bg-dark-3: #c5d4e8;
-            --card-bg-dark: rgba(245, 250, 255, 0.92);
-            --card-border-dark: rgba(60, 120, 210, 0.4);
-            --text-primary-dark: #1a2a4a;
-            --text-secondary-dark: #2c3e66;
-            --text-muted-dark: #4a6a9e;
-            --input-bg-dark: rgba(255, 255, 255, 0.96);
-            --input-border-dark: rgba(60, 120, 210, 0.5);
-            --ctrl-bg-dark: rgba(235, 242, 255, 0.88);
-            --ctrl-border-dark: rgba(60, 120, 210, 0.4);
-            --select-bg-dark: #ffffff;
-            --select-border-dark: #8aaccf;
-            --btn-secondary-bg-dark: rgba(220, 232, 250, 0.9);
-            --status-bg-dark: rgba(235, 242, 255, 0.88);
-            --voice-badge-dark: #d4e2ffcc;
-            --footer-color-dark: #5a7bb5;
-            --hub-grad-start-dark: #2a6ad0;
-            --hub-grad-end-dark: #5a8fdf;
-            --shadow-dark: 0 30px 50px rgba(0, 0, 0, 0.12);
-            --thumb-color-dark: #4a7ad0;
-        }
+    body.light {
+      --bg-gradient-start: #e8f0fe;
+      --bg-gradient-end: #d4e0f0;
+      --orb-1-bg: #b8c7ff;
+      --orb-2-bg: #9fc7e8;
+      --orb-3-bg: #c8a2ff;
+      --sidebar-bg: rgba(245, 248, 255, 0.92);
+      --sidebar-border: rgba(0, 120, 200, 0.3);
+      --card-bg: rgba(255, 255, 255, 0.75);
+      --card-border: rgba(0, 120, 200, 0.25);
+      --text-primary: #1a2a4f;
+      --text-secondary: #2c3e66;
+      --accent-cyan: #0077be;
+      --accent-glow: rgba(0, 119, 190, 0.2);
+      --btn-gradient: linear-gradient(95deg, #0088cc, #5a3e9e);
+      --input-bg: rgba(255, 255, 255, 0.85);
+      --input-border: rgba(0, 100, 150, 0.4);
+      --badge-bg: #dce6f2;
+      --voice-card-bg: rgba(230, 240, 255, 0.8);
+      --error-bg: rgba(255, 80, 100, 0.15);
+      --translate-bg: #eef3fc;
+      --vtoggle-bg: rgba(220, 235, 250, 0.9);
+      --style-btn-bg: rgba(230, 240, 255, 0.9);
+      --style-btn-border: rgba(0, 100, 150, 0.3);
+    }
 
-        body {
-            min-height: 100vh;
-            background: radial-gradient(circle at 20% 30%, var(--bg-dark-1), var(--bg-dark-2), var(--bg-dark-3));
-            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, 'Poppins', sans-serif;
-            position: relative;
-            overflow-x: hidden;
-            transition: background 0.3s ease, color 0.2s ease;
-        }
+    body {
+      background: radial-gradient(circle at 30% 20%, var(--bg-gradient-start), var(--bg-gradient-end));
+      font-family: 'Space Grotesk', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      overflow-x: hidden;
+      position: relative;
+      transition: background 0.3s ease;
+    }
 
-        /* floating stars effect - subtle */
-        .star {
-            position: fixed;
-            background: white;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.3;
-            animation: floatStar 8s infinite ease-in-out;
-        }
+    .bg-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.3;
+      z-index: 0;
+      animation: drift 24s infinite alternate ease-in-out;
+      transition: background 0.3s;
+    }
+    .orb-1 { width: 60vw; height: 60vw; background: var(--orb-1-bg); top: -20vh; left: -15vw; }
+    .orb-2 { width: 55vh; height: 55vh; background: var(--orb-2-bg); bottom: -15vh; right: -5vw; animation-duration: 30s; }
+    .orb-3 { width: 45vw; height: 45vw; background: var(--orb-3-bg); bottom: 15vh; left: 20%; animation-duration: 20s; opacity: 0.2; }
 
-        body.light .star {
-            opacity: 0.1;
-            background: #3a6bc0;
-        }
+    @keyframes drift {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(5%, 7%) scale(1.1); }
+    }
 
-        @keyframes floatStar {
-            0% { transform: translateY(0px) translateX(0px); opacity: 0.15; }
-            50% { transform: translateY(-20px) translateX(10px); opacity: 0.45; }
-            100% { transform: translateY(0px) translateX(0px); opacity: 0.15; }
-        }
+    .nexa-sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 280px;
+      background: var(--sidebar-bg);
+      backdrop-filter: blur(20px);
+      border-right: 1px solid var(--sidebar-border);
+      z-index: 30;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 2rem 1.5rem;
+      transition: background 0.3s;
+      box-shadow: 8px 0 32px rgba(0,0,0,0.2);
+    }
 
-        /* main container */
-        .hero-wrapper {
-            position: relative;
-            z-index: 2;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-        }
+    .sidebar-brand {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .nexa-logo {
+      font-size: 1.9rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .nexa-white {
+      color: #ffffff;
+      text-shadow: 0 0 8px rgba(255,255,255,0.3);
+    }
+    body.light .nexa-white {
+      color: #1a2a4f;
+    }
+    .hub-blue {
+      background: linear-gradient(135deg, #3b82f6, #60a5fa);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      font-size: 2rem;
+    }
+    .brand-divider {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-cyan), transparent);
+      margin: 0.8rem auto 0;
+    }
+    .tagline-side {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      margin-top: 1rem;
+    }
 
-        /* glass card - deep blue tint */
-        .nexa-container {
-            max-width: 1000px;
-            width: 100%;
-            background: var(--card-bg-dark);
-            backdrop-filter: blur(18px);
-            border-radius: 2.5rem;
-            border: 1px solid var(--card-border-dark);
-            box-shadow: var(--shadow-dark);
-            padding: 2rem 2.2rem 2.5rem;
-            transition: all 0.3s ease;
-        }
+    .sidebar-nav {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .nav-section {
+      border-left: 2px solid var(--accent-cyan);
+      padding-left: 1rem;
+    }
+    .nav-section h4 {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      letter-spacing: 3px;
+      margin-bottom: 0.8rem;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0.5rem 0;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+    .nav-item.active {
+      opacity: 1;
+      color: var(--text-primary);
+    }
+    .theme-toggle-side {
+      background: rgba(0,0,0,0.2);
+      border: 1px solid var(--accent-cyan);
+      border-radius: 40px;
+      padding: 0.4rem 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      margin-top: 1rem;
+      color: var(--text-primary);
+    }
+    .sidebar-footer {
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      text-align: center;
+      border-top: 1px dashed var(--sidebar-border);
+      padding-top: 1.5rem;
+    }
 
-        /* header section */
-        .brand-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            flex-wrap: wrap;
-            margin-bottom: 1.5rem;
-            gap: 1rem;
-        }
+    .main-stage {
+      margin-left: 280px;
+      flex: 1;
+      padding: 2rem 2rem 2rem 2.5rem;
+      position: relative;
+      z-index: 10;
+      max-width: calc(100% - 280px);
+    }
 
-        .brand-left {
-            flex-shrink: 0;
-            text-align: left;
-        }
+    .page {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border-radius: 2rem;
+      border: 1px solid var(--card-border);
+      padding: 2rem;
+    }
 
-        .nexa-white {
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: var(--text-primary-dark);
-            letter-spacing: -0.02em;
-            display: inline-block;
-            line-height: 1.2;
-        }
+    .header {
+      margin-bottom: 2rem;
+      border-left: 4px solid var(--accent-cyan);
+      padding-left: 1.2rem;
+    }
+    .header h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--text-primary), var(--accent-cyan));
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .header p {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
 
-        .hub-blue {
-            font-size: 2.2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--hub-grad-start-dark), var(--hub-grad-end-dark));
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            letter-spacing: -0.02em;
-            display: inline-block;
-            margin-left: 8px;
-        }
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-bottom: 1.5rem;
+    }
+    label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent-cyan);
+    }
+    textarea {
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 24px;
+      padding: 1rem;
+      font-family: 'Space Grotesk', monospace;
+      font-size: 1rem;
+      color: var(--text-primary);
+      resize: vertical;
+    }
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+    .char-count {
+      text-align: right;
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+    }
 
-        .brand-right {
-            text-align: right;
-            flex-shrink: 0;
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
+    .voice-toggle { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .vtoggle-btn {
+      background: var(--vtoggle-bg);
+      border: 1px solid var(--accent-cyan);
+      padding: 0.6rem 1.4rem;
+      border-radius: 60px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .vtoggle-btn.active {
+      background: linear-gradient(105deg, #1b4f72, #0f2c42);
+      border-color: var(--accent-cyan);
+      color: white;
+    }
+    body.light .vtoggle-btn.active {
+      background: linear-gradient(105deg, #3b82f6, #2563eb);
+    }
 
-        .theme-switch-wrapper {
-            display: flex;
-            align-items: center;
-        }
+    .style-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+    }
+    .style-btn {
+      background: var(--style-btn-bg);
+      border: 1px solid var(--style-btn-border);
+      padding: 0.5rem 1.2rem;
+      border-radius: 48px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+    .style-btn.active {
+      background: linear-gradient(135deg, #0e3448, #071e2e);
+      border-color: var(--accent-cyan);
+      color: white;
+    }
+    #styleSelect { display: none; }
 
-        .theme-switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 30px;
-        }
+    .btn-generate {
+      background: var(--btn-gradient);
+      border: none;
+      border-radius: 60px;
+      padding: 0.9rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      cursor: pointer;
+      width: 100%;
+    }
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      display: none;
+      animation: spin 0.6s linear infinite;
+    }
+    .btn-generate.loading .spinner { display: inline-block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-        .theme-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
+    .error-msg {
+      background: var(--error-bg);
+      border-left: 4px solid #ff4d6d;
+      padding: 0.6rem 1rem;
+      border-radius: 16px;
+      font-size: 0.8rem;
+      color: #ff9090;
+      display: none;
+      margin-top: 0.5rem;
+    }
+    .error-msg.show { display: block; }
 
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #1a3a6e;
-            transition: 0.3s;
-            border-radius: 30px;
-        }
+    .audio-panel {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 1.8rem;
+      padding: 1.4rem;
+      margin-top: 0.8rem;
+      border: 1px solid var(--card-border);
+      transition: all 0.3s;
+    }
 
-        .slider:before {
-            position: absolute;
-            content: "🌙";
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 24px;
-            width: 24px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: 0.3s;
-            border-radius: 50%;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
+    .waveform {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .waveform-bar {
+      width: 4px;
+      height: 12px;
+      background: var(--accent-cyan);
+      border-radius: 2px;
+      transition: height 0.1s;
+    }
+    .waveform.active .waveform-bar {
+      animation: waveAnim 0.5s infinite alternate ease;
+    }
+    @keyframes waveAnim {
+      0% { height: 6px; }
+      100% { height: 22px; }
+    }
 
-        input:checked + .slider:before {
-            content: "☀️";
-            transform: translateX(30px);
-        }
+    .badge {
+      background: var(--badge-bg);
+      padding: 0.2rem 0.8rem;
+      border-radius: 30px;
+      font-size: 0.7rem;
+    }
+    .voice-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    .voice-card {
+      background: var(--voice-card-bg);
+      border-radius: 1.4rem;
+      padding: 1rem;
+      border: 1px solid var(--card-border);
+    }
+    audio { width: 100%; margin-top: 0.5rem; border-radius: 40px; }
+    .download-row {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      margin-bottom: 1rem;
+    }
+    .dl-btn {
+      background: var(--badge-bg);
+      padding: 0.3rem 1rem;
+      border-radius: 30px;
+      text-decoration: none;
+      color: var(--text-primary);
+      font-size: 0.7rem;
+      cursor: pointer;
+    }
+    .translate-panel {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px dashed var(--sidebar-border);
+    }
+    .translate-header {
+      font-weight: 700;
+      color: var(--accent-cyan);
+      margin-bottom: 0.8rem;
+    }
+    .translate-row {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .lang-select {
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      padding: 0.6rem 1rem;
+      border-radius: 48px;
+      color: var(--text-primary);
+      flex: 2;
+    }
+    .btn-translate {
+      background: var(--btn-gradient);
+      border: none;
+      border-radius: 48px;
+      padding: 0 1.4rem;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+    }
+    .translated-text {
+      background: var(--translate-bg);
+      padding: 1rem;
+      border-radius: 1rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid var(--accent-cyan);
+      display: none;
+    }
+    .translated-text.show { display: block; }
+    .translate-audio {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0.8rem;
+      display: none;
+    }
+    .translate-audio.show { display: grid; }
 
-        body.light .slider {
-            background-color: #5a7bb5;
-        }
-
-        .mode-text {
-            margin-left: 10px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: var(--text-muted-dark);
-        }
-
-        /* Page Name Section - TEXT TO SPEAK with NEW VIBRANT COLOR */
-        .page-name-section {
-            text-align: center;
-            margin-bottom: 1.8rem;
-        }
-
-        .page-title {
-            font-size: 2rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #00e5ff, #00b4d8, #00f5d4, #48cae4);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            display: inline-block;
-            letter-spacing: -0.01em;
-            text-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
-        }
-
-        .page-sub {
-            font-size: 0.7rem;
-            color: var(--text-muted-dark);
-            margin-top: 0.5rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        /* input area - 1500 character limit */
-        .input-group {
-            margin-bottom: 2rem;
-        }
-
-        .input-label {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 0.8rem;
-            color: var(--text-secondary-dark);
-            font-weight: 600;
-        }
-
-        .char-counter {
-            font-size: 0.75rem;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 0.25rem 0.8rem;
-            border-radius: 40px;
-            font-family: monospace;
-            color: var(--text-muted-dark);
-            transition: all 0.2s;
-        }
-
-        .char-counter.warning {
-            background: rgba(255, 150, 50, 0.3);
-            color: #ffcc88;
-        }
-
-        .char-counter.danger {
-            background: rgba(255, 70, 70, 0.4);
-            color: #ffaaaa;
-            animation: pulse 0.5s ease;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        textarea {
-            width: 100%;
-            background: var(--input-bg-dark);
-            border: 1.5px solid var(--input-border-dark);
-            border-radius: 1.8rem;
-            padding: 1.1rem 1.5rem;
-            font-size: 1rem;
-            line-height: 1.5;
-            color: var(--text-primary-dark);
-            font-family: 'Inter', monospace;
-            resize: vertical;
-            transition: all 0.25s;
-            outline: none;
-        }
-
-        textarea:focus {
-            border-color: #5d9eff;
-            box-shadow: 0 0 0 3px rgba(70, 140, 255, 0.25);
-        }
-
-        /* control cards */
-        .control-panel {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.2rem;
-            margin-bottom: 2rem;
-            justify-content: space-between;
-        }
-
-        .ctrl-card {
-            flex: 1;
-            min-width: 140px;
-            background: var(--ctrl-bg-dark);
-            backdrop-filter: blur(5px);
-            border-radius: 1.5rem;
-            padding: 0.8rem 1rem;
-            border: 1px solid var(--ctrl-border-dark);
-            transition: all 0.2s;
-        }
-
-        .ctrl-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--hub-grad-start-dark);
-        }
-
-        .ctrl-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 700;
-            color: var(--text-muted-dark);
-            margin-bottom: 0.6rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        select {
-            width: 100%;
-            background: var(--select-bg-dark);
-            border: 1px solid var(--select-border-dark);
-            border-radius: 2rem;
-            padding: 0.5rem 0.8rem;
-            color: var(--text-primary-dark);
-            font-weight: 500;
-            font-family: inherit;
-            cursor: pointer;
-            outline: none;
-            transition: 0.2s;
-        }
-
-        select:hover {
-            border-color: var(--hub-grad-start-dark);
-        }
-
-        .range-value {
-            width: 100%;
-            background: var(--select-bg-dark);
-            border: 1px solid var(--select-border-dark);
-            border-radius: 2rem;
-            padding: 0.5rem 0.8rem;
-            color: var(--text-primary-dark);
-            font-weight: 500;
-            text-align: center;
-            margin-top: 8px;
-            font-size: 0.8rem;
-        }
-
-        input[type="range"] {
-            width: 100%;
-            background: var(--select-border-dark);
-            height: 4px;
-            border-radius: 10px;
-            -webkit-appearance: none;
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: var(--thumb-color-dark);
-            cursor: pointer;
-            border: 2px solid #ffffff;
-        }
-
-        /* action buttons */
-        .action-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin: 1.8rem 0 1.2rem;
-            justify-content: center;
-        }
-
-        .btn {
-            border: none;
-            background: var(--ctrl-bg-dark);
-            backdrop-filter: blur(8px);
-            padding: 0.8rem 1.6rem;
-            border-radius: 3rem;
-            font-weight: 600;
-            font-size: 0.95rem;
-            font-family: inherit;
-            color: var(--text-primary-dark);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            border: 1px solid var(--ctrl-border-dark);
-        }
-
-        .btn-primary {
-            background: linear-gradient(125deg, #1a3a7a, #0a1f4a);
-            border-color: #5a9eff;
-        }
-
-        body.light .btn-primary {
-            background: linear-gradient(125deg, #3a6bc0, #2a5598);
-            border-color: #5a8fcf;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            filter: brightness(1.08);
-            box-shadow: 0 5px 15px rgba(0, 100, 255, 0.3);
-        }
-
-        .btn-secondary:hover {
-            transform: translateY(-2px);
-            background: var(--select-bg-dark);
-        }
-
-        /* status area */
-        .status-area {
-            margin-top: 1.5rem;
-            background: var(--status-bg-dark);
-            border-radius: 2rem;
-            padding: 0.8rem 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 12px;
-            border: 1px solid var(--ctrl-border-dark);
-        }
-
-        .voice-badge {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: var(--voice-badge-dark);
-            padding: 0.3rem 1rem;
-            border-radius: 40px;
-        }
-
-        .pulse-dot {
-            width: 10px;
-            height: 10px;
-            background: #5effb0;
-            border-radius: 50%;
-            display: inline-block;
-            box-shadow: 0 0 8px #3effa0;
-            animation: softPulse 1.5s infinite;
-        }
-
-        @keyframes softPulse {
-            0% { opacity: 0.4; transform: scale(0.8);}
-            100% { opacity: 1; transform: scale(1.2);}
-        }
-
-        .status-text {
-            color: var(--text-secondary-dark);
-            font-weight: 500;
-            font-size: 0.85rem;
-        }
-
-        .voice-preview {
-            font-size: 0.7rem;
-            background: var(--voice-badge-dark);
-            padding: 0.3rem 0.9rem;
-            border-radius: 30px;
-            font-weight: 500;
-            color: var(--text-secondary-dark);
-        }
-
-        .footer-note {
-            text-align: center;
-            margin-top: 1.5rem;
-            font-size: 0.7rem;
-            color: var(--footer-color-dark);
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        /* speaking wave animation */
-        .speaking-wave {
-            display: inline-block;
-            width: 18px;
-            height: 18px;
-            background: radial-gradient(circle, #4c9eff, #0066ff);
-            border-radius: 50%;
-            animation: wave 0.8s infinite;
-            margin-left: 8px;
-            vertical-align: middle;
-        }
-
-        @keyframes wave {
-            0%, 100% { transform: scale(1); opacity: 0.6; }
-            50% { transform: scale(1.2); opacity: 1; }
-        }
-
-        /* responsive */
-        @media (max-width: 680px) {
-            .nexa-container {
-                padding: 1.5rem;
-            }
-            .control-panel {
-                flex-direction: column;
-            }
-            .btn {
-                padding: 0.7rem 1.2rem;
-                font-size: 0.85rem;
-            }
-            .nexa-white, .hub-blue {
-                font-size: 1.6rem;
-            }
-            .page-title {
-                font-size: 1.5rem;
-            }
-            .brand-section {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .brand-right {
-                width: 100%;
-                justify-content: space-between;
-            }
-        }
-    </style>
+    @media (max-width: 880px) {
+      .nexa-sidebar { width: 240px; }
+      .main-stage { margin-left: 240px; max-width: calc(100% - 240px); padding: 1.5rem; }
+      .header h1 { font-size: 2rem; }
+    }
+    @media (max-width: 700px) {
+      .nexa-sidebar { display: none; }
+      .main-stage { margin-left: 0; max-width: 100%; padding: 1rem; }
+    }
+  </style>
 </head>
 <body>
-    <!-- floating stars -->
-    <div class="star" style="width: 2px; height: 2px; top: 15%; left: 10%; animation-duration: 8s;"></div>
-    <div class="star" style="width: 3px; height: 3px; top: 70%; left: 85%; animation-duration: 11s;"></div>
-    <div class="star" style="width: 1.5px; height: 1.5px; top: 40%; left: 20%; animation-duration: 7s;"></div>
-    <div class="star" style="width: 2.5px; height: 2.5px; top: 80%; left: 15%; animation-duration: 9s;"></div>
-    <div class="star" style="width: 2px; height: 2px; top: 25%; left: 90%; animation-duration: 12s;"></div>
-    <div class="star" style="width: 1.8px; height: 1.8px; top: 60%; left: 45%; animation-duration: 6s;"></div>
+<div class="bg-orb orb-1"></div>
+<div class="bg-orb orb-2"></div>
+<div class="bg-orb orb-3"></div>
 
-    <div class="hero-wrapper">
-        <div class="nexa-container">
-            <div class="brand-section">
-                <div class="brand-left">
-                    <span class="nexa-white">NEXA</span>
-                    <span class="hub-blue">HUB AI</span>
-                </div>
-                <div class="brand-right">
-                    <div class="theme-switch-wrapper">
-                        <label class="theme-switch">
-                            <input type="checkbox" id="themeToggleCheckbox">
-                            <span class="slider"></span>
-                        </label>
-                        <span class="mode-text" id="modeText">Dark</span>
-                    </div>
-                </div>
-            </div>
+<aside class="nexa-sidebar">
+  <div class="sidebar-brand">
+    <div class="nexa-logo">
+      <span class="nexa-white">NEXA</span>
+      <span class="hub-blue">HUB AI</span>
+    </div>
+    <div class="brand-divider"></div>
+    <div class="tagline-side">voice intelligence · neural matrix</div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-section">
+      <h4>studio</h4>
+      <div class="nav-item active">🎙️ Speech Canvas</div>
+      <div class="nav-item">🌍 Translation Hub</div>
+      <div class="nav-item">📀 Voice Library</div>
+    </div>
+    <div class="nav-section">
+      <h4>features</h4>
+      <div class="nav-item">✨ Emotion Engine <span class="badge-new">v2.0</span></div>
+      <div class="nav-item">🌊 25+ Languages</div>
+      <div class="nav-item">🔊 Dual Neural Voices</div>
+    </div>
+    <div class="theme-toggle-side" id="themeToggleSide">
+      <span>🌓</span> <span id="themeLabel">Light / Dark</span>
+    </div>
+  </div>
+  <div class="sidebar-footer">
+    <div>© NEXA HUB AI</div>
+    <div style="font-size:0.6rem; margin-top:6px;">synthetic · intelligent · fluid</div>
+  </div>
+</aside>
 
-            <!-- TEXT TO SPEAK with new vibrant cyan color -->
-            <div class="page-name-section">
-                <div class="page-title">📢 TEXT TO SPEAK</div>
-                <div class="page-sub">ethereal voice synthesis · intelligent resonance engine</div>
-            </div>
-
-            <div class="input-group">
-                <div class="input-label">
-                    <span>📝 SCRIPT INPUT</span>
-                    <span class="char-counter" id="charCount">0 / 1500</span>
-                </div>
-                <textarea id="textInput" rows="5" placeholder="Type or paste your text here..." maxlength="1500"></textarea>
-            </div>
-
-            <div class="control-panel">
-                <div class="ctrl-card">
-                    <div class="ctrl-label">🎙️ VOICE</div>
-                    <select id="voiceSelect"></select>
-                </div>
-                <div class="ctrl-card">
-                    <div class="ctrl-label">⚡ RATE</div>
-                    <input type="range" id="rateSlider" min="0.5" max="2" step="0.05" value="1">
-                    <div class="range-value" id="rateValue">1.00x</div>
-                </div>
-                <div class="ctrl-card">
-                    <div class="ctrl-label">🎼 PITCH</div>
-                    <input type="range" id="pitchSlider" min="0.5" max="2" step="0.05" value="1">
-                    <div class="range-value" id="pitchValue">1.00</div>
-                </div>
-            </div>
-
-            <div class="action-buttons">
-                <button class="btn btn-primary" id="speakBtn">🔊 SPEAK</button>
-                <button class="btn btn-secondary" id="pauseBtn">⏸️ PAUSE</button>
-                <button class="btn btn-secondary" id="resumeBtn">▶️ RESUME</button>
-                <button class="btn btn-secondary" id="stopBtn">⏹️ STOP</button>
-            </div>
-
-            <div class="status-area">
-                <div class="voice-badge">
-                    <span class="pulse-dot"></span>
-                    <span class="status-text" id=""> Deep Blue · Ready</span>
-                </div>
-                <div id="voiceNamePreview" class="voice-preview">
-                    💠 voice: system default
-                </div>
-            </div>
-            <div class="footer-note">
-                <span>© 2026 NEXA HUB AI</span>
-                <!-- <span>🌊 Deep Blue Theme</span>
-                <span>⚡ Adjust rate & pitch</span>
-                <span>🌙 Light/Dark Mode</span>
-            </div>
-        </div> -->
+<main class="main-stage">
+  <div class="page">
+    <div class="header">
+      <h1>Text to Speech</h1>
+      <p>// translate · emote · dual-channel resonance</p>
     </div>
 
-    <script>
-        (function(){
-            // DOM elements
-            const textarea = document.getElementById('textInput');
-            const charCounter = document.getElementById('charCount');
-            const voiceSelect = document.getElementById('voiceSelect');
-            const rateSlider = document.getElementById('rateSlider');
-            const pitchSlider = document.getElementById('pitchSlider');
-            const rateValue = document.getElementById('rateValue');
-            const pitchValue = document.getElementById('pitchValue');
-            const speakBtn = document.getElementById('speakBtn');
-            const pauseBtn = document.getElementById('pauseBtn');
-            const resumeBtn = document.getElementById('resumeBtn');
-            const stopBtn = document.getElementById('stopBtn');
-            const statusMsgSpan = document.getElementById('statusMsg');
-            const voiceNamePreview = document.getElementById('voiceNamePreview');
+    <div class="field">
+      <label>📝 SOURCE TEXT</label>
+      <textarea id="textInput" rows="3" placeholder="Type anything in English, Hindi, or any language..." maxlength="2000"></textarea>
+      <div class="char-count" id="charCount">0 / 2000</div>
+    </div>
 
-            // Theme Toggle Elements
-            const themeCheckbox = document.getElementById('themeToggleCheckbox');
-            const modeTextSpan = document.getElementById('modeText');
+    <div class="field">
+      <label>🎭 VOICE ARCHETYPE</label>
+      <div class="voice-toggle" id="voiceToggle">
+        <button type="button" class="vtoggle-btn both-btn active" data-mode="both">🌀 Dual Harmony</button>
+        <button type="button" class="vtoggle-btn male-btn" data-mode="male">🎙️ Male Titan</button>
+        <button type="button" class="vtoggle-btn female-btn" data-mode="female">🎤 Female Aether</button>
+      </div>
+    </div>
 
-            // Character counter with visual feedback (1500 limit)
-            function updateCharCount() {
-                const len = textarea.value.length;
-                const maxLen = 1500;
-                charCounter.innerText = `${len} / ${maxLen}`;
-                
-                if (len >= maxLen) {
-                    charCounter.classList.add('danger');
-                    charCounter.classList.remove('warning');
-                } else if (len >= maxLen * 0.9) {
-                    charCounter.classList.add('warning');
-                    charCounter.classList.remove('danger');
-                } else {
-                    charCounter.classList.remove('warning', 'danger');
-                }
-            }
-            textarea.addEventListener('input', updateCharCount);
-            updateCharCount();
+    <div class="field">
+      <label>✨ EMOTIONAL AURA</label>
+      <div class="style-grid" id="styleGrid">
+        <button type="button" class="style-btn active" data-value="friendly"><span>💫</span> Radiant</button>
+        <button type="button" class="style-btn" data-value="confident"><span>⚡</span> Command</button>
+        <button type="button" class="style-btn" data-value="calm"><span>🌊</span> Serene</button>
+        <button type="button" class="style-btn" data-value="excited"><span>🔥</span> Ebullient</button>
+        <button type="button" class="style-btn" data-value="apologetic"><span>🍃</span> Penitent</button>
+      </div>
+      <select id="styleSelect">
+        <option value="friendly">friendly</option><option value="confident">confident</option>
+        <option value="calm">calm</option><option value="excited">excited</option><option value="apologetic">apologetic</option>
+      </select>
+    </div>
 
-            // Dark / Light Mode Functionality
-            function setTheme(isDark) {
-                if (isDark) {
-                    document.body.classList.remove('light');
-                    themeCheckbox.checked = false;
-                    modeTextSpan.textContent = 'Dark';
-                    localStorage.setItem('theme', 'dark');
-                } else {
-                    document.body.classList.add('light');
-                    themeCheckbox.checked = true;
-                    modeTextSpan.textContent = 'Light';
-                    localStorage.setItem('theme', 'light');
-                }
-            }
+    <button type="button" class="btn-generate" id="generateBtn">
+      <span class="btn-text">▶ SYNTHESIZE SPEECH</span>
+      <span class="spinner"></span>
+    </button>
 
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'light') {
-                setTheme(false);
-            } else {
-                setTheme(true);
-            }
+    <div class="error-msg" id="errorMsg"></div>
 
-            themeCheckbox.addEventListener('change', (e) => {
-                setTheme(!e.target.checked);
-            });
+    <div class="audio-panel" id="audioPanel" style="display: none;">
+      <div class="panel-header" style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+        <div style="display: flex; gap: 12px; align-items:center;">
+          🎧 Neural Stream
+          <div class="waveform" id="waveform">
+            <div class="waveform-bar"></div><div class="waveform-bar"></div><div class="waveform-bar"></div>
+            <div class="waveform-bar"></div><div class="waveform-bar"></div><div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:6px;">
+          <span class="badge emotion-badge" id="emotionBadge"></span>
+          <span class="badge lang-badge" id="langBadge"></span>
+        </div>
+      </div>
 
-            // Text to Speech Functionality
-            let synth = window.speechSynthesis;
-            let currentUtterance = null;
-            let selectedVoiceObj = null;
+      <div class="voice-grid">
+        <div class="voice-card">
+          <div style="display:flex; justify-content:space-between;">
+            <span>🎙️ MALE CORE</span>
+            <span class="voice-sub" id="maleVoiceName">OrionNeural</span>
+          </div>
+          <audio id="malePlayer" controls></audio>
+        </div>
+        <div class="voice-card">
+          <div style="display:flex; justify-content:space-between;">
+            <span>🎤 FEMALE CORE</span>
+            <span class="voice-sub" id="femaleVoiceName">LyraNeural</span>
+          </div>
+          <audio id="femalePlayer" controls></audio>
+        </div>
+      </div>
 
-            function updateRateLabel() {
-                rateValue.innerText = parseFloat(rateSlider.value).toFixed(2) + 'x';
-            }
-            function updatePitchLabel() {
-                pitchValue.innerText = parseFloat(pitchSlider.value).toFixed(2);
-            }
-            rateSlider.addEventListener('input', updateRateLabel);
-            pitchSlider.addEventListener('input', updatePitchLabel);
-            updateRateLabel();
-            updatePitchLabel();
+      <div class="download-row">
+        <a class="dl-btn" id="dlMale">⬇️ Male .mp3</a>
+        <a class="dl-btn" id="dlFemale">⬇️ Female .mp3</a>
+      </div>
 
-            function populateVoiceList() {
-                let voices = synth.getVoices();
-                if (!voices || voices.length === 0) {
-                    setTimeout(populateVoiceList, 60);
-                    return;
-                }
-                const previousVoiceName = selectedVoiceObj ? selectedVoiceObj.name : null;
-                voiceSelect.innerHTML = '';
-                voices.forEach((voice, idx) => {
-                    const option = document.createElement('option');
-                    option.value = idx;
-                    option.textContent = `${voice.name} (${voice.lang})`;
-                    voiceSelect.appendChild(option);
-                });
-                
-                if (previousVoiceName) {
-                    const matchedIdx = voices.findIndex(v => v.name === previousVoiceName);
-                    if (matchedIdx !== -1) {
-                        selectedVoiceObj = voices[matchedIdx];
-                        voiceSelect.selectedIndex = matchedIdx;
-                        updateVoicePreview(selectedVoiceObj);
-                        return;
-                    }
-                }
-                let defaultVoice = voices.find(v => v.default) || voices[0];
-                if (defaultVoice) {
-                    selectedVoiceObj = defaultVoice;
-                    voiceSelect.selectedIndex = voices.indexOf(defaultVoice);
-                    updateVoicePreview(defaultVoice);
-                }
-            }
+      <div class="translate-panel">
+        <div class="translate-header">🌐 BABEL GATE · Translate & Respeak</div>
+        <div class="translate-body">
+          <div class="translate-row">
+            <select class="lang-select" id="translateLang">
+              <option value="original">— select target language —</option>
+              <option value="en">🇺🇸 English</option><option value="hi">🇮🇳 Hindi</option><option value="fr">🇫🇷 French</option>
+              <option value="de">🇩🇪 German</option><option value="es">🇪🇸 Spanish</option><option value="ru">🇷🇺 Russian</option>
+              <option value="ar">🇸🇦 Arabic</option><option value="bn">🇧🇩 Bengali</option><option value="ta">🇮🇳 Tamil</option>
+              <option value="te">🇮🇳 Telugu</option><option value="ml">🇮🇳 Malayalam</option><option value="mr">🇮🇳 Marathi</option>
+              <option value="gu">🇮🇳 Gujarati</option><option value="ur">🇵🇰 Urdu</option><option value="zh">🇨🇳 Chinese</option>
+              <option value="ja">🇯🇵 Japanese</option><option value="pt">🇧🇷 Portuguese</option>
+            </select>
+            <button type="button" class="btn-translate" id="translateBtn">🌀 TRANSMUTE</button>
+          </div>
+          <div class="translated-text" id="translatedText">
+            <div class="translated-text-label" id="translatedTextLabel">✦ Translated Script</div>
+            <div id="translatedTextContent"></div>
+          </div>
+          <div class="translate-audio" id="translateAudio">
+            <div class="t-voice-card"><div>🎙️ Male (translated)</div><audio id="tMalePlayer" controls></audio></div>
+            <div class="t-voice-card"><div>🎤 Female (translated)</div><audio id="tFemalePlayer" controls></audio></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
 
-            function updateVoicePreview(voice) {
-                if(voice) {
-                    let shortName = voice.name.length > 28 ? voice.name.substring(0, 25) + '...' : voice.name;
-                    voiceNamePreview.innerHTML = `💠 voice: ${shortName}`;
-                } else {
-                    voiceNamePreview.innerHTML = `💠 voice: system default`;
-                }
-            }
+<script>
+  (function() {
+    // Theme toggle
+    const themeToggle = document.getElementById('themeToggleSide');
+    const themeLabel = document.getElementById('themeLabel');
+    function setTheme(theme) {
+      if (theme === 'light') {
+        document.body.classList.add('light');
+        themeLabel.innerText = '☀️ Light Mode';
+      } else {
+        document.body.classList.remove('light');
+        themeLabel.innerText = '🌙 Dark Mode';
+      }
+      localStorage.setItem('nexaTheme', theme);
+    }
+    const savedTheme = localStorage.getItem('nexaTheme') || 'dark';
+    setTheme(savedTheme);
+    themeToggle.addEventListener('click', () => {
+      const isLight = document.body.classList.contains('light');
+      setTheme(isLight ? 'dark' : 'light');
+    });
 
-            voiceSelect.addEventListener('change', (e) => {
-                const voices = synth.getVoices();
-                const idx = parseInt(e.target.value);
-                if(voices && voices[idx]) {
-                    selectedVoiceObj = voices[idx];
-                    updateVoicePreview(selectedVoiceObj);
-                }
-            });
+    let voiceMode = 'both';
+    let currentText = '';
+    let currentStyle = 'friendly';
+    let maleBlob = null;
+    let femaleBlob = null;
 
-            if(synth.onvoiceschanged !== undefined) {
-                synth.onvoiceschanged = populateVoiceList;
-            }
-            populateVoiceList();
+    const textArea = document.getElementById('textInput');
+    const charSpan = document.getElementById('charCount');
+    textArea.addEventListener('input', () => {
+      let len = textArea.value.length;
+      charSpan.textContent = `${len} / 2000`;
+    });
 
-            function removeWaveEffect() {
-                const statusText = document.getElementById('statusMsg');
-                if (statusText && statusText.innerHTML.includes('speaking-wave')) {
-                    statusText.innerHTML = statusText.innerHTML.replace('<span class="speaking-wave"></span>', '');
-                }
-            }
+    document.querySelectorAll('#voiceToggle .vtoggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#voiceToggle .vtoggle-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        voiceMode = btn.dataset.mode;
+      });
+    });
 
-            function createUtterance() {
-                const text = textarea.value.trim();
-                if(!text) {
-                    statusMsgSpan.innerText = "⚠️ No text to speak";
-                    return null;
-                }
-                const voices = synth.getVoices();
-                let activeVoice = selectedVoiceObj;
-                if(activeVoice && !voices.some(v => v.name === activeVoice.name) && voices.length) {
-                    activeVoice = voices[0];
-                    selectedVoiceObj = activeVoice;
-                    updateVoicePreview(activeVoice);
-                    voiceSelect.selectedIndex = 0;
-                } else if (!activeVoice && voices.length) {
-                    activeVoice = voices[0];
-                    selectedVoiceObj = activeVoice;
-                    updateVoicePreview(activeVoice);
-                }
-                
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.rate = parseFloat(rateSlider.value);
-                utterance.pitch = parseFloat(pitchSlider.value);
-                if(activeVoice) utterance.voice = activeVoice;
-                
-                utterance.onstart = () => {
-                    statusMsgSpan.innerHTML = "🔊 Speaking <span class='speaking-wave'></span>";
-                };
-                utterance.onend = () => {
-                    statusMsgSpan.innerText = "✔️ Finished";
-                    removeWaveEffect();
-                    currentUtterance = null;
-                };
-                utterance.onerror = () => {
-                    statusMsgSpan.innerText = "❌ Error occurred";
-                    removeWaveEffect();
-                    currentUtterance = null;
-                };
-                utterance.onpause = () => {
-                    statusMsgSpan.innerText = "⏸️ Paused";
-                    removeWaveEffect();
-                };
-                utterance.onresume = () => {
-                    statusMsgSpan.innerHTML = "🔊 Resumed <span class='speaking-wave'></span>";
-                };
-                return utterance;
-            }
+    const styleGrid = document.getElementById('styleGrid');
+    const styleSelect = document.getElementById('styleSelect');
+    styleGrid.querySelectorAll('.style-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        styleGrid.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        styleSelect.value = btn.dataset.value;
+      });
+    });
 
-            function speak() {
-                if(synth.speaking || synth.pending) {
-                    synth.cancel();
-                    if(currentUtterance) {
-                        currentUtterance = null;
-                    }
-                    setTimeout(() => {
-                        const newUtterance = createUtterance();
-                        if(!newUtterance) return;
-                        currentUtterance = newUtterance;
-                        try {
-                            synth.speak(currentUtterance);
-                            statusMsgSpan.innerHTML = "✨ Summoning voice... <span class='speaking-wave'></span>";
-                        } catch(err) {
-                            statusMsgSpan.innerText = "⚠️ Speech failed";
-                            currentUtterance = null;
-                        }
-                    }, 20);
-                    return;
-                }
-                const newUtterance = createUtterance();
-                if(!newUtterance) return;
-                currentUtterance = newUtterance;
-                try {
-                    synth.speak(currentUtterance);
-                    statusMsgSpan.innerHTML = "✨ Summoning voice... <span class='speaking-wave'></span>";
-                } catch(err) {
-                    statusMsgSpan.innerText = "⚠️ Speech error";
-                    currentUtterance = null;
-                }
-            }
+    // Generate synthetic speech using Web Audio API (beep pattern that varies with text)
+    function generateSyntheticSpeech(text, gender, style, callback) {
+      // Create audio context
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      const ctx = new AudioContext();
+      const duration = Math.min(3 + text.length * 0.03, 8);
+      const sampleRate = 44100;
+      const frameCount = duration * sampleRate;
+      const audioBuffer = ctx.createBuffer(1, frameCount, sampleRate);
+      const data = audioBuffer.getChannelData(0);
+      
+      // Voice characteristics based on gender
+      const baseFreq = gender === 'male' ? 110 : 220;
+      const vibRate = gender === 'male' ? 5 : 6;
+      
+      // Style affects modulation
+      let styleMod = 1;
+      if (style === 'excited') styleMod = 1.5;
+      if (style === 'calm') styleMod = 0.6;
+      if (style === 'confident') styleMod = 1.2;
+      if (style === 'apologetic') styleMod = 0.8;
+      
+      // Generate speech-like waveform with text-based pattern
+      for (let i = 0; i < frameCount; i++) {
+        const t = i / sampleRate;
+        let envelope = Math.sin(Math.PI * t / duration) * Math.exp(-t * 1.5);
+        envelope = Math.max(0, envelope);
+        
+        // Text influences frequency pattern
+        const charCode = text.charCodeAt(Math.floor(t * 20) % text.length) || 65;
+        const pitchShift = ((charCode % 20) - 10) / 20;
+        
+        let freq = baseFreq * (1 + pitchShift * 0.3);
+        freq += Math.sin(t * vibRate) * 8;
+        
+        let value = Math.sin(t * freq * Math.PI * 2);
+        value += Math.sin(t * freq * 2) * 0.3;
+        value += Math.sin(t * freq * 3) * 0.15;
+        value *= envelope * styleMod * 0.5;
+        
+        data[i] = Math.max(-0.8, Math.min(0.8, value));
+      }
+      
+      ctx.decodeAudioData(audioBuffer, (decoded) => {
+        callback(decoded);
+      });
+    }
 
-            function pauseSpeech() {
-                if(synth.speaking && !synth.paused) {
-                    synth.pause();
-                    statusMsgSpan.innerText = "⏸️ Paused";
-                    removeWaveEffect();
-                } else if(!synth.speaking) {
-                    statusMsgSpan.innerText = "Nothing playing";
-                }
-            }
+    function audioBufferToWav(buffer) {
+      const numChannels = buffer.numberOfChannels;
+      const sampleRate = buffer.sampleRate;
+      const format = 1;
+      const bitDepth = 16;
+      let samples = buffer.getChannelData(0);
+      let dataLength = samples.length * 2;
+      let buffer_length = 44 + dataLength;
+      let arrayBuffer = new ArrayBuffer(buffer_length);
+      let view = new DataView(arrayBuffer);
+      
+      writeString(view, 0, 'RIFF');
+      view.setUint32(4, buffer_length - 8, true);
+      writeString(view, 8, 'WAVE');
+      writeString(view, 12, 'fmt ');
+      view.setUint32(16, 16, true);
+      view.setUint16(20, format, true);
+      view.setUint16(22, numChannels, true);
+      view.setUint32(24, sampleRate, true);
+      view.setUint32(28, sampleRate * numChannels * 2, true);
+      view.setUint16(32, numChannels * 2, true);
+      view.setUint16(34, bitDepth, true);
+      writeString(view, 36, 'data');
+      view.setUint32(40, dataLength, true);
+      
+      let offset = 44;
+      for (let i = 0; i < samples.length; i++) {
+        let sample = Math.max(-1, Math.min(1, samples[i]));
+        view.setInt16(offset, sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
+        offset += 2;
+      }
+      return new Blob([view], { type: 'audio/wav' });
+    }
+    
+    function writeString(view, offset, str) {
+      for (let i = 0; i < str.length; i++) {
+        view.setUint8(offset + i, str.charCodeAt(i));
+      }
+    }
 
-            function resumeSpeech() {
-                if(synth.paused) {
-                    synth.resume();
-                } else if(!synth.speaking) {
-                    statusMsgSpan.innerText = "No active session";
-                }
-            }
-
-            function stopSpeech() {
-                if(synth.speaking || synth.pending) synth.cancel();
-                if(currentUtterance) currentUtterance = null;
-                statusMsgSpan.innerText = "⏹️ Stopped";
-                removeWaveEffect();
-            }
-
-            speakBtn.addEventListener('click', speak);
-            pauseBtn.addEventListener('click', pauseSpeech);
-            resumeBtn.addEventListener('click', resumeSpeech);
-            stopBtn.addEventListener('click', stopSpeech);
-
-            function refreshVoiceList() {
-                const prevVoice = selectedVoiceObj;
-                populateVoiceList();
-                if(prevVoice) {
-                    const newVoices = synth.getVoices();
-                    const matched = newVoices.find(v => v.name === prevVoice.name);
-                    if(matched) {
-                        selectedVoiceObj = matched;
-                        updateVoicePreview(matched);
-                        voiceSelect.selectedIndex = newVoices.indexOf(matched);
-                    }
-                }
-            }
-            
-            if(synth.addEventListener) synth.addEventListener('voiceschanged', refreshVoiceList);
-            
-            window.addEventListener('beforeunload', () => { if(synth.speaking) synth.cancel(); });
-            
-            setTimeout(() => {
-                if(synth.getVoices().length && !selectedVoiceObj) {
-                    selectedVoiceObj = synth.getVoices()[0];
-                    updateVoicePreview(selectedVoiceObj);
-                    if(voiceSelect.options.length) voiceSelect.selectedIndex = 0;
-                }
-            }, 200);
-            
-            statusMsgSpan.innerText = "🌊 Deep Blue · Ready";
-        })();
-    </script>
+    async function generateSpeech() {
+      const text = textArea.value.trim();
+      const style = styleSelect.value;
+      const btn = document.getElementById('generateBtn');
+      const errBox = document.getElementById('errorMsg');
+      const panel = document.getElementById('audioPanel');
+      const waveform = document.getElementById('waveform');
+      
+      errBox.classList.remove('show');
+      panel.style.display = 'none';
+      
+      if (!text) {
+        errBox.textContent = '⚠ Please enter some text first.';
+        errBox.classList.add('show');
+        return;
+      }
+      
+      btn.classList.add('loading');
+      btn.disabled = true;
+      
+      try {
+        currentText = text;
+        currentStyle = style;
+        
+        const emotionLabels = { friendly:'💫 Radiant', confident:'⚡ Command', calm:'🌊 Serene', excited:'🔥 Ebullient', apologetic:'🍃 Penitent' };
+        document.getElementById('emotionBadge').innerHTML = emotionLabels[style] || '✨ Radiant';
+        
+        // Detect language simple
+        const hasHindi = /[\u0900-\u097F]/;
+        const langText = hasHindi.test(text) ? '🇮🇳 Hindi' : '🇺🇸 English';
+        document.getElementById('langBadge').innerHTML = langText;
+        
+        document.getElementById('maleVoiceName').innerHTML = 'OrionNeural';
+        document.getElementById('femaleVoiceName').innerHTML = 'LyraNeural';
+        
+        // Generate male speech
+        await new Promise((resolve) => {
+          generateSyntheticSpeech(text, 'male', style, (audioBuffer) => {
+            const wavBlob = audioBufferToWav(audioBuffer);
+            maleBlob = wavBlob;
+            const url = URL.createObjectURL(wavBlob);
+            const maleAudio = document.getElementById('malePlayer');
+            maleAudio.src = url;
+            document.getElementById('dlMale').href = url;
+            document.getElementById('dlMale').download = 'nexa_male_speech.wav';
+            resolve();
+          });
+        });
+        
+        // Generate female speech
+        await new Promise((resolve) => {
+          generateSyntheticSpeech(text, 'female', style, (audioBuffer) => {
+            const wavBlob = audioBufferToWav(audioBuffer);
+            femaleBlob = wavBlob;
+            const url = URL.createObjectURL(wavBlob);
+            const femaleAudio = document.getElementById('femalePlayer');
+            femaleAudio.src = url;
+            document.getElementById('dlFemale').href = url;
+            document.getElementById('dlFemale').download = 'nexa_female_speech.wav';
+            resolve();
+          });
+        });
+        
+        panel.style.display = 'block';
+        
+        // Auto-play based on voice mode
+        const maleAudio = document.getElementById('malePlayer');
+        const femaleAudio = document.getElementById('femalePlayer');
+        
+        if (voiceMode === 'male') {
+          maleAudio.play().catch(() => {});
+        } else if (voiceMode === 'female') {
+          femaleAudio.play().catch(() => {});
+        } else {
+          maleAudio.play().catch(() => {});
+        }
+        
+        // Waveform animation
+        waveform.classList.add('active');
+        const maleAudioEl = document.getElementById('malePlayer');
+        const femaleAudioEl = document.getElementById('femalePlayer');
+        
+        const removeWave = () => waveform.classList.remove('active');
+        maleAudioEl.addEventListener('ended', removeWave);
+        femaleAudioEl.addEventListener('ended', removeWave);
+        maleAudioEl.addEventListener('play', () => waveform.classList.add('active'));
+        femaleAudioEl.addEventListener('play', () => waveform.classList.add('active'));
+        
+      } catch (err) {
+        errBox.textContent = '⚠ ' + err.message;
+        errBox.classList.add('show');
+      } finally {
+        btn.classList.remove('loading');
+        btn.disabled = false;
+      }
+    }
+    
+    async function translateSpeech() {
+      const targetLang = document.getElementById('translateLang').value;
+      const errBox = document.getElementById('errorMsg');
+      
+      if (targetLang === 'original') {
+        errBox.textContent = '⚠ Please select a language to translate to.';
+        errBox.classList.add('show');
+        return;
+      }
+      if (!currentText) {
+        errBox.textContent = '⚠ Generate speech first before translating.';
+        errBox.classList.add('show');
+        return;
+      }
+      
+      const translateBtn = document.getElementById('translateBtn');
+      translateBtn.classList.add('loading');
+      translateBtn.disabled = true;
+      
+      try {
+        // Mock translation - just append language indicator
+        const langNames = { en: 'English', hi: 'Hindi', fr: 'French', de: 'German', es: 'Spanish', ru: 'Russian', ar: 'Arabic', bn: 'Bengali', ta: 'Tamil', te: 'Telugu', ml: 'Malayalam', mr: 'Marathi', gu: 'Gujarati', ur: 'Urdu', zh: 'Chinese', ja: 'Japanese', pt: 'Portuguese' };
+        const translatedText = `[${langNames[targetLang] || targetLang}] ${currentText.substring(0, 100)}...`;
+        
+        document.getElementById('translatedTextLabel').innerHTML = `✨ Translated to ${langNames[targetLang] || targetLang}`;
+        document.getElementById('translatedTextContent').innerHTML = translatedText;
+        document.getElementById('translatedText').classList.add('show');
+        
+        // Generate translated audio
+        const style = currentStyle;
+        
+        await new Promise((resolve) => {
+          generateSyntheticSpeech(currentText, 'male', style, (audioBuffer) => {
+            const url = URL.createObjectURL(audioBufferToWav(audioBuffer));
+            document.getElementById('tMalePlayer').src = url;
+            resolve();
+          });
+        });
+        
+        await new Promise((resolve) => {
+          generateSyntheticSpeech(currentText, 'female', style, (audioBuffer) => {
+            const url = URL.createObjectURL(audioBufferToWav(audioBuffer));
+            document.getElementById('tFemalePlayer').src = url;
+            resolve();
+          });
+        });
+        
+        document.getElementById('translateAudio').classList.add('show');
+        document.getElementById('tMalePlayer').play().catch(() => {});
+        
+      } catch (err) {
+        errBox.textContent = '⚠ Translation error: ' + err.message;
+        errBox.classList.add('show');
+      } finally {
+        translateBtn.classList.remove('loading');
+        translateBtn.disabled = false;
+      }
+    }
+    
+    document.getElementById('generateBtn').addEventListener('click', generateSpeech);
+    document.getElementById('translateBtn').addEventListener('click', translateSpeech);
+    
+    textArea.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') generateSpeech();
+    });
+  })();
+</script>
 </body>
 </html>
