@@ -1,0 +1,34 @@
+{
+  "migraine": {
+    "linked_symptom": "headache",
+    "severity": 2,
+    "triggers": ["stress", "lack_of_sleep", "screen_time"],
+    "home_remedies": [
+      "Rest in dark room",
+      "Avoid screen exposure",
+      "Cold compress"
+    ]
+  },
+
+  "viral_fever": {
+    "linked_symptom": "fever",
+    "severity": 2,
+    "triggers": ["infection", "low_immunity"],
+    "home_remedies": [
+      "Hydration is important",
+      "Rest completely",
+      "ORS solution"
+    ]
+  },
+
+  "gastritis": {
+    "linked_symptom": "stomach_pain",
+    "severity": 1,
+    "triggers": ["spicy_food", "irregular_eating"],
+    "home_remedies": [
+      "Avoid spicy food",
+      "Eat light meals",
+      "Drink warm water"
+    ]
+  }
+}

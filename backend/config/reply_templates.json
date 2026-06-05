@@ -1,0 +1,46 @@
+{
+  "steps_today": {
+    "hi": "Aaj aapne **{steps_today}** steps liye. Weekly average: **{steps_weekly}**. Daily target set karna hai: **{daily_target}**?",
+    "en": "You walked **{steps_today}** steps today. Weekly avg: **{steps_weekly}**. Set daily target **{daily_target}**?"
+  },
+  "sleep_summary": {
+    "hi": "Last night total **{last_night}**. Deep: **{deep_sleep}h**, Light: **{light_sleep}h**, REM: **{rem_sleep}h**. Tip: **{advice}**.",
+    "en": "Last night: **{last_night}** total. Deep: **{deep_sleep}h**, Light: **{light_sleep}h**, REM: **{rem_sleep}h**. Tip: **{advice}**."
+  },
+  "sleep_score": {
+    "hi": "Aapka sleep score **{sleep_score}** — _{interpretation}_. Quick tip: **{quick_tip}**.",
+    "en": "Your sleep score is **{sleep_score}** — _{interpretation}_. Quick tip: **{quick_tip}**."
+  },
+  "hr_current": {
+    "hi": "Current HR **{hr_current}** BPM. Resting **{hr_rest}** BPM. Daily avg **{hr_avg}**. {hr_note}",
+    "en": "Current HR **{hr_current}** BPM. Resting **{hr_rest}** BPM. Daily avg **{hr_avg}**. {hr_note}"
+  },
+  "water": {
+    "hi": "Aaj aapne **{water_today}** L piya. Recommended **{water_goal}** L. Next reminder: **{next_reminder}**.",
+    "en": "You drank **{water_today}** L today. Recommended **{water_goal}** L. Next reminder at **{next_reminder}**."
+  },
+  "calories": {
+    "hi": "Calories burned **{cal_burned}**, consumed **{cal_consumed}**, net **{cal_net}**. {cal_advice}",
+    "en": "Calories burned **{cal_burned}**, consumed **{cal_consumed}**, net **{cal_net}**. {cal_advice}"
+  },
+  "weight": {
+    "hi": "Current weight **{weight_current}** kg. Goal **{weight_goal}** kg. Trend: **{weight_trend}** ({period}).",
+    "en": "Current weight **{weight_current}** kg. Goal **{weight_goal}** kg. Trend: **{weight_trend}** ({period})."
+  },
+  "workout": {
+    "hi": "Workout: **{workout_type}**, Duration: **{duration}**, Sets: **{sets}**. Tip: **{workout_tip}**.",
+    "en": "Workout: **{workout_type}**, Duration: **{duration}**, Sets: **{sets}**. Tip: **{workout_tip}**."
+  },
+  "report_generate": {
+    "hi": "Weekly report: Steps **{steps_weekly}**, Calories **{cal_weekly}**, Weight change **{weight_change}**. Generate karun?",
+    "en": "Weekly report: Steps **{steps_weekly}**, Calories **{cal_weekly}**, Weight change **{weight_change}**. Generate now?"
+  },
+  "fallback_missing": {
+    "hi": "Mujhe abhi woh data nahi mil raha. Kya main recent synced data se check karun?",
+    "en": "I don't have that data right now. Shall I check synced data?"
+  },
+  "abnormal_warning": {
+    "hi": "Ye value thodi unusual lag rahi hai. Agar aapko lagta hai kuch galat hai to doctor se consult karein.",
+    "en": "This value looks a bit unusual. If you feel something's wrong, consult a doctor."
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "chest_pain": {
+    "action": "CALL_EMERGENCY",
+    "message": "Possible heart-related issue. Seek immediate medical help."
+  },
+
+  "breathing_difficulty": {
+    "action": "CALL_EMERGENCY",
+    "message": "Severe respiratory issue detected. Get emergency assistance immediately."
+  },
+
+  "unconsciousness": {
+    "action": "CALL_EMERGENCY",
+    "message": "Critical condition. Call ambulance immediately."
+  },
+
+  "severe_bleeding": {
+    "action": "FIRST_AID",
+    "message": "Apply pressure and seek emergency care."
+  }
+}

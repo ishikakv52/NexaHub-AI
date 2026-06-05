@@ -1,0 +1,26 @@
+{
+  "headache": [
+    "headache", "head pain", "migraine", "sir dard",
+    "dolor de cabeza", "头痛", "mal de tête",
+    "cefalea", "dolor cabeza"
+  ],
+
+  "fever": [
+    "fever", "bukhar", "jwar", "high temperature",
+    "发烧", "fièvre", "fiebre", "febbre"
+  ],
+
+  "cold": [
+    "cold", "sardi", "runny nose", "nasal blockage",
+    "感冒", "resfriado", "rhume", "raffreddore"
+  ],
+
+  "cough": [
+    "cough", "khansi", "咳嗽", "tos", "toux", "tosse"
+  ],
+
+  "stomach_pain": [
+    "stomach pain", "pet dard", "abdominal pain",
+    "dolor de estómago", "胃痛", "dolore addominale"
+  ]
+}

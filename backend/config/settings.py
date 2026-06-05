@@ -44,12 +44,13 @@ INSTALLED_APPS = [
      "rest_framework",
     "corsheaders",
     'TextToSpeech',
-    'VoiceAssistant',
+'VoiceAssistant.VoiceAssistant',
     'AiTeacher',
     'BusinessManagement',
     'accounts',
     'VoiceToText',
     'ImageToText',
+'VoiceAssistant.remedies.apps.RemediesConfig'
 
 
 
@@ -76,8 +77,10 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
+'DIRS': [
+    BASE_DIR / "VoiceAssistant" / "templates",
+    BASE_DIR / "templates",
+],        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
@@ -146,6 +149,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5500",
     "http://127.0.0.1:5500",
     "https://yourfrontenddomain.com",
+    "null",  
 ]
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5500",

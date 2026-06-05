@@ -1,0 +1,71 @@
+{
+  "headache": [
+    "Rest in a quiet dark room",
+    "Drink plenty of water",
+    "Apply cold compress on forehead",
+    "Avoid screen exposure"
+  ],
+
+  "fever": [
+    "Drink fluids like water and ORS",
+    "Rest properly",
+    "Use damp cloth on forehead",
+    "Wear light clothing"
+  ],
+
+  "cold": [
+    "Drink warm water",
+    "Steam inhalation twice a day",
+    "Ginger tea helps relieve congestion",
+    "Keep yourself warm"
+  ],
+
+  "cough": [
+    "Honey with warm water",
+    "Gargle with salt water",
+    "Avoid cold drinks",
+    "Steam inhalation"
+  ],
+
+  "stomach_pain": [
+    "Drink warm water",
+    "Avoid oily food",
+    "Eat light meals",
+    "Apply warm compress on stomach"
+  ],
+
+  "vomiting": [
+    "Sip ORS slowly",
+    "Avoid solid food for some time",
+    "Rest in upright position",
+    "Drink ginger water"
+  ],
+
+  "diarrhea": [
+    "Drink ORS frequently",
+    "Eat banana and rice",
+    "Avoid spicy food",
+    "Stay hydrated"
+  ],
+
+  "sore_throat": [
+    "Warm salt water gargle",
+    "Drink warm fluids",
+    "Avoid cold drinks",
+    "Rest your voice"
+  ],
+
+  "fatigue": [
+    "Take proper sleep",
+    "Eat nutritious food",
+    "Stay hydrated",
+    "Avoid overexertion"
+  ],
+
+  "dizziness": [
+    "Sit or lie down immediately",
+    "Drink water",
+    "Avoid sudden movements",
+    "Take deep breaths"
+  ]
+}

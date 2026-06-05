@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Medical AI Chat</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #07090f;
+      --surface:  #0e1219;
+      --border:   #1c2330;
+      --accent:   #00e5a0;
+      --accent2:  #0077ff;
+      --user-bg:  #0a2540;
+      --bot-bg:   #111827;
+      --text:     #e2e8f0;
+      --muted:    #64748b;
+      --danger:   #ef4444;
+      --font-ui:  'Syne', sans-serif;
+      --font-mono:'DM Mono', monospace;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 14px;
+    }
+
+    .app {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 240px;
+      flex-shrink: 0;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 24px 16px;
+      gap: 24px;
+    }
+
+    .logo {
+      font-family: var(--font-ui);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .sidebar-label {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0 4px;
+    }
+
+    .sidebar-info {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      background: var(--border);
+      font-size: 12px;
+      color: var(--text);
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 6px var(--accent);
+      animation: pulse 2s infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.4; }
+    }
+
+    .new-chat-btn {
+      margin-top: auto;
+      padding: 10px 14px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: left;
+    }
+
+    .new-chat-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ── Chat ── */
+    .chat {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .header {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface);
+      flex-shrink: 0;
+    }
+
+    .header-title {
+      font-family: var(--font-ui);
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .header-meta {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* ── Messages ── */
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      scroll-behavior: smooth;
+    }
+
+    .messages::-webkit-scrollbar { width: 4px; }
+    .messages::-webkit-scrollbar-track { background: transparent; }
+    .messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    .msg-row {
+      display: flex;
+      gap: 12px;
+      animation: fadeUp 0.25s ease;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .msg-row.user { flex-direction: row-reverse; }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .avatar.bot-av {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+    }
+
+    .avatar.user-av {
+      background: var(--user-bg);
+      border: 1px solid var(--accent2);
+    }
+
+    .bubble {
+      padding: 12px 16px;
+      border-radius: 12px;
+      max-width: 68%;
+      line-height: 1.65;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .bubble.user {
+      background: var(--user-bg);
+      border: 1px solid #1d3a5f;
+      border-bottom-right-radius: 3px;
+      color: #93c5fd;
+    }
+
+    .bubble.bot {
+      background: var(--bot-bg);
+      border: 1px solid var(--border);
+      border-bottom-left-radius: 3px;
+      color: var(--text);
+    }
+
+    .bubble.error {
+      background: #1c0a0a;
+      border-color: var(--danger);
+      color: #fca5a5;
+    }
+
+    /* severity tag inside bot bubble */
+    .severity-tag {
+      display: inline-block;
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .severity-low  { background: #052e16; color: #4ade80; border: 1px solid #166534; }
+    .severity-medium { background: #431407; color: #fb923c; border: 1px solid #9a3412; }
+    .severity-high { background: #1c0a0a; color: #f87171; border: 1px solid #991b1b; }
+
+    .symptom-block { margin-bottom: 14px; }
+    .symptom-block:last-child { margin-bottom: 0; }
+
+    .symptom-title {
+      font-family: var(--font-ui);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    .advice-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #cbd5e1;
+      margin-bottom: 3px;
+    }
+
+    .advice-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-top: 7px;
+      flex-shrink: 0;
+    }
+
+    /* ── Typing indicator ── */
+    .typing {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      padding: 14px 16px;
+    }
+
+    .typing span {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.4;
+      animation: blink 1.2s infinite;
+    }
+
+    .typing span:nth-child(2) { animation-delay: 0.2s; }
+    .typing span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes blink {
+      0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
+      40%            { opacity: 1;   transform: scale(1.2); }
+    }
+
+    /* ── Input ── */
+    .input-area {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+      flex-shrink: 0;
+    }
+
+    .input-wrap { flex: 1; }
+
+    #input {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      outline: none;
+      resize: none;
+      line-height: 1.5;
+      transition: border-color 0.2s;
+      min-height: 46px;
+      max-height: 140px;
+      overflow-y: auto;
+    }
+
+    #input:focus { border-color: var(--accent); }
+    #input::placeholder { color: var(--muted); }
+
+    #btn {
+      padding: 12px 20px;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      font-family: var(--font-ui);
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      height: 46px;
+    }
+
+    #btn:hover:not(:disabled) { background: #00ffb2; transform: translateY(-1px); }
+    #btn:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; transform: none; }
+
+    /* ── Empty state ── */
+    .empty-state {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: var(--muted);
+      text-align: center;
+      padding: 40px;
+    }
+
+    .empty-icon { font-size: 48px; opacity: 0.3; }
+
+    .empty-state p {
+      font-size: 13px;
+      max-width: 300px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 640px) {
+      .sidebar { display: none; }
+      .messages { padding: 16px; }
+      .input-area { padding: 12px 16px; }
+      .bubble { max-width: 85%; }
+    }
+  </style>
+</head>
+
+<body>
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-icon">⚕</div>
+      MedAI
+    </div>
+
+    <div class="sidebar-info">
+      <span class="sidebar-label">Status</span>
+      <div class="badge"><span class="dot"></span>System online</div>
+      <div class="badge">🌐 Multilingual</div>
+      <div class="badge">🧬 Symptom analysis</div>
+      <div class="badge">💊 Remedy ranking</div>
+    </div>
+
+    <button class="new-chat-btn" onclick="clearChat()">＋ New conversation</button>
+  </aside>
+
+  <div class="chat">
+    <div class="header">
+      <span class="header-title">AI Medical Assistant</span>
+      <span class="header-meta" id="header-meta">Describe your symptoms</span>
+    </div>
+
+    <div class="messages" id="messages">
+      <div class="empty-state" id="empty-state">
+        <div class="empty-icon">🩺</div>
+        <p>Describe your symptoms in any language. I'll analyze, rank remedies, and guide you.</p>
+      </div>
+    </div>
+
+    <div class="input-area">
+      <div class="input-wrap">
+        <textarea id="input" placeholder="e.g. I have a fever and sore throat..." rows="1"></textarea>
+      </div>
+      <button id="btn" onclick="send()">Send</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const API_URL = "/api/process/";
+  const USER_ID = "user_" + Math.random().toString(36).slice(2, 9);
+
+  const textarea = document.getElementById("input");
+
+  textarea.addEventListener("input", () => {
+    textarea.style.height = "auto";
+    textarea.style.height = Math.min(textarea.scrollHeight, 140) + "px";
+  });
+
+  textarea.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      send();
+    }
+  });
+
+  function removeEmptyState() {
+    const el = document.getElementById("empty-state");
+    if (el) el.remove();
+  }
+
+  function addMessage(text, type) {
+    removeEmptyState();
+    const row = document.createElement("div");
+    row.className = "msg-row" + (type === "user" ? " user" : "");
+
+    const av = document.createElement("div");
+    av.className = "avatar " + (type === "user" ? "user-av" : "bot-av");
+    av.textContent = type === "user" ? "👤" : "⚕";
+
+    const bubble = document.createElement("div");
+    bubble.className = "bubble " + type;
+    bubble.textContent = text;
+
+    row.appendChild(av);
+    row.appendChild(bubble);
+
+    const box = document.getElementById("messages");
+    box.appendChild(row);
+    box.scrollTop = box.scrollHeight;
+  }
+
+  function addBotResponse(data) {
+    removeEmptyState();
+    const row = document.createElement("div");
+    row.className = "msg-row";
+
+    const av = document.createElement("div");
+    av.className = "avatar bot-av";
+    av.textContent = "⚕";
+
+    const bubble = document.createElement("div");
+    bubble.className = "bubble bot";
+
+    // Severity tag
+    const severity = data.severity?.level || "low";
+    const severityTag = document.createElement("div");
+    severityTag.className = "severity-tag severity-" + severity;
+    severityTag.textContent = "Severity: " + severity;
+    bubble.appendChild(severityTag);
+
+    // Recommendations
+    if (data.ranked_recommendations && data.ranked_recommendations.length > 0) {
+      data.ranked_recommendations.forEach(rec => {
+        const block = document.createElement("div");
+        block.className = "symptom-block";
+
+        const title = document.createElement("div");
+        title.className = "symptom-title";
+        title.textContent = "🩺 " + rec.symptom.charAt(0).toUpperCase() + rec.symptom.slice(1);
+        block.appendChild(title);
+
+        (rec.advice || []).forEach(tip => {
+          const item = document.createElement("div");
+          item.className = "advice-item";
+
+          const dot = document.createElement("span");
+          dot.className = "advice-dot";
+
+          const txt = document.createElement("span");
+          txt.textContent = tip;
+
+          item.appendChild(dot);
+          item.appendChild(txt);
+          block.appendChild(item);
+        });
+
+        bubble.appendChild(block);
+      });
+    } else {
+      bubble.appendChild(document.createTextNode("No recommendations found for the given symptoms."));
+    }
+
+    row.appendChild(av);
+    row.appendChild(bubble);
+
+    const box = document.getElementById("messages");
+    box.appendChild(row);
+    box.scrollTop = box.scrollHeight;
+  }
+
+  function addTyping() {
+    removeEmptyState();
+    const row = document.createElement("div");
+    row.className = "msg-row";
+    row.id = "typing-indicator";
+
+    const av = document.createElement("div");
+    av.className = "avatar bot-av";
+    av.textContent = "⚕";
+
+    const bubble = document.createElement("div");
+    bubble.className = "bubble bot typing";
+    bubble.innerHTML = "<span></span><span></span><span></span>";
+
+    row.appendChild(av);
+    row.appendChild(bubble);
+
+    const box = document.getElementById("messages");
+    box.appendChild(row);
+    box.scrollTop = box.scrollHeight;
+  }
+
+  function removeTyping() {
+    const el = document.getElementById("typing-indicator");
+    if (el) el.remove();
+  }
+
+  function updateMeta(text) {
+    document.getElementById("header-meta").textContent = text;
+  }
+
+  async function send() {
+    const btn = document.getElementById("btn");
+    const msg = textarea.value.trim();
+    if (!msg) return;
+
+    addMessage(msg, "user");
+    textarea.value = "";
+    textarea.style.height = "auto";
+    btn.disabled = true;
+    btn.textContent = "Sending…";
+    updateMeta("Analyzing…");
+    addTyping();
+
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: msg, user_id: USER_ID })
+      });
+
+      const raw = await res.text();
+      removeTyping();
+
+      let data;
+      try {
+        data = JSON.parse(raw);
+      } catch (e) {
+        addMessage("⚠ Server returned an unexpected response. Make sure the backend is returning JSON.", "error");
+        updateMeta("Error");
+        btn.disabled = false;
+        btn.textContent = "Send";
+        return;
+      }
+
+      if (data.status === "success") {
+        addBotResponse(data);
+        updateMeta(
+          data.intent
+            ? "Intent: " + data.intent + " · Severity: " + (data.severity?.level ?? "—")
+            : "Ready"
+        );
+      } else {
+        addMessage("⚠ " + (data.error || data.message || "An error occurred."), "error");
+        updateMeta("Error");
+      }
+
+    } catch (err) {
+      removeTyping();
+      addMessage("⚠ Could not reach the server. Make sure http://127.0.0.1:8000 is running.", "error");
+      updateMeta("Connection failed");
+    }
+
+    btn.disabled = false;
+    btn.textContent = "Send";
+    textarea.focus();
+  }
+
+  function clearChat() {
+    document.getElementById("messages").innerHTML = `
+      <div class="empty-state" id="empty-state">
+        <div class="empty-icon">🩺</div>
+        <p>Describe your symptoms in any language. I'll analyze, rank remedies, and guide you.</p>
+      </div>`;
+    updateMeta("Describe your symptoms");
+  }
+</script>
+</body>
+</html>

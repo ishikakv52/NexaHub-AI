@@ -1,0 +1,12 @@
+{
+  "headache": ["head pain", "sir dard", "migraine", "skull pain"],
+  "fever": ["high temperature", "bukhar", "body heat", "jwar"],
+  "cold": ["runny nose", "sardi", "nasal blockage", "sneezing"],
+  "cough": ["khansi", "dry cough", "wet cough", "throat irritation"],
+  "stomach_pain": ["pet dard", "abdominal pain", "cramps"],
+  "vomiting": ["ulti", "nausea", "throwing up"],
+  "diarrhea": ["loose motion", "dast", "frequent stool"],
+  "sore_throat": ["throat pain", "gal me dard", "throat irritation"],
+  "fatigue": ["weakness", "thakan", "low energy"],
+  "dizziness": ["chakkar", "light headed", "vertigo"]
+}

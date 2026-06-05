@@ -15,10 +15,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from VoiceAssistant.remedies.views import ai_chat
 from django.urls import path
 from django.conf.urls.static import static
 from django.urls import path, include
 from django.conf import settings
+from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,7 +32,16 @@ urlpatterns = [
 
     path('voice-to-text/', include('VoiceToText.urls')),
     path("tts/", include("TextToSpeech.urls")),  # <-- new
- path('texttospeech/', include('TextToSpeech.urls')),
+   path('texttospeech/', include('TextToSpeech.urls')),
+   path("api/", include("VoiceAssistant.remedies.urls")),
+   path("ai-chat/", ai_chat),
+   path('', include('VoiceAssistant.VoiceAssistant.urls')),
+# path(
+#         'remedies/',
+#         include(
+#             'VoiceAssistant.remedies.urls'
+#         )
+#     ),
 
 ]
 if settings.DEBUG:
