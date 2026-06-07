@@ -542,6 +542,12 @@
     margin-bottom: 16px;
     transition: 0.2s;
     border: 1px solid rgba(255,255,255,0.05);
+    cursor: pointer;
+  }
+  .ai-card:hover {
+    transform: translateY(-5px);
+    border-color: #2dd4bf;
+    background: rgba(45,212,191,0.1);
   }
   .ai-card i {
     font-size: 1.9rem;
@@ -590,6 +596,7 @@
     padding: 32px 28px;
     border: 1px solid rgba(255,255,255,0.06);
     transition: 0.25s;
+    cursor: pointer;
   }
   .feature-card:hover {
     transform: translateY(-6px);
@@ -939,9 +946,16 @@
   <div class="hero-right">
     <div class="ai-box" id="aiToolsSection">
       <div class="ai-top"><h2>AI Dashboard</h2><div class="live">LIVE</div></div>
-      <div class="ai-card"><i class="fa-solid fa-robot"></i><h3>AI Assistant</h3><p>Smart chatbot for solving problems, answering questions and automation.</p></div>
-      <div class="ai-card"><i class="fa-solid fa-code"></i><h3>AI Coding System</h3><p>Generate clean and fast code with advanced AI coding engine.</p></div>
-      <div class="ai-card"><i class="fa-solid fa-microphone"></i><h3>Voice AI</h3><p>Real-time AI voice assistant with speech recognition technology.</p></div>
+      <div class="ai-card" onclick="openAIFeature('tts')">
+        <i class="fa-solid fa-volume-high"></i>
+        <h3>Text to Speech</h3>
+        <p>Convert text into natural sounding speech with advanced AI voices.</p>
+      </div>
+      <div class="ai-card" onclick="openAIFeature('image-to-text')">
+        <i class="fa-solid fa-file-lines"></i>
+        <h3>Image to Text</h3>
+        <p>Extract text from images using powerful OCR technology.</p>
+      </div>
       <div class="stats">
         <div class="stat"><h1>24+</h1><p>AI Tools</p></div>
         <div class="stat"><h1>30K+</h1><p>Users</p></div>
@@ -955,14 +969,46 @@
 <section class="features" id="featuresSection">
   <div class="section-title"><h2>Powerful AI Features</h2><p>Modern tools designed for creators, developers and businesses</p></div>
   <div class="feature-grid">
-    <div class="feature-card"><i class="fa-solid fa-file-lines"></i><h3>Image To Text</h3><p>Extract text from images instantly using powerful AI OCR technology with high accuracy.</p></div>
-    <div class="feature-card"><i class="fa-solid fa-laptop-code"></i><h3>AI Coding Teacher</h3><p>Learn programming with smart AI guidance, code explanations and real-time examples.</p></div>
-    <div class="feature-card"><i class="fa-solid fa-chart-line"></i><h3>Business System</h3><p>Manage business operations, automation and workflow using advanced AI systems.</p></div>
-    <div class="feature-card"><i class="fa-solid fa-robot"></i><h3>Smart AI Assistant</h3><p>Human-like assistant that handles tasks, answers queries and automates workflows instantly.</p></div>
-    <div class="feature-card"><i class="fa-solid fa-microphone-lines"></i><h3>Voice Assistant</h3><p>Real-time AI voice assistant for smart communication and voice interaction.</p></div>
-    <div class="feature-card"><i class="fa-solid fa-shield-halved"></i><h3>AI Security Shield</h3><p>Real-time threat detection system powered by machine learning security models.</p></div>
-    <div class="feature-card"><i class="fa-solid fa-volume-high"></i><h3>Text To Speech</h3><p>Convert text into natural sounding speech with modern AI voice generation technology.</p></div>
-    <div class="feature-card"><i class="fa-solid fa-palette"></i><h3>Text to Image</h3><p>Generate stunning, high-resolution images from textual descriptions using advanced diffusion AI models. Perfect for creatives, designers, and storytellers.</p></div>
+    <div class="feature-card" onclick="openAIFeature('image-to-text')">
+      <i class="fa-solid fa-file-lines"></i>
+      <h3>Image To Text</h3>
+      <p>Extract text from images instantly using powerful AI OCR technology with high accuracy.</p>
+    </div>
+    <div class="feature-card" onclick="openAIFeature('tts')">
+      <i class="fa-solid fa-volume-high"></i>
+      <h3>Text To Speech</h3>
+      <p>Convert text into natural sounding speech with modern AI voice generation technology.</p>
+    </div>
+    <div class="feature-card" onclick="openAIFeature('coding')">
+      <i class="fa-solid fa-laptop-code"></i>
+      <h3>AI Coding Teacher</h3>
+      <p>Learn programming with smart AI guidance, code explanations and real-time examples.</p>
+    </div>
+    <div class="feature-card" onclick="openAIFeature('assistant')">
+      <i class="fa-solid fa-robot"></i>
+      <h3>Smart AI Assistant</h3>
+      <p>Human-like assistant that handles tasks, answers queries and automates workflows instantly.</p>
+    </div>
+    <div class="feature-card" onclick="openAIFeature('voice')">
+      <i class="fa-solid fa-microphone-lines"></i>
+      <h3>Voice Assistant</h3>
+      <p>Real-time AI voice assistant for smart communication and voice interaction.</p>
+    </div>
+    <div class="feature-card" onclick="openAIFeature('security')">
+      <i class="fa-solid fa-shield-halved"></i>
+      <h3>AI Security Shield</h3>
+      <p>Real-time threat detection system powered by machine learning security models.</p>
+    </div>
+    <div class="feature-card" onclick="openAIFeature('business')">
+      <i class="fa-solid fa-chart-line"></i>
+      <h3>Business System</h3>
+      <p>Manage business operations, automation and workflow using advanced AI systems.</p>
+    </div>
+    <div class="feature-card" onclick="openAIFeature('text-to-image')">
+      <i class="fa-solid fa-palette"></i>
+      <h3>Text to Image</h3>
+      <p>Generate stunning, high-resolution images from textual descriptions using advanced diffusion AI models.</p>
+    </div>
   </div>
 </section>
 
@@ -1044,18 +1090,16 @@
 </footer>
 
 <script>
-  // ========== AUTHENTICATION WITH BACKEND API ==========
-  
+  // ========== STATE ==========
   let currentUser = localStorage.getItem('nexaUser') ? JSON.parse(localStorage.getItem('nexaUser')) : null;
   let authToken = localStorage.getItem('token');
   
-  // If token exists but no user, create basic user
   if(authToken && !currentUser) {
     currentUser = { name: "User", email: "user@example.com" };
     localStorage.setItem('nexaUser', JSON.stringify(currentUser));
   }
   
-  // Demo messages & notifications data
+  // Messages & Notifications
   let messages = [
     { id: 1, from: "AI Support", text: "Your image generation is ready!", time: new Date(Date.now() - 1800000), read: false },
     { id: 2, from: "Team Nexa", text: "New AI model v2.0 released", time: new Date(Date.now() - 3600000), read: false },
@@ -1071,12 +1115,40 @@
   let messageId = 4;
   let notifId = 4;
   
-  // ========== SMOOTH SCROLL NAVIGATION ==========
+  // ========== OPEN AI FEATURE (OPENS SEPARATE PAGE) ==========
+  function openAIFeature(featureName) {
+    // Check if user is logged in
+    if(!currentUser || !authToken) {
+      alert("🔐 Please login first to use AI features!");
+      openLoginModal();
+      return;
+    }
+    
+    // Map feature to HTML files (your original codes)
+    const featurePages = {
+      'tts': 'text-to-speech.html',
+      'image-to-text': 'image-to-text.html',
+      'coding': 'ai-coding-teacher.html',
+      'assistant': 'ai-assistant.html',
+      'voice': 'voice-assistant.html',
+      'security': 'ai-security.html',
+      'business': 'ai-business.html',
+      'text-to-image': 'text-to-image.html'
+    };
+    
+    const pageUrl = featurePages[featureName];
+    
+    if(pageUrl) {
+      window.location.href = pageUrl;
+    } else {
+      alert(`✨ ${featureName.replace('-', ' ').toUpperCase()} feature coming soon!`);
+    }
+  }
+  
+  // ========== NAVIGATION ==========
   function scrollToSection(sectionId) {
     const element = document.getElementById(sectionId);
-    if(element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    if(element) element.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
   
   function setupNavigation() {
@@ -1095,38 +1167,11 @@
         }
       });
     });
-    
     document.getElementById('exploreBtn')?.addEventListener('click', () => scrollToSection('featuresSection'));
     document.getElementById('demoBtn')?.addEventListener('click', () => alert("🎥 Demo video coming soon!"));
   }
   
-  // Auto live updates every 30 seconds
-  setInterval(() => {
-    if(currentUser && authToken) {
-      const newMsg = {
-        id: messageId++,
-        from: ["Nexa AI", "System", "Admin", "Creator Bot"][Math.floor(Math.random() * 4)],
-        text: ["Your request is processing", "New update available!", "Check out new features", "AI model improved"][Math.floor(Math.random() * 4)],
-        time: new Date(),
-        read: false
-      };
-      messages.unshift(newMsg);
-      
-      const newNotif = {
-        id: notifId++,
-        title: ["🔔 New AI tool added!", "⭐ You earned a badge", "📢 System update complete", "💬 New message from support"][Math.floor(Math.random() * 4)],
-        time: new Date(),
-        read: false
-      };
-      notifications.unshift(newNotif);
-      
-      updateBadges();
-      
-      if(document.getElementById("messageDropdown").classList.contains('show')) showMessages();
-      if(document.getElementById("notificationDropdown").classList.contains('show')) showNotifications();
-    }
-  }, 30000);
-  
+  // ========== MESSAGES & NOTIFICATIONS ==========
   function timeAgo(date) {
     const seconds = Math.floor((new Date() - date) / 1000);
     if(seconds < 60) return "just now";
@@ -1146,7 +1191,6 @@
     }
     let unreadMsg = messages.filter(m => !m.read).length;
     document.getElementById("messageBadge").style.display = unreadMsg > 0 ? "block" : "none";
-    
     let unreadNotif = notifications.filter(n => !n.read).length;
     document.getElementById("notificationBadge").style.display = unreadNotif > 0 ? "block" : "none";
   }
@@ -1187,69 +1231,30 @@
   function showUser() {
     let content = document.getElementById("userDropdownContent");
     if(!currentUser || !authToken) {
-      content.innerHTML = `
-        <div class="dropdown-item" onclick="openLoginModal()">🔐 Login</div>
-        <div class="dropdown-item" onclick="openSignupModal()">📝 Sign Up</div>
-      `;
+      content.innerHTML = `<div class="dropdown-item" onclick="openLoginModal()">🔐 Login</div><div class="dropdown-item" onclick="openSignupModal()">📝 Sign Up</div>`;
     } else {
-      content.innerHTML = `
-        <div class="dropdown-item">
-          <strong>👤 ${currentUser.name}</strong>
-          <small>${currentUser.email}</small>
-        </div>
-        <div class="dropdown-item" onclick="viewProfile()">👀 View Profile</div>
-        <div class="dropdown-item logout-item" onclick="logout()">🚪 Logout</div>
-      `;
+      content.innerHTML = `<div class="dropdown-item"><strong>👤 ${currentUser.name}</strong><small>${currentUser.email}</small></div><div class="dropdown-item" onclick="viewProfile()">👀 View Profile</div><div class="dropdown-item logout-item" onclick="logout()">🚪 Logout</div>`;
     }
   }
   
-  function markMessageRead(id) {
-    let msg = messages.find(m => m.id === id);
-    if(msg) msg.read = true;
-    updateBadges();
-    showMessages();
-  }
-  
-  function markNotifRead(id) {
-    let notif = notifications.find(n => n.id === id);
-    if(notif) notif.read = true;
-    updateBadges();
-    showNotifications();
-  }
-  
+  function markMessageRead(id) { let msg = messages.find(m => m.id === id); if(msg) msg.read = true; updateBadges(); showMessages(); }
+  function markNotifRead(id) { let notif = notifications.find(n => n.id === id); if(notif) notif.read = true; updateBadges(); showNotifications(); }
   function closeAllDropdowns() {
     document.getElementById("messageDropdown").classList.remove("show");
     document.getElementById("notificationDropdown").classList.remove("show");
     document.getElementById("userDropdown").classList.remove("show");
   }
+  function viewProfile() { alert("👤 Profile: " + currentUser.name + "\n📧 " + currentUser.email); }
   
-  function viewProfile() {
-    alert("👤 Profile: " + currentUser.name + "\n📧 " + currentUser.email);
-  }
-  
-  // ========== LOGIN MODAL FUNCTIONS ==========
+  // ========== AUTH FUNCTIONS ==========
   const loginModal = document.getElementById("loginModal");
   const signupModal = document.getElementById("signupModal");
   
-  function openLoginModal() {
-    loginModal.style.display = "flex";
-    document.getElementById("loginUsername").value = "";
-    document.getElementById("loginPassword").value = "";
-    document.getElementById("loginError").style.display = "none";
-  }
-  
-  function openSignupModal() {
-    signupModal.style.display = "flex";
-    document.getElementById("signupName").value = "";
-    document.getElementById("signupEmail").value = "";
-    document.getElementById("signupPassword").value = "";
-    document.getElementById("signupError").style.display = "none";
-  }
-  
+  function openLoginModal() { loginModal.style.display = "flex"; document.getElementById("loginUsername").value = ""; document.getElementById("loginPassword").value = ""; document.getElementById("loginError").style.display = "none"; }
+  function openSignupModal() { signupModal.style.display = "flex"; document.getElementById("signupName").value = ""; document.getElementById("signupEmail").value = ""; document.getElementById("signupPassword").value = ""; document.getElementById("signupError").style.display = "none"; }
   function closeLoginModal() { loginModal.style.display = "none"; }
   function closeSignupModal() { signupModal.style.display = "none"; }
   
-  // LOGIN with your backend API
   async function doLogin() {
     const username = document.getElementById("loginUsername").value.trim();
     const password = document.getElementById("loginPassword").value;
@@ -1295,7 +1300,6 @@
     }
   }
   
-  // SIGNUP function
   async function doSignup() {
     const name = document.getElementById("signupName").value.trim();
     const email = document.getElementById("signupEmail").value.trim();
@@ -1313,35 +1317,7 @@
       return;
     }
     
-    // Try to register via backend (if you have signup API)
-    // For now, demo signup - auto login
     try {
-      // If you have signup API endpoint, uncomment below
-      /*
-      const response = await fetch("http://127.0.0.1:8000/api/register/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: name, email: email, password: password })
-      });
-      
-      if(response.ok) {
-        const data = await response.json();
-        localStorage.setItem("token", data.access);
-        authToken = data.access;
-        currentUser = { name: name, email: email };
-        localStorage.setItem('nexaUser', JSON.stringify(currentUser));
-        updateAuthUI();
-        closeSignupModal();
-        updateBadges();
-        alert("✅ Account created successfully! Welcome " + name);
-        location.reload();
-      } else {
-        errorDiv.innerText = "Signup failed. Email may already exist.";
-        errorDiv.style.display = "block";
-      }
-      */
-      
-      // Demo signup (for testing without backend)
       currentUser = { name: name, email: email };
       authToken = "demo_token_" + Date.now();
       localStorage.setItem('nexaUser', JSON.stringify(currentUser));
@@ -1351,7 +1327,6 @@
       updateBadges();
       alert("✅ Account created successfully! Welcome " + name);
       location.reload();
-      
     } catch(error) {
       errorDiv.innerText = "Server Error";
       errorDiv.style.display = "block";
@@ -1382,35 +1357,12 @@
     }
   }
   
-  // Event Listeners for Icons
-  document.getElementById("messageWrapper").onclick = (e) => {
-    e.stopPropagation();
-    closeAllDropdowns();
-    showMessages();
-    document.getElementById("messageDropdown").classList.add("show");
-  };
+  // ========== EVENT LISTENERS ==========
+  document.getElementById("messageWrapper").onclick = (e) => { e.stopPropagation(); closeAllDropdowns(); showMessages(); document.getElementById("messageDropdown").classList.add("show"); };
+  document.getElementById("notificationWrapper").onclick = (e) => { e.stopPropagation(); closeAllDropdowns(); showNotifications(); document.getElementById("notificationDropdown").classList.add("show"); };
+  document.getElementById("userWrapper").onclick = (e) => { e.stopPropagation(); closeAllDropdowns(); showUser(); document.getElementById("userDropdown").classList.add("show"); };
+  document.addEventListener("click", function(e) { if(!e.target.closest(".icon-wrapper")) closeAllDropdowns(); });
   
-  document.getElementById("notificationWrapper").onclick = (e) => {
-    e.stopPropagation();
-    closeAllDropdowns();
-    showNotifications();
-    document.getElementById("notificationDropdown").classList.add("show");
-  };
-  
-  document.getElementById("userWrapper").onclick = (e) => {
-    e.stopPropagation();
-    closeAllDropdowns();
-    showUser();
-    document.getElementById("userDropdown").classList.add("show");
-  };
-  
-  document.addEventListener("click", function(e) {
-    if(!e.target.closest(".icon-wrapper")) {
-      closeAllDropdowns();
-    }
-  });
-  
-  // Modal Events
   document.getElementById("closeModal").onclick = closeLoginModal;
   document.getElementById("closeSignupModal").onclick = closeSignupModal;
   document.getElementById("showSignup").onclick = () => { closeLoginModal(); openSignupModal(); };
@@ -1419,28 +1371,49 @@
   document.getElementById("doSignupBtn").onclick = doSignup;
   window.onclick = (e) => { if(e.target === loginModal) closeLoginModal(); if(e.target === signupModal) closeSignupModal(); };
   
-  // Theme Toggle
   const themeToggle = document.getElementById('themeToggle');
   const themeIcon = document.getElementById('themeIcon');
   themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('light-mode');
     const isLight = document.body.classList.contains('light-mode');
-    if (isLight) {
-      themeIcon.classList.remove('fa-moon');
-      themeIcon.classList.add('fa-sun');
-    } else {
-      themeIcon.classList.remove('fa-sun');
-      themeIcon.classList.add('fa-moon');
-    }
+    themeIcon.className = isLight ? "fa-solid fa-sun" : "fa-solid fa-moon";
   });
   
-  // Make functions global for onclick
+  // Auto live updates
+  setInterval(() => {
+    if(currentUser && authToken) {
+      const newMsg = {
+        id: messageId++,
+        from: ["Nexa AI", "System", "Admin", "Creator Bot"][Math.floor(Math.random() * 4)],
+        text: ["Your request is processing", "New update available!", "Check out new features", "AI model improved"][Math.floor(Math.random() * 4)],
+        time: new Date(),
+        read: false
+      };
+      messages.unshift(newMsg);
+      
+      const newNotif = {
+        id: notifId++,
+        title: ["🔔 New AI tool added!", "⭐ You earned a badge", "📢 System update complete", "💬 New message from support"][Math.floor(Math.random() * 4)],
+        time: new Date(),
+        read: false
+      };
+      notifications.unshift(newNotif);
+      
+      updateBadges();
+      if(document.getElementById("messageDropdown").classList.contains('show')) showMessages();
+      if(document.getElementById("notificationDropdown").classList.contains('show')) showNotifications();
+    }
+  }, 30000);
+  
+  // Make global
+  window.openAIFeature = openAIFeature;
   window.markMessageRead = markMessageRead;
   window.markNotifRead = markNotifRead;
   window.openLoginModal = openLoginModal;
   window.openSignupModal = openSignupModal;
   window.logout = logout;
   window.viewProfile = viewProfile;
+  window.scrollToSection = scrollToSection;
   
   // Initialize
   setupNavigation();
