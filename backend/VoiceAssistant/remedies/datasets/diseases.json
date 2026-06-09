@@ -2,33 +2,91 @@
   "migraine": {
     "linked_symptom": "headache",
     "severity": 2,
-    "triggers": ["stress", "lack_of_sleep", "screen_time"],
-    "home_remedies": [
-      "Rest in dark room",
-      "Avoid screen exposure",
-      "Cold compress"
-    ]
+    "triggers": ["stress", "lack_of_sleep", "screen_time", "dehydration"],
+    "home_remedies": ["Rest in dark room", "Avoid screen exposure", "Cold compress", "Peppermint oil on temples"]
   },
-
   "viral_fever": {
     "linked_symptom": "fever",
     "severity": 2,
     "triggers": ["infection", "low_immunity"],
-    "home_remedies": [
-      "Hydration is important",
-      "Rest completely",
-      "ORS solution"
-    ]
+    "home_remedies": ["Hydration is important", "Rest completely", "ORS solution", "Monitor temperature every 4 hours"]
   },
-
   "gastritis": {
     "linked_symptom": "stomach_pain",
     "severity": 1,
-    "triggers": ["spicy_food", "irregular_eating"],
-    "home_remedies": [
-      "Avoid spicy food",
-      "Eat light meals",
-      "Drink warm water"
-    ]
+    "triggers": ["spicy_food", "irregular_eating", "alcohol", "stress"],
+    "home_remedies": ["Avoid spicy food", "Eat light meals", "Drink warm water", "Aloe vera juice"]
+  },
+  "hypertension": {
+    "linked_symptom": "high_bp",
+    "severity": 3,
+    "triggers": ["stress", "high_salt_diet", "obesity", "inactivity"],
+    "home_remedies": ["Reduce salt", "Deep breathing", "Limit caffeine", "Regular exercise"]
+  },
+  "hypotension": {
+    "linked_symptom": "low_bp",
+    "severity": 2,
+    "triggers": ["dehydration", "prolonged_standing", "poor_nutrition"],
+    "home_remedies": ["Drink water", "Increase salt mildly", "Elevate legs", "Small frequent meals"]
+  },
+  "diabetes_type2": {
+    "linked_symptom": "high_sugar",
+    "severity": 3,
+    "triggers": ["unhealthy_diet", "inactivity", "obesity", "genetics"],
+    "home_remedies": ["Avoid sweets", "Regular exercise", "Bitter gourd juice", "Fenugreek water", "Monitor glucose"]
+  },
+  "hypoglycemia": {
+    "linked_symptom": "low_sugar",
+    "severity": 3,
+    "triggers": ["skipping_meals", "excess_medication", "excess_exercise"],
+    "home_remedies": ["Eat glucose immediately", "Drink juice", "Candy or sugar cubes", "Monitor sugar after 15 min"]
+  },
+  "tachycardia": {
+    "linked_symptom": "high_heart_rate",
+    "severity": 3,
+    "triggers": ["stress", "caffeine", "dehydration", "anxiety"],
+    "home_remedies": ["Deep breathing", "Vagal maneuver", "Drink cold water", "Rest immediately"]
+  },
+  "bradycardia": {
+    "linked_symptom": "low_heart_rate",
+    "severity": 3,
+    "triggers": ["hypothyroidism", "medication_side_effect", "heart_disease"],
+    "home_remedies": ["Rest", "Stay warm", "Monitor heart rate", "Consult doctor if below 50 BPM"]
+  },
+  "hypoxia": {
+    "linked_symptom": "low_spo2",
+    "severity": 3,
+    "triggers": ["respiratory_infection", "altitude", "heart_disease", "anemia"],
+    "home_remedies": ["Sit upright", "Deep breathing", "Fresh air", "Immediate medical attention if below 94%"]
+  },
+  "dengue": {
+    "linked_symptom": "dengue_symptoms",
+    "severity": 3,
+    "triggers": ["mosquito_bite"],
+    "home_remedies": ["Rest", "ORS", "Papaya leaf juice", "Avoid aspirin", "Doctor consultation mandatory"]
+  },
+  "malaria": {
+    "linked_symptom": "malaria_symptoms",
+    "severity": 3,
+    "triggers": ["mosquito_bite"],
+    "home_remedies": ["Doctor immediately", "Rest", "Stay hydrated", "Use mosquito nets", "Anti-malarial medication only"]
+  },
+  "typhoid": {
+    "linked_symptom": "typhoid_symptoms",
+    "severity": 3,
+    "triggers": ["contaminated_water", "contaminated_food"],
+    "home_remedies": ["Doctor immediately", "Boiled water", "Soft food", "Complete antibiotic course"]
+  },
+  "jaundice": {
+    "linked_symptom": "jaundice",
+    "severity": 3,
+    "triggers": ["liver_infection", "hepatitis", "gallstones"],
+    "home_remedies": ["Rest", "Coconut water", "Light food", "Avoid fat and alcohol", "Liver function test"]
+  },
+  "sinusitis": {
+    "linked_symptom": "sinusitis",
+    "severity": 2,
+    "triggers": ["allergy", "infection", "cold_air", "dust"],
+    "home_remedies": ["Steam inhalation", "Saline rinse", "Warm compress", "Turmeric water"]
   }
 }

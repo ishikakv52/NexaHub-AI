@@ -13,7 +13,7 @@ from django.db.models import Avg, Sum, Max, Min, Count
 
 # ── Lazy imports to avoid circular deps ───────────────────────
 def _models():
-    from VoiceAssistant.VoiceAssistant.models import (
+    from .models import (
         FitnessEntry, WeeklyFitnessLog, GoalTarget, ChatHistory, Reminder
     )
     return FitnessEntry, WeeklyFitnessLog, GoalTarget, ChatHistory, Reminder

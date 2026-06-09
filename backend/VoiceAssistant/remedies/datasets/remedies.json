@@ -1,71 +1,1247 @@
 {
-  "headache": [
-    "Rest in a quiet dark room",
-    "Drink plenty of water",
-    "Apply cold compress on forehead",
-    "Avoid screen exposure"
-  ],
-
-  "fever": [
-    "Drink fluids like water and ORS",
-    "Rest properly",
-    "Use damp cloth on forehead",
-    "Wear light clothing"
-  ],
-
-  "cold": [
-    "Drink warm water",
-    "Steam inhalation twice a day",
-    "Ginger tea helps relieve congestion",
-    "Keep yourself warm"
-  ],
-
-  "cough": [
-    "Honey with warm water",
-    "Gargle with salt water",
-    "Avoid cold drinks",
-    "Steam inhalation"
-  ],
-
-  "stomach_pain": [
-    "Drink warm water",
-    "Avoid oily food",
-    "Eat light meals",
-    "Apply warm compress on stomach"
-  ],
-
-  "vomiting": [
-    "Sip ORS slowly",
-    "Avoid solid food for some time",
-    "Rest in upright position",
-    "Drink ginger water"
-  ],
-
-  "diarrhea": [
-    "Drink ORS frequently",
-    "Eat banana and rice",
-    "Avoid spicy food",
-    "Stay hydrated"
-  ],
-
-  "sore_throat": [
-    "Warm salt water gargle",
-    "Drink warm fluids",
-    "Avoid cold drinks",
-    "Rest your voice"
-  ],
-
-  "fatigue": [
-    "Take proper sleep",
-    "Eat nutritious food",
-    "Stay hydrated",
-    "Avoid overexertion"
-  ],
-
-  "dizziness": [
-    "Sit or lie down immediately",
-    "Drink water",
-    "Avoid sudden movements",
-    "Take deep breaths"
-  ]
+  "headache": {
+    "en": [
+      "Rest in a quiet, dark room",
+      "Drink plenty of water",
+      "Apply cold compress on forehead",
+      "Avoid screen exposure",
+      "Peppermint oil massage on temples helps"
+    ],
+    "hi": [
+      "अंधेरे शांत कमरे में आराम करें",
+      "खूब पानी पियें",
+      "माथे पर ठंडी पट्टी लगाएं",
+      "स्क्रीन से दूर रहें",
+      "पुदीने के तेल से कनपटी की मालिश करें"
+    ],
+    "hinglish": [
+      "Dark quiet room mein rest karo",
+      "Bahut saara paani piyein",
+      "Maathey par thanda kapda lagao",
+      "Screen se door raho",
+      "Peppermint oil se temple massage karo"
+    ],
+    "mr": [
+      "शांत अंधाऱ्या खोलीत आराम करा",
+      "भरपूर पाणी प्या",
+      "कपाळावर थंड पट्टी लावा",
+      "स्क्रीन टाळा",
+      "पुदिन्याच्या तेलाने कपाळावर मसाज करा"
+    ],
+    "gu": [
+      "શાંત અંધારા ઓરડામાં આરામ કરો",
+      "ઘણું પાણી પીઓ",
+      "કપાળ પર ઠંડો કાપડ મૂકો",
+      "સ્ક્રીનથી દૂર રહો",
+      "પેપરમિન્ટ તેલ માથા પર લગાડો"
+    ]
+  },
+  "fever": {
+    "en": [
+      "Drink water and ORS frequently",
+      "Rest completely",
+      "Use damp cloth on forehead",
+      "Wear light clothing",
+      "Monitor temperature every 4 hours"
+    ],
+    "hi": [
+      "पानी और ORS बार-बार पियें",
+      "पूरी तरह आराम करें",
+      "माथे पर गीला कपड़ा रखें",
+      "हल्के कपड़े पहनें",
+      "हर 4 घंटे में तापमान जांचें"
+    ],
+    "hinglish": [
+      "Paani aur ORS baar baar piyein",
+      "Puri tarah rest karo",
+      "Maathey par geela kapda rakhein",
+      "Halke kapde pahano",
+      "Har 4 ghante temperature check karo"
+    ],
+    "mr": [
+      "पाणी आणि ORS वारंवार प्या",
+      "पूर्ण आराम करा",
+      "कपाळावर ओला कापड ठेवा",
+      "हलके कपडे घाला",
+      "दर 4 तासांनी तापमान तपासा"
+    ],
+    "gu": [
+      "પાણી અને ORS વારંવાર પીઓ",
+      "સંપૂર્ણ આરામ કરો",
+      "કપાળ પર ભીનો કાપડ રાખો",
+      "હળવા કપડા પહેરો",
+      "દર 4 કલાકે તાપમાન ચકાસો"
+    ]
+  },
+  "cold": {
+    "en": [
+      "Drink warm water throughout the day",
+      "Steam inhalation twice a day",
+      "Ginger tea with honey helps",
+      "Keep yourself warm",
+      "Saline nasal drops clear congestion"
+    ],
+    "hi": [
+      "दिनभर गर्म पानी पियें",
+      "दिन में दो बार भाप लें",
+      "शहद के साथ अदरक की चाय पियें",
+      "खुद को गर्म रखें",
+      "नमक के पानी की बूंदें नाक में डालें"
+    ],
+    "hinglish": [
+      "Din bhar garam paani piyein",
+      "Din mein do baar steam lein",
+      "Shahad ke saath adrak ki chai piyein",
+      "Apne aap ko garam rakhein",
+      "Naak mein saline drops daalo"
+    ],
+    "mr": [
+      "दिवसभर गरम पाणी प्या",
+      "दिवसातून दोनदा वाफ घ्या",
+      "मधासह आल्याचा चहा प्या",
+      "स्वतःला उबदार ठेवा",
+      "नाकात मिठाच्या पाण्याचे थेंब घाला"
+    ],
+    "gu": [
+      "આખો દિવસ ગરમ પાણી પીઓ",
+      "દિવસમાં બે વાર ભાપ લો",
+      "મધ સાથે આદુ ચા પીઓ",
+      "ગરમ રહો",
+      "નાકમાં સલાઇન ટીપાં નાંખો"
+    ]
+  },
+  "cough": {
+    "en": [
+      "Honey with warm water soothes throat",
+      "Salt water gargle 3 times a day",
+      "Avoid cold drinks and ice cream",
+      "Steam inhalation with eucalyptus oil",
+      "Tulsi and ginger tea is very effective"
+    ],
+    "hi": [
+      "गर्म पानी के साथ शहद गले को ठीक करता है",
+      "दिन में 3 बार नमक के पानी से गरारा करें",
+      "ठंडे पेय और आइसक्रीम से बचें",
+      "नीलगिरी तेल के साथ भाप लें",
+      "तुलसी और अदरक की चाय बहुत फायदेमंद है"
+    ],
+    "hinglish": [
+      "Garam paani ke saath shahad lo",
+      "Din mein 3 baar namak paani se gargle karo",
+      "Thande drinks aur ice cream avoid karo",
+      "Eucalyptus oil ke saath steam lo",
+      "Tulsi aur adrak ki chai bahut faydemand hai"
+    ],
+    "mr": [
+      "मधासह गरम पाण्याने घसा शांत होतो",
+      "दिवसातून 3 वेळा मिठाच्या पाण्याने गुळण्या करा",
+      "थंड पेये आणि आइस्क्रीम टाळा",
+      "निलगिरी तेलासह वाफ घ्या",
+      "तुळशी आणि आल्याचा चहा खूप फायदेशीर आहे"
+    ],
+    "gu": [
+      "ગરમ પાણી સાથે મધ ગળાને ઠીક કરે",
+      "દિવસમાં 3 વાર મીઠા પાણીથી ગળો ધોઈ",
+      "ઠંડા પીણા ટાળો",
+      "નીલગિરી તેલ સાથે ભાપ લો",
+      "તુળસી અને આદુ ચા ખૂબ ફાયદાકારક"
+    ]
+  },
+  "stomach_pain": {
+    "en": [
+      "Drink warm water with a pinch of salt",
+      "Avoid oily, spicy and heavy food",
+      "Eat light meals like khichdi or rice",
+      "Apply warm compress on stomach",
+      "Jeera (cumin) water aids digestion",
+      "Hing (asafoetida) in warm water relieves gas"
+    ],
+    "hi": [
+      "चुटकीभर नमक के साथ गर्म पानी पियें",
+      "तला, मसालेदार और भारी खाना न खाएं",
+      "खिचड़ी या चावल जैसा हल्का खाना खाएं",
+      "पेट पर गर्म सेंक दें",
+      "जीरे का पानी पाचन में मदद करता है",
+      "गर्म पानी में हींग से गैस से राहत मिलती है"
+    ],
+    "hinglish": [
+      "Chutki bhar namak ke saath garam paani piyein",
+      "Oily, spicy aur heavy khaana avoid karo",
+      "Khichdi ya chawal jaise light khaana khaao",
+      "Pet par garam sek dein",
+      "Jeera paani digestion mein help karta hai",
+      "Garam paani mein hing gas se relief deta hai"
+    ],
+    "mr": [
+      "चिमूटभर मीठासह गरम पाणी प्या",
+      "तेलकट, मसालेदार आणि जड अन्न टाळा",
+      "खिचडी किंवा भात खा",
+      "पोटावर उष्ण शेकणे द्या",
+      "जिऱ्याचे पाणी पचनास मदत करते"
+    ],
+    "gu": [
+      "ચપટી મીઠા સાથે ગરમ પાણી પીઓ",
+      "તળેલ, મસાલેદાર ખોરાક ટાળો",
+      "ખીચડી કે ભાત ખાઓ",
+      "પેટ પર ગરમ શેક આપો",
+      "જીરાનું પાણી પાચન સુધારે"
+    ]
+  },
+  "vomiting": {
+    "en": [
+      "Sip ORS solution slowly every 15 min",
+      "Avoid solid food for 2-4 hours",
+      "Rest sitting upright, not lying flat",
+      "Ginger water or ginger tea helps settle stomach",
+      "Small sips of coconut water or lemon water"
+    ],
+    "hi": [
+      "हर 15 मिनट में ORS घोल धीरे-धीरे पियें",
+      "2-4 घंटे तक ठोस खाना न खाएं",
+      "सीधे बैठकर आराम करें, लेटें नहीं",
+      "अदरक का पानी या चाय पेट को ठीक करती है",
+      "नारियल पानी या नींबू पानी के छोटे घूंट लें"
+    ],
+    "hinglish": [
+      "Har 15 min ORS solution dheere dheere piyein",
+      "2-4 ghante solid khaana mat khaao",
+      "Seedha baithke rest karo, let mat jao",
+      "Adrak ka paani ya chai pait ko theek karta hai"
+    ],
+    "mr": [
+      "दर 15 मिनिटांनी ORS हळूहळू प्या",
+      "2-4 तास घन अन्न टाळा",
+      "똑바로बसून आराम करा",
+      "आल्याचे पाणी किंवा चहा पोट शांत करतो"
+    ],
+    "gu": [
+      "દર 15 મિનિટે ORS ધીમે ધીમે પીઓ",
+      "2-4 કલાક ઘન ખોરાક ટાળો",
+      "સીધા બેસો",
+      "આદુ પાણી કે ચા પેટ ઠીક કરે"
+    ]
+  },
+  "diarrhea": {
+    "en": [
+      "ORS is the most important — drink after every loose stool",
+      "Eat banana, rice, boiled potato — BRAT diet",
+      "Avoid spicy, fatty and dairy food",
+      "Curd (yogurt) with rice restores gut bacteria",
+      "Stay hydrated — drink at least 2-3 litres"
+    ],
+    "hi": [
+      "ORS सबसे जरूरी है — हर दस्त के बाद पियें",
+      "केला, चावल, उबले आलू खाएं — BRAT डाइट",
+      "मसालेदार, तेलीय और डेयरी खाना न खाएं",
+      "दही चावल आंत के बैक्टीरिया को ठीक करता है",
+      "हाइड्रेटेड रहें — 2-3 लीटर पियें"
+    ],
+    "hinglish": [
+      "ORS sabse zaroori hai — har dast ke baad piyein",
+      "Kela, chawal, ubla aalu khaao — BRAT diet",
+      "Spicy, oily aur dairy khaana avoid karo",
+      "Dahi chawal aant ke bacteria ko theek karta hai"
+    ],
+    "mr": [
+      "ORS सर्वात महत्त्वाचे आहे — प्रत्येक जुलाबानंतर प्या",
+      "केळी, भात, उकडलेले बटाटे खा",
+      "मसालेदार आणि तेलकट अन्न टाळा"
+    ],
+    "gu": [
+      "ORS સૌથી ઝ઼Imp — દરેક ઝાડા પછી પીઓ",
+      "કેળા, ભાત, બાફેલ બટાટા ખાઓ",
+      "મસાલેદાર ખોરાક ટાળો"
+    ]
+  },
+  "sore_throat": {
+    "en": [
+      "Warm salt water gargle every 2 hours",
+      "Drink warm fluids — avoid cold drinks completely",
+      "Honey mixed with ginger juice soothes throat",
+      "Rest your voice as much as possible",
+      "Turmeric milk at night helps healing"
+    ],
+    "hi": [
+      "हर 2 घंटे में गर्म नमक पानी से गरारा करें",
+      "गर्म तरल पियें — ठंडे पेय बिल्कुल न लें",
+      "शहद में अदरक का रस मिलाकर लें",
+      "आवाज़ को जितना हो सके आराम दें",
+      "रात में हल्दी वाला दूध पीने से ठीक होता है"
+    ],
+    "hinglish": [
+      "Har 2 ghante garam namak paani se gargle karo",
+      "Garam cheezein piyein, thande drinks avoid karo",
+      "Shahad mein adrak ka juice milao",
+      "Awaaz ko rest do",
+      "Raat mein haldi doodh piyein"
+    ],
+    "mr": [
+      "दर 2 तासांनी मिठाच्या गरम पाण्याने गुळण्या करा",
+      "गरम द्रव प्या, थंड पेये टाळा",
+      "मधात आल्याचा रस मिसळून घ्या"
+    ],
+    "gu": [
+      "દર 2 કલાકે ગરમ મીઠા પાણીથી ગળો ધોઓ",
+      "ગરમ પ્રવાહ ઓ પીઓ",
+      "મધ અને આદુ રસ ભેળવો"
+    ]
+  },
+  "fatigue": {
+    "en": [
+      "Sleep 7-8 hours at a fixed time each night",
+      "Eat iron-rich foods: spinach, dates, banana",
+      "Stay hydrated — dehydration causes tiredness",
+      "Light 20-min walk boosts energy",
+      "Reduce caffeine and alcohol",
+      "Ashwagandha or chyawanprash helps immunity"
+    ],
+    "hi": [
+      "हर रात एक निश्चित समय पर 7-8 घंटे सोएं",
+      "आयरन युक्त खाना खाएं: पालक, खजूर, केला",
+      "हाइड्रेटेड रहें — पानी की कमी से थकान होती है",
+      "20 मिनट की हल्की सैर से ऊर्जा मिलती है",
+      "कैफीन और शराब कम करें",
+      "अश्वगंधा या च्यवनप्राश इम्युनिटी बढ़ाता है"
+    ],
+    "hinglish": [
+      "7-8 ghante ki neend lo roz ek fixed time par",
+      "Iron rich khaana khaao: palak, khajoor, kela",
+      "Hydrated raho, pani ki kami se thakaan hoti hai",
+      "20 min light walk se energy milti hai",
+      "Caffeine aur alcohol kam karo"
+    ],
+    "mr": [
+      "दररोज निश्चित वेळी 7-8 तास झोपा",
+      "लोहयुक्त अन्न खा: पालक, खजूर, केळी",
+      "पाण्याची कमतरता थकव्याचे कारण असते"
+    ],
+    "gu": [
+      "7-8 કલાક ઊઘો",
+      "આયર્ન ભ Monrpૂ ½ ½ ½ ½ ½ ½",
+      "હળવી ચાલ ઊર્જ઼ Monrpૂ"
+    ]
+  },
+  "dizziness": {
+    "en": [
+      "Sit or lie down immediately — don't stand up",
+      "Drink water — dizziness is often dehydration",
+      "Eat something if you haven't eaten",
+      "Avoid sudden movements, get up slowly",
+      "Deep slow breaths help stabilize",
+      "Ginger tea helps with nausea and dizziness"
+    ],
+    "hi": [
+      "तुरंत बैठ जाएं या लेट जाएं",
+      "पानी पियें — चक्कर अक्सर पानी की कमी से होते हैं",
+      "अगर कुछ नहीं खाया तो कुछ खाएं",
+      "अचानक हरकत से बचें, धीरे उठें",
+      "धीमी गहरी सांसें लें",
+      "अदरक की चाय मतली और चक्कर में मदद करती है"
+    ],
+    "hinglish": [
+      "Turant baith jao ya let jao",
+      "Paani piyein, chakkar aksar pani ki kami se hote hain",
+      "Agar kuch nahi khaya toh kuch khaao",
+      "Suddenly mat utho, dheere utho"
+    ],
+    "mr": [
+      "लगेच बसा किंवा झोपा",
+      "पाणी प्या — चक्कर अनेकदा निर्जलीकरणामुळे येते",
+      "आल्याचा चहा घ्या"
+    ],
+    "gu": [
+      "તરત બેઠા ઠ Monrp",
+      "પાણી પીઓ",
+      "ધીમે ઊઠો"
+    ]
+  },
+  "chest_pain": {
+    "en": [
+      "This could be serious — sit down and rest immediately",
+      "Loosen any tight clothing",
+      "Take slow deep breaths",
+      "If pain is severe or spreading to arm/jaw — call 108 NOW",
+      "Chew aspirin 325mg if available and not allergic",
+      "Do NOT drive yourself to hospital"
+    ],
+    "hi": [
+      "यह गंभीर हो सकता है — तुरंत बैठकर आराम करें",
+      "कसे कपड़े ढीले करें",
+      "धीमी गहरी सांसें लें",
+      "दर्द तेज हो या बांह/जबड़े में फैले — अभी 108 पर कॉल करें",
+      "एस्पिरिन 325mg चबाएं अगर उपलब्ध हो और एलर्जी न हो",
+      "खुद गाड़ी न चलाएं"
+    ],
+    "hinglish": [
+      "Ye serious ho sakta hai — turant baithke rest karo",
+      "Kase kapde dheele karo",
+      "Slow deep breathing karo",
+      "Dard tej ho ya haath/jabde mein phaile — abhi 108 call karo"
+    ],
+    "mr": [
+      "हे गंभीर असू शकते — लगेच बसा आणि आराम करा",
+      "घट्ट कपडे सैल करा",
+      "खोल श्वास घ्या",
+      "वेदना तीव्र असल्यास 108 कॉल करा"
+    ],
+    "gu": [
+      "ગઁBhir — ₹ ₹ ₹",
+      "ધ ₹ ₹ ₹",
+      "108 ₹"
+    ]
+  },
+  "high_bp": {
+    "en": [
+      "Reduce salt intake immediately — no pickles, papads",
+      "Sit calmly and practice slow deep breathing (4-7-8)",
+      "Avoid caffeine, alcohol and smoking",
+      "Take prescribed BP medication if any",
+      "Eat potassium foods: banana, spinach, coconut water",
+      "Avoid stress and heavy physical exertion",
+      "Monitor BP every 30 min until stable"
+    ],
+    "hi": [
+      "तुरंत नमक कम करें — अचार, पापड़ नहीं",
+      "शांत बैठें और गहरी सांस लें (4-7-8)",
+      "चाय, कॉफी, शराब और सिगरेट से बचें",
+      "डॉक्टर की BP दवा लें",
+      "केला, पालक, नारियल पानी खाएं",
+      "तनाव और भारी काम से बचें",
+      "हर 30 मिनट में BP जांचें"
+    ],
+    "hinglish": [
+      "Salt turant kam karo — achaar, papad nahi",
+      "Shant baithke deep breathing karo 4-7-8",
+      "Chai, coffee, alcohol, cigarette avoid karo",
+      "Doctor ki BP dawai lo",
+      "Kela, palak, coconut water khaao",
+      "Stress aur heavy work avoid karo"
+    ],
+    "mr": [
+      "मीठ लगेच कमी करा",
+      "शांतपणे बसा आणि खोल श्वास घ्या",
+      "चहा-कॉफी टाळा",
+      "डॉक्टरांचे औषध घ्या",
+      "केळी, नारळपाणी खा"
+    ],
+    "gu": [
+      "તરત મીઠ ઓ ઘટાo",
+      "શ ₹ ₹ deep breathing",
+      "ચ ₹ coffee avoid",
+      "Doctor ₹ ₹ ₹",
+      "Kela, coconut water ₹"
+    ]
+  },
+  "low_bp": {
+    "en": [
+      "Drink water and ORS immediately",
+      "Lie down and elevate legs above heart level",
+      "Eat salty snacks: crackers, salted biscuits",
+      "Avoid standing up suddenly — always rise slowly",
+      "Drink coconut water or lemon water with salt",
+      "Wear compression stockings if available"
+    ],
+    "hi": [
+      "तुरंत पानी और ORS पियें",
+      "लेट जाएं और पैरों को दिल के ऊपर रखें",
+      "नमकीन खाएं: बिस्किट, नमकीन",
+      "अचानक खड़े न हों — धीरे उठें",
+      "नारियल पानी या नींबू पानी में नमक मिलाकर पियें"
+    ],
+    "hinglish": [
+      "Turant paani aur ORS piyein",
+      "Let jao aur pair upar rakho",
+      "Namkeen snacks khaao: biscuit, namkeen",
+      "Suddenly mat utho, dheere utho",
+      "Coconut water ya nimbu paani mein namak milao"
+    ],
+    "mr": [
+      "लगेच पाणी आणि ORS प्या",
+      "झोपा आणि पाय वर करा",
+      "खारट खाद्यपदार्थ खा"
+    ],
+    "gu": [
+      "ताr ₹ ORS ₹",
+      "₹ ₹ ₹ ₹",
+      "ₙ ₹ ₹"
+    ]
+  },
+  "high_sugar": {
+    "en": [
+      "Drink plenty of water — helps flush excess glucose",
+      "Avoid ALL sugary food, drinks, fruit juice immediately",
+      "Light 20-min walk reduces blood sugar effectively",
+      "Take prescribed diabetes medication",
+      "Eat bitter gourd (karela) or fenugreek (methi) water",
+      "Check blood sugar again after 2 hours",
+      "Avoid white rice and maida temporarily"
+    ],
+    "hi": [
+      "खूब पानी पियें — अतिरिक्त ग्लूकोज निकलता है",
+      "मीठी चीजें, जूस — बिल्कुल नहीं",
+      "20 मिनट की हल्की सैर ब्लड शुगर कम करती है",
+      "डॉक्टर की डायबिटीज दवा लें",
+      "करेले का रस या मेथी का पानी पियें",
+      "2 घंटे बाद फिर शुगर जांचें"
+    ],
+    "hinglish": [
+      "Bahut paani piyein, excess glucose flush hota hai",
+      "Meethi cheezein, juice — bilkul nahi",
+      "20 min light walk blood sugar kam karta hai",
+      "Doctor ki diabetes dawai lo",
+      "Karele ka juice ya methi paani piyein",
+      "2 ghante baad sugar phir check karo"
+    ],
+    "mr": [
+      "भरपूर पाणी प्या",
+      "गोड पदार्थ अजिबात नाही",
+      "20 मिनिट चाल साखर कमी करते",
+      "डॉक्टरांची औषधे घ्या",
+      "कारल्याचा रस प्या"
+    ],
+    "gu": [
+      "ઘ ₹ ₹ ₹ ₹",
+      "ₐ ₹ ₹",
+      "20 min walk ₹ ₹"
+    ]
+  },
+  "low_sugar": {
+    "en": [
+      "Eat 15g fast sugar NOW: 3-4 glucose tablets, or 150ml juice, or 4 sugar cubes",
+      "Recheck blood sugar after 15 minutes",
+      "If still low: eat again",
+      "Once normal: eat a proper meal or snack",
+      "If unconscious: call 108 immediately — do NOT give anything by mouth",
+      "Diabetics: always carry glucose tablets"
+    ],
+    "hi": [
+      "अभी 15g तेज शुगर लें: 3-4 ग्लूकोज टैबलेट, या 150ml जूस, या 4 चीनी के टुकड़े",
+      "15 मिनट बाद फिर शुगर जांचें",
+      "अभी भी कम हो तो फिर लें",
+      "सामान्य होने पर: ठीक से खाना खाएं",
+      "बेहोश हों तो: 108 पर कॉल करें — मुंह से कुछ न दें"
+    ],
+    "hinglish": [
+      "Abhi 15g fast sugar lo: 3-4 glucose tablets, ya 150ml juice, ya 4 sugar cubes",
+      "15 min baad sugar phir check karo",
+      "Normal hone par khaana khaao",
+      "Behosh ho toh 108 call karo — mooh se kuch mat do"
+    ],
+    "mr": [
+      "आत्ता 15g जलद साखर खा: ग्लूकोज गोळ्या किंवा ज्यूस",
+      "15 मिनिटांनी पुन्हा तपासा"
+    ],
+    "gu": [
+      "₹ ₹ 15g ₹ sugar: glucose ₹ ₹ juice",
+      "15 min ₹ ₹ ₹"
+    ]
+  },
+  "high_heart_rate": {
+    "en": [
+      "Sit down and rest immediately — stop all activity",
+      "Slow deep breathing: inhale 4 sec, hold 4 sec, exhale 6 sec",
+      "Splash cold water on your face",
+      "Drink cold water slowly",
+      "Vagal maneuver: bear down gently (like straining)",
+      "Avoid caffeine and stimulants",
+      "If above 150 BPM or chest pain: call 108"
+    ],
+    "hi": [
+      "तुरंत बैठकर आराम करें — सब काम बंद",
+      "धीमी गहरी सांस: 4 सेकंड लें, 4 रोकें, 6 छोड़ें",
+      "चेहरे पर ठंडा पानी डालें",
+      "ठंडा पानी धीरे पियें",
+      "150 BPM से ऊपर या सीने में दर्द हो तो 108 कॉल करें"
+    ],
+    "hinglish": [
+      "Turant baithke rest karo, sab kaam band",
+      "Slow deep breathing: 4 sec andar, 4 roko, 6 bahar",
+      "Chehere par thanda paani daalo",
+      "Thanda paani dheere piyein",
+      "150 BPM se upar ya chest pain ho toh 108 call karo"
+    ],
+    "mr": [
+      "लगेच बसा, सर्व काम थांबवा",
+      "खोल श्वास: 4 सेकंद आत, 4 थांबा, 6 बाहेर",
+      "चेहऱ्यावर थंड पाणी टाका"
+    ],
+    "gu": [
+      "₹ ₹ ₹, ₹ ₹ ₹",
+      "Deep breathing: 4 sec andar, 4 ₹, 6 ₹",
+      "₹ ₹ ₹ ₹ ₹"
+    ]
+  },
+  "low_heart_rate": {
+    "en": [
+      "Rest and monitor heart rate every 10 min",
+      "Avoid lying flat — sit up or stand",
+      "Stay warm — cold worsens bradycardia",
+      "Light gentle movement if you feel comfortable",
+      "If below 50 BPM or feeling faint/dizzy: see a doctor urgently",
+      "Avoid beta-blockers if not prescribed"
+    ],
+    "hi": [
+      "आराम करें और हर 10 मिनट में हार्ट रेट जांचें",
+      "सीधे बैठें या खड़े हों — लेटें नहीं",
+      "गर्म रहें",
+      "50 BPM से कम हो या चक्कर आए: तुरंत डॉक्टर से मिलें"
+    ],
+    "hinglish": [
+      "Rest karo aur har 10 min heart rate check karo",
+      "Sidha baithein ya khade raho",
+      "Garam raho",
+      "50 BPM se kam ho ya chakkar aaye: turant doctor se milo"
+    ],
+    "mr": [
+      "आराम करा, दर 10 मिनिटांनी हृदय गती तपासा",
+      "सरळ बसा",
+      "50 BPM पेक्षा कमी असल्यास डॉक्टर"
+    ],
+    "gu": [
+      "₹ ₹ ₹ ₹",
+      "₹ ₹ ₹",
+      "50 BPM ₹ doctor"
+    ]
+  },
+  "low_spo2": {
+    "en": [
+      "Sit upright immediately — helps lungs expand",
+      "Take slow, controlled deep breaths",
+      "Move to fresh air or open windows",
+      "Avoid any physical exertion",
+      "Do NOT lie flat",
+      "If SpO2 below 94%: see doctor urgently",
+      "If SpO2 below 90%: CALL 108 — medical emergency"
+    ],
+    "hi": [
+      "तुरंत सीधे बैठें — फेफड़े फैलने में मदद होती है",
+      "धीमी नियंत्रित गहरी सांसें लें",
+      "ताज़ी हवा में जाएं या खिड़की खोलें",
+      "कोई भी मेहनत न करें",
+      "लेटें नहीं",
+      "SpO2 94% से कम: डॉक्टर के पास जाएं",
+      "SpO2 90% से कम: 108 पर कॉल करें"
+    ],
+    "hinglish": [
+      "Turant sidhe baithein, lungs ko expand hone do",
+      "Slow deep breathing karo",
+      "Fresh air mein jao ya khidki kholo",
+      "Koi mehnat mat karo",
+      "SpO2 94% se kam: doctor ke paas jao",
+      "SpO2 90% se kam: 108 CALL KARO"
+    ],
+    "mr": [
+      "लगेच सरळ बसा",
+      "मंद खोल श्वास घ्या",
+      "ताज्या हवेत जा",
+      "SpO2 94% पेक्षा कमी: डॉक्टर",
+      "SpO2 90% पेक्षा कमी: 108"
+    ],
+    "gu": [
+      "₹ ₹ ₹ ₹",
+      "Deep breathing ₹",
+      "₹ ₹ ₹",
+      "SpO2 90% ₹ 108"
+    ]
+  },
+  "back_pain": {
+    "en": [
+      "Apply hot compress for chronic pain, ice pack for acute",
+      "Avoid prolonged bed rest — gentle movement helps",
+      "Gentle stretching: cat-cow pose, knee-to-chest stretch",
+      "Maintain proper posture while sitting",
+      "Avoid lifting heavy objects",
+      "Sleeping on a firm mattress on your side helps"
+    ],
+    "hi": [
+      "पुराने दर्द में गर्म सेंक, तेज दर्द में बर्फ",
+      "लंबे समय तक बिस्तर पर न रहें — हल्की हरकत ज़रूरी",
+      "हल्की स्ट्रेचिंग करें: कैट-काउ, घुटने को छाती से लगाएं",
+      "बैठते समय सही मुद्रा बनाए रखें",
+      "भारी चीजें न उठाएं"
+    ],
+    "hinglish": [
+      "Purane dard mein garam sek, tez dard mein ice",
+      "Zyada der bed par mat raho, halki movement karo",
+      "Light stretching karo: cat-cow, knee to chest",
+      "Baithte waqt posture theek rakho",
+      "Bhaari cheezein mat uthaao"
+    ],
+    "mr": [
+      "जुन्या दुखण्यासाठी उष्ण शेकणे, तीव्र साठी बर्फ",
+      "जास्त वेळ झोपू नका",
+      "हलकी स्ट्रेचिंग करा"
+    ],
+    "gu": [
+      "₹ ₹ ₹ hot pack, ₹ ₹ ice",
+      "₹ ₹ ₹ ₹",
+      "₹ stretching ₹"
+    ]
+  },
+  "joint_pain": {
+    "en": [
+      "Ice pack for 15-20 min on swollen/acute joint pain",
+      "Warm compress for stiff chronic joint pain",
+      "Turmeric milk (haldi doodh) every night reduces inflammation",
+      "Gentle range-of-motion exercises daily",
+      "Avoid overloading the joint",
+      "Fish oil or flaxseed helps with inflammation"
+    ],
+    "hi": [
+      "सूजे हुए या तेज दर्द में 15-20 मिनट बर्फ लगाएं",
+      "पुराने अकड़े हुए दर्द में गर्म सेंक करें",
+      "हर रात हल्दी वाला दूध पीने से सूजन कम होती है",
+      "रोज हल्के व्यायाम करें",
+      "जोड़ पर ज़्यादा बोझ न डालें"
+    ],
+    "hinglish": [
+      "Sujan ya tez dard mein 15-20 min ice lagao",
+      "Purane akde hue dard mein garam sek karo",
+      "Har raat haldi doodh piyein, sujan kam hoti hai",
+      "Daily light exercises karo"
+    ],
+    "mr": [
+      "सूजलेल्या किंवा तीव्र वेदनेत 15-20 मिनिट बर्फ लावा",
+      "रात्री हळदीचे दूध प्या"
+    ],
+    "gu": [
+      "₹ ₹ 15-20 min ice",
+      "₹ ₹ haldi doodh"
+    ]
+  },
+  "body_pain": {
+    "en": [
+      "Rest the body — avoid strenuous activity",
+      "Warm shower or bath relaxes muscles",
+      "Epsom salt bath reduces muscle soreness",
+      "Stay hydrated — dehydration worsens body pain",
+      "Light stretching improves circulation",
+      "Turmeric with warm milk has anti-inflammatory effect"
+    ],
+    "hi": [
+      "शरीर को आराम दें — भारी काम न करें",
+      "गर्म पानी से नहाने से मांसपेशियां ठीक होती हैं",
+      "हाइड्रेटेड रहें",
+      "हल्की स्ट्रेचिंग से रक्त संचार बेहतर होता है",
+      "हल्दी वाला गर्म दूध सूजन कम करता है"
+    ],
+    "hinglish": [
+      "Body ko rest do, heavy kaam mat karo",
+      "Garam paani se nahaane se muscles relax hote hain",
+      "Hydrated raho",
+      "Light stretching karo",
+      "Haldi wala garam doodh piyein"
+    ],
+    "mr": [
+      "शरीराला आराम द्या",
+      "गरम आंघोळ स्नायूंना आराम देते",
+      "हळदीचे गरम दूध जळजळ कमी करते"
+    ],
+    "gu": [
+      "Body ₹ rest",
+      "₹ ₹ ₹ ₹",
+      "Haldi milk ₹"
+    ]
+  },
+  "skin_rash": {
+    "en": [
+      "Do NOT scratch — it worsens the rash",
+      "Apply cold compress for 10-15 min to reduce itching",
+      "Aloe vera gel directly on rash is soothing",
+      "Use calamine lotion for relief",
+      "Wear loose, soft cotton clothing",
+      "Avoid harsh soaps and hot water",
+      "Consult doctor if rash spreads or has blisters"
+    ],
+    "hi": [
+      "खुजलाएं नहीं — चकत्ते बिगड़ते हैं",
+      "खुजली के लिए 10-15 मिनट ठंडी पट्टी लगाएं",
+      "एलोवेरा जेल लगाएं",
+      "कैलामाइन लोशन से राहत मिलती है",
+      "ढीले सूती कपड़े पहनें",
+      "कठोर साबुन और गर्म पानी से बचें"
+    ],
+    "hinglish": [
+      "Khujlao mat, rash kharab hoga",
+      "10-15 min thandi patti lagao",
+      "Aloe vera gel lagao",
+      "Calamine lotion se relief milega",
+      "Loose cotton kapde pahno"
+    ],
+    "mr": [
+      "खाजवू नका",
+      "10-15 मिनिट थंड पट्टी लावा",
+      "एलोवेरा जेल लावा"
+    ],
+    "gu": [
+      "₹ ₹ ₹",
+      "10-15 min ₹ ₹",
+      "Aloe vera gel ₹"
+    ]
+  },
+  "eye_problem": {
+    "en": [
+      "Do NOT rub your eyes",
+      "Wash eyes with clean cold water gently",
+      "Apply cool damp cloth over closed eyes",
+      "Avoid bright screens for 2-3 hours",
+      "Rose water drops (gulab jal) soothe irritation",
+      "If redness/discharge persists — see eye doctor",
+      "Remove contact lenses if wearing any"
+    ],
+    "hi": [
+      "आंखें न रगड़ें",
+      "साफ ठंडे पानी से धीरे से आंखें धोएं",
+      "बंद आंखों पर ठंडी गीली पट्टी रखें",
+      "2-3 घंटे स्क्रीन से दूर रहें",
+      "गुलाब जल की बूंदें राहत देती हैं",
+      "लालिमा/स्राव हो तो नेत्र चिकित्सक से मिलें"
+    ],
+    "hinglish": [
+      "Aankhein mat ragdo",
+      "Saaf thande paani se aankhein dheere dho",
+      "Band aankhon par thandi geeli patti rakhein",
+      "2-3 ghante screen se door raho",
+      "Gulab jal ki boondein daalo"
+    ],
+    "mr": [
+      "डोळे चोळू नका",
+      "स्वच्छ थंड पाण्याने डोळे धुवा",
+      "गुलाबजल थेंब घाला"
+    ],
+    "gu": [
+      "₹ ₹ ₹",
+      "₹ ₹ ₹ ₹",
+      "Gulab jal ₹"
+    ]
+  },
+  "anxiety": {
+    "en": [
+      "4-7-8 breathing: inhale 4s, hold 7s, exhale 8s",
+      "Grounding: name 5 things you see, 4 you hear, 3 you can touch",
+      "Light walk or any physical movement helps immediately",
+      "Talk to a trusted person — don't stay alone",
+      "Chamomile tea or warm milk calms nerves",
+      "Avoid caffeine completely",
+      "Write down what's worrying you — helps process it"
+    ],
+    "hi": [
+      "4-7-8 सांस: 4 सेकंड लें, 7 रोकें, 8 छोड़ें",
+      "ग्राउंडिंग: 5 चीजें देखें, 4 सुनें, 3 छुएं",
+      "हल्की सैर तुरंत मदद करती है",
+      "किसी विश्वसनीय से बात करें — अकेले न रहें",
+      "कैमोमाइल चाय या गर्म दूध नसों को शांत करता है",
+      "कैफीन बिल्कुल बंद करें"
+    ],
+    "hinglish": [
+      "4-7-8 breathing: 4 sec andar, 7 roko, 8 bahar",
+      "Grounding technique: 5 cheezein dekho, 4 suno, 3 chuo",
+      "Light walk se turant help milti hai",
+      "Kisi trusted person se baat karo, akele mat raho",
+      "Chamomile chai ya garam doodh piyein",
+      "Caffeine bilkul band karo"
+    ],
+    "mr": [
+      "4-7-8 श्वास: 4 सेकंद आत, 7 थांबा, 8 बाहेर",
+      "ग्राउंडिंग टेकनिक वापरा",
+      "हलकी चाल तत्काळ मदत करते"
+    ],
+    "gu": [
+      "4-7-8 breathing ₹",
+      "Grounding ₹",
+      "Light walk ₹"
+    ]
+  },
+  "insomnia": {
+    "en": [
+      "Fix a sleep schedule — same time every night",
+      "No screens 1 hour before bed (phone, TV, laptop)",
+      "Keep room dark, cool (18-22°C) and quiet",
+      "Warm milk with a pinch of nutmeg (jaiphal) before bed",
+      "Avoid caffeine after 2 PM",
+      "Read a physical book or listen to calm music",
+      "Progressive muscle relaxation helps induce sleep"
+    ],
+    "hi": [
+      "सोने का समय निश्चित रखें — रोज़ एक ही समय",
+      "सोने से 1 घंटे पहले स्क्रीन बंद करें",
+      "कमरा अंधेरा, ठंडा और शांत रखें",
+      "सोने से पहले जायफल के साथ गर्म दूध पियें",
+      "दोपहर 2 बजे के बाद कैफीन नहीं",
+      "किताब पढ़ें या शांत संगीत सुनें"
+    ],
+    "hinglish": [
+      "Sone ka time fix karo, roz ek hi time",
+      "Sone se 1 ghante pehle screen band karo",
+      "Kamra dark, thanda aur quiet rakhein",
+      "Jaiphal ke saath garam doodh piyein",
+      "Dopahar 2 baje ke baad caffeine nahi"
+    ],
+    "mr": [
+      "झोपण्याची वेळ निश्चित करा",
+      "1 तास आधी स्क्रीन बंद करा",
+      "जायफळासह गरम दूध प्या"
+    ],
+    "gu": [
+      "₹ ₹ ₹",
+      "₹ ₹ screen band",
+      "₹ ₹ doodh ₹"
+    ]
+  },
+  "constipation": {
+    "en": [
+      "Drink 2-3 glasses of warm water first thing in morning",
+      "Eat high-fiber: fruits, vegetables, whole grain roti",
+      "Warm lemon water with honey every morning",
+      "Triphala powder with warm water at night",
+      "Regular exercise — even 20-min walk helps",
+      "Don't ignore the urge to go",
+      "Avoid junk food, maida, processed foods"
+    ],
+    "hi": [
+      "सुबह उठकर पहले 2-3 गिलास गर्म पानी पियें",
+      "फाइबर युक्त: फल, सब्जियां, साबुत अनाज की रोटी",
+      "हर सुबह शहद के साथ गर्म नींबू पानी",
+      "रात में त्रिफला चूर्ण गर्म पानी के साथ",
+      "नियमित व्यायाम, 20 मिनट की सैर",
+      "जंक फूड और मैदा से बचें"
+    ],
+    "hinglish": [
+      "Subah uthke 2-3 glass garam paani piyein",
+      "Fiber wala khaana khaao: fruits, vegetables, gehun ki roti",
+      "Har subah shahad ke saath garam nimbu paani",
+      "Raat mein triphala churna garam paani ke saath",
+      "Regular exercise karo, 20 min walk"
+    ],
+    "mr": [
+      "सकाळी उठल्यावर 2-3 ग्लास गरम पाणी प्या",
+      "तंतुमय अन्न खा",
+      "त्रिफळा चूर्ण रात्री प्या"
+    ],
+    "gu": [
+      "₹ ₹ 2-3 ₹ ₹ ₹",
+      "Fiber ₹ ₹",
+      "Triphala churna ₹ ₹"
+    ]
+  },
+  "acidity": {
+    "en": [
+      "Eat small meals every 3-4 hours — avoid skipping",
+      "Cold milk provides instant relief for heartburn",
+      "Banana and cucumber are alkaline — eat them",
+      "Avoid: coffee, tea, citrus, spicy food, alcohol",
+      "Don't lie down for 2 hours after eating",
+      "Jeera water (cumin water) after meals helps",
+      "Sleep with head slightly elevated"
+    ],
+    "hi": [
+      "हर 3-4 घंटे में थोड़ा-थोड़ा खाएं — खाना न छोड़ें",
+      "ठंडा दूध सीने की जलन में तुरंत राहत देता है",
+      "केला और खीरा एल्कलाइन हैं — खाएं",
+      "कॉफी, चाय, खट्टे फल, मसालेदार, शराब से बचें",
+      "खाने के 2 घंटे तक न लेटें",
+      "खाने के बाद जीरे का पानी पियें"
+    ],
+    "hinglish": [
+      "Har 3-4 ghante thoda thoda khaao, khaana mat chodo",
+      "Thanda doodh seene ki jalan mein turant relief",
+      "Kela aur kheera alkaline hain, khaao",
+      "Coffee, chai, citrus, spicy, alcohol avoid karo",
+      "Khaane ke 2 ghante baad mat leto"
+    ],
+    "mr": [
+      "दर 3-4 तासांनी थोडे खा",
+      "थंड दूध छातीतील जळजळ लगेच कमी करते",
+      "कॉफी, चहा, मसालेदार टाळा"
+    ],
+    "gu": [
+      "₹ ₹ ₹ ₹",
+      "₹ ₹ ₹ ₹ ₹",
+      "Coffee, chai, spicy ₹"
+    ]
+  },
+  "migraine": {
+    "en": [
+      "Rest in a completely dark, silent room",
+      "Cold compress or ice pack on forehead and neck",
+      "Stay hydrated — dehydration triggers migraines",
+      "Avoid known triggers: bright lights, strong smell, stress",
+      "Peppermint or lavender oil on temples",
+      "Caffeine in small amount can help some people",
+      "Take prescribed triptan medication if available"
+    ],
+    "hi": [
+      "पूरी तरह अंधेरे और शांत कमरे में आराम करें",
+      "माथे और गर्दन पर ठंडी पट्टी या बर्फ रखें",
+      "हाइड्रेटेड रहें — पानी की कमी से माइग्रेन होता है",
+      "ट्रिगर से बचें: तेज रोशनी, तेज खुशबू, तनाव",
+      "पुदीने या लैवेंडर तेल से कनपटी की मालिश"
+    ],
+    "hinglish": [
+      "Puri tarah dark aur quiet room mein rest karo",
+      "Maathey aur garadn par thanda compress ya ice rakhein",
+      "Hydrated raho, pani ki kami se migraine hota hai",
+      "Triggers avoid karo: bright light, strong smell, stress"
+    ],
+    "mr": [
+      "संपूर्ण अंधाऱ्या, शांत खोलीत आराम करा",
+      "कपाळ आणि मानेवर थंड पट्टी लावा"
+    ],
+    "gu": [
+      "₹ ₹ ₹ ₹ ₹",
+      "₹ ₹ ₹ ₹ ₹"
+    ]
+  },
+  "sinusitis": {
+    "en": [
+      "Steam inhalation with menthol or eucalyptus 2x daily",
+      "Warm compress over nose, cheeks and forehead",
+      "Saline nasal rinse (neti pot or spray)",
+      "Drink warm fluids throughout the day",
+      "Stay in a humid environment — dry air worsens it",
+      "Avoid cold air and air conditioning",
+      "Turmeric water helps reduce inflammation"
+    ],
+    "hi": [
+      "मेंथॉल या नीलगिरी के साथ दिन में 2 बार भाप लें",
+      "नाक, गाल और माथे पर गर्म सेंक करें",
+      "नमक के पानी से नाक धोएं",
+      "दिनभर गर्म तरल पियें",
+      "सर्द हवा और AC से बचें"
+    ],
+    "hinglish": [
+      "Menthol ya eucalyptus ke saath din mein 2 baar steam lein",
+      "Naak, gaaal aur maathey par garam sek karo",
+      "Namak paani se naak dho",
+      "Din bhar garam cheezein piyein"
+    ],
+    "mr": [
+      "मेन्थॉलसह दिवसातून 2 वेळा वाफ घ्या",
+      "नाक, गाल आणि कपाळावर उष्ण शेकणे द्या"
+    ],
+    "gu": [
+      "₹ steam ₹",
+      "₹ ₹ ₹ ₹ ₹"
+    ]
+  },
+  "dengue_symptoms": {
+    "en": [
+      "Rest completely — this is vital",
+      "Drink ORS, water, coconut water every hour",
+      "Papaya leaf juice may help increase platelet count",
+      "Absolutely NO aspirin or ibuprofen — causes bleeding risk",
+      "Monitor platelet count daily if diagnosed",
+      "Eat nutritious easily digestible food",
+      "Consult doctor immediately — dengue needs medical care"
+    ],
+    "hi": [
+      "पूरी तरह आराम करें — यह बहुत जरूरी है",
+      "ORS, पानी, नारियल पानी हर घंटे पियें",
+      "पपीते की पत्ती का रस प्लेटलेट बढ़ाने में मदद करता है",
+      "एस्पिरिन या इबुप्रोफेन बिल्कुल नहीं — खून बहने का खतरा",
+      "अगर डेंगू है तो रोज प्लेटलेट काउंट जांचें",
+      "तुरंत डॉक्टर से मिलें"
+    ],
+    "hinglish": [
+      "Puri tarah rest karo",
+      "ORS, paani, coconut water har ghante piyein",
+      "Papaye ki patti ka juice piyein platelet ke liye",
+      "Aspirin aur ibuprofen bilkul nahi",
+      "Platelet count roz check karo",
+      "Turant doctor se milo"
+    ],
+    "mr": [
+      "पूर्ण आराम करा",
+      "ORS, पाणी, नारळपाणी प्या",
+      "पपईच्या पानांचा रस प्या",
+      "ताबडतोब डॉक्टरांना भेटा"
+    ],
+    "gu": [
+      "₹ ₹ rest ₹",
+      "ORS, paani, coconut water ₹",
+      "Papaya leaf juice ₹",
+      "₹ doctor ₹"
+    ]
+  },
+  "malaria_symptoms": {
+    "en": [
+      "See a doctor immediately for blood smear test",
+      "Rest during chills — keep warm with blankets",
+      "Drink plenty of fluids during fever phase",
+      "Take only doctor-prescribed anti-malarial drugs",
+      "Complete the FULL course even if you feel better",
+      "Use mosquito nets to prevent spreading",
+      "Monitor temperature and chills pattern"
+    ],
+    "hi": [
+      "तुरंत डॉक्टर से मिलें और ब्लड स्मियर टेस्ट कराएं",
+      "ठंड के दौरान आराम करें, कंबल से गर्म रहें",
+      "बुखार के दौरान खूब तरल पियें",
+      "केवल डॉक्टर द्वारा दी गई एंटी-मलेरियल दवा लें",
+      "बेहतर महसूस होने पर भी पूरा कोर्स करें",
+      "मच्छरदानी का उपयोग करें"
+    ],
+    "hinglish": [
+      "Turant doctor se milo aur blood smear test karao",
+      "Thandi ke dauran rest karo, blanket se garam raho",
+      "Bukhar ke dauran bahut fluid piyein",
+      "Doctor prescribed anti-malarial dawai lo, poora course karo"
+    ],
+    "mr": [
+      "ताबडतोब डॉक्टरांना भेटा",
+      "थंडी वाजताना ब्लँकेट घ्या",
+      "भरपूर द्रव प्या"
+    ],
+    "gu": [
+      "₹ doctor ₹",
+      "₹ ₹ ₹ ₹",
+      "₹ ₹ fluid ₹"
+    ]
+  },
+  "typhoid_symptoms": {
+    "en": [
+      "See doctor immediately for Widal test or blood culture",
+      "Drink only boiled or filtered water — critical",
+      "Eat soft, easily digestible food: khichdi, bananas, curd",
+      "Complete the FULL antibiotic course",
+      "Strictly maintain hand hygiene",
+      "Rest completely",
+      "Avoid street food and unwashed fruits/vegetables"
+    ],
+    "hi": [
+      "तुरंत डॉक्टर से मिलें — विडाल टेस्ट या ब्लड कल्चर",
+      "केवल उबला या फिल्टर पानी — बहुत जरूरी",
+      "नरम खाना खाएं: खिचड़ी, केला, दही",
+      "एंटीबायोटिक का पूरा कोर्स करें",
+      "हाथों की सफाई का सख्ती से पालन करें",
+      "पूरी तरह आराम करें"
+    ],
+    "hinglish": [
+      "Turant doctor se milo, Widal test ya blood culture karao",
+      "Sirf ubla ya filter paani, bahut zaroori",
+      "Soft khaana khaao: khichdi, kela, dahi",
+      "Antibiotic ka poora course karo",
+      "Hand hygiene maintain karo"
+    ],
+    "mr": [
+      "ताबडतोब डॉक्टरांना भेटा",
+      "फक्त उकळलेले पाणी",
+      "मऊ अन्न खा",
+      "प्रतिजैविकांचा संपूर्ण कोर्स करा"
+    ],
+    "gu": [
+      "₹ doctor ₹",
+      "₹ ₹ ₹ ₹ ₹ ₹ ₹ paani",
+      "₹ ₹ food ₹",
+      "Antibiotic ₹ ₹"
+    ]
+  },
+  "jaundice": {
+    "en": [
+      "Rest completely — liver needs rest to heal",
+      "Drink 3-4 litres of water + coconut water daily",
+      "Eat light, low-fat food: fruits, boiled vegetables, rice",
+      "Absolutely NO alcohol — damages liver further",
+      "Avoid fatty, fried and processed food",
+      "Sugarcane juice is beneficial in jaundice",
+      "Get liver function tests (LFT) done"
+    ],
+    "hi": [
+      "पूरी तरह आराम करें — जिगर को ठीक होने के लिए आराम चाहिए",
+      "रोज 3-4 लीटर पानी + नारियल पानी पियें",
+      "हल्का कम वसा का खाना: फल, उबली सब्जियां, चावल",
+      "शराब बिल्कुल नहीं — जिगर और बिगड़ता है",
+      "गन्ने का रस पीलिया में फायदेमंद है",
+      "LFT टेस्ट कराएं"
+    ],
+    "hinglish": [
+      "Puri tarah rest karo, liver ko heal hone do",
+      "Roz 3-4 litre paani aur coconut water piyein",
+      "Light low-fat khaana: fruits, ubli sabziyan, chawal",
+      "Alcohol bilkul nahi, liver aur kharab hoga",
+      "Ganne ka juice piyein",
+      "LFT test karao"
+    ],
+    "mr": [
+      "पूर्ण आराम करा",
+      "3-4 लीटर पाणी + नारळपाणी",
+      "हलके, कमी चरबीचे अन्न खा",
+      "मद्यपान अजिबात नाही",
+      "ऊसाचा रस फायदेशीर आहे"
+    ],
+    "gu": [
+      "₹ ₹ rest ₹",
+      "3-4 litre paani + coconut water ₹",
+      "₹ ₹ ₹ ₹ ₹",
+      "Alcohol ₹ ₹ ₹"
+    ]
+  },
+  "toothache": {
+    "en": [
+      "Clove oil directly on affected tooth — natural anaesthetic",
+      "Warm salt water rinse every 2 hours",
+      "Cold pack on cheek reduces swelling",
+      "Avoid very hot or cold food and drinks",
+      "Over-the-counter ibuprofen helps with dental pain",
+      "See a dentist as soon as possible",
+      "Garlic paste on tooth has antibacterial properties"
+    ],
+    "hi": [
+      "प्रभावित दांत पर लौंग का तेल — प्राकृतिक दर्दनाशक",
+      "हर 2 घंटे में गर्म नमक पानी से कुल्ला",
+      "गाल पर ठंडी सेंक सूजन कम करती है",
+      "बहुत गर्म या ठंडा खाना न खाएं",
+      "जल्द से जल्द दंत चिकित्सक से मिलें",
+      "लहसुन का पेस्ट दांत पर लगाने से संक्रमण कम होता है"
+    ],
+    "hinglish": [
+      "Affected tooth par laung ka tel lagao, natural painkiller hai",
+      "Har 2 ghante garam namak paani se kulla karo",
+      "Gaaal par thanda compress lagao",
+      "Bahut garam ya thanda khaana mat khaao",
+      "Jald se jald dentist ke paas jao"
+    ],
+    "mr": [
+      "प्रभावित दातावर लवंगाचे तेल",
+      "दर 2 तासांनी मिठाच्या गरम पाण्याने कुळकुळी",
+      "लवकरात लवकर दंतचिकित्सकाला भेटा"
+    ],
+    "gu": [
+      "₹ ₹ ₹ laung oil ₹",
+      "₹ 2 ₹ ₹ ₹ ₹",
+      "₹ dentist ₹"
+    ]
+  },
+  "ear_problem": {
+    "en": [
+      "Do NOT insert anything into the ear",
+      "Warm compress held to ear reduces pain",
+      "Tilt head to affected side to drain trapped water",
+      "Hydrogen peroxide drops help with wax buildup",
+      "Avoid swimming until resolved",
+      "See ENT doctor if pain persists over 1-2 days or discharge"
+    ],
+    "hi": [
+      "कान में कुछ न डालें",
+      "दर्द के लिए कान पर गर्म सेंक करें",
+      "फंसे पानी को निकालने के लिए प्रभावित तरफ सिर झुकाएं",
+      "1-2 दिन में ठीक न हो या स्राव हो तो ENT डॉक्टर से मिलें"
+    ],
+    "hinglish": [
+      "Kaan mein kuch mat daalo",
+      "Dard ke liye kaan par garam sek karo",
+      "Paani nikalne ke liye prabhavit taraf sir jhukao",
+      "1-2 din mein theek na ho toh ENT doctor se milo"
+    ],
+    "mr": [
+      "कानात काहीही घालू नका",
+      "वेदनेसाठी उष्ण शेकणे द्या",
+      "ENT डॉक्टरांना भेटा"
+    ],
+    "gu": [
+      "₹ ₹ ₹ ₹ ₹",
+      "₹ ₹ ₹ ₹",
+      "ENT doctor ₹"
+    ]
+  }
 }

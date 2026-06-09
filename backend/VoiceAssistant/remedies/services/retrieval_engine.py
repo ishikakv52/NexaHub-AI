@@ -1,24 +1,15 @@
+# retrieval_engine.py — Fixed emergency message extraction for multilingual dict
+
 import json
 import os
 
-# =========================
-# PATH SETUP
-# =========================
-
-BASE = os.path.dirname(
-    os.path.dirname(__file__)
-)
-
+BASE = os.path.dirname(os.path.dirname(__file__))
 DATA_DIR = os.path.join(BASE, "datasets")
 
-SYMPTOMS_PATH = os.path.join(DATA_DIR, "symptoms.json")
-REMEDIES_PATH = os.path.join(DATA_DIR, "remedies.json")
+SYMPTOMS_PATH  = os.path.join(DATA_DIR, "symptoms.json")
+REMEDIES_PATH  = os.path.join(DATA_DIR, "remedies.json")
 EMERGENCY_PATH = os.path.join(DATA_DIR, "emergency.json")
 
-
-# =========================
-# SAFE LOADERS
-# =========================
 
 def _load_json(path):
     try:
@@ -27,75 +18,49 @@ def _load_json(path):
     except Exception:
         return {}
 
-SYMPTOMS_DATA = _load_json(SYMPTOMS_PATH)
-REMEDIES_DATA = _load_json(REMEDIES_PATH)
+SYMPTOMS_DATA  = _load_json(SYMPTOMS_PATH)
+REMEDIES_DATA  = _load_json(REMEDIES_PATH)
 EMERGENCY_DATA = _load_json(EMERGENCY_PATH)
 
 
-# =========================
-# EMERGENCY CHECK (PRIORITY 1)
-# =========================
-
 def check_emergency(symptoms: list):
     """
-    Returns emergency message if any symptom is critical
+    Returns emergency dict if any symptom is critical.
+    Handles both old (string) and new (nested dict with multilingual messages) formats.
     """
-
     for s in symptoms:
         if s in EMERGENCY_DATA:
+            entry = EMERGENCY_DATA[s]
+            # New format: {"action": ..., "message": {"en": ..., "hi": ...}}
+            if isinstance(entry, dict) and "message" in entry:
+                msg = entry["message"]  # this is the multilingual dict
+            else:
+                msg = entry  # old plain string format
             return {
                 "emergency": True,
                 "symptom": s,
-                "message": EMERGENCY_DATA[s]
+                "action": entry.get("action", "CALL_EMERGENCY") if isinstance(entry, dict) else "CALL_EMERGENCY",
+                "message": msg,   # multilingual dict OR plain string
             }
+    return {"emergency": False}
 
-    return {
-        "emergency": False
-    }
-
-
-# =========================
-# REMEDY FETCH
-# =========================
 
 def get_remedies(symptoms: list):
-    """
-    Returns remedies for given symptoms
-    """
-
     result = {}
-
     for s in symptoms:
         if s in REMEDIES_DATA:
             result[s] = REMEDIES_DATA[s]
-
     return result
 
 
-# =========================
-# MAIN ENGINE
-# =========================
-
 def retrieve(symptoms: list):
-    """
-    FINAL RESPONSE BUILDER
-
-    Returns:
-    {
-        "emergency": {...} or None,
-        "remedies": {...},
-        "status": "ok" | "emergency"
-    }
-    """
-
     if not symptoms:
         return {
             "status": "ok",
             "remedies": {},
-            "message": "No symptoms detected"
+            "message": "No symptoms detected",
         }
 
-    # 1. Emergency check
     emergency = check_emergency(symptoms)
 
     if emergency["emergency"]:
@@ -103,15 +68,14 @@ def retrieve(symptoms: list):
             "status": "emergency",
             "emergency": emergency,
             "remedies": {},
-            "message": emergency["message"]
+            "message": emergency["message"],
         }
 
-    # 2. Remedies fetch
     remedies = get_remedies(symptoms)
 
     return {
         "status": "ok",
         "symptoms": symptoms,
         "remedies": remedies,
-        "message": "Remedies fetched successfully"
+        "message": "Remedies fetched successfully",
     }

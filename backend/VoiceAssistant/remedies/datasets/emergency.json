@@ -1,21 +1,82 @@
 {
   "chest_pain": {
     "action": "CALL_EMERGENCY",
-    "message": "Possible heart-related issue. Seek immediate medical help."
+    "message": {
+      "en": "⚠️ EMERGENCY: Possible heart attack. Call 108 / 112 immediately. Do NOT drive yourself. Chew an aspirin (325mg) if not allergic and no contraindications.",
+      "hi": "⚠️ आपातकाल: संभावित दिल का दौरा। तुरंत 108 / 112 पर कॉल करें। खुद गाड़ी न चलाएं।",
+      "hinglish": "⚠️ Emergency: Heart attack ho sakta hai. Abhi 108 / 112 call karo. Khud driving mat karo.",
+      "mr": "⚠️ आणीबाणी: हृदयविकाराचा झटका येऊ शकतो. लगेच 108 / 112 वर कॉल करा.",
+      "gu": "⚠️ ઈmergency: સ ₹ ₹ ₹. 108 / 112 ₹ ₹."
+    }
   },
-
   "breathing_difficulty": {
     "action": "CALL_EMERGENCY",
-    "message": "Severe respiratory issue detected. Get emergency assistance immediately."
+    "message": {
+      "en": "⚠️ EMERGENCY: Severe breathing difficulty detected. Call 108 / 112 immediately. Sit upright. Do not lie down.",
+      "hi": "⚠️ आपातकाल: गंभीर सांस लेने में कठिनाई। तुरंत 108 / 112 पर कॉल करें। सीधे बैठें।",
+      "hinglish": "⚠️ Emergency: Saans lene mein bahut dikkat. Abhi 108 / 112 call karo. Sidha baithein.",
+      "mr": "⚠️ आणीबाणी: श्वास घेण्यास गंभीर त्रास. 108 / 112 वर कॉल करा. सरळ बसा.",
+      "gu": "⚠️ ₹ ₹ ₹ 108 / 112."
+    }
   },
-
   "unconsciousness": {
     "action": "CALL_EMERGENCY",
-    "message": "Critical condition. Call ambulance immediately."
+    "message": {
+      "en": "⚠️ CRITICAL: Person is unconscious. Call 108 / 112 immediately. Place in recovery position. Do NOT give anything to eat/drink.",
+      "hi": "⚠️ गंभीर: व्यक्ति बेहोश है। तुरंत 108 / 112 पर कॉल करें।",
+      "hinglish": "⚠️ Critical: Vyakti behosh hai. Abhi 108 / 112 call karo.",
+      "mr": "⚠️ गंभीर: व्यक्ती बेशुद्ध आहे. 108 / 112 वर कॉल करा.",
+      "gu": "⚠️ ₹ ₹ 108 / 112."
+    }
   },
-
   "severe_bleeding": {
     "action": "FIRST_AID",
-    "message": "Apply pressure and seek emergency care."
+    "message": {
+      "en": "⚠️ EMERGENCY: Apply firm pressure with clean cloth. Do NOT remove cloth if soaked — add more on top. Call 108 immediately.",
+      "hi": "⚠️ आपातकाल: साफ कपड़े से मजबूती से दबाएं। तुरंत 108 पर कॉल करें।",
+      "hinglish": "⚠️ Emergency: Clean kapde se dabao. 108 call karo.",
+      "mr": "⚠️ आणीबाणी: स्वच्छ कापडाने दाबा. 108 वर कॉल करा.",
+      "gu": "⚠️ ₹ ₹ 108."
+    }
+  },
+  "stroke_symptoms": {
+    "action": "CALL_EMERGENCY",
+    "message": {
+      "en": "⚠️ EMERGENCY STROKE: Use FAST — Face drooping, Arm weakness, Speech difficulty, Time to call 108. Every minute counts!",
+      "hi": "⚠️ आपातकाल स्ट्रोक: FAST — चेहरा झुकना, बांह में कमज़ोरी, बोलने में दिक्कत, तुरंत 108 कॉल करें!",
+      "hinglish": "⚠️ Emergency Stroke: FAST test karo — Chehra jhukna, Haath kamzor, Baat karne mein dikkat — 108 call karo!",
+      "mr": "⚠️ आपात स्ट्रोक: FAST — चेहरा वाकणे, हात अशक्त, बोलणे अवघड — 108 कॉल करा!",
+      "gu": "⚠️ ₹ ₹ 108."
+    }
+  },
+  "very_high_fever": {
+    "action": "CALL_EMERGENCY",
+    "message": {
+      "en": "⚠️ DANGER: Fever above 104°F (40°C) is a medical emergency. Go to hospital immediately. Apply wet cloths to cool body.",
+      "hi": "⚠️ खतरा: 104°F (40°C) से ऊपर बुखार खतरनाक है। तुरंत अस्पताल जाएं।",
+      "hinglish": "⚠️ Danger: 104°F se upar bukhar bahut khatarnak hai. Abhi hospital jao.",
+      "mr": "⚠️ धोका: 104°F पेक्षा जास्त ताप आणीबाणी आहे. ताबडतोब रुग्णालयात जा.",
+      "gu": "⚠️ ₹ 104°F ₹ ₹ ₹."
+    }
+  },
+  "very_low_spo2": {
+    "action": "CALL_EMERGENCY",
+    "message": {
+      "en": "⚠️ CRITICAL: SpO2 below 90% is life-threatening. Call 108 immediately. Sit upright. Breathe slowly and deeply.",
+      "hi": "⚠️ गंभीर: SpO2 90% से कम जानलेवा है। तुरंत 108 पर कॉल करें।",
+      "hinglish": "⚠️ Critical: SpO2 90% se kam = bahut khatarnak. Abhi 108 call karo. Sidha baithein.",
+      "mr": "⚠️ गंभीर: SpO2 90% पेक्षा कमी जीवघेणे आहे. लगेच 108 कॉल करा.",
+      "gu": "⚠️ ₹ SpO2 90% ₹ 108."
+    }
+  },
+  "very_high_bp": {
+    "action": "CALL_EMERGENCY",
+    "message": {
+      "en": "⚠️ HYPERTENSIVE CRISIS: BP above 180/120 mmHg is an emergency. Go to hospital immediately. Sit calmly, don't exert.",
+      "hi": "⚠️ हाइपरटेंसिव संकट: BP 180/120 से ऊपर आपातकाल है। तुरंत अस्पताल जाएं।",
+      "hinglish": "⚠️ BP Crisis: BP 180/120 se upar = emergency. Turant hospital jao.",
+      "mr": "⚠️ BP संकट: BP 180/120 पेक्षा जास्त आणीबाणी आहे. ताबडतोब रुग्णालयात जा.",
+      "gu": "⚠️ BP ₹ 180/120 ₹ ₹ ₹."
+    }
   }
 }

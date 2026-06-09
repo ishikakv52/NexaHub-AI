@@ -1380,10 +1380,31 @@ function vmStopSpeaking() {
 }
 
 /* ── Orb click — tap to speak / stop ──────────────────── */
-document.getElementById('vm-orb').addEventListener('click', () => {
-  if (VM.speaking) { vmStopSpeaking(); return; }
-  if (VM.recognizing) { vmStopListening(); vmSetStatus('TAP ORB TO SPEAK','idle'); return; }
-  vmStartListening();
+document.addEventListener('DOMContentLoaded', () => {
+
+  const vmOrb = document.getElementById('vm-orb');
+
+  if(vmOrb){
+
+    vmOrb.addEventListener('click', () => {
+
+      if (VM.speaking){
+        vmStopSpeaking();
+        return;
+      }
+
+      if (VM.recognizing){
+        vmStopListening();
+        vmSetStatus('TAP ORB TO SPEAK','idle');
+        return;
+      }
+
+      vmStartListening();
+
+    });
+
+  }
+
 });
 
 /* ── UI helpers ────────────────────────────────────────── */

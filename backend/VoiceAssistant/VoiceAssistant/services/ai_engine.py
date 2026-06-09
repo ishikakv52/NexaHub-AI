@@ -3,6 +3,7 @@ NEXA HUB AI Engine (DB-backed)
 Session_id is passed through so HealthDataService
 reads the actual user's DB data for every response.
 """
+from ..db_service import set_goal
 
 import random, datetime, re
 from .intent_detector import IntentDetector
@@ -54,7 +55,16 @@ class VoiceAssistantAI:
             },
         }
         handler = handlers.get(model, {}).get(sub_model, self._default)
-        return handler(user_input, context, session_id)
+        result = handler(user_input, context, session_id)
+
+        if not isinstance(result, dict):
+            return {
+                "response": str(result),
+                "type": "normal"
+            }
+
+        result.setdefault("type", "normal")
+        return result
 
     def _greeting(self, lang):
         msgs = {
@@ -64,68 +74,427 @@ class VoiceAssistantAI:
         return msgs.get(lang, msgs['en'])
 
     # ── FITNESS TRACKER (fully DB-backed) ─────────────────────
-    def _fitness(self, text, ctx, session_id):
+    def _fitness(
+    self,
+    text,
+    ctx,
+    session_id
+):
+
         detector = IntentDetector()
-        intent   = detector.detect(text)
-        t        = text.lower()
 
-        # Keyword priority overrides
-        if 'weekly' in t and ('summary' in t or 'report' in t): intent = 'weekly_summary'
-        elif 'monthly' in t and ('summary' in t or 'report' in t): intent = 'monthly_summary'
-        elif ('daily' in t or 'aaj' in t) and ('summary' in t or 'report' in t): intent = 'daily_summary'
+        try:
 
-        # ── Inline goal-set command ────────────────────────────
-        # "set steps goal 12000" / "set water goal 3.5"
-        goal_m = re.search(r'set\s+(\w+)\s+goal\s+([\d.]+)', t)
-        if goal_m:
-            metric_map = {
-                'steps':'steps', 'step':'steps',
-                'sleep':'sleep_hours', 'water':'water_liters',
-                'weight':'weight_kg', 'calorie':'calories_burned',
-                'calories':'calories_burned', 'recovery':'recovery_score',
+            intent = detector.detect(
+                text
+            )
+
+        except Exception as e:
+
+            return {
+
+                "response":
+                f"Intent detection failed: {str(e)}",
+
+                "type":
+                "error"
+
             }
-            raw_m = goal_m.group(1)
-            metric = metric_map.get(raw_m)
+
+        print(
+            "INTENT =",
+            intent
+        )
+
+        print(
+            "TEXT =",
+            text
+        )
+
+        t = text.lower()
+
+        # Priority Overrides
+
+        if (
+            'weekly' in t and
+            (
+                'summary' in t or
+                'report' in t
+            )
+        ):
+
+            intent = "weekly_summary"
+
+        elif (
+
+            'monthly' in t and
+            (
+                'summary' in t or
+                'report' in t
+            )
+
+        ):
+
+            intent = "monthly_summary"
+
+        elif (
+
+            (
+                'daily' in t or
+                'aaj' in t
+            )
+
+            and
+
+            (
+                'summary' in t or
+                'report' in t
+            )
+
+        ):
+
+            intent = "daily_summary"
+
+        # Goal Commands
+
+        goal_m = re.search(
+
+            r'set\s+(\w+)\s+goal\s+([\d.]+)',
+
+            t
+
+        )
+
+        if goal_m:
+
+            metric_map = {
+
+                'steps':'steps',
+                'step':'steps',
+
+                'sleep':'sleep_hours',
+
+                'water':'water_liters',
+
+                'weight':'weight_kg',
+
+                'calorie':'calories_burned',
+
+                'calories':'calories_burned',
+
+                'recovery':'recovery_score'
+
+            }
+
+            metric = metric_map.get(
+
+                goal_m.group(1)
+
+            )
+
             if metric:
+
                 try:
-                    from VoiceAssistant.VoiceAssistant.db_service import set_goal
-                    val = float(goal_m.group(2))
-                    set_goal(session_id, metric, val)
-                    return {'response': f"🎯 Goal set ho gaya!\n\n**{metric.replace('_',' ').title()}** = **{val}**\n\nAb jab bhi yeh metric check karoge, isi goal se compare hoga! 💪", 'type': 'goal_set'}
-                except Exception:
-                    pass
 
-        # ── Build service with session_id ──────────────────────
-        service = HealthDataService(session_id=session_id)
-        router  = IntentRouter(service)
 
-        # ── Q&A intents ──────────────────────────────────────────
-        is_qa          = detector.is_qa_intent(intent)
-        report_ctx     = ctx.get('report_context') or get_report_context() or {}
-        has_report_ctx = bool(report_ctx)
+                    value = float(
 
-        # Q&A condition:
-        # 1. Explicitly a Q&A intent (qa_improve, qa_compare, etc.)
-        # 2. Intent unknown but user has an active report context
-        # 3. Any question-like text when report context exists
-        is_question = any(w in text.lower() for w in [
-            'kyu', 'why', 'kaise', 'how', 'kab', 'when', 'kya', 'what',
-            'improve', 'better', 'compare', 'goal', 'predict', 'effect',
-            'tip', 'advice', 'suggest', 'explain', 'matlab', 'wajah',
-        ])
+                        goal_m.group(2)
 
-        if is_qa or (has_report_ctx and (intent == 'unknown' or is_question)):
-            result = service.answer_report_question(text, report_ctx)
-            result['report_context'] = report_ctx
-            result['qa_enabled']     = True
-            return result
+                    )
 
-        # ── Normal metric intent ───────────────────────────────
-        result = router.handle(intent, text, ctx)
+                    set_goal(
 
-        if result.get('data'):
-            result['report_context'] = get_report_context()
-            result['qa_enabled']     = True
+                        session_id,
+
+                        metric,
+
+                        value
+
+                    )
+
+                    return {
+
+                        "response":
+
+                        f"🎯 Goal set!\n\n"
+
+                        f"{metric}"
+
+                        f" = "
+
+                        f"{value}",
+
+                        "type":
+
+                        "goal_set"
+
+                    }
+
+                except Exception as e:
+
+                    return {
+
+                        "response":
+
+                        f"Goal save failed: {str(e)}",
+
+                        "type":
+
+                        "error"
+
+                    }
+
+        # Service Creation
+
+        try:
+
+            service = HealthDataService(
+
+                session_id=session_id
+
+            )
+
+            router = IntentRouter(
+
+                service
+
+            )
+
+        except Exception as e:
+
+            return {
+
+                "response":
+
+                f"Service init failed: {str(e)}",
+
+                "type":
+
+                "error"
+
+            }
+
+        # Report Context Safe Handling
+
+        report_ctx = ctx.get(
+            "report_context"
+        )
+
+        if not isinstance(
+            report_ctx,
+            dict
+        ):
+
+            report_ctx = {}
+
+        has_report_ctx = bool(
+            report_ctx
+        )
+
+        try:
+
+            is_qa = detector.is_qa_intent(
+                intent
+            )
+
+        except:
+
+            is_qa = False
+
+        is_question = any(
+
+            w in t
+
+            for w in [
+
+                'kyu',
+                'why',
+
+                'kaise',
+                'how',
+
+                'kab',
+                'when',
+
+                'kya',
+                'what',
+
+                'improve',
+                'better',
+
+                'compare',
+                'goal',
+
+                'predict',
+                'effect',
+
+                'tip',
+                'advice',
+
+                'suggest',
+                'explain',
+
+                'matlab',
+                'wajah'
+
+            ]
+
+        )
+
+        # Q&A Routing
+
+        if (
+
+            is_qa
+
+            or
+
+            (
+
+                has_report_ctx
+
+                and
+
+                (
+
+                    intent=="unknown"
+
+                    or
+
+                    is_question
+
+                )
+
+            )
+
+        ):
+
+            try:
+
+                result = service.answer_report_question(
+
+                    text,
+
+                    report_ctx
+
+                )
+
+                result[
+                    "report_context"
+                ] = report_ctx
+
+                result[
+                    "qa_enabled"
+                ] = True
+
+                return result
+
+            except Exception as e:
+
+                return {
+
+                    "response":
+
+                    f"QA failed: {str(e)}",
+
+                    "type":
+
+                    "error"
+
+                }
+
+        # Router Execution
+
+        try:
+
+            print(
+
+                "ROUTER CALL:",
+
+                intent
+
+            )
+
+            result = router.handle(
+
+                intent,
+
+                text,
+
+                ctx
+
+            )
+
+        except Exception as e:
+
+            import traceback
+
+            print(
+
+                traceback.format_exc()
+
+            )
+
+            return {
+
+                "response":
+
+                f"Router failed: {str(e)}",
+
+                "type":
+
+                "error"
+
+            }
+
+        if not isinstance(
+            result,
+            dict
+        ):
+
+            result = {
+
+                "response":
+
+                str(result),
+
+                "type":
+
+                "fitness"
+
+            }
+
+        result.setdefault(
+            "data",
+            {}
+        )
+
+        result.setdefault(
+            "type",
+            "fitness"
+        )
+
+        result.setdefault(
+            "qa_enabled",
+            True
+        )
+
+        if result.get(
+            "data"
+        ) is not None:
+
+            try:
+
+                result[
+                    "report_context"
+                ] = get_report_context()
+
+            except:
+
+                result[
+                    "report_context"
+                ] = {}
 
         return result
 
@@ -224,4 +593,18 @@ class VoiceAssistantAI:
 _ai = VoiceAssistantAI()
 
 def get_ai_response(model, sub_model, user_input, context=None):
-    return _ai.get_response(model, sub_model, user_input, context)
+    result = _ai.get_response(model, sub_model, user_input, context)
+
+    if result is None:
+        return {
+            "response": "Sorry, I couldn't generate response",
+            "type": "error"
+        }
+
+    if not isinstance(result, dict):
+        return {
+            "response": str(result),
+            "type": "normal"
+        }
+
+    return result

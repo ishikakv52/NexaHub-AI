@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'accounts',
     'VoiceToText',
     'ImageToText',
-'VoiceAssistant.remedies.apps.RemediesConfig'
+'VoiceAssistant.remedies.apps.RemediesConfig',
+'VoiceAssistant.workout',
 
 
 

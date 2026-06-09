@@ -24,25 +24,21 @@ from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 urlpatterns = [
     path('admin/', admin.site.urls),
-
     path('api/', include('accounts.urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('', include('ImageToText.urls')),
-
     path('voice-to-text/', include('VoiceToText.urls')),
-    path("tts/", include("TextToSpeech.urls")),  # <-- new
-   path('texttospeech/', include('TextToSpeech.urls')),
-   path("api/", include("VoiceAssistant.remedies.urls")),
-   path("ai-chat/", ai_chat),
-   path('', include('VoiceAssistant.VoiceAssistant.urls')),
-# path(
-#         'remedies/',
-#         include(
-#             'VoiceAssistant.remedies.urls'
-#         )
-#     ),
-
+    path("tts/", include("TextToSpeech.urls")),
+    path('texttospeech/', include('TextToSpeech.urls')),
+    path("remedies/", include("VoiceAssistant.remedies.urls")),  # ← SIRF YEH CHANGE KIYA
+    path("ai-chat/", ai_chat),
+    path('', include('VoiceAssistant.VoiceAssistant.urls')),
+    path(
+'workout/',
+include(
+'VoiceAssistant.workout.urls'
+)),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

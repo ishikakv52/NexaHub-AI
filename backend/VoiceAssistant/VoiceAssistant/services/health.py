@@ -6,15 +6,48 @@ Falls back to graceful "no data" prompts.
 
 import datetime
 
+# ── Lazy DB loader — avoids AppRegistryNotReady error ──────────
 _DB_AVAILABLE = False
-try:
-    from VoiceAssistant.VoiceAssistant.db_service import (
-        get_today, get_last_n_days, get_weekly_summary,
-        get_monthly_summary, get_goals, compare_with_prev, has_any_data
-    )
-    _DB_AVAILABLE = True
-except Exception:
-    pass
+_db_funcs = {}
+
+def _ensure_db() -> bool:
+    """
+    Load db_service lazily so Django's app registry is
+    fully ready before we import models.
+    """
+    global _DB_AVAILABLE, _db_funcs
+    if _DB_AVAILABLE:
+        return True
+    try:
+        from VoiceAssistant.VoiceAssistant.db_service import (
+            get_today, get_last_n_days, get_weekly_summary,
+            get_monthly_summary, get_goals, compare_with_prev, has_any_data
+        )
+        _db_funcs = {
+            'get_today':           get_today,
+            'get_last_n_days':     get_last_n_days,
+            'get_weekly_summary':  get_weekly_summary,
+            'get_monthly_summary': get_monthly_summary,
+            'get_goals':           get_goals,
+            'compare_with_prev':   compare_with_prev,
+            'has_any_data':        has_any_data,
+        }
+        _DB_AVAILABLE = True
+        return True
+    except Exception as e:
+        import traceback
+        print(f"[health.py] _ensure_db failed: {e}")
+        traceback.print_exc()
+        return False
+
+# Convenience wrappers so the rest of the file reads cleanly
+def get_today(sid):           return _db_funcs['get_today'](sid)           if _ensure_db() else {}
+def get_last_n_days(sid, n):  return _db_funcs['get_last_n_days'](sid, n)  if _ensure_db() else []
+def get_weekly_summary(sid):  return _db_funcs['get_weekly_summary'](sid)  if _ensure_db() else {}
+def get_monthly_summary(sid): return _db_funcs['get_monthly_summary'](sid) if _ensure_db() else {}
+def get_goals(sid):           return _db_funcs['get_goals'](sid)           if _ensure_db() else {}
+def compare_with_prev(sid, metric, days): return _db_funcs['compare_with_prev'](sid, metric, days) if _ensure_db() else {}
+def has_any_data(sid):        return _db_funcs['has_any_data'](sid)        if _ensure_db() else False
 
 # QA Engine — ML model trained on 10,223+ dataset utterances
 _QA_ENGINE = None
@@ -55,12 +88,12 @@ class HealthDataService:
         }
 
     def _goal(self, metric: str, default: float) -> float:
-        if not _DB_AVAILABLE: return default
-        return get_goals(self.sid).get(metric, default)
+        goals = get_goals(self.sid)
+        return goals.get(metric, default)
 
     # ── STEPS ──────────────────────────────────────────────────
     def get_steps_today(self) -> dict:
-        d = get_today(self.sid) if _DB_AVAILABLE else {}
+        d = get_today(self.sid)
         if not d or d.get('steps') is None: return self._no_data('Steps Today')
         steps = d['steps']; goal = self._goal('steps', 10000)
         pct = round((steps/goal)*100); dist = d.get('distance_km') or round(steps*0.00076,2)
@@ -78,7 +111,7 @@ class HealthDataService:
         }
 
     def get_steps_weekly(self) -> dict:
-        d = get_weekly_summary(self.sid) if _DB_AVAILABLE else {}
+        d = get_weekly_summary(self.sid)
         if not d: return self._no_data('Weekly Steps')
         days = d.get('steps_by_day', {}); avg = d.get('avg_steps',0); best = d.get('best_day','N/A')
         data = {'days': days, 'average': avg, 'best_day': best, 'total': d.get('total_steps',0)}
@@ -91,7 +124,7 @@ class HealthDataService:
 
     # ── SLEEP ──────────────────────────────────────────────────
     def get_sleep_duration(self) -> dict:
-        d = get_today(self.sid) if _DB_AVAILABLE else {}
+        d = get_today(self.sid)
         if not d or d.get('sleep_hours') is None: return self._no_data('Sleep Duration')
         hrs = d['sleep_hours']; qual = d.get('sleep_quality','N/A')
         data = {'hours': hrs, 'quality': qual, 'bedtime': d.get('bedtime','—'), 'wake': d.get('wake_time','—')}
@@ -108,7 +141,7 @@ class HealthDataService:
         }
 
     def get_sleep_score(self) -> dict:
-        d = get_today(self.sid) if _DB_AVAILABLE else {}
+        d = get_today(self.sid)
         if not d or d.get('sleep_hours') is None: return self._no_data('Sleep Score')
         hrs = d['sleep_hours']; score = min(round((hrs/9)*100),100)
         grade = 'A+' if score>=90 else 'A' if score>=85 else 'B+' if score>=78 else 'B' if score>=70 else 'C'
@@ -117,7 +150,7 @@ class HealthDataService:
         return {'response': f"⭐ **Sleep Score: {score}/100 ({grade})**\n\nBased on {hrs} hrs sleep\n{'✅ Excellent!' if score>=85 else '📈 Improvement possible'}\n\n💡 7-9 hrs = score 85+", 'data': data, 'type': 'sleep_score'}
 
     def get_deep_sleep(self) -> dict:
-        d = get_today(self.sid) if _DB_AVAILABLE else {}
+        d = get_today(self.sid)
         deep = d.get('deep_sleep_hours') if d else None
         if deep is None:
             total = d.get('sleep_hours') if d else None
@@ -129,7 +162,7 @@ class HealthDataService:
         return {'response': f"🌙 **Deep Sleep: {deep} hrs ({pct}%)**\n\n🎯 Recommended: 1.5-2 hrs (20-25%)\n{'✅ Good!' if deep>=1.5 else '⚠️ Deep sleep kam hai'}\n\n💡 Screen avoid karo sone se 1 hr pehle!", 'data': data, 'type': 'deep_sleep'}
 
     def get_rem_sleep(self) -> dict:
-        d = get_today(self.sid) if _DB_AVAILABLE else {}
+        d = get_today(self.sid)
         rem = d.get('rem_sleep_hours') if d else None
         if rem is None:
             total = d.get('sleep_hours') if d else None
@@ -141,7 +174,7 @@ class HealthDataService:
 
     # ── WATER ──────────────────────────────────────────────────
     def get_water_intake(self) -> dict:
-        d = get_today(self.sid) if _DB_AVAILABLE else {}
+        d = get_today(self.sid)
         if not d or d.get('water_liters') is None: return self._no_data('Water Intake')
         ltrs = d['water_liters']; goal = self._goal('water_liters',3.0); pct = round((ltrs/goal)*100)
         data = {'liters': ltrs, 'goal': goal, 'percentage': pct, 'glasses': round(ltrs*4)}
@@ -151,7 +184,7 @@ class HealthDataService:
                 f"💧 **Water: {ltrs} L ({pct}% of {goal} L)**\n\n"
                 f"🥛 Glasses: ~{data['glasses']}\n"
                 f"{'✅ Hydrated! 🎉' if pct>=100 else f'⚠️ Aur {round(goal-ltrs,1)} L baki ({int((goal-ltrs)*4)} glasses)'}\n\n"
-                f"💡 Har ghante ek glass paaani!"
+                f"💡 Har ghante ek glass paani!"
             ),
             'data': data, 'type': 'water_intake'
         }
@@ -164,7 +197,7 @@ class HealthDataService:
 
     # ── CALORIES ───────────────────────────────────────────────
     def get_calories_today(self) -> dict:
-        d = get_today(self.sid) if _DB_AVAILABLE else {}
+        d = get_today(self.sid)
         burned = d.get('calories_burned') if d else None
         consumed = d.get('calories_consumed') if d else None
         if burned is None and consumed is None: return self._no_data('Calories')
@@ -178,7 +211,7 @@ class HealthDataService:
         return {'response': "🔥 **Calories Today**\n\n" + '\n'.join(parts) + "\n\n💡 500 cal deficit = 0.5 kg/week loss!", 'data': data, 'type': 'calories_today'}
 
     def get_calories_weekly(self) -> dict:
-        d = get_weekly_summary(self.sid) if _DB_AVAILABLE else {}
+        d = get_weekly_summary(self.sid)
         if not d or not d.get('total_calories'): return self._no_data('Weekly Calories')
         data = {'total': d['total_calories'], 'average': round(d['total_calories']/7)}
         set_report_context({'type':'calories_weekly','data':data,'raw':d})
@@ -186,7 +219,7 @@ class HealthDataService:
 
     # ── HEART RATE ─────────────────────────────────────────────
     def get_heart_rate_current(self) -> dict:
-        d = get_today(self.sid) if _DB_AVAILABLE else {}
+        d = get_today(self.sid)
         bpm = (d.get('heart_rate_resting') or d.get('heart_rate_avg')) if d else None
         if not bpm: return self._no_data('Heart Rate')
         status = 'Normal' if 60<=bpm<=100 else ('Low' if bpm<60 else 'High')
@@ -195,7 +228,7 @@ class HealthDataService:
         return {'response': f"❤️ **Heart Rate: {bpm} BPM ({status})**\n\n{'✅ Normal resting HR' if 60<=bpm<=100 else '⚠️ Unusual — consult doctor!'}\n\n💡 Normal: 60-100 BPM. Athletes: 40-60 BPM", 'data': data, 'type': 'heart_rate_current'}
 
     def get_heart_rate_average(self) -> dict:
-        last7 = get_last_n_days(self.sid,7) if _DB_AVAILABLE else []
+        last7 = get_last_n_days(self.sid, 7)
         vals = [e['heart_rate_avg'] for e in last7 if e.get('heart_rate_avg')]
         if not vals: return self._no_data('Average Heart Rate')
         avg = round(sum(vals)/len(vals))
@@ -204,7 +237,7 @@ class HealthDataService:
         return {'response': f"📊 **7-Day Avg HR: {avg} BPM**\n\n📅 Data from {len(vals)} days\n💡 Lower resting HR = better cardiovascular fitness!", 'data': data, 'type': 'heart_rate_average'}
 
     def get_heart_rate_zone(self) -> dict:
-        d = get_today(self.sid) if _DB_AVAILABLE else {}
+        d = get_today(self.sid)
         avg = d.get('heart_rate_avg') if d else None
         if not avg: return self._no_data('Heart Rate Zone')
         pct_max = (avg/190)*100
@@ -215,9 +248,9 @@ class HealthDataService:
 
     # ── WEIGHT ─────────────────────────────────────────────────
     def get_weight(self) -> dict:
-        d = get_today(self.sid) if _DB_AVAILABLE else {}
+        d = get_today(self.sid)
         if not d or not d.get('weight_kg'):
-            recent = get_last_n_days(self.sid,7) if _DB_AVAILABLE else []
+            recent = get_last_n_days(self.sid, 7)
             for r in reversed(recent):
                 if r.get('weight_kg'): d=r; break
         if not d or not d.get('weight_kg'): return self._no_data('Weight & BMI')
@@ -238,7 +271,7 @@ class HealthDataService:
 
     # ── STRESS / RECOVERY ──────────────────────────────────────
     def get_stress_level(self) -> dict:
-        d = get_today(self.sid) if _DB_AVAILABLE else {}
+        d = get_today(self.sid)
         score = d.get('stress_score') if d else None
         if score is None: return self._no_data('Stress Level')
         level = 'Low' if score<30 else 'Moderate' if score<55 else 'High' if score<75 else 'Very High'
@@ -248,7 +281,7 @@ class HealthDataService:
         return {'response': f"🧠 **Stress: {emoji} {level} ({score}/100)**\n\n{'✅ Well managed!' if score<40 else '⚠️ High stress — take action!'}\n\n💡 4-7-8 breathing try karo!", 'data': data, 'type': 'stress_level'}
 
     def get_recovery_score(self) -> dict:
-        d = get_today(self.sid) if _DB_AVAILABLE else {}
+        d = get_today(self.sid)
         score = d.get('recovery_score') if d else None
         if score is None: return self._no_data('Recovery Score')
         grade = 'A' if score>=85 else 'B' if score>=70 else 'C' if score>=55 else 'D'
@@ -259,7 +292,7 @@ class HealthDataService:
 
     # ── DISTANCE ───────────────────────────────────────────────
     def get_distance_today(self) -> dict:
-        d = get_today(self.sid) if _DB_AVAILABLE else {}
+        d = get_today(self.sid)
         km = d.get('distance_km') if d else None
         if not km and d and d.get('steps'): km = round(d['steps']*0.00076,2)
         if not km: return self._no_data('Distance')
@@ -269,8 +302,8 @@ class HealthDataService:
 
     # ── GOAL PROGRESS ──────────────────────────────────────────
     def get_goal_progress(self) -> dict:
-        d = get_today(self.sid) if _DB_AVAILABLE else {}
-        goals = get_goals(self.sid) if _DB_AVAILABLE else {}
+        d = get_today(self.sid)
+        goals = get_goals(self.sid)
         if not d: return self._no_data('Goal Progress')
         metrics = {
             'Steps':    (d.get('steps'),          goals.get('steps',10000)),
@@ -288,7 +321,7 @@ class HealthDataService:
 
     # ── SUMMARIES ──────────────────────────────────────────────
     def get_daily_summary(self) -> dict:
-        d = get_today(self.sid) if _DB_AVAILABLE else {}
+        d = get_today(self.sid)
         if not d or all(d.get(k) is None for k in ['steps','sleep_hours','water_liters','calories_burned']):
             return self._no_data('Daily Summary')
         def f(v,u=''): return f"{v}{u}" if v is not None else '—'
@@ -316,7 +349,7 @@ class HealthDataService:
         }
 
     def get_weekly_summary(self) -> dict:
-        d = get_weekly_summary(self.sid) if _DB_AVAILABLE else {}
+        d = get_weekly_summary(self.sid)
         if not d: return self._no_data('Weekly Summary')
         data = {k: d.get(k) for k in ['week','avg_steps','total_steps','total_calories','avg_sleep','avg_water','avg_recovery','avg_stress','consistency','days_logged','best_day']}
         set_report_context({'type':'weekly_summary','data':data,'raw':d})
@@ -338,7 +371,7 @@ class HealthDataService:
         }
 
     def get_monthly_summary(self) -> dict:
-        d = get_monthly_summary(self.sid) if _DB_AVAILABLE else {}
+        d = get_monthly_summary(self.sid)
         if not d: return self._no_data('Monthly Summary')
         wc = d.get('weight_change'); wc_str = (f"{'+' if wc and wc>0 else ''}{wc} kg" if wc is not None else '—')
         data = {k: d.get(k) for k in ['month','total_steps','avg_daily_steps','avg_sleep','avg_water','total_calories','avg_recovery','days_logged','consistency','weight_change']}
@@ -362,17 +395,12 @@ class HealthDataService:
     # ── REMINDERS ──────────────────────────────────────────────
     def set_reminder(self): return {'response': "⏰ **Reminders Set!**\n\n🔔 7 AM Workout\n🔔 3 PM Water\n🔔 10 PM Sleep", 'type': 'set_reminder'}
     def smart_reminder(self):
-        d = get_today(self.sid) if _DB_AVAILABLE else {}
+        d = get_today(self.sid)
         return {'response': f"🧠 **Smart Reminders (Based on Your Data)**\n\n💧 Water: {d.get('water_liters','?')} L piya — 2 PM reminder!\n😴 Sleep: aaj 10 PM reminder\n🏃 Every hour 5 min walk!", 'type': 'smart_reminder'}
     def delete_reminder(self): return {'response': "🗑️ Reminder deleted! Remaining: 2 active.", 'type': 'delete_reminder'}
 
     # ── POST-REPORT Q&A (ML-powered, DB-personalized) ──────────
     def answer_report_question(self, question: str, report_context: dict = None) -> dict:
-        """
-        1. ML model (trained on 10,223 dataset utterances) → METRIC intent
-        2. Keyword rules → Q&A type (improve/compare/goal/explain/impact/predict)
-        3. DB data → fully personalized response with REAL user numbers
-        """
         ctx   = report_context or get_report_context() or {}
         rtype = ctx.get('type', 'unknown')
         data  = ctx.get('data', {})
@@ -382,19 +410,17 @@ class HealthDataService:
         # ── Step 1: Get user real data from DB ──────────────
         user_data = {}
         goals     = {}
-        if _DB_AVAILABLE:
-            try:
-                user_data = get_today(self.sid) or {}
-                goals     = get_goals(self.sid) or {}
-            except Exception:
-                pass
+        try:
+            user_data = get_today(self.sid) or {}
+            goals     = get_goals(self.sid) or {}
+        except Exception:
+            pass
 
-        # Merge report data with live DB data (DB is more up-to-date)
+        # Merge report data with live DB data
         merged = {**data, **{k: v for k, v in (raw or {}).items() if v is not None}}
         if user_data:
             merged = {**merged, **{k: v for k, v in user_data.items() if v is not None}}
 
-        # ── Step 2 & 3: ML intent + Q&A type + personalized response ──
         engine = _get_qa()
 
         if engine and engine.ready and merged:
@@ -405,8 +431,7 @@ class HealthDataService:
                 goals          = goals,
             )
 
-            # Append comparison data if user asked for it
-            if any(w in q for w in ['compare','last week','pichle','difference','trend']) and _DB_AVAILABLE:
+            if any(w in q for w in ['compare','last week','pichle','difference','trend']):
                 try:
                     metric_map = {
                         'steps_today':'steps', 'sleep_duration':'sleep_hours',
@@ -437,7 +462,7 @@ class HealthDataService:
                 'confidence':  engine.detect_metric_intent(question).get('confidence', 0),
             }
 
-                # ── Fallback: original rule-based logic ─────────────
+        # ── Fallback: rule-based logic ─────────────
         if any(w in q for w in ['improve','better','kaise badhaye','tips','behtar']): return self._improvement_advice(rtype, data, raw)
         if any(w in q for w in ['compare','last week','pichle','difference','trend']): return self._comparison_answer(rtype, data, raw)
         if any(w in q for w in ['goal','target','kab','achieve','complete']): return self._goal_answer(rtype, data, raw)
@@ -470,8 +495,6 @@ class HealthDataService:
         return {'response': advice.get(rtype, "💪 **General Tips:**\n\n• 10,000 steps/day\n• 7-9 hrs sleep\n• 3 L water\n• 30 min exercise 5x/week") + extra, 'type': 'qa_answer'}
 
     def _comparison_answer(self, rtype, data, raw):
-        if not _DB_AVAILABLE:
-            return {'response': "📊 Comparison ke liye multiple days ka data save karo!", 'type': 'qa_answer'}
         metric_map = {'steps_today':'steps','sleep_duration':'sleep_hours','water_intake':'water_liters','calories_today':'calories_burned','recovery_score':'recovery_score','stress_level':'stress_score'}
         metric = metric_map.get(rtype)
         if metric:
@@ -484,7 +507,7 @@ class HealthDataService:
         return {'response': "📊 Zyada accurate comparison ke liye daily data save karte raho!", 'type': 'qa_answer'}
 
     def _goal_answer(self, rtype, data, raw):
-        goals = get_goals(self.sid) if _DB_AVAILABLE else {}
+        goals = get_goals(self.sid)
         if rtype == 'steps_today':
             steps = data.get('steps',0); goal = goals.get('steps',10000); rem = goal-steps
             return {'response': f"🎯 **Steps Goal**\n\n✅ Achieved: {steps:,}/{goal:,} ({round((steps/goal)*100)}%)\n{'🎉 Complete!' if rem<=0 else f'⏳ Baki: {rem:,} steps ({round(rem/130)} min walk)'}", 'type': 'qa_answer'}
@@ -519,8 +542,6 @@ class HealthDataService:
         return {'response': impacts.get(rtype, "❤️ Regular tracking se cardiovascular health, energy, sleep quality, aur mental clarity improve hoti hai!"), 'type': 'qa_answer'}
 
     def _predict_trend(self, rtype, data, raw):
-        if not _DB_AVAILABLE:
-            return {'response': "🔮 Prediction ke liye daily data save karo!", 'type': 'qa_answer'}
         last7 = get_last_n_days(self.sid, 7)
         if len(last7) < 3:
             return {'response': f"🔮 Prediction ke liye 3+ din ka data chahiye. Abhi {len(last7)} din. Daily save karo!", 'type': 'qa_answer'}
