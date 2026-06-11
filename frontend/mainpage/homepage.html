@@ -2,133 +2,208 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nexa Hub AI | Text to Image · Next-Gen AI Platform</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="description" content="Nexa Hub AI - Next Generation AI Platform">
+<title>Nexa Hub AI | Next-Gen AI Platform</title>
+<link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
   body {
     font-family: 'Inter', sans-serif;
     background: #020617;
     color: #F1F5F9;
     overflow-x: hidden;
-    transition: background 0.35s ease, color 0.3s ease;
+    transition: background 0.3s ease, color 0.3s ease;
   }
-
-  ::-webkit-scrollbar {
-    width: 7px;
+  
+  /* DARK MODE (default) */
+  body:not(.light-mode) {
+    background: #020617;
+    color: #F1F5F9;
   }
-  ::-webkit-scrollbar-track {
-    background: #0B1120;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: linear-gradient(145deg, #06b6d4, #7c3aed);
-    border-radius: 12px;
-  }
-
+  
   /* LIGHT MODE */
   body.light-mode {
-    background: #F9FAFE;
+    background: #F8FAFC;
     color: #0F172A;
   }
+  
   body.light-mode .navbar {
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(14px);
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   }
-  body.light-mode .logo, body.light-mode .logo span { color: #0A0F2A; }
-  body.light-mode .logo span { color: #2563eb; }
-  body.light-mode .nav-links a { color: #1E293B; }
-  body.light-mode .nav-links a:hover { color: #2563eb; }
+  
+  body.light-mode .logo,
+  body.light-mode .logo span {
+    color: #0F172A;
+  }
+  
+  body.light-mode .nav-links a {
+    color: #1E293B;
+  }
+  
+  body.light-mode .nav-links a:hover {
+    color: #2563eb;
+  }
+  
   body.light-mode .icon-box {
     background: #FFFFFF;
     border: 1px solid #E2E8F0;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.02);
   }
-  body.light-mode .icon-box i { color: #1F2A44; }
-  body.light-mode .badge-dot { border: 2px solid white; }
-  body.light-mode .nav-btn {
-    background: linear-gradient(95deg, #2563eb, #0ea5e9);
-    color: white;
+  
+  body.light-mode .icon-box i {
+    color: #1E293B;
   }
-  body.light-mode .hero { background: radial-gradient(circle at 10% 20%, rgba(241, 245, 255, 0.9), #F0F4FE); }
+  
+  body.light-mode .hero {
+    background: radial-gradient(circle at 10% 20%, #E2E8F0, #F1F5F9);
+  }
+  
   body.light-mode .tag {
-    background: rgba(37, 99, 235, 0.12);
-    border-color: rgba(37, 99, 235, 0.25);
-    color: #1e40af;
+    background: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.15);
+    color: #1E293B;
   }
+  
   body.light-mode .hero-left h1 {
     background: linear-gradient(125deg, #0F172A, #1E3A8A);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
-  body.light-mode .hero-left p { color: #2D3A5E; }
+  
+  body.light-mode .hero-left p {
+    color: #334155;
+  }
+  
   body.light-mode .btn.secondary {
     background: white;
     border: 1px solid #CBD5E1;
     color: #1E293B;
   }
+  
   body.light-mode .search-box {
     background: white;
     border: 1px solid #E2E8F0;
   }
-  body.light-mode .search-box input { color: #0F172A; }
-  body.light-mode .search-box input::placeholder { color: #5B6E8C; }
-  body.light-mode .ai-box, body.light-mode .ai-card, body.light-mode .stat {
+  
+  body.light-mode .search-box input {
+    color: #0F172A;
+  }
+  
+  body.light-mode .ai-box,
+  body.light-mode .ai-card,
+  body.light-mode .stat {
     background: #FFFFFF;
-    border: 1px solid #EFF3F8;
-    box-shadow: 0 12px 28px -8px rgba(0,0,0,0.04);
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   }
-  body.light-mode .ai-card p, body.light-mode .stat p { color: #334155; }
-  body.light-mode .features { background: #F8FAFE; }
+  
+  body.light-mode .ai-card p,
+  body.light-mode .stat p {
+    color: #475569;
+  }
+  
+  body.light-mode .features {
+    background: #FFFFFF;
+  }
+  
   body.light-mode .feature-card {
-    background: white;
-    border: 1px solid #E9EDF2;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   }
-  body.light-mode .feature-card p { color: #2C3E5C; }
-  body.light-mode .section-title p { color: #475569; }
-  body.light-mode .newsletter-box {
-    background: linear-gradient(125deg, #2563eb, #0b9bcb);
-    color: white;
+  
+  body.light-mode .feature-card p {
+    color: #475569;
   }
-  body.light-mode .subscribe { background: white; }
-  body.light-mode .subscribe button { background: #0F172A; color: white; }
+  
+  body.light-mode .section-title p {
+    color: #64748B;
+  }
+  
+  body.light-mode .footer-col h4 {
+    color: #0F172A;
+  }
+  
   body.light-mode footer {
     background: #FFFFFF;
-    border-top: 1px solid #E9EDF2;
+    border-top: 1px solid #E2E8F0;
   }
-  body.light-mode .footer-brand p, body.light-mode .footer-links a, body.light-mode .copy { color: #2D3A5E; }
-  body.light-mode .footer-links a:hover { color: #2563eb; }
-  body.light-mode .stat h1 { color: #2563eb; }
-  body.light-mode .ai-top h2 { color: #0F172A; }
-  body.light-mode .live { background: #0f172a; color: white; }
-  body.light-mode .app-badge { background: #E2E8F0; color: #0F172A; }
+  
+  body.light-mode .footer-links a,
+  body.light-mode .contact-item,
+  body.light-mode .footer-bottom {
+    color: #475569;
+  }
+  
+  body.light-mode .footer-links a:hover {
+    color: #2563eb;
+  }
+  
+  body.light-mode .social-icons-group a {
+    background: #E2E8F0;
+    color: #1E293B;
+  }
+  
+  body.light-mode .social-icons-group a:hover {
+    background: linear-gradient(135deg, #2dd4bf, #6366f1);
+    color: white;
+  }
+  
+  body.light-mode .payment-icons i {
+    color: #475569;
+  }
+  
+  body.light-mode .payment-icons i:hover {
+    color: #2dd4bf;
+  }
+  
+  body.light-mode .app-badge {
+    background: #E2E8F0;
+    color: #1E293B;
+    border-color: #CBD5E1;
+  }
+  
+  body.light-mode .app-badge:hover {
+    background: rgba(45, 212, 191, 0.15);
+    color: #2dd4bf;
+    border-color: #2dd4bf;
+  }
+  
+  body.light-mode .contact-item i {
+    background: #E2E8F0;
+    color: #1E293B;
+  }
+  
   body.light-mode .dropdown {
     background: white;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 20px 35px -10px rgba(0,0,0,0.1);
+    border: 1px solid #E2E8F0;
   }
-  body.light-mode .dropdown-header { border-bottom: 1px solid #e2e8f0; }
-  body.light-mode .dropdown-item { border-bottom: 1px solid #f1f5f9; }
+  
+  body.light-mode .dropdown * {
+    color: #0F172A;
+  }
+  
   body.light-mode .modal-content {
     background: white;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
   }
+  
+  body.light-mode .modal-content * {
+    color: #0F172A;
+  }
+  
   body.light-mode .input-group input {
-    background: #f1f5f9;
-    border: 1px solid #e2e8f0;
-    color: #0f172a;
+    background: #F1F5F9;
+    border: 1px solid #E2E8F0;
+    color: #0F172A;
   }
-  body.light-mode .input-group input::placeholder { color: #94a3b8; }
-
-  /* navbar */
+  
+  /* Navbar */
   .navbar {
     width: 100%;
     padding: 18px 7%;
@@ -139,87 +214,50 @@
     top: 0;
     left: 0;
     z-index: 1000;
-    background: rgba(2, 6, 23, 0.75);
+    background: rgba(2, 6, 23, 0.8);
     backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    transition: all 0.3s;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
-
-  .logo {
-    font-size: 28px;
-    font-weight: 800;
-    letter-spacing: -0.3px;
-  }
+  
+  .logo { font-size: 28px; font-weight: 800; cursor: pointer; }
   .logo span { color: #38bdf8; }
-
-  .nav-links {
-    display: flex;
-    gap: 34px;
-  }
+  
+  .nav-links { display: flex; gap: 34px; }
   .nav-links a {
     color: #F1F5F9;
     text-decoration: none;
     font-weight: 500;
-    font-size: 0.95rem;
     transition: 0.25s;
-    position: relative;
     cursor: pointer;
   }
-  .nav-links a::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -6px;
-    width: 0;
-    height: 2.5px;
-    background: #2dd4bf;
-    transition: 0.25s;
-    border-radius: 4px;
-  }
-  .nav-links a:hover::after { width: 100%; }
-
-  .nav-right {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    position: relative;
-  }
-  .nav-icons {
-    display: flex;
-    gap: 12px;
-    position: relative;
-  }
+  .nav-links a:hover { color: #2dd4bf; }
+  
+  .nav-right { display: flex; align-items: center; gap: 20px; position: relative; }
+  .nav-icons { display: flex; gap: 12px; }
   .icon-wrapper { position: relative; }
   .icon-box {
-    width: 44px;
-    height: 44px;
+    width: 44px; height: 44px;
     background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: 0.25s;
-    position: relative;
   }
-  .icon-box:hover {
-    background: linear-gradient(145deg, #4f46e5, #0ea5e9);
-    transform: translateY(-3px);
-  }
+  .icon-box:hover { background: linear-gradient(145deg, #4f46e5, #0ea5e9); transform: translateY(-2px); }
+  .icon-box:hover i { color: white !important; }
   .badge-dot {
-    width: 10px;
-    height: 10px;
+    width: 10px; height: 10px;
     background: #ef4444;
     border-radius: 50%;
     position: absolute;
-    top: 8px;
-    right: 10px;
-    border: 2px solid #020617;
+    top: 6px; right: 8px;
     display: none;
   }
   .nav-btn {
-    padding: 11px 28px;
+    padding: 10px 28px;
     border: none;
     background: linear-gradient(95deg, #6366f1, #0ea5e9);
     border-radius: 60px;
@@ -227,23 +265,436 @@
     color: white;
     cursor: pointer;
     transition: 0.2s;
+  }
+  .nav-btn:hover { transform: scale(0.97); opacity: 0.9; }
+  
+  /* Hero Section */
+  .hero {
+    min-height: 100vh;
+    padding: 150px 7% 90px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+    position: relative;
+    background: radial-gradient(circle at 10% 30%, #030a1f, #010314);
+  }
+  .hero-left { flex: 1.2; z-index: 2; }
+  .tag {
+    display: inline-block;
+    padding: 8px 22px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 40px;
     font-size: 0.85rem;
-    letter-spacing: 0.3px;
+    margin-bottom: 28px;
   }
-  .nav-btn:hover {
-    transform: scale(0.97);
-    opacity: 0.9;
+  .hero-left h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1.2;
+    background: linear-gradient(to right, #FFFFFF, #94a3f8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 24px;
   }
-
-  /* Login Modal */
+  .hero-left p { font-size: 1.05rem; line-height: 1.65; max-width: 550px; }
+  .hero-buttons { margin-top: 36px; display: flex; gap: 18px; flex-wrap: wrap; }
+  .btn {
+    padding: 14px 32px;
+    border: none;
+    border-radius: 60px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s;
+  }
+  .primary { background: linear-gradient(95deg, #6366f1, #06b6d4); color: white; }
+  .secondary { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); color: #F1F5F9; }
+  .btn:hover { transform: translateY(-3px); }
+  
+  .search-box {
+    margin-top: 38px;
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 80px;
+    max-width: 540px;
+  }
+  .search-box input {
+    flex: 1;
+    background: transparent;
+    padding: 15px 22px;
+    border: none;
+    outline: none;
+    color: white;
+  }
+  .search-box button {
+    background: linear-gradient(95deg, #8b5cf6, #0ea5e9);
+    border: none;
+    padding: 15px 32px;
+    border-radius: 80px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    margin: 5px;
+  }
+  
+  .hero-right { flex: 1; z-index: 2; display: flex; justify-content: center; }
+  .ai-box {
+    width: 100%;
+    max-width: 480px;
+    background: rgba(15, 25, 45, 0.6);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 38px;
+    padding: 28px;
+  }
+  .ai-top { display: flex; justify-content: space-between; margin-bottom: 24px; }
+  .live {
+    background: #2dd4bf;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 5px 12px;
+    border-radius: 40px;
+    color: #0f172a;
+  }
+  .ai-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 28px;
+    padding: 20px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .ai-card:hover { background: rgba(45, 212, 191, 0.1); transform: translateY(-2px); }
+  .ai-card i { font-size: 1.9rem; color: #2dd4bf; margin-bottom: 12px; }
+  
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-top: 18px;
+  }
+  .stat {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 24px;
+    padding: 16px;
+    text-align: center;
+    cursor: pointer;
+  }
+  .stat h1 { font-size: 1.8rem; font-weight: 800; color: #6ee7ff; }
+  
+  /* Features Section */
+  .features { padding: 100px 7%; background: #030b1c; }
+  .section-title { text-align: center; margin-bottom: 60px; }
+  .section-title h2 { font-size: 2.7rem; font-weight: 700; margin-bottom: 12px; }
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 28px;
+  }
+  .feature-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 32px;
+    padding: 32px 28px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: 0.25s;
+    cursor: pointer;
+  }
+  .feature-card:hover { transform: translateY(-6px); border-color: #2dd4bf; }
+  .feature-card i {
+    width: 58px; height: 58px;
+    background: linear-gradient(135deg, #4f46e5, #06b6d4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    font-size: 1.7rem;
+    margin-bottom: 24px;
+    color: white !important;
+  }
+  .feature-card h3 { font-size: 1.5rem; margin-bottom: 12px; }
+  
+  /* Newsletter */
+  .newsletter { padding: 100px 7%; text-align: center; }
+  .newsletter-box {
+    max-width: 780px;
+    margin: auto;
+    background: linear-gradient(135deg, #4f46e5, #06b6d4);
+    padding: 56px 48px;
+    border-radius: 46px;
+  }
+  .newsletter-box h2 { font-size: 2.6rem; margin-bottom: 14px; color: white; }
+  .newsletter-box p { color: white; }
+  .subscribe {
+    display: flex;
+    margin-top: 32px;
+    background: white;
+    border-radius: 90px;
+    overflow: hidden;
+  }
+  .subscribe input {
+    flex: 1;
+    padding: 16px 24px;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+  }
+  .subscribe button {
+    background: #020617;
+    border: none;
+    padding: 16px 36px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .subscribe button:hover { background: #2dd4bf; color: #0f172a; }
+  
+  /* Footer */
+  footer {
+    background: #0A0F1A;
+    padding: 70px 7% 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr 1.2fr;
+    gap: 40px;
+    margin-bottom: 50px;
+  }
+  
+  .footer-brand .logo {
+    font-size: 26px;
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+  
+  .footer-brand p {
+    color: #94A3B8;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    margin: 18px 0 25px;
+    max-width: 280px;
+  }
+  
+  .app-badges {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  
+  .app-badge {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 8px 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    color: #E2E8F0;
+    transition: 0.25s;
+  }
+  
+  .app-badge:hover {
+    background: rgba(45, 212, 191, 0.2);
+    border-color: #2dd4bf;
+    transform: translateY(-3px);
+    color: #2dd4bf;
+  }
+  
+  .footer-col h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #F1F5F9;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .footer-col h4::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, #2dd4bf, #6366f1);
+    border-radius: 2px;
+  }
+  
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  
+  .footer-links a {
+    color: #94A3B8;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: 0.25s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+  
+  .footer-links a i {
+    font-size: 0.7rem;
+    opacity: 0.6;
+  }
+  
+  .footer-links a:hover {
+    color: #2dd4bf;
+    transform: translateX(5px);
+  }
+  
+  .contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 25px;
+  }
+  
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #94A3B8;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: 0.25s;
+  }
+  
+  .contact-item i {
+    width: 34px;
+    height: 34px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.25s;
+  }
+  
+  .contact-item:hover {
+    color: #2dd4bf;
+    transform: translateX(3px);
+  }
+  
+  .contact-item:hover i {
+    background: rgba(45, 212, 191, 0.2);
+  }
+  
+  .social-icons-group {
+    display: flex;
+    gap: 12px;
+    margin-top: 5px;
+    flex-wrap: wrap;
+  }
+  
+  .social-icons-group a {
+    width: 38px;
+    height: 38px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #CBD5E1;
+    text-decoration: none;
+    transition: 0.25s;
+  }
+  
+  .social-icons-group a:hover {
+    background: linear-gradient(135deg, #2dd4bf, #6366f1);
+    color: white;
+    transform: translateY(-4px);
+  }
+  
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 0.8rem;
+    color: #94A3B8;
+  }
+  
+  .payment-icons {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .payment-icons i {
+    font-size: 1.8rem;
+    transition: 0.2s;
+    cursor: default;
+    color: #94A3B8;
+  }
+  
+  .payment-icons i:hover {
+    color: #2dd4bf;
+    transform: translateY(-2px);
+  }
+  
+  /* Back to Top */
+  .back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px; height: 50px;
+    background: linear-gradient(135deg, #4f46e5, #06b6d4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+    z-index: 999;
+    border: none;
+  }
+  .back-to-top.show { opacity: 1; visibility: visible; }
+  .back-to-top:hover { transform: translateY(-5px); }
+  .back-to-top.i { font-size: 1.3rem; color: white; }
+  
+  /* Toast */
+  .toast-message {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #2dd4bf;
+    color: #0f172a;
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-weight: 600;
+    z-index: 3000;
+    display: none;
+  }
+  
+  /* Modal */
   .modal {
     display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.8);
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.8);
     z-index: 2000;
     justify-content: center;
     align-items: center;
@@ -256,587 +707,81 @@
     width: 90%;
     max-width: 440px;
     position: relative;
-    border: 1px solid rgba(0, 198, 255, 0.18);
-    animation: modalFadeIn 0.3s ease;
-  }
-  @keyframes modalFadeIn {
-    from { opacity: 0; transform: translateY(-30px); }
-    to { opacity: 1; transform: translateY(0); }
   }
   .modal-close {
     position: absolute;
-    top: 15px;
-    right: 20px;
+    top: 15px; right: 20px;
     font-size: 28px;
     cursor: pointer;
-    color: #94a3b8;
-    transition: 0.2s;
   }
-  .modal-close:hover { color: #ef4444; }
-  .modal-logo { text-align: center; margin-bottom: 38px; }
-  .modal-logo h1 {
-    font-size: 32px;
-    font-weight: 800;
-    background: linear-gradient(135deg, #ffffff, #00c6ff);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .modal-logo span {
-    background: linear-gradient(135deg, #00c6ff, #007bff);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .modal-logo p { color: #8a99b9; font-size: 12px; margin-top: 8px; }
   .input-group { margin-bottom: 24px; }
   .input-group input {
     width: 100%;
     padding: 16px 20px;
     border-radius: 20px;
-    border: 1.5px solid transparent;
-    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
     color: white;
     font-size: 15px;
     outline: none;
-    transition: 0.3s;
   }
-  .input-group input:focus {
-    border-color: #00c6ff;
-    background: rgba(0, 198, 255, 0.08);
-    box-shadow: 0 0 18px rgba(0,198,255,0.2);
-  }
-  .input-group input::placeholder { color: #6e7ba3; }
   .modal-btn {
     width: 100%;
     padding: 16px;
     border: none;
     border-radius: 28px;
-    background: linear-gradient(115deg, #00c6ff, #007bff, #6a00ff);
-    background-size: 140%;
+    background: linear-gradient(115deg, #00c6ff, #007bff);
     color: white;
     font-weight: 700;
-    font-size: 16px;
     cursor: pointer;
-    transition: 0.35s;
   }
-  .modal-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 28px rgba(0,198,255,0.35);
-  }
-  .modal-footer {
-    text-align: center;
-    margin-top: 24px;
-    font-size: 13px;
-    color: #8a99b9;
-  }
-  .modal-footer span { color: #00c6ff; cursor: pointer; font-weight: 600; }
-  .error-msg {
-    color: #ef4444;
-    font-size: 0.8rem;
-    text-align: center;
-    margin-top: 12px;
-    display: none;
-  }
-
+  .modal-footer { text-align: center; margin-top: 24px; font-size: 13px; }
+  .modal-footer span { color: #00c6ff; cursor: pointer; }
+  
   /* Dropdown */
   .dropdown {
     position: absolute;
-    top: 55px;
-    right: 0;
+    top: 55px; right: 0;
     background: #0f172a;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 16px;
-    width: 320px;
-    max-height: 400px;
-    overflow-y: auto;
+    width: 280px;
     display: none;
     z-index: 1001;
-    box-shadow: 0 20px 35px -10px rgba(0,0,0,0.3);
   }
-  .dropdown.show {
-    display: block;
-    animation: fadeIn 0.2s ease;
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .dropdown-header {
-    padding: 15px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    font-weight: 700;
-    font-size: 0.9rem;
-  }
-  .dropdown-item {
-    padding: 12px 15px;
-    cursor: pointer;
-    transition: background 0.2s;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-  }
-  .dropdown-item:hover { background: rgba(45,212,191,0.1); }
-  .dropdown-item strong { display: block; font-size: 0.9rem; }
-  .dropdown-item small { font-size: 0.75rem; opacity: 0.7; }
-  .unread-badge {
-    background: #ef4444;
-    color: white;
-    font-size: 10px;
-    padding: 2px 8px;
-    border-radius: 20px;
-    margin-left: 10px;
-  }
-  .empty-msg {
-    text-align: center;
-    padding: 30px;
-    opacity: 0.6;
-    font-size: 0.85rem;
-  }
+  .dropdown.show { display: block; }
+  .dropdown-header { padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); font-weight: 700; }
+  .dropdown-item { padding: 12px 15px; cursor: pointer; }
+  .dropdown-item:hover { background: rgba(45, 212, 191, 0.1); }
   .logout-item { color: #ef4444; }
-
-  /* hero */
-  .hero {
-    min-height: 100vh;
-    padding: 150px 7% 90px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 50px;
-    position: relative;
-    background: radial-gradient(circle at 10% 30%, #030a1f, #010314);
-  }
-  .blur {
-    position: absolute;
-    filter: blur(110px);
-    border-radius: 50%;
-    opacity: 0.45;
-    z-index: 0;
-  }
-  .blur1 {
-    width: 450px;
-    height: 450px;
-    background: #2dd4bf;
-    top: -120px;
-    left: -100px;
-  }
-  .blur2 {
-    width: 400px;
-    height: 400px;
-    background: #a855f7;
-    bottom: -80px;
-    right: -50px;
-  }
-  .hero-left { flex: 1.2; z-index: 2; }
-  .tag {
-    display: inline-block;
-    padding: 8px 22px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 40px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: #7dd3fc;
-    margin-bottom: 28px;
-    backdrop-filter: blur(4px);
-  }
-  .hero-left h1 {
-    font-size: 4.2rem;
-    font-weight: 800;
-    line-height: 1.2;
-    background: linear-gradient(to right, #FFFFFF, #94a3f8);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 24px;
-  }
-  .hero-left p {
-    font-size: 1.05rem;
-    line-height: 1.65;
-    color: #CBD5E1;
-    max-width: 550px;
-  }
-  .hero-buttons {
-    margin-top: 36px;
-    display: flex;
-    gap: 18px;
-    flex-wrap: wrap;
-  }
-  .btn {
-    padding: 14px 32px;
-    border: none;
-    border-radius: 60px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: 0.25s;
-  }
-  .primary {
-    background: linear-gradient(95deg, #6366f1, #06b6d4);
-    color: white;
-    box-shadow: 0 6px 14px rgba(6,182,212,0.25);
-  }
-  .secondary {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.2);
-    color: #F1F5F9;
-  }
-  .btn:hover { transform: translateY(-3px); }
-  .search-box {
-    margin-top: 38px;
-    display: flex;
-    align-items: center;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 80px;
-    backdrop-filter: blur(8px);
-    max-width: 540px;
-  }
-  .search-box input {
-    flex: 1;
-    background: transparent;
-    padding: 15px 22px;
-    border: none;
-    outline: none;
-    color: #F8FAFC;
-    font-size: 0.9rem;
-  }
-  .search-box button {
-    background: linear-gradient(95deg, #8b5cf6, #0ea5e9);
-    border: none;
-    padding: 15px 32px;
-    border-radius: 80px;
-    font-weight: 600;
-    color: white;
-    cursor: pointer;
-    margin: 5px;
-    transition: 0.2s;
-  }
-  .hero-right { flex: 1; z-index: 2; display: flex; justify-content: center; }
-  .ai-box {
-    width: 100%;
-    max-width: 480px;
-    background: rgba(15, 25, 45, 0.55);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 38px;
-    padding: 28px 28px 32px;
-    transition: all 0.2s;
-  }
-  .ai-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 24px;
-  }
-  .live {
-    background: #2dd4bf;
-    font-size: 0.7rem;
-    font-weight: 800;
-    padding: 5px 12px;
-    border-radius: 40px;
-    color: #0f172a;
-  }
-  .ai-card {
-    background: rgba(255,255,255,0.03);
-    border-radius: 28px;
-    padding: 20px;
-    margin-bottom: 16px;
-    transition: 0.2s;
-    border: 1px solid rgba(255,255,255,0.05);
-  }
-  .ai-card i {
-    font-size: 1.9rem;
-    color: #2dd4bf;
-    margin-bottom: 12px;
-  }
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-    margin-top: 18px;
-  }
-  .stat {
-    background: rgba(255,255,255,0.03);
-    border-radius: 24px;
-    padding: 16px;
-    text-align: center;
-    transition: 0.2s;
-  }
-  .stat h1 {
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: #6ee7ff;
-  }
-  .features {
-    padding: 100px 7%;
-    background: #030b1c;
-  }
-  .section-title {
-    text-align: center;
-    margin-bottom: 60px;
-  }
-  .section-title h2 {
-    font-size: 2.7rem;
-    font-weight: 700;
-    margin-bottom: 12px;
-  }
-  .feature-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 28px;
-  }
-  .feature-card {
-    background: rgba(255,255,255,0.03);
-    border-radius: 32px;
-    padding: 32px 28px;
-    border: 1px solid rgba(255,255,255,0.06);
-    transition: 0.25s;
-  }
-  .feature-card:hover {
-    transform: translateY(-6px);
-    border-color: #2dd4bf;
-    box-shadow: 0 20px 30px -15px rgba(0,212,255,0.15);
-  }
-  .feature-card i {
-    width: 58px;
-    height: 58px;
-    background: linear-gradient(135deg, #4f46e5, #06b6d4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 18px;
-    font-size: 1.7rem;
-    margin-bottom: 24px;
-  }
-  .feature-card h3 {
-    font-size: 1.5rem;
-    margin-bottom: 12px;
-  }
-  .feature-card p {
-    color: #B9C8E9;
-    line-height: 1.55;
-  }
-  .newsletter {
-    padding: 100px 7%;
-    text-align: center;
-  }
-  .newsletter-box {
-    max-width: 780px;
-    margin: auto;
-    background: linear-gradient(135deg, #4f46e5, #06b6d4);
-    padding: 56px 48px;
-    border-radius: 46px;
-  }
-  .newsletter-box h2 {
-    font-size: 2.6rem;
-    margin-bottom: 14px;
-  }
-  .subscribe {
-    display: flex;
-    margin-top: 32px;
-    background: #ffffff;
-    border-radius: 90px;
-    overflow: hidden;
-  }
-  .subscribe input {
-    flex: 1;
-    padding: 16px 24px;
-    border: none;
-    outline: none;
-    font-size: 1rem;
-    color: #0F172A;
-  }
-  .subscribe button {
-    background: #020617;
-    border: none;
-    padding: 16px 36px;
-    font-weight: 600;
-    color: white;
-    cursor: pointer;
-    transition: 0.2s;
-  }
-  footer {
-    background: #020617;
-    padding: 60px 7% 25px;
-    border-top: 1px solid rgba(255,255,255,0.06);
-  }
-  .footer-grid {
-    display: grid;
-    grid-template-columns: 1.5fr repeat(4, 1fr);
-    gap: 40px;
-    margin-bottom: 50px;
-  }
-  .footer-brand p {
-    color: #CBD5E1;
-    font-size: 0.85rem;
-    line-height: 1.6;
-    margin: 18px 0 22px;
-  }
-  .app-badges {
-    display: flex;
-    gap: 12px;
-    margin-top: 8px;
-  }
-  .app-badge {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 12px;
-    padding: 8px 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    transition: 0.2s;
-    color: #E2E8F0;
-  }
-  .app-badge i { font-size: 1.2rem; }
-  .app-badge:hover {
-    background: rgba(45,212,191,0.15);
-    border-color: #2dd4bf;
-    transform: translateY(-2px);
-  }
-  .footer-col h4 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 24px;
-    background: linear-gradient(95deg, #E2E8F0, #94A3F8);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .footer-links {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-  .footer-links a {
-    color: #94A3B8;
-    text-decoration: none;
-    font-size: 0.85rem;
-    transition: 0.25s;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-  }
-  .footer-links a i { font-size: 0.7rem; opacity: 0.7; }
-  .footer-links a:hover {
-    color: #2dd4bf;
-    transform: translateX(5px);
-  }
-  .contact-details {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    margin-top: 5px;
-  }
-  .contact-item {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    color: #94A3B8;
-    font-size: 0.85rem;
-    transition: 0.25s;
-  }
-  .contact-item i {
-    width: 34px;
-    height: 34px;
-    background: rgba(255,255,255,0.06);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.9rem;
-  }
-  .contact-item:hover {
-    color: #2dd4bf;
-    transform: translateX(3px);
-  }
-  .contact-item:hover i { background: rgba(45,212,191,0.2); }
-  .social-icons-group {
-    display: flex;
-    gap: 14px;
-    margin-top: 20px;
-  }
-  .social-icons-group a {
-    width: 40px;
-    height: 40px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #CBD5E1;
-    transition: 0.25s;
-  }
-  .social-icons-group a:hover {
-    background: linear-gradient(135deg, #06b6d4, #6366f1);
-    color: white;
-    transform: translateY(-4px);
-  }
-  .footer-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
-    padding-top: 30px;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    font-size: 0.8rem;
-    color: #94A3B8;
-  }
-  .payment-icons {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-  }
-  .payment-icons i {
-    font-size: 1.8rem;
-    transition: 0.2s;
-    cursor: default;
-    color: #94A3B8;
-  }
-  .payment-icons i:hover {
-    color: #2dd4bf;
-    transform: translateY(-2px);
-  }
+  .empty-msg { text-align: center; padding: 30px; opacity: 0.6; }
+  
   @media (max-width: 1100px) {
     .footer-grid { grid-template-columns: repeat(2, 1fr); gap: 35px; }
   }
-  @media (max-width: 680px) {
-    .footer-grid { grid-template-columns: 1fr; }
-    .footer-bottom { flex-direction: column; text-align: center; }
-  }
   @media (max-width: 1000px) {
     .hero { flex-direction: column; text-align: center; }
-    .hero-left h1 { font-size: 3rem; }
-    .hero-buttons { justify-content: center; }
-    .search-box { margin: 30px auto 0 auto; }
     .nav-links { display: none; }
-    .section-title h2 { font-size: 2.2rem; }
+  }
+  @media (max-width: 768px) {
+    .footer-grid { grid-template-columns: 1fr; text-align: center; }
+    .footer-col h4::after { left: 50%; transform: translateX(-50%); }
+    .footer-links a { justify-content: center; }
+    .contact-item { justify-content: center; }
+    .social-icons-group { justify-content: center; }
+    .footer-bottom { flex-direction: column; text-align: center; }
   }
   @media (max-width: 680px) {
     .newsletter-box { padding: 40px 24px; }
     .subscribe { flex-direction: column; border-radius: 40px; }
-    .subscribe button { width: 100%; border-radius: 0 0 40px 40px; padding: 14px; }
-    .navbar { padding: 14px 5%; }
-    .nav-right { gap: 8px; }
-    .icon-box { width: 38px; height: 38px; }
-    .dropdown { width: 280px; right: -20px; }
-    .modal-content { padding: 32px 24px; }
-  }
-  @media (max-width: 480px) {
-    .hero-left h1 { font-size: 2.3rem; }
-    .stats { grid-template-columns: 1fr; }
-    .feature-card { padding: 24px; }
-    .payment-icons i { font-size: 1.4rem; }
+    .subscribe button { border-radius: 0 0 40px 40px; }
   }
 </style>
 </head>
 <body>
 
 <nav class="navbar">
-  <div class="logo">NEXA <span>HUB AI</span></div>
+  <div class="logo" data-nav="home">NEXA <span>HUB AI</span></div>
   <div class="nav-links">
     <a data-nav="home">Home</a>
     <a data-nav="features">Features</a>
@@ -848,24 +793,15 @@
     <div class="nav-icons">
       <div class="icon-wrapper" id="messageWrapper">
         <div class="icon-box"><i class="fa-regular fa-message"></i><span class="badge-dot" id="messageBadge"></span></div>
-        <div class="dropdown" id="messageDropdown">
-          <div class="dropdown-header">📨 Messages</div>
-          <div id="messageDropdownContent"></div>
-        </div>
+        <div class="dropdown" id="messageDropdown"><div class="dropdown-header">📨 Messages</div><div id="messageDropdownContent"></div></div>
       </div>
       <div class="icon-wrapper" id="notificationWrapper">
         <div class="icon-box"><i class="fa-regular fa-bell"></i><span class="badge-dot" id="notificationBadge"></span></div>
-        <div class="dropdown" id="notificationDropdown">
-          <div class="dropdown-header">🔔 Notifications</div>
-          <div id="notificationDropdownContent"></div>
-        </div>
+        <div class="dropdown" id="notificationDropdown"><div class="dropdown-header">🔔 Notifications</div><div id="notificationDropdownContent"></div></div>
       </div>
       <div class="icon-wrapper" id="userWrapper">
         <div class="icon-box"><i class="fa-regular fa-user"></i></div>
-        <div class="dropdown" id="userDropdown">
-          <div class="dropdown-header">👤 Account</div>
-          <div id="userDropdownContent"></div>
-        </div>
+        <div class="dropdown" id="userDropdown"><div class="dropdown-header">👤 Account</div><div id="userDropdownContent"></div></div>
       </div>
       <div class="icon-box" id="themeToggle"><i class="fa-solid fa-moon" id="themeIcon"></i></div>
     </div>
@@ -873,56 +809,33 @@
   </div>
 </nav>
 
-<!-- Login Modal -->
+<div class="back-to-top" id="backToTop"><i class="fa-solid fa-arrow-up"></i></div>
+<div id="toastMsg" class="toast-message"></div>
+
 <div id="loginModal" class="modal">
   <div class="modal-content">
     <span class="modal-close" id="closeModal">&times;</span>
-    <div class="modal-logo">
-      <h1>NEXA <span>HUB AI</span></h1>
-      <p>Modern Luxury Intelligence Platform</p>
-    </div>
-    <div class="input-group">
-      <input type="text" id="loginUsername" placeholder="Email or Username">
-    </div>
-    <div class="input-group">
-      <input type="password" id="loginPassword" placeholder="Password">
-    </div>
+    <div class="modal-logo"><h1>NEXA <span>HUB AI</span></h1><p>Login to your account</p></div>
+    <div class="input-group"><input type="text" id="loginUsername" placeholder="Email or Username"></div>
+    <div class="input-group"><input type="password" id="loginPassword" placeholder="Password"></div>
     <button class="modal-btn" id="doLoginBtn">LOGIN</button>
-    <div class="modal-footer">
-      Don't have an account? <span id="showSignup">Create Account</span>
-    </div>
-    <div id="loginError" class="error-msg"></div>
+    <div class="modal-footer">Don't have an account? <span id="showSignup">Create Account</span></div>
   </div>
 </div>
 
-<!-- Signup Modal -->
 <div id="signupModal" class="modal">
   <div class="modal-content">
     <span class="modal-close" id="closeSignupModal">&times;</span>
-    <div class="modal-logo">
-      <h1>NEXA <span>HUB AI</span></h1>
-      <p>Create Your Account</p>
-    </div>
-    <div class="input-group">
-      <input type="text" id="signupName" placeholder="Full Name">
-    </div>
-    <div class="input-group">
-      <input type="email" id="signupEmail" placeholder="Email address">
-    </div>
-    <div class="input-group">
-      <input type="password" id="signupPassword" placeholder="Password (min 6 characters)">
-    </div>
+    <div class="modal-logo"><h1>NEXA <span>HUB AI</span></h1><p>Create Your Account</p></div>
+    <div class="input-group"><input type="text" id="signupName" placeholder="Full Name"></div>
+    <div class="input-group"><input type="email" id="signupEmail" placeholder="Email address"></div>
+    <div class="input-group"><input type="password" id="signupPassword" placeholder="Password (min 6 characters)"></div>
     <button class="modal-btn" id="doSignupBtn">CREATE ACCOUNT</button>
-    <div class="modal-footer">
-      Already have an account? <span id="showLogin">Login</span>
-    </div>
-    <div id="signupError" class="error-msg"></div>
+    <div class="modal-footer">Already have an account? <span id="showLogin">Login</span></div>
   </div>
 </div>
 
 <section class="hero" id="homeSection">
-  <div class="blur blur1"></div>
-  <div class="blur blur2"></div>
   <div class="hero-left">
     <div class="tag">⚡ Next Generation AI Platform</div>
     <h1>Build Your Future <br> With AI Technology</h1>
@@ -932,37 +845,43 @@
       <button class="btn secondary" id="demoBtn">Watch Demo</button>
     </div>
     <div class="search-box">
-      <input type="text" placeholder="Search AI tools, coding, automation...">
-      <button>Search</button>
+      <input type="text" id="searchInput" placeholder="Search AI tools, coding, automation...">
+      <button id="searchBtn">Search</button>
     </div>
   </div>
   <div class="hero-right">
-    <div class="ai-box" id="aiToolsSection">
-      <div class="ai-top"><h2>AI Dashboard</h2><div class="live">LIVE</div></div>
-      <div class="ai-card"><i class="fa-solid fa-robot"></i><h3>AI Assistant</h3><p>Smart chatbot for solving problems, answering questions and automation.</p></div>
-      <div class="ai-card"><i class="fa-solid fa-code"></i><h3>AI Coding System</h3><p>Generate clean and fast code with advanced AI coding engine.</p></div>
-      <div class="ai-card"><i class="fa-solid fa-microphone"></i><h3>Voice AI</h3><p>Real-time AI voice assistant with speech recognition technology.</p></div>
+    <div class="ai-box">
+      <div class="ai-top"><h2>🤖 AI Dashboard</h2><div class="live">LIVE</div></div>
+      <div class="ai-card"><i class="fa-solid fa-robot"></i><h3>AI Assistant</h3><p>Smart chatbot for solving problems and automation.</p></div>
+      <div class="ai-card"><i class="fa-solid fa-code"></i><h3>AI Coding System</h3><p>Generate clean and fast code with AI coding engine.</p></div>
+      <div class="ai-card"><i class="fa-solid fa-microphone"></i><h3>Voice AI</h3><p>Real-time AI voice assistant with speech recognition.</p></div>
       <div class="stats">
-        <div class="stat"><h1>24+</h1><p>AI Tools</p></div>
-        <div class="stat"><h1>30K+</h1><p>Users</p></div>
-        <div class="stat"><h1>1.2M+</h1><p>Automation</p></div>
-        <div class="stat"><h1>98%</h1><p>Success</p></div>
+        <div class="stat"><h1 id="toolsCount">24</h1><p>AI Tools</p></div>
+        <div class="stat"><h1 id="usersCount">30.2K</h1><p>Users</p></div>
+        <div class="stat"><h1 id="autoCount">1.28M</h1><p>Automation</p></div>
+        <div class="stat"><h1 id="successCount">98.5</h1><p>Success %</p></div>
       </div>
     </div>
   </div>
 </section>
 
 <section class="features" id="featuresSection">
-  <div class="section-title"><h2>Powerful AI Features</h2><p>Modern tools designed for creators, developers and businesses</p></div>
+  <div class="section-title">
+    <h2>Powerful AI Features</h2>
+    <p>Modern tools designed for creators, developers and businesses</p>
+  </div>
   <div class="feature-grid">
-    <div class="feature-card"><i class="fa-solid fa-file-lines"></i><h3>Image To Text</h3><p>Extract text from images instantly using powerful AI OCR technology with high accuracy.</p></div>
-    <div class="feature-card"><i class="fa-solid fa-laptop-code"></i><h3>AI Coding Teacher</h3><p>Learn programming with smart AI guidance, code explanations and real-time examples.</p></div>
-    <div class="feature-card"><i class="fa-solid fa-chart-line"></i><h3>Business System</h3><p>Manage business operations, automation and workflow using advanced AI systems.</p></div>
-    <div class="feature-card"><i class="fa-solid fa-robot"></i><h3>Smart AI Assistant</h3><p>Human-like assistant that handles tasks, answers queries and automates workflows instantly.</p></div>
-    <div class="feature-card"><i class="fa-solid fa-microphone-lines"></i><h3>Voice Assistant</h3><p>Real-time AI voice assistant for smart communication and voice interaction.</p></div>
-    <div class="feature-card"><i class="fa-solid fa-shield-halved"></i><h3>AI Security Shield</h3><p>Real-time threat detection system powered by machine learning security models.</p></div>
-    <div class="feature-card"><i class="fa-solid fa-volume-high"></i><h3>Text To Speech</h3><p>Convert text into natural sounding speech with modern AI voice generation technology.</p></div>
-    <div class="feature-card"><i class="fa-solid fa-palette"></i><h3>Text to Image</h3><p>Generate stunning, high-resolution images from textual descriptions using advanced diffusion AI models. Perfect for creatives, designers, and storytellers.</p></div>
+    <div class="feature-card"><i class="fa-solid fa-file-lines"></i><h3>Image To Text</h3><p>Extract text from images instantly using powerful AI OCR technology.</p></div>
+    <div class="feature-card"><i class="fa-solid fa-laptop-code"></i><h3>AI Coding Teacher</h3><p>Learn programming with smart AI guidance and real-time examples.</p></div>
+    <div class="feature-card"><i class="fa-solid fa-chart-line"></i><h3>Business System</h3><p>Manage business operations and automation using advanced AI systems.</p></div>
+    <div class="feature-card"><i class="fa-solid fa-heart-pulse"></i><h3>AI Healthcare</h3><p>Intelligent symptom analysis, wellness tracking, and personalized health insights.</p></div>
+    <div class="feature-card"><i class="fa-solid fa-calendar-check"></i><h3>Daily Life AI</h3><p>Smart scheduling, reminders, meal planning, and lifestyle automation.</p></div>
+    <div class="feature-card"><i class="fa-solid fa-charging-station"></i><h3>AI Productivity Hub</h3><p>Boost efficiency with AI-driven task management and focus timers.</p></div>
+    <div class="feature-card"><i class="fa-solid fa-robot"></i><h3>Smart AI Assistant</h3><p>Human-like assistant that handles tasks, answers queries instantly.</p></div>
+    <div class="feature-card"><i class="fa-solid fa-microphone-lines"></i><h3>Voice Assistant</h3><p>Real-time AI voice assistant for smart voice interaction.</p></div>
+    <div class="feature-card"><i class="fa-solid fa-shield-halved"></i><h3>AI Security Shield</h3><p>Real-time threat detection powered by machine learning.</p></div>
+    <div class="feature-card"><i class="fa-solid fa-volume-high"></i><h3>Text To Speech</h3><p>Convert text into natural sounding speech with AI voice generation.</p></div>
+    <div class="feature-card"><i class="fa-solid fa-palette"></i><h3>Text to Image</h3><p>Generate stunning images from text using advanced diffusion AI models.</p></div>
   </div>
 </section>
 
@@ -971,22 +890,24 @@
     <h2>Join The AI Revolution</h2>
     <p>Subscribe for latest AI updates, tools and automation news.</p>
     <div class="subscribe">
-      <input type="email" placeholder="Enter your email address">
-      <button>Subscribe</button>
+      <input type="email" id="newsletterEmail" placeholder="Enter your email address">
+      <button id="subscribeBtn">Subscribe</button>
     </div>
   </div>
 </section>
 
+<!-- FOOTER - LOCATION REMOVED -->
 <footer id="contactSection">
   <div class="footer-grid">
     <div class="footer-brand">
       <div class="logo">NEXA <span>HUB AI</span></div>
       <p>Premium AI SaaS platform for automation, coding, productivity and smart business tools. Empowering the future of work with artificial intelligence.</p>
       <div class="app-badges">
-        <div class="app-badge"><i class="fab fa-google-play"></i> <span>Google Play</span></div>
-        <div class="app-badge"><i class="fab fa-apple"></i> <span>App Store</span></div>
+        <a class="app-badge" id="googlePlayBtn" href="#"><i class="fab fa-google-play"></i> <span>Google Play</span></a>
+        <a class="app-badge" id="appStoreBtn" href="#"><i class="fab fa-apple"></i> <span>App Store</span></a>
       </div>
     </div>
+    
     <div class="footer-col">
       <h4>Quick Links</h4>
       <div class="footer-links">
@@ -997,41 +918,51 @@
         <a data-nav="contact"><i class="fa-solid fa-chevron-right"></i> Contact Us</a>
       </div>
     </div>
+    
     <div class="footer-col">
       <h4>Resources</h4>
       <div class="footer-links">
-        <a href="#"><i class="fa-solid fa-chevron-right"></i> Blog</a>
-        <a href="#"><i class="fa-solid fa-chevron-right"></i> Help Center</a>
-        <a href="#"><i class="fa-solid fa-chevron-right"></i> API Docs</a>
-        <a href="#"><i class="fa-solid fa-chevron-right"></i> Community</a>
-        <a href="#"><i class="fa-solid fa-chevron-right"></i> Status</a>
+        <a id="footerBlogLink" href="#"><i class="fa-solid fa-chevron-right"></i> Blog</a>
+        <a id="footerHelpLink" href="#"><i class="fa-solid fa-chevron-right"></i> Help Center</a>
+        <a id="footerApiLink" href="#"><i class="fa-solid fa-chevron-right"></i> API Docs</a>
+        <a id="footerCommunityLink" href="#"><i class="fa-solid fa-chevron-right"></i> Community</a>
+        <a id="footerStatusLink" href="#"><i class="fa-solid fa-chevron-right"></i> Status</a>
       </div>
     </div>
+    
     <div class="footer-col">
       <h4>Legal</h4>
       <div class="footer-links">
-        <a href="#"><i class="fa-solid fa-chevron-right"></i> Privacy Policy</a>
-        <a href="#"><i class="fa-solid fa-chevron-right"></i> Terms of Service</a>
-        <a href="#"><i class="fa-solid fa-chevron-right"></i> Cookie Policy</a>
-        <a href="#"><i class="fa-solid fa-chevron-right"></i> GDPR</a>
-        <a href="#"><i class="fa-solid fa-chevron-right"></i> Security</a>
+        <a id="footerPrivacyLink" href="#"><i class="fa-solid fa-chevron-right"></i> Privacy Policy</a>
+        <a id="footerTermsLink" href="#"><i class="fa-solid fa-chevron-right"></i> Terms of Service</a>
+        <a id="footerCookieLink" href="#"><i class="fa-solid fa-chevron-right"></i> Cookie Policy</a>
+        <a id="footerGdprLink" href="#"><i class="fa-solid fa-chevron-right"></i> GDPR</a>
+        <a id="footerSecurityLink" href="#"><i class="fa-solid fa-chevron-right"></i> Security</a>
       </div>
     </div>
+    
     <div class="footer-col">
       <h4>Contact Us</h4>
       <div class="contact-details">
-        <div class="contact-item"><i class="fa-solid fa-phone"></i> <span>+91 9548575572</span></div>
-        <div class="contact-item"><i class="fa-regular fa-envelope"></i> <span>ainexahub@gmail.com</span></div>
+        <div class="contact-item" id="contactPhone">
+          <i class="fa-solid fa-phone"></i>
+          <span>+91 9548575572</span>
+        </div>
+        <div class="contact-item" id="contactEmail">
+          <i class="fa-regular fa-envelope"></i>
+          <span>ainexahub@gmail.com</span>
+        </div>
       </div>
       <div class="social-icons-group">
-        <a href="#"><i class="fab fa-telegram"></i></a>
-        <a href="#"><i class="fab fa-twitter"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-        <a href="#"><i class="fab fa-google-play"></i></a>
+        <a id="socialTelegram" href="#"><i class="fab fa-telegram"></i></a>
+        <a id="socialTwitter" href="#"><i class="fab fa-twitter"></i></a>
+        <a id="socialInstagram" href="#"><i class="fab fa-instagram"></i></a>
+        <a id="socialLinkedin" href="#"><i class="fab fa-linkedin-in"></i></a>
+        <a id="socialGithub" href="#"><i class="fab fa-github"></i></a>
       </div>
     </div>
   </div>
+  
   <div class="footer-bottom">
     <div>© 2026 Nexa Hub AI | All Rights Reserved | Designed By Nexa Hub Team</div>
     <div class="payment-icons">
@@ -1039,411 +970,304 @@
       <i class="fab fa-cc-mastercard"></i>
       <i class="fab fa-cc-amex"></i>
       <i class="fab fa-cc-paypal"></i>
+      <i class="fab fa-cc-stripe"></i>
     </div>
   </div>
 </footer>
 
 <script>
-  // ========== AUTHENTICATION WITH BACKEND API ==========
-  
-  let currentUser = localStorage.getItem('nexaUser') ? JSON.parse(localStorage.getItem('nexaUser')) : null;
-  let authToken = localStorage.getItem('token');
-  
-  // If token exists but no user, create basic user
-  if(authToken && !currentUser) {
-    currentUser = { name: "User", email: "user@example.com" };
-    localStorage.setItem('nexaUser', JSON.stringify(currentUser));
+  // Toast function
+  function showToast(msg, isError = false) {
+    const toast = document.getElementById('toastMsg');
+    toast.innerText = msg;
+    toast.style.backgroundColor = isError ? '#ef4444' : '#2dd4bf';
+    toast.style.color = isError ? 'white' : '#0f172a';
+    toast.style.display = 'block';
+    setTimeout(() => toast.style.display = 'none', 3000);
   }
   
-  // Demo messages & notifications data
-  let messages = [
-    { id: 1, from: "AI Support", text: "Your image generation is ready!", time: new Date(Date.now() - 1800000), read: false },
-    { id: 2, from: "Team Nexa", text: "New AI model v2.0 released", time: new Date(Date.now() - 3600000), read: false },
-    { id: 3, from: "Billing", text: "Your subscription renews in 5 days", time: new Date(Date.now() - 7200000), read: true }
-  ];
+  // Back to top
+  const backBtn = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => backBtn.classList.toggle('show', window.scrollY > 300));
+  backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   
-  let notifications = [
-    { id: 1, title: "✨ Your AI image was generated", time: new Date(Date.now() - 900000), read: false },
-    { id: 2, title: "🎉 Welcome to Nexa Hub AI!", time: new Date(Date.now() - 3600000), read: false },
-    { id: 3, title: "💡 Tip: Try Text to Image feature", time: new Date(Date.now() - 86400000), read: true }
-  ];
-  
-  let messageId = 4;
-  let notifId = 4;
-  
-  // ========== SMOOTH SCROLL NAVIGATION ==========
-  function scrollToSection(sectionId) {
-    const element = document.getElementById(sectionId);
-    if(element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+  // Live stats
+  let stats = { tools: 24, users: 30200, automation: 1280000, success: 98.5 };
+  function updateStats() {
+    document.getElementById('toolsCount').innerText = stats.tools;
+    document.getElementById('usersCount').innerText = stats.users >= 1000 ? (stats.users/1000).toFixed(1) + 'K' : stats.users;
+    document.getElementById('autoCount').innerText = stats.automation >= 1000000 ? (stats.automation/1000000).toFixed(1) + 'M' : (stats.automation/1000).toFixed(1) + 'K';
+    document.getElementById('successCount').innerText = stats.success;
   }
-  
-  function setupNavigation() {
-    const navLinks = document.querySelectorAll('[data-nav]');
-    navLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = link.getAttribute('data-nav');
-        switch(target) {
-          case 'home': scrollToSection('homeSection'); break;
-          case 'features': scrollToSection('featuresSection'); break;
-          case 'aitools': scrollToSection('aiToolsSection'); break;
-          case 'pricing': scrollToSection('pricingSection'); break;
-          case 'contact': scrollToSection('contactSection'); break;
-          default: break;
-        }
-      });
-    });
-    
-    document.getElementById('exploreBtn')?.addEventListener('click', () => scrollToSection('featuresSection'));
-    document.getElementById('demoBtn')?.addEventListener('click', () => alert("🎥 Demo video coming soon!"));
-  }
-  
-  // Auto live updates every 30 seconds
   setInterval(() => {
-    if(currentUser && authToken) {
-      const newMsg = {
-        id: messageId++,
-        from: ["Nexa AI", "System", "Admin", "Creator Bot"][Math.floor(Math.random() * 4)],
-        text: ["Your request is processing", "New update available!", "Check out new features", "AI model improved"][Math.floor(Math.random() * 4)],
-        time: new Date(),
-        read: false
-      };
-      messages.unshift(newMsg);
-      
-      const newNotif = {
-        id: notifId++,
-        title: ["🔔 New AI tool added!", "⭐ You earned a badge", "📢 System update complete", "💬 New message from support"][Math.floor(Math.random() * 4)],
-        time: new Date(),
-        read: false
-      };
-      notifications.unshift(newNotif);
-      
-      updateBadges();
-      
-      if(document.getElementById("messageDropdown").classList.contains('show')) showMessages();
-      if(document.getElementById("notificationDropdown").classList.contains('show')) showNotifications();
-    }
-  }, 30000);
+    stats.tools = Math.min(99, stats.tools + Math.floor(Math.random() * 2));
+    stats.users += Math.floor(Math.random() * 150);
+    stats.automation += Math.floor(Math.random() * 8500);
+    stats.success = Math.min(99.9, +(stats.success + (Math.random() * 0.1)).toFixed(1));
+    updateStats();
+  }, 8000);
+  updateStats();
   
-  function timeAgo(date) {
-    const seconds = Math.floor((new Date() - date) / 1000);
-    if(seconds < 60) return "just now";
-    const minutes = Math.floor(seconds / 60);
-    if(minutes < 60) return minutes + " min ago";
-    const hours = Math.floor(minutes / 60);
-    if(hours < 24) return hours + " hours ago";
-    const days = Math.floor(hours / 24);
-    return days + " days ago";
+  // Card clicks
+  document.querySelectorAll('.ai-card, .feature-card, .stat').forEach(el => {
+    el.addEventListener('click', () => showToast(`✨ Feature coming soon in Pro version!`));
+  });
+  
+  // Newsletter
+  document.getElementById('subscribeBtn').addEventListener('click', () => {
+    const email = document.getElementById('newsletterEmail').value.trim();
+    if (!email) return showToast('Please enter email', true);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showToast('Invalid email', true);
+    showToast(`✅ Thanks for subscribing!`);
+    document.getElementById('newsletterEmail').value = '';
+  });
+  
+  // Search
+  document.getElementById('searchBtn').addEventListener('click', () => {
+    const q = document.getElementById('searchInput').value.trim();
+    showToast(q ? `🔍 Searching for "${q}"...` : '⚠️ Please enter search term', !q);
+  });
+  
+  // Contact items
+  document.getElementById('contactPhone').addEventListener('click', () => {
+    navigator.clipboard.writeText("+919548575572");
+    showToast('📞 Phone number copied to clipboard!');
+  });
+  document.getElementById('contactEmail').addEventListener('click', () => {
+    window.location.href = "mailto:ainexahub@gmail.com?subject=Inquiry from Nexa Hub Website";
+    showToast('📧 Opening email client...');
+  });
+  
+  // Social links
+  const socialLinks = {
+    socialTelegram: 'https://t.me/nexahub',
+    socialTwitter: 'https://twitter.com/nexahub',
+    socialInstagram: 'https://instagram.com/nexahub',
+    socialLinkedin: 'https://linkedin.com/company/nexahub',
+    socialGithub: 'https://github.com/nexahub'
+  };
+  for (const [id, url] of Object.entries(socialLinks)) {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.open(url, '_blank');
+        showToast(`🔗 Opening ${id.replace('social', '')} page...`);
+      });
+    }
   }
+  
+  // App store links
+  document.getElementById('googlePlayBtn').addEventListener('click', (e) => {
+    e.preventDefault();
+    window.open('https://play.google.com/store/apps/details?id=com.nexahub.ai', '_blank');
+    showToast('📱 Opening Google Play Store...');
+  });
+  document.getElementById('appStoreBtn').addEventListener('click', (e) => {
+    e.preventDefault();
+    window.open('https://apps.apple.com/app/nexa-hub-ai/id123456789', '_blank');
+    showToast('📱 Opening App Store...');
+  });
+  
+  // Resources links
+  const resourceLinks = {
+    footerBlogLink: 'https://medium.com/tag/artificial-intelligence',
+    footerHelpLink: 'https://support.google.com/',
+    footerApiLink: 'https://openai.com/api/',
+    footerCommunityLink: 'https://discord.com/invite/nexahub',
+    footerStatusLink: 'https://status.openai.com/'
+  };
+  for (const [id, url] of Object.entries(resourceLinks)) {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.open(url, '_blank');
+        showToast(`🔗 Opening ${id.replace('footer', '').replace('Link', '')}...`);
+      });
+    }
+  }
+  
+  // Legal links
+  const legalLinks = {
+    footerPrivacyLink: 'https://policies.google.com/privacy',
+    footerTermsLink: 'https://policies.google.com/terms',
+    footerCookieLink: 'https://www.cookiepolicy.com/',
+    footerGdprLink: 'https://gdpr-info.eu/',
+    footerSecurityLink: 'https://cloud.google.com/security'
+  };
+  for (const [id, url] of Object.entries(legalLinks)) {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.open(url, '_blank');
+        showToast(`🔗 Opening ${id.replace('footer', '').replace('Link', '')}...`);
+      });
+    }
+  }
+  
+  // Navigation
+  function scrollTo(sectionId) {
+    const el = document.getElementById(sectionId);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  document.querySelectorAll('[data-nav]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = link.getAttribute('data-nav');
+      if (target === 'home') scrollTo('homeSection');
+      else if (target === 'features') scrollTo('featuresSection');
+      else if (target === 'aitools') scrollTo('homeSection');
+      else if (target === 'pricing') scrollTo('pricingSection');
+      else if (target === 'contact') scrollTo('contactSection');
+    });
+  });
+  document.getElementById('exploreBtn')?.addEventListener('click', () => scrollTo('featuresSection'));
+  document.getElementById('demoBtn')?.addEventListener('click', () => showToast('🎥 Demo video coming soon!'));
+  
+  // Auth system
+  let currentUser = localStorage.getItem('nexaUser') ? JSON.parse(localStorage.getItem('nexaUser')) : null;
+  let messages = [{ id: 1, from: 'AI Support', text: 'Welcome to Nexa Hub!', read: false }];
+  let notifications = [{ id: 1, title: 'New AI features released!', read: false }];
   
   function updateBadges() {
-    if(!currentUser || !authToken) {
-      document.getElementById("messageBadge").style.display = "none";
-      document.getElementById("notificationBadge").style.display = "none";
+    if (!currentUser) {
+      document.getElementById('messageBadge').style.display = 'none';
+      document.getElementById('notificationBadge').style.display = 'none';
       return;
     }
-    let unreadMsg = messages.filter(m => !m.read).length;
-    document.getElementById("messageBadge").style.display = unreadMsg > 0 ? "block" : "none";
-    
-    let unreadNotif = notifications.filter(n => !n.read).length;
-    document.getElementById("notificationBadge").style.display = unreadNotif > 0 ? "block" : "none";
+    document.getElementById('messageBadge').style.display = messages.filter(m => !m.read).length > 0 ? 'block' : 'none';
+    document.getElementById('notificationBadge').style.display = notifications.filter(n => !n.read).length > 0 ? 'block' : 'none';
   }
   
   function showMessages() {
-    let content = document.getElementById("messageDropdownContent");
-    if(!currentUser || !authToken) {
-      content.innerHTML = `<div class="empty-msg">🔒 Please login to see messages</div>`;
-    } else if(messages.length === 0) {
-      content.innerHTML = `<div class="empty-msg">📭 No messages yet</div>`;
-    } else {
-      content.innerHTML = messages.map(msg => `
-        <div class="dropdown-item" onclick="markMessageRead(${msg.id})">
-          <strong>💬 ${msg.from} ${!msg.read ? '<span class="unread-badge">NEW</span>' : ''}</strong>
-          <small>${msg.text}</small>
-          <small style="display:block; margin-top:5px;">🕐 ${timeAgo(msg.time)}</small>
-        </div>
-      `).join('');
-    }
+    const c = document.getElementById('messageDropdownContent');
+    if (!currentUser) c.innerHTML = '<div class="empty-msg">🔒 Please login to see messages</div>';
+    else c.innerHTML = messages.map(m => `<div class="dropdown-item"><strong>💬 ${m.from}</strong><br><small>${m.text}</small></div>`).join('');
   }
   
   function showNotifications() {
-    let content = document.getElementById("notificationDropdownContent");
-    if(!currentUser || !authToken) {
-      content.innerHTML = `<div class="empty-msg">🔒 Please login to see notifications</div>`;
-    } else if(notifications.length === 0) {
-      content.innerHTML = `<div class="empty-msg">🔔 No notifications yet</div>`;
+    const c = document.getElementById('notificationDropdownContent');
+    if (!currentUser) c.innerHTML = '<div class="empty-msg">🔒 Please login to see notifications</div>';
+    else c.innerHTML = notifications.map(n => `<div class="dropdown-item"><strong>🔔 ${n.title}</strong></div>`).join('');
+  }
+  
+  function showUserMenu() {
+    const c = document.getElementById('userDropdownContent');
+    if (!currentUser) {
+      c.innerHTML = `<div class="dropdown-item" onclick="openLogin()">🔐 Login</div>
+                     <div class="dropdown-item" onclick="openSignup()">📝 Sign Up</div>`;
     } else {
-      content.innerHTML = notifications.map(notif => `
-        <div class="dropdown-item" onclick="markNotifRead(${notif.id})">
-          <strong>${notif.title} ${!notif.read ? '<span class="unread-badge">NEW</span>' : ''}</strong>
-          <small style="display:block; margin-top:5px;">🕐 ${timeAgo(notif.time)}</small>
-        </div>
-      `).join('');
+      c.innerHTML = `<div class="dropdown-item"><strong>👤 ${currentUser.name}</strong><br><small>${currentUser.email}</small></div>
+                     <div class="dropdown-item logout-item" onclick="logout()">🚪 Logout</div>`;
     }
-  }
-  
-  function showUser() {
-    let content = document.getElementById("userDropdownContent");
-    if(!currentUser || !authToken) {
-      content.innerHTML = `
-        <div class="dropdown-item" onclick="openLoginModal()">🔐 Login</div>
-        <div class="dropdown-item" onclick="openSignupModal()">📝 Sign Up</div>
-      `;
-    } else {
-      content.innerHTML = `
-        <div class="dropdown-item">
-          <strong>👤 ${currentUser.name}</strong>
-          <small>${currentUser.email}</small>
-        </div>
-        <div class="dropdown-item" onclick="viewProfile()">👀 View Profile</div>
-        <div class="dropdown-item logout-item" onclick="logout()">🚪 Logout</div>
-      `;
-    }
-  }
-  
-  function markMessageRead(id) {
-    let msg = messages.find(m => m.id === id);
-    if(msg) msg.read = true;
-    updateBadges();
-    showMessages();
-  }
-  
-  function markNotifRead(id) {
-    let notif = notifications.find(n => n.id === id);
-    if(notif) notif.read = true;
-    updateBadges();
-    showNotifications();
   }
   
   function closeAllDropdowns() {
-    document.getElementById("messageDropdown").classList.remove("show");
-    document.getElementById("notificationDropdown").classList.remove("show");
-    document.getElementById("userDropdown").classList.remove("show");
+    ['messageDropdown', 'notificationDropdown', 'userDropdown'].forEach(id => document.getElementById(id).classList.remove('show'));
   }
   
-  function viewProfile() {
-    alert("👤 Profile: " + currentUser.name + "\n📧 " + currentUser.email);
+  window.openLogin = () => { loginModal.style.display = 'flex'; };
+  window.openSignup = () => { signupModal.style.display = 'flex'; };
+  
+  function doLogin() {
+    const username = document.getElementById('loginUsername').value.trim();
+    if (!username) return showToast('Please enter username', true);
+    currentUser = { name: username, email: username + '@nexa.ai' };
+    localStorage.setItem('nexaUser', JSON.stringify(currentUser));
+    updateAuthUI();
+    closeLoginModal();
+    updateBadges();
+    showToast(`Welcome ${username}!`);
+    location.reload();
   }
   
-  // ========== LOGIN MODAL FUNCTIONS ==========
-  const loginModal = document.getElementById("loginModal");
-  const signupModal = document.getElementById("signupModal");
-  
-  function openLoginModal() {
-    loginModal.style.display = "flex";
-    document.getElementById("loginUsername").value = "";
-    document.getElementById("loginPassword").value = "";
-    document.getElementById("loginError").style.display = "none";
-  }
-  
-  function openSignupModal() {
-    signupModal.style.display = "flex";
-    document.getElementById("signupName").value = "";
-    document.getElementById("signupEmail").value = "";
-    document.getElementById("signupPassword").value = "";
-    document.getElementById("signupError").style.display = "none";
-  }
-  
-  function closeLoginModal() { loginModal.style.display = "none"; }
-  function closeSignupModal() { signupModal.style.display = "none"; }
-  
-  // LOGIN with your backend API
-  async function doLogin() {
-    const username = document.getElementById("loginUsername").value.trim();
-    const password = document.getElementById("loginPassword").value;
-    const errorDiv = document.getElementById("loginError");
-    
-    if(!username || !password) {
-      errorDiv.innerText = "Please fill all fields";
-      errorDiv.style.display = "block";
-      return;
-    }
-    
-    errorDiv.innerText = "Logging in...";
-    errorDiv.style.display = "block";
-    errorDiv.style.color = "#00c6ff";
-    
-    try {
-      const response = await fetch("http://127.0.0.1:8000/api/token/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: username, password: password })
-      });
-      
-      const data = await response.json();
-      
-      if(response.ok) {
-        localStorage.setItem("token", data.access);
-        authToken = data.access;
-        currentUser = { name: username, email: username };
-        localStorage.setItem('nexaUser', JSON.stringify(currentUser));
-        updateAuthUI();
-        closeLoginModal();
-        updateBadges();
-        alert("✅ Login Successful! Welcome " + username);
-        location.reload();
-      } else {
-        errorDiv.innerText = "Login Failed ❌ Invalid credentials";
-        errorDiv.style.color = "#ef4444";
-      }
-    } catch(error) {
-      console.log(error);
-      errorDiv.innerText = "Server Error ❌ Please check if backend is running at http://127.0.0.1:8000";
-      errorDiv.style.color = "#ef4444";
-    }
-  }
-  
-  // SIGNUP function
-  async function doSignup() {
-    const name = document.getElementById("signupName").value.trim();
-    const email = document.getElementById("signupEmail").value.trim();
-    const password = document.getElementById("signupPassword").value;
-    const errorDiv = document.getElementById("signupError");
-    
-    if(!name || !email || !password) {
-      errorDiv.innerText = "Please fill all fields";
-      errorDiv.style.display = "block";
-      return;
-    }
-    if(password.length < 6) {
-      errorDiv.innerText = "Password must be at least 6 characters";
-      errorDiv.style.display = "block";
-      return;
-    }
-    
-    // Try to register via backend (if you have signup API)
-    // For now, demo signup - auto login
-    try {
-      // If you have signup API endpoint, uncomment below
-      /*
-      const response = await fetch("http://127.0.0.1:8000/api/register/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: name, email: email, password: password })
-      });
-      
-      if(response.ok) {
-        const data = await response.json();
-        localStorage.setItem("token", data.access);
-        authToken = data.access;
-        currentUser = { name: name, email: email };
-        localStorage.setItem('nexaUser', JSON.stringify(currentUser));
-        updateAuthUI();
-        closeSignupModal();
-        updateBadges();
-        alert("✅ Account created successfully! Welcome " + name);
-        location.reload();
-      } else {
-        errorDiv.innerText = "Signup failed. Email may already exist.";
-        errorDiv.style.display = "block";
-      }
-      */
-      
-      // Demo signup (for testing without backend)
-      currentUser = { name: name, email: email };
-      authToken = "demo_token_" + Date.now();
-      localStorage.setItem('nexaUser', JSON.stringify(currentUser));
-      localStorage.setItem('token', authToken);
-      updateAuthUI();
-      closeSignupModal();
-      updateBadges();
-      alert("✅ Account created successfully! Welcome " + name);
-      location.reload();
-      
-    } catch(error) {
-      errorDiv.innerText = "Server Error";
-      errorDiv.style.display = "block";
-    }
+  function doSignup() {
+    const name = document.getElementById('signupName').value.trim();
+    const email = document.getElementById('signupEmail').value.trim();
+    if (!name || !email) return showToast('Please fill all fields', true);
+    currentUser = { name: name, email: email };
+    localStorage.setItem('nexaUser', JSON.stringify(currentUser));
+    updateAuthUI();
+    closeSignupModal();
+    updateBadges();
+    showToast(`Account created! Welcome ${name}`);
+    location.reload();
   }
   
   function logout() {
     currentUser = null;
-    authToken = null;
     localStorage.removeItem('nexaUser');
-    localStorage.removeItem('token');
-    messages.forEach(m => m.read = false);
-    notifications.forEach(n => n.read = false);
     updateAuthUI();
     updateBadges();
-    closeAllDropdowns();
-    alert("🔒 Logged out successfully");
+    showToast('Logged out successfully');
+    location.reload();
   }
   
   function updateAuthUI() {
-    const authBtn = document.getElementById("authBtn");
-    if(currentUser && authToken) {
-      authBtn.textContent = "Log Out";
-      authBtn.onclick = () => logout();
+    const btn = document.getElementById('authBtn');
+    if (currentUser) {
+      btn.textContent = 'Log Out';
+      btn.onclick = () => logout();
     } else {
-      authBtn.textContent = "Login";
-      authBtn.onclick = () => openLoginModal();
+      btn.textContent = 'Login';
+      btn.onclick = () => openLogin();
     }
   }
   
-  // Event Listeners for Icons
-  document.getElementById("messageWrapper").onclick = (e) => {
+  function closeLoginModal() { loginModal.style.display = 'none'; }
+  function closeSignupModal() { signupModal.style.display = 'none'; }
+  
+  document.getElementById('messageWrapper').onclick = (e) => {
     e.stopPropagation();
     closeAllDropdowns();
     showMessages();
-    document.getElementById("messageDropdown").classList.add("show");
+    document.getElementById('messageDropdown').classList.add('show');
   };
-  
-  document.getElementById("notificationWrapper").onclick = (e) => {
+  document.getElementById('notificationWrapper').onclick = (e) => {
     e.stopPropagation();
     closeAllDropdowns();
     showNotifications();
-    document.getElementById("notificationDropdown").classList.add("show");
+    document.getElementById('notificationDropdown').classList.add('show');
   };
-  
-  document.getElementById("userWrapper").onclick = (e) => {
+  document.getElementById('userWrapper').onclick = (e) => {
     e.stopPropagation();
     closeAllDropdowns();
-    showUser();
-    document.getElementById("userDropdown").classList.add("show");
+    showUserMenu();
+    document.getElementById('userDropdown').classList.add('show');
   };
+  document.addEventListener('click', () => closeAllDropdowns());
+  document.getElementById('closeModal').onclick = closeLoginModal;
+  document.getElementById('closeSignupModal').onclick = closeSignupModal;
+  document.getElementById('showSignup').onclick = () => { closeLoginModal(); openSignup(); };
+  document.getElementById('showLogin').onclick = () => { closeSignupModal(); openLogin(); };
+  document.getElementById('doLoginBtn').onclick = doLogin;
+  document.getElementById('doSignupBtn').onclick = doSignup;
   
-  document.addEventListener("click", function(e) {
-    if(!e.target.closest(".icon-wrapper")) {
-      closeAllDropdowns();
-    }
-  });
-  
-  // Modal Events
-  document.getElementById("closeModal").onclick = closeLoginModal;
-  document.getElementById("closeSignupModal").onclick = closeSignupModal;
-  document.getElementById("showSignup").onclick = () => { closeLoginModal(); openSignupModal(); };
-  document.getElementById("showLogin").onclick = () => { closeSignupModal(); openLoginModal(); };
-  document.getElementById("doLoginBtn").onclick = doLogin;
-  document.getElementById("doSignupBtn").onclick = doSignup;
-  window.onclick = (e) => { if(e.target === loginModal) closeLoginModal(); if(e.target === signupModal) closeSignupModal(); };
-  
-  // Theme Toggle
+  // Theme toggle
   const themeToggle = document.getElementById('themeToggle');
   const themeIcon = document.getElementById('themeIcon');
+  
+  function initTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      document.body.classList.add('light-mode');
+      themeIcon.className = 'fa-solid fa-sun';
+    } else {
+      document.body.classList.remove('light-mode');
+      themeIcon.className = 'fa-solid fa-moon';
+    }
+  }
+  
   themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('light-mode');
     const isLight = document.body.classList.contains('light-mode');
-    if (isLight) {
-      themeIcon.classList.remove('fa-moon');
-      themeIcon.classList.add('fa-sun');
-    } else {
-      themeIcon.classList.remove('fa-sun');
-      themeIcon.classList.add('fa-moon');
-    }
+    themeIcon.className = isLight ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
   });
   
-  // Make functions global for onclick
-  window.markMessageRead = markMessageRead;
-  window.markNotifRead = markNotifRead;
-  window.openLoginModal = openLoginModal;
-  window.openSignupModal = openSignupModal;
-  window.logout = logout;
-  window.viewProfile = viewProfile;
-  
-  // Initialize
-  setupNavigation();
+  initTheme();
   updateAuthUI();
   updateBadges();
 </script>
