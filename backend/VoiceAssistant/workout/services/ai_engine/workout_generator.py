@@ -11,15 +11,15 @@ from ..utils.helpers import clamp, format_duration
 # Prescription tables keyed by (intensity, goal)
 # Values: (sets, reps_multiplier, rest_seconds_multiplier, duration_multiplier)
 PRESCRIPTION_TABLE = {
-    ("low", "lose_weight"):       (3, 0.8, 1.2, 1.0),
-    ("low", "gain_weight"):       (3, 0.8, 1.0, 1.0),
-    ("low", "maintain_weight"):   (3, 1.0, 1.0, 1.0),
-    ("medium", "lose_weight"):    (4, 1.0, 0.9, 1.1),
-    ("medium", "gain_weight"):    (4, 1.2, 1.1, 1.0),
-    ("medium", "maintain_weight"):(3, 1.0, 1.0, 1.0),
-    ("high", "lose_weight"):      (5, 1.2, 0.8, 1.3),
-    ("high", "gain_weight"):      (5, 1.4, 1.2, 1.1),
-    ("high", "maintain_weight"):  (4, 1.1, 1.0, 1.1),
+    ("low",    "lose_weight"):     (3, 0.8, 1.2, 1.0),
+    ("low",    "gain_weight"):     (3, 0.8, 1.0, 1.0),
+    ("low",    "maintain_weight"): (3, 1.0, 1.0, 1.0),
+    ("medium", "lose_weight"):     (4, 1.0, 0.9, 1.1),
+    ("medium", "gain_weight"):     (4, 1.2, 1.1, 1.0),
+    ("medium", "maintain_weight"): (3, 1.0, 1.0, 1.0),
+    ("high",   "lose_weight"):     (5, 1.2, 0.8, 1.3),
+    ("high",   "gain_weight"):     (5, 1.4, 1.2, 1.1),
+    ("high",   "maintain_weight"): (4, 1.1, 1.0, 1.1),
 }
 
 
@@ -58,22 +58,22 @@ def prescribe_exercise(exercise, profile: dict) -> dict:
     rest_display = format_duration(rest_sec)
 
     return {
-        "id": exercise.pk,
-        "name": exercise.name,
-        "activity_type": exercise.get_activity_type_display(),
-        "difficulty": str(exercise.difficulty) if exercise.difficulty else "General",
-        "category": str(exercise.category) if exercise.category else "",
-        "sets": sets,
-        "reps": reps_display,
-        "duration": duration_display,
-        "rest_time": rest_display,
-        "instructions": exercise.instructions,
-        "tips": exercise.tips,
-        "equipment": exercise.equipment_needed,
-        "youtube_embed_url": exercise.youtube_embed_url,
-        "youtube_url": exercise.youtube_url,
-        "calories_per_minute": exercise.calories_per_minute,
-    }
+    "id": exercise.pk,
+    "name": exercise.name,
+    "activity_type": exercise.get_activity_type_display(),
+    "difficulty": str(exercise.difficulty),
+    "category": str(exercise.category) if exercise.category else "",
+    "sets": sets,
+    "reps": reps_display,
+    "duration": duration_display,
+    "rest_time": rest_display,
+    "instructions": exercise.instructions or "",
+    "tips": exercise.tips or "",
+    "equipment": exercise.equipment_needed or "None",
+    "video_url": exercise.video_url or "",
+    "calories_per_minute": exercise.calories_per_minute,
+}
+
 
 
 def generate_workout(exercises: list, profile: dict) -> list[dict]:

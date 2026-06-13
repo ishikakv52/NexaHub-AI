@@ -40,25 +40,48 @@ def validate_height(value) -> float:
     return round(height, 2)
 
 
-def validate_goal(value: str) -> str:
+def validate_goal(value) -> str:
+    """
+    Accepts: lose_weight, gain_weight, maintain_weight
+    Also accepts legacy short forms (lose, gain, maintain) and maps them.
+    """
+    if value is None:
+        raise ValueError(f"Goal is required. Must be one of: {', '.join(sorted(VALID_GOALS))}")
     val = str(value).lower().strip()
+
+    # Normalise legacy/short forms sent from older frontends
+    _aliases = {
+        "lose": "lose_weight",
+        "gain": "gain_weight",
+        "maintain": "maintain_weight",
+    }
+    val = _aliases.get(val, val)
+
     if val not in VALID_GOALS:
-        raise ValueError(f"Goal must be one of: {', '.join(VALID_GOALS)}")
+        raise ValueError(
+            f"Goal must be one of: {', '.join(sorted(VALID_GOALS))}. Got: '{value}'"
+        )
     return val
 
 
-def validate_activity_type(value: str) -> str:
+def validate_activity_type(value) -> str:
+    if value is None:
+        raise ValueError(f"Activity type is required. Must be one of: {', '.join(sorted(VALID_ACTIVITY_TYPES))}")
     val = str(value).lower().strip()
     if val not in VALID_ACTIVITY_TYPES:
-        raise ValueError(f"Activity type must be one of: {', '.join(VALID_ACTIVITY_TYPES)}")
+        raise ValueError(
+            f"Activity type must be one of: {', '.join(sorted(VALID_ACTIVITY_TYPES))}. Got: '{value}'"
+        )
     return val
 
 
-def validate_experience_level(value: str) -> str:
+def validate_experience_level(value) -> str:
+    if value is None:
+        raise ValueError(f"Experience level is required. Must be one of: {', '.join(sorted(VALID_EXPERIENCE_LEVELS))}")
     val = str(value).lower().strip()
     if val not in VALID_EXPERIENCE_LEVELS:
         raise ValueError(
-            f"Experience level must be one of: {', '.join(VALID_EXPERIENCE_LEVELS)}"
+            f"Experience level must be one of: {', '.join(sorted(VALID_EXPERIENCE_LEVELS))}. Got: '{value}'"
         )
     return val
 
@@ -75,12 +98,31 @@ def validate_available_minutes(value) -> int:
 
 def validate_user_input(data: dict) -> dict:
     """Validate and sanitize the full user input dict. Returns cleaned dict."""
-    return {
-        "age": validate_age(data.get("age")),
-        "weight_kg": validate_weight(data.get("weight_kg")),
-        "height_cm": validate_height(data.get("height_cm")),
-        "goal": validate_goal(data.get("goal")),
-        "activity_type": validate_activity_type(data.get("activity_type")),
-        "experience_level": validate_experience_level(data.get("experience_level")),
-        "available_minutes": validate_available_minutes(data.get("available_minutes")),
+    if not isinstance(data, dict):
+        raise ValueError("Request body must be a JSON object.")
+
+    errors = {}
+
+    def _try(field, fn, raw):
+        try:
+            return fn(raw)
+        except ValueError as e:
+            errors[field] = str(e)
+            return None
+
+    cleaned = {
+        "age":               _try("age",               validate_age,               data.get("age")),
+        "weight_kg":         _try("weight_kg",         validate_weight,            data.get("weight_kg")),
+        "height_cm":         _try("height_cm",         validate_height,            data.get("height_cm")),
+        "goal":              _try("goal",               validate_goal,              data.get("goal")),
+        "activity_type":     _try("activity_type",     validate_activity_type,     data.get("activity_type")),
+        "experience_level":  _try("experience_level",  validate_experience_level,  data.get("experience_level")),
+        "available_minutes": _try("available_minutes", validate_available_minutes, data.get("available_minutes")),
     }
+
+    if errors:
+        # Raise a single ValueError with all field errors
+        msg = "; ".join(f"{k}: {v}" for k, v in errors.items())
+        raise ValueError(msg)
+
+    return cleaned

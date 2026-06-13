@@ -75,8 +75,9 @@ def generate_plan(request):
     result = format_plan(prescribed, profile)
 
     # Persist session for analytics / future ML training
-    session_key = str(uuid.uuid4().hex)
+    session_key = uuid.uuid4().hex
     ws = WorkoutSession.objects.create(
+        session_key=session_key,
         age=cleaned["age"],
         weight_kg=cleaned["weight_kg"],
         height_cm=cleaned["height_cm"],
@@ -87,7 +88,6 @@ def generate_plan(request):
         bmi=profile["bmi"],
         bmi_category=profile["bmi_category"],
         plan_json=result,
-        session_key=session_key,
     )
     result["session_key"] = session_key
     result["session_id"] = ws.pk

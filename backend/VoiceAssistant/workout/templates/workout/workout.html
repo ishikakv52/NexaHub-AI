@@ -526,18 +526,17 @@
   .exercise-card:nth-child(5) { animation-delay: 0.25s; }
   .exercise-card:nth-child(6) { animation-delay: 0.3s; }
 
-  /* YouTube embed */
-  .video-wrapper {
-    position: relative;
-    padding-bottom: 56.25%;
-    background: #000;
-  }
-  .video-wrapper iframe {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    border: none;
-  }
+  .video-wrapper{
+    width:100%;
+    overflow:hidden;
+    border-radius:12px;
+}
+
+.video-wrapper video{
+    width:100%;
+    display:block;
+    border-radius:12px;
+}
   .no-video {
     background: var(--surface);
     height: 160px;
@@ -1118,6 +1117,8 @@
     // Exercises
     const exHTML = (plan.exercises || []).map((ex, i) => buildExerciseCard(ex, i)).join('');
     document.getElementById('exercises-grid').innerHTML = exHTML;
+    initExerciseVideos();
+    
 
     // Reset feedback
     document.getElementById('feedback-success').classList.remove('active');
@@ -1131,76 +1132,116 @@
 
   function buildExerciseCard(ex, index) {
     const diffClass = ex.difficulty
-      ? `badge-difficulty-${ex.difficulty.toLowerCase()}`
-      : 'badge-type';
+        ? `badge-difficulty-${ex.difficulty.toLowerCase()}`
+        : 'badge-type';
 
-    const videoHTML = ex.youtube_embed_url
-      ? `<div class="video-wrapper">
-           <iframe src="${ex.youtube_embed_url}"
-             title="${ex.name} tutorial"
-             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-             allowfullscreen
-             loading="lazy">
-           </iframe>
-         </div>`
-      : `<div class="no-video">
-           <div class="no-video-icon">🎥</div>
-           <div>No video available</div>
-         </div>`;
+    console.log("Exercise Object:", ex);
+    console.log("Video URL:", ex.video_url);
+    console.log("YouTube URL:", ex.youtube_url);
+    console.log("Embed URL:", ex.youtube_embed_url);
 
+    const videoHTML = ex.video_url
+? `
+<div class="video-wrapper">
+  <video
+    class="exercise-video"
+    muted
+    loop
+    playsinline
+    preload="metadata"
+    width="100%">
+    <source src="${ex.video_url}" type="video/mp4">
+  </video>
+</div>
+`
+: `
+<div class="no-video">
+  <div class="no-video-icon">🎥</div>
+  <div>No video available</div>
+</div>
+`;
     const tipsHTML = ex.tips
-      ? `<button class="accordion-toggle" onclick="toggleSection(this, 'tips-${index}')">
-           💡 Form Tips <span class="chevron">▾</span>
-         </button>
-         <div class="tips-body" id="tips-${index}">${ex.tips}</div>`
-      : '';
+        ? `
+        <button class="accordion-toggle" onclick="toggleSection(this, 'tips-${index}')">
+            💡 Form Tips <span class="chevron">▾</span>
+        </button>
+        <div class="tips-body" id="tips-${index}">
+            ${ex.tips}
+        </div>
+        `
+        : '';
 
-    const equipmentHTML = ex.equipment && ex.equipment !== 'None'
-      ? `<div class="equipment-tag">🎽 ${ex.equipment}</div>`
-      : '';
+    const equipmentHTML =
+        ex.equipment && ex.equipment !== 'None'
+            ? `<div class="equipment-tag">🎽 ${ex.equipment}</div>`
+            : '';
 
     return `
     <div class="exercise-card">
-      ${videoHTML}
-      <div class="ex-body">
-        <div class="ex-header">
-          <div class="ex-name">${ex.name}</div>
-          <div class="ex-badges">
-            <span class="badge ${diffClass}">${ex.difficulty || 'General'}</span>
-            <span class="badge badge-type">${ex.activity_type}</span>
-          </div>
+
+        ${videoHTML}
+
+        <div class="ex-body">
+
+            <div class="ex-header">
+                <div class="ex-name">${ex.name}</div>
+
+                <div class="ex-badges">
+                    <span class="badge ${diffClass}">
+                        ${ex.difficulty || 'General'}
+                    </span>
+
+                    <span class="badge badge-type">
+                        ${ex.activity_type}
+                    </span>
+                </div>
+            </div>
+
+            <div class="prescription-grid">
+
+                <div class="presc-cell">
+                    <div class="presc-label">Sets</div>
+                    <div class="presc-value">${ex.sets}</div>
+                </div>
+
+                <div class="presc-cell">
+                    <div class="presc-label">Reps</div>
+                    <div class="presc-value">${ex.reps}</div>
+                </div>
+
+                <div class="presc-cell">
+                    <div class="presc-label">Duration</div>
+                    <div class="presc-value" style="font-size:0.85rem">
+                        ${ex.duration}
+                    </div>
+                </div>
+
+                <div class="presc-cell">
+                    <div class="presc-label">Rest</div>
+                    <div class="presc-value" style="font-size:0.85rem">
+                        ${ex.rest_time}
+                    </div>
+                </div>
+
+            </div>
+
+            <button class="accordion-toggle"
+                    onclick="toggleSection(this, 'inst-${index}')">
+                📋 Instructions
+                <span class="chevron">▾</span>
+            </button>
+
+            <div class="instructions-body" id="inst-${index}">
+                ${ex.instructions}
+            </div>
+
+            ${tipsHTML}
+            ${equipmentHTML}
+
         </div>
-
-        <div class="prescription-grid">
-          <div class="presc-cell">
-            <div class="presc-label">Sets</div>
-            <div class="presc-value">${ex.sets}</div>
-          </div>
-          <div class="presc-cell">
-            <div class="presc-label">Reps</div>
-            <div class="presc-value">${ex.reps}</div>
-          </div>
-          <div class="presc-cell">
-            <div class="presc-label">Duration</div>
-            <div class="presc-value" style="font-size:0.85rem">${ex.duration}</div>
-          </div>
-          <div class="presc-cell">
-            <div class="presc-label">Rest</div>
-            <div class="presc-value" style="font-size:0.85rem">${ex.rest_time}</div>
-          </div>
-        </div>
-
-        <button class="accordion-toggle" onclick="toggleSection(this, 'inst-${index}')">
-          📋 Instructions <span class="chevron">▾</span>
-        </button>
-        <div class="instructions-body" id="inst-${index}">${ex.instructions}</div>
-
-        ${tipsHTML}
-        ${equipmentHTML}
-      </div>
-    </div>`;
-  }
-
+    </div>
+    `;
+}
   // ─── ACCORDION ────────────────────────────────────────────────────────────
   function toggleSection(btn, id) {
     const body = document.getElementById(id);
@@ -1259,6 +1300,36 @@
     hideError();
     resetStars();
   }
+  function initExerciseVideos() {
+    const videos = document.querySelectorAll('.exercise-video');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const video = entry.target;
+
+            if (entry.isIntersecting) {
+                video.play().catch(() => {});
+            } else {
+                video.pause();
+            }
+        });
+    }, {
+        threshold: 0.6
+    });
+
+    videos.forEach(video => {
+        observer.observe(video);
+
+        video.addEventListener('mouseenter', () => {
+            video.play().catch(() => {});
+        });
+
+        video.addEventListener('mouseleave', () => {
+            video.pause();
+            video.currentTime = 0;
+        });
+    });
+}
 </script>
 
 </body>
