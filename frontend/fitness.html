@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>NEXA HUB AI | Premium Fitness Tracker</title>
+    <!-- Google Fonts + Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        /* ========== LIGHT MODE (DEFAULT) ========== */
+        :root {
+            --bg-gradient-start: #f0f6fe;
+            --bg-gradient-end: #e2ecfa;
+            --card-bg: rgba(255, 255, 255, 0.96);
+            --card-border: rgba(37, 99, 235, 0.12);
+            --text-primary: #0f2b3d;
+            --text-secondary: #2c4b6e;
+            --text-muted: #557599;
+            --input-bg: #ffffff;
+            --input-border: #e2edf7;
+            --btn-primary: #2563eb;
+            --btn-primary-hover: #1d4ed8;
+            --step-active: #2563eb;
+            --step-completed: #3b82f6;
+            --pill-bg: #eef3ff;
+            --footer-text: #5a6e8a;
+            --shadow-sm: 0 20px 40px rgba(0, 0, 0, 0.06);
+            --border-light: #dce7f5;
+            --brand-glow-light: 0 0 8px rgba(59,130,246,0.2);
+            --brand-glow-dark: 0 0 12px rgba(59,130,246,0.4);
+            /* NEXA color in light mode - dark slate (visible) */
+            --nexa-light-color: #1e2f3e;
+            --hub-light-color: #2563eb;
+            --ai-light-start: #3b82f6;
+            --ai-light-end: #1e40af;
+        }
+
+        /* ========== DARK MODE ========== */
+        body.dark {
+            --bg-gradient-start: #0a0f1a;
+            --bg-gradient-end: #111827;
+            --card-bg: rgba(17, 24, 39, 0.96);
+            --card-border: rgba(59, 130, 246, 0.2);
+            --text-primary: #f0f4fa;
+            --text-secondary: #cbd5e6;
+            --text-muted: #9aa9c1;
+            --input-bg: #1e293b;
+            --input-border: #2d3a4e;
+            --btn-primary: #3b82f6;
+            --btn-primary-hover: #60a5fa;
+            --step-active: #3b82f6;
+            --step-completed: #3b82f6;
+            --pill-bg: #1e2a3e;
+            --footer-text: #8ba0bc;
+            --shadow-sm: 0 20px 40px rgba(0, 0, 0, 0.5);
+            --border-light: #1e2a3a;
+            --nexa-light-color: #f8fafc;
+            --hub-light-color: #60a5fa;
+            --ai-light-start: #60a5fa;
+            --ai-light-end: #3b82f6;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            padding: 1.8rem;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* ===== HEADER WITH PERFECT BRAND VISIBILITY ===== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            gap: 1rem;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            padding: 1rem 2rem;
+            border-radius: 2rem;
+            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .brand {
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        /* NEXA - Light mode: rich dark slate (visible), Dark mode: pure white */
+        .brand-nexa {
+            font-size: 2.3rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--nexa-light-color);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        body.dark .brand-nexa {
+            color: #ffffff;
+            text-shadow: 0 0 8px rgba(255,255,255,0.3);
+        }
+
+        /* HUB - Brilliant Blue with glow */
+        .brand-hub {
+            font-size: 2.3rem;
+            font-weight: 800;
+            color: var(--hub-light-color);
+            letter-spacing: -0.5px;
+            text-shadow: 0 0 6px rgba(59,130,246,0.4);
+        }
+        body.dark .brand-hub {
+            color: #60a5fa;
+            text-shadow: 0 0 10px rgba(96,165,250,0.5);
+        }
+
+        /* AI - Electric Blue Gradient */
+        .brand-ai {
+            font-size: 2.3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--ai-light-start), var(--ai-light-end));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+            text-shadow: 0 0 6px rgba(59,130,246,0.3);
+        }
+
+        .brand-tagline {
+            width: 100%;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            background: var(--pill-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 60px;
+            padding: 0.6rem 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-primary);
+            transition: all 0.25s;
+            box-shadow: var(--shadow-sm);
+        }
+        .theme-toggle i {
+            font-size: 1.2rem;
+            color: #3b82f6;
+        }
+        .theme-toggle:hover {
+            transform: scale(0.97);
+            background: #3b82f6;
+            color: white;
+        }
+        .theme-toggle:hover i {
+            color: white;
+        }
+
+        /* Step Indicator */
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        .step-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            padding: 0.7rem 1.8rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+        }
+        .step-btn.active {
+            background: var(--step-active);
+            color: white;
+            border-color: var(--step-active);
+            box-shadow: 0 8px 20px rgba(59,130,246,0.3);
+        }
+        .step-btn.completed {
+            background: var(--step-completed);
+            border-color: var(--step-completed);
+            color: white;
+        }
+
+        /* Form Cards */
+        .form-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(4px);
+            border-radius: 2rem;
+            padding: 1.8rem 2rem;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2rem;
+            border: 1px solid var(--card-border);
+        }
+        .form-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            border-left: 5px solid #3b82f6;
+            padding-left: 1rem;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.2rem;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .input-group label {
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            letter-spacing: 0.3px;
+        }
+        .input-group label i {
+            width: 24px;
+            color: #3b82f6;
+        }
+        input, select, textarea {
+            padding: 12px 16px;
+            border-radius: 28px;
+            border: 1.5px solid var(--input-border);
+            background: var(--input-bg);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            transition: 0.2s;
+            outline: none;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+        }
+        .btn-save {
+            background: linear-gradient(95deg, var(--btn-primary), #3b82f6);
+            border: none;
+            padding: 0.9rem 1.8rem;
+            border-radius: 50px;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 1rem;
+            width: 100%;
+            justify-content: center;
+            box-shadow: 0 6px 14px rgba(59,130,246,0.3);
+        }
+        .btn-save:hover {
+            transform: scale(0.98);
+            filter: brightness(1.05);
+        }
+        .hidden-step {
+            display: none;
+        }
+        .report-area {
+            background: var(--card-bg);
+            border-radius: 1.6rem;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            border: 1px solid var(--border-light);
+        }
+        .report-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+        .stats-badge {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin: 1rem 0;
+        }
+        .pill {
+            background: var(--pill-bg);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            border: 1px solid var(--border-light);
+        }
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            color: var(--footer-text);
+        }
+        @media (max-width: 650px) {
+            body { padding: 1rem; }
+            .form-card { padding: 1.2rem; }
+            .brand-nexa, .brand-hub, .brand-ai { font-size: 1.6rem; }
+            .header { padding: 0.8rem 1.2rem; }
+        }
+        canvas {
+            max-height: 220px;
+            margin-top: 15px;
+        }
+        .blue-accent {
+            color: #3b82f6;
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <div class="header">
+        <div class="brand">
+            <span class="brand-nexa">NEXA</span>
+            <span class="brand-hub">HUB</span>
+            <span class="brand-ai">AI</span>
+            <div class="brand-tagline"><i class="fas fa-gem blue-accent"></i> AI-Powered Fitness Intelligence</div>
+        </div>
+        <div class="theme-toggle" id="themeToggleBtn">
+            <i class="fas fa-moon"></i> <span id="themeText">Dark Mode</span>
+        </div>
+    </div>
+
+    <!-- Step Navigation -->
+    <div class="step-indicator">
+        <button class="step-btn active" data-step="1" id="step1Btn"><i class="fas fa-chart-simple"></i> Basic Stats</button>
+        <button class="step-btn" data-step="2" id="step2Btn"><i class="fas fa-bed"></i> Sleep Details</button>
+        <button class="step-btn" data-step="3" id="step3Btn"><i class="fas fa-heartbeat"></i> Heart & Recovery</button>
+    </div>
+
+    <!-- STEP 1: BASIC -->
+    <div id="step1Panel" class="form-card">
+        <div class="form-title"><i class="fas fa-dumbbell"></i> Today's Basic Fitness</div>
+        <div class="grid-2col">
+            <div class="input-group"><label><i class="fas fa-shoe-prints"></i> Steps Today</label><input type="number" id="stepsInput" placeholder="e.g., 8500" value="8240"></div>
+            <div class="input-group"><label><i class="fas fa-tint"></i> Water (Litres)</label><input type="number" step="0.1" id="waterInput" placeholder="e.g., 2.5" value="2.1"></div>
+            <div class="input-group"><label><i class="fas fa-utensils"></i> Calories Consumed</label><input type="number" id="calConsumedInput" placeholder="e.g., 1800" value="1950"></div>
+            <div class="input-group"><label><i class="fas fa-weight-scale"></i> Weight (kg)</label><input type="number" step="0.1" id="weightInput" placeholder="e.g., 68.5" value="70.2"></div>
+            <div class="input-group"><label><i class="fas fa-fire"></i> Calories Burned</label><input type="number" id="calBurnedInput" placeholder="e.g., 450" value="620"></div>
+            <div class="input-group"><label><i class="fas fa-ruler"></i> Height (cm)</label><input type="number" id="heightInput" placeholder="e.g., 172" value="175"></div>
+        </div>
+        <button class="btn-save" id="saveBasicBtn"><i class="fas fa-arrow-right"></i> Save Basic & Next</button>
+    </div>
+
+    <!-- STEP 2: SLEEP -->
+    <div id="step2Panel" class="form-card hidden-step">
+        <div class="form-title"><i class="fas fa-moon"></i> Sleep Analysis</div>
+        <div class="grid-2col">
+            <div class="input-group"><label><i class="fas fa-hourglass-half"></i> Sleep Hours</label><input type="number" step="0.1" id="sleepHoursInput" value="7.2"></div>
+            <div class="input-group"><label><i class="fas fa-bed"></i> Bedtime</label><input type="time" id="bedtimeInput" value="23:00"></div>
+            <div class="input-group"><label><i class="fas fa-chart-line"></i> Deep Sleep (hrs)</label><input type="number" step="0.1" id="deepSleepInput" value="1.9"></div>
+            <div class="input-group"><label><i class="fas fa-brain"></i> REM Sleep (hrs)</label><input type="number" step="0.1" id="remSleepInput" value="1.6"></div>
+            <div class="input-group"><label><i class="fas fa-star"></i> Sleep Quality</label><select id="sleepQualitySelect"><option value="Excellent">😊 Excellent</option><option value="Good" selected>🙂 Good</option><option value="Fair">😐 Fair</option><option value="Poor">😴 Poor</option></select></div>
+            <div class="input-group"><label><i class="fas fa-sun"></i> Wake Time</label><input type="time" id="wakeTimeInput" value="06:30"></div>
+        </div>
+        <button class="btn-save" id="saveSleepBtn"><i class="fas fa-arrow-right"></i> Save Sleep & Next</button>
+    </div>
+
+    <!-- STEP 3: HEART & WELLNESS -->
+    <div id="step3Panel" class="form-card hidden-step">
+        <div class="form-title"><i class="fas fa-heart"></i> Heart Rate & Wellness</div>
+        <div class="grid-2col">
+            <div class="input-group"><label><i class="fas fa-heartbeat"></i> Resting HR (BPM)</label><input type="number" id="heartRateInput" value="72"></div>
+            <div class="input-group"><label><i class="fas fa-chart-line"></i> Max HR Today</label><input type="number" id="maxHrInput" value="148"></div>
+            <div class="input-group"><label><i class="fas fa-waveform"></i> Avg HR (BPM)</label><input type="number" id="avgHrInput" value="78"></div>
+            <div class="input-group"><label><i class="fas fa-cloud-sun"></i> Stress Score (0-100)</label><input type="number" id="stressInput" value="32" min="0" max="100"></div>
+            <div class="input-group"><label><i class="fas fa-leaf"></i> Recovery Score (0-100)</label><input type="number" id="recoveryInput" value="78"></div>
+            <div class="input-group"><label><i class="fas fa-face-smile"></i> Mood</label><select id="moodSelect"><option value="Energetic">⚡ Energetic</option><option value="Happy" selected>😊 Happy</option><option value="Neutral">😐 Neutral</option><option value="Tired">😴 Tired</option></select></div>
+            <div class="input-group" style="grid-column: span 2;"><label><i class="fas fa-pen"></i> Notes</label><textarea rows="2" id="notesInput">Morning run + strength training, felt strong</textarea></div>
+        </div>
+        <button class="btn-save" id="generateReportBtn"><i class="fas fa-file-alt"></i> Generate Report</button>
+    </div>
+
+    <!-- REPORT -->
+    <div id="reportContainer" class="report-area" style="display: none;">
+        <div class="report-title"><i class="fas fa-chart-pie"></i> NEXA HUB AI • Complete Report</div>
+        <div id="reportContent"></div>
+        <canvas id="sleepChartCanvas" width="400" height="180"></canvas>
+        <div class="stats-badge" id="additionalInsights"></div>
+        <button id="exportDataBtn" class="btn-save" style="background: linear-gradient(95deg, #1e40af, #3b82f6);"><i class="fas fa-download"></i> Download JSON Report</button>
+    </div>
+    <footer>
+        <i class=""></i> © 2026 NEXA HUB AI
+</div>
+
+<script>
+    // ========== DARK MODE TOGGLE ==========
+    const themeToggle = document.getElementById('themeToggleBtn');
+    function toggleTheme() {
+        document.body.classList.toggle('dark');
+        const isDark = document.body.classList.contains('dark');
+        localStorage.setItem('nexaTheme', isDark ? 'dark' : 'light');
+        const themeSpan = document.getElementById('themeText');
+        themeSpan.innerText = isDark ? 'Light Mode' : 'Dark Mode';
+        themeToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> <span id="themeText">Light Mode</span>' : '<i class="fas fa-moon"></i> <span id="themeText">Dark Mode</span>';
+        const newSpan = themeToggle.querySelector('#themeText');
+        if(newSpan) newSpan.innerText = isDark ? 'Light Mode' : 'Dark Mode';
+        if (sleepChart) {
+            const newColor = getComputedStyle(document.body).getPropertyValue('--text-primary');
+            sleepChart.options.plugins.legend.labels.color = newColor;
+            sleepChart.update();
+        }
+    }
+    if (localStorage.getItem('nexaTheme') === 'dark') {
+        document.body.classList.add('dark');
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i> <span id="themeText">Light Mode</span>';
+        if(document.getElementById('themeText')) document.getElementById('themeText').innerText = 'Light Mode';
+    }
+    themeToggle.addEventListener('click', toggleTheme);
+
+    // ========== DATA STATE ==========
+    let fitnessData = {
+        basic: { steps: 8240, water: 2.1, caloriesConsumed: 1950, weight: 70.2, caloriesBurned: 620, height: 175 },
+        sleep: { totalSleep: 7.2, bedtime: "23:00", deepSleep: 1.9, remSleep: 1.6, sleepQuality: "Good", wakeTime: "06:30" },
+        heartWellness: { heartRate: 72, maxHr: 148, avgHr: 78, stress: 32, recovery: 78, mood: "Happy", notes: "Morning run + strength training, felt strong" }
+    };
+    let stepCompleted = [true, false, false];
+    let sleepChart = null;
+
+    const step1Panel = document.getElementById('step1Panel');
+    const step2Panel = document.getElementById('step2Panel');
+    const step3Panel = document.getElementById('step3Panel');
+    const step1Btn = document.getElementById('step1Btn');
+    const step2Btn = document.getElementById('step2Btn');
+    const step3Btn = document.getElementById('step3Btn');
+    const reportContainer = document.getElementById('reportContainer');
+
+    function updateStepUI() {
+        if(stepCompleted[0]) step1Btn.classList.add('completed'); else step1Btn.classList.remove('completed');
+        if(stepCompleted[1]) step2Btn.classList.add('completed'); else step2Btn.classList.remove('completed');
+        if(stepCompleted[2]) step3Btn.classList.add('completed'); else step3Btn.classList.remove('completed');
+    }
+    function showStep(step) {
+        step1Panel.classList.add('hidden-step');
+        step2Panel.classList.add('hidden-step');
+        step3Panel.classList.add('hidden-step');
+        if(step === 1) step1Panel.classList.remove('hidden-step');
+        if(step === 2) step2Panel.classList.remove('hidden-step');
+        if(step === 3) step3Panel.classList.remove('hidden-step');
+        [step1Btn, step2Btn, step3Btn].forEach(btn => btn.classList.remove('active'));
+        if(step === 1) step1Btn.classList.add('active');
+        if(step === 2) step2Btn.classList.add('active');
+        if(step === 3) step3Btn.classList.add('active');
+    }
+
+    function captureBasic() {
+        fitnessData.basic.steps = parseInt(document.getElementById('stepsInput').value) || 0;
+        fitnessData.basic.water = parseFloat(document.getElementById('waterInput').value) || 0;
+        fitnessData.basic.caloriesConsumed = parseInt(document.getElementById('calConsumedInput').value) || 0;
+        fitnessData.basic.weight = parseFloat(document.getElementById('weightInput').value) || 0;
+        fitnessData.basic.caloriesBurned = parseInt(document.getElementById('calBurnedInput').value) || 0;
+        fitnessData.basic.height = parseInt(document.getElementById('heightInput').value) || 0;
+    }
+    function captureSleep() {
+        fitnessData.sleep.totalSleep = parseFloat(document.getElementById('sleepHoursInput').value) || 0;
+        fitnessData.sleep.bedtime = document.getElementById('bedtimeInput').value;
+        fitnessData.sleep.deepSleep = parseFloat(document.getElementById('deepSleepInput').value) || 0;
+        fitnessData.sleep.remSleep = parseFloat(document.getElementById('remSleepInput').value) || 0;
+        fitnessData.sleep.sleepQuality = document.getElementById('sleepQualitySelect').value;
+        fitnessData.sleep.wakeTime = document.getElementById('wakeTimeInput').value;
+    }
+    function captureHeart() {
+        fitnessData.heartWellness.heartRate = parseInt(document.getElementById('heartRateInput').value) || 0;
+        fitnessData.heartWellness.maxHr = parseInt(document.getElementById('maxHrInput').value) || 0;
+        fitnessData.heartWellness.avgHr = parseInt(document.getElementById('avgHrInput').value) || 0;
+        fitnessData.heartWellness.stress = parseInt(document.getElementById('stressInput').value) || 0;
+        fitnessData.heartWellness.recovery = parseInt(document.getElementById('recoveryInput').value) || 0;
+        fitnessData.heartWellness.mood = document.getElementById('moodSelect').value;
+        fitnessData.heartWellness.notes = document.getElementById('notesInput').value;
+    }
+
+    function getRecommendation(stress, steps, sleep) {
+        if(stress > 70) return "High stress • Try NEXA guided meditation";
+        if(steps < 7000) return "Boost daily steps to 8k+ for heart vitality";
+        if(sleep < 6.5) return "Prioritize 7+ hours of restorative sleep";
+        return "Perfect balance • Keep shining with NEXA HUB AI!";
+    }
+
+    function generateReport() {
+        captureBasic(); captureSleep(); captureHeart();
+        stepCompleted = [true, true, true];
+        updateStepUI();
+        const b = fitnessData.basic, s = fitnessData.sleep, h = fitnessData.heartWellness;
+        const netCal = b.caloriesConsumed - b.caloriesBurned;
+        const bmi = (b.weight / ((b.height/100) ** 2)).toFixed(1);
+        const hydration = b.water >= 2.5 ? "💧 Excellent hydration" : (b.water >= 1.8 ? "💧 Good hydration" : "💧 Drink more water");
+        
+        const html = `
+            <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between;">
+                <div><strong><i class="fas fa-walking"></i> Steps:</strong> ${b.steps.toLocaleString()}<br>
+                <strong>💧 Water:</strong> ${b.water} L • ${hydration}<br>
+                <strong>🔥 Net Calories:</strong> ${netCal > 0 ? '+' + netCal : netCal} kcal</div>
+                <div><strong>📏 BMI:</strong> ${bmi}<br>
+                <strong>❤️ Heart:</strong> ${h.heartRate} BPM (rest)<br>
+                <strong>📈 Max HR:</strong> ${h.maxHr} bpm</div>
+                <div><strong>😴 Sleep:</strong> ${s.totalSleep} hrs<br>
+                <strong>⭐ Quality:</strong> ${s.sleepQuality}<br>
+                <strong>🧠 Stress:</strong> ${h.stress}/100 • Recovery: ${h.recovery}/100</div>
+            </div>
+            <hr style="margin: 15px 0; opacity:0.3;">
+            <div><strong><i class="fas fa-face-smile"></i> Mood:</strong> ${h.mood} • <i class="fas fa-sticky-note"></i> "${h.notes}"</div>
+            <div class="stats-badge"><span class="pill"><i class="fas fa-gem"></i> NEXA Insight: ${getRecommendation(h.stress, b.steps, s.totalSleep)}</span></div>
+        `;
+        document.getElementById('reportContent').innerHTML = html;
+        
+        const lightSleep = Math.max(0, s.totalSleep - (s.deepSleep + s.remSleep));
+        const ctx = document.getElementById('sleepChartCanvas').getContext('2d');
+        if(sleepChart) sleepChart.destroy();
+        const textColor = getComputedStyle(document.body).getPropertyValue('--text-primary');
+        sleepChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: { labels: ['Deep Sleep', 'REM Sleep', 'Light/Wake'], datasets: [{ data: [s.deepSleep, s.remSleep, lightSleep], backgroundColor: ['#3b82f6', '#60a5fa', '#93c5fd'], borderWidth: 0 }] },
+            options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { color: textColor, font: { size: 12 } } } } }
+        });
+        document.getElementById('additionalInsights').innerHTML = `<span class="pill"><i class="fas fa-calendar"></i> ${new Date().toLocaleString()}</span><span class="pill"><i class="fas fa-heartbeat"></i> Cardio Status: ${h.heartRate < 80 ? 'Optimal' : 'Monitor'}</span>`;
+        reportContainer.style.display = 'block';
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    function saveBasicNext() { captureBasic(); stepCompleted[0] = true; updateStepUI(); showStep(2); }
+    function saveSleepNext() { captureSleep(); stepCompleted[1] = true; updateStepUI(); showStep(3); }
+    function finalGenerate() { captureHeart(); if(fitnessData.basic.steps === 0) { alert("Complete Basic Stats first"); showStep(1); return; } generateReport(); }
+    function downloadJSON() {
+        const exportData = { generatedAt: new Date().toISOString(), userData: fitnessData, bmi: (fitnessData.basic.weight / ((fitnessData.basic.height/100)**2)).toFixed(2) };
+        const blob = new Blob([JSON.stringify(exportData, null, 2)], {type: "application/json"});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `nexa_fitness_${new Date().toISOString().slice(0,19)}.json`;
+        a.click(); URL.revokeObjectURL(a.href);
+    }
+
+    document.getElementById('saveBasicBtn').onclick = saveBasicNext;
+    document.getElementById('saveSleepBtn').onclick = saveSleepNext;
+    document.getElementById('generateReportBtn').onclick = finalGenerate;
+    document.getElementById('exportDataBtn').onclick = downloadJSON;
+    step1Btn.onclick = () => showStep(1);
+    step2Btn.onclick = () => stepCompleted[0] ? showStep(2) : alert("Complete Basic first");
+    step3Btn.onclick = () => (stepCompleted[0] && stepCompleted[1]) ? showStep(3) : alert("Complete Basic & Sleep first");
+
+    function syncUI() {
+        document.getElementById('stepsInput').value = fitnessData.basic.steps;
+        document.getElementById('waterInput').value = fitnessData.basic.water;
+        document.getElementById('calConsumedInput').value = fitnessData.basic.caloriesConsumed;
+        document.getElementById('weightInput').value = fitnessData.basic.weight;
+        document.getElementById('calBurnedInput').value = fitnessData.basic.caloriesBurned;
+        document.getElementById('heightInput').value = fitnessData.basic.height;
+        document.getElementById('sleepHoursInput').value = fitnessData.sleep.totalSleep;
+        document.getElementById('bedtimeInput').value = fitnessData.sleep.bedtime;
+        document.getElementById('deepSleepInput').value = fitnessData.sleep.deepSleep;
+        document.getElementById('remSleepInput').value = fitnessData.sleep.remSleep;
+        document.getElementById('sleepQualitySelect').value = fitnessData.sleep.sleepQuality;
+        document.getElementById('wakeTimeInput').value = fitnessData.sleep.wakeTime;
+        document.getElementById('heartRateInput').value = fitnessData.heartWellness.heartRate;
+        document.getElementById('maxHrInput').value = fitnessData.heartWellness.maxHr;
+        document.getElementById('avgHrInput').value = fitnessData.heartWellness.avgHr;
+        document.getElementById('stressInput').value = fitnessData.heartWellness.stress;
+        document.getElementById('recoveryInput').value = fitnessData.heartWellness.recovery;
+        document.getElementById('moodSelect').value = fitnessData.heartWellness.mood;
+        document.getElementById('notesInput').value = fitnessData.heartWellness.notes;
+    }
+    syncUI();
+    updateStepUI();
+    showStep(1);
+</script>
+</body>
+</html>
