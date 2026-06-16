@@ -27,6 +27,7 @@ urlpatterns = [
     path('api/', include('accounts.urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/subscriptions/', include('subscriptions.urls')),
     path('', include('ImageToText.urls')),
     path('voice-to-text/', include('VoiceToText.urls')),
     path("tts/", include("TextToSpeech.urls")),
@@ -39,6 +40,7 @@ urlpatterns = [
 include(
 'VoiceAssistant.workout.urls'
 )),
+
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

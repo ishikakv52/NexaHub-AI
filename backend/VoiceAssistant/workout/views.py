@@ -9,6 +9,8 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET, require_POST
 
+from subscriptions.decorators import require_credits_fbv
+
 from .models import Exercise, WorkoutSession
 from .services.ai_engine import (
     build_user_profile,
@@ -27,6 +29,7 @@ def workout_home(request):
 
 @csrf_exempt
 @require_POST
+@require_credits_fbv(feature="workout.generate_plan", amount=1)
 def generate_plan(request):
     """
     POST /workout/api/generate/

@@ -12,6 +12,8 @@ import json
 import unicodedata
 import re
 
+from subscriptions.decorators import require_credits_fbv
+
 from .language_mapping import lang_map, get_supported_lang_code, normalize_lang_code, detect_language
 
 # ---------------------------------------------------------------------------
@@ -322,6 +324,7 @@ def preprocess_image(image: Image.Image, sharpen: bool = False) -> Image.Image:
 # ---------------------------------------------------------------------------
 
 @csrf_exempt
+@require_credits_fbv(feature="imagetotext.ocr", amount=1)
 def ocr_view(request):
     if request.method != "POST":
         return JsonResponse({"message": "Send a POST request with an image."})
@@ -455,6 +458,7 @@ def _chunk_text(text: str, max_chars: int = 800) -> list[str]:
 # ---------------------------------------------------------------------------
 
 @csrf_exempt
+@require_credits_fbv(feature="imagetotext.translate", amount=1)
 def translate_view(request):
     if request.method != "POST":
         return JsonResponse({"error": "Only POST is supported"}, status=405)

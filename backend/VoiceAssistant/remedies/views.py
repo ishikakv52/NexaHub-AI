@@ -5,6 +5,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 import json, traceback
 
+from subscriptions.decorators import require_credits_fbv
+
 from .services.cleaner import clean
 from .services.language_engine import detect_language
 from .services.translation_engine import translate_to_english
@@ -62,6 +64,7 @@ def _ok(**kwargs):
 
 # ── Main view ────────────────────────────────────────────────
 @csrf_exempt
+@require_credits_fbv(feature="remedies.process_remedy", amount=1)
 def process_remedy(request):
     if request.method != "POST":
         return JsonResponse({"status":"error","message":"Only POST allowed"}, status=405)

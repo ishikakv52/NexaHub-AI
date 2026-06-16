@@ -11,6 +11,8 @@ from django.core.mail import send_mail
 from django.conf import settings
 import traceback
 
+from subscriptions.decorators import require_credits_fbv
+
 try:
     from gtts import gTTS
     GTTS_AVAILABLE = True
@@ -162,6 +164,7 @@ def set_goal(request):
 # ══════════════════════════════════════════════════════════════
 @csrf_exempt
 @require_http_methods(["POST"])
+@require_credits_fbv(feature="voiceassistant.process_input", amount=1)
 def process_input(request):
     try:
         # ── Step 1: Parse JSON safely ──────────────────────
@@ -242,6 +245,7 @@ def process_input(request):
 # ══════════════════════════════════════════════════════════════
 @csrf_exempt
 @require_http_methods(["POST"])
+@require_credits_fbv(feature="voiceassistant.report_qa", amount=1)
 def report_qa(request):
     try:
         data = _safe_json(request)
@@ -278,6 +282,7 @@ def report_qa(request):
 # ══════════════════════════════════════════════════════════════
 @csrf_exempt
 @require_http_methods(["POST"])
+@require_credits_fbv(feature="voiceassistant.text_to_speech", amount=1)
 def text_to_speech(request):
     try:
         data = _safe_json(request)

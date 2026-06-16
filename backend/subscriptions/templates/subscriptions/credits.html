@@ -1,0 +1,853 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXA HUB — Subscription &amp; Credits</title>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<style>
+  :root {
+    --bg: #0f1115;
+    --card: #1a1d24;
+    --card-2: #20242c;
+    --border: #2a2f3a;
+    --text: #e8eaed;
+    --muted: #9aa0ab;
+    --accent: #6c63ff;
+    --accent-2: #43c6ac;
+    --danger: #ff5c5c;
+    --warning: #ffb454;
+    --success: #43c6ac;
+    --radius: 14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: linear-gradient(135deg, #0f1115 0%, #14171f 100%);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 480px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+  }
+
+  h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+  }
+
+  /* ── Login form ───────────────────────────────────── */
+  .field {
+    margin-bottom: 14px;
+  }
+
+  label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 11px 14px;
+    background: var(--card-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+
+  input[type="text"]:focus,
+  input[type="password"]:focus {
+    border-color: var(--accent);
+  }
+
+  button {
+    width: 100%;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s ease, transform 0.05s ease;
+  }
+
+  button:active { transform: scale(0.99); }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .btn-primary {
+    background: linear-gradient(90deg, var(--accent), #8b7dff);
+    color: #fff;
+  }
+  .btn-primary:hover:not(:disabled) { opacity: 0.9; }
+
+  .btn-secondary {
+    background: var(--card-2);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover:not(:disabled) { border-color: var(--accent); }
+
+  .btn-logout {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    font-size: 0.8rem;
+    padding: 8px 12px;
+    width: auto;
+  }
+
+  .error-msg {
+    color: var(--danger);
+    font-size: 0.85rem;
+    margin-top: 10px;
+    display: none;
+  }
+
+  /* ── Status display ───────────────────────────────── */
+  .top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+  }
+
+  .plan-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .plan-badge.free {
+    background: rgba(154, 160, 171, 0.15);
+    color: var(--muted);
+  }
+
+  .plan-badge.premium {
+    background: linear-gradient(90deg, rgba(255, 196, 84, 0.18), rgba(255, 140, 84, 0.18));
+    color: var(--warning);
+  }
+
+  /* Credit ring */
+  .ring-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 8px 0 20px;
+  }
+
+  .ring {
+    position: relative;
+    width: 160px;
+    height: 160px;
+  }
+
+  .ring svg { transform: rotate(-90deg); }
+
+  .ring-bg {
+    fill: none;
+    stroke: var(--border);
+    stroke-width: 10;
+  }
+
+  .ring-fg {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 10;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.6s ease, stroke 0.3s ease;
+  }
+
+  .ring-center {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .ring-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+
+  .ring-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .ring-unlimited .ring-value {
+    font-size: 1.3rem;
+    background: linear-gradient(90deg, var(--accent-2), var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Info grid */
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .info-box {
+    background: var(--card-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+
+  .info-box .label {
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+  }
+
+  .info-box .value {
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+
+  .status-active { color: var(--success); }
+  .status-expired { color: var(--danger); }
+
+  /* Plans */
+  .plans-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--muted);
+    margin: 4px 0 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .plan-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--card-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+
+  .plan-card .name {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .plan-card .meta {
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 2px;
+  }
+
+  .plan-card .price {
+    font-weight: 700;
+    color: var(--accent-2);
+    font-size: 1rem;
+  }
+
+  .buy-btn {
+    margin-top: 8px;
+    padding: 8px 16px;
+    font-size: 0.82rem;
+    width: auto;
+  }
+
+  .plan-right {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+
+  .refresh-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 4px;
+  }
+
+  .hidden { display: none !important; }
+
+  .spinner {
+    display: inline-block;
+    width: 14px; height: 14px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--card-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-size: 0.85rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+  }
+
+  .toast.show { opacity: 1; }
+  .toast.success { border-color: var(--success); color: var(--success); }
+  .toast.error { border-color: var(--danger); color: var(--danger); }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ════════════════ LOGIN CARD ════════════════ -->
+  <div class="card" id="loginCard">
+    <h1>NEXA HUB</h1>
+    <div class="subtitle">Sign in to view your subscription &amp; credits</div>
+
+    <div class="field">
+      <label for="loginUsername">Username</label>
+      <input type="text" id="loginUsername" autocomplete="username" placeholder="Enter your username">
+    </div>
+    <div class="field">
+      <label for="loginPassword">Password</label>
+      <input type="password" id="loginPassword" autocomplete="current-password" placeholder="Enter your password">
+    </div>
+
+    <button class="btn-primary" id="loginBtn">
+      <span class="spinner hidden" id="loginSpinner"></span>Login
+    </button>
+    <div class="error-msg" id="loginError"></div>
+  </div>
+
+  <!-- ════════════════ STATUS CARD ════════════════ -->
+  <div class="card hidden" id="statusCard">
+    <div class="top-row">
+      <div>
+        <h1 style="font-size:1.15rem;">My Subscription</h1>
+      </div>
+      <span class="plan-badge" id="planBadge">—</span>
+    </div>
+
+    <div class="ring-wrap">
+      <div class="ring" id="ringContainer">
+        <svg width="160" height="160" viewBox="0 0 160 160">
+          <circle class="ring-bg" cx="80" cy="80" r="70"></circle>
+          <circle class="ring-fg" id="ringFg" cx="80" cy="80" r="70"
+                  stroke-dasharray="439.8" stroke-dashoffset="439.8"></circle>
+        </svg>
+        <div class="ring-center" id="ringCenter">
+          <div class="ring-value" id="ringValue">—</div>
+          <div class="ring-label" id="ringLabel">credits left</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-box">
+        <div class="label">Plan</div>
+        <div class="value" id="infoPlan">—</div>
+      </div>
+      <div class="info-box">
+        <div class="label">Status</div>
+        <div class="value" id="infoStatus">—</div>
+      </div>
+      <div class="info-box">
+        <div class="label">Daily Allowance</div>
+        <div class="value" id="infoAllowance">—</div>
+      </div>
+      <div class="info-box">
+        <div class="label">Expires</div>
+        <div class="value" id="infoExpires">—</div>
+      </div>
+    </div>
+
+    <div class="refresh-row">
+      <button class="btn-secondary" id="refreshBtn">
+        <span class="spinner hidden" id="refreshSpinner"></span>Refresh
+      </button>
+      <button class="btn-logout" id="logoutBtn">Logout</button>
+    </div>
+  </div>
+
+  <!-- ════════════════ PLANS CARD ════════════════ -->
+  <div class="card hidden" id="plansCard">
+    <div class="plans-title">Upgrade to Premium</div>
+    <div id="plansList"></div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// CONFIG — adjust BASE_URL to match your deployment
+// ============================================================
+const BASE_URL = window.location.origin;
+
+const ENDPOINTS = {
+  login:        BASE_URL + "/api/token/",
+  refreshToken: BASE_URL + "/api/token/refresh/",
+  status:       BASE_URL + "/api/subscriptions/status/",
+  plans:        BASE_URL + "/api/subscriptions/plans/",
+  createOrder:  BASE_URL + "/api/subscriptions/create-order/",
+  verifyPayment:BASE_URL + "/api/subscriptions/verify-payment/",
+};
+
+const STORAGE_ACCESS  = "nexa_access_token";
+const STORAGE_REFRESH = "nexa_refresh_token";
+
+// ============================================================
+// DOM refs
+// ============================================================
+const loginCard     = document.getElementById("loginCard");
+const statusCard    = document.getElementById("statusCard");
+const plansCard     = document.getElementById("plansCard");
+
+const loginUsername = document.getElementById("loginUsername");
+const loginPassword = document.getElementById("loginPassword");
+const loginBtn      = document.getElementById("loginBtn");
+const loginSpinner  = document.getElementById("loginSpinner");
+const loginError    = document.getElementById("loginError");
+
+const planBadge     = document.getElementById("planBadge");
+const ringFg        = document.getElementById("ringFg");
+const ringValue     = document.getElementById("ringValue");
+const ringLabel     = document.getElementById("ringLabel");
+const ringCenter    = document.getElementById("ringCenter");
+
+const infoPlan      = document.getElementById("infoPlan");
+const infoStatus    = document.getElementById("infoStatus");
+const infoAllowance = document.getElementById("infoAllowance");
+const infoExpires   = document.getElementById("infoExpires");
+
+const refreshBtn     = document.getElementById("refreshBtn");
+const refreshSpinner = document.getElementById("refreshSpinner");
+const logoutBtn      = document.getElementById("logoutBtn");
+
+const plansList = document.getElementById("plansList");
+const toast     = document.getElementById("toast");
+
+const RING_CIRCUMFERENCE = 2 * Math.PI * 70; // r=70
+
+// ============================================================
+// Helpers
+// ============================================================
+function showToast(message, type = "") {
+  toast.textContent = message;
+  toast.className = "toast show" + (type ? " " + type : "");
+  setTimeout(() => { toast.className = "toast"; }, 3200);
+}
+
+function getAccessToken() {
+  return localStorage.getItem(STORAGE_ACCESS);
+}
+function getRefreshToken() {
+  return localStorage.getItem(STORAGE_REFRESH);
+}
+function setTokens(access, refresh) {
+  localStorage.setItem(STORAGE_ACCESS, access);
+  if (refresh) localStorage.setItem(STORAGE_REFRESH, refresh);
+}
+function clearTokens() {
+  localStorage.removeItem(STORAGE_ACCESS);
+  localStorage.removeItem(STORAGE_REFRESH);
+}
+
+function formatDate(iso) {
+  if (!iso) return "—";
+  try {
+    const d = new Date(iso);
+    return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+  } catch {
+    return "—";
+  }
+}
+
+// ============================================================
+// Authenticated fetch with automatic token refresh
+// ============================================================
+async function authFetch(url, options = {}) {
+  let access = getAccessToken();
+
+  const doFetch = (token) => fetch(url, {
+    ...options,
+    headers: {
+      ...(options.headers || {}),
+      "Authorization": "Bearer " + token,
+      "Content-Type": "application/json",
+    },
+  });
+
+  let res = await doFetch(access);
+
+  if (res.status === 401) {
+    // Try refreshing the access token
+    const refresh = getRefreshToken();
+    if (!refresh) {
+      handleLogout();
+      throw new Error("Session expired. Please login again.");
+    }
+
+    const refreshRes = await fetch(ENDPOINTS.refreshToken, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refresh }),
+    });
+
+    if (!refreshRes.ok) {
+      handleLogout();
+      throw new Error("Session expired. Please login again.");
+    }
+
+    const refreshData = await refreshRes.json();
+    setTokens(refreshData.access, null);
+    res = await doFetch(refreshData.access);
+  }
+
+  return res;
+}
+
+// ============================================================
+// Login
+// ============================================================
+async function handleLogin() {
+  const username = loginUsername.value.trim();
+  const password = loginPassword.value;
+
+  loginError.style.display = "none";
+
+  if (!username || !password) {
+    loginError.textContent = "Please enter both username and password.";
+    loginError.style.display = "block";
+    return;
+  }
+
+  loginBtn.disabled = true;
+  loginSpinner.classList.remove("hidden");
+
+  try {
+    const res = await fetch(ENDPOINTS.login, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
+
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      throw new Error(data.detail || "Invalid username or password.");
+    }
+
+    const data = await res.json();
+    setTokens(data.access, data.refresh);
+
+    loginCard.classList.add("hidden");
+    statusCard.classList.remove("hidden");
+    plansCard.classList.remove("hidden");
+
+    await Promise.all([loadStatus(), loadPlans()]);
+
+  } catch (err) {
+    loginError.textContent = err.message || "Login failed. Please try again.";
+    loginError.style.display = "block";
+  } finally {
+    loginBtn.disabled = false;
+    loginSpinner.classList.add("hidden");
+  }
+}
+
+function handleLogout() {
+  clearTokens();
+  statusCard.classList.add("hidden");
+  plansCard.classList.add("hidden");
+  loginCard.classList.remove("hidden");
+  loginUsername.value = "";
+  loginPassword.value = "";
+}
+
+// ============================================================
+// Load subscription status
+// ============================================================
+async function loadStatus() {
+  refreshSpinner.classList.remove("hidden");
+  refreshBtn.disabled = true;
+
+  try {
+    const res = await authFetch(ENDPOINTS.status, { method: "GET" });
+    if (!res.ok) throw new Error("Failed to load subscription status.");
+
+    const data = await res.json();
+    renderStatus(data);
+
+  } catch (err) {
+    showToast(err.message || "Could not load status.", "error");
+  } finally {
+    refreshSpinner.classList.add("hidden");
+    refreshBtn.disabled = false;
+  }
+}
+
+function renderStatus(data) {
+  const isPremium   = !!data.is_premium;
+  const isUnlimited = !!data.is_unlimited;
+
+  // Badge
+  planBadge.textContent = isPremium ? "★ PREMIUM" : "FREE";
+  planBadge.className = "plan-badge " + (isPremium ? "premium" : "free");
+
+  // Ring
+  if (isUnlimited) {
+    ringFg.style.stroke = "url(#none)"; // not used; handled via class
+    ringFg.setAttribute("stroke-dashoffset", "0");
+    ringFg.style.stroke = "#43c6ac";
+    ringValue.textContent = "∞";
+    ringLabel.textContent = "Unlimited";
+    ringCenter.classList.add("ring-unlimited");
+  } else {
+    ringCenter.classList.remove("ring-unlimited");
+    const remaining = data.credits_remaining ?? 0;
+    const total     = data.daily_allowance || 1;
+    const ratio     = Math.max(0, Math.min(1, remaining / total));
+    const offset    = RING_CIRCUMFERENCE * (1 - ratio);
+
+    ringFg.setAttribute("stroke-dashoffset", offset.toFixed(2));
+
+    // Color based on remaining ratio
+    let color = "#6c63ff";
+    if (ratio <= 0.15) color = "#ff5c5c";
+    else if (ratio <= 0.4) color = "#ffb454";
+    ringFg.style.stroke = color;
+
+    ringValue.textContent = remaining;
+    ringLabel.textContent = `of ${total} credits left`;
+  }
+
+  // Info grid
+  infoPlan.textContent = data.plan_name || "—";
+
+  const statusText = (data.status || "—");
+  infoStatus.textContent = statusText.charAt(0).toUpperCase() + statusText.slice(1);
+  infoStatus.className = "value " + (data.status === "active" ? "status-active" : "status-expired");
+
+  infoAllowance.textContent = isUnlimited ? "Unlimited" : (data.daily_allowance ?? "—");
+  infoExpires.textContent = isPremium ? formatDate(data.expires_at) : "—";
+}
+
+// ============================================================
+// Load + render plans
+// ============================================================
+async function loadPlans() {
+  try {
+    const res = await authFetch(ENDPOINTS.plans, { method: "GET" });
+    if (!res.ok) throw new Error("Failed to load plans.");
+
+    const plans = await res.json();
+    renderPlans(plans);
+
+  } catch (err) {
+    showToast(err.message || "Could not load plans.", "error");
+  }
+}
+
+function renderPlans(plans) {
+  plansList.innerHTML = "";
+
+  const premiumPlans = (plans || []).filter(p => p.plan_type === "premium" && p.is_active);
+
+  if (premiumPlans.length === 0) {
+    plansList.innerHTML = '<div style="color:var(--muted); font-size:0.85rem;">No premium plans available right now.</div>';
+    return;
+  }
+
+  premiumPlans.forEach(plan => {
+    const card = document.createElement("div");
+    card.className = "plan-card";
+
+    const left = document.createElement("div");
+    left.innerHTML = `
+      <div class="name">${plan.name}</div>
+      <div class="meta">${plan.duration_days} days • ${plan.is_unlimited ? "Unlimited usage" : plan.daily_credits + " credits/day"}</div>
+    `;
+
+    const right = document.createElement("div");
+    right.className = "plan-right";
+    right.innerHTML = `
+      <div class="price">₹${plan.price_in_rupees}</div>
+      <button class="btn-primary buy-btn" data-plan-id="${plan.id}">Buy</button>
+    `;
+
+    card.appendChild(left);
+    card.appendChild(right);
+    plansList.appendChild(card);
+  });
+
+  // Wire up buy buttons
+  plansList.querySelectorAll(".buy-btn").forEach(btn => {
+    btn.addEventListener("click", () => handleBuyPlan(parseInt(btn.dataset.planId, 10), btn));
+  });
+}
+
+// ============================================================
+// Razorpay checkout flow
+// ============================================================
+async function handleBuyPlan(planId, btnEl) {
+  btnEl.disabled = true;
+  const originalText = btnEl.textContent;
+  btnEl.innerHTML = '<span class="spinner"></span>Loading...';
+
+  try {
+    // Step 1: Create order
+    const orderRes = await authFetch(ENDPOINTS.createOrder, {
+      method: "POST",
+      body: JSON.stringify({ plan_id: planId }),
+    });
+
+    if (!orderRes.ok) {
+      const errData = await orderRes.json().catch(() => ({}));
+      throw new Error(errData.detail || "Could not start payment.");
+    }
+
+    const order = await orderRes.json();
+
+    // Step 2: Open Razorpay Checkout
+    const options = {
+      key: order.key_id,
+      amount: order.amount,
+      currency: order.currency,
+      name: "NEXA HUB",
+      description: order.plan?.name || "Premium Subscription",
+      order_id: order.order_id,
+      handler: async function (response) {
+        await verifyPayment(response);
+      },
+      modal: {
+        ondismiss: function () {
+          btnEl.disabled = false;
+          btnEl.textContent = originalText;
+        },
+      },
+      theme: { color: "#6c63ff" },
+    };
+
+    const rzp = new Razorpay(options);
+    rzp.open();
+
+  } catch (err) {
+    showToast(err.message || "Payment could not be started.", "error");
+  } finally {
+    btnEl.disabled = false;
+    btnEl.textContent = originalText;
+  }
+}
+
+async function verifyPayment(razorpayResponse) {
+  try {
+    const res = await authFetch(ENDPOINTS.verifyPayment, {
+      method: "POST",
+      body: JSON.stringify({
+        razorpay_order_id: razorpayResponse.razorpay_order_id,
+        razorpay_payment_id: razorpayResponse.razorpay_payment_id,
+        razorpay_signature: razorpayResponse.razorpay_signature,
+      }),
+    });
+
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      throw new Error(errData.detail || "Payment verification failed.");
+    }
+
+    const data = await res.json();
+    showToast("Payment successful! Premium activated 🎉", "success");
+
+    if (data.subscription) {
+      renderStatus(data.subscription);
+    } else {
+      await loadStatus();
+    }
+    await loadPlans();
+
+  } catch (err) {
+    showToast(err.message || "Payment verification failed.", "error");
+  }
+}
+
+// ============================================================
+// Init
+// ============================================================
+loginBtn.addEventListener("click", handleLogin);
+loginPassword.addEventListener("keydown", (e) => { if (e.key === "Enter") handleLogin(); });
+refreshBtn.addEventListener("click", loadStatus);
+logoutBtn.addEventListener("click", handleLogout);
+
+// Auto-login if tokens already exist
+(function init() {
+  if (getAccessToken()) {
+    loginCard.classList.add("hidden");
+    statusCard.classList.remove("hidden");
+    plansCard.classList.remove("hidden");
+    Promise.all([loadStatus(), loadPlans()]).catch(() => handleLogout());
+  }
+})();
+</script>
+
+</body>
+</html>
+<!-- http://127.0.0.1:8000/api/subscriptions/credits-page/ -->
+

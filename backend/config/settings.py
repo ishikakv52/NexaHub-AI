@@ -54,6 +54,7 @@ INSTALLED_APPS = [
 'VoiceAssistant.workout',
 'cloudinary',
     'cloudinary_storage',
+    'subscriptions',
 
 
 
@@ -192,3 +193,9 @@ cloudinary.config(
     api_secret=os.getenv("CLOUDINARY_API_SECRET"),
     secure=True
 )
+# Razorpay credentials (.env se aayega)
+RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID")
+RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET")
+RAZORPAY_WEBHOOK_SECRET = os.getenv("RAZORPAY_WEBHOOK_SECRET")
+
+ALLOWED_HOSTS = ["*", "192.168.1.5", "localhost"]

@@ -25,6 +25,8 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
+from subscriptions.decorators import require_credits_fbv
+
 
 # ---------------------------------------------------------------------------
 # Media folder
@@ -232,6 +234,7 @@ def index(request):
 
 @csrf_exempt
 @require_POST
+@require_credits_fbv(feature="texttospeech.generate_speech", amount=1)
 def generate_speech(request):
     """
     POST /texttospeech/generate/
@@ -286,6 +289,7 @@ def generate_speech(request):
 
 @csrf_exempt
 @require_POST
+@require_credits_fbv(feature="texttospeech.translate_speech", amount=1)
 def translate_speech(request):
     """
     POST /texttospeech/translate/

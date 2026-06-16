@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
+from subscriptions.decorators import require_credits_fbv
+
 from .utils import (
     transcribe_uploaded_audio,
     transcribe_uploaded_video,
@@ -20,6 +22,7 @@ def index(request):
 # ---------------------------------------------------------------------------
 
 @csrf_exempt
+@require_credits_fbv(feature="voicetotext.transcribe_audio", amount=1)
 def transcribe_audio(request):
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status=405)
@@ -50,6 +53,7 @@ def transcribe_audio(request):
 # ---------------------------------------------------------------------------
 
 @csrf_exempt
+@require_credits_fbv(feature="voicetotext.transcribe_video", amount=1)
 def transcribe_video(request):
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status=405)
@@ -77,6 +81,7 @@ def transcribe_video(request):
 # ---------------------------------------------------------------------------
 
 @csrf_exempt
+@require_credits_fbv(feature="voicetotext.transcribe_microphone", amount=1)
 def transcribe_microphone(request):
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status=405)
