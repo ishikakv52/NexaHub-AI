@@ -40,6 +40,7 @@ urlpatterns = [
 include(
 'VoiceAssistant.workout.urls'
 )),
+path('diet-planner/', include('VoiceAssistant.planner.urls')),
 
 ]
 if settings.DEBUG:

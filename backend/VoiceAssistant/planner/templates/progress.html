@@ -1,0 +1,362 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Progress{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">{% endblock %}
+
+{% block content %}
+<div class="page-wrapper pt-navbar">
+    <div class="container py-4">
+        <div class="text-center mb-5 fade-in-up">
+            <span class="section-badge">Tracking</span>
+            <h1 class="page-title">Your <span class="gradient-text">Progress</span></h1>
+            <p class="text-muted">Monitor weight, BMI, and nutrition over time.</p>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <div class="col-md-3">
+                <div class="stat-card glass-card text-center scroll-animate">
+                    <div class="stat-card-icon calories-icon mx-auto"><i class="bi bi-speedometer2"></i></div>
+                    <h3 class="mb-0">{{ profile.bmi }}</h3>
+                    <small class="text-muted">Current BMI</small>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card glass-card text-center scroll-animate">
+                    <div class="stat-card-icon protein-icon mx-auto"><i class="bi bi-arrow-down-up"></i></div>
+                    <h3 class="mb-0">{{ profile.weight_kg }} kg</h3>
+                    <small class="text-muted">Current Weight</small>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card glass-card text-center scroll-animate">
+                    <div class="stat-card-icon carbs-icon mx-auto"><i class="bi bi-bullseye"></i></div>
+                    <h3 class="mb-0">{{ profile.target_weight_kg }} kg</h3>
+                    <small class="text-muted">Target Weight</small>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card glass-card text-center scroll-animate">
+                    <div class="stat-card-icon fat-icon mx-auto"><i class="bi bi-graph-up"></i></div>
+                    <h3 class="mb-0">{{ goal_progress }}%</h3>
+                    <small class="text-muted">Goal Progress</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <div class="col-lg-6">
+                <div class="glass-card p-4 scroll-animate">
+                    <h5 class="card-title mb-4"><i class="bi bi-graph-up me-2"></i>Weight History</h5>
+                    <div class="chart-container">
+    <canvas id="weightChart"></canvas>
+</div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="glass-card p-4 scroll-animate">
+                    <h5 class="card-title mb-4"><i class="bi bi-fire me-2"></i>Weekly Calories</h5>
+<div class="chart-container">
+    <canvas id="calorieChart"></canvas>
+</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <div class="col-lg-6">
+                <div class="glass-card p-4 scroll-animate">
+                    <h5 class="card-title mb-4"><i class="bi bi-hurricane me-2"></i>Macronutrients (This Week)</h5>
+<div class="chart-container">
+    <canvas id="macrosChart"></canvas>
+</div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="glass-card p-4 scroll-animate">
+                    <h5 class="card-title mb-4"><i class="bi bi-cup me-2"></i>Water Intake (This Week)</h5>
+<div class="chart-container">
+    <canvas id="waterChart"></canvas>
+</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div class="glass-card p-4 scroll-animate">
+                    <h5 class="card-title mb-4"><i class="bi bi-pencil me-2"></i>Update Weight</h5>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Weight (kg)</label>
+                            {{ form.weight_kg }}
+                        </div>
+                        <button type="submit" class="btn btn-primary rounded-pill px-4">
+                            <i class="bi bi-check2 me-2"></i>Update Weight
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="glass-card p-4 scroll-animate">
+                    <h5 class="card-title mb-4"><i class="bi bi-clock-history me-2"></i>Recent Logs</h5>
+                    {% if weight_history %}
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr><th>Date</th><th>Weight</th><th>BMI</th></tr>
+                            </thead>
+                            <tbody>
+                                {% for entry in weight_history|slice:":10" %}
+                                <tr>
+                                    <td>{{ entry.recorded_at|date:"M d, Y" }}</td>
+                                    <td>{{ entry.weight_kg }} kg</td>
+                                    <td><span class="badge bg-primary">{{ entry.bmi }}</span></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <p class="text-muted">No weight history yet. Update your weight to start tracking.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const weightData = {{ weight_data_json|safe }};
+    const calorieData = {{ calorie_data_json|safe }};
+    const macrosData = {{ macros_data_json|safe }};
+    const waterData = {{ water_data_json|safe }};
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const gridColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)';
+    const textColor = isDark ? '#94a3b8' : '#64748b';
+
+    // Weight Chart
+    if (weightData.length > 0) {
+        const weightCanvas = document.getElementById("weightChart");
+
+        new Chart(document.getElementById('weightChart'), {
+            type: 'line',
+            data: {
+                labels: weightData.map(d => d.date),
+                datasets: [{
+                    label: 'Weight (kg)',
+                    data: weightData.map(d => d.weight),
+                    borderColor: '#6366f1',
+                    backgroundColor: 'rgba(99,102,241,0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 5,
+                    pointBackgroundColor: '#6366f1',
+                    pointHoverRadius: 7,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+               animation: false,
+    resizeDelay: 300,
+
+    layout: {
+        padding: 0
+    },
+
+                plugins: { 
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(0,0,0,0.8)',
+                        padding: 12,
+                        cornerRadius: 8,
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                    }
+                },
+                scales: {
+                    y: { 
+                        grid: { color: gridColor }, 
+                        ticks: { color: textColor },
+                        beginAtZero: false,
+                    },
+                    x: { 
+                        grid: { display: false }, 
+                        ticks: { color: textColor } 
+                    }
+                }
+            }
+        });
+    }
+
+    // Calorie Chart
+    if (calorieData.length > 0) {
+        const calorieCanvas = document.getElementById("calorieChart");
+
+        new Chart(document.getElementById('calorieChart'), {
+            type: 'bar',
+            data: {
+                labels: calorieData.map(d => d.date),
+                datasets: [{
+                    label: 'Calories',
+                    data: calorieData.map(d => d.calories),
+                    backgroundColor: 'rgba(139,92,246,0.7)',
+                    borderColor: '#8b5cf6',
+                    borderRadius: 8,
+                    hoverBackgroundColor: 'rgba(139,92,246,0.9)',
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: false,
+    resizeDelay: 300,
+
+    layout: {
+        padding: 0
+    },
+
+                plugins: { 
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(0,0,0,0.8)',
+                        padding: 12,
+                        cornerRadius: 8,
+                    }
+                },
+                scales: {
+                    y: { 
+                        grid: { color: gridColor }, 
+                        ticks: { color: textColor },
+                        beginAtZero: true,
+                    },
+                    x: { 
+                        grid: { display: false }, 
+                        ticks: { color: textColor } 
+                    }
+                }
+            }
+        });
+    }
+
+    // Macronutrients Pie Chart
+    if (macrosData && Object.keys(macrosData).length > 0) {
+        const macrosCanvas = document.getElementById("macrosChart");
+
+
+        new Chart(document.getElementById('macrosChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Protein', 'Carbs', 'Fat'],
+                datasets: [{
+                    data: [macrosData.protein, macrosData.carbs, macrosData.fat],
+                    backgroundColor: [
+                        'rgba(245, 158, 11, 0.7)',
+                        'rgba(6, 182, 212, 0.7)',
+                        'rgba(99, 102, 241, 0.7)',
+                    ],
+                    borderColor: [
+                        '#f59e0b',
+                        '#06b6d4',
+                        '#6366f1',
+                    ],
+                    borderWidth: 2,
+                    hoverOffset: 10,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: false,
+    resizeDelay: 300,
+
+    layout: {
+        padding: 0
+    },
+
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: textColor,
+                            font: { size: 12, weight: 500 },
+                            padding: 15,
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0,0,0,0.8)',
+                        padding: 12,
+                        cornerRadius: 8,
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ' + Math.round(context.parsed) + 'g';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Water Intake Chart
+    if (waterData.length > 0) {
+        const waterCanvas = document.getElementById("waterChart");
+
+
+        new Chart(document.getElementById('waterChart'), {
+            type: 'line',
+            data: {
+                labels: waterData.map(d => d.date),
+                datasets: [{
+                    label: 'Water (ml)',
+                    data: waterData.map(d => d.water),
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 5,
+                    pointBackgroundColor: '#3b82f6',
+                    pointHoverRadius: 7,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: false,
+    resizeDelay: 300,
+
+    layout: {
+        padding: 0
+    },
+
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(0,0,0,0.8)',
+                        padding: 12,
+                        cornerRadius: 8,
+                    }
+                },
+                scales: {
+                    y: {
+                        grid: { color: gridColor },
+                        ticks: { color: textColor },
+                        beginAtZero: true,
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: textColor }
+                    }
+                }
+            }
+        });
+    }
+});
+</script>
+{% endblock %}
