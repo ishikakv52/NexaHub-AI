@@ -1,0 +1,127 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}NutriPlan AI{% endblock %} | Smart Indian Diet Planner</title>
+    
+    <!-- CDN dependencies (kept – these are loaded from the web) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Child templates will inject their CSS here (inline) -->
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- ====== NAVBAR (shared) ====== -->
+    <nav class="navbar navbar-expand-lg fixed-top glass-nav">
+        <div class="container">
+            <a class="navbar-brand brand-logo" href="{% url 'index' %}">
+                <span class="brand-icon"><i class="bi bi-heart-pulse-fill"></i></span>
+                NutriPlan<span class="brand-accent">AI</span>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="bi bi-list fs-4"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'diet_plan' %}">Diet Plan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'food_library' %}">Food Library</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'progress' %}">Progress</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'grocery_list' %}">Grocery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
+                    <li class="nav-item">
+                        <form method="post" action="{% url 'logout' %}" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill px-3">Logout</button>
+                        </form>
+                    </li>
+                    {% else %}
+                    <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#how-it-works">How It Works</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
+                    <li class="nav-item"><a class="nav-link btn-nav-login" href="{% url 'login' %}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link btn-nav-signup" href="{% url 'signup' %}">Get Started</a></li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                            <i class="bi bi-moon-fill" id="themeIcon"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ====== MESSAGES (toasts) ====== -->
+    {% if messages %}
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999; margin-top: 80px;">
+        {% for message in messages %}
+        <div class="toast show glass-card border-0" role="alert">
+            <div class="toast-body d-flex align-items-center gap-2">
+                <i class="bi bi-check-circle-fill text-success"></i>
+                {{ message }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- ====== MAIN CONTENT ====== -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- ====== FOOTER (shared) ====== -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <a class="navbar-brand brand-logo mb-3 d-inline-block" href="{% url 'index' %}">
+                        <span class="brand-icon"><i class="bi bi-heart-pulse-fill"></i></span>
+                        NutriPlan<span class="brand-accent">AI</span>
+                    </a>
+                    <p class="footer-text">Your intelligent Indian diet companion. Personalized meal plans powered by smart local algorithms.</p>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h6 class="footer-heading">Product</h6>
+                    <ul class="footer-links">
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h6 class="footer-heading">App</h6>
+                    <ul class="footer-links">
+                        {% if user.is_authenticated %}
+                        <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                        <li><a href="{% url 'diet_plan' %}">Diet Plan</a></li>
+                        <li><a href="{% url 'food_library' %}">Food Library</a></li>
+                        {% else %}
+                        <li><a href="{% url 'signup' %}">Sign Up</a></li>
+                        <li><a href="{% url 'login' %}">Login</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h6 class="footer-heading">Stay Healthy</h6>
+                    <p class="footer-text">Track nutrition, water intake, and progress — all in one beautiful dashboard.</p>
+                </div>
+            </div>
+            <hr class="footer-divider">
+            <p class="text-center footer-copy mb-0">&copy; 2026 NutriPlan AI. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- ====== BOOTSTRAP JS (required for toggles, collapse) ====== -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Child templates will inject their JavaScript here (inline) -->
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
