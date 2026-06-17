@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Grocery List{% endblock %}
+
+{% block content %}
+<div class="page-wrapper pt-navbar">
+<div class="container py-4" data-grocery-key="{{ meal_plan.id }}">
+        <div class="text-center mb-5 fade-in-up">
+            <span class="section-badge">Shopping</span>
+            <h1 class="page-title">Your <span class="gradient-text">Grocery List</span></h1>
+            <p class="text-muted">Auto-generated from your 7-day meal plan, grouped by category.</p>
+        </div>
+
+        <div class="row g-4">
+            {% for group in grocery %}
+            <div class="col-md-6 col-lg-4">
+                <div class="grocery-category glass-card h-100 scroll-animate">
+                    <h5 class="grocery-cat-title">
+                        <i class="bi bi-basket me-2"></i>{{ group.category }}
+                        <span class="badge bg-primary rounded-pill ms-2">{{ group.items|length }}</span>
+                    </h5>
+                    <ul class="grocery-list" data-plan-start="{{ meal_plan.start_date|date:'Y-m-d' }}">
+                        {% for item in group.items %}
+                        <li class="grocery-item" data-item-key="{{ item.name }}|{{ item.quantity_g }}">
+                            <label class="d-flex align-items-center gap-2">
+                                <input type="checkbox" class="form-check-input grocery-check">
+                                <span class="grocery-name">{{ item.name }}</span>
+                                <span class="grocery-qty ms-auto">{{ item.quantity_g }}g</span>
+                            </label>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <p class="text-muted">No grocery list available. Generate a meal plan first.</p>
+                <a href="{% url 'profile' %}" class="btn btn-primary rounded-pill">Set Up Profile</a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-5">
+            <button id="save-grocery-btn" class="btn btn-success rounded-pill px-4 me-2">
+                <i class="bi bi-save me-2"></i>Save Selections
+            </button>
+            <button onclick="window.print()" class="btn btn-outline-primary rounded-pill px-4">
+                <i class="bi bi-printer me-2"></i>Print List
+            </button>
+            <a href="{% url 'diet_plan' %}" class="btn btn-primary rounded-pill px-4 ms-2">
+                <i class="bi bi-calendar3 me-2"></i>Back to Diet Plan
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

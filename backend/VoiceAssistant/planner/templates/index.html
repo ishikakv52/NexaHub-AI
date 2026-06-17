@@ -1,0 +1,290 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="hero-bg-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+    <div class="container">
+        <div class="row align-items-center min-vh-100 pt-5">
+            <div class="col-lg-6 hero-content">
+                <span class="hero-badge fade-in-up">🇮🇳 Smart Indian Diet Planning</span>
+                <h1 class="hero-title fade-in-up delay-1">
+                    Eat Smart.<br>
+                    <span class="gradient-text">Live Better.</span>
+                </h1>
+                <p class="hero-subtitle fade-in-up delay-2">
+                    Personalized 7-day Indian meal plans, nutrition tracking, and progress monitoring — powered by intelligent local algorithms. No API needed.
+                </p>
+                <div class="hero-cta fade-in-up delay-3">
+                    <a href="{% url 'signup' %}" class="btn btn-primary btn-lg btn-glow rounded-pill px-5">
+                        Start Free <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+                    <a href="#how-it-works" class="btn btn-outline-light btn-lg rounded-pill px-4 ms-2">
+                        Learn More
+                    </a>
+                </div>
+                <div class="hero-stats fade-in-up delay-4">
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="150">0</span><span class="stat-suffix">+</span>
+                        <span class="stat-label">Indian Foods</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="7">0</span>
+                        <span class="stat-label">Day Plans</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="100">0</span><span class="stat-suffix">%</span>
+                        <span class="stat-label">Personalized</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 hero-visual fade-in-up delay-2">
+                <div class="hero-card-stack">
+                    <div class="floating-card card-1 glass-card">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="icon-circle bg-success-subtle"><i class="bi bi-egg-fried text-success"></i></div>
+                            <div>
+                                <small class="text-muted">Breakfast</small>
+                                <p class="mb-0 fw-semibold">Masala Dosa + Chutney</p>
+                                <small class="text-success">320 kcal · 12g protein</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="floating-card card-2 glass-card">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="icon-circle bg-primary-subtle"><i class="bi bi-droplet-fill text-primary"></i></div>
+                            <div>
+                                <small class="text-muted">Water Intake</small>
+                                <div class="progress mt-1" style="height: 6px; width: 120px;">
+                                    <div class="progress-bar" style="width: 72%"></div>
+                                </div>
+                                <small>1.8L / 2.5L</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="floating-card card-3 glass-card">
+                        <div class="text-center">
+                            <div class="calorie-ring">
+                                <svg viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="42" fill="none" stroke="var(--border-color)" stroke-width="8"/>
+                                    <circle cx="50" cy="50" r="42" fill="none" stroke="url(#gradient)" stroke-width="8" stroke-dasharray="264" stroke-dashoffset="66" stroke-linecap="round" transform="rotate(-90 50 50)"/>
+                                    <defs>
+                                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" style="stop-color:#6366f1"/>
+                                            <stop offset="100%" style="stop-color:#8b5cf6"/>
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                                <div class="ring-text">
+                                    <span class="ring-value">1,850</span>
+                                    <span class="ring-label">kcal</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="features" class="section-padding">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="section-badge">Features</span>
+            <h2 class="section-title">Everything You Need to<br><span class="gradient-text">Transform Your Diet</span></h2>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card glass-card h-100 scroll-animate">
+                    <div class="feature-icon bg-gradient-1"><i class="bi bi-calendar-check"></i></div>
+                    <h5>Personalized Diet Plans</h5>
+                    <p>7-day Indian meal plans tailored to your goals, preferences, and calorie targets.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card glass-card h-100 scroll-animate">
+                    <div class="feature-icon bg-gradient-2"><i class="bi bi-pie-chart"></i></div>
+                    <h5>Nutrition Tracking</h5>
+                    <p>Track calories, protein, carbs, and fat with beautiful visual progress indicators.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card glass-card h-100 scroll-animate">
+                    <div class="feature-icon bg-gradient-3"><i class="bi bi-droplet"></i></div>
+                    <h5>Water Tracking</h5>
+                    <p>Stay hydrated with daily water goals and one-tap logging with progress rings.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card glass-card h-100 scroll-animate">
+                    <div class="feature-icon bg-gradient-4"><i class="bi bi-graph-up-arrow"></i></div>
+                    <h5>Progress Monitoring</h5>
+                    <p>Track weight, BMI history, and weekly progress with interactive charts.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card glass-card h-100 scroll-animate">
+                    <div class="feature-icon bg-gradient-5"><i class="bi bi-lightbulb"></i></div>
+                    <h5>Smart Recommendations</h5>
+                    <p>Rule-based engine selects varied Indian meals matching your diet preference.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card glass-card h-100 scroll-animate">
+                    <div class="feature-icon bg-gradient-6"><i class="bi bi-cart3"></i></div>
+                    <h5>Grocery Lists</h5>
+                    <p>Auto-generated shopping lists grouped by category from your meal plan.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="how-it-works" class="section-padding bg-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="section-badge">How It Works</span>
+            <h2 class="section-title">Four Simple Steps to<br><span class="gradient-text">Your Best Self</span></h2>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="step-card text-center scroll-animate">
+                    <div class="step-number">01</div>
+                    <div class="step-icon"><i class="bi bi-person-plus"></i></div>
+                    <h5>Create Profile</h5>
+                    <p>Enter your age, weight, height, activity level, and food preferences.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="step-card text-center scroll-animate">
+                    <div class="step-number">02</div>
+                    <div class="step-icon"><i class="bi bi-magic"></i></div>
+                    <h5>Generate Diet Plan</h5>
+                    <p>Our smart engine creates a personalized 7-day Indian meal plan instantly.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="step-card text-center scroll-animate">
+                    <div class="step-number">03</div>
+                    <div class="step-icon"><i class="bi bi-clipboard2-pulse"></i></div>
+                    <h5>Track Progress</h5>
+                    <p>Log water, monitor nutrition, and track your weight journey daily.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="step-card text-center scroll-animate">
+                    <div class="step-number">04</div>
+                    <div class="step-icon"><i class="bi bi-trophy"></i></div>
+                    <h5>Achieve Goal</h5>
+                    <p>Reach your target weight with consistent tracking and smart guidance.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="section-badge">Testimonials</span>
+            <h2 class="section-title">Loved by <span class="gradient-text">Health Enthusiasts</span></h2>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="testimonial-card glass-card scroll-animate">
+                    <div class="stars mb-3"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                    <p>"Finally a diet planner with real Indian foods! The 7-day plan is so practical and varied."</p>
+                    <div class="d-flex align-items-center gap-3 mt-3">
+                        <div class="avatar">P</div>
+                        <div><strong>Priya Sharma</strong><br><small class="text-muted">Mumbai</small></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial-card glass-card scroll-animate">
+                    <div class="stars mb-3"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                    <p>"Lost 5kg in 2 months following the meal plans. The water tracker keeps me accountable!"</p>
+                    <div class="d-flex align-items-center gap-3 mt-3">
+                        <div class="avatar">R</div>
+                        <div><strong>Rahul Verma</strong><br><small class="text-muted">Delhi</small></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial-card glass-card scroll-animate">
+                    <div class="stars mb-3"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                    <p>"As a vegetarian, finding good meal plans was hard. NutriPlan AI nails it every time."</p>
+                    <div class="d-flex align-items-center gap-3 mt-3">
+                        <div class="avatar">A</div>
+                        <div><strong>Ananya Patel</strong><br><small class="text-muted">Bangalore</small></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="faq" class="section-padding bg-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="section-badge">FAQ</span>
+            <h2 class="section-title">Frequently Asked <span class="gradient-text">Questions</span></h2>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="accordion faq-accordion" id="faqAccordion">
+                    <div class="accordion-item glass-card border-0 mb-3">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">How are meal plans generated?</button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">Our intelligent rule-based engine uses your profile data, health metrics, and a database of 150+ Indian foods to create personalized 7-day meal plans — all computed locally without any external API.</div>
+                        </div>
+                    </div>
+                    <div class="accordion-item glass-card border-0 mb-3">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">Is this suitable for vegetarians?</button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">Absolutely! You can choose Vegetarian, Non-Vegetarian, or Vegan preferences. The meal engine filters foods accordingly and ensures balanced nutrition.</div>
+                        </div>
+                    </div>
+                    <div class="accordion-item glass-card border-0 mb-3">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">How are calories calculated?</button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">We use the Mifflin-St Jeor equation for BMR, apply activity multipliers for TDEE, and adjust based on your goal (deficit for weight loss, surplus for gain).</div>
+                        </div>
+                    </div>
+                    <div class="accordion-item glass-card border-0 mb-3">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">Can I regenerate my meal plan?</button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">Yes! Visit your Diet Plan page and click "Regenerate Plan" to get a fresh 7-day plan with new meal combinations while keeping your calorie targets.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section section-padding">
+    <div class="container text-center">
+        <h2 class="cta-title">Ready to Transform Your Diet?</h2>
+        <p class="cta-subtitle mb-4">Join thousands eating smarter with personalized Indian meal plans.</p>
+        <a href="{% url 'signup' %}" class="btn btn-primary btn-lg btn-glow rounded-pill px-5">
+            Get Started Free <i class="bi bi-arrow-right ms-2"></i>
+        </a>
+    </div>
+</section>
+{% endblock %}

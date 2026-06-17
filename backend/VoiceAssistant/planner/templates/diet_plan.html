@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Diet Plan{% endblock %}
+
+{% block content %}
+<div class="page-wrapper pt-navbar">
+    <div class="container py-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 fade-in-up">
+            <div>
+                <h1 class="page-title">Your 7-Day <span class="gradient-text">Diet Plan</span></h1>
+                <p class="text-muted mb-0">{{ profile.daily_calories|floatformat:0 }} kcal/day · {{ profile.daily_protein|floatformat:0 }}g protein · {{ profile.get_food_preference_display }} · {{ profile.get_food_style_display }}</p>
+            </div>
+            <form method="post" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" name="regenerate" class="btn btn-outline-primary rounded-pill">
+                    <i class="bi bi-arrow-repeat me-2"></i>Regenerate Plan
+                </button>
+            </form>
+        </div>
+
+        <ul class="nav nav-pills day-tabs mb-4 flex-nowrap overflow-auto" role="tablist">
+            {% for day in days_data %}
+            <li class="nav-item" role="presentation">
+                <button class="nav-link {% if forloop.first %}active{% endif %}" data-bs-toggle="pill" data-bs-target="#day{{ day.day }}" type="button">
+                    Day {{ day.day }}
+            <script src="{% static 'js/dashboard.js' %}"></script>
+            <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Intercept plan toggle forms and use AJAX + broadcast to sync other pages
+                function getCookie(name) {
+                    let cookieValue = null;
+                    if (document.cookie && document.cookie !== '') {
+                        const cookies = document.cookie.split(';');
+                        for (let i = 0; i < cookies.length; i++) {
+                            const cookie = cookies[i].trim();
+                            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                }
+
+                // find forms that have planMealCheck inputs
+                const forms = Array.from(document.querySelectorAll('form')).filter(f => f.querySelector('input[id^="planMealCheck"]'));
+                forms.forEach(form => {
+                    form.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        const cb = form.querySelector('input[type=checkbox]');
+                        if (!cb) return;
+                        const mealId = cb.id.replace('planMealCheck', '');
+                        const csrftoken = getCookie('csrftoken');
+                        fetch(`/meal/${mealId}/toggle/`, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRFToken': csrftoken,
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            credentials: 'same-origin'
+                        }).then(r => r.json()).then(data => {
+                            if (data && data.success) {
+                                // update label styling
+                                const lbl = form.querySelector('label');
+                                if (lbl) {
+                                    if (data.is_consumed) lbl.classList.add('text-decoration-line-through', 'text-muted');
+                                    else lbl.classList.remove('text-decoration-line-through', 'text-muted');
+                                }
+                                // broadcast to other pages (dashboard.js exposes this)
+                                try { window.broadcastMealToggle(data.meal_id || mealId, data.is_consumed); } catch (err) {}
+                            } else {
+                                // revert checkbox
+                                cb.checked = !cb.checked;
+                            }
+                        }).catch(() => { cb.checked = !cb.checked; });
+                    });
+                });
+            });
+            </script>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <div class="tab-content">
+            {% for day in days_data %}
+            <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" id="day{{ day.day }}">
+                <div class="day-summary glass-card p-3 mb-4 d-flex flex-wrap gap-4 justify-content-center scroll-animate">
+                    <div class="summary-item"><i class="bi bi-fire text-danger"></i> <strong>{{ day.totals.calories|floatformat:0 }}</strong> kcal</div>
+                    <div class="summary-item"><i class="bi bi-lightning text-warning"></i> <strong>{{ day.totals.protein|floatformat:0 }}g</strong> protein</div>
+                    <div class="summary-item"><i class="bi bi-basket text-info"></i> <strong>{{ day.totals.carbs|floatformat:0 }}g</strong> carbs</div>
+                    <div class="summary-item"><i class="bi bi-droplet text-primary"></i> <strong>{{ day.totals.fat|floatformat:0 }}g</strong> fat</div>
+                </div>
+
+                <div class="row g-4">
+                    {% for item in day.meals %}
+                    <div class="col-md-6 col-lg-4">
+                        <div class="meal-card glass-card h-100 scroll-animate">
+                            <div class="meal-card-header d-flex justify-content-between align-items-start">
+                                <div>
+                                    <span class="meal-icon"><i class="bi {{ item.icon }}"></i></span>
+                                    <span class="meal-label">{{ item.label }}</span>
+                                </div>
+                                <form method="post" action="{% url 'toggle_meal_completion' item.meal.id %}" class="form-check form-switch mb-0">
+                                    {% csrf_token %}
+                                    <input class="form-check-input" type="checkbox" id="planMealCheck{{ item.meal.id }}" name="completed" onchange="this.form.submit();" {% if item.meal.is_consumed %}checked{% endif %}>
+                                    <label class="form-check-label" for="planMealCheck{{ item.meal.id }}">Done</label>
+                                </form>
+                            </div>
+                            <h5 class="meal-name {% if item.meal.is_consumed %}text-decoration-line-through text-muted{% endif %}">{{ item.meal.food.name }}</h5>
+                            <p class="meal-serving text-muted">{{ item.meal.quantity_g|floatformat:0 }}g serving</p>
+                            <div class="meal-nutrition">
+                                <div class="nutrition-item">
+                                    <span class="nutrition-value">{{ item.meal.calories|floatformat:0 }}</span>
+                                    <span class="nutrition-label">Calories</span>
+                                </div>
+                                <div class="nutrition-item">
+                                    <span class="nutrition-value">{{ item.meal.protein|floatformat:0 }}g</span>
+                                    <span class="nutrition-label">Protein</span>
+                                </div>
+                                <div class="nutrition-item">
+                                    <span class="nutrition-value">{{ item.meal.carbs|floatformat:0 }}g</span>
+                                    <span class="nutrition-label">Carbs</span>
+                                </div>
+                                <div class="nutrition-item">
+                                    <span class="nutrition-value">{{ item.meal.fat|floatformat:0 }}g</span>
+                                    <span class="nutrition-label">Fat</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-5">
+            <a href="{% url 'grocery_list' %}" class="btn btn-primary btn-lg rounded-pill px-5">
+                <i class="bi bi-cart3 me-2"></i>Generate Grocery List
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
