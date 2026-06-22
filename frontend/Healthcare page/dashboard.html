@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexa Hub AI · Fully Working</title>
+  <!-- Google Font & Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #d9b8a4;
+      display: flex;
+      justify-content: center;
+      padding: 15px;
+      min-height: 100vh;
+    }
+
+    .dashboard {
+      width: 100%;
+      max-width: 1300px;
+      height: 95vh;
+      background: #f5e6dc;
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 40px rgba(180, 120, 100, 0.25);
+    }
+
+    /* ---------- INNER LAYOUT (flex row) ---------- */
+    .dashboard-inner {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* ---------- SIDEBAR ---------- */
+    .sidebar {
+      width: 250px;
+      background: #f0ddd2;
+      border-right: 1px solid rgba(140, 100, 80, 0.2);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #7a4d3a;
+      font-weight: 700;
+      font-size: 22px;
+      margin-bottom: 30px;
+    }
+
+    .logo i {
+      width: 42px;
+      height: 42px;
+      background: #b48b78;
+      color: #f5ede8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+    }
+
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .menu a {
+      text-decoration: none;
+      color: #6b4d3e;
+      padding: 14px 18px;
+      border-radius: 12px;
+      transition: .3s;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .menu a.active,
+    .menu a:hover {
+      background: #dcc2b4;
+      color: #4e3226;
+    }
+
+    .pro-card {
+      background: #e6cdbf;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .pro-card h4 {
+      color: #3f2b20;
+      margin-bottom: 10px;
+    }
+
+    .pro-card button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: #b48b78;
+      color: #fcf6f0;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .pro-card button:hover {
+      background: #a07460;
+      transform: scale(1.02);
+    }
+
+    /* ---------- MAIN ---------- */
+    .main {
+      flex: 1;
+      padding: 25px;
+      overflow: auto;
+      background: #f5e6dc;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .user {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #c9a78e, #b48b78);
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .avatar:hover {
+      transform: scale(1.05);
+    }
+
+    .user h2 {
+      color: #3f2b20;
+    }
+
+    .status {
+      color: #7a4d3a;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .search {
+      background: #ecdacf;
+      padding: 12px 20px;
+      border-radius: 30px;
+      color: #6b4d3e;
+      width: 260px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .search:hover {
+      background: #e0cdc0;
+    }
+
+    .icons {
+      display: flex;
+      gap: 15px;
+      color: #6b4d3e;
+      font-size: 18px;
+    }
+    .icons i {
+      cursor: pointer;
+      transition: color 0.3s, transform 0.2s;
+    }
+    .icons i:hover {
+      color: #4e3226;
+      transform: scale(1.15);
+    }
+
+    /* ---------- CARDS ---------- */
+    .grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 35px;
+    }
+
+    .card {
+      background: #fcf2eb;
+      border: 1px solid rgba(160, 120, 100, 0.2);
+      border-radius: 22px;
+      padding: 20px;
+      color: #2f1f16;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(180, 120, 100, 0.15);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top, #dcc2b4, transparent);
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    .health {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 260px;
+    }
+
+    .circle {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 8px solid rgba(160, 120, 100, 0.2);
+      border-top: 8px solid #b48b78;
+      border-right: 8px solid #b48b78;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: border-color 0.3s, transform 0.2s;
+      position: relative;
+      z-index: 1;
+    }
+    .circle:hover {
+      transform: scale(1.05);
+    }
+
+    .circle span {
+      font-size: 50px;
+      font-weight: 700;
+      color: #7a4d3a;
+      user-select: none;
+    }
+
+    .health h3 {
+      margin-top: 20px;
+      color: #3f2b20;
+      position: relative;
+      z-index: 1;
+    }
+
+    .health p {
+      margin-top: 10px;
+      font-size: 13px;
+      text-align: center;
+      color: #6b4d3e;
+      position: relative;
+      z-index: 1;
+    }
+
+    .small-card {
+      height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .small-card:hover {
+      background: #f8ede6;
+    }
+
+    .small-card h2 {
+      font-size: 40px;
+      margin-top: 5px;
+      color: #3f2b20;
+    }
+
+    .small-card span {
+      font-size: 12px;
+      color: #7a5f4e;
+    }
+
+    /* ---------- MODULES ---------- */
+    .section-title {
+      color: #3f2b20;
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    .modules {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .module {
+      background: #fcf2eb;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(160, 120, 100, 0.2);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .module:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 25px rgba(180, 120, 100, 0.3);
+    }
+
+    .module img {
+      width: 100%;
+      height: 130px;
+      object-fit: cover;
+    }
+
+    .module-content {
+      padding: 18px;
+    }
+
+    .module h3 {
+      color: #3f2b20;
+      margin-bottom: 10px;
+    }
+
+    .module p {
+      color: #6b4d3e;
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .module button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      background: #dcc2b4;
+      color: #3f2b20;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .module button:hover {
+      background: #c9a78e;
+      color: #1f140e;
+      transform: scale(1.02);
+    }
+
+    /* ---------- BOTTOM / FOOTER ---------- */
+    .bottom {
+      margin-top: 25px;
+      background: #ecdacf;
+      padding: 18px 25px;
+      border-radius: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #3f2b20;
+      cursor: default;
+    }
+
+    .bottom .copyright {
+      font-weight: 500;
+      color: #5a3d2e;
+      letter-spacing: 0.5px;
+    }
+
+    .bottom .clock {
+      color: #5a3d2e;
+      font-weight: 600;
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media(max-width:1100px) {
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .modules {
+        grid-template-columns: 1fr 1fr;
+      }
+      .sidebar {
+        display: none;
+      }
+    }
+
+    @media(max-width:700px) {
+      .grid,
+      .modules {
+        grid-template-columns: 1fr;
+      }
+      .search {
+        display: none;
+      }
+      .topbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="dashboard">
+
+  <!-- inner flex row: sidebar + main -->
+  <div class="dashboard-inner">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div>
+        <div class="logo">
+          <i class="fa-solid fa-cube"></i>
+          NEXA HUB AI
+        </div>
+
+        <div class="menu">
+          <a href="#" class="active" data-page="Hub"><i class="fa-solid fa-table-cells"></i> Hub</a>
+          <a href="#" data-page="Fitness"><i class="fa-solid fa-dumbbell"></i> Fitness</a>
+          <a href="#" data-page="Workout"><i class="fa-solid fa-bolt"></i> Workout</a>
+          <a href="#" data-page="Diet"><i class="fa-solid fa-utensils"></i> Diet</a>
+          <a href="#" data-page="Remedies"><i class="fa-solid fa-briefcase-medical"></i> Remedies</a>
+        </div>
+      </div>
+
+      <div class="pro-card">
+        <h4>PRO PLAN ACTIVE</h4>
+        <button id="upgradeBtn">Upgrade NEXA HUB AI</button>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+      <div class="topbar">
+        <div class="user">
+          <div class="avatar" id="avatarIcon" title="Click for profile"></div>
+          <div>
+            <div class="status">SYSTEM STATUS : OPTIMAL</div>
+            <h2>Hello, Marcus</h2>
+          </div>
+        </div>
+
+        <div class="search-box">
+          <div class="search" id="searchBox">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            &nbsp; Search Biometrics...
+          </div>
+          <div class="icons">
+            <i class="fa-regular fa-bell" id="bellIcon" title="Notifications"></i>
+            <i class="fa-solid fa-gear" id="gearIcon" title="Settings"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARDS GRID -->
+      <div class="grid">
+
+        <div class="card health" id="healthCard">
+          <div class="circle" id="healthCircle">
+            <span id="healthValue">84</span>
+          </div>
+          <h3>Health Index</h3>
+          <p>Your biometrics are better than last week. AI recommends focused hydration.</p>
+        </div>
+
+        <div class="card small-card" data-metric="BMI INDEX" data-value="22.4">
+          <span>BMI INDEX</span>
+          <h2>22.4</h2>
+        </div>
+
+        <div class="card small-card" data-metric="HEART RATE" data-value="72">
+          <span>HEART RATE</span>
+          <h2>72</h2>
+        </div>
+
+        <div class="card small-card" data-metric="WATER" data-value="1.8L">
+          <span>WATER</span>
+          <h2>1.8L</h2>
+        </div>
+
+        <div class="card small-card" data-metric="SLEEP" data-value="7.5">
+          <span>SLEEP</span>
+          <h2>7.5</h2>
+        </div>
+
+        <div class="card small-card" data-metric="CALORIES" data-value="1840">
+          <span>CALORIES</span>
+          <h2>1840</h2>
+        </div>
+
+        <div class="card small-card" data-metric="DAILY STEPS" data-value="8422">
+          <span>DAILY STEPS</span>
+          <h2>8422</h2>
+        </div>
+
+      </div>
+
+      <!-- MODULES -->
+      <h2 class="section-title">Intelligent Modules</h2>
+
+      <div class="modules">
+
+        <div class="module">
+          <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800" alt="Fitness">
+          <div class="module-content">
+            <h3>Fitness</h3>
+            <p>Real-time posture analysis and biometric tracking.</p>
+            <button class="moduleBtn" data-module="Fitness">Launch Sync</button>
+          </div>
+        </div>
+
+        <div class="module">
+          <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800" alt="Workout">
+          <div class="module-content">
+            <h3>Workout</h3>
+            <p>Adaptive AI routines based on current recovery levels.</p>
+            <button class="moduleBtn" data-module="Workout">Start Session</button>
+          </div>
+        </div>
+
+        <div class="module">
+          <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800" alt="Diet">
+          <div class="module-content">
+            <h3>Diet</h3>
+            <p>Micronutrient tracking and personalized meal plans.</p>
+            <button class="moduleBtn" data-module="Diet">View Plan</button>
+          </div>
+        </div>
+
+        <div class="module">
+          <img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=800" alt="Remedies">
+          <div class="module-content">
+            <h3>Remedies</h3>
+            <p>Bio-hacks and natural supplements optimized by AI.</p>
+            <button class="moduleBtn" data-module="Remedies">Explore AI</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- BOTTOM / FOOTER with copyright -->
+      <div class="bottom">
+        <div class="copyright">
+          <i class="fa-regular fa-copyright"></i> 2026 Nexa Hub AI
+        </div>
+        <div class="clock" id="clock">
+          21:45:13
+        </div>
+      </div>
+
+    </div> <!-- end main -->
+  </div> <!-- end dashboard-inner -->
+</div> <!-- end dashboard -->
+
+<script>
+  (function() {
+    'use strict';
+
+    // ----- HEALTH INDEX: stop spin, make interactive -----
+    const healthCircle = document.getElementById('healthCircle');
+    const healthValue = document.getElementById('healthValue');
+    if (healthCircle) {
+      healthCircle.style.animation = 'none';
+      
+      // Click to increment health
+      healthCircle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        let val = parseInt(healthValue.innerText, 10);
+        if (isNaN(val)) val = 84;
+        val = Math.min(100, val + 1);
+        healthValue.innerText = val;
+        this.style.borderTopColor = '#7a4d3a';
+        this.style.borderRightColor = '#7a4d3a';
+        setTimeout(() => {
+          this.style.borderTopColor = '#b48b78';
+          this.style.borderRightColor = '#b48b78';
+        }, 300);
+        showToast(`Health Index updated to ${val}%`);
+      });
+    }
+
+    // Health card click (but not circle)
+    const healthCard = document.getElementById('healthCard');
+    if (healthCard) {
+      healthCard.addEventListener('click', function(e) {
+        if (e.target.closest('.circle')) return;
+        showToast('💧 AI tip: Hydrate with 500ml water now for optimal biometrics.');
+      });
+    }
+
+    // ----- SMALL CARDS: click to show metric -----
+    const smallCards = document.querySelectorAll('.small-card');
+    smallCards.forEach(card => {
+      card.addEventListener('click', function() {
+        const label = this.querySelector('span')?.innerText || 'Metric';
+        const value = this.querySelector('h2')?.innerText || '--';
+        showToast(`📊 ${label} : ${value} (AI analysis ready)`);
+      });
+    });
+
+    // ----- MODULE BUTTONS -----
+    const moduleBtns = document.querySelectorAll('.moduleBtn');
+    moduleBtns.forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const module = this.getAttribute('data-module') || 'Module';
+        showToast(`🚀 ${module} module activated! (AI sync successful)`);
+      });
+    });
+
+    // ----- SIDEBAR MENU -----
+    const menuItems = document.querySelectorAll('.menu a');
+    menuItems.forEach(item => {
+      item.addEventListener('click', function(e) {
+        e.preventDefault();
+        menuItems.forEach(m => m.classList.remove('active'));
+        this.classList.add('active');
+        const label = this.getAttribute('data-page') || this.innerText.trim() || 'Hub';
+        showToast(`📌 Navigated to: ${label}`);
+      });
+    });
+
+    // ----- UPGRADE BUTTON -----
+    const upgradeBtn = document.getElementById('upgradeBtn');
+    if (upgradeBtn) {
+      upgradeBtn.addEventListener('click', function() {
+        showToast('⚡ Cloud AI upgrade initiated! Your plan will be updated shortly.');
+      });
+    }
+
+    // ----- ICONS (bell & gear) -----
+    const bell = document.getElementById('bellIcon');
+    const gear = document.getElementById('gearIcon');
+    if (bell) {
+      bell.addEventListener('click', function() {
+        showToast('🔔 You have 3 new AI notifications.');
+      });
+    }
+    if (gear) {
+      gear.addEventListener('click', function() {
+        showToast('⚙️ Settings panel opening... (AI preferences)');
+      });
+    }
+
+    // ----- SEARCH BOX -----
+    const searchBox = document.getElementById('searchBox');
+    if (searchBox) {
+      searchBox.addEventListener('click', function() {
+        showToast('🔍 Biometric search activated. Type your query.');
+      });
+    }
+
+    // ----- AVATAR -----
+    const avatar = document.getElementById('avatarIcon');
+    if (avatar) {
+      avatar.addEventListener('click', function() {
+        showToast('👤 Marcus · Biometric profile loaded.');
+      });
+    }
+
+    // ----- CLOCK (real-time) -----
+    function updateClock() {
+      const now = new Date();
+      const clockEl = document.getElementById('clock');
+      if (clockEl) {
+        clockEl.innerHTML = now.toLocaleTimeString();
+      }
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // ----- TOAST NOTIFICATION SYSTEM (instead of alert) -----
+    function showToast(message) {
+      // Remove existing toast if any
+      const oldToast = document.querySelector('.custom-toast');
+      if (oldToast) oldToast.remove();
+
+      const toast = document.createElement('div');
+      toast.className = 'custom-toast';
+      toast.innerHTML = message;
+      Object.assign(toast.style, {
+        position: 'fixed',
+        bottom: '30px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        background: '#3f2b20',
+        color: '#f5ede8',
+        padding: '14px 28px',
+        borderRadius: '16px',
+        fontFamily: 'Poppins, sans-serif',
+        fontSize: '15px',
+        fontWeight: '500',
+        boxShadow: '0 10px 40px rgba(0,0,0,0.25)',
+        zIndex: '9999',
+        opacity: '0',
+        transition: 'opacity 0.4s ease, transform 0.4s ease',
+        transform: 'translateX(-50%) translateY(20px)',
+        maxWidth: '90%',
+        textAlign: 'center',
+        pointerEvents: 'none',
+        border: '1px solid rgba(255,255,255,0.1)'
+      });
+      document.body.appendChild(toast);
+
+      // Trigger fade in
+      requestAnimationFrame(() => {
+        toast.style.opacity = '1';
+        toast.style.transform = 'translateX(-50%) translateY(0)';
+      });
+
+      // Auto remove after 3.5 seconds
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(-50%) translateY(20px)';
+        setTimeout(() => {
+          if (toast.parentNode) toast.remove();
+        }, 400);
+      }, 3500);
+    }
+
+    console.log('✅ Nexa Hub AI · Fully working! All interactive elements enabled.');
+  })();
+</script>
+
+</body>
+</html>

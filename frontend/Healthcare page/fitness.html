@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NEXAHUB AI · Skin Health</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #f9f2ec;
+      --surface:  #f1e7e1;
+      --card:     #fff6f0;
+      --border:   #e5d4cb;
+      --purple:   #b56a4e;
+      --purple2:  #d48e72;
+      --green:    #5f8b6f;
+      --yellow:   #c99f5e;
+      --red:      #c45a5a;
+      --blue:     #6b8c9c;
+      --text:     #2d221c;
+      --muted:    #7f6b60;
+      --radius:   14px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    /* ══════════════════════════════════════════════════
+       SCREEN 1 – DATA FORM (direct open)
+    ══════════════════════════════════════════════════ */
+    #screen-form {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 30px 16px;
+      background: radial-gradient(ellipse at 80% 20%, #eedcd2 0%, var(--bg) 60%);
+    }
+    #screen-form.active {
+      display: flex;
+    }
+    .form-card {
+      background: #fff8f3;
+      border-radius: 20px;
+      padding: 36px 32px 28px;
+      max-width: 720px; width: 100%;
+      box-shadow: 0 24px 80px #6b5a4e44;
+    }
+    .form-card h2 { font-size: 1.5rem; font-weight: 700; color: #2d221c; text-align: center; }
+    .form-card .subtitle { color: #7f6b60; text-align: center; font-size: .9rem; margin: 4px 0 26px; }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media(max-width:560px){ .form-grid { grid-template-columns: 1fr; } }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-group label { font-size: .82rem; font-weight: 600; color: #4d3d34; }
+    .form-group input,
+    .form-group select {
+      padding: 11px 14px;
+      border: 1.5px solid #e0cec3;
+      border-radius: 10px;
+      font-size: .93rem;
+      color: #2d221c;
+      background: #fcf4ee;
+      outline: none;
+      transition: border-color .2s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus { border-color: #b56a4e; background: #fffaf5; }
+    .form-group select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%23888' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+    .save-btn {
+      width: 100%; margin-top: 22px;
+      padding: 14px; font-size: 1rem; font-weight: 700;
+      background: linear-gradient(135deg, #b56a4e, #8f5a44);
+      color: #fff; border: none; border-radius: 12px;
+      cursor: pointer; transition: opacity .2s;
+    }
+    .save-btn:hover { opacity: .9; }
+
+    /* ══════════════════════════════════════════════════
+       SCREEN 2 – DASHBOARD (skin color complete)
+    ══════════════════════════════════════════════════ */
+    #screen-dashboard { display: none; }
+    #screen-dashboard.active { display: flex; }
+
+    .sidebar {
+      width: 220px; min-height: 100vh;
+      background: #f2e6de;
+      border-right: 1px solid #e0cec3;
+      padding: 24px 16px;
+      display: flex; flex-direction: column; gap: 6px;
+      position: sticky; top: 0; height: 100vh;
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
+    .sidebar-logo {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 28px; padding: 0 4px;
+    }
+    .sidebar-logo .mark {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: linear-gradient(135deg, #b56a4e, #8f5a44);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; color: #fff; font-size: 14px;
+    }
+    .sidebar-logo span { font-weight: 700; font-size: .95rem; color: #b56a4e; }
+    .nav-label { font-size: .68rem; font-weight: 600; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; padding: 12px 8px 4px; }
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border-radius: 10px;
+      cursor: pointer; font-size: .88rem; color: var(--muted);
+      transition: background .15s, color .15s;
+    }
+    .nav-item:hover { background: #e5d4cb; color: var(--text); }
+    .nav-item.active { background: #dcc8bc; color: #2d221c; font-weight: 600; }
+    .nav-item .icon { font-size: 16px; }
+
+    .main {
+      flex: 1; padding: 28px 28px 60px;
+      background: var(--bg);
+      overflow-y: auto;
+      min-width: 0;
+    }
+
+    /* Top bar */
+    .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+    .topbar h2 { font-size: 1.5rem; font-weight: 700; color: #2d221c; }
+    .topbar h2 span { color: #b56a4e; }
+    .topbar-right { display: flex; align-items: center; gap: 10px; }
+    .badge {
+      display: flex; align-items: center; gap: 6px;
+      padding: 7px 14px; border-radius: 20px;
+      font-size: .8rem; font-weight: 600;
+      background: var(--card); border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .badge.premium { background: #f0e2d9; color: #b56a4e; border-color: #b56a4e; }
+
+    /* Score card */
+    .score-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      display: flex; align-items: center; gap: 22px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .score-ring {
+      position: relative; width: 90px; height: 90px; flex-shrink: 0;
+    }
+    .score-ring svg { transform: rotate(-90deg); }
+    .score-ring .ring-val {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-size: 1.5rem; font-weight: 800;
+      color: #2d221c;
+    }
+    .score-ring .ring-val small { font-size: .65rem; color: var(--muted); font-weight: 400; }
+    .score-info { flex: 1; }
+    .score-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #5f8b6f22; color: #3d6b4e;
+      border-radius: 20px; padding: 4px 12px; font-size: .8rem; font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .score-info h3 { font-size: 1rem; font-weight: 600; margin-bottom: 10px; color: #2d221c; }
+    .insight-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pill {
+      display: flex; align-items: center; gap: 5px;
+      font-size: .75rem; color: var(--muted);
+    }
+    .pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--purple); }
+
+    /* AI Insights */
+    .ai-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px 20px; margin-bottom: 20px;
+    }
+    .ai-card .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .ai-card .header h4 { font-size: .95rem; font-weight: 600; color: #2d221c; }
+    .ai-card .header span { font-size: .75rem; color: var(--muted); }
+    .insight-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .insight-tag {
+      display: flex; align-items: center; gap: 6px;
+      background: #fcf4ee; border: 1px solid var(--border);
+      border-radius: 20px; padding: 6px 14px; font-size: .78rem; color: var(--muted);
+    }
+    .insight-tag .check { color: #5f8b6f; font-size: 12px; }
+
+    /* Metric grid */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px; margin-bottom: 20px;
+    }
+    @media(max-width:900px){ .metric-grid { grid-template-columns: repeat(2,1fr); } }
+    @media(max-width:500px){ .metric-grid { grid-template-columns: 1fr; } }
+    .metric-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px 16px; text-align: center;
+      position: relative;
+    }
+    .metric-pct {
+      position: absolute; top: 14px; right: 14px;
+      font-size: .72rem; font-weight: 600; color: var(--muted);
+    }
+    .metric-val { font-size: 1.7rem; font-weight: 800; margin: 8px 0 2px; color: #2d221c; }
+    .metric-label { font-size: .8rem; color: var(--muted); }
+    .metric-sub { font-size: .72rem; color: #b5a094; margin-top: 3px; }
+
+    /* Mini ring */
+    .mini-ring { display: flex; justify-content: center; margin-bottom: 4px; }
+
+    /* Lower grid */
+    .lower-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px;
+    }
+    @media(max-width:700px){ .lower-grid { grid-template-columns: 1fr; } }
+
+    /* Vitals card */
+    .vitals-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px;
+      display: flex; gap: 14px; align-items: flex-start;
+      margin-bottom: 20px; flex-wrap: wrap;
+    }
+    .vital-block { flex: 1; min-width: 120px; }
+    .vital-block .val { font-size: 1.8rem; font-weight: 800; color: #2d221c; }
+    .vital-block .val span { font-size: .85rem; font-weight: 400; color: var(--muted); }
+    .vital-block .lbl { font-size: .75rem; color: var(--muted); margin-bottom: 4px; }
+    .status-badge {
+      display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: .72rem; font-weight: 600;
+    }
+    .status-badge.yellow { background: #c99f5e22; color: #a47d42; }
+    .status-badge.green  { background: #5f8b6f22; color: #3d6b4e; }
+    .vital-sub { font-size: .72rem; color: var(--muted); margin-top: 4px; }
+
+    /* Steps chart */
+    .steps-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px;
+    }
+    .steps-card .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .steps-card .header h4 { font-size: .93rem; font-weight: 600; color: #2d221c; }
+    .steps-card .header span { font-size: .8rem; color: var(--muted); }
+    .bar-chart { display: flex; align-items: flex-end; gap: 10px; height: 80px; }
+    .bar-col { display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1; }
+    .bar {
+      width: 100%; border-radius: 5px 5px 0 0;
+      background: linear-gradient(180deg, #d48e72, #b56a4e);
+      min-height: 6px;
+      transition: height .3s;
+    }
+    .bar-col .day { font-size: .68rem; color: var(--muted); }
+    .bar-col .num { font-size: .65rem; color: var(--muted); }
+
+    /* Goals */
+    .goals-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px;
+    }
+    .goals-card .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .goals-card .header h4 { font-size: .93rem; font-weight: 600; color: #2d221c; }
+    .goal-inner { display: flex; align-items: center; gap: 16px; }
+    .goal-ring { position: relative; width: 70px; height: 70px; flex-shrink: 0; }
+    .goal-ring svg { transform: rotate(-90deg); }
+    .goal-ring .gval {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-size: .85rem; font-weight: 700;
+      color: #2d221c;
+    }
+    .goal-ring .gval small { font-size: .58rem; color: var(--muted); }
+    .goal-bar-wrap { flex: 1; }
+    .goal-bar-wrap .gw { font-size: 1.1rem; font-weight: 700; color: #2d221c; }
+    .goal-bar { height: 8px; background: #e0cec3; border-radius: 10px; margin: 8px 0; }
+    .goal-bar .fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, #b56a4e, #d48e72); }
+    .goal-labels { display: flex; justify-content: space-between; font-size: .72rem; color: var(--muted); }
+
+    /* Health overview */
+    .overview-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px;
+    }
+    .overview-card .header { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+    .overview-card .header h4 { font-size: .93rem; font-weight: 600; color: #2d221c; }
+    .ov-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .ov-row { display: flex; align-items: center; justify-content: space-between; font-size: .85rem; }
+    .ov-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .ov-dot.purple { background: #b56a4e; }
+    .ov-dot.green  { background: #5f8b6f; }
+    .ov-dot.yellow { background: #c99f5e; }
+    .ov-dot.blue   { background: #6b8c9c; }
+    .ov-label { color: var(--muted); display: flex; align-items: center; gap: 7px; }
+    .ov-val { font-weight: 700; color: #2d221c; }
+
+    /* Recommendations */
+    .rec-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px;
+    }
+    .rec-card .header { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+    .rec-card .header h4 { font-size: .93rem; font-weight: 600; color: #2d221c; }
+    .rec-item { display: flex; align-items: center; gap: 10px; padding: 7px 0; font-size: .84rem; color: var(--muted); }
+    .rec-item .chk { color: #5f8b6f; font-size: 13px; }
+    .rec-item strong { color: #2d221c; }
+
+    /* Upgrade banner */
+    .upgrade-card {
+      background: linear-gradient(135deg, #b56a4e, #8f5a44);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+      margin-top: 20px;
+    }
+    .upgrade-card h4 { font-weight: 700; margin-bottom: 4px; color: #fff; }
+    .upgrade-card p { font-size: .83rem; opacity: .85; color: #fff; }
+    .upgrade-btn {
+      background: #fff; color: #b56a4e;
+      border: none; padding: 10px 24px; border-radius: 50px;
+      font-size: .88rem; font-weight: 700; cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* Ask Nexa */
+    .ask-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px; margin-top: 14px;
+    }
+    .ask-card .header { display: flex; justify-content: space-between; margin-bottom: 14px; }
+    .ask-card .header h4 { font-size: .93rem; font-weight: 600; color: #2d221c; }
+    .ask-card .header span { font-size: .78rem; color: var(--muted); }
+    .ask-input-row { display: flex; gap: 10px; }
+    .ask-input {
+      flex: 1; background: #fcf4ee; border: 1px solid var(--border);
+      border-radius: 10px; padding: 10px 14px; color: #2d221c;
+      font-size: .88rem; outline: none;
+      font-family: inherit;
+    }
+    .ask-input:focus { border-color: #b56a4e; }
+    .ask-btn {
+      background: #b56a4e; color: #fff; border: none;
+      border-radius: 10px; padding: 10px 18px; cursor: pointer;
+      font-size: .88rem; font-weight: 600;
+    }
+    .ai-response {
+      margin-top: 14px; background: #fcf4ee; border: 1px solid var(--border);
+      border-radius: 10px; padding: 14px; font-size: .85rem; color: var(--muted);
+      line-height: 1.7; min-height: 50px;
+    }
+    .ai-response .typing { display: inline-block; animation: blink .8s step-end infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #d4c0b5; border-radius: 10px; }
+
+    /* Edit button */
+    .edit-btn {
+      background: none; border: 1px solid var(--border); 
+      color: var(--muted); padding: 10px 24px; 
+      border-radius: 50px; cursor: pointer; font-size: .85rem;
+      transition: all 0.3s;
+    }
+    .edit-btn:hover {
+      background: var(--card);
+      border-color: var(--purple);
+      color: var(--text);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════
+     SCREEN 1 – DAILY HEALTH METRICS FORM (Direct Open)
+══════════════════════════════════════════════════ -->
+<div id="screen-form" class="screen active">
+  <div class="form-card">
+    <h2>Daily Health Metrics</h2>
+    <p class="subtitle">Track your daily wellness and recovery</p>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Steps Today</label>
+        <input type="number" id="f-steps" placeholder="8500" value="8500" />
+      </div>
+      <div class="form-group">
+        <label>Sleep Hours</label>
+        <input type="number" id="f-sleep" placeholder="7.5" value="7.5" step="0.1" />
+      </div>
+      <div class="form-group">
+        <label>Bed Time</label>
+        <input type="time" id="f-bed" value="00:30" />
+      </div>
+      <div class="form-group">
+        <label>Wake Time</label>
+        <input type="time" id="f-wake" value="08:00" />
+      </div>
+      <div class="form-group">
+        <label>Sleep Quality</label>
+        <select id="f-quality">
+          <option value="">Select Sleep Quality</option>
+          <option value="Excellent" selected>Excellent</option>
+          <option value="Good">Good</option>
+          <option value="Fair">Fair</option>
+          <option value="Poor">Poor</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Deep Sleep (hrs)</label>
+        <input type="number" id="f-deep" placeholder="2.3" value="2.3" step="0.1" />
+      </div>
+      <div class="form-group">
+        <label>REM Sleep (hrs)</label>
+        <input type="number" id="f-rem" placeholder="1.8" value="1.8" step="0.1" />
+      </div>
+      <div class="form-group">
+        <label>Stress Score (0-100)</label>
+        <input type="number" id="f-stress" placeholder="45" value="45" min="0" max="100" />
+      </div>
+      <div class="form-group">
+        <label>Recovery Score (0-100)</label>
+        <input type="number" id="f-recovery" placeholder="74" value="74" min="0" max="100" />
+      </div>
+      <div class="form-group">
+        <label>Mood</label>
+        <select id="f-mood">
+          <option value="">Select Mood</option>
+          <option value="Great" selected>Great 😄</option>
+          <option value="Good">Good 🙂</option>
+          <option value="Neutral">Neutral 😐</option>
+          <option value="Low">Low 😔</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Resting Heart Rate (bpm)</label>
+        <input type="number" id="f-rhr" placeholder="68" value="68" />
+      </div>
+      <div class="form-group">
+        <label>Max Heart Rate (bpm)</label>
+        <input type="number" id="f-maxhr" placeholder="178" value="178" />
+      </div>
+      <div class="form-group full">
+        <label>Average Heart Rate (bpm)</label>
+        <input type="number" id="f-avghr" placeholder="82" value="82" />
+      </div>
+    </div>
+
+    <button class="save-btn" onclick="saveAndGo()">Save &amp; Continue →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     SCREEN 2 – DASHBOARD
+══════════════════════════════════════════════════ -->
+<div id="screen-dashboard" class="screen">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="mark">N</div>
+      <span>NEXAHUB AI</span>
+    </div>
+
+    <div class="nav-label">Menu</div>
+    <div class="nav-item active"><span class="icon">◆</span> Dashboard</div>
+    <div class="nav-item"><span class="icon">♥</span> Health Data</div>
+    <div class="nav-item"><span class="icon">🏋</span> Workout</div>
+    <div class="nav-item"><span class="icon">🥗</span> Nutrition</div>
+    <div class="nav-item"><span class="icon">📊</span> Reports</div>
+    <div class="nav-item"><span class="icon">💡</span> Insights</div>
+    <div class="nav-item"><span class="icon">🤖</span> AI Coach</div>
+
+    <div class="nav-label">Account</div>
+    <div class="nav-item"><span class="icon">🎯</span> Goals</div>
+    <div class="nav-item"><span class="icon">⚙</span> Settings</div>
+  </div>
+
+  <!-- Main content -->
+  <div class="main">
+
+    <!-- Top bar -->
+    <div class="topbar">
+      <h2>Good Morning, <span id="d-name">Jaat Sahab!</span> 👋</h2>
+      <div class="topbar-right">
+        <div class="badge">📅 Today</div>
+        <div class="badge premium">✨ Premium</div>
+      </div>
+    </div>
+
+    <!-- Score card -->
+    <div class="score-card">
+      <div class="score-ring">
+        <svg width="90" height="90" viewBox="0 0 90 90">
+          <circle cx="45" cy="45" r="38" fill="none" stroke="#e0cec3" stroke-width="8"/>
+          <circle cx="45" cy="45" r="38" fill="none" stroke="url(#rg)" stroke-width="8"
+            stroke-dasharray="239" stroke-dashoffset="31" stroke-linecap="round"/>
+          <defs>
+            <linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#b56a4e"/>
+              <stop offset="100%" stop-color="#d48e72"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="ring-val"><span id="d-score">87</span><small>/ 100</small></div>
+      </div>
+      <div class="score-info">
+        <div class="score-tag">⭐ Excellent</div>
+        <h3>You're doing great! Keep it up.</h3>
+        <div class="insight-pills">
+          <div class="pill"><div class="dot"></div> Sleep quality improved <strong style="color:#2d221c;margin-left:4px" id="d-sleep-tag">+12%</strong></div>
+          <div class="pill"><div class="dot" style="background:#c99f5e"></div> Stress levels <strong style="color:#a47d42;margin-left:4px" id="d-stress-tag">slightly high</strong></div>
+          <div class="pill"><div class="dot" style="background:#5f8b6f"></div> Body recovery <strong style="color:#3d6b4e;margin-left:4px">good</strong></div>
+          <div class="pill"><div class="dot" style="background:#6b8c9c"></div> Walk <strong style="color:#4d6f7c;margin-left:4px" id="d-steps-left">2,500</strong> more steps</div>
+          <div class="pill"><div class="dot" style="background:#6b8c9c"></div> Drink <strong style="color:#4d6f7c;margin-left:4px">700ml</strong> more water</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Insights -->
+    <div class="ai-card">
+      <div class="header">
+        <h4>🤖 AI Health Insights</h4>
+        <span>Updated today</span>
+      </div>
+      <div class="insight-tags" id="d-insights"></div>
+    </div>
+
+    <!-- Metric cards -->
+    <div class="metric-grid">
+      <div class="metric-card">
+        <div class="metric-pct" id="d-steps-pct">43%</div>
+        <div class="mini-ring">
+          <svg width="40" height="40" viewBox="0 0 40 40">
+            <circle cx="20" cy="20" r="16" fill="none" stroke="#e0cec3" stroke-width="5"/>
+            <circle cx="20" cy="20" r="16" fill="none" stroke="#b56a4e" stroke-width="5"
+              stroke-dasharray="100.5" id="ring-steps" stroke-dashoffset="57" stroke-linecap="round" transform="rotate(-90 20 20)"/>
+          </svg>
+        </div>
+        <div class="metric-val" id="d-steps-val">3,456</div>
+        <div class="metric-label">Steps</div>
+        <div class="metric-sub">/ 8,000 steps</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-pct" id="d-sleep-pct">66%</div>
+        <div class="mini-ring">
+          <svg width="40" height="40" viewBox="0 0 40 40">
+            <circle cx="20" cy="20" r="16" fill="none" stroke="#e0cec3" stroke-width="5"/>
+            <circle cx="20" cy="20" r="16" fill="none" stroke="#6b8c9c" stroke-width="5"
+              stroke-dasharray="100.5" id="ring-sleep" stroke-dashoffset="34" stroke-linecap="round" transform="rotate(-90 20 20)"/>
+          </svg>
+        </div>
+        <div class="metric-val" id="d-sleep-val">5h 20m</div>
+        <div class="metric-label">Sleep</div>
+        <div class="metric-sub">/ 8h</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-pct">74%</div>
+        <div class="mini-ring">
+          <svg width="40" height="40" viewBox="0 0 40 40">
+            <circle cx="20" cy="20" r="16" fill="none" stroke="#e0cec3" stroke-width="5"/>
+            <circle cx="20" cy="20" r="16" fill="none" stroke="#c99f5e" stroke-width="5"
+              stroke-dasharray="100.5" stroke-dashoffset="26" stroke-linecap="round" transform="rotate(-90 20 20)"/>
+          </svg>
+        </div>
+        <div class="metric-val">520 <span style="font-size:.85rem;font-weight:400">kcal</span></div>
+        <div class="metric-label">Calories Burned</div>
+        <div class="metric-sub">/ 700 kcal</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-pct">52%</div>
+        <div class="mini-ring">
+          <svg width="40" height="40" viewBox="0 0 40 40">
+            <circle cx="20" cy="20" r="16" fill="none" stroke="#e0cec3" stroke-width="5"/>
+            <circle cx="20" cy="20" r="16" fill="none" stroke="#5f8b6f" stroke-width="5"
+              stroke-dasharray="100.5" stroke-dashoffset="48" stroke-linecap="round" transform="rotate(-90 20 20)"/>
+          </svg>
+        </div>
+        <div class="metric-val">1.3 <span style="font-size:.85rem;font-weight:400">L</span></div>
+        <div class="metric-label">Water Intake</div>
+        <div class="metric-sub">/ 2.5 L</div>
+      </div>
+    </div>
+
+    <!-- Vitals -->
+    <div class="vitals-card">
+      <div style="font-weight:600;font-size:.93rem;width:100%;margin-bottom:8px; color:#2d221c;">❤️ Vitals</div>
+      <div class="vital-block">
+        <div class="lbl">Heart Rate</div>
+        <div class="val"><span id="d-rhr">72</span> <span>BPM</span></div>
+        <div><span class="status-badge yellow">Resting</span></div>
+        <div class="vital-sub" id="d-stress-sub">45 / 100 · Moderate</div>
+      </div>
+      <div class="vital-block">
+        <div class="lbl">Stress Score</div>
+        <div class="val"><span id="d-stress-val">78</span> <span>/ 100</span></div>
+        <div><span class="status-badge green">Good</span></div>
+      </div>
+      <div class="vital-block">
+        <div class="lbl">Recovery Score</div>
+        <div class="val"><span id="d-rec-val">74.0</span> <span>kg</span></div>
+        <div style="font-size:.72rem;color:#3d6b4e;margin-top:4px">↓ 0.4 kg from yesterday</div>
+      </div>
+    </div>
+
+    <!-- Steps + Goals -->
+    <div class="lower-grid">
+      <div class="steps-card">
+        <div class="header">
+          <h4>📈 Steps This Week</h4>
+          <span id="d-week-total">7,812 steps</span>
+        </div>
+        <div class="bar-chart" id="bar-chart"></div>
+      </div>
+      <div class="goals-card">
+        <div class="header">
+          <h4>🎯 Goals Progress</h4>
+          <span>40% Progress</span>
+        </div>
+        <div class="goal-inner">
+          <div class="goal-ring">
+            <svg width="70" height="70" viewBox="0 0 70 70">
+              <circle cx="35" cy="35" r="28" fill="none" stroke="#e0cec3" stroke-width="7"/>
+              <circle cx="35" cy="35" r="28" fill="none" stroke="url(#gr)" stroke-width="7"
+                stroke-dasharray="176" stroke-dashoffset="106" stroke-linecap="round"/>
+              <defs>
+                <linearGradient id="gr" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#b56a4e"/>
+                  <stop offset="100%" stop-color="#d48e72"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <div class="gval">40%<small>PROGRESS</small></div>
+          </div>
+          <div class="goal-bar-wrap">
+            <div class="gw">74.0 kg</div>
+            <div class="goal-bar"><div class="fill" style="width:40%"></div></div>
+            <div class="goal-labels"><span>Current</span><span>→</span><span>68.0 kg</span></div>
+            <div class="goal-labels" style="margin-top:4px"><span></span><span></span><span>Target</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Health overview + Recommendations -->
+    <div class="lower-grid">
+      <div class="overview-card">
+        <div class="header">
+          <span>📋</span><h4>Health Metrics Overview</h4>
+        </div>
+        <div class="ov-grid">
+          <div class="ov-row">
+            <div class="ov-label"><div class="ov-dot purple"></div>Activity</div>
+            <div class="ov-val">80</div>
+          </div>
+          <div class="ov-row">
+            <div class="ov-label"><div class="ov-dot blue"></div>Sleep</div>
+            <div class="ov-val">66</div>
+          </div>
+          <div class="ov-row">
+            <div class="ov-label"><div class="ov-dot yellow"></div>Nutrition</div>
+            <div class="ov-val">70</div>
+          </div>
+          <div class="ov-row">
+            <div class="ov-label"><div class="ov-dot green"></div>Hydration</div>
+            <div class="ov-val">60</div>
+          </div>
+        </div>
+      </div>
+      <div class="rec-card">
+        <div class="header">
+          <span>📝</span><h4>Today's Recommendations</h4>
+        </div>
+        <div id="d-recs"></div>
+      </div>
+    </div>
+
+    <!-- Upgrade -->
+    <div class="upgrade-card">
+      <div>
+        <h4>🚀 Upgrade Now</h4>
+        <p>Unlock advanced AI coaching, detailed analytics & priority support.</p>
+      </div>
+      <button class="upgrade-btn">Upgrade Now</button>
+    </div>
+
+    <!-- Ask Nexa AI -->
+    <div class="ask-card">
+      <div class="header">
+        <h4>🤖 Ask Nexa AI</h4>
+        <span>Your personal health assistant</span>
+      </div>
+      <div class="ask-input-row">
+        <input class="ask-input" id="ask-input" placeholder="Ask anything about your health…" />
+        <button class="ask-btn" onclick="askNexa()">Ask</button>
+      </div>
+      <div class="ai-response" id="ai-response" style="display:none"></div>
+    </div>
+
+    <!-- Edit data button -->
+    <div style="text-align:center;margin-top:28px">
+      <button class="edit-btn" onclick="goToForm()">✏️ Edit Health Data</button>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /screen-dashboard -->
+
+<script>
+/* ────────────────────────────────────────────
+   State & Navigation
+──────────────────────────────────────────── */
+let healthData = {};
+
+// Directly show form on load
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('screen-form').classList.add('active');
+});
+
+function goToForm() {
+  document.getElementById('screen-dashboard').classList.remove('active');
+  document.getElementById('screen-form').classList.add('active');
+  // Scroll to top of form
+  document.getElementById('screen-form').scrollIntoView({ behavior: 'smooth' });
+}
+
+/* ────────────────────────────────────────────
+   Form → Dashboard
+──────────────────────────────────────────── */
+function saveAndGo() {
+  healthData = {
+    steps:    parseInt(document.getElementById('f-steps').value) || 8500,
+    sleep:    parseFloat(document.getElementById('f-sleep').value) || 7.5,
+    bedTime:  document.getElementById('f-bed').value || '00:30',
+    wakeTime: document.getElementById('f-wake').value || '08:00',
+    quality:  document.getElementById('f-quality').value || 'Good',
+    deep:     parseFloat(document.getElementById('f-deep').value) || 2.3,
+    rem:      parseFloat(document.getElementById('f-rem').value) || 1.8,
+    stress:   parseInt(document.getElementById('f-stress').value) || 45,
+    recovery: parseInt(document.getElementById('f-recovery').value) || 74,
+    mood:     document.getElementById('f-mood').value || 'Good',
+    rhr:      parseInt(document.getElementById('f-rhr').value) || 68,
+    maxhr:    parseInt(document.getElementById('f-maxhr').value) || 178,
+    avghr:    parseInt(document.getElementById('f-avghr').value) || 82,
+  };
+  
+  // Switch to dashboard
+  document.getElementById('screen-form').classList.remove('active');
+  document.getElementById('screen-dashboard').classList.add('active');
+  renderDashboard();
+}
+
+/* ────────────────────────────────────────────
+   Render Dashboard
+──────────────────────────────────────────── */
+function renderDashboard() {
+  const d = healthData;
+  const goal = 8000;
+  const stepsLeft = Math.max(0, goal - d.steps);
+  const stepsPct  = Math.round(Math.min(100, (d.steps / goal) * 100));
+  const sleepGoal = 8;
+  const sleepPct  = Math.round(Math.min(100, (d.sleep / sleepGoal) * 100));
+  const hrs  = Math.floor(d.sleep);
+  const mins = Math.round((d.sleep - hrs) * 60);
+
+  // Score (simple formula)
+  const score = Math.min(100, Math.round(
+    (stepsPct * .25) + (sleepPct * .3) + ((100 - d.stress) * .25) + (d.recovery * .2)
+  ));
+  document.getElementById('d-score').textContent = score;
+
+  // Steps
+  document.getElementById('d-steps-left').textContent = stepsLeft.toLocaleString();
+  document.getElementById('d-steps-pct').textContent  = stepsPct + '%';
+  document.getElementById('d-steps-val').textContent  = d.steps.toLocaleString();
+
+  // Sleep
+  document.getElementById('d-sleep-pct').textContent = sleepPct + '%';
+  document.getElementById('d-sleep-val').textContent = hrs + 'h ' + mins + 'm';
+
+  // Vitals
+  document.getElementById('d-rhr').textContent      = d.rhr;
+  document.getElementById('d-stress-val').textContent = d.stress;
+  document.getElementById('d-rec-val').textContent   = d.recovery;
+  document.getElementById('d-stress-sub').textContent = d.stress + ' / 100 · ' + stressLabel(d.stress);
+  document.getElementById('d-stress-tag').textContent = stressLabel(d.stress);
+
+  // Rings update
+  const ringStepsEl = document.getElementById('ring-steps');
+  const ringSleepEl = document.getElementById('ring-sleep');
+  if (ringStepsEl) ringStepsEl.setAttribute('stroke-dashoffset', 100.5 - (stepsPct / 100 * 100.5));
+  if (ringSleepEl) ringSleepEl.setAttribute('stroke-dashoffset', 100.5 - (sleepPct / 100 * 100.5));
+
+  // AI Insights
+  const insights = [
+    `Sleep quality: ${d.quality}`,
+    `Stress level is ${stressLabel(d.stress)}`,
+    `Recovery looks ${recoveryLabel(d.recovery)}`,
+    `Walk ${stepsLeft.toLocaleString()} more steps to reach your goal`,
+    `Deep sleep: ${d.deep}h | REM: ${d.rem}h`,
+  ];
+  document.getElementById('d-insights').innerHTML = insights.map(i =>
+    `<div class="insight-tag"><span class="check">✓</span>${i}</div>`
+  ).join('');
+
+  // Recommendations
+  const recs = buildRecs(d, stepsLeft);
+  document.getElementById('d-recs').innerHTML = recs.map(r =>
+    `<div class="rec-item"><span class="chk">✓</span>${r}</div>`
+  ).join('');
+
+  // Bar chart – fake weekly data centred on today's steps
+  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const stepData = [6200,4800,7100,3400,8900,5300,d.steps];
+  const maxS = Math.max(...stepData);
+  const chart = document.getElementById('bar-chart');
+  chart.innerHTML = stepData.map((v,i) =>
+    `<div class="bar-col">
+      <div class="num">${(v/1000).toFixed(1)}k</div>
+      <div class="bar" style="height:${Math.round((v/maxS)*70)}px"></div>
+      <div class="day">${days[i]}</div>
+    </div>`
+  ).join('');
+  document.getElementById('d-week-total').textContent =
+    (stepData.reduce((a,b)=>a+b,0) / 1000).toFixed(1) + 'k steps';
+}
+
+function stressLabel(s) {
+  if (s < 30) return 'low';
+  if (s < 60) return 'moderate';
+  return 'slightly high';
+}
+function recoveryLabel(r) {
+  if (r >= 70) return 'good';
+  if (r >= 40) return 'moderate';
+  return 'needs rest';
+}
+function buildRecs(d, stepsLeft) {
+  const r = [];
+  if (stepsLeft > 0) r.push(`Walk for <strong>${Math.round(stepsLeft / 80)} more minutes</strong> to hit your goal`);
+  if (d.sleep < 7)   r.push(`Try sleeping before <strong>11:00 PM</strong>`);
+  if (d.stress > 50) r.push(`Practice <strong>10 min meditation</strong> to reduce stress`);
+  r.push(`Include more <strong>protein</strong> in your diet`);
+  r.push(`Drink <strong>2 more glasses</strong> of water`);
+  return r.slice(0, 5);
+}
+
+/* ────────────────────────────────────────────
+   Ask Nexa AI (Anthropic API)
+──────────────────────────────────────────── */
+async function askNexa() {
+  const input = document.getElementById('ask-input');
+  const box   = document.getElementById('ai-response');
+  const q = input.value.trim();
+  if (!q) return;
+
+  box.style.display = 'block';
+  box.innerHTML = '<span class="typing">●</span> Thinking…';
+
+  const context = healthData.steps
+    ? `User health data today: Steps=${healthData.steps}, Sleep=${healthData.sleep}h (${healthData.quality}), ` +
+      `Stress=${healthData.stress}/100, Recovery=${healthData.recovery}/100, RHR=${healthData.rhr}bpm, Mood=${healthData.mood}.`
+    : 'No health data available yet.';
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        system: `You are Nexa AI, a friendly and knowledgeable personal health assistant inside NEXAHUB AI. 
+Give concise, practical advice (2-4 sentences). Be warm, motivating, and specific using the user's health data. ${context}`,
+        messages: [{ role: 'user', content: q }]
+      })
+    });
+    const data = await res.json();
+    const text = data.content?.map(c => c.text || '').join('') || 'Sorry, I could not get a response.';
+    box.innerHTML = '🤖 <strong>Nexa AI:</strong> ' + text.replace(/\n/g,'<br>');
+  } catch(e) {
+    box.innerHTML = '⚠️ Could not reach Nexa AI. Please check your connection.';
+  }
+  input.value = '';
+}
+
+document.getElementById('ask-input')?.addEventListener('keydown', e => {
+  if (e.key === 'Enter') askNexa();
+});
+</script>
+</body>
+</html>

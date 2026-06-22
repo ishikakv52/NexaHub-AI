@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexaHub AI - Workout Planner</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; }
+
+  /* ===== FORM PAGE ===== */
+  #form-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0a0a1a 0%, #1a2a4a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+  }
+
+  #form-page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 50%, rgba(56,201,240,0.08) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .form-card {
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 2.5rem 2rem;
+    width: 100%;
+    max-width: 440px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    position: relative;
+    z-index: 1;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .form-card .logo {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 2px;
+    letter-spacing: -0.5px;
+  }
+
+  .form-card .logo .nexa {
+    color: #ffffff;
+  }
+
+  .form-card .logo .hub-ai {
+    color: #38c9f0;
+  }
+
+  .form-card .logo .emoji {
+    color: #1a1a2e;
+  }
+
+  .form-card .logo-sub {
+    text-align: center;
+    color: #666;
+    font-size: 10px;
+    margin-bottom: 2rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .form-card h1 {
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    color: #1a1a2e;
+    margin-bottom: 4px;
+  }
+
+  .form-card .subtitle {
+    text-align: center;
+    color: #999;
+    font-size: 13px;
+    margin-bottom: 2rem;
+  }
+
+  .field-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 6px;
+    display: block;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .custom-select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #e8e8e8;
+    border-radius: 12px;
+    font-size: 14px;
+    appearance: none;
+    -webkit-appearance: none;
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center;
+    color: #333;
+    cursor: pointer;
+    margin-bottom: 1.2rem;
+    transition: all 0.3s;
+    background-size: 16px;
+  }
+
+  .custom-select:focus {
+    outline: none;
+    border-color: #38c9f0;
+    box-shadow: 0 0 0 4px rgba(56,201,240,0.1);
+  }
+
+  .time-display {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #38c9f0, #1a8fe3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 6px 0 4px;
+  }
+
+  .range-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 2rem;
+  }
+
+  .range-row span {
+    font-size: 11px;
+    color: #bbb;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+
+  input[type=range] {
+    flex: 1;
+    accent-color: #38c9f0;
+    cursor: pointer;
+    height: 5px;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #e0e0e0, #38c9f0);
+  }
+
+  .btn-generate {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #38c9f0, #1a8fe3);
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(56,201,240,0.3);
+  }
+
+  .btn-generate:hover { 
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(56,201,240,0.4);
+  }
+  .btn-generate:active { transform: scale(0.97); }
+
+  /* ===== LOADING ===== */
+  #loading {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  #loading.active { display: flex; }
+
+  .spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(255,255,255,0.1);
+    border-top-color: #38c9f0;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-text {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1px;
+  }
+
+  .loading-text .nexa {
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .loading-text .hub-ai {
+    color: #38c9f0;
+    font-weight: 700;
+  }
+
+  /* ===== PLAN PAGE ===== */
+  #plan-page {
+    display: none;
+    background: #0a0a1a;
+    min-height: 100vh;
+    padding: 1.2rem;
+    color: #fff;
+  }
+
+  .plan-header {
+    background: linear-gradient(135deg, #111128 0%, #1a1a3e 100%);
+    border-radius: 16px;
+    padding: 1.5rem 1.6rem;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(255,255,255,0.05);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .plan-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(56,201,240,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .brand {
+    color: #fff;
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .brand-dot { 
+    color: #38c9f0; 
+    font-size: 24px;
+    animation: pulse-dot 2s infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .brand .nexa {
+    color: #ffffff;
+  }
+
+  .brand .hub-ai {
+    color: #38c9f0;
+  }
+
+  .plan-title {
+    color: #38c9f0;
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 5px;
+    line-height: 1.4;
+    position: relative;
+    z-index: 1;
+  }
+
+  .plan-sub {
+    color: #666;
+    font-size: 12px;
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .stats-row {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+
+  .stat-item { text-align: center; }
+  .stat-val { 
+    font-size: 20px; 
+    font-weight: 800; 
+    color: #fff;
+    background: linear-gradient(90deg, #38c9f0, #1a8fe3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-lbl { 
+    font-size: 9px; 
+    color: #555; 
+    text-transform: uppercase; 
+    letter-spacing: 0.5px; 
+    margin-top: 2px;
+    font-weight: 600;
+  }
+
+  .info-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 1.2rem;
+  }
+
+  .info-box {
+    background: linear-gradient(135deg, #111128 0%, #1a1a3e 100%);
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 12px;
+    color: #999;
+    border-left: 3px solid #38c9f0;
+    line-height: 1.5;
+  }
+
+  #exercises-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .exercise-card {
+    background: linear-gradient(135deg, #111128 0%, #1a1a3e 100%);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .exercise-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+
+  .exercise-img {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, #1a1a2e 0%, #2a2a4e 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .exercise-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+  }
+
+  .exercise-card:hover .exercise-img img {
+    transform: scale(1.05);
+  }
+
+  .exercise-img .placeholder {
+    font-size: 60px;
+    opacity: 0.2;
+  }
+
+  .exercise-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(56,201,240,0.12);
+    color: #38c9f0;
+    font-size: 8px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 700;
+    border: 1px solid rgba(56,201,240,0.2);
+    letter-spacing: 0.5px;
+    z-index: 2;
+    backdrop-filter: blur(5px);
+  }
+
+  .exercise-info { padding: 14px 16px; }
+
+  .exercise-name {
+    font-size: 13px;
+    font-weight: 800;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .exercise-tags {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 9px;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .tag-level {
+    background: rgba(56,201,240,0.12);
+    color: #38c9f0;
+    border: 1px solid rgba(56,201,240,0.2);
+  }
+
+  .tag-type {
+    background: rgba(56,201,240,0.08);
+    color: #38c9f0;
+    border: 1px solid rgba(56,201,240,0.15);
+  }
+
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .detail-item { text-align: center; }
+  .detail-val { 
+    font-size: 16px; 
+    font-weight: 800; 
+    color: #fff;
+    background: linear-gradient(90deg, #38c9f0, #1a8fe3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .detail-lbl { 
+    font-size: 9px; 
+    color: #555; 
+    text-transform: uppercase; 
+    letter-spacing: 0.3px; 
+    margin-top: 2px;
+    font-weight: 600;
+  }
+
+  .inst-toggle {
+    font-size: 11px;
+    color: #777;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 4px;
+    transition: color 0.2s;
+    font-weight: 600;
+  }
+
+  .inst-toggle:hover { color: #38c9f0; }
+
+  .inst-list {
+    display: none;
+    margin: 6px 0 0 14px;
+  }
+
+  .inst-list.open { display: block; }
+
+  .inst-list li {
+    font-size: 11px;
+    color: #888;
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+
+  .form-tip {
+    color: #38c9f0;
+    font-size: 10px;
+    background: rgba(56,201,240,0.06);
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-top: 8px;
+    line-height: 1.4;
+    border: 1px solid rgba(56,201,240,0.08);
+  }
+
+  .back-btn {
+    display: block;
+    margin: 1.8rem auto 1rem;
+    background: transparent;
+    border: 1.5px solid rgba(255,255,255,0.1);
+    color: #666;
+    padding: 12px 32px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.3s;
+    letter-spacing: 0.5px;
+  }
+
+  .back-btn:hover {
+    border-color: #38c9f0;
+    color: #38c9f0;
+    background: rgba(56,201,240,0.05);
+  }
+
+  @media (max-width: 480px) {
+    #exercises-grid { grid-template-columns: 1fr; }
+    .info-cards { grid-template-columns: 1fr; }
+    .stats-row { gap: 15px; }
+    .exercise-img { height: 180px; }
+    .form-card { padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOADING OVERLAY -->
+<div id="loading">
+  <div class="spinner"></div>
+  <div class="loading-text">⚡ <span class="nexa">Nexa</span><span class="hub-ai">Hub AI</span> is generating your personalized workout plan...</div>
+</div>
+
+<!-- FORM PAGE -->
+<div id="form-page">
+  <div class="form-card">
+    <div class="logo">
+      <span class="emoji">💪</span> 
+      <span class="nexa">Nexa</span><span class="hub-ai">Hub AI</span>
+    </div>
+    <div class="logo-sub">Intelligent Fitness · AI Powered</div>
+    <h1>🏋️ Workout Preferences</h1>
+    <p class="subtitle">Customize your AI-generated workout plan</p>
+
+    <label class="field-label">Activity Type</label>
+    <select class="custom-select" id="activity">
+      <option value="">Select Activity</option>
+      <option value="Workout">🏋️ Workout</option>
+      <option value="Yoga">🧘 Yoga</option>
+      <option value="Stretching">🤸 Stretching</option>
+      <option value="Mobility">💪 Mobility</option>
+      <option value="Breathing">🌬️ Breathing</option>
+    </select>
+
+    <label class="field-label">Experience Level</label>
+    <select class="custom-select" id="level">
+      <option value="">Select Experience</option>
+      <option value="Beginner">🟢 Beginner</option>
+      <option value="Intermediate">🟡 Intermediate</option>
+      <option value="Advanced">🔴 Advanced</option>
+    </select>
+
+    <label class="field-label">Available Time</label>
+    <div class="time-display" id="timeDisplay">35 Minutes</div>
+    <div class="range-row">
+      <span>15 min</span>
+      <input type="range" min="15" max="120" step="5" value="35" id="timeSlider">
+      <span>120 min</span>
+    </div>
+
+    <button class="btn-generate" onclick="generatePlan()">🚀 Generate Workout Plan</button>
+  </div>
+</div>
+
+<!-- PLAN PAGE -->
+<div id="plan-page">
+  <div class="plan-header">
+    <div class="brand">
+      <span class="brand-dot">●</span> 
+      <span class="nexa">Nexa</span><span class="hub-ai">Hub AI</span>
+    </div>
+    <div class="plan-title" id="planTitle"></div>
+    <div class="plan-sub" id="planSub"></div>
+    <div class="stats-row" id="statsRow"></div>
+  </div>
+
+  <div class="info-cards" id="infoCards"></div>
+
+  <div id="exercises-grid"></div>
+
+  <button class="back-btn" onclick="goBack()">← Create New Plan</button>
+</div>
+
+<script>
+  // Slider live update
+  const slider = document.getElementById('timeSlider');
+  const display = document.getElementById('timeDisplay');
+  slider.addEventListener('input', () => {
+    display.textContent = slider.value + ' Minutes';
+  });
+
+  // HD Exercise Images
+  function getExerciseImage(name) {
+    const lower = name.toLowerCase();
+    
+    const imageMap = {
+      'squat': 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop&auto=format',
+      'push': 'https://images.unsplash.com/photo-1598971639058-fab3c3109a00?w=800&h=600&fit=crop&auto=format',
+      'lunge': 'https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=800&h=600&fit=crop&auto=format',
+      'plank': 'https://images.unsplash.com/photo-1580256081112-e49377338b7f?w=800&h=600&fit=crop&auto=format',
+      'burpee': 'https://images.unsplash.com/photo-1599058917212-d750089bc07e?w=800&h=600&fit=crop&auto=format',
+      'mountain': 'https://images.unsplash.com/photo-1581009137042-c552e485697a?w=800&h=600&fit=crop&auto=format',
+      'deadlift': 'https://images.unsplash.com/photo-1526403221655-2650e351e849?w=800&h=600&fit=crop&auto=format',
+      'bench': 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop&auto=format',
+      'pull': 'https://images.unsplash.com/photo-1594381898411-846e7d193883?w=800&h=600&fit=crop&auto=format',
+      'crunch': 'https://images.unsplash.com/photo-1558618666-fcd25c85f74a?w=800&h=600&fit=crop&auto=format',
+      'yoga': 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&h=600&fit=crop&auto=format',
+      'cat': 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=800&h=600&fit=crop&auto=format',
+      'downward': 'https://images.unsplash.com/photo-1588286840104-8957b019727f?w=800&h=600&fit=crop&auto=format',
+      'warrior': 'https://images.unsplash.com/photo-1588286840104-8957b019727f?w=800&h=600&fit=crop&auto=format',
+      'tree': 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&h=600&fit=crop&auto=format',
+      'stretch': 'https://images.unsplash.com/photo-1579684386107-a8dadd0c0ab6?w=800&h=600&fit=crop&auto=format',
+      'breath': 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=800&h=600&fit=crop&auto=format',
+      'shoulder': 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&h=600&fit=crop&auto=format',
+      'row': 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=800&h=600&fit=crop&auto=format',
+      'curl': 'https://images.unsplash.com/photo-1581009137042-c552e485697a?w=800&h=600&fit=crop&auto=format',
+      'dip': 'https://images.unsplash.com/photo-1599058917212-d750089bc07e?w=800&h=600&fit=crop&auto=format',
+      'run': 'https://images.unsplash.com/photo-1538805060514-97d9cc17730c?w=800&h=600&fit=crop&auto=format',
+      'walk': 'https://images.unsplash.com/photo-1538805060514-97d9cc17730c?w=800&h=600&fit=crop&auto=format',
+      'jump': 'https://images.unsplash.com/photo-1599058917212-d750089bc07e?w=800&h=600&fit=crop&auto=format',
+      'hip': 'https://images.unsplash.com/photo-1579684386107-a8dadd0c0ab6?w=800&h=600&fit=crop&auto=format',
+      'child': 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&h=600&fit=crop&auto=format',
+      'sun salutation': 'https://images.unsplash.com/photo-1588286840104-8957b019727f?w=800&h=600&fit=crop&auto=format',
+      'crow': 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&h=600&fit=crop&auto=format',
+      'dancer': 'https://images.unsplash.com/photo-1588286840104-8957b019727f?w=800&h=600&fit=crop&auto=format',
+      'headstand': 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&h=600&fit=crop&auto=format',
+      'bridge': 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=800&h=600&fit=crop&auto=format',
+      'pigeon': 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&h=600&fit=crop&auto=format'
+    };
+
+    // Find matching image
+    for (let key in imageMap) {
+      if (lower.includes(key)) {
+        return imageMap[key];
+      }
+    }
+    
+    // Default workout image
+    return 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&h=600&fit=crop&auto=format';
+  }
+
+  // Sample workout plans
+  function getSamplePlan(activity, level, time) {
+    const plans = {
+      'Workout': {
+        'Beginner': {
+          title: 'BEGINNER WORKOUT ROUTINE',
+          subtitle: 'Start your fitness journey with this full-body workout',
+          intensity: 'Low',
+          calories: '200-250',
+          tip1: '💡 Consistency is key! Start slow and focus on proper form.',
+          tip2: '🔥 Always warm up for 5-10 minutes before starting.',
+          workouts: [
+            {
+              name: 'Bodyweight Squats',
+              sets: 3,
+              reps: '12-15',
+              duration: '30 sec',
+              rest: '45 seconds',
+              instructions: ['Stand with feet shoulder-width apart', 'Lower your body as if sitting in a chair', 'Keep chest up and back straight'],
+              formTip: 'Keep your knees tracking over your toes'
+            },
+            {
+              name: 'Push-ups (Modified)',
+              sets: 3,
+              reps: '8-12',
+              duration: '30 sec',
+              rest: '45 seconds',
+              instructions: ['Start in plank position with knees on ground', 'Lower your chest toward the floor', 'Push back up to starting position'],
+              formTip: 'Keep your body in a straight line'
+            },
+            {
+              name: 'Walking Lunges',
+              sets: 3,
+              reps: '10 each leg',
+              duration: '45 sec',
+              rest: '45 seconds',
+              instructions: ['Step forward with one leg', 'Lower until both knees form 90° angles', 'Push through heel to stand'],
+              formTip: 'Keep front knee behind your toes'
+            },
+            {
+              name: 'Plank Hold',
+              sets: 3,
+              reps: '20-30 sec',
+              duration: '30 sec',
+              rest: '30 seconds',
+              instructions: ['Start in push-up position', 'Keep body straight from head to heels', 'Engage core and glutes'],
+              formTip: 'Don\'t let your hips sag or rise'
+            }
+          ]
+        },
+        'Intermediate': {
+          title: 'INTERMEDIATE WORKOUT ROUTINE',
+          subtitle: 'Challenge yourself with this compound workout',
+          intensity: 'Medium',
+          calories: '300-350',
+          tip1: '💪 Push your limits but listen to your body.',
+          tip2: '🎯 Focus on controlled movements and full range of motion.',
+          workouts: [
+            {
+              name: 'Goblet Squats',
+              sets: 4,
+              reps: '12-15',
+              duration: '45 sec',
+              rest: '30 seconds',
+              instructions: ['Hold a dumbbell at chest level', 'Squat down keeping chest up', 'Drive through heels to stand'],
+              formTip: 'Keep your elbows pointing down'
+            },
+            {
+              name: 'Push-ups',
+              sets: 4,
+              reps: '12-15',
+              duration: '45 sec',
+              rest: '30 seconds',
+              instructions: ['Start in full plank position', 'Lower chest to floor', 'Push back up with control'],
+              formTip: 'Keep core tight and body straight'
+            },
+            {
+              name: 'Single Leg RDL',
+              sets: 3,
+              reps: '10 each leg',
+              duration: '45 sec',
+              rest: '30 seconds',
+              instructions: ['Balance on one leg', 'Hinge at hips extending back leg', 'Return to standing'],
+              formTip: 'Keep back straight throughout'
+            },
+            {
+              name: 'Mountain Climbers',
+              sets: 3,
+              reps: '20 sec',
+              duration: '20 sec',
+              rest: '20 seconds',
+              instructions: ['Start in plank position', 'Drive knees toward chest alternately', 'Move as fast as possible with control'],
+              formTip: 'Keep hips down, don\'t let them rise'
+            }
+          ]
+        },
+        'Advanced': {
+          title: 'ADVANCED WORKOUT ROUTINE',
+          subtitle: 'Maximize your gains with high-intensity training',
+          intensity: 'High',
+          calories: '400-450',
+          tip1: '⚡ Go hard but stay safe with proper warm-up.',
+          tip2: '🏆 Focus on explosive power and controlled negatives.',
+          workouts: [
+            {
+              name: 'Barbell Squats',
+              sets: 5,
+              reps: '8-10',
+              duration: '60 sec',
+              rest: '60 seconds',
+              instructions: ['Position bar across upper back', 'Squat below parallel', 'Drive up explosively'],
+              formTip: 'Keep chest up and core braced'
+            },
+            {
+              name: 'Bench Press',
+              sets: 5,
+              reps: '8-10',
+              duration: '60 sec',
+              rest: '60 seconds',
+              instructions: ['Lie on bench with feet planted', 'Lower bar to chest', 'Press up explosively'],
+              formTip: 'Keep shoulder blades pinched together'
+            },
+            {
+              name: 'Deadlifts',
+              sets: 4,
+              reps: '6-8',
+              duration: '60 sec',
+              rest: '90 seconds',
+              instructions: ['Stand with shins against bar', 'Hinge at hips to grab bar', 'Pull chest up then drive through heels'],
+              formTip: 'Keep back straight, lift with legs'
+            },
+            {
+              name: 'Burpees',
+              sets: 4,
+              reps: '12',
+              duration: '45 sec',
+              rest: '30 seconds',
+              instructions: ['Drop into squat position', 'Kick feet back into plank', 'Jump up with hands overhead'],
+              formTip: 'Land softly and stay controlled'
+            }
+          ]
+        }
+      },
+      'Yoga': {
+        'Beginner': {
+          title: 'BEGINNER YOGA FLOW',
+          subtitle: 'Gentle yoga to build flexibility and mindfulness',
+          intensity: 'Low',
+          calories: '150-200',
+          tip1: '🧘 Breathe deeply and listen to your body.',
+          tip2: '🌿 Don\'t force stretches, move within your comfort zone.',
+          workouts: [
+            {
+              name: 'Cat-Cow Stretch',
+              sets: 5,
+              reps: '5 breaths',
+              duration: '60 sec',
+              rest: '15 seconds',
+              instructions: ['Start on all fours', 'Round back like a cat', 'Dip back down like a cow'],
+              formTip: 'Move slowly with your breath'
+            },
+            {
+              name: 'Downward Dog',
+              sets: 3,
+              reps: '5 breaths',
+              duration: '60 sec',
+              rest: '20 seconds',
+              instructions: ['Start in plank, push hips up', 'Create an inverted V shape', 'Press heels toward floor'],
+              formTip: 'Keep back straight and shoulders relaxed'
+            },
+            {
+              name: 'Warrior I',
+              sets: 2,
+              reps: '5 breaths each side',
+              duration: '60 sec',
+              rest: '15 seconds',
+              instructions: ['Step one foot back into lunge', 'Square hips forward', 'Reach arms up overhead'],
+              formTip: 'Keep front knee at 90° angle'
+            },
+            {
+              name: 'Tree Pose',
+              sets: 2,
+              reps: '5 breaths each side',
+              duration: '45 sec',
+              rest: '15 seconds',
+              instructions: ['Balance on one leg', 'Place opposite foot on inner thigh', 'Bring hands to heart center'],
+              formTip: 'Find a focal point for balance'
+            }
+          ]
+        },
+        'Intermediate': {
+          title: 'INTERMEDIATE YOGA FLOW',
+          subtitle: 'Build strength and flexibility with dynamic poses',
+          intensity: 'Medium',
+          calories: '200-250',
+          tip1: '🌊 Flow with your breath and maintain focus.',
+          tip2: '💪 Engage your core in every pose.',
+          workouts: [
+            {
+              name: 'Sun Salutation A',
+              sets: 5,
+              reps: '1 flow',
+              duration: '90 sec',
+              rest: '30 seconds',
+              instructions: ['Start in mountain pose', 'Flow through forward fold, plank, cobra', 'Return to mountain'],
+              formTip: 'Keep breath synchronized with movement'
+            },
+            {
+              name: 'Warrior II',
+              sets: 3,
+              reps: '5 breaths each side',
+              duration: '60 sec',
+              rest: '20 seconds',
+              instructions: ['Lunge position with back foot at 90°', 'Extend arms parallel to floor', 'Gaze over front hand'],
+              formTip: 'Keep shoulders relaxed away from ears'
+            },
+            {
+              name: 'Triangle Pose',
+              sets: 3,
+              reps: '5 breaths each side',
+              duration: '60 sec',
+              rest: '20 seconds',
+              instructions: ['Stand with feet wide', 'Reach forward and down to front leg', 'Keep chest open and gaze up'],
+              formTip: 'Keep both sides of torso equally long'
+            },
+            {
+              name: 'Bridge Pose',
+              sets: 3,
+              reps: '5 breaths',
+              duration: '60 sec',
+              rest: '20 seconds',
+              instructions: ['Lie on back with knees bent', 'Press feet and lift hips', 'Clasp hands underneath'],
+              formTip: 'Press into the feet and lift through chest'
+            }
+          ]
+        },
+        'Advanced': {
+          title: 'ADVANCED YOGA FLOW',
+          subtitle: 'Challenge your balance and strength with advanced poses',
+          intensity: 'High',
+          calories: '250-300',
+          tip1: '🎯 Focus on precision and control in every movement.',
+          tip2: '🌬️ Use your breath to deepen each pose.',
+          workouts: [
+            {
+              name: 'Sun Salutation B',
+              sets: 5,
+              reps: '1 flow',
+              duration: '120 sec',
+              rest: '30 seconds',
+              instructions: ['Flow through chair pose, forward fold, plank', 'Transition through chaturanga, cobra', 'Return to chair pose'],
+              formTip: 'Keep gaze steady and breath smooth'
+            },
+            {
+              name: 'Crow Pose',
+              sets: 3,
+              reps: '3-5 breaths',
+              duration: '45 sec',
+              rest: '30 seconds',
+              instructions: ['Start in squat with hands on floor', 'Place knees on upper arms', 'Lean forward to lift feet'],
+              formTip: 'Look forward, not down'
+            },
+            {
+              name: 'Dancer Pose',
+              sets: 3,
+              reps: '3-5 breaths each side',
+              duration: '60 sec',
+              rest: '20 seconds',
+              instructions: ['Balance on one leg', 'Reach back and grab opposite foot', 'Extend other arm forward'],
+              formTip: 'Keep standing leg straight and engaged'
+            },
+            {
+              name: 'Headstand',
+              sets: 3,
+              reps: '5-10 breaths',
+              duration: '60 sec',
+              rest: '60 seconds',
+              instructions: ['Place forearms on floor, interlace fingers', 'Walk feet in, lift legs up', 'Balance inverted'],
+              formTip: 'Use core strength, don\'t rely on neck'
+            }
+          ]
+        }
+      },
+      'Stretching': {
+        'Beginner': {
+          title: 'BEGINNER STRETCHING ROUTINE',
+          subtitle: 'Start your day with gentle stretches',
+          intensity: 'Low',
+          calories: '100-150',
+          tip1: '🚫 Never bounce while stretching. Hold steady and breathe.',
+          tip2: '🎯 Stretch to the point of mild tension, not pain.',
+          workouts: [
+            {
+              name: 'Neck Rolls',
+              sets: 3,
+              reps: '5 each direction',
+              duration: '30 sec',
+              rest: '10 seconds',
+              instructions: ['Sit or stand tall', 'Gently roll head in circles', 'Switch directions'],
+              formTip: 'Keep movements slow and controlled'
+            },
+            {
+              name: 'Shoulder Stretch',
+              sets: 3,
+              reps: '30 sec each arm',
+              duration: '30 sec',
+              rest: '10 seconds',
+              instructions: ['Cross one arm across chest', 'Gently pull with opposite arm', 'Switch sides'],
+              formTip: 'Keep shoulders relaxed'
+            },
+            {
+              name: 'Hamstring Stretch',
+              sets: 3,
+              reps: '30 sec each leg',
+              duration: '30 sec',
+              rest: '15 seconds',
+              instructions: ['Sit with one leg extended', 'Reach toward your toes', 'Hold and breathe'],
+              formTip: 'Keep back straight, bend from hips'
+            }
+          ]
+        },
+        'Intermediate': {
+          title: 'INTERMEDIATE STRETCHING ROUTINE',
+          subtitle: 'Deepen your flexibility with dynamic stretches',
+          intensity: 'Medium',
+          calories: '150-200',
+          tip1: '🌬️ Breathe deeply into each stretch.',
+          tip2: '⏱️ Hold each stretch a little longer as you warm up.',
+          workouts: [
+            {
+              name: 'Hip Flexor Stretch',
+              sets: 3,
+              reps: '45 sec each side',
+              duration: '45 sec',
+              rest: '15 seconds',
+              instructions: ['Kneel in lunge position', 'Push hips forward', 'Feel the stretch in front hip'],
+              formTip: 'Keep back straight and engage glutes'
+            },
+            {
+              name: 'Spinal Twist',
+              sets: 3,
+              reps: '45 sec each side',
+              duration: '45 sec',
+              rest: '15 seconds',
+              instructions: ['Sit with one leg crossed over', 'Twist torso toward bent knee', 'Use arm to deepen twist'],
+              formTip: 'Lengthen spine before twisting'
+            },
+            {
+              name: 'Chest Opener',
+              sets: 3,
+              reps: '30 sec',
+              duration: '30 sec',
+              rest: '10 seconds',
+              instructions: ['Clasp hands behind back', 'Straighten arms and lift', 'Open chest forward'],
+              formTip: 'Keep shoulders down away from ears'
+            }
+          ]
+        },
+        'Advanced': {
+          title: 'ADVANCED STRETCHING ROUTINE',
+          subtitle: 'Maximum flexibility training',
+          intensity: 'High',
+          calories: '200-250',
+          tip1: '🔥 Warm up properly before deep stretching.',
+          tip2: '⏱️ Hold stretches for longer duration for better results.',
+          workouts: [
+            {
+              name: 'Front Splits',
+              sets: 3,
+              reps: '60 sec each side',
+              duration: '60 sec',
+              rest: '30 seconds',
+              instructions: ['Start in low lunge', 'Slide front foot forward', 'Lower hips toward floor'],
+              formTip: 'Keep hips square and back straight'
+            },
+            {
+              name: 'Pigeon Pose',
+              sets: 3,
+              reps: '60 sec each side',
+              duration: '60 sec',
+              rest: '30 seconds',
+              instructions: ['From plank, bring knee to wrist', 'Extend back leg', 'Lower hips toward floor'],
+              formTip: 'Keep front ankle flexed and relaxed'
+            },
+            {
+              name: 'Deep Squat Hold',
+              sets: 3,
+              reps: '60 sec',
+              duration: '60 sec',
+              rest: '20 seconds',
+              instructions: ['Squat down with feet flat', 'Press elbows inside knees', 'Keep chest up'],
+              formTip: 'Keep weight in heels'
+            }
+          ]
+        }
+      },
+      'Mobility': {
+        'Beginner': {
+          title: 'BEGINNER MOBILITY ROUTINE',
+          subtitle: 'Improve your joint mobility and range of motion',
+          intensity: 'Low',
+          calories: '120-180',
+          tip1: '🔄 Move through your full range of motion daily.',
+          tip2: '🎯 Focus on form and control, not speed.',
+          workouts: [
+            {
+              name: 'Arm Circles',
+              sets: 3,
+              reps: '10 each direction',
+              duration: '30 sec',
+              rest: '10 seconds',
+              instructions: ['Stand with arms extended', 'Make small circles forward', 'Reverse direction'],
+              formTip: 'Keep circles controlled, not rushed'
+            },
+            {
+              name: 'Leg Swings',
+              sets: 3,
+              reps: '10 each leg',
+              duration: '30 sec',
+              rest: '10 seconds',
+              instructions: ['Hold onto a wall or chair', 'Swing leg forward and back', 'Swing side to side'],
+              formTip: 'Keep your core engaged for balance'
+            },
+            {
+              name: 'Torso Twists',
+              sets: 3,
+              reps: '10 each side',
+              duration: '30 sec',
+              rest: '10 seconds',
+              instructions: ['Stand with feet shoulder-width', 'Twist torso to one side', 'Return to center and switch'],
+              formTip: 'Keep hips stable, twist from waist'
+            }
+          ]
+        },
+        'Intermediate': {
+          title: 'INTERMEDIATE MOBILITY ROUTINE',
+          subtitle: 'Dynamic mobility for better movement patterns',
+          intensity: 'Medium',
+          calories: '180-230',
+          tip1: '🏃 Add mobility work to your warm-up routine.',
+          tip2: '🎯 Focus on areas that feel tight or restricted.',
+          workouts: [
+            {
+              name: 'Hip Circles',
+              sets: 3,
+              reps: '10 each direction',
+              duration: '45 sec',
+              rest: '15 seconds',
+              instructions: ['Stand with hands on hips', 'Make big circles with hips', 'Switch directions'],
+              formTip: 'Keep upper body stable and still'
+            },
+            {
+              name: 'Cat-Camel',
+              sets: 3,
+              reps: '10',
+              duration: '45 sec',
+              rest: '15 seconds',
+              instructions: ['Start on all fours', 'Round spine up like cat', 'Dip spine down like camel'],
+              formTip: 'Move segment by segment through spine'
+            },
+            {
+              name: 'Ankle Rotations',
+              sets: 3,
+              reps: '10 each direction',
+              duration: '30 sec',
+              rest: '10 seconds',
+              instructions: ['Lift one foot off ground', 'Rotate ankle in circles', 'Switch directions and feet'],
+              formTip: 'Keep movement slow and controlled'
+            }
+          ]
+        },
+        'Advanced': {
+          title: 'ADVANCED MOBILITY ROUTINE',
+          subtitle: 'Full body mobility for athletic performance',
+          intensity: 'High',
+          calories: '250-300',
+          tip1: '🏆 Mobility is the key to preventing injuries.',
+          tip2: '🔥 Challenge your full range of motion daily.',
+          workouts: [
+            {
+              name: 'Deep Squat to Stand',
+              sets: 4,
+              reps: '8',
+              duration: '60 sec',
+              rest: '20 seconds',
+              instructions: ['Squat down with feet flat', 'Press knees out, keep chest up', 'Stand up while staying stable'],
+              formTip: 'Keep weight in heels and chest up'
+            },
+            {
+              name: 'Lunge with Rotation',
+              sets: 3,
+              reps: '8 each leg',
+              duration: '60 sec',
+              rest: '20 seconds',
+              instructions: ['Step into forward lunge', 'Twist torso toward front leg', 'Return to center and step back'],
+              formTip: 'Keep front knee tracking over toes'
+            },
+            {
+              name: 'Dynamic Stretches',
+              sets: 3,
+              reps: '10',
+              duration: '45 sec',
+              rest: '15 seconds',
+              instructions: ['Perform controlled leg swings', 'Include arm crossovers', 'Move through full range'],
+              formTip: 'Keep movements smooth and controlled'
+            }
+          ]
+        }
+      },
+      'Breathing': {
+        'Beginner': {
+          title: 'BEGINNER BREATHING ROUTINE',
+          subtitle: 'Learn the basics of mindful breathing',
+          intensity: 'Low',
+          calories: '50-100',
+          tip1: '🧘 Practice breathing techniques daily for better focus.',
+          tip2: '🌿 Find a quiet place where you won\'t be disturbed.',
+          workouts: [
+            {
+              name: 'Deep Belly Breathing',
+              sets: 5,
+              reps: '10 breaths',
+              duration: '30 sec',
+              rest: '15 seconds',
+              instructions: ['Sit or lie down comfortably', 'Place hand on belly', 'Breathe deeply into belly'],
+              formTip: 'Feel belly rise and fall with each breath'
+            },
+            {
+              name: '4-7-8 Breathing',
+              sets: 4,
+              reps: '4 breaths',
+              duration: '60 sec',
+              rest: '20 seconds',
+              instructions: ['Inhale for 4 counts', 'Hold for 7 counts', 'Exhale for 8 counts'],
+              formTip: 'Focus on the counting and breathe smoothly'
+            },
+            {
+              name: 'Box Breathing',
+              sets: 4,
+              reps: '4 breaths',
+              duration: '45 sec',
+              rest: '15 seconds',
+              instructions: ['Inhale for 4 counts', 'Hold for 4 counts', 'Exhale for 4 counts', 'Hold for 4 counts'],
+              formTip: 'Keep the timing consistent'
+            }
+          ]
+        },
+        'Intermediate': {
+          title: 'INTERMEDIATE BREATHING ROUTINE',
+          subtitle: 'Enhance your breath control',
+          intensity: 'Medium',
+          calories: '100-150',
+          tip1: '🧘 Combine breathing with light stretching for best results.',
+          tip2: '🎯 Focus on the quality of each breath.',
+          workouts: [
+            {
+              name: 'Alternate Nostril Breathing',
+              sets: 5,
+              reps: '10 breaths',
+              duration: '60 sec',
+              rest: '15 seconds',
+              instructions: ['Close right nostril, inhale left', 'Close left nostril, exhale right', 'Inhale right, exhale left'],
+              formTip: 'Keep your breath smooth and steady'
+            },
+            {
+              name: 'Lion Breath',
+              sets: 5,
+              reps: '5 breaths',
+              duration: '30 sec',
+              rest: '20 seconds',
+              instructions: ['Inhale deeply through nose', 'Open mouth wide, exhale with "ha" sound', 'Stick tongue out while exhaling'],
+              formTip: 'Exhale with force, not just air'
+            }
+          ]
+        },
+        'Advanced': {
+          title: 'ADVANCED BREATHING ROUTINE',
+          subtitle: 'Master advanced breathing techniques',
+          intensity: 'High',
+          calories: '150-200',
+          tip1: '🌬️ Practice in a well-ventilated space.',
+          tip2: '🧘 Listen to your body and don\'t push too hard.',
+          workouts: [
+            {
+              name: 'Kapalabhati (Skull Shining Breath)',
+              sets: 5,
+              reps: '30 breaths',
+              duration: '60 sec',
+              rest: '30 seconds',
+              instructions: ['Sit comfortably with spine straight', 'Take a deep inhale', 'Exhale rapidly through nose with force'],
+              formTip: 'Focus on the forceful exhale, inhale passive'
+            },
+            {
+              name: 'Bhastrika (Bellows Breath)',
+              sets: 5,
+              reps: '20 breaths',
+              duration: '60 sec',
+              rest: '30 seconds',
+              instructions: ['Inhale and exhale rapidly through nose', 'Use diaphragm to pump air', 'Stop if you feel dizzy'],
+              formTip: 'Start slow, increase speed gradually'
+            },
+            {
+              name: 'Breath Retention',
+              sets: 4,
+              reps: '5 breaths',
+              duration: '90 sec',
+              rest: '60 seconds',
+              instructions: ['Inhale deeply and hold', 'Exhale completely and hold', 'Normal breathing between rounds'],
+              formTip: 'Never hold to the point of discomfort'
+            }
+          ]
+        }
+      }
+    };
+
+    const defaultPlan = {
+      title: `${level} ${activity} PLAN`,
+      subtitle: `Custom ${level} level ${activity} routine`,
+      intensity: 'Medium',
+      calories: '200-250',
+      tip1: '💡 Stay consistent and listen to your body.',
+      tip2: '🎯 Focus on form and enjoy your workout.',
+      workouts: [
+        {
+          name: 'Warm-up Activity',
+          sets: 1,
+          reps: '5 min',
+          duration: '5 min',
+          rest: '1 min',
+          instructions: ['Begin with light movement', 'Gradually increase intensity'],
+          formTip: 'Start slow and work up'
+        }
+      ]
+    };
+
+    return plans[activity]?.[level] || defaultPlan;
+  }
+
+  async function generatePlan() {
+    const activity = document.getElementById('activity').value;
+    const level = document.getElementById('level').value;
+    const time = slider.value;
+
+    if (!activity) { alert('Please Activity Type select karein!'); return; }
+    if (!level) { alert('Please Experience Level select karein!'); return; }
+
+    document.getElementById('loading').classList.add('active');
+
+    try {
+      const samplePlan = getSamplePlan(activity, level, time);
+      
+      const plans = samplePlan.workouts || [];
+      const shuffled = plans.sort(() => 0.5 - Math.random());
+      
+      const workouts = shuffled.slice(0, Math.min(6, shuffled.length));
+      
+      const plan = {
+        ...samplePlan,
+        workouts: workouts,
+        duration: `${time} minutes`,
+        exercises_count: workouts.length
+      };
+
+      setTimeout(() => {
+        renderPlan(plan, activity, level, time);
+      }, 1800);
+
+    } catch (err) {
+      document.getElementById('loading').classList.remove('active');
+      console.error(err);
+      alert('Plan generate karne mein problem aayi. Please dobara try karein.\n\nError: ' + err.message);
+    }
+  }
+
+  function renderPlan(plan, activity, level, time) {
+    document.getElementById('loading').classList.remove('active');
+
+    document.getElementById('planTitle').textContent =
+      plan.title || `${level.toUpperCase()} ${activity.toUpperCase()} – ${time} MINUTE SESSION`;
+    document.getElementById('planSub').textContent =
+      plan.subtitle || `${level} Level · Intensity: ${plan.intensity || 'Medium'}`;
+
+    document.getElementById('statsRow').innerHTML = `
+      <div class="stat-item">
+        <div class="stat-val">${plan.workouts ? plan.workouts.length : plan.exercises_count || 6}</div>
+        <div class="stat-lbl">Exercises</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val">${plan.duration || time + ' min'}</div>
+        <div class="stat-lbl">Duration</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val">${plan.calories || '~250'} kcal</div>
+        <div class="stat-lbl">Est. Calories</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val">${plan.intensity || 'Medium'}</div>
+        <div class="stat-lbl">Intensity</div>
+      </div>
+    `;
+
+    document.getElementById('infoCards').innerHTML = `
+      <div class="info-box">${plan.tip1 || '💡 Stay consistent and give your best every session.'}</div>
+      <div class="info-box">${plan.tip2 || '🎯 Focus on form over speed to prevent injuries.'}</div>
+    `;
+
+    const grid = document.getElementById('exercises-grid');
+    grid.innerHTML = '';
+
+    (plan.workouts || []).forEach((ex, i) => {
+      const imgUrl = getExerciseImage(ex.name);
+      const card = document.createElement('div');
+      card.className = 'exercise-card';
+      const instId = 'inst-' + i;
+      card.innerHTML = `
+        <div class="exercise-img">
+          <img src="${imgUrl}" alt="${ex.name}" loading="lazy" onerror="this.parentElement.innerHTML='<span class=\\'placeholder\\'>💪</span><div class=\\'exercise-badge\\'>⚡ NexaHub AI</div>'">
+          <div class="exercise-badge">⚡ NexaHub AI</div>
+        </div>
+        <div class="exercise-info">
+          <div class="exercise-name">${ex.name}</div>
+          <div class="exercise-tags">
+            <span class="tag tag-level">${level}</span>
+            <span class="tag tag-type">${activity}</span>
+          </div>
+          <div class="detail-grid">
+            <div class="detail-item">
+              <div class="detail-val">${ex.sets || 3}</div>
+              <div class="detail-lbl">Sets</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-val">${ex.reps || '–'}</div>
+              <div class="detail-lbl">Reps</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-val">${ex.duration || '–'}</div>
+              <div class="detail-lbl">Duration</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-val">${ex.rest || '30s'}</div>
+              <div class="detail-lbl">Rest</div>
+            </div>
+          </div>
+          <button class="inst-toggle" onclick="toggleInst('${instId}', this)">▶ Instructions</button>
+          <ul class="inst-list" id="${instId}">
+            ${(ex.instructions || []).map(s => `<li>${s}</li>`).join('')}
+          </ul>
+          ${ex.formTip ? `<div class="form-tip">⚠️ Form Tip: ${ex.formTip}</div>` : ''}
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+    document.getElementById('form-page').style.display = 'none';
+    document.getElementById('plan-page').style.display = 'block';
+    window.scrollTo(0, 0);
+  }
+
+  function toggleInst(id, btn) {
+    const list = document.getElementById(id);
+    const isOpen = list.classList.toggle('open');
+    btn.textContent = (isOpen ? '▼' : '▶') + ' Instructions';
+  }
+
+  function goBack() {
+    document.getElementById('form-page').style.display = 'flex';
+    document.getElementById('plan-page').style.display = 'none';
+    window.scrollTo(0, 0);
+  }
+</script>
+</body>
+</html>
