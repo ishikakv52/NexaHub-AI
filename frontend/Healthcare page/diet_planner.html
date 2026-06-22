@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NexaHub AI – Food Preferences</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      background: #29B6E8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+
+    /* Subtle dot pattern background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 40px 36px 32px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .header-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 52px;
+      height: 52px;
+      background: #E8F8FF;
+      border-radius: 14px;
+      margin-bottom: 14px;
+    }
+
+    .header-icon svg {
+      width: 26px;
+      height: 26px;
+      stroke: #29B6E8;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #111827;
+      letter-spacing: -0.4px;
+      margin-bottom: 6px;
+    }
+
+    .header p {
+      font-size: 14px;
+      color: #9CA3AF;
+    }
+
+    /* Form fields */
+    .field {
+      margin-bottom: 20px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 8px;
+      letter-spacing: 0.1px;
+    }
+
+    .select-wrapper {
+      position: relative;
+    }
+
+    .select-wrapper select {
+      width: 100%;
+      appearance: none;
+      -webkit-appearance: none;
+      background: #F9FAFB;
+      border: 1.5px solid #E5E7EB;
+      border-radius: 10px;
+      padding: 12px 40px 12px 14px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      color: #6B7280;
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .select-wrapper select:focus {
+      border-color: #29B6E8;
+      background: #fff;
+      color: #111827;
+    }
+
+    .select-wrapper select.selected {
+      color: #111827;
+      background: #fff;
+      border-color: #D1D5DB;
+    }
+
+    .select-wrapper .chevron {
+      position: absolute;
+      right: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: #9CA3AF;
+      display: flex;
+    }
+
+    .select-wrapper .chevron svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Continue button */
+    .btn {
+      width: 100%;
+      background: #29B6E8;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 20px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.2s, transform 0.1s;
+      letter-spacing: 0.1px;
+    }
+
+    .btn:hover { background: #1fa3d4; }
+    .btn:active { transform: scale(0.98); background: #1a95c4; }
+
+    .btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: #fff;
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: #D1D5DB;
+      letter-spacing: 0.2px;
+    }
+
+    .footer span {
+      color: #9CA3AF;
+      font-weight: 500;
+    }
+
+    /* Result screen */
+    .result-screen {
+      display: none;
+      text-align: center;
+      padding: 8px 0;
+    }
+
+    .result-screen.show { display: block; }
+
+    .form-section.hide { display: none; }
+
+    .check-circle {
+      width: 60px;
+      height: 60px;
+      background: #E1F5EE;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+
+    .check-circle svg {
+      width: 28px;
+      height: 28px;
+      stroke: #0F6E56;
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .result-screen h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 8px;
+    }
+
+    .result-screen p {
+      font-size: 14px;
+      color: #6B7280;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .tags-row {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .pill {
+      font-size: 13px;
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    .pill-green { background: #E1F5EE; color: #0F6E56; }
+    .pill-blue  { background: #E6F1FB; color: #185FA5; }
+
+    .back-btn {
+      width: 100%;
+      background: transparent;
+      color: #29B6E8;
+      border: 1.5px solid #29B6E8;
+      border-radius: 12px;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .back-btn:hover { background: #E8F8FF; }
+
+    /* Validation error */
+    .error-msg {
+      display: none;
+      font-size: 12px;
+      color: #DC2626;
+      margin-top: 6px;
+    }
+
+    .error-msg.show { display: block; }
+
+    @media (max-width: 480px) {
+      .card { padding: 32px 24px 28px; }
+      .header h1 { font-size: 20px; }
+    }
+
+    /* NexaHub AI brand highlight */
+    .brand-highlight {
+      font-weight: 700;
+      color: #1f8db5;
+      letter-spacing: -0.2px;
+    }
+
+    /* Additional brand presence */
+    .brand-badge {
+      display: inline-block;
+      background: #E8F8FF;
+      padding: 2px 12px;
+      border-radius: 30px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #1f8db5;
+      letter-spacing: 0.3px;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+
+    <!-- Form Section -->
+    <div class="form-section" id="formSection">
+
+      <div class="header">
+        <div class="header-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>
+        </div>
+        <h1>Food Preferences</h1>
+        <p>Select your food preference and cooking style.</p>
+        <!-- Small brand badge under subtitle -->
+        <div class="brand-badge">NEXA HUB AI</div>
+      </div>
+
+      <div class="field">
+        <label for="foodPref">Food Preference</label>
+        <div class="select-wrapper">
+          <select id="foodPref" onchange="onSelectChange(this)">
+            <option value="" disabled selected>Select Food Preference</option>
+            <option value="vegetarian">🥗 Vegetarian</option>
+            <option value="non-vegetarian">🍗 Non-Vegetarian</option>
+            <option value="vegan">🌱 Vegan</option>
+          </select>
+          <span class="chevron">
+            <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </div>
+        <div class="error-msg" id="foodError">Please select a food preference.</div>
+      </div>
+
+      <div class="field">
+        <label for="cookStyle">Cooking Style</label>
+        <div class="select-wrapper">
+          <select id="cookStyle" onchange="onSelectChange(this)">
+            <option value="" disabled selected>Select Cooking Style</option>
+            <option value="simple">🍳 Simple</option>
+            <option value="simple-non-oily">🥦 Simple &amp; Non-Oily</option>
+            <option value="spicy">🌶️ Spicy</option>
+            <option value="grilled">🔥 Grilled</option>
+            <option value="raw-salads">🥗 Raw &amp; Salads</option>
+          </select>
+          <span class="chevron">
+            <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </div>
+        <div class="error-msg" id="cookError">Please select a cooking style.</div>
+      </div>
+
+      <button class="btn" onclick="handleContinue()">
+        Continue
+        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+
+      <!-- Footer with NEXA HUB AI branding -->
+      <p class="footer">
+        <span class="brand-highlight">© 2026 NEXA HUB AI </span> &bull;
+      </p>
+
+    </div>
+
+    <!-- Result Section -->
+    <div class="result-screen" id="resultScreen">
+      <div class="check-circle">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h2>Preferences Saved!</h2>
+      <p>Great choice! Your personalized meal plan is being prepared based on your preferences.</p>
+      <div class="tags-row">
+        <span class="pill pill-green" id="pillFood"></span>
+        <span class="pill pill-blue" id="pillCook"></span>
+      </div>
+      <button class="back-btn" onclick="goBack()">← Change Preferences</button>
+      <!-- Footer with NEXA HUB AI branding in result -->
+      <p class="footer" style="margin-top:20px">
+        <span class="brand-highlight">NEXA HUB AI</span> &bull; Healthy Eating Starts Here
+      </p>
+    </div>
+
+  </div>
+
+  <script>
+    const foodLabels = {
+      'vegetarian': '🥗 Vegetarian',
+      'non-vegetarian': '🍗 Non-Vegetarian',
+      'vegan': '🌱 Vegan'
+    };
+
+    const cookLabels = {
+      'simple': '🍳 Simple',
+      'simple-non-oily': '🥦 Simple & Non-Oily',
+      'spicy': '🌶️ Spicy',
+      'grilled': '🔥 Grilled',
+      'raw-salads': '🥗 Raw & Salads'
+    };
+
+    function onSelectChange(el) {
+      if (el.value) {
+        el.classList.add('selected');
+      }
+    }
+
+    function handleContinue() {
+      const food = document.getElementById('foodPref').value;
+      const cook = document.getElementById('cookStyle').value;
+      const foodErr = document.getElementById('foodError');
+      const cookErr = document.getElementById('cookError');
+
+      let valid = true;
+
+      if (!food) {
+        foodErr.classList.add('show');
+        valid = false;
+      } else {
+        foodErr.classList.remove('show');
+      }
+
+      if (!cook) {
+        cookErr.classList.add('show');
+        valid = false;
+      } else {
+        cookErr.classList.remove('show');
+      }
+
+      if (!valid) return;
+
+      document.getElementById('pillFood').textContent = foodLabels[food];
+      document.getElementById('pillCook').textContent = cookLabels[cook];
+
+      document.getElementById('formSection').classList.add('hide');
+      document.getElementById('resultScreen').classList.add('show');
+    }
+
+    function goBack() {
+      document.getElementById('formSection').classList.remove('hide');
+      document.getElementById('resultScreen').classList.remove('show');
+    }
+  </script>
+
+</body>
+</html>
