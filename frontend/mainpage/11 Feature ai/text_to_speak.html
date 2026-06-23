@@ -222,7 +222,10 @@
       gap: 6px;
       flex-shrink: 0;
     }
-    .cnt { font-size: 11px; color: var(--lite); }
+    .cnt {
+      font-size: 11px;
+      color: var(--lite);
+    }
     .spd-row { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); }
     #spd { width: 60px; accent-color: var(--pri); }
     .controls { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
@@ -441,27 +444,15 @@
       padding: 10px 20px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
       background: var(--card);
-      flex-wrap: wrap;
-      gap: 6px;
       flex-shrink: 0;
       transition: background 0.2s, border 0.2s;
     }
-    .cta p { font-size: 11px; color: var(--muted); }
-    .cta .nbp {
-      padding: 6px 16px;
-      border: none;
-      border-radius: 8px;
-      background: var(--pri);
-      color: #fff;
+    .cta p {
       font-size: 11px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: .2s;
-      font-family: 'Inter', sans-serif;
+      color: var(--muted);
     }
-    .cta .nbp:hover { background: var(--pri2); }
 
     @media (max-width: 750px) {
       .grid { grid-template-columns: 1fr; }
@@ -489,7 +480,7 @@
 
       <!-- LEFT: text input -->
       <div class="left">
-        <div class="plabel">📝 Text Likho</div>
+        <div class="plabel">✏️ Type here</div>
         <textarea id="tin" placeholder="Type or paste your text here...&#10;&#10;Example: Hello, welcome to NEXA HUB Text to Speech!">Hello! Welcome to NEXA HUB Text to Speech. This tool converts your text into natural sounding speech with 10 different voices.</textarea>
 
         <div class="abar" id="abar">
@@ -547,7 +538,6 @@
 
     <div class="cta">
       <p>© 2026 NEXA HUB AI</p>
-      <button class="nbp">Get API Access</button>
     </div>
   </div>
 </div>
@@ -793,8 +783,8 @@
   const tin = document.getElementById('tin');
   function updCnt() {
     const t = tin.value.trim();
-    document.getElementById('cnt').textContent = `${t ? t.split(/\s+/).length : 0} words · ${tin.value.length}/2000`;
-    if (tin.value.length > 2000) tin.value = tin.value.slice(0, 2000);
+    const wordCount = t ? t.split(/\s+/).length : 0;
+    document.getElementById('cnt').textContent = `${wordCount} words`;
   }
   tin.addEventListener('input', updCnt);
   updCnt();
