@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from planner.models import Food
+from VoiceAssistant.planner.models import Food
 
 FOODS = [
     # Grains - Breakfast
