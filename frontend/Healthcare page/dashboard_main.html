@@ -9,20 +9,202 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Segoe UI', system-ui, Arial, sans-serif;
-      background: #0d0d18;
-      color: #fff;
+      background: #f5ebe0;  /* skin tone background */
+      color: #1e1e2a;
       min-height: 100vh;
+      transition: background 0.3s, color 0.3s;
     }
 
-    /* scrollbar */
+    /* ── DARK MODE OVERRIDES (warm brown / light brown) ── */
+    body.dark-mode {
+      background: #2b1f14;  /* deep warm brown base */
+      color: #f0e6d8;
+    }
+    body.dark-mode .navbar {
+      background: #3d2c1e;
+      border-bottom-color: #5a4030;
+    }
+    body.dark-mode .navbar .user-badge {
+      color: #d4c0b0;
+    }
+    body.dark-mode .navbar .settings-btn {
+      color: #b8a090;
+    }
+    body.dark-mode .tabs {
+      background: #3d2c1e;
+      border-bottom-color: #5a4030;
+    }
+    body.dark-mode .tab {
+      color: #b8a090;
+    }
+    body.dark-mode .tab.active {
+      color: #d4a373;  /* warm light brown */
+      border-bottom-color: #b8895c;
+      background: rgba(184, 137, 92, 0.12);
+    }
+    body.dark-mode .stat-card,
+    body.dark-mode .sidebar-card,
+    body.dark-mode .meal-card,
+    body.dark-mode .diet-meal-card,
+    body.dark-mode .food-card,
+    body.dark-mode .prog-card,
+    body.dark-mode .profile-form,
+    body.dark-mode .calc-metrics,
+    body.dark-mode .grocery-item,
+    body.dark-mode .metric-item,
+    body.dark-mode .km-item {
+      background: #3d2c1e;
+      border-color: #5a4030;
+    }
+    body.dark-mode .stat-label,
+    body.dark-mode .macro-big-lbl,
+    body.dark-mode .metric-lbl,
+    body.dark-mode .page-sub,
+    body.dark-mode .grocery-sub,
+    body.dark-mode .form-label,
+    body.dark-mode .calc-lbl,
+    body.dark-mode .meal-serving,
+    body.dark-mode .food-serving,
+    body.dark-mode .history-date,
+    body.dark-mode .water-day,
+    body.dark-mode .macro-track-name,
+    body.dark-mode .grocery-item-qty,
+    body.dark-mode .photo-hint,
+    body.dark-mode .check-macros,
+    body.dark-mode .progress-info {
+      color: #c4b0a0;
+    }
+    body.dark-mode .meal-name,
+    body.dark-mode .food-name,
+    body.dark-mode .stat-val,
+    body.dark-mode .macro-big-val,
+    body.dark-mode .metric-val,
+    body.dark-mode .calc-val,
+    body.dark-mode .km-val,
+    body.dark-mode .grocery-cat-title,
+    body.dark-mode .prog-card-title,
+    body.dark-mode .sidebar-title,
+    body.dark-mode .section-title,
+    body.dark-mode .page-heading,
+    body.dark-mode .check-name,
+    body.dark-mode .meal-kcal,
+    body.dark-mode .history-wt,
+    body.dark-mode .macro-track-val,
+    body.dark-mode .calc-metrics-title {
+      color: #f0e6d8;
+    }
+    body.dark-mode .day-badge,
+    body.dark-mode .goal-badge,
+    body.dark-mode .section-badge {
+      background: #4d3828;
+      border-color: #6a5040;
+      color: #d4a373;
+    }
+    body.dark-mode .goal-badge {
+      color: #e6c9a0;
+    }
+    body.dark-mode .checklist-item {
+      border-bottom-color: #4d3828;
+    }
+    body.dark-mode .water-bar-bg,
+    body.dark-mode .progress-bar-bg,
+    body.dark-mode .macro-track-bar {
+      background: #4d3828;
+    }
+    body.dark-mode .btn-outline {
+      border-color: #5a4030;
+      color: #b8a090;
+    }
+    body.dark-mode .btn-outline:hover {
+      border-color: #b8895c;
+      color: #d4a373;
+    }
+    body.dark-mode .search-input,
+    body.dark-mode .cat-select,
+    body.dark-mode .form-input,
+    body.dark-mode .form-select,
+    body.dark-mode .weight-input {
+      background: #2b1f14;
+      color: #f0e6d8;
+      border-color: #5a4030;
+    }
+    body.dark-mode .search-input::placeholder {
+      color: #8a7a6a;
+    }
+    body.dark-mode .food-kcal {
+      background: #4d3828;
+      color: #f0e6d8;
+    }
+    body.dark-mode .day-tab {
+      border-color: #5a4030;
+      color: #b8a090;
+    }
+    body.dark-mode .day-tab.active {
+      background: #b8895c;
+      border-color: #b8895c;
+      color: #1e1e2a;
+    }
+    body.dark-mode .day-tab:hover:not(.active) {
+      border-color: #b8895c;
+      color: #d4a373;
+    }
+    body.dark-mode .day-cal {
+      background: #4d3828;
+      color: #f0e6d8;
+    }
+    body.dark-mode .day-cal span {
+      color: #d4a373;
+    }
+    body.dark-mode .recent-log-row {
+      border-bottom-color: #4d3828;
+    }
+    body.dark-mode .recent-log-row span:first-child {
+      color: #c4b0a0;
+    }
+    body.dark-mode .recent-log-row span:last-child {
+      color: #f0e6d8;
+    }
+    body.dark-mode .photo-btn {
+      background: #4d3828;
+      border-color: #6a5040;
+    }
+    body.dark-mode .calc-item {
+      background: #2b1f14;
+    }
+    body.dark-mode .grocery-item.checked {
+      background: rgba(184, 137, 92, 0.15);
+      border-color: #b8895c;
+      color: #d4a373;
+    }
+    body.dark-mode .grocery-item-qty {
+      color: #8a7a6a;
+    }
+    body.dark-mode .history-row {
+      border-bottom-color: #4d3828;
+    }
+    body.dark-mode .water-day span {
+      color: #b8895c;
+    }
+    body.dark-mode .macro-track-fill {
+      background: #b8895c;
+    }
+    body.dark-mode .macro-track-fill:nth-child(2) {
+      background: #b8895c;
+    }
+    body.dark-mode .macro-track-fill:nth-child(3) {
+      background: #b8895c;
+    }
+
+    /* scrollbar dark */
     ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #13131f; }
-    ::-webkit-scrollbar-thumb { background: #7c3aed; border-radius: 3px; }
+    ::-webkit-scrollbar-track { background: #e8ddd0; }
+    body.dark-mode ::-webkit-scrollbar-track { background: #3d2c1e; }
+    ::-webkit-scrollbar-thumb { background: #b8895c; border-radius: 3px; }
 
     /* ── NAVBAR ── */
     .navbar {
-      background: #13131f;
-      border-bottom: 1px solid #1e1e30;
+      background: #e8ddd0;
+      border-bottom: 1px solid #d6c8b8;
       padding: 0 24px;
       display: flex;
       align-items: center;
@@ -31,6 +213,7 @@
       position: sticky;
       top: 0;
       z-index: 100;
+      transition: background 0.3s, border-color 0.3s;
     }
     .brand {
       display: flex;
@@ -59,7 +242,7 @@
       align-items: center;
       gap: 8px;
       font-size: 14px;
-      color: #ccc;
+      color: #3a3a4a;
     }
     .user-avatar {
       width: 32px; height: 32px;
@@ -72,23 +255,23 @@
       font-weight: 700;
     }
     .day-badge {
-      background: #1e1e30;
-      border: 1px solid #2a2a40;
+      background: #ddd0c2;
+      border: 1px solid #cbbcb0;
       border-radius: 20px;
       padding: 5px 12px;
       font-size: 12px;
-      color: #a78bfa;
+      color: #7c3aed;
       display: flex;
       align-items: center;
       gap: 5px;
     }
     .goal-badge {
-      background: #1e1e30;
-      border: 1px solid #2a2a40;
+      background: #ddd0c2;
+      border: 1px solid #cbbcb0;
       border-radius: 20px;
       padding: 5px 12px;
       font-size: 12px;
-      color: #facc15;
+      color: #d97706;
       display: flex;
       align-items: center;
       gap: 5px;
@@ -96,28 +279,29 @@
     .settings-btn {
       background: none;
       border: none;
-      color: #888;
+      color: #5a4a3a;
       font-size: 18px;
       cursor: pointer;
       padding: 6px;
       border-radius: 8px;
       transition: color .2s;
     }
-    .settings-btn:hover { color: #fff; }
+    .settings-btn:hover { color: #7c3aed; }
 
     /* ── TABS ── */
     .tabs {
-      background: #13131f;
-      border-bottom: 1px solid #1e1e30;
+      background: #e8ddd0;
+      border-bottom: 1px solid #d6c8b8;
       padding: 0 24px;
       display: flex;
       gap: 4px;
+      transition: background 0.3s, border-color 0.3s;
     }
     .tab {
       padding: 14px 18px;
       font-size: 13px;
       font-weight: 500;
-      color: #888;
+      color: #5a4a3a;
       cursor: pointer;
       border-bottom: 2px solid transparent;
       transition: all .2s;
@@ -126,9 +310,9 @@
       gap: 7px;
       white-space: nowrap;
     }
-    .tab:hover { color: #ccc; }
+    .tab:hover { color: #7c3aed; }
     .tab.active {
-      color: #a78bfa;
+      color: #7c3aed;
       border-bottom-color: #7c3aed;
       background: rgba(124,58,237,0.08);
     }
@@ -150,13 +334,14 @@
       margin-bottom: 28px;
     }
     .stat-card {
-      background: #13131f;
-      border: 1px solid #1e1e30;
+      background: #f5ebe0;
+      border: 1px solid #e0d4c6;
       border-radius: 14px;
       padding: 16px 18px;
       display: flex;
       align-items: center;
       gap: 14px;
+      transition: background 0.3s, border-color 0.3s;
     }
     .stat-icon {
       width: 42px; height: 42px;
@@ -174,7 +359,7 @@
     .stat-icon.purple { background: rgba(167,139,250,0.12); }
     .stat-label {
       font-size: 10px;
-      color: #666;
+      color: #6a5a4a;
       text-transform: uppercase;
       letter-spacing: .5px;
       margin-bottom: 3px;
@@ -182,9 +367,9 @@
     .stat-val {
       font-size: 20px;
       font-weight: 800;
-      color: #fff;
+      color: #1e1e2a;
     }
-    .stat-unit { font-size: 12px; color: #888; margin-left: 2px; }
+    .stat-unit { font-size: 12px; color: #6a5a4a; margin-left: 2px; }
 
     /* ── SECTION HEADER ── */
     .section-header {
@@ -199,14 +384,15 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      color: #1e1e2a;
     }
     .section-badge {
-      background: #1e1e30;
-      border: 1px solid #2a2a40;
+      background: #ddd0c2;
+      border: 1px solid #cbbcb0;
       border-radius: 20px;
       padding: 4px 12px;
       font-size: 12px;
-      color: #888;
+      color: #5a4a3a;
     }
 
     /* ── DASHBOARD LAYOUT ── */
@@ -225,14 +411,15 @@
 
     /* ── MEAL CARD ── */
     .meal-card {
-      background: #13131f;
-      border: 1px solid #1e1e30;
+      background: #f5ebe0;
+      border: 1px solid #e0d4c6;
       border-radius: 14px;
       padding: 14px;
       min-width: 195px;
       flex-shrink: 0;
       position: relative;
       overflow: hidden;
+      transition: background 0.3s, border-color 0.3s;
     }
     .meal-card::before {
       content: '';
@@ -260,8 +447,8 @@
     .meal-type.t-lunch { color: #818cf8; }
     .meal-type.t-evening { color: #c084fc; }
     .meal-type.t-dinner { color: #f87171; }
-    .meal-name { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 3px; }
-    .meal-serving { font-size: 11px; color: #666; margin-bottom: 12px; }
+    .meal-name { font-size: 14px; font-weight: 700; color: #1e1e2a; margin-bottom: 3px; }
+    .meal-serving { font-size: 11px; color: #6a5a4a; margin-bottom: 12px; }
     .macro-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
     .macro-pill {
       font-size: 11px;
@@ -272,20 +459,21 @@
     .mp-p { color: #4ade80; background: rgba(74,222,128,0.1); }
     .mp-c { color: #60a5fa; background: rgba(96,165,250,0.1); }
     .mp-f { color: #f97316; background: rgba(249,115,22,0.1); }
-    .meal-kcal { font-size: 13px; font-weight: 700; color: #fff; text-align: right; margin-top: 4px; }
+    .meal-kcal { font-size: 13px; font-weight: 700; color: #1e1e2a; text-align: right; margin-top: 4px; }
 
     /* ── RIGHT SIDEBAR ── */
     .sidebar-card {
-      background: #13131f;
-      border: 1px solid #1e1e30;
+      background: #f5ebe0;
+      border: 1px solid #e0d4c6;
       border-radius: 14px;
       padding: 16px;
       margin-bottom: 14px;
+      transition: background 0.3s, border-color 0.3s;
     }
     .sidebar-title {
       font-size: 13px;
       font-weight: 700;
-      color: #fff;
+      color: #1e1e2a;
       margin-bottom: 12px;
       display: flex;
       align-items: center;
@@ -294,7 +482,7 @@
     .summary-macros { display: flex; gap: 12px; }
     .macro-big { text-align: center; flex: 1; }
     .macro-big-val { font-size: 18px; font-weight: 800; }
-    .macro-big-lbl { font-size: 10px; color: #666; margin-top: 2px; }
+    .macro-big-lbl { font-size: 10px; color: #6a5a4a; margin-top: 2px; }
     .mb-p { color: #4ade80; }
     .mb-c { color: #60a5fa; }
     .mb-f { color: #f97316; }
@@ -304,7 +492,7 @@
       align-items: center;
       gap: 10px;
       padding: 7px 0;
-      border-bottom: 1px solid #1a1a28;
+      border-bottom: 1px solid #d6c8b8;
       font-size: 12px;
     }
     .checklist-item:last-child { border-bottom: none; }
@@ -319,12 +507,12 @@
       flex-shrink: 0;
     }
     .check-icon.done { background: #4ade80; color: #000; }
-    .check-name { color: #ccc; font-weight: 600; margin-right: 4px; }
-    .check-macros { color: #666; font-size: 10px; }
+    .check-name { color: #1e1e2a; font-weight: 600; margin-right: 4px; }
+    .check-macros { color: #6a5a4a; font-size: 10px; }
 
-    .water-bar-bg { background: #1e1e30; border-radius: 6px; height: 8px; margin: 8px 0; }
+    .water-bar-bg { background: #ddd0c2; border-radius: 6px; height: 8px; margin: 8px 0; }
     .water-bar-fill { background: linear-gradient(90deg,#38bdf8,#0ea5e9); border-radius: 6px; height: 8px; transition: width .5s; }
-    .water-label { display: flex; justify-content: space-between; font-size: 11px; color: #666; }
+    .water-label { display: flex; justify-content: space-between; font-size: 11px; color: #6a5a4a; }
 
     .metric-grid {
       display: grid;
@@ -333,22 +521,24 @@
       margin-top: 4px;
     }
     .metric-item {
-      background: #0d0d18;
+      background: #f5ebe0;
       border-radius: 10px;
       padding: 10px;
       text-align: center;
+      transition: background 0.3s;
     }
-    .metric-val { font-size: 16px; font-weight: 800; color: #fff; }
+    .metric-val { font-size: 16px; font-weight: 800; color: #1e1e2a; }
     .metric-val.overweight { color: #f97316; }
-    .metric-lbl { font-size: 10px; color: #666; margin-top: 2px; }
+    .metric-lbl { font-size: 10px; color: #6a5a4a; margin-top: 2px; }
 
-    .progress-bar-bg { background: #1e1e30; border-radius: 6px; height: 6px; margin: 8px 0 4px; }
+    .progress-bar-bg { background: #ddd0c2; border-radius: 6px; height: 6px; margin: 8px 0 4px; }
     .progress-bar-fill { background: linear-gradient(90deg,#7c3aed,#a78bfa); border-radius: 6px; height: 6px; transition: width .6s; }
-    .progress-info { display: flex; justify-content: space-between; font-size: 11px; color: #666; }
+    .progress-info { display: flex; justify-content: space-between; font-size: 11px; color: #6a5a4a; }
+    .progress-info strong { color: #1e1e2a; }
 
     /* ── DIET PLAN PAGE ── */
-    .page-heading { font-size: 24px; font-weight: 800; margin-bottom: 4px; display: flex; align-items: center; gap: 10px; }
-    .page-sub { font-size: 13px; color: #666; margin-bottom: 20px; }
+    .page-heading { font-size: 24px; font-weight: 800; margin-bottom: 4px; display: flex; align-items: center; gap: 10px; color: #1e1e2a; }
+    .page-sub { font-size: 13px; color: #6a5a4a; margin-bottom: 20px; }
     .day-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
     .day-tab {
       padding: 8px 18px;
@@ -356,13 +546,13 @@
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
-      border: 1px solid #2a2a40;
-      color: #888;
+      border: 1px solid #cbbcb0;
+      color: #5a4a3a;
       background: transparent;
       transition: all .2s;
     }
     .day-tab.active { background: #7c3aed; border-color: #7c3aed; color: #fff; }
-    .day-tab:hover:not(.active) { border-color: #7c3aed; color: #a78bfa; }
+    .day-tab:hover:not(.active) { border-color: #7c3aed; color: #7c3aed; }
     .diet-meal-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill,minmax(200px,1fr));
@@ -370,12 +560,13 @@
       margin-bottom: 24px;
     }
     .diet-meal-card {
-      background: #13131f;
-      border: 1px solid #1e1e30;
+      background: #f5ebe0;
+      border: 1px solid #e0d4c6;
       border-radius: 14px;
       padding: 16px;
       position: relative;
       overflow: hidden;
+      transition: background 0.3s, border-color 0.3s;
     }
     .diet-meal-card::before {
       content: '';
@@ -415,23 +606,23 @@
     .search-input {
       flex: 1;
       min-width: 200px;
-      background: #13131f;
-      border: 1px solid #2a2a40;
+      background: #f5ebe0;
+      border: 1px solid #d6c8b8;
       border-radius: 10px;
       padding: 10px 16px;
-      color: #fff;
+      color: #1e1e2a;
       font-size: 14px;
       outline: none;
       transition: border-color .2s;
     }
     .search-input:focus { border-color: #7c3aed; }
-    .search-input::placeholder { color: #555; }
+    .search-input::placeholder { color: #8a7a6a; }
     .cat-select {
-      background: #13131f;
-      border: 1px solid #2a2a40;
+      background: #f5ebe0;
+      border: 1px solid #d6c8b8;
       border-radius: 10px;
       padding: 10px 16px;
-      color: #fff;
+      color: #1e1e2a;
       font-size: 14px;
       min-width: 180px;
       cursor: pointer;
@@ -461,23 +652,23 @@
       gap: 14px;
     }
     .food-card {
-      background: #13131f;
-      border: 1px solid #1e1e30;
+      background: #f5ebe0;
+      border: 1px solid #e0d4c6;
       border-radius: 12px;
       padding: 14px;
       transition: border-color .2s;
       cursor: default;
     }
     .food-card:hover { border-color: #7c3aed; }
-    .food-name { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 3px; }
-    .food-serving { font-size: 11px; color: #666; margin-bottom: 10px; }
+    .food-name { font-size: 14px; font-weight: 700; color: #1e1e2a; margin-bottom: 3px; }
+    .food-serving { font-size: 11px; color: #6a5a4a; margin-bottom: 10px; }
     .food-kcal {
-      background: #1e1e30;
+      background: #ddd0c2;
       border-radius: 6px;
       padding: 3px 8px;
       font-size: 12px;
       font-weight: 700;
-      color: #fff;
+      color: #1e1e2a;
       display: inline-block;
       margin-bottom: 8px;
     }
@@ -495,16 +686,17 @@
     /* ── PROGRESS ── */
     .progress-grid { display: grid; grid-template-columns: 1fr 320px; gap: 20px; }
     .prog-card {
-      background: #13131f;
-      border: 1px solid #1e1e30;
+      background: #f5ebe0;
+      border: 1px solid #e0d4c6;
       border-radius: 14px;
       padding: 18px;
       margin-bottom: 16px;
+      transition: background 0.3s, border-color 0.3s;
     }
     .prog-card-title {
       font-size: 13px;
       font-weight: 700;
-      color: #ccc;
+      color: #1e1e2a;
       margin-bottom: 14px;
       display: flex;
       align-items: center;
@@ -517,34 +709,35 @@
       margin-bottom: 16px;
     }
     .km-item {
-      background: #13131f;
-      border: 1px solid #1e1e30;
+      background: #f5ebe0;
+      border: 1px solid #e0d4c6;
       border-radius: 12px;
       padding: 14px;
       text-align: center;
+      transition: background 0.3s, border-color 0.3s;
     }
-    .km-val { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 3px; }
+    .km-val { font-size: 20px; font-weight: 800; color: #1e1e2a; margin-bottom: 3px; }
     .km-val.green { color: #4ade80; }
-    .km-lbl { font-size: 10px; color: #666; text-transform: uppercase; letter-spacing: .4px; }
+    .km-lbl { font-size: 10px; color: #6a5a4a; text-transform: uppercase; letter-spacing: .4px; }
     .history-row {
       display: flex;
       justify-content: space-between;
       padding: 9px 0;
-      border-bottom: 1px solid #1a1a28;
+      border-bottom: 1px solid #d6c8b8;
       font-size: 13px;
     }
     .history-row:last-child { border-bottom: none; }
-    .history-date { color: #888; }
-    .history-wt { color: #fff; font-weight: 600; }
+    .history-date { color: #6a5a4a; }
+    .history-wt { color: #1e1e2a; font-weight: 600; }
     .weekly-cals { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
     .day-cal {
-      background: #1e1e30;
+      background: #ddd0c2;
       border-radius: 8px;
       padding: 6px 12px;
       font-size: 12px;
       font-weight: 600;
     }
-    .day-cal span { color: #a78bfa; }
+    .day-cal span { color: #7c3aed; }
     .macros-list { display: flex; flex-direction: column; gap: 8px; }
     .macro-track {
       display: flex;
@@ -552,20 +745,20 @@
       font-size: 13px;
       align-items: center;
     }
-    .macro-track-name { color: #888; width: 60px; }
-    .macro-track-bar { flex: 1; background: #1e1e30; border-radius: 4px; height: 6px; margin: 0 12px; }
+    .macro-track-name { color: #6a5a4a; width: 60px; }
+    .macro-track-bar { flex: 1; background: #ddd0c2; border-radius: 4px; height: 6px; margin: 0 12px; }
     .macro-track-fill { border-radius: 4px; height: 6px; }
-    .macro-track-val { color: #fff; font-weight: 600; font-size: 12px; width: 80px; text-align: right; }
+    .macro-track-val { color: #1e1e2a; font-weight: 600; font-size: 12px; width: 80px; text-align: right; }
     .water-days { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
-    .water-day { display: flex; justify-content: space-between; font-size: 12px; color: #888; }
+    .water-day { display: flex; justify-content: space-between; font-size: 12px; color: #6a5a4a; }
     .water-day span { color: #38bdf8; font-weight: 600; }
     .weight-input {
       width: 100%;
-      background: #0d0d18;
-      border: 1px solid #2a2a40;
+      background: #f5ebe0;
+      border: 1px solid #d6c8b8;
       border-radius: 8px;
       padding: 10px 14px;
-      color: #fff;
+      color: #1e1e2a;
       font-size: 14px;
       outline: none;
       margin-bottom: 12px;
@@ -576,18 +769,18 @@
       display: flex;
       justify-content: space-between;
       padding: 7px 0;
-      border-bottom: 1px solid #1a1a28;
+      border-bottom: 1px solid #d6c8b8;
       font-size: 12px;
     }
     .recent-log-row:last-child { border-bottom: none; }
 
     /* ── GROCERY ── */
-    .grocery-sub { font-size: 13px; color: #666; margin-bottom: 24px; }
+    .grocery-sub { font-size: 13px; color: #6a5a4a; margin-bottom: 24px; }
     .grocery-cat { margin-bottom: 20px; }
     .grocery-cat-title {
       font-size: 14px;
       font-weight: 700;
-      color: #fff;
+      color: #1e1e2a;
       margin-bottom: 10px;
       display: flex;
       align-items: center;
@@ -597,31 +790,31 @@
     }
     .grocery-items { display: flex; flex-wrap: wrap; gap: 8px; }
     .grocery-item {
-      background: #13131f;
-      border: 1px solid #1e1e30;
+      background: #f5ebe0;
+      border: 1px solid #e0d4c6;
       border-radius: 8px;
       padding: 6px 14px;
       font-size: 13px;
-      color: #ccc;
+      color: #1e1e2a;
       display: flex;
       align-items: center;
       gap: 8px;
       cursor: pointer;
       transition: all .2s;
     }
-    .grocery-item:hover { border-color: #7c3aed; color: #fff; }
+    .grocery-item:hover { border-color: #7c3aed; }
     .grocery-item.checked {
       background: rgba(124,58,237,0.1);
       border-color: #7c3aed;
-      color: #a78bfa;
+      color: #7c3aed;
       text-decoration: line-through;
     }
-    .grocery-item-qty { color: #888; font-size: 11px; }
+    .grocery-item-qty { color: #6a5a4a; font-size: 11px; }
     .grocery-actions { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
     .btn-outline {
       background: transparent;
-      border: 1px solid #2a2a40;
-      color: #888;
+      border: 1px solid #cbbcb0;
+      color: #5a4a3a;
       padding: 10px 20px;
       border-radius: 10px;
       font-size: 13px;
@@ -632,15 +825,16 @@
       gap: 7px;
       transition: all .2s;
     }
-    .btn-outline:hover { border-color: #7c3aed; color: #a78bfa; }
+    .btn-outline:hover { border-color: #7c3aed; color: #7c3aed; }
 
     /* ── PROFILE ── */
     .profile-form {
-      background: #13131f;
-      border: 1px solid #1e1e30;
+      background: #f5ebe0;
+      border: 1px solid #e0d4c6;
       border-radius: 16px;
       padding: 24px;
       margin-bottom: 20px;
+      transition: background 0.3s, border-color 0.3s;
     }
     .form-grid {
       display: grid;
@@ -652,27 +846,27 @@
     .form-label {
       font-size: 12px;
       font-weight: 600;
-      color: #888;
+      color: #6a5a4a;
       text-transform: uppercase;
       letter-spacing: .4px;
     }
     .form-input {
-      background: #0d0d18;
-      border: 1px solid #2a2a40;
+      background: #f5ebe0;
+      border: 1px solid #d6c8b8;
       border-radius: 8px;
       padding: 10px 14px;
-      color: #fff;
+      color: #1e1e2a;
       font-size: 14px;
       outline: none;
       transition: border-color .2s;
     }
     .form-input:focus { border-color: #7c3aed; }
     .form-select {
-      background: #0d0d18;
-      border: 1px solid #2a2a40;
+      background: #f5ebe0;
+      border: 1px solid #d6c8b8;
       border-radius: 8px;
       padding: 10px 14px;
-      color: #fff;
+      color: #1e1e2a;
       font-size: 14px;
       outline: none;
       appearance: none;
@@ -687,8 +881,8 @@
     .photo-btn {
       width: 60px; height: 60px;
       border-radius: 50%;
-      background: #1e1e30;
-      border: 2px dashed #3a3a50;
+      background: #ddd0c2;
+      border: 2px dashed #cbbcb0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -697,18 +891,19 @@
       transition: border-color .2s;
     }
     .photo-btn:hover { border-color: #7c3aed; }
-    .photo-hint { font-size: 13px; color: #666; }
+    .photo-hint { font-size: 13px; color: #6a5a4a; }
     .calc-metrics {
-      background: #13131f;
-      border: 1px solid #1e1e30;
+      background: #f5ebe0;
+      border: 1px solid #e0d4c6;
       border-radius: 16px;
       padding: 20px;
       margin-bottom: 20px;
+      transition: background 0.3s, border-color 0.3s;
     }
     .calc-metrics-title {
       font-size: 14px;
       font-weight: 700;
-      color: #ccc;
+      color: #1e1e2a;
       margin-bottom: 14px;
       display: flex;
       align-items: center;
@@ -720,13 +915,14 @@
       gap: 12px;
     }
     .calc-item {
-      background: #0d0d18;
+      background: #f5ebe0;
       border-radius: 10px;
       padding: 12px;
       text-align: center;
+      transition: background 0.3s;
     }
-    .calc-val { font-size: 18px; font-weight: 800; color: #fff; }
-    .calc-lbl { font-size: 10px; color: #666; margin-top: 3px; text-transform: uppercase; }
+    .calc-val { font-size: 18px; font-weight: 800; color: #1e1e2a; }
+    .calc-lbl { font-size: 10px; color: #6a5a4a; margin-top: 3px; text-transform: uppercase; }
 
     /* ── AI LOADING ── */
     #ai-loading {
@@ -771,6 +967,18 @@
     }
     #toast.show { opacity: 1; transform: translateY(0); }
 
+    /* ── THEME TOGGLE ── */
+    .theme-toggle {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+    .theme-toggle:hover { background: rgba(124,58,237,0.1); }
+
     @media (max-width:768px) {
       .stat-row { grid-template-columns: repeat(2,1fr); }
       .dash-grid, .progress-grid { grid-template-columns: 1fr; }
@@ -807,6 +1015,7 @@
     </div>
     <div class="day-badge">📅 Day <span id="nav-day">1</span></div>
     <div class="goal-badge">⚡ <span id="nav-goal">Muscle Gain</span></div>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
     <button class="settings-btn" onclick="showPage('profile')">⚙️</button>
   </div>
 </nav>
@@ -892,13 +1101,13 @@
       <div class="sidebar-card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
           <div class="sidebar-title" style="margin:0">🎯 Goal Progress</div>
-          <span style="color:#a78bfa;font-size:18px;font-weight:800" id="goal-pct">100%</span>
+          <span style="color:#7c3aed;font-size:18px;font-weight:800" id="goal-pct">100%</span>
         </div>
-        <div style="font-size:12px;color:#666;margin-bottom:8px" id="goal-name">Muscle Gain</div>
+        <div style="font-size:12px;color:#6a5a4a;margin-bottom:8px" id="goal-name">Muscle Gain</div>
         <div class="progress-bar-bg"><div class="progress-bar-fill" id="goal-bar" style="width:100%"></div></div>
         <div class="progress-info">
-          <span>Current <strong style="color:#fff" id="goal-curr">71.5 kg</strong></span>
-          <span>Target <strong style="color:#fff" id="goal-tgt">60.0 kg</strong></span>
+          <span>Current <strong id="goal-curr">71.5 kg</strong></span>
+          <span>Target <strong id="goal-tgt">60.0 kg</strong></span>
         </div>
       </div>
     </div>
@@ -1391,7 +1600,7 @@
     const rl=document.getElementById('recent-logs');
     rl.innerHTML='';
     s.weightHistory.slice(0,3).forEach(h=>{
-      rl.innerHTML+=`<div class="recent-log-row"><span style="color:#888">${h.date}, 2026</span><span style="color:#fff;font-weight:600">${h.weight} kg</span></div>`;
+      rl.innerHTML+=`<div class="recent-log-row"><span style="color:#6a5a4a">${h.date}, 2026</span><span style="color:#1e1e2a;font-weight:600">${h.weight} kg</span></div>`;
     });
   }
 
@@ -1537,19 +1746,32 @@
   }
 
   // ══════════════════════════════════════
+  //  THEME TOGGLE
+  // ══════════════════════════════════════
+  function toggleTheme(){
+    const body = document.body;
+    const toggle = document.getElementById('themeToggle');
+    body.classList.toggle('dark-mode');
+    toggle.textContent = body.classList.contains('dark-mode') ? '☀️' : '🌙';
+    localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+  }
+
+  // Load saved theme
+  (function loadTheme(){
+    const saved = localStorage.getItem('theme');
+    if(saved === 'dark') {
+      document.body.classList.add('dark-mode');
+      document.getElementById('themeToggle').textContent = '☀️';
+    } else {
+      document.body.classList.remove('dark-mode');
+      document.getElementById('themeToggle').textContent = '🌙';
+    }
+  })();
+
+  // ══════════════════════════════════════
   //  INIT — Profile first, then dashboard
   // ══════════════════════════════════════
-  // profile is the active page by default (class="active" on #page-profile)
-  // Pre-fill metrics on load
   calcMetrics();
-
-  // If you want the dashboard to render immediately after profile update, 
-  // but we already have a "Update Profile & Generate Plan" button.
-  // For a smoother first-run, we also show the dashboard with default data
-  // after a small delay, but only after the user clicks the update button.
-  // So we keep profile as the landing page.
-
-  // However, we also want to pre-render food library, etc. for speed.
   renderFoodLibrary();
 </script>
 </body>

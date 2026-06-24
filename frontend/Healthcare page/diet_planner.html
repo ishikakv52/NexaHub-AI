@@ -10,40 +10,148 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* ===== LIGHT MODE (Skin Color Background) ===== */
+    :root {
+      --bg-page: #F5D0C5;        /* 👈 Skin Color Background */
+      --card-bg: #ffffff;
+      --card-shadow: 0 8px 40px rgba(0,0,0,0.12);
+      --text-primary: #111827;
+      --text-secondary: #374151;
+      --text-muted: #9CA3AF;
+      --text-footer: #D1D5DB;
+      --input-bg: #F9FAFB;
+      --input-border: #E5E7EB;
+      --input-focus: #D4957A;
+      --placeholder-color: #6B7280;
+      --icon-bg: #FCE8E0;
+      --icon-stroke: #D4957A;
+      --btn-bg: #D4957A;
+      --btn-hover: #C4846A;
+      --btn-active: #B5745A;
+      --pill-green-bg: #E1F5EE;
+      --pill-green-text: #0F6E56;
+      --pill-blue-bg: #E6F1FB;
+      --pill-blue-text: #185FA5;
+      --error-color: #DC2626;
+      --brand-badge-bg: #FCE8E0;
+      --brand-badge-text: #B5745A;
+      --check-bg: #E1F5EE;
+      --check-stroke: #0F6E56;
+      --back-border: #D4957A;
+      --back-hover: #FCE8E0;
+      --dot-opacity: 0.12;
+    }
+
+    /* ===== DARK MODE (Skin Color Dark) ===== */
+    body.dark {
+      --bg-page: #3D2C25;        /* 👈 Dark Skin Color Background */
+      --card-bg: #2A1F1A;
+      --card-shadow: 0 8px 40px rgba(0,0,0,0.7);
+      --text-primary: #F5E6DF;
+      --text-secondary: #D4C5BE;
+      --text-muted: #A8948C;
+      --text-footer: #5D4A42;
+      --input-bg: #1F1511;
+      --input-border: #3D2C25;
+      --input-focus: #D4957A;
+      --placeholder-color: #A8948C;
+      --icon-bg: #3D2C25;
+      --icon-stroke: #D4957A;
+      --btn-bg: #D4957A;
+      --btn-hover: #C4846A;
+      --btn-active: #B5745A;
+      --pill-green-bg: #064e3b;
+      --pill-green-text: #6ee7b7;
+      --pill-blue-bg: #1e3a5f;
+      --pill-blue-text: #7dd3fc;
+      --error-color: #f87171;
+      --brand-badge-bg: #3D2C25;
+      --brand-badge-text: #D4957A;
+      --check-bg: #064e3b;
+      --check-stroke: #6ee7b7;
+      --back-border: #D4957A;
+      --back-hover: #3D2C25;
+      --dot-opacity: 0.06;
+    }
+
     body {
       font-family: 'Inter', sans-serif;
       min-height: 100vh;
-      background: #29B6E8;
+      background: var(--bg-page);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       padding: 24px 16px;
+      transition: background 0.3s ease, color 0.3s ease;
     }
 
-    /* Subtle dot pattern background */
+    /* Dot pattern background */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
-      background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px);
+      background-image: radial-gradient(circle, rgba(255,255,255,var(--dot-opacity)) 1px, transparent 1px);
       background-size: 28px 28px;
       pointer-events: none;
       z-index: 0;
+      transition: opacity 0.3s;
     }
 
     .card {
       position: relative;
       z-index: 1;
-      background: #ffffff;
+      background: var(--card-bg);
       border-radius: 24px;
       padding: 40px 36px 32px;
       width: 100%;
       max-width: 440px;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+      box-shadow: var(--card-shadow);
+      transition: background 0.3s, box-shadow 0.3s;
     }
 
-    /* Header */
+    /* ===== THEME TOGGLE BUTTON ===== */
+    .theme-toggle-wrap {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 18px;
+    }
+
+    .theme-btn {
+      background: var(--input-bg);
+      border: 1.5px solid var(--input-border);
+      border-radius: 40px;
+      padding: 6px 14px 6px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .theme-btn:hover {
+      background: var(--back-hover);
+      border-color: var(--input-focus);
+      transform: scale(1.02);
+    }
+
+    .theme-btn .icon-moon { display: inline; }
+    .theme-btn .icon-sun { display: none; }
+
+    body.dark .theme-btn .icon-moon { display: none; }
+    body.dark .theme-btn .icon-sun { display: inline; }
+
+    body.dark .theme-btn {
+      background: #1F1511;
+      border-color: #3D2C25;
+      color: #D4C5BE;
+    }
+
+    /* ===== HEADER ===== */
     .header {
       text-align: center;
       margin-bottom: 32px;
@@ -55,35 +163,52 @@
       justify-content: center;
       width: 52px;
       height: 52px;
-      background: #E8F8FF;
+      background: var(--icon-bg);
       border-radius: 14px;
       margin-bottom: 14px;
+      transition: background 0.3s;
     }
 
     .header-icon svg {
       width: 26px;
       height: 26px;
-      stroke: #29B6E8;
+      stroke: var(--icon-stroke);
       fill: none;
       stroke-width: 1.8;
       stroke-linecap: round;
       stroke-linejoin: round;
+      transition: stroke 0.3s;
     }
 
     .header h1 {
       font-size: 22px;
       font-weight: 700;
-      color: #111827;
+      color: var(--text-primary);
       letter-spacing: -0.4px;
       margin-bottom: 6px;
+      transition: color 0.3s;
     }
 
     .header p {
       font-size: 14px;
-      color: #9CA3AF;
+      color: var(--text-muted);
+      transition: color 0.3s;
     }
 
-    /* Form fields */
+    .brand-badge {
+      display: inline-block;
+      background: var(--brand-badge-bg);
+      padding: 2px 12px;
+      border-radius: 30px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--brand-badge-text);
+      letter-spacing: 0.3px;
+      margin-top: 4px;
+      transition: all 0.3s;
+    }
+
+    /* ===== FORM FIELDS ===== */
     .field {
       margin-bottom: 20px;
     }
@@ -92,9 +217,10 @@
       display: block;
       font-size: 13px;
       font-weight: 600;
-      color: #374151;
+      color: var(--text-secondary);
       margin-bottom: 8px;
       letter-spacing: 0.1px;
+      transition: color 0.3s;
     }
 
     .select-wrapper {
@@ -105,28 +231,28 @@
       width: 100%;
       appearance: none;
       -webkit-appearance: none;
-      background: #F9FAFB;
-      border: 1.5px solid #E5E7EB;
+      background: var(--input-bg);
+      border: 1.5px solid var(--input-border);
       border-radius: 10px;
       padding: 12px 40px 12px 14px;
       font-size: 14px;
       font-family: 'Inter', sans-serif;
-      color: #6B7280;
+      color: var(--placeholder-color);
       cursor: pointer;
       outline: none;
-      transition: border-color 0.2s, background 0.2s;
+      transition: all 0.3s;
     }
 
     .select-wrapper select:focus {
-      border-color: #29B6E8;
-      background: #fff;
-      color: #111827;
+      border-color: var(--input-focus);
+      background: var(--card-bg);
+      color: var(--text-primary);
     }
 
     .select-wrapper select.selected {
-      color: #111827;
-      background: #fff;
-      border-color: #D1D5DB;
+      color: var(--text-primary);
+      background: var(--card-bg);
+      border-color: var(--input-border);
     }
 
     .select-wrapper .chevron {
@@ -135,8 +261,9 @@
       top: 50%;
       transform: translateY(-50%);
       pointer-events: none;
-      color: #9CA3AF;
+      color: var(--text-muted);
       display: flex;
+      transition: color 0.3s;
     }
 
     .select-wrapper .chevron svg {
@@ -149,10 +276,20 @@
       stroke-linejoin: round;
     }
 
-    /* Continue button */
+    .error-msg {
+      display: none;
+      font-size: 12px;
+      color: var(--error-color);
+      margin-top: 6px;
+      transition: color 0.3s;
+    }
+
+    .error-msg.show { display: block; }
+
+    /* ===== BUTTONS ===== */
     .btn {
       width: 100%;
-      background: #29B6E8;
+      background: var(--btn-bg);
       color: #fff;
       border: none;
       border-radius: 12px;
@@ -166,12 +303,12 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      transition: background 0.2s, transform 0.1s;
+      transition: background 0.3s, transform 0.1s;
       letter-spacing: 0.1px;
     }
 
-    .btn:hover { background: #1fa3d4; }
-    .btn:active { transform: scale(0.98); background: #1a95c4; }
+    .btn:hover { background: var(--btn-hover); }
+    .btn:active { transform: scale(0.97); background: var(--btn-active); }
 
     .btn svg {
       width: 18px;
@@ -183,21 +320,40 @@
       stroke-linejoin: round;
     }
 
-    /* Footer */
+    .back-btn {
+      width: 100%;
+      background: transparent;
+      color: var(--back-border);
+      border: 1.5px solid var(--back-border);
+      border-radius: 12px;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .back-btn:hover { background: var(--back-hover); }
+
+    /* ===== FOOTER ===== */
     .footer {
       text-align: center;
       margin-top: 20px;
       font-size: 12px;
-      color: #D1D5DB;
+      color: var(--text-footer);
       letter-spacing: 0.2px;
+      transition: color 0.3s;
     }
 
-    .footer span {
-      color: #9CA3AF;
-      font-weight: 500;
+    .footer .brand-highlight {
+      font-weight: 700;
+      color: var(--brand-badge-text);
+      letter-spacing: -0.2px;
+      transition: color 0.3s;
     }
 
-    /* Result screen */
+    /* ===== RESULT SCREEN ===== */
     .result-screen {
       display: none;
       text-align: center;
@@ -211,36 +367,40 @@
     .check-circle {
       width: 60px;
       height: 60px;
-      background: #E1F5EE;
+      background: var(--check-bg);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       margin: 0 auto 16px;
+      transition: background 0.3s;
     }
 
     .check-circle svg {
       width: 28px;
       height: 28px;
-      stroke: #0F6E56;
+      stroke: var(--check-stroke);
       fill: none;
       stroke-width: 2.5;
       stroke-linecap: round;
       stroke-linejoin: round;
+      transition: stroke 0.3s;
     }
 
     .result-screen h2 {
       font-size: 18px;
       font-weight: 700;
-      color: #111827;
+      color: var(--text-primary);
       margin-bottom: 8px;
+      transition: color 0.3s;
     }
 
     .result-screen p {
       font-size: 14px;
-      color: #6B7280;
+      color: var(--text-muted);
       margin-bottom: 20px;
       line-height: 1.6;
+      transition: color 0.3s;
     }
 
     .tags-row {
@@ -258,58 +418,20 @@
       font-weight: 500;
     }
 
-    .pill-green { background: #E1F5EE; color: #0F6E56; }
-    .pill-blue  { background: #E6F1FB; color: #185FA5; }
-
-    .back-btn {
-      width: 100%;
-      background: transparent;
-      color: #29B6E8;
-      border: 1.5px solid #29B6E8;
-      border-radius: 12px;
-      padding: 12px 20px;
-      font-size: 14px;
-      font-weight: 600;
-      font-family: 'Inter', sans-serif;
-      cursor: pointer;
-      transition: background 0.15s;
+    .pill-green { 
+      background: var(--pill-green-bg); 
+      color: var(--pill-green-text);
+      transition: all 0.3s;
     }
-
-    .back-btn:hover { background: #E8F8FF; }
-
-    /* Validation error */
-    .error-msg {
-      display: none;
-      font-size: 12px;
-      color: #DC2626;
-      margin-top: 6px;
+    .pill-blue { 
+      background: var(--pill-blue-bg); 
+      color: var(--pill-blue-text);
+      transition: all 0.3s;
     }
-
-    .error-msg.show { display: block; }
 
     @media (max-width: 480px) {
-      .card { padding: 32px 24px 28px; }
+      .card { padding: 32px 20px 28px; }
       .header h1 { font-size: 20px; }
-    }
-
-    /* NexaHub AI brand highlight */
-    .brand-highlight {
-      font-weight: 700;
-      color: #1f8db5;
-      letter-spacing: -0.2px;
-    }
-
-    /* Additional brand presence */
-    .brand-badge {
-      display: inline-block;
-      background: #E8F8FF;
-      padding: 2px 12px;
-      border-radius: 30px;
-      font-size: 11px;
-      font-weight: 600;
-      color: #1f8db5;
-      letter-spacing: 0.3px;
-      margin-top: 4px;
     }
   </style>
 </head>
@@ -317,16 +439,44 @@
 
   <div class="card">
 
-    <!-- Form Section -->
+    <!-- ===== THEME TOGGLE ===== -->
+    <div class="theme-toggle-wrap">
+      <button class="theme-btn" id="themeToggle">
+        <!-- Moon Icon (Light mode me dikhega) -->
+        <span class="icon-moon">
+          <svg viewBox="0 0 24 24" width="16" height="16">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </span>
+        <!-- Sun Icon (Dark mode me dikhega) -->
+        <span class="icon-sun">
+          <svg viewBox="0 0 24 24" width="16" height="16">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </span>
+        <span id="themeLabel">Light</span>
+      </button>
+    </div>
+
+    <!-- ===== FORM SECTION ===== -->
     <div class="form-section" id="formSection">
 
       <div class="header">
         <div class="header-icon">
-          <svg viewBox="0 0 24 24"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>
+          <svg viewBox="0 0 24 24">
+            <path d="M3 11l19-9-9 19-2-8-8-2z"/>
+          </svg>
         </div>
         <h1>Food Preferences</h1>
         <p>Select your food preference and cooking style.</p>
-        <!-- Small brand badge under subtitle -->
         <div class="brand-badge">NEXA HUB AI</div>
       </div>
 
@@ -366,17 +516,18 @@
 
       <button class="btn" onclick="handleContinue()">
         Continue
-        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        <svg viewBox="0 0 24 24">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
       </button>
 
-      <!-- Footer with NEXA HUB AI branding -->
       <p class="footer">
-        <span class="brand-highlight">© 2026 NEXA HUB AI </span> &bull;
+        <span class="brand-highlight">© 2026 NEXA HUB AI</span> &bull;
       </p>
-
     </div>
 
-    <!-- Result Section -->
+    <!-- ===== RESULT SECTION ===== -->
     <div class="result-screen" id="resultScreen">
       <div class="check-circle">
         <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
@@ -388,7 +539,6 @@
         <span class="pill pill-blue" id="pillCook"></span>
       </div>
       <button class="back-btn" onclick="goBack()">← Change Preferences</button>
-      <!-- Footer with NEXA HUB AI branding in result -->
       <p class="footer" style="margin-top:20px">
         <span class="brand-highlight">NEXA HUB AI</span> &bull; Healthy Eating Starts Here
       </p>
@@ -397,6 +547,37 @@
   </div>
 
   <script>
+    // ============================================================
+    //  THEME TOGGLE - Light/Dark Mode
+    // ============================================================
+    const themeToggle = document.getElementById('themeToggle');
+    const themeLabel = document.getElementById('themeLabel');
+
+    function setTheme(theme) {
+      if (theme === 'dark') {
+        document.body.classList.add('dark');
+        themeLabel.textContent = 'Dark';
+      } else {
+        document.body.classList.remove('dark');
+        themeLabel.textContent = 'Light';
+      }
+      // User ki choice localStorage me save karo
+      localStorage.setItem('nexahub-theme', theme);
+    }
+
+    // Page load pe saved theme apply karo
+    const savedTheme = localStorage.getItem('nexahub-theme') || 'light';
+    setTheme(savedTheme);
+
+    // Button click pe theme toggle karo
+    themeToggle.addEventListener('click', function() {
+      const isDark = document.body.classList.contains('dark');
+      setTheme(isDark ? 'light' : 'dark');
+    });
+
+    // ============================================================
+    //  FORM LOGIC
+    // ============================================================
     const foodLabels = {
       'vegetarian': '🥗 Vegetarian',
       'non-vegetarian': '🍗 Non-Vegetarian',

@@ -16,38 +16,30 @@
             box-sizing: border-box;
         }
 
-        /* ----- FRESH VIBRANT LIGHT THEME (changed) ----- */
+        /* ----- base (light mode by default) ----- */
         :root {
-            /* vibrant gradient background - warm & energetic */
+            /* light mode */
             --bg-body: radial-gradient(circle at 0% 0%, #fff5e6, #ffe8d0 30%, #fddbb5 60%, #f5cba0 90%);
-            /* card - clean white with subtle glass effect */
             --bg-card: rgba(255, 248, 240, 0.92);
             --card-border: rgba(255, 200, 150, 0.2);
             --card-shadow: 0 30px 50px -10px rgba(180, 120, 80, 0.25), 0 0 0 1px rgba(255, 200, 150, 0.1);
-            /* text - warm dark */
             --text-primary: #2a1a0e;
             --text-secondary: #4a3520;
             --text-muted: #8a705a;
-            /* inputs - warm light */
             --input-bg: rgba(255, 248, 240, 0.8);
             --input-border: rgba(200, 160, 120, 0.2);
             --input-focus: #d48c5a;
             --select-bg: rgba(255, 248, 240, 0.7);
-            /* badges - warm amber */
             --section-badge: linear-gradient(145deg, #c47a3a, #e8a05a);
             --badge-text: #fff8f0;
-            /* goal/activity bg */
             --goal-activity-bg: rgba(255, 240, 220, 0.3);
             --goal-activity-border: rgba(255, 200, 150, 0.15);
-            /* button - warm amber */
             --btn-bg: linear-gradient(145deg, #b86a2a, #d48a4a);
             --btn-hover: linear-gradient(145deg, #a05a20, #c47a3a);
             --btn-shadow: 0 8px 20px rgba(180, 120, 80, 0.3);
-            /* toast */
             --toast-bg: rgba(200, 140, 80, 0.12);
             --toast-border: #d48c5a;
             --toast-text: #4a3520;
-            /* brand */
             --brand-nexa: #2a1a0e;
             --brand-hub: #c47a3a;
             --brand-tag-bg: rgba(200, 140, 80, 0.15);
@@ -55,6 +47,44 @@
             --brand-tag-border: rgba(200, 140, 80, 0.2);
             --divider: rgba(180, 140, 100, 0.12);
             --headline-shadow: 0 0 30px rgba(200, 140, 80, 0.05);
+            --toggle-bg: #e0d6cc;
+            --toggle-dot: #f5ede4;
+            --toggle-active: #d48c5a;
+        }
+
+        /* ----- dark mode variables ----- */
+        body.dark-mode {
+            --bg-body: radial-gradient(circle at 0% 0%, #1a1a1a, #2a241e 40%, #1f1a16 70%, #12100e 100%);
+            --bg-card: rgba(30, 26, 22, 0.94);
+            --card-border: rgba(200, 160, 120, 0.15);
+            --card-shadow: 0 30px 50px -10px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(200, 160, 120, 0.08);
+            --text-primary: #f0e4d8;
+            --text-secondary: #d4c4b4;
+            --text-muted: #a8907a;
+            --input-bg: rgba(40, 34, 28, 0.8);
+            --input-border: rgba(200, 160, 120, 0.15);
+            --input-focus: #d48c5a;
+            --select-bg: rgba(40, 34, 28, 0.7);
+            --section-badge: linear-gradient(145deg, #a05a20, #c47a3a);
+            --badge-text: #f5ede4;
+            --goal-activity-bg: rgba(60, 50, 40, 0.25);
+            --goal-activity-border: rgba(200, 160, 120, 0.1);
+            --btn-bg: linear-gradient(145deg, #a05a20, #c47a3a);
+            --btn-hover: linear-gradient(145deg, #8a4a18, #b06a2a);
+            --btn-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            --toast-bg: rgba(200, 140, 80, 0.08);
+            --toast-border: #b06a2a;
+            --toast-text: #d4c4b4;
+            --brand-nexa: #f0e4d8;
+            --brand-hub: #d48a4a;
+            --brand-tag-bg: rgba(200, 140, 80, 0.12);
+            --brand-tag-text: #d4b49a;
+            --brand-tag-border: rgba(200, 140, 80, 0.15);
+            --divider: rgba(200, 160, 120, 0.08);
+            --headline-shadow: 0 0 30px rgba(200, 140, 80, 0.03);
+            --toggle-bg: #3a322c;
+            --toggle-dot: #5a4a3a;
+            --toggle-active: #d48c5a;
         }
 
         body {
@@ -67,17 +97,21 @@
             background: var(--bg-body);
             background-attachment: fixed;
             position: relative;
+            transition: background 0.4s ease, color 0.3s ease;
         }
 
-        /* extra glow */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
-            background: radial-gradient(circle at 80% 20%, rgba(255, 200, 150, 0.2), transparent 50%),
-                radial-gradient(circle at 20% 80%, rgba(255, 180, 100, 0.1), transparent 50%);
+            background: radial-gradient(circle at 80% 20%, rgba(255, 200, 150, 0.12), transparent 50%),
+                radial-gradient(circle at 20% 80%, rgba(255, 180, 100, 0.06), transparent 50%);
             pointer-events: none;
             z-index: 0;
+            transition: opacity 0.4s ease;
+        }
+        body.dark-mode::before {
+            opacity: 0.15;
         }
 
         .card {
@@ -92,7 +126,7 @@
             padding: 1.8rem 2rem 2.2rem;
             box-shadow: var(--card-shadow);
             border: 1px solid var(--card-border);
-            transition: background 0.35s ease, box-shadow 0.35s ease, border 0.35s ease;
+            transition: background 0.4s ease, box-shadow 0.4s ease, border 0.4s ease;
         }
 
         /* ----- header : NEXA dark · HUB AI amber ----- */
@@ -110,7 +144,8 @@
         .brand-icon {
             font-size: 1.6rem;
             line-height: 1;
-            filter: drop-shadow(0 0 12px rgba(200, 140, 80, 0.2));
+            filter: drop-shadow(0 0 12px rgba(200, 140, 80, 0.15));
+            transition: filter 0.3s;
         }
 
         .brand-name {
@@ -124,13 +159,12 @@
 
         .brand-name .nexa {
             color: var(--brand-nexa);
-            text-shadow: 0 0 20px rgba(42, 26, 14, 0.1);
+            text-shadow: 0 0 20px rgba(42, 26, 14, 0.08);
             transition: color 0.3s, text-shadow 0.3s;
         }
-
         .brand-name .hub-ai {
             color: var(--brand-hub);
-            text-shadow: 0 0 20px rgba(196, 122, 58, 0.2);
+            text-shadow: 0 0 20px rgba(196, 122, 58, 0.15);
             transition: color 0.3s, text-shadow 0.3s;
         }
 
@@ -146,6 +180,55 @@
             margin-left: auto;
             text-transform: uppercase;
             transition: background 0.3s, color 0.3s, border 0.3s;
+        }
+
+        /* toggle */
+        .theme-toggle-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-left: 0.5rem;
+        }
+        .theme-toggle {
+            width: 42px;
+            height: 24px;
+            background: var(--toggle-bg);
+            border-radius: 40px;
+            border: 1px solid var(--input-border);
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s ease, border 0.3s ease;
+            flex-shrink: 0;
+            box-shadow: inset 0 1px 4px rgba(0,0,0,0.08);
+        }
+        .theme-toggle .dot {
+            width: 18px;
+            height: 18px;
+            background: var(--toggle-dot);
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        body.dark-mode .theme-toggle .dot {
+            transform: translateX(18px);
+            background: #f5ede4;
+        }
+        .theme-toggle.active {
+            background: var(--toggle-active);
+            border-color: var(--toggle-active);
+        }
+        .theme-icon {
+            font-size: 1rem;
+            line-height: 1;
+            color: var(--text-muted);
+            transition: color 0.3s;
+            opacity: 0.6;
+        }
+        body.dark-mode .theme-icon {
+            opacity: 0.9;
         }
 
         /* section */
@@ -232,7 +315,7 @@
         input:focus,
         select:focus {
             border-color: var(--input-focus);
-            box-shadow: 0 0 0 4px rgba(200, 140, 80, 0.15), 0 4px 12px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 0 0 4px rgba(200, 140, 80, 0.12), 0 4px 12px rgba(0, 0, 0, 0.03);
             background: var(--input-bg);
         }
 
@@ -240,7 +323,7 @@
             color: var(--text-muted);
             font-weight: 400;
             font-size: 0.8rem;
-            opacity: 0.6;
+            opacity: 0.5;
         }
 
         select {
@@ -250,6 +333,9 @@
             background-position: right 1rem center;
             background-size: 0.9rem;
             cursor: pointer;
+        }
+        body.dark-mode select {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%23a8907a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
         }
 
         .goal-activity-wrap {
@@ -291,6 +377,8 @@
             padding-top: 0.6rem;
             border-top: 1px solid var(--divider);
             transition: border 0.3s;
+            flex-wrap: wrap;
+            gap: 0.6rem;
         }
 
         .btn-continue {
@@ -307,13 +395,16 @@
             box-shadow: var(--btn-shadow);
             font-family: 'Inter', sans-serif;
             backdrop-filter: blur(4px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .btn-continue:hover {
             background: var(--btn-hover);
             transform: translateY(-2px);
-            box-shadow: 0 14px 28px rgba(180, 120, 80, 0.35);
+            box-shadow: 0 14px 28px rgba(180, 120, 80, 0.25);
+        }
+        body.dark-mode .btn-continue:hover {
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.5);
         }
 
         .btn-continue:active {
@@ -352,17 +443,20 @@
             }
         }
 
-        /* card glow */
         .card::after {
             content: '';
             position: absolute;
             inset: -2px;
             border-radius: 42px;
-            background: linear-gradient(135deg, rgba(200, 140, 80, 0.08), rgba(255, 200, 150, 0.04));
+            background: linear-gradient(135deg, rgba(200, 140, 80, 0.06), rgba(255, 200, 150, 0.02));
             z-index: -1;
             filter: blur(24px);
-            opacity: 0.5;
+            opacity: 0.4;
             pointer-events: none;
+            transition: opacity 0.4s;
+        }
+        body.dark-mode .card::after {
+            opacity: 0.15;
         }
 
         /* responsive */
@@ -403,6 +497,9 @@
             .brand-name {
                 font-size: 1.3rem;
             }
+            .theme-toggle-wrap {
+                margin-left: auto;
+            }
         }
     </style>
 </head>
@@ -410,7 +507,7 @@
 
     <div class="card">
 
-        <!-- header: NEXA dark · HUB AI amber -->
+        <!-- header: NEXA dark · HUB AI amber + toggle -->
         <div class="brand-header">
             <span class="brand-icon">⚡</span>
             <span class="brand-name">
@@ -418,6 +515,13 @@
                 <span class="hub-ai">HUB AI</span>
             </span>
             <span class="brand-tag">v2.0 · health</span>
+            <div class="theme-toggle-wrap">
+                <span class="theme-icon" id="themeIcon">☀️</span>
+                <div class="theme-toggle" id="themeToggle" role="button" tabindex="0" aria-label="Toggle dark mode">
+                    <div class="dot"></div>
+                </div>
+                <span class="theme-icon" id="themeIconDark">🌙</span>
+            </div>
         </div>
 
         <!-- ===== first block ===== -->
@@ -502,6 +606,33 @@
             const continueBtn = document.getElementById('continueBtn');
             const toast = document.getElementById('toast');
 
+            // theme toggle
+            const themeToggle = document.getElementById('themeToggle');
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            const themeIconDark = document.getElementById('themeIconDark');
+
+            // load saved preference
+            if (localStorage.getItem('nexa-theme') === 'dark') {
+                body.classList.add('dark-mode');
+                themeToggle.classList.add('active');
+            }
+
+            function toggleTheme() {
+                body.classList.toggle('dark-mode');
+                themeToggle.classList.toggle('active');
+                const isDark = body.classList.contains('dark-mode');
+                localStorage.setItem('nexa-theme', isDark ? 'dark' : 'light');
+            }
+
+            themeToggle.addEventListener('click', toggleTheme);
+            themeToggle.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleTheme();
+                }
+            });
+
             // ---- toast ----
             function showToast(msg) {
                 toast.textContent = msg || '✅ Health data saved!';
@@ -552,7 +683,7 @@
                 });
             });
 
-            console.log('NEXA HUB AI · fresh vibrant light theme');
+            console.log('NEXA HUB AI · fresh vibrant light/dark theme');
         })();
     </script>
 </body>
