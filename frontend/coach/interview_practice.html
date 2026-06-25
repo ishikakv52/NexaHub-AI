@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Interview Practice — AI English Coach</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--primary:#6c63ff;--secondary:#ff6584;--accent:#43e97b;--purple:#8b5cf6;--bg:#0a0a16;--surface:rgba(255,255,255,0.06);--border:rgba(255,255,255,0.10);--text:#f0f0ff;--muted:#8888aa;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;}
+.bg-blobs{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.blob{position:absolute;border-radius:50%;filter:blur(100px);opacity:0.17;animation:bf 10s ease-in-out infinite;}
+.b1{width:580px;height:580px;background:var(--purple);top:-150px;right:-100px;}
+.b2{width:420px;height:420px;background:var(--secondary);bottom:-100px;left:-100px;animation-delay:3.5s;}
+@keyframes bf{0%,100%{transform:translateY(0);}50%{transform:translateY(-27px);}}
+.navbar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:58px;background:rgba(10,10,22,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.nav-brand{font-weight:900;color:var(--text);text-decoration:none;font-size:1rem;}
+.nl{color:var(--muted);text-decoration:none;font-size:.83rem;padding:6px 12px;border:1px solid var(--border);border-radius:8px;transition:all .2s;}
+.nl:hover{color:var(--text);border-color:var(--primary);}
+.nav-links{display:flex;gap:7px;}
+.page{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:76px 20px 44px;}
+.page-header{text-align:center;margin-bottom:34px;}
+.ph-icon{font-size:3rem;display:block;margin-bottom:10px;animation:bounce 2.2s ease infinite;}
+@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-9px);}}
+.page-header h1{font-size:2rem;font-weight:900;background:linear-gradient(135deg,var(--purple),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px;}
+.page-header p{color:var(--muted);font-size:.92rem;}
+/* CATEGORY CARDS */
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:12px;margin-bottom:26px;}
+.cat-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;cursor:pointer;transition:all .25s;text-align:center;}
+.cat-card:hover,.cat-card.active{border-color:var(--purple);background:rgba(139,92,246,.12);transform:translateY(-3px);}
+.cat-emoji{font-size:1.8rem;display:block;margin-bottom:6px;}
+.cat-title{font-weight:800;font-size:.88rem;margin-bottom:3px;}
+.cat-desc{font-size:.72rem;color:var(--muted);}
+/* INTERVIEW PANEL */
+.iv-panel{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px;}
+.panel-box{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:20px;}
+.panel-box h3{font-size:.82rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:13px;}
+/* QUESTION LIST */
+.q-list{display:flex;flex-direction:column;gap:7px;max-height:280px;overflow-y:auto;}
+.q-list::-webkit-scrollbar{width:4px;}.q-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px;}
+.q-item{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:10px 13px;cursor:pointer;font-size:.84rem;line-height:1.5;transition:all .2s;}
+.q-item:hover,.q-item.selected{border-color:var(--purple);color:#c4bfff;}
+/* ANSWER AREA */
+.ans-area{display:flex;flex-direction:column;gap:11px;}
+.sel-q{background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(255,101,132,.06));border:1px solid rgba(139,92,246,.3);border-radius:12px;padding:13px;font-size:.86rem;line-height:1.6;color:#c4bfff;min-height:60px;}
+.ans-ta{width:100%;min-height:130px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;color:var(--text);padding:13px;font-size:.93rem;font-family:inherit;outline:none;resize:vertical;line-height:1.7;transition:border-color .2s;}
+.ans-ta:focus{border-color:var(--purple);}
+.ans-ta::placeholder{color:#555;}
+.btn-row{display:flex;gap:9px;flex-wrap:wrap;}
+.btn-eval{padding:11px 22px;background:linear-gradient(135deg,var(--purple),var(--secondary));border:none;border-radius:11px;color:#fff;font-weight:900;font-size:.92rem;cursor:pointer;transition:all .2s;}
+.btn-eval:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(139,92,246,.4);}
+.btn-eval:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+.btn-mic{padding:11px 15px;background:linear-gradient(135deg,var(--primary),#5b21b6);border:none;border-radius:11px;color:#fff;font-weight:800;cursor:pointer;transition:all .2s;font-size:.88rem;}
+.btn-mic.rec{background:linear-gradient(135deg,var(--secondary),#f97316);}
+/* SCORE CARD */
+.score-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;overflow:hidden;display:none;margin-bottom:22px;}
+.score-card.show{display:block;animation:slideUp .4s ease;}
+@keyframes slideUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.sc-header{padding:15px 22px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(255,101,132,.06));display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.sc-body{padding:22px;font-size:.93rem;line-height:1.85;white-space:pre-wrap;}
+.sc-body strong{color:#c4bfff;}
+.sc-body em{color:var(--accent);}
+.sc-body code{background:rgba(108,99,255,.2);padding:1px 5px;border-radius:4px;font-family:monospace;font-size:.85em;color:#a89cff;}
+.act-btn{background:none;border:1px solid var(--border);border-radius:8px;color:var(--muted);padding:6px 12px;cursor:pointer;font-size:.77rem;transition:all .2s;text-decoration:none;}
+.act-btn:hover{color:var(--text);border-color:var(--primary);}
+/* TIPS BOX */
+.tips-box{background:linear-gradient(135deg,rgba(139,92,246,.1),rgba(255,101,132,.06));border:1px solid rgba(139,92,246,.25);border-radius:16px;padding:20px 22px;margin-bottom:22px;}
+.tips-box h3{font-size:.9rem;font-weight:800;margin-bottom:12px;color:#c4bfff;}
+.tips-box ul{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.tips-box li{font-size:.85rem;color:var(--muted);line-height:1.55;padding-left:18px;position:relative;}
+.tips-box li::before{content:'✦';position:absolute;left:0;color:var(--purple);font-size:.7rem;}
+/* LOADING */
+.loading{display:none;text-align:center;padding:28px;}
+.loading.show{display:block;}
+.spinner{width:44px;height:44px;border:3px solid var(--border);border-top-color:var(--purple);border-radius:50%;animation:spin .75s linear infinite;margin:0 auto 12px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading p{color:var(--muted);font-size:.9rem;}
+@media(max-width:700px){.iv-panel{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="bg-blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+<nav class="navbar">
+  <a class="nav-brand" href="{% url 'home' %}">🎓 AI English Coach</a>
+  <div class="nav-links">
+    <a href="{% url 'speaking_practice' %}" class="nl">🗣️ Speaking</a>
+    <a href="{% url 'text_chat' %}" class="nl">💬 Chat</a>
+    <a href="{% url 'dashboard' %}" class="nl">📊 Dashboard</a>
+    <a href="{% url 'home' %}" class="nl">🏠 Home</a>
+  </div>
+</nav>
+<div class="page">
+  <div class="page-header">
+    <span class="ph-icon">💼</span>
+    <h1>Interview Practice</h1>
+    <p>Practice real interview questions and get AI evaluation on grammar, vocabulary, fluency &amp; professionalism!</p>
+  </div>
+
+  <div class="tips-box">
+    <h3>💡 Power Words for Interviews:</h3>
+    <ul>
+      <li><strong>Instead of "good"</strong> → excellent, outstanding, remarkable, exceptional</li>
+      <li><strong>Instead of "did"</strong> → accomplished, achieved, delivered, implemented, spearheaded</li>
+      <li><strong>Instead of "helped"</strong> → contributed, collaborated, supported, facilitated</li>
+      <li><strong>Key phrases:</strong> "I take initiative", "I am result-oriented", "I thrive under pressure", "I believe in continuous learning"</li>
+    </ul>
+  </div>
+
+  <div class="cat-grid">
+    {% for cat in categories %}
+    <div class="cat-card" onclick="selectCat('{{ cat.id }}','{{ cat.title }}')" data-id="{{ cat.id }}">
+      <span class="cat-emoji">{{ cat.emoji }}</span>
+      <div class="cat-title">{{ cat.title }}</div>
+      <div class="cat-desc">{{ cat.desc }}</div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="iv-panel" id="ivPanel" style="display:none;">
+    <div class="panel-box">
+      <h3>📋 Interview Questions</h3>
+      <div class="q-list" id="questionList"></div>
+    </div>
+    <div class="panel-box">
+      <h3>✍️ Your Answer</h3>
+      <div class="ans-area">
+        <div class="sel-q" id="selQ">👆 Click a question on the left to begin</div>
+        <textarea class="ans-ta" id="ansInput" placeholder="Type or speak your answer here…&#10;&#10;Tip: Use the STAR method for behavioral questions: Situation → Task → Action → Result"></textarea>
+        <div class="btn-row">
+          <button class="btn-eval" id="evalBtn" onclick="submitAnswer()" disabled>📊 Evaluate My Answer</button>
+          <button class="btn-mic" id="micBtn" onclick="toggleMic()">🎤 Speak</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading" id="loadingDiv"><div class="spinner"></div><p>Aria is evaluating your interview answer…</p></div>
+
+  <div class="score-card" id="scoreCard">
+    <div class="sc-header">
+      <strong>📊 Interview Evaluation by Aria</strong>
+      <div style="display:flex;gap:7px;">
+        <button class="act-btn" onclick="speakEval()">🔊 Read</button>
+        <button class="act-btn" onclick="copyEval()">📋 Copy</button>
+      </div>
+    </div>
+    <div class="sc-body" id="scoreBody"></div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS={
+  hr:["Tell me about yourself.","What are your greatest strengths and weaknesses?","Why do you want to work for this company?","Where do you see yourself in 5 years?","Why are you leaving your current job?","What motivates you at work?","How do you handle stress and pressure?","What is your expected salary?","What are your hobbies and interests?","Describe your ideal work environment."],
+  behavioral:["Tell me about a time you faced a major challenge at work.","Describe a situation where you showed leadership.","Give an example of when you had to work in a team.","Tell me about a time you made a mistake. How did you handle it?","Describe a situation where you had to meet a tight deadline.","Tell me about a time you disagreed with your manager.","Give an example of a time you went above and beyond your role.","Describe a difficult decision you had to make at work."],
+  professional_communication:["How would you write a professional email to a client?","How do you handle a difficult client or customer?","Describe how you conduct a professional meeting.","How do you give a presentation in English?","How do you communicate bad news professionally?","How do you handle miscommunication in a team?","Describe a time you had to present to senior management."]
+};
+let selQ='',recognition=null,isRec=false;
+
+function selectCat(id,title){
+  document.querySelectorAll('.cat-card').forEach(c=>c.classList.remove('active'));
+  document.querySelector('[data-id="'+id+'"]').classList.add('active');
+  const qs=QUESTIONS[id]||[];
+  const list=document.getElementById('questionList');
+  list.innerHTML=qs.map((q,i)=>`<div class="q-item" onclick="selQuestion(this,'${q.replace(/'/g,"&#39;")}')">${i+1}. ${q}</div>`).join('');
+  document.getElementById('ivPanel').style.display='grid';
+  document.getElementById('scoreCard').classList.remove('show');
+  document.getElementById('ivPanel').scrollIntoView({behavior:'smooth'});
+}
+
+function selQuestion(el,q){
+  document.querySelectorAll('.q-item').forEach(i=>i.classList.remove('selected'));
+  el.classList.add('selected');selQ=q;
+  document.getElementById('selQ').textContent='❓ '+q;
+  document.getElementById('ansInput').value='';
+  document.getElementById('evalBtn').disabled=false;
+  document.getElementById('scoreCard').classList.remove('show');
+}
+
+function toggleMic(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){alert('Use Chrome for speech recognition.');return;}
+  if(isRec){recognition&&recognition.stop();isRec=false;document.getElementById('micBtn').textContent='🎤 Speak';document.getElementById('micBtn').classList.remove('rec');}
+  else{
+    recognition=new SR();recognition.lang='en-IN';recognition.continuous=true;recognition.interimResults=true;
+    let final='';
+    recognition.onresult=e=>{let interim='';for(let i=e.resultIndex;i<e.results.length;i++){if(e.results[i].isFinal)final+=e.results[i][0].transcript+' ';else interim=e.results[i][0].transcript;}document.getElementById('ansInput').value=final+interim;};
+    recognition.onend=()=>{isRec=false;document.getElementById('micBtn').textContent='🎤 Speak';document.getElementById('micBtn').classList.remove('rec');};
+    recognition.start();isRec=true;document.getElementById('micBtn').textContent='⏹ Stop';document.getElementById('micBtn').classList.add('rec');
+  }
+}
+
+async function submitAnswer(){
+  const answer=document.getElementById('ansInput').value.trim();
+  if(!answer){alert('Please type or speak your answer first.');return;}
+  if(!selQ){alert('Please select a question first.');return;}
+  document.getElementById('evalBtn').disabled=true;
+  document.getElementById('loadingDiv').classList.add('show');
+  document.getElementById('scoreCard').classList.remove('show');
+  try{
+    const r=await fetch('{% url "ajax_interview" %}',{method:'POST',headers:{'Content-Type':'application/json','X-CSRFToken':getCookie('csrftoken')},body:JSON.stringify({question:selQ,answer})});
+    const d=await r.json();
+    document.getElementById('loadingDiv').classList.remove('show');
+    if(d.result){document.getElementById('scoreBody').innerHTML=fmt(d.result);document.getElementById('scoreCard').classList.add('show');document.getElementById('scoreCard').scrollIntoView({behavior:'smooth'});}
+    else alert('Error: '+(d.error||'Unknown'));
+  }catch(e){document.getElementById('loadingDiv').classList.remove('show');alert('Network error.');}
+  document.getElementById('evalBtn').disabled=false;
+}
+
+function speakEval(){window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(document.getElementById('scoreBody').innerText.substring(0,2200));u.lang='en-IN';u.rate=0.84;speechSynthesis.speak(u);}
+function copyEval(){navigator.clipboard.writeText(document.getElementById('scoreBody').innerText).then(()=>alert('✅ Copied!'));}
+function fmt(t){return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').replace(/`(.*?)`/g,'<code>$1</code>').replace(/^## (.*?)$/gm,'<br/><strong style="color:#c4bfff;display:block;margin-top:12px;">$1</strong>');}
+function getCookie(n){const v=document.cookie.match('(^|;)\\s*'+n+'\\s*=\\s*([^;]+)');return v?v.pop():'';}
+</script>
+</body>
+</html>

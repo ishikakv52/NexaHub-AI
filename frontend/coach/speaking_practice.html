@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Speaking Practice — AI English Coach</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--primary:#6c63ff;--secondary:#ff6584;--accent:#43e97b;--gold:#f59e0b;--orange:#f97316;--bg:#0a0a16;--surface:rgba(255,255,255,0.06);--border:rgba(255,255,255,0.10);--text:#f0f0ff;--muted:#8888aa;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;}
+.bg-blobs{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.blob{position:absolute;border-radius:50%;filter:blur(100px);opacity:0.17;animation:bf 10s ease-in-out infinite;}
+.b1{width:600px;height:600px;background:var(--gold);top:-150px;left:-100px;}
+.b2{width:420px;height:420px;background:var(--primary);bottom:-100px;right:-100px;animation-delay:4s;}
+@keyframes bf{0%,100%{transform:translateY(0);}50%{transform:translateY(-28px);}}
+.navbar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:58px;background:rgba(10,10,22,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.nav-brand{font-weight:900;color:var(--text);text-decoration:none;font-size:1rem;}
+.nl{color:var(--muted);text-decoration:none;font-size:.83rem;padding:6px 12px;border:1px solid var(--border);border-radius:8px;transition:all .2s;}
+.nl:hover{color:var(--text);border-color:var(--primary);}
+.nav-links{display:flex;gap:7px;}
+.page{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:76px 20px 44px;}
+.page-header{text-align:center;margin-bottom:34px;}
+.ph-icon{font-size:3rem;display:block;margin-bottom:10px;animation:bounce 2.2s ease infinite;}
+@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-9px);}}
+.page-header h1{font-size:2rem;font-weight:900;background:linear-gradient(135deg,var(--gold),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px;}
+.page-header p{color:var(--muted);font-size:.92rem;}
+/* TOPICS GRID */
+.topics-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:13px;margin-bottom:28px;}
+.topic-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px 15px;cursor:pointer;transition:all .25s;text-align:center;}
+.topic-card:hover,.topic-card.selected{border-color:var(--gold);background:rgba(245,158,11,.1);transform:translateY(-3px);}
+.t-emoji{font-size:2rem;display:block;margin-bottom:7px;}
+.t-title{font-weight:800;font-size:.92rem;margin-bottom:3px;}
+.t-desc{font-size:.72rem;color:var(--muted);}
+/* PRACTICE CARD */
+.practice-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:26px;margin-bottom:22px;display:none;}
+.practice-card.show{display:block;animation:slideUp .4s ease;}
+@keyframes slideUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.topic-prompt{background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(255,101,132,.07));border:1px solid rgba(245,158,11,.25);border-radius:13px;padding:16px 18px;margin-bottom:18px;}
+.topic-prompt h3{color:var(--gold);font-size:1.05rem;margin-bottom:6px;}
+.topic-prompt p{color:var(--muted);font-size:.88rem;line-height:1.6;}
+.lbl{font-size:.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:7px;display:block;}
+.speech-ta{width:100%;min-height:140px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:13px;color:var(--text);padding:15px 16px;font-size:.95rem;font-family:inherit;outline:none;resize:vertical;line-height:1.7;transition:border-color .2s;}
+.speech-ta:focus{border-color:var(--gold);}
+.speech-ta::placeholder{color:#555;}
+.btn-row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
+.btn-submit{padding:12px 24px;background:linear-gradient(135deg,var(--gold),var(--orange));border:none;border-radius:12px;color:#0a0a16;font-weight:900;font-size:.94rem;cursor:pointer;transition:all .2s;}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(245,158,11,.38);}
+.btn-submit:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+.btn-mic{padding:12px 17px;background:linear-gradient(135deg,var(--primary),#8b5cf6);border:none;border-radius:12px;color:#fff;font-weight:800;cursor:pointer;transition:all .2s;font-size:.9rem;}
+.btn-mic.rec{background:linear-gradient(135deg,var(--secondary),var(--orange));}
+.btn-ghost{padding:12px 14px;background:none;border:1px solid var(--border);border-radius:12px;color:var(--muted);cursor:pointer;font-size:.88rem;transition:all .2s;}
+.btn-ghost:hover{color:var(--text);border-color:var(--secondary);}
+/* FEEDBACK */
+.feedback-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;display:none;margin-bottom:22px;}
+.feedback-card.show{display:block;animation:slideUp .4s ease;}
+.fb-header{padding:15px 22px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(249,115,22,.06));display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.fb-header strong{font-size:.97rem;}
+.fb-body{padding:22px;font-size:.93rem;line-height:1.85;white-space:pre-wrap;}
+.fb-body strong{color:#fcd34d;}
+.fb-body em{color:var(--accent);}
+.fb-body code{background:rgba(108,99,255,.2);padding:1px 5px;border-radius:4px;font-family:monospace;font-size:.85em;color:#a89cff;}
+.fb-footer{padding:13px 22px;border-top:1px solid var(--border);display:flex;gap:9px;flex-wrap:wrap;}
+.act-btn{background:none;border:1px solid var(--border);border-radius:8px;color:var(--muted);padding:6px 13px;cursor:pointer;font-size:.77rem;transition:all .2s;}
+.act-btn:hover{color:var(--text);border-color:var(--primary);}
+/* LOADING */
+.loading{display:none;text-align:center;padding:30px;}
+.loading.show{display:block;}
+.spinner{width:44px;height:44px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .75s linear infinite;margin:0 auto 12px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading p{color:var(--muted);font-size:.9rem;}
+</style>
+</head>
+<body>
+<div class="bg-blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+<nav class="navbar">
+  <a class="nav-brand" href="{% url 'home' %}">🎓 AI English Coach</a>
+  <div class="nav-links">
+    <a href="{% url 'interview_practice' %}" class="nl">💼 Interview</a>
+    <a href="{% url 'text_chat' %}" class="nl">💬 Chat</a>
+    <a href="{% url 'dashboard' %}" class="nl">📊 Dashboard</a>
+    <a href="{% url 'home' %}" class="nl">🏠 Home</a>
+  </div>
+</nav>
+<div class="page">
+  <div class="page-header">
+    <span class="ph-icon">🗣️</span>
+    <h1>Speaking Practice</h1>
+    <p>Pick a topic, speak or type your response, and Aria gives you detailed feedback with a model answer!</p>
+  </div>
+
+  <div class="topics-grid" id="topicsGrid">
+    {% for topic in topics %}
+    <div class="topic-card" onclick="selectTopic('{{ topic.id }}','{{ topic.title }}','{{ topic.prompt }}')" data-id="{{ topic.id }}">
+      <span class="t-emoji">
+        {% if topic.id == 'introduce' %}👋
+        {% elif topic.id == 'family' %}👨‍👩‍👧
+        {% elif topic.id == 'college' %}🎓
+        {% elif topic.id == 'job' %}💼
+        {% elif topic.id == 'travel' %}✈️
+        {% elif topic.id == 'technology' %}💻
+        {% elif topic.id == 'health' %}🏃
+        {% elif topic.id == 'hobbies' %}🎨
+        {% elif topic.id == 'food' %}🍛
+        {% else %}🌟{% endif %}
+      </span>
+      <div class="t-title">{{ topic.title }}</div>
+      <div class="t-desc">{{ topic.prompt|truncatechars:45 }}</div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="practice-card" id="practiceCard">
+    <div class="topic-prompt">
+      <h3 id="topicTitle">🎯 Topic</h3>
+      <p id="topicPrompt"></p>
+    </div>
+    <span class="lbl">Your Response (speak or type):</span>
+    <textarea class="speech-ta" id="speechInput" placeholder="Start typing your response here… or use the 🎤 button to speak!&#10;&#10;Tip: Speak for at least 4–5 sentences. Aria will correct your grammar, suggest better vocabulary, and give you a model answer!"></textarea>
+    <div class="btn-row">
+      <button class="btn-submit" id="submitBtn" onclick="submitSpeech()">📤 Get Aria's Feedback</button>
+      <button class="btn-mic" id="micBtn" onclick="toggleMic()">🎤 Speak</button>
+      <button class="btn-ghost" onclick="clearPractice()">🗑 Clear</button>
+    </div>
+  </div>
+
+  <div class="loading" id="loadingDiv"><div class="spinner"></div><p>Aria is evaluating your response…</p></div>
+
+  <div class="feedback-card" id="feedbackCard">
+    <div class="fb-header">
+      <strong>📊 Aria's Detailed Feedback</strong>
+      <button class="act-btn" onclick="speakFb()">🔊 Read</button>
+    </div>
+    <div class="fb-body" id="feedbackBody"></div>
+    <div class="fb-footer">
+      <button class="act-btn" onclick="copyFb()">📋 Copy</button>
+      <button class="act-btn" onclick="clearPractice()">🔄 Practice Again</button>
+      <a href="{% url 'interview_practice' %}" class="act-btn" style="text-decoration:none;">💼 Try Interview</a>
+    </div>
+  </div>
+</div>
+<script>
+let selectedTopic='',selectedTitle='';
+let recognition=null,isRec=false;
+
+function selectTopic(id,title,prompt){
+  selectedTopic=id;selectedTitle=title;
+  document.querySelectorAll('.topic-card').forEach(c=>c.classList.remove('selected'));
+  document.querySelector('[data-id="'+id+'"]').classList.add('selected');
+  document.getElementById('topicTitle').textContent='🎯 '+title;
+  document.getElementById('topicPrompt').textContent=prompt+' — Try to speak for 2–3 minutes!';
+  document.getElementById('practiceCard').classList.add('show');
+  document.getElementById('feedbackCard').classList.remove('show');
+  document.getElementById('speechInput').value='';
+  document.getElementById('practiceCard').scrollIntoView({behavior:'smooth'});
+}
+
+function toggleMic(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){alert('Use Chrome browser for speech recognition.');return;}
+  if(isRec){recognition&&recognition.stop();isRec=false;document.getElementById('micBtn').textContent='🎤 Speak';document.getElementById('micBtn').classList.remove('rec');}
+  else{
+    recognition=new SR();recognition.lang='en-IN';recognition.continuous=true;recognition.interimResults=true;
+    let final='';
+    recognition.onresult=e=>{let interim='';for(let i=e.resultIndex;i<e.results.length;i++){if(e.results[i].isFinal)final+=e.results[i][0].transcript+' ';else interim=e.results[i][0].transcript;}document.getElementById('speechInput').value=final+interim;};
+    recognition.onend=()=>{isRec=false;document.getElementById('micBtn').textContent='🎤 Speak';document.getElementById('micBtn').classList.remove('rec');};
+    recognition.start();isRec=true;document.getElementById('micBtn').textContent='⏹ Stop';document.getElementById('micBtn').classList.add('rec');
+  }
+}
+
+async function submitSpeech(){
+  const speech=document.getElementById('speechInput').value.trim();
+  if(!speech){alert('Please type or speak your response first.');return;}
+  if(!selectedTopic){alert('Please select a topic first.');return;}
+  document.getElementById('submitBtn').disabled=true;
+  document.getElementById('loadingDiv').classList.add('show');
+  document.getElementById('feedbackCard').classList.remove('show');
+  try{
+    const r=await fetch('{% url "ajax_speaking" %}',{method:'POST',headers:{'Content-Type':'application/json','X-CSRFToken':getCookie('csrftoken')},body:JSON.stringify({topic:selectedTopic,speech})});
+    const d=await r.json();
+    document.getElementById('loadingDiv').classList.remove('show');
+    if(d.result){document.getElementById('feedbackBody').innerHTML=fmt(d.result);document.getElementById('feedbackCard').classList.add('show');document.getElementById('feedbackCard').scrollIntoView({behavior:'smooth'});}
+    else alert('Error: '+(d.error||'Unknown'));
+  }catch(e){document.getElementById('loadingDiv').classList.remove('show');alert('Network error.');}
+  document.getElementById('submitBtn').disabled=false;
+}
+
+function clearPractice(){document.getElementById('speechInput').value='';document.getElementById('feedbackCard').classList.remove('show');}
+function copyFb(){navigator.clipboard.writeText(document.getElementById('feedbackBody').innerText).then(()=>alert('✅ Copied!'));}
+function speakFb(){window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(document.getElementById('feedbackBody').innerText.substring(0,2200));u.lang='en-IN';u.rate=0.84;speechSynthesis.speak(u);}
+function fmt(t){return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').replace(/`(.*?)`/g,'<code>$1</code>').replace(/^## (.*?)$/gm,'<br/><strong style="color:#fcd34d;display:block;margin-top:12px;">$1</strong>');}
+function getCookie(n){const v=document.cookie.match('(^|;)\\s*'+n+'\\s*=\\s*([^;]+)');return v?v.pop():'';}
+</script>
+</body>
+</html>
