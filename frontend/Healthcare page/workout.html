@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NexaHub AI · Workout Planner</title>
+  <title>NEXA HUB AI · Workout Planner</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -42,9 +42,9 @@
       line-height: 1;
     }
 
-    /* ===== LIGHT THEME — skin color background ===== */
+    /* ===== LIGHT THEME ===== */
     body.light {
-      background: #f5e6d3;  /* soft skin / peach tone */
+      background: #f5e6d3;
       color: #2d1f1a;
     }
     body.light #form-page {
@@ -78,22 +78,15 @@
     body.light .btn-generate:hover { box-shadow: 0 6px 25px rgba(181,101,59,0.45); }
 
     body.light #plan-page { background: #f5e6d3; }
-    body.light .plan-header {
-      background: linear-gradient(135deg, #fff3ea 0%, #f7e4d6 100%);
-      border: 1px solid rgba(0,0,0,0.04);
-    }
-    body.light .plan-header::before { background: radial-gradient(circle, rgba(181,101,59,0.06) 0%, transparent 70%); }
+    body.light .plan-header { background: transparent; border: none; box-shadow: none; padding: 0.5rem 0.5rem 0.2rem; }
+    body.light .plan-header::before { display: none; }
     body.light .brand .nexa { color: #2d1f1a; }
     body.light .brand .hub-ai { color: #b5653b; }
-    body.light .plan-title { color: #b5653b; }
+    body.light .plan-title { color: #2d1f1a; }
     body.light .plan-sub { color: #6b4f3a; }
-    body.light .stat-val {
-      background: linear-gradient(90deg, #b5653b, #8f4e2e);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+    body.light .stat-val { color: #2d1f1a; background: none; -webkit-text-fill-color: #2d1f1a; }
     body.light .stat-lbl { color: #7a5f4a; }
+    body.light .stat-divider { color: #b5653b; }
     body.light .info-box {
       background: #fff9f2;
       color: #3d2b1f;
@@ -123,12 +116,7 @@
       color: #b5653b;
       border-color: rgba(181,101,59,0.10);
     }
-    body.light .detail-val {
-      background: linear-gradient(90deg, #b5653b, #8f4e2e);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+    body.light .detail-val { color: #2d1f1a; background: none; -webkit-text-fill-color: #2d1f1a; }
     body.light .detail-lbl { color: #7a5f4a; }
     body.light .inst-toggle { color: #6b4f3a; }
     body.light .inst-toggle:hover { color: #b5653b; }
@@ -159,9 +147,9 @@
     }
     body.light .theme-toggle:hover { background: rgba(0,0,0,0.10); }
 
-    /* ===== DARK THEME — DARK BROWN background ===== */
+    /* ===== DARK THEME ===== */
     body.dark {
-      background: #3b2a1e;  /* deep dark brown */
+      background: #3b2a1e;
       color: #f0e3d6;
     }
     body.dark #form-page {
@@ -196,22 +184,15 @@
     body.dark .btn-generate:hover { box-shadow: 0 6px 25px rgba(139,107,74,0.4); }
 
     body.dark #plan-page { background: #3b2a1e; }
-    body.dark .plan-header {
-      background: linear-gradient(135deg, #4d3828 0%, #3b2a1e 100%);
-      border: 1px solid rgba(255,255,255,0.05);
-    }
-    body.dark .plan-header::before { background: radial-gradient(circle, rgba(219,181,138,0.06) 0%, transparent 70%); }
+    body.dark .plan-header { background: transparent; border: none; box-shadow: none; padding: 0.5rem 0.5rem 0.2rem; }
+    body.dark .plan-header::before { display: none; }
     body.dark .brand .nexa { color: #f0e3d6; }
     body.dark .brand .hub-ai { color: #dbb58a; }
-    body.dark .plan-title { color: #dbb58a; }
+    body.dark .plan-title { color: #f0e3d6; }
     body.dark .plan-sub { color: #c4aa8e; }
-    body.dark .stat-val {
-      background: linear-gradient(90deg, #dbb58a, #c49a6c);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+    body.dark .stat-val { color: #f0e3d6; background: none; -webkit-text-fill-color: #f0e3d6; }
     body.dark .stat-lbl { color: #b59678; }
+    body.dark .stat-divider { color: #dbb58a; }
     body.dark .info-box {
       background: rgba(60, 45, 32, 0.7);
       color: #f0e3d6;
@@ -241,12 +222,7 @@
       color: #dbb58a;
       border-color: rgba(219,181,138,0.10);
     }
-    body.dark .detail-val {
-      background: linear-gradient(90deg, #dbb58a, #c49a6c);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+    body.dark .detail-val { color: #f0e3d6; background: none; -webkit-text-fill-color: #f0e3d6; }
     body.dark .detail-lbl { color: #b59678; }
     body.dark .inst-toggle { color: #c4aa8e; }
     body.dark .inst-toggle:hover { color: #dbb58a; }
@@ -277,7 +253,7 @@
     }
     body.dark .theme-toggle:hover { background: rgba(255,255,255,0.12); }
 
-    /* ----- CORE LAYOUT (unchanged) ----- */
+    /* ----- CORE LAYOUT ----- */
     #form-page {
       min-height: 100vh;
       display: flex;
@@ -422,41 +398,36 @@
     .loading-text .nexa { font-weight: 700; }
     .loading-text .hub-ai { font-weight: 700; }
 
+    /* ===== PLAN PAGE – BRAND LEFT, TITLE & STATS CENTER ===== */
     #plan-page {
       display: none;
       min-height: 100vh;
-      padding: 1.2rem;
+      padding: 1.2rem 1rem;
       transition: background 0.3s;
     }
     .plan-header {
-      border-radius: 16px;
-      padding: 1.5rem 1.6rem;
-      margin-bottom: 1rem;
+      border-radius: 0;
+      padding: 0.3rem 0.2rem 0.5rem;
+      margin-bottom: 0.8rem;
       position: relative;
-      overflow: hidden;
+      text-align: center;
       transition: background 0.3s, border 0.3s;
     }
-    .plan-header::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -20%;
-      width: 300px;
-      height: 300px;
-      pointer-events: none;
-    }
+
+    /* Brand – left aligned */
     .brand {
-      font-size: 22px;
+      font-size: 18px;
       font-weight: 800;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
       display: flex;
       align-items: center;
-      gap: 8px;
+      justify-content: flex-start;
+      gap: 6px;
       position: relative;
       z-index: 1;
     }
     .brand-dot {
-      font-size: 24px;
+      font-size: 18px;
       animation: pulse-dot 2s infinite;
     }
     .brand-dot { color: #b5653b; }
@@ -464,50 +435,77 @@
       0%, 100% { opacity: 1; }
       50% { opacity: 0.3; }
     }
+
+    /* Title – bigger size */
     .plan-title {
-      font-size: 14px;
+      font-size: 24px;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 5px;
-      line-height: 1.4;
+      margin-bottom: 4px;
+      line-height: 1.3;
       position: relative;
       z-index: 1;
+      text-align: center;
     }
     .plan-sub {
-      font-size: 12px;
-      margin-bottom: 14px;
+      font-size: 14px;
+      margin-bottom: 12px;
       position: relative;
       z-index: 1;
+      text-align: center;
+      opacity: 0.8;
     }
-    .stats-row {
+
+    /* COMPACT STATS ROW – centered */
+    .stats-row-compact {
       display: flex;
-      gap: 25px;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
       flex-wrap: wrap;
-      position: relative;
-      z-index: 1;
+      padding: 6px 12px;
+      margin: 0 auto 8px;
+      max-width: 480px;
+      border-radius: 30px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
     }
-    .stat-item { text-align: center; }
-    .stat-val {
-      font-size: 20px;
+    .stat-item-compact {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 2px 4px;
+    }
+    .stat-item-compact .stat-val {
+      font-size: 15px;
       font-weight: 800;
     }
-    .stat-lbl {
+    .stat-item-compact .stat-lbl {
       font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-top: 2px;
       font-weight: 600;
+      opacity: 0.7;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
     }
+    .stat-divider {
+      font-size: 16px;
+      font-weight: 300;
+      opacity: 0.25;
+      padding: 0 1px;
+    }
+
     .info-cards {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
-      margin-bottom: 1.2rem;
+      margin-bottom: 1rem;
     }
     .info-box {
       border-radius: 12px;
-      padding: 12px 14px;
+      padding: 10px 14px;
       font-size: 12px;
       line-height: 1.5;
       border-left: 3px solid #b5653b;
@@ -526,7 +524,7 @@
     .exercise-card:hover { transform: translateY(-4px); }
     .exercise-img {
       width: 100%;
-      height: 200px;
+      height: 175px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -559,20 +557,20 @@
       backdrop-filter: blur(5px);
       transition: background 0.3s, color 0.3s;
     }
-    .exercise-info { padding: 14px 16px; }
+    .exercise-info { padding: 12px 14px; }
     .exercise-name {
       font-size: 13px;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       line-height: 1.3;
       transition: color 0.3s;
     }
     .exercise-tags {
       display: flex;
       gap: 6px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       flex-wrap: wrap;
     }
     .tag {
@@ -587,14 +585,14 @@
     .detail-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 10px;
-      padding-bottom: 10px;
+      gap: 6px;
+      margin-bottom: 8px;
+      padding-bottom: 8px;
       border-bottom: 1px solid rgba(255,255,255,0.05);
     }
     .detail-item { text-align: center; }
     .detail-val {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 800;
     }
     .detail-lbl {
@@ -630,17 +628,17 @@
     .form-tip {
       font-size: 10px;
       border-radius: 8px;
-      padding: 8px 10px;
-      margin-top: 8px;
+      padding: 6px 10px;
+      margin-top: 6px;
       line-height: 1.4;
       border: 1px solid transparent;
       transition: background 0.3s, color 0.3s, border 0.3s;
     }
     .back-btn {
       display: block;
-      margin: 1.8rem auto 1rem;
+      margin: 1.5rem auto 1rem;
       background: transparent;
-      padding: 12px 32px;
+      padding: 10px 28px;
       border-radius: 12px;
       cursor: pointer;
       font-size: 13px;
@@ -651,10 +649,14 @@
     @media (max-width: 480px) {
       #exercises-grid { grid-template-columns: 1fr; }
       .info-cards { grid-template-columns: 1fr; }
-      .stats-row { gap: 15px; }
-      .exercise-img { height: 180px; }
+      .stats-row-compact { flex-wrap: wrap; gap: 4px; padding: 5px 10px; }
+      .stat-item-compact { font-size: 11px; }
+      .stat-item-compact .stat-val { font-size: 13px; }
+      .exercise-img { height: 160px; }
       .form-card { padding: 2rem 1.5rem; }
       .theme-toggle { top: 12px; right: 12px; padding: 6px 12px 6px 10px; font-size: 12px; }
+      .plan-title { font-size: 20px; }
+      .plan-sub { font-size: 13px; }
     }
   </style>
 </head>
@@ -669,7 +671,7 @@
   <!-- LOADING -->
   <div id="loading">
     <div class="spinner"></div>
-    <div class="loading-text">⚡ <span class="nexa">Nexa</span><span class="hub-ai">Hub AI</span> is generating your personalized workout plan...</div>
+    <div class="loading-text">⚡ <span class="nexa">NEXA</span><span class="hub-ai">HUB AI</span> is generating your personalized workout plan...</div>
   </div>
 
   <!-- FORM PAGE -->
@@ -677,7 +679,7 @@
     <div class="form-card">
       <div class="logo">
         <span class="emoji">💪</span> 
-        <span class="nexa">Nexa</span><span class="hub-ai">Hub AI</span>
+        <span class="nexa">NEXA</span><span class="hub-ai">HUB AI</span>
       </div>
       <div class="logo-sub">Intelligent Fitness · AI Powered</div>
       <h1>🏋️ Workout Preferences</h1>
@@ -716,13 +718,17 @@
   <!-- PLAN PAGE -->
   <div id="plan-page">
     <div class="plan-header">
+      <!-- Brand – LEFT -->
       <div class="brand">
         <span class="brand-dot">●</span> 
-        <span class="nexa">Nexa</span><span class="hub-ai">Hub AI</span>
+        <span class="nexa">NEXA</span><span class="hub-ai">HUB AI</span>
       </div>
+      <!-- Title & Subtitle – CENTER (title now bigger) -->
       <div class="plan-title" id="planTitle"></div>
       <div class="plan-sub" id="planSub"></div>
-      <div class="stats-row" id="statsRow"></div>
+      
+      <!-- COMPACT STATS ROW – CENTER -->
+      <div class="stats-row-compact" id="statsRowCompact"></div>
     </div>
 
     <div class="info-cards" id="infoCards"></div>
@@ -1035,12 +1041,30 @@
       document.getElementById('loading').classList.remove('active');
       document.getElementById('planTitle').textContent = plan.title || `${level.toUpperCase()} ${activity.toUpperCase()} – ${time} MINUTE SESSION`;
       document.getElementById('planSub').textContent = plan.subtitle || `${level} Level · Intensity: ${plan.intensity || 'Medium'}`;
-      document.getElementById('statsRow').innerHTML = `
-        <div class="stat-item"><div class="stat-val">${plan.workouts ? plan.workouts.length : plan.exercises_count || 6}</div><div class="stat-lbl">Exercises</div></div>
-        <div class="stat-item"><div class="stat-val">${plan.duration || time + ' min'}</div><div class="stat-lbl">Duration</div></div>
-        <div class="stat-item"><div class="stat-val">${plan.calories || '~250'} kcal</div><div class="stat-lbl">Est. Calories</div></div>
-        <div class="stat-item"><div class="stat-val">${plan.intensity || 'Medium'}</div><div class="stat-lbl">Intensity</div></div>
+      
+      // Compact stats row
+      document.getElementById('statsRowCompact').innerHTML = `
+        <div class="stat-item-compact">
+          <span class="stat-val">${plan.workouts ? plan.workouts.length : plan.exercises_count || 6}</span>
+          <span class="stat-lbl">Exercises</span>
+        </div>
+        <span class="stat-divider">·</span>
+        <div class="stat-item-compact">
+          <span class="stat-val">${plan.duration || time + ' min'}</span>
+          <span class="stat-lbl">Duration</span>
+        </div>
+        <span class="stat-divider">·</span>
+        <div class="stat-item-compact">
+          <span class="stat-val">${plan.calories || '~250'} kcal</span>
+          <span class="stat-lbl">Est. Calories</span>
+        </div>
+        <span class="stat-divider">·</span>
+        <div class="stat-item-compact">
+          <span class="stat-val">${plan.intensity || 'Medium'}</span>
+          <span class="stat-lbl">Intensity</span>
+        </div>
       `;
+
       document.getElementById('infoCards').innerHTML = `
         <div class="info-box">${plan.tip1 || '💡 Stay consistent and give your best every session.'}</div>
         <div class="info-box">${plan.tip2 || '🎯 Focus on form over speed to prevent injuries.'}</div>
@@ -1054,8 +1078,8 @@
         const instId = 'inst-' + i;
         card.innerHTML = `
           <div class="exercise-img">
-            <img src="${imgUrl}" alt="${ex.name}" loading="lazy" onerror="this.parentElement.innerHTML='<span class=\\'placeholder\\'>💪</span><div class=\\'exercise-badge\\'>⚡ NexaHub AI</div>'">
-            <div class="exercise-badge">⚡ NexaHub AI</div>
+            <img src="${imgUrl}" alt="${ex.name}" loading="lazy" onerror="this.parentElement.innerHTML='<span class=\\'placeholder\\'>💪</span><div class=\\'exercise-badge\\'>⚡ NEXA HUB AI</div>'">
+            <div class="exercise-badge">⚡ NEXA HUB AI</div>
           </div>
           <div class="exercise-info">
             <div class="exercise-name">${ex.name}</div>
