@@ -1,265 +1,919 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>AI English Coach — Learn English Free</title>
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-:root{
-  --primary:#6c63ff;--secondary:#ff6584;--accent:#43e97b;--gold:#f59e0b;--cyan:#06b6d4;
-  --bg:#0a0a16;--surface:rgba(255,255,255,0.06);--border:rgba(255,255,255,0.10);
-  --text:#f0f0ff;--muted:#8888aa;
-}
-html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;overflow-x:hidden;}
-/* ── BLOBS ── */
-.bg-blobs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
-.blob{position:absolute;border-radius:50%;filter:blur(100px);opacity:0.18;animation:bf 12s ease-in-out infinite;}
-.b1{width:700px;height:700px;background:var(--primary);top:-220px;left:-220px;}
-.b2{width:520px;height:520px;background:var(--secondary);bottom:-130px;right:-130px;animation-delay:4s;}
-.b3{width:380px;height:380px;background:var(--cyan);top:42%;left:58%;animation-delay:2s;opacity:0.11;}
-@keyframes bf{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-36px) scale(1.05);}}
-/* ── CANVAS ── */
-#particles-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
-/* ── NAVBAR ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:64px;background:rgba(10,10,22,0.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
-.nav-brand{display:flex;align-items:center;gap:10px;font-size:1.15rem;font-weight:900;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none;}
-.nav-brand span{-webkit-text-fill-color:initial;font-size:1.4rem;}
-.nav-links{display:flex;align-items:center;gap:8px;}
-.nl{color:var(--muted);text-decoration:none;font-size:0.85rem;padding:7px 14px;border-radius:9px;border:1px solid transparent;transition:all .2s;}
-.nl:hover{color:var(--text);border-color:var(--border);}
-.nl-btn{background:linear-gradient(135deg,var(--primary),#8b5cf6);color:#fff!important;border-color:transparent!important;}
-.nl-btn:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(108,99,255,.4);}
-.user-pill{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:6px 14px;font-size:0.84rem;}
-/* ── HERO ── */
-.hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(108,99,255,0.14);border:1px solid rgba(108,99,255,0.32);border-radius:24px;padding:6px 18px;font-size:0.8rem;font-weight:600;color:#a89cff;margin-bottom:24px;animation:fadeUp .8s ease both;}
-.dot-pulse{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 1.5s ease infinite;}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(1.4);}}
-/* ── AVATAR ── */
-.avatar-wrap{position:relative;display:inline-block;margin-bottom:30px;animation:fadeUp .8s ease .1s both;}
-.ai-avatar{width:140px;height:140px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary),var(--accent));display:flex;align-items:center;justify-content:center;font-size:64px;position:relative;z-index:1;box-shadow:0 0 0 10px rgba(108,99,255,0.12),0 0 60px rgba(108,99,255,0.28);animation:avatarFloat 4s ease-in-out infinite;}
-@keyframes avatarFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
-.ring{position:absolute;inset:-20px;border-radius:50%;border:2px solid rgba(108,99,255,0.2);animation:ringPulse 3s ease-in-out infinite;}
-.ring2{position:absolute;inset:-38px;border-radius:50%;border:1px solid rgba(108,99,255,0.1);animation:ringPulse 3s ease-in-out infinite .6s;}
-@keyframes ringPulse{0%,100%{transform:scale(1);opacity:.8;}50%{transform:scale(1.07);opacity:.3;}}
-/* ── HERO TEXT ── */
-.hero h1{font-size:clamp(2.2rem,5vw,4rem);font-weight:900;line-height:1.1;margin-bottom:18px;animation:fadeUp .8s ease .2s both;}
-.grad{background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 50%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.hero p{font-size:1.1rem;color:var(--muted);max-width:560px;line-height:1.75;margin-bottom:38px;animation:fadeUp .8s ease .3s both;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
-/* ── CTA BUTTONS ── */
-.hero-cta{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-bottom:52px;animation:fadeUp .8s ease .4s both;}
-.cta{display:inline-flex;align-items:center;gap:9px;padding:16px 30px;border-radius:14px;font-size:1rem;font-weight:800;text-decoration:none;cursor:pointer;border:none;transition:all .25s;}
-.cta-main{background:linear-gradient(135deg,var(--primary),#8b5cf6);color:#fff;box-shadow:0 4px 24px rgba(108,99,255,.38);}
-.cta-main:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(108,99,255,.52);}
-.cta-sec{background:var(--surface);color:var(--text);border:1px solid var(--border);}
-.cta-sec:hover{transform:translateY(-3px);border-color:var(--primary);}
-/* ── STATS ── */
-.stats{display:flex;flex-wrap:wrap;gap:36px;justify-content:center;animation:fadeUp .8s ease .5s both;}
-.stat{text-align:center;}
-.stat-val{font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.stat-lbl{font-size:0.76rem;color:var(--muted);margin-top:2px;}
-/* ── SECTION ── */
-.section{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:80px 24px;}
-.section-title{text-align:center;font-size:clamp(1.6rem,3vw,2.3rem);font-weight:900;margin-bottom:10px;}
-.section-sub{text-align:center;color:var(--muted);margin-bottom:52px;font-size:1rem;}
-/* ── FEATURE CARDS ── */
-.feat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px;}
-.feat-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:26px 22px;text-decoration:none;color:var(--text);display:flex;flex-direction:column;gap:11px;transition:all .25s;position:relative;overflow:hidden;}
-.feat-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--cc,var(--primary)) 0%,transparent 70%);opacity:0;transition:opacity .25s;}
-.feat-card:hover{transform:translateY(-6px);border-color:var(--cc,var(--primary));box-shadow:0 16px 40px rgba(0,0,0,.3);}
-.feat-card:hover::before{opacity:.07;}
-.fi{font-size:2.2rem;}
-.ft{font-size:1.05rem;font-weight:800;}
-.fd{font-size:0.85rem;color:var(--muted);line-height:1.6;}
-.fc-tags{display:flex;flex-wrap:wrap;gap:6px;}
-.fc-tag{font-size:0.7rem;padding:3px 10px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--muted);}
-.fa{margin-top:auto;font-size:1rem;font-weight:800;color:var(--cc,var(--primary));align-self:flex-end;}
-/* ── HOW IT WORKS ── */
-.how-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:20px;}
-.step{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px 18px;text-align:center;position:relative;}
-.step-num{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;width:26px;height:26px;border-radius:50%;font-size:0.75rem;font-weight:900;display:flex;align-items:center;justify-content:center;}
-.step-em{font-size:2rem;margin-bottom:10px;display:block;}
-.step-title{font-weight:800;font-size:0.92rem;margin-bottom:6px;}
-.step-desc{font-size:0.8rem;color:var(--muted);line-height:1.6;}
-/* ── QUOTE BAND ── */
-.quote-band{position:relative;z-index:1;background:linear-gradient(135deg,rgba(108,99,255,.1),rgba(255,101,132,.1));border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:64px 24px;text-align:center;}
-.quote-text{font-size:clamp(1.3rem,2.5vw,1.9rem);font-weight:800;max-width:680px;margin:0 auto 16px;line-height:1.5;}
-.qt-q{color:var(--primary);}
-.quote-auth{color:var(--muted);font-size:0.88rem;}
-/* ── FOOTER ── */
-footer{position:relative;z-index:1;text-align:center;padding:28px;border-top:1px solid var(--border);color:var(--muted);font-size:0.82rem;}
-footer a{color:var(--primary);text-decoration:none;}
-@media(max-width:600px){nav{padding:0 14px;}.hero{padding:80px 14px 40px;}.cta{padding:14px 22px;font-size:.92rem;}.section{padding:60px 14px;}}
-</style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI English Coach — Learn English Free</title>
+    <style>
+        /* =============================================
+           LUXURY / PREMIUM THEME – Deep Navy, Gold, Elegant
+           All functions and logic remain 100% unchanged
+           ============================================= */
+
+        /* ─── RESET & VARIABLES ─── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            /* Deep navy base */
+            --bg: #0a0c1a;
+            --surface: rgba(255, 255, 255, 0.03);
+            --surface-hover: rgba(212, 175, 55, 0.06);
+            --border: rgba(212, 175, 55, 0.15);
+            --border-glow: rgba(212, 175, 55, 0.3);
+
+            /* Gold palette */
+            --gold: #d4af37;
+            --gold-light: #f5d76e;
+            --gold-dark: #b8962e;
+            --gold-gradient: linear-gradient(135deg, #f5d76e, #d4af37, #b8962e);
+
+            /* Text */
+            --text: #f0ece4;
+            --text-secondary: #d6cfb5;
+            --muted: #8a867a;
+
+            /* Accents (kept for compatibility) */
+            --primary: #d4af37;
+            --secondary: #b8962e;
+            --accent: #f5d76e;
+            --cyan: #d4af37;
+
+            /* Typography */
+            --font-heading: 'Playfair Display', 'Georgia', serif;
+            --font-body: 'Lora', 'Segoe UI', serif;
+
+            --radius: 16px;
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(212, 175, 55, 0.05);
+            --transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.7;
+            min-height: 100vh;
+            letter-spacing: 0.02em;
+        }
+
+        /* ─── BACKGROUND BLOBS ─── */
+        .bg-blobs {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(160px);
+            opacity: 0.10;
+            animation: floatBlob 20s ease-in-out infinite alternate;
+        }
+        .b1 {
+            width: 800px;
+            height: 800px;
+            background: #d4af37;
+            top: -300px;
+            left: -250px;
+            opacity: 0.06;
+        }
+        .b2 {
+            width: 600px;
+            height: 600px;
+            background: #b8962e;
+            bottom: -200px;
+            right: -200px;
+            animation-delay: 7s;
+            opacity: 0.05;
+        }
+        .b3 {
+            width: 450px;
+            height: 450px;
+            background: #f5d76e;
+            top: 45%;
+            left: 55%;
+            animation-delay: 4s;
+            opacity: 0.04;
+        }
+        @keyframes floatBlob {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                transform: translate(50px, -50px) scale(1.1);
+            }
+        }
+
+        /* ─── PARTICLES CANVAS (unchanged) ─── */
+        #particles-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* ─── NAVBAR ─── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 36px;
+            height: 76px;
+            background: rgba(10, 12, 26, 0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border);
+            transition: var(--transition);
+        }
+        nav:hover {
+            background: rgba(10, 12, 26, 0.95);
+            border-bottom-color: var(--border-glow);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            font-family: var(--font-heading);
+            text-decoration: none;
+            letter-spacing: 0.05em;
+            color: var(--gold-light);
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .nav-brand span {
+            -webkit-text-fill-color: initial;
+            font-size: 1.8rem;
+            background: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .nl {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            padding: 8px 18px;
+            border-radius: 30px;
+            border: 1px solid transparent;
+            font-weight: 500;
+            font-family: var(--font-body);
+            transition: var(--transition);
+            letter-spacing: 0.04em;
+        }
+        .nl:hover {
+            color: var(--gold-light);
+            border-color: var(--border);
+            background: var(--surface-hover);
+        }
+        .nl-btn {
+            background: var(--gold-gradient);
+            color: #0a0c1a !important;
+            border-color: transparent !important;
+            font-weight: 700;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.25);
+        }
+        .nl-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 36px rgba(212, 175, 55, 0.4);
+            background: linear-gradient(135deg, #f5d76e, #d4af37);
+        }
+
+        .user-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 6px 18px 6px 14px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-family: var(--font-body);
+            letter-spacing: 0.04em;
+        }
+
+        /* ─── HERO ─── */
+        .hero {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 110px 24px 70px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid var(--border);
+            border-radius: 60px;
+            padding: 8px 28px 8px 22px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--gold-light);
+            font-family: var(--font-body);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            backdrop-filter: blur(4px);
+            margin-bottom: 32px;
+            animation: fadeUp 0.9s ease both;
+        }
+        .dot-pulse {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--gold);
+            animation: pulse 2s ease infinite;
+        }
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.3;
+                transform: scale(1.8);
+            }
+        }
+
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2.6rem, 6.5vw, 4.6rem);
+            font-weight: 700;
+            line-height: 1.08;
+            margin-bottom: 22px;
+            letter-spacing: 0.02em;
+            animation: fadeUp 0.9s ease 0.2s both;
+        }
+        .grad {
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--muted);
+            max-width: 600px;
+            line-height: 1.9;
+            margin-bottom: 44px;
+            font-family: var(--font-body);
+            letter-spacing: 0.02em;
+            animation: fadeUp 0.9s ease 0.3s both;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* CTA Buttons — Voice Assistant removed */
+        .hero-cta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            justify-content: center;
+            margin-bottom: 60px;
+            animation: fadeUp 0.9s ease 0.4s both;
+        }
+        .cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 38px;
+            border-radius: 60px;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: var(--font-body);
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+        .cta-main {
+            background: var(--gold-gradient);
+            color: #0a0c1a;
+            box-shadow: 0 8px 40px rgba(212, 175, 55, 0.25);
+        }
+        .cta-main:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 16px 56px rgba(212, 175, 55, 0.35);
+        }
+        .cta-sec {
+            background: transparent;
+            color: var(--gold-light);
+            border: 1.5px solid var(--border);
+            backdrop-filter: blur(4px);
+        }
+        .cta-sec:hover {
+            transform: translateY(-4px);
+            border-color: var(--gold);
+            background: rgba(212, 175, 55, 0.04);
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.06);
+        }
+
+        /* Stats — updated to 7 modules */
+        .stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 48px;
+            justify-content: center;
+            animation: fadeUp 0.9s ease 0.5s both;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-val {
+            font-size: 2.2rem;
+            font-weight: 700;
+            font-family: var(--font-heading);
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.05em;
+        }
+        .stat-lbl {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-top: 4px;
+            font-weight: 400;
+            font-family: var(--font-body);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        /* ─── SECTION ─── */
+        .section {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 90px 24px;
+        }
+        .section-title {
+            text-align: center;
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 14px;
+            letter-spacing: 0.04em;
+        }
+        .section-sub {
+            text-align: center;
+            color: var(--muted);
+            margin-bottom: 60px;
+            font-size: 1.05rem;
+            font-family: var(--font-body);
+            letter-spacing: 0.04em;
+        }
+
+        /* ─── FEATURE CARDS (Luxury) ─── */
+        .feat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .feat-card {
+            background: var(--surface);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px 26px 28px;
+            text-decoration: none;
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        .feat-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.04) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .feat-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gold-gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+        .feat-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--border-glow);
+            box-shadow: var(--shadow);
+        }
+        .feat-card:hover::before {
+            opacity: 1;
+        }
+        .feat-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .fi {
+            font-size: 2.5rem;
+            display: inline-block;
+            transition: transform 0.4s ease;
+        }
+        .feat-card:hover .fi {
+            transform: scale(1.08) rotate(-2deg);
+        }
+
+        .ft {
+            font-size: 1.15rem;
+            font-weight: 700;
+            font-family: var(--font-heading);
+            letter-spacing: 0.04em;
+            color: var(--text-secondary);
+        }
+        .fd {
+            font-size: 0.9rem;
+            color: var(--muted);
+            line-height: 1.8;
+            font-family: var(--font-body);
+        }
+        .fc-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 4px;
+        }
+        .fc-tag {
+            font-size: 0.7rem;
+            padding: 4px 16px;
+            border-radius: 30px;
+            background: rgba(212, 175, 55, 0.06);
+            border: 1px solid var(--border);
+            color: var(--gold-light);
+            font-weight: 500;
+            font-family: var(--font-body);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+        .fa {
+            margin-top: auto;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--gold);
+            align-self: flex-end;
+            transition: transform 0.4s ease;
+            font-family: var(--font-heading);
+        }
+        .feat-card:hover .fa {
+            transform: translateX(8px);
+        }
+
+        /* ─── HOW IT WORKS ─── */
+        .how-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 24px;
+        }
+        .step {
+            background: var(--surface);
+            backdrop-filter: blur(4px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px 20px 24px;
+            text-align: center;
+            position: relative;
+            transition: var(--transition);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        .step:hover {
+            transform: translateY(-6px);
+            border-color: var(--border-glow);
+            background: var(--surface-hover);
+            box-shadow: var(--shadow);
+        }
+        .step-num {
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gold-gradient);
+            color: #0a0c1a;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(212, 175, 55, 0.25);
+            font-family: var(--font-heading);
+        }
+        .step-em {
+            font-size: 2.4rem;
+            margin-bottom: 14px;
+            display: block;
+        }
+        .step-title {
+            font-weight: 700;
+            font-family: var(--font-heading);
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            letter-spacing: 0.04em;
+            color: var(--text-secondary);
+        }
+        .step-desc {
+            font-size: 0.85rem;
+            color: var(--muted);
+            line-height: 1.7;
+            font-family: var(--font-body);
+        }
+
+        /* ─── QUOTE BAND ─── */
+        .quote-band {
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.04), rgba(184, 150, 46, 0.04));
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 80px 24px;
+            text-align: center;
+            backdrop-filter: blur(4px);
+        }
+        .quote-text {
+            font-family: var(--font-heading);
+            font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+            font-weight: 700;
+            max-width: 760px;
+            margin: 0 auto 20px;
+            line-height: 1.6;
+            letter-spacing: 0.04em;
+            color: var(--text-secondary);
+        }
+        .qt-q {
+            color: var(--gold);
+            font-size: 1.2em;
+            font-family: var(--font-heading);
+        }
+        .quote-auth {
+            color: var(--muted);
+            font-size: 0.95rem;
+            font-weight: 400;
+            font-family: var(--font-body);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        /* ─── FOOTER ─── */
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 36px 24px;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.85rem;
+            background: rgba(10, 12, 26, 0.6);
+            backdrop-filter: blur(8px);
+            font-family: var(--font-body);
+        }
+        footer a {
+            color: var(--gold-light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            letter-spacing: 0.04em;
+        }
+        footer a:hover {
+            color: var(--gold);
+        }
+        footer p:first-child {
+            margin-bottom: 8px;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 768px) {
+            nav {
+                padding: 0 16px;
+                height: 66px;
+            }
+            .nav-brand {
+                font-size: 1.1rem;
+            }
+            .nl {
+                font-size: 0.75rem;
+                padding: 5px 12px;
+            }
+            .user-pill {
+                font-size: 0.75rem;
+                padding: 4px 12px;
+            }
+            .hero {
+                padding: 90px 16px 40px;
+            }
+            .hero h1 {
+                font-size: clamp(2rem, 8vw, 2.8rem);
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .cta {
+                padding: 14px 26px;
+                font-size: 0.85rem;
+            }
+            .section {
+                padding: 60px 16px;
+            }
+            .feat-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+            .feat-card {
+                padding: 22px 18px;
+            }
+            .fi {
+                font-size: 2rem;
+            }
+            .ft {
+                font-size: 1rem;
+            }
+            .fd {
+                font-size: 0.8rem;
+            }
+            .how-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 18px;
+            }
+            .step {
+                padding: 22px 16px 18px;
+            }
+            .stats {
+                gap: 28px;
+            }
+            .stat-val {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .feat-grid {
+                grid-template-columns: 1fr;
+            }
+            .how-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-cta {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .cta {
+                justify-content: center;
+            }
+            .nav-links .nl:not(.nl-btn):not(.user-pill) {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<canvas id="particles-canvas"></canvas>
-<div class="bg-blobs"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+    <!-- Canvas for particles (unchanged) -->
+    <canvas id="particles-canvas"></canvas>
 
-<!-- NAVBAR -->
-<nav>
-  <a class="nav-brand" href="{% url 'home' %}"><span>🎓</span>AI English Coach</a>
-  <div class="nav-links">
-    {% if user.is_authenticated %}
-      <div class="user-pill">🎓 Hi, {{ user.first_name|default:user.username }}!</div>
-      <a href="{% url 'dashboard' %}" class="nl">Dashboard</a>
-      <a href="{% url 'logout' %}" class="nl">Logout</a>
-    {% else %}
-      <a href="{% url 'login' %}" class="nl">Login</a>
-      <a href="{% url 'register' %}" class="nl nl-btn">Get Started Free</a>
-    {% endif %}
-  </div>
-</nav>
+    <!-- Animated blobs -->
+    <div class="bg-blobs">
+        <div class="blob b1"></div>
+        <div class="blob b2"></div>
+        <div class="blob b3"></div>
+    </div>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-badge"><div class="dot-pulse"></div>AI Powered · No API Key Needed · For Indian Learners</div>
-  <div class="avatar-wrap">
-    <div class="ai-avatar">🤖</div>
-    <div class="ring"></div><div class="ring2"></div>
-  </div>
-  <h1>Your Personal<br/><span class="grad">AI English Teacher</span></h1>
-  <p>Grammar correction, vocabulary coaching, interview practice, pronunciation tips, and daily challenges — all in one place. 100% free, no API key required!</p>
-  <div class="hero-cta">
-    {% if user.is_authenticated %}
-      <a href="{% url 'text_chat' %}" class="cta cta-main">💬 Start Chatting</a>
-      <a href="{% url 'daily_challenge' %}" class="cta cta-sec">🏆 Today's Challenge</a>
-    {% else %}
-      <a href="{% url 'register' %}" class="cta cta-main">🚀 Start Learning Free</a>
-      <a href="{% url 'login' %}" class="cta cta-sec">🔑 Sign In</a>
-    {% endif %}
-  </div>
-  <div class="stats">
-    <div class="stat"><div class="stat-val">11</div><div class="stat-lbl">Learning Modules</div></div>
-    <div class="stat"><div class="stat-val">500+</div><div class="stat-lbl">Grammar Rules</div></div>
-    <div class="stat"><div class="stat-val">200+</div><div class="stat-lbl">Vocabulary Words</div></div>
-    <div class="stat"><div class="stat-val">24/7</div><div class="stat-lbl">Available</div></div>
-  </div>
-</section>
+    <!-- NAVBAR -->
+    <nav>
+        <a class="nav-brand" href="{% url 'home' %}"><span>🎓</span>AI English Coach</a>
+        <div class="nav-links">
+            {% if user.is_authenticated %}
+                <div class="user-pill">🎓 Hi, {{ user.first_name|default:user.username }}!</div>
+                <a href="{% url 'dashboard' %}" class="nl">Dashboard</a>
+                <a href="{% url 'logout' %}" class="nl">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="nl">Login</a>
+                <a href="{% url 'register' %}" class="nl nl-btn">Get Started Free</a>
+            {% endif %}
+        </div>
+    </nav>
 
-<!-- FEATURES -->
-<div class="section">
-  <h2 class="section-title">Everything You Need to <span class="grad">Master English</span></h2>
-  <p class="section-sub">11 powerful modules taught by your AI teacher — Aria 🎓</p>
-  <div class="feat-grid">
-    {% with base=user.is_authenticated %}
-    <a href="{% if base %}{% url 'text_chat' %}{% else %}{% url 'login' %}{% endif %}" class="feat-card" style="--cc:#6c63ff">
-      <div class="fi">💬</div><div class="ft">Text Chat Coach</div>
-      <div class="fd">ChatGPT-style chat — every reply teaches grammar, vocabulary and pronunciation.</div>
-      <div class="fc-tags"><span class="fc-tag">Live Chat</span><span class="fc-tag">Auto-Correct</span><span class="fc-tag">Examples</span></div>
-      <div class="fa">→</div>
-    </a>
-    <a href="{% if base %}{% url 'voice_chat' %}{% else %}{% url 'login' %}{% endif %}" class="feat-card" style="--cc:#ff6584">
-      <div class="fi">🎤</div><div class="ft">Voice Assistant</div>
-      <div class="fd">Speak freely — AI listens, responds in a female voice, and teaches pronunciation.</div>
-      <div class="fc-tags"><span class="fc-tag">Speech-to-Text</span><span class="fc-tag">Text-to-Speech</span><span class="fc-tag">Wave Animation</span></div>
-      <div class="fa">→</div>
-    </a>
-    <a href="{% if base %}{% url 'grammar_coach' %}{% else %}{% url 'login' %}{% endif %}" class="feat-card" style="--cc:#43e97b">
-      <div class="fi">📖</div><div class="ft">Grammar Coach</div>
-      <div class="fd">Paste any text — get instant corrections with rule explanations and exercises.</div>
-      <div class="fc-tags"><span class="fc-tag">Error Detection</span><span class="fc-tag">Rule Explanation</span><span class="fc-tag">Practice</span></div>
-      <div class="fa">→</div>
-    </a>
-    <a href="{% if base %}{% url 'vocabulary_coach' %}{% else %}{% url 'login' %}{% endif %}" class="feat-card" style="--cc:#06b6d4">
-      <div class="fi">📚</div><div class="ft">Vocabulary Coach</div>
-      <div class="fd">Any word — get meaning, Hindi translation, IPA pronunciation, synonyms, antonyms & examples.</div>
-      <div class="fc-tags"><span class="fc-tag">Hindi Meaning</span><span class="fc-tag">IPA Guide</span><span class="fc-tag">Save Words</span></div>
-      <div class="fa">→</div>
-    </a>
-    <a href="{% if base %}{% url 'speaking_practice' %}{% else %}{% url 'login' %}{% endif %}" class="feat-card" style="--cc:#f59e0b">
-      <div class="fi">🗣️</div><div class="ft">Speaking Practice</div>
-      <div class="fd">10 daily topics — get detailed AI feedback on fluency, grammar, vocabulary & model answers.</div>
-      <div class="fc-tags"><span class="fc-tag">10 Topics</span><span class="fc-tag">AI Feedback</span><span class="fc-tag">Model Answers</span></div>
-      <div class="fa">→</div>
-    </a>
-    <a href="{% if base %}{% url 'interview_practice' %}{% else %}{% url 'login' %}{% endif %}" class="feat-card" style="--cc:#8b5cf6">
-      <div class="fi">💼</div><div class="ft">Interview Practice</div>
-      <div class="fd">HR & behavioral questions — AI evaluates grammar, confidence & professionalism.</div>
-      <div class="fc-tags"><span class="fc-tag">HR Questions</span><span class="fc-tag">Score Card</span><span class="fc-tag">Model Answers</span></div>
-      <div class="fa">→</div>
-    </a>
-    <a href="{% if base %}{% url 'translation' %}{% else %}{% url 'login' %}{% endif %}" class="feat-card" style="--cc:#ec4899">
-      <div class="fi">🔄</div><div class="ft">Translation</div>
-      <div class="fd">Hindi ↔ English with grammar notes, alternatives, usage tips & common Indian mistakes.</div>
-      <div class="fc-tags"><span class="fc-tag">Hindi→English</span><span class="fc-tag">English→Hindi</span><span class="fc-tag">Notes</span></div>
-      <div class="fa">→</div>
-    </a>
-    <a href="{% if base %}{% url 'pronunciation_coach' %}{% else %}{% url 'login' %}{% endif %}" class="feat-card" style="--cc:#10b981">
-      <div class="fi">🎵</div><div class="ft">Pronunciation Coach</div>
-      <div class="fd">Analyze any sentence — IPA guide, stress patterns & tips for Indian English speakers.</div>
-      <div class="fc-tags"><span class="fc-tag">IPA Guide</span><span class="fc-tag">Stress Patterns</span><span class="fc-tag">Drills</span></div>
-      <div class="fa">→</div>
-    </a>
-    <a href="{% if base %}{% url 'daily_challenge' %}{% else %}{% url 'login' %}{% endif %}" class="feat-card" style="--cc:#f97316">
-      <div class="fi">🏆</div><div class="ft">Daily Challenge</div>
-      <div class="fd">Grammar, Vocabulary, Speaking & Pronunciation challenges. Earn XP and maintain streaks!</div>
-      <div class="fc-tags"><span class="fc-tag">4 Quiz Types</span><span class="fc-tag">Earn XP</span><span class="fc-tag">Streak</span></div>
-      <div class="fa">→</div>
-    </a>
-    <a href="{% if base %}{% url 'dashboard' %}{% else %}{% url 'login' %}{% endif %}" class="feat-card" style="--cc:#6366f1">
-      <div class="fi">📊</div><div class="ft">Progress Dashboard</div>
-      <div class="fd">Track XP, streaks, scores, achievements and weekly progress with beautiful charts.</div>
-      <div class="fc-tags"><span class="fc-tag">Charts</span><span class="fc-tag">Streaks</span><span class="fc-tag">Achievements</span></div>
-      <div class="fa">→</div>
-    </a>
-    {% endwith %}
-  </div>
-</div>
+    <!-- HERO — Robot Avatar Removed -->
+    <section class="hero">
+        <div class="hero-badge">
+            <div class="dot-pulse"></div>
+            AI Powered · No API Key Needed · For Indian Learners
+        </div>
 
-<!-- HOW IT WORKS -->
-<div class="section" style="padding-top:0">
-  <h2 class="section-title">How <span class="grad">Aria</span> Teaches You</h2>
-  <p class="section-sub">Every single response follows the 8-step teaching method</p>
-  <div class="how-grid">
-    <div class="step"><div class="step-num">1</div><div class="step-em">✅</div><div class="step-title">Answer Your Question</div><div class="step-desc">Aria always responds clearly to what you ask first.</div></div>
-    <div class="step"><div class="step-num">2</div><div class="step-em">🔍</div><div class="step-title">Correct Mistakes</div><div class="step-desc">Grammar errors are identified and gently corrected every time.</div></div>
-    <div class="step"><div class="step-num">3</div><div class="step-em">📖</div><div class="step-title">Explain the Rule</div><div class="step-desc">The grammar rule behind each correction is explained clearly.</div></div>
-    <div class="step"><div class="step-num">4</div><div class="step-em">💡</div><div class="step-title">Better Vocabulary</div><div class="step-desc">Advanced word suggestions to make your English more natural.</div></div>
-    <div class="step"><div class="step-num">5</div><div class="step-em">🗣️</div><div class="step-title">Pronunciation Tips</div><div class="step-desc">IPA guides and tips tailored for Indian English speakers.</div></div>
-    <div class="step"><div class="step-num">6</div><div class="step-em">📝</div><div class="step-title">3 Examples</div><div class="step-desc">Example sentences showing correct usage in real contexts.</div></div>
-    <div class="step"><div class="step-num">7</div><div class="step-em">🏋️</div><div class="step-title">Practice Exercise</div><div class="step-desc">A quick exercise to reinforce what was just taught.</div></div>
-    <div class="step"><div class="step-num">8</div><div class="step-em">❓</div><div class="step-title">Follow-up Question</div><div class="step-desc">One question to keep you practicing and thinking in English.</div></div>
-  </div>
-</div>
+        <h1>Your Personal<br/><span class="grad">AI English Teacher</span></h1>
+        <p>Grammar correction, interview practice, pronunciation tips, and daily challenges — all in one place. 100% free, no API key required!</p>
+        <div class="hero-cta">
+            {% if user.is_authenticated %}
+                <!-- Only Today's Challenge remains; Voice Assistant removed -->
+                <a href="{% url 'daily_challenge' %}" class="cta cta-main">🏆 Today's Challenge</a>
+            {% else %}
+                <a href="{% url 'register' %}" class="cta cta-main">🚀 Start Learning Free</a>
+                <a href="{% url 'login' %}" class="cta cta-sec">🔑 Sign In</a>
+            {% endif %}
+        </div>
+        <div class="stats">
+            <div class="stat"><div class="stat-val">7</div><div class="stat-lbl">Learning Modules</div></div>
+            <div class="stat"><div class="stat-val">500+</div><div class="stat-lbl">Grammar Rules</div></div>
+            <div class="stat"><div class="stat-val">200+</div><div class="stat-lbl">Vocabulary Words</div></div>
+            <div class="stat"><div class="stat-val">24/7</div><div class="stat-lbl">Available</div></div>
+        </div>
+    </section>
 
-<div class="quote-band">
-  <div class="quote-text"><span class="qt-q">"</span>Don't just learn English. <em>Think</em> in English, <em>dream</em> in English, and <em>succeed</em> in English.<span class="qt-q">"</span></div>
-  <div class="quote-auth">— Aria, Your AI English Coach</div>
-</div>
+    <!-- FEATURES -->
+    <div class="section">
+        <h2 class="section-title">Everything You Need to <span class="grad">Master English</span></h2>
+        <p class="section-sub">7 powerful modules taught by your AI teacher — NEXA HUB 🎓</p>
+        <div class="feat-grid">
+            {% with base=user.is_authenticated %}
+            <!-- Text Chat Coach removed -->
+            <!-- Vocabulary Coach removed -->
+            <!-- Voice Assistant removed -->
+            <a href="{% if base %}{% url 'grammar_coach' %}{% else %}{% url 'login' %}{% endif %}" class="feat-card" style="--cc:#d4af37">
+                <div class="fi">📖</div>
+                <div class="ft">Grammar Coach</div>
+                <div class="fd">Paste any text — get instant corrections with rule explanations and exercises.</div>
+                <div class="fc-tags"><span class="fc-tag">Error Detection</span><span class="fc-tag">Rule Explanation</span><span class="fc-tag">Practice</span></div>
+                <div class="fa">→</div>
+            </a>
+            <a href="{% if base %}{% url 'speaking_practice' %}{% else %}{% url 'login' %}{% endif %}" class="feat-card" style="--cc:#d4af37">
+                <div class="fi">🗣️</div>
+                <div class="ft">Speaking Practice</div>
+                <div class="fd">10 daily topics — get detailed AI feedback on fluency, grammar, vocabulary & model answers.</div>
+                <div class="fc-tags"><span class="fc-tag">10 Topics</span><span class="fc-tag">AI Feedback</span><span class="fc-tag">Model Answers</span></div>
+                <div class="fa">→</div>
+            </a>
+            <a href="{% if base %}{% url 'interview_practice' %}{% else %}{% url 'login' %}{% endif %}" class="feat-card" style="--cc:#d4af37">
+                <div class="fi">💼</div>
+                <div class="ft">Interview Practice</div>
+                <div class="fd">HR & behavioral questions — AI evaluates grammar, confidence & professionalism.</div>
+                <div class="fc-tags"><span class="fc-tag">HR Questions</span><span class="fc-tag">Score Card</span><span class="fc-tag">Model Answers</span></div>
+                <div class="fa">→</div>
+            </a>
+            <a href="{% if base %}{% url 'translation' %}{% else %}{% url 'login' %}{% endif %}" class="feat-card" style="--cc:#d4af37">
+                <div class="fi">🔄</div>
+                <div class="ft">Translation</div>
+                <div class="fd">Hindi ↔ English with grammar notes, alternatives, usage tips & common Indian mistakes.</div>
+                <div class="fc-tags"><span class="fc-tag">Hindi→English</span><span class="fc-tag">English→Hindi</span><span class="fc-tag">Notes</span></div>
+                <div class="fa">→</div>
+            </a>
+            <a href="{% if base %}{% url 'pronunciation_coach' %}{% else %}{% url 'login' %}{% endif %}" class="feat-card" style="--cc:#d4af37">
+                <div class="fi">🎵</div>
+                <div class="ft">Pronunciation Coach</div>
+                <div class="fd">Analyze any sentence — IPA guide, stress patterns & tips for Indian English speakers.</div>
+                <div class="fc-tags"><span class="fc-tag">IPA Guide</span><span class="fc-tag">Stress Patterns</span><span class="fc-tag">Drills</span></div>
+                <div class="fa">→</div>
+            </a>
+            <a href="{% if base %}{% url 'daily_challenge' %}{% else %}{% url 'login' %}{% endif %}" class="feat-card" style="--cc:#d4af37">
+                <div class="fi">🏆</div>
+                <div class="ft">Daily Challenge</div>
+                <div class="fd">Grammar, Vocabulary, Speaking & Pronunciation challenges. Earn XP and maintain streaks!</div>
+                <div class="fc-tags"><span class="fc-tag">4 Quiz Types</span><span class="fc-tag">Earn XP</span><span class="fc-tag">Streak</span></div>
+                <div class="fa">→</div>
+            </a>
+            <a href="{% if base %}{% url 'dashboard' %}{% else %}{% url 'login' %}{% endif %}" class="feat-card" style="--cc:#d4af37">
+                <div class="fi">📊</div>
+                <div class="ft">Progress Dashboard</div>
+                <div class="fd">Track XP, streaks, scores, achievements and weekly progress with beautiful charts.</div>
+                <div class="fc-tags"><span class="fc-tag">Charts</span><span class="fc-tag">Streaks</span><span class="fc-tag">Achievements</span></div>
+                <div class="fa">→</div>
+            </a>
+            {% endwith %}
+        </div>
+    </div>
 
-<footer>
-  <p>🎓 AI English Coach · Built with Django · 100% Offline Dataset · No API Key Needed</p>
-  <p style="margin-top:8px"><a href="{% url 'register' %}">Get Started Free</a> · <a href="{% url 'login' %}">Login</a>{% if user.is_authenticated %} · <a href="{% url 'dashboard' %}">Dashboard</a>{% endif %}</p>
-</footer>
+    <!-- HOW IT WORKS -->
+    <div class="section" style="padding-top:0">
+        <h2 class="section-title">How <span class="grad">Aria</span> Teaches You</h2>
+        <p class="section-sub">Every single response follows the 8-step teaching method</p>
+        <div class="how-grid">
+            <div class="step"><div class="step-num">1</div><div class="step-em">✅</div><div class="step-title">Answer Your Question</div><div class="step-desc">Aria always responds clearly to what you ask first.</div></div>
+            <div class="step"><div class="step-num">2</div><div class="step-em">🔍</div><div class="step-title">Correct Mistakes</div><div class="step-desc">Grammar errors are identified and gently corrected every time.</div></div>
+            <div class="step"><div class="step-num">3</div><div class="step-em">📖</div><div class="step-title">Explain the Rule</div><div class="step-desc">The grammar rule behind each correction is explained clearly.</div></div>
+            <div class="step"><div class="step-num">4</div><div class="step-em">💡</div><div class="step-title">Better Vocabulary</div><div class="step-desc">Advanced word suggestions to make your English more natural.</div></div>
+            <div class="step"><div class="step-num">5</div><div class="step-em">🗣️</div><div class="step-title">Pronunciation Tips</div><div class="step-desc">IPA guides and tips tailored for Indian English speakers.</div></div>
+            <div class="step"><div class="step-num">6</div><div class="step-em">📝</div><div class="step-title">3 Examples</div><div class="step-desc">Example sentences showing correct usage in real contexts.</div></div>
+            <div class="step"><div class="step-num">7</div><div class="step-em">🏋️</div><div class="step-title">Practice Exercise</div><div class="step-desc">A quick exercise to reinforce what was just taught.</div></div>
+            <div class="step"><div class="step-num">8</div><div class="step-em">❓</div><div class="step-title">Follow-up Question</div><div class="step-desc">One question to keep you practicing and thinking in English.</div></div>
+        </div>
+    </div>
 
-<script>
-// Particle canvas animation
-(function(){
-  const c=document.getElementById('particles-canvas'),ctx=c.getContext('2d');
-  let W,H,pts=[];
-  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
-  resize();window.addEventListener('resize',resize);
-  function rand(a,b){return Math.random()*(b-a)+a;}
-  const COLORS=['108,99,255','255,101,132','67,233,123','6,182,212'];
-  for(let i=0;i<110;i++)pts.push({x:rand(0,W),y:rand(0,H),r:rand(.5,2.2),vx:rand(-.25,.25),vy:rand(-.25,.25),a:rand(.1,.45),c:COLORS[Math.floor(Math.random()*COLORS.length)]});
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    pts.forEach(p=>{
-      p.x+=p.vx;p.y+=p.vy;
-      if(p.x<0||p.x>W)p.vx*=-1;
-      if(p.y<0||p.y>H)p.vy*=-1;
-      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle=`rgba(${p.c},${p.a})`;ctx.fill();
-    });
-    requestAnimationFrame(draw);
-  }
-  draw();
-})();
-</script>
+    <!-- QUOTE BAND -->
+    <div class="quote-band">
+        <div class="quote-text"><span class="qt-q">"</span>Don't just learn English. <em>Think</em> in English, <em>dream</em> in English, and <em>succeed</em> in English.<span class="qt-q">"</span></div>
+        <div class="quote-auth">— Aria, Your AI English Coach</div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>🎓 AI English Coach · Built with Django · 100% Offline Dataset · No API Key Needed</p>
+        <p style="margin-top:8px"><a href="{% url 'register' %}">Get Started Free</a> · <a href="{% url 'login' %}">Login</a>{% if user.is_authenticated %} · <a href="{% url 'dashboard' %}">Dashboard</a>{% endif %}</p>
+    </footer>
+
+    <!-- ============================================================
+    PARTICLE SCRIPT (unchanged)
+    ============================================================ -->
+    <script>
+        (function() {
+            const c = document.getElementById('particles-canvas'),
+                ctx = c.getContext('2d');
+            let W, H, pts = [];
+
+            function resize() {
+                W = c.width = window.innerWidth;
+                H = c.height = window.innerHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            function rand(a, b) { return Math.random() * (b - a) + a; }
+            const COLORS = ['212,175,55', '245,215,110', '184,150,46', '212,175,55'];
+            for (let i = 0; i < 110; i++) {
+                pts.push({
+                    x: rand(0, W),
+                    y: rand(0, H),
+                    r: rand(0.5, 2.2),
+                    vx: rand(-0.25, 0.25),
+                    vy: rand(-0.25, 0.25),
+                    a: rand(0.1, 0.45),
+                    c: COLORS[Math.floor(Math.random() * COLORS.length)]
+                });
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, W, H);
+                pts.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0 || p.x > W) p.vx *= -1;
+                    if (p.y < 0 || p.y > H) p.vy *= -1;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${p.c},${p.a})`;
+                    ctx.fill();
+                });
+                requestAnimationFrame(draw);
+            }
+            draw();
+        })();
+    </script>
+
 </body>
 </html>
