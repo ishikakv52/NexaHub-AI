@@ -1015,7 +1015,7 @@
     </div>
     <div class="day-badge">📅 Day <span id="nav-day">1</span></div>
     <div class="goal-badge">⚡ <span id="nav-goal">Muscle Gain</span></div>
-    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">☀️</button>
     <button class="settings-btn" onclick="showPage('profile')">⚙️</button>
   </div>
 </nav>
@@ -1746,25 +1746,34 @@
   }
 
   // ══════════════════════════════════════
-  //  THEME TOGGLE
+  //  THEME TOGGLE (FIXED)
   // ══════════════════════════════════════
   function toggleTheme(){
     const body = document.body;
     const toggle = document.getElementById('themeToggle');
     body.classList.toggle('dark-mode');
-    toggle.textContent = body.classList.contains('dark-mode') ? '☀️' : '🌙';
+    
+    // ✅ FIX: Light mode = ☀️, Dark mode = 🌙
+    if (body.classList.contains('dark-mode')) {
+      toggle.textContent = '🌙';  // Dark mode = moon
+    } else {
+      toggle.textContent = '☀️';  // Light mode = sun
+    }
+    
     localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
   }
 
-  // Load saved theme
+  // Load saved theme (FIXED)
   (function loadTheme(){
     const saved = localStorage.getItem('theme');
+    const toggle = document.getElementById('themeToggle');
+    
     if(saved === 'dark') {
       document.body.classList.add('dark-mode');
-      document.getElementById('themeToggle').textContent = '☀️';
+      toggle.textContent = '🌙';  // Dark mode = moon
     } else {
       document.body.classList.remove('dark-mode');
-      document.getElementById('themeToggle').textContent = '🌙';
+      toggle.textContent = '☀️';  // Light mode = sun
     }
   })();
 

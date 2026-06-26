@@ -630,8 +630,8 @@
             <i class="fa-solid fa-gear" id="gearIcon" title="Settings"></i>
             <!-- THEME TOGGLE MOVED TO TOP -->
             <button class="theme-toggle" id="themeToggle">
-              <i class="fas fa-moon" id="themeIcon"></i>
-              <span id="themeLabel">Dark</span>
+              <i class="fas fa-sun" id="themeIcon"></i>
+              <span id="themeLabel">Light</span>
             </button>
           </div>
         </div>
@@ -751,13 +751,15 @@
     function applyTheme(dark) {
       if (dark) {
         document.body.classList.add('dark-mode');
-        themeIcon.className = 'fas fa-sun';
-        themeLabel.textContent = 'Light';
+        // Dark mode mein 🌙 moon icon
+        themeIcon.className = 'fas fa-moon';
+        themeLabel.textContent = 'Dark';
         localStorage.setItem('nexa-theme', 'dark');
       } else {
         document.body.classList.remove('dark-mode');
-        themeIcon.className = 'fas fa-moon';
-        themeLabel.textContent = 'Dark';
+        // Light mode mein ☀️ sun icon
+        themeIcon.className = 'fas fa-sun';
+        themeLabel.textContent = 'Light';
         localStorage.setItem('nexa-theme', 'light');
       }
       isDark = dark;
@@ -888,7 +890,7 @@
       }, 3500);
     }
 
-    console.log('✅ Nexa Hub AI · Dark mode toggle at top!');
+    console.log('✅ Nexa Hub AI · Correct icons: Light=☀️, Dark=🌙');
   })();
 </script>
 
