@@ -3,8 +3,13 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Daily Challenge — AI English Coach</title>
+    <title>Daily Challenge — NEXA HUB ENGLISH COACH</title>
     <style>
+        /* =============================================
+           LUXURY / PREMIUM THEME – Deep Navy, Gold, Elegant
+           WITH LEFT SIDEBAR LAYOUT
+           ============================================= */
+
         /* ─── RESET & VARIABLES ─── */
         *,
         *::before,
@@ -15,34 +20,36 @@
         }
 
         :root {
-            --primary: #6c63ff;
-            --primary-dim: rgba(108, 99, 255, .12);
-            --secondary: #ff6584;
-            --accent: #43e97b;
-            --orange: #f97316;
-            --gold: #f59e0b;
-            --pink: #ec4899;
-            --cyan: #06b6d4;
+            /* Deep navy base */
+            --bg: #0a0c1a;
+            --surface: rgba(255, 255, 255, 0.03);
+            --surface-hover: rgba(212, 175, 55, 0.06);
+            --border: rgba(212, 175, 55, 0.15);
+            --border-glow: rgba(212, 175, 55, 0.3);
 
-            --bg: #07070e;
-            --surface: rgba(255, 255, 255, .04);
-            --surface-hover: rgba(255, 255, 255, .07);
-            --border: rgba(255, 255, 255, .07);
-            --border-light: rgba(255, 255, 255, .12);
+            /* Gold palette */
+            --gold: #d4af37;
+            --gold-light: #f5d76e;
+            --gold-dark: #b8962e;
+            --gold-gradient: linear-gradient(135deg, #f5d76e, #d4af37, #b8962e);
 
-            --text: #f0f0ff;
-            --text-secondary: #b0b0d0;
-            --text-muted: #7777a0;
+            /* Text */
+            --text: #f0ece4;
+            --text-secondary: #d6cfb5;
+            --muted: #8a867a;
+
+            /* Typography */
+            --font-heading: 'Playfair Display', 'Georgia', serif;
+            --font-body: 'Lora', 'Segoe UI', serif;
 
             --radius: 16px;
-            --radius-sm: 10px;
-            --radius-lg: 24px;
-            --shadow: 0 8px 40px rgba(0, 0, 0, .5);
-            --shadow-glow: 0 8px 32px rgba(249, 115, 22, .20);
-            --transition: .3s cubic-bezier(.22, 1, .36, 1);
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(212, 175, 55, 0.05);
+            --transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+
+            /* Sidebar width */
+            --sidebar-width: 240px;
         }
 
-        /* ─── BASE ─── */
         html {
             scroll-behavior: smooth;
         }
@@ -50,14 +57,15 @@
         body {
             background: var(--bg);
             color: var(--text);
-            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-            min-height: 100vh;
-            line-height: 1.6;
+            font-family: var(--font-body);
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
+            line-height: 1.7;
+            min-height: 100vh;
+            letter-spacing: 0.02em;
+            display: flex;
         }
 
-        /* ─── BG BLOBS ─── */
+        /* ─── BACKGROUND BLOBS (for main content) ─── */
         .bg-blobs {
             position: fixed;
             inset: 0;
@@ -68,148 +76,193 @@
         .blob {
             position: absolute;
             border-radius: 50%;
-            filter: blur(130px);
-            opacity: .13;
-            animation: floatBlob 16s ease-in-out infinite alternate;
+            filter: blur(160px);
+            opacity: 0.10;
+            animation: floatBlob 20s ease-in-out infinite alternate;
         }
         .b1 {
-            width: 600px;
-            height: 600px;
-            background: var(--orange);
-            top: -200px;
-            left: -200px;
-            opacity: .10;
+            width: 800px;
+            height: 800px;
+            background: #d4af37;
+            top: -300px;
+            left: -250px;
+            opacity: 0.06;
         }
         .b2 {
-            width: 480px;
-            height: 480px;
-            background: var(--secondary);
-            bottom: -160px;
-            right: -160px;
-            animation-delay: 5s;
-            opacity: .09;
+            width: 600px;
+            height: 600px;
+            background: #b8962e;
+            bottom: -200px;
+            right: -200px;
+            animation-delay: 7s;
+            opacity: 0.05;
         }
         .b3 {
-            width: 400px;
-            height: 400px;
-            background: var(--primary);
-            top: 30%;
-            right: -120px;
-            animation-delay: 9s;
-            opacity: .08;
+            width: 450px;
+            height: 450px;
+            background: #f5d76e;
+            top: 45%;
+            left: 55%;
+            animation-delay: 4s;
+            opacity: 0.04;
         }
         @keyframes floatBlob {
             0% {
                 transform: translate(0, 0) scale(1);
             }
             100% {
-                transform: translate(40px, -40px) scale(1.06);
+                transform: translate(50px, -50px) scale(1.1);
             }
         }
 
-        /* ─── XP TOAST ─── */
-        .xp-toast {
+        /* ─── PARTICLES CANVAS ─── */
+        #particles-canvas {
             position: fixed;
-            top: 76px;
-            right: 24px;
-            z-index: 999;
-            background: linear-gradient(135deg, var(--accent), var(--cyan));
-            color: #0a0a16;
-            font-weight: 800;
-            font-size: .88rem;
-            padding: 12px 24px;
-            border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(67, 233, 123, .30);
-            display: none;
-            animation: popToast .4s cubic-bezier(.22, 1, .36, 1);
-            backdrop-filter: blur(8px);
-            letter-spacing: .02em;
-        }
-        .xp-toast.show {
-            display: block;
-        }
-        @keyframes popToast {
-            0% {
-                opacity: 0;
-                transform: translateY(-24px) scale(.92);
-            }
-            60% {
-                transform: translateY(4px) scale(1.02);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
         }
 
-        /* ─── NAVBAR ─── */
-        .navbar {
+        /* ─── SIDEBAR ─── */
+        .sidebar {
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            z-index: 100;
+            bottom: 0;
+            width: var(--sidebar-width);
+            z-index: 200;
+            background: rgba(10, 12, 26, 0.92);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-right: 1px solid var(--border);
+            padding: 24px 0 20px;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+            overflow-y: auto;
+        }
+        .sidebar:hover {
+            border-right-color: var(--border-glow);
+        }
+
+        .sidebar-brand {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 0 32px;
-            height: 64px;
-            background: rgba(7, 7, 14, .80);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-        }
-        .nav-brand {
-            font-weight: 800;
-            color: var(--text);
+            gap: 12px;
+            padding: 0 20px 24px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: var(--font-heading);
             text-decoration: none;
-            font-size: 1.05rem;
-            letter-spacing: -.3px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .nav-brand span {
-            background: linear-gradient(135deg, var(--orange), var(--secondary));
+            letter-spacing: 0.05em;
+            color: var(--gold-light);
+            background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
         }
-        .nav-links {
+        .sidebar-brand span {
+            -webkit-text-fill-color: initial;
+            font-size: 1.6rem;
+            background: none;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 20px 12px 0;
             display: flex;
+            flex-direction: column;
             gap: 4px;
+        }
+        .sidebar-nav .nav-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            padding: 8px 12px 4px;
+            font-weight: 700;
+        }
+        .sidebar-link {
+            display: flex;
             align-items: center;
-        }
-        .nl {
-            color: var(--text-muted);
+            gap: 12px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            color: var(--muted);
             text-decoration: none;
-            font-size: .8rem;
-            font-weight: 600;
-            padding: 6px 14px;
-            border-radius: 8px;
-            border: 1px solid transparent;
+            font-size: 0.85rem;
             transition: var(--transition);
+            font-weight: 500;
+            font-family: var(--font-body);
         }
-        .nl:hover {
-            color: var(--text);
-            border-color: var(--border-light);
+        .sidebar-link:hover {
+            color: var(--gold-light);
             background: var(--surface-hover);
         }
-        .nl.active {
-            color: #fff;
-            border-color: var(--primary);
-            background: var(--primary-dim);
+        .sidebar-link.active {
+            color: var(--gold-light);
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid var(--border);
+        }
+        .sidebar-link .icon {
+            font-size: 1.1rem;
         }
 
-        /* ─── PAGE ─── */
-        .page {
+        .sidebar-user {
+            border-top: 1px solid var(--border);
+            padding: 16px 20px 0;
+            margin-top: auto;
+        }
+        .sidebar-user .user-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+        }
+        .sidebar-user .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gold-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: #0a0c1a;
+            flex-shrink: 0;
+        }
+        .sidebar-user .user-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .sidebar-user .user-stats {
+            display: flex;
+            gap: 14px;
+            font-size: 0.7rem;
+            color: var(--muted);
+            padding: 4px 0 8px;
+        }
+        .sidebar-user .user-stats span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* ─── MAIN CONTENT ─── */
+        .main {
+            margin-left: var(--sidebar-width);
+            flex: 1;
             position: relative;
             z-index: 1;
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 88px 24px 56px;
+            padding: 40px 32px 56px;
+            min-height: 100vh;
         }
 
-        /* ─── HEADER ─── */
+        /* ─── PAGE HEADER ─── */
         .page-header {
             text-align: center;
             margin-bottom: 40px;
@@ -230,67 +283,108 @@
             }
         }
         .page-header h1 {
-            font-size: 2.4rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--orange), var(--secondary));
+            font-family: var(--font-heading);
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
+            font-weight: 700;
+            background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            letter-spacing: -.8px;
+            letter-spacing: 0.04em;
             line-height: 1.2;
         }
         .page-header p {
-            color: var(--text-muted);
-            font-size: .95rem;
-            max-width: 520px;
-            margin: 6px auto 0;
-            font-weight: 450;
+            color: var(--muted);
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin: 8px auto 0;
+            font-weight: 400;
+            font-family: var(--font-body);
+        }
+
+        /* ─── XP TOAST ─── */
+        .xp-toast {
+            position: fixed;
+            top: 90px;
+            right: 24px;
+            z-index: 999;
+            background: var(--gold-gradient);
+            color: #0a0c1a;
+            font-weight: 800;
+            font-size: 0.88rem;
+            padding: 12px 24px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.3);
+            display: none;
+            animation: popToast 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            backdrop-filter: blur(8px);
+            letter-spacing: 0.02em;
+            font-family: var(--font-body);
+        }
+        .xp-toast.show {
+            display: block;
+        }
+        @keyframes popToast {
+            0% {
+                opacity: 0;
+                transform: translateY(-24px) scale(0.92);
+            }
+            60% {
+                transform: translateY(4px) scale(1.02);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         /* ─── TODAY CARD ─── */
         .today-card {
             background: var(--surface);
+            backdrop-filter: blur(8px);
             border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
+            border-radius: var(--radius);
             padding: 22px 28px;
             margin-bottom: 32px;
-            backdrop-filter: blur(4px);
             transition: var(--transition);
         }
         .today-card:hover {
-            border-color: var(--border-light);
+            border-color: var(--border-glow);
+            box-shadow: var(--shadow);
         }
         .today-card h3 {
-            font-size: .75rem;
+            font-size: 0.75rem;
             font-weight: 700;
-            color: var(--text-muted);
+            color: var(--gold-light);
             text-transform: uppercase;
-            letter-spacing: .08em;
+            letter-spacing: 0.08em;
             margin-bottom: 14px;
+            font-family: var(--font-heading);
         }
         .result-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 10px 16px;
-            background: rgba(255, 255, 255, .03);
-            border-radius: var(--radius-sm);
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
             margin-bottom: 6px;
-            border-left: 3px solid var(--accent);
+            border-left: 3px solid var(--gold);
             transition: var(--transition);
         }
         .result-row:hover {
-            background: rgba(255, 255, 255, .06);
+            background: rgba(212, 175, 55, 0.05);
         }
         .result-row .rtype {
-            font-size: .85rem;
+            font-size: 0.85rem;
             font-weight: 700;
             color: var(--text-secondary);
+            font-family: var(--font-body);
         }
         .result-row .rscore {
-            font-size: .85rem;
+            font-size: 0.85rem;
             font-weight: 800;
-            color: var(--accent);
+            color: var(--gold-light);
         }
 
         /* ─── CHALLENGE GRID ─── */
@@ -314,6 +408,7 @@
 
         .ch-card {
             background: var(--surface);
+            backdrop-filter: blur(8px);
             border: 1.5px solid var(--border);
             border-radius: var(--radius);
             padding: 20px 14px 18px;
@@ -321,40 +416,41 @@
             transition: var(--transition);
             text-align: center;
             position: relative;
-            backdrop-filter: blur(2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
         }
         .ch-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--cc, var(--orange));
+            transform: translateY(-6px);
+            border-color: var(--border-glow);
             background: var(--surface-hover);
             box-shadow: var(--shadow);
         }
         .ch-card.sel {
-            border-color: var(--cc, var(--orange));
-            background: rgba(249, 115, 22, .07);
-            box-shadow: 0 0 0 1px var(--cc, var(--orange)), var(--shadow);
+            border-color: var(--gold);
+            background: rgba(212, 175, 55, 0.06);
+            box-shadow: 0 0 0 1px var(--gold), var(--shadow);
         }
         .ch-card.done {
-            opacity: .6;
+            opacity: 0.6;
         }
         .ch-card.done .ch-title {
-            color: var(--text-muted);
+            color: var(--muted);
         }
         .ch-card.done .ch-emoji {
-            opacity: .6;
+            opacity: 0.6;
         }
         .done-badge {
             position: absolute;
             top: 8px;
             right: 8px;
-            background: var(--accent);
-            color: #0a0a16;
+            background: var(--gold-gradient);
+            color: #0a0c1a;
             border-radius: 20px;
-            padding: 2px 10px;
-            font-size: .6rem;
+            padding: 2px 12px;
+            font-size: 0.6rem;
             font-weight: 800;
-            letter-spacing: .02em;
+            letter-spacing: 0.02em;
             text-transform: uppercase;
+            font-family: var(--font-body);
         }
         .ch-emoji {
             font-size: 2rem;
@@ -362,30 +458,34 @@
             margin-bottom: 6px;
         }
         .ch-title {
-            font-weight: 800;
-            font-size: .92rem;
+            font-weight: 700;
+            font-size: 0.95rem;
             margin-bottom: 3px;
-            color: var(--text);
-            letter-spacing: -.2px;
+            color: var(--text-secondary);
+            font-family: var(--font-heading);
+            letter-spacing: 0.04em;
         }
         .ch-desc {
-            font-size: .7rem;
-            color: var(--text-muted);
+            font-size: 0.7rem;
+            color: var(--muted);
             line-height: 1.4;
+            font-family: var(--font-body);
         }
         .ch-xp {
             display: inline-block;
-            background: rgba(249, 115, 22, .10);
-            border: 1px solid rgba(249, 115, 22, .15);
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid var(--border);
             border-radius: 8px;
             padding: 1px 12px;
-            font-size: .65rem;
+            font-size: 0.65rem;
             font-weight: 700;
-            color: #fdba74;
+            color: var(--gold-light);
             margin-top: 8px;
+            font-family: var(--font-body);
+            letter-spacing: 0.04em;
         }
 
-        /* ─── DIFFICULTY ─── */
+        /* ─── DIFFICULTY ROW ─── */
         .diff-row {
             display: flex;
             justify-content: center;
@@ -394,25 +494,29 @@
         }
         .diff-btn {
             padding: 8px 24px;
-            border-radius: var(--radius-sm);
+            border-radius: 40px;
             border: 1px solid var(--border);
             background: transparent;
-            color: var(--text-muted);
+            color: var(--muted);
             cursor: pointer;
-            font-size: .8rem;
-            font-weight: 700;
+            font-size: 0.8rem;
+            font-weight: 600;
             transition: var(--transition);
             backdrop-filter: blur(2px);
+            font-family: var(--font-body);
+            letter-spacing: 0.04em;
         }
         .diff-btn:hover {
-            color: var(--text);
-            border-color: var(--border-light);
+            color: var(--text-secondary);
+            border-color: var(--border-glow);
+            background: var(--surface-hover);
         }
         .diff-btn.active {
-            background: linear-gradient(135deg, var(--orange), var(--secondary));
-            color: #fff;
+            background: var(--gold-gradient);
+            color: #0a0c1a;
             border-color: transparent;
-            box-shadow: 0 4px 20px rgba(249, 115, 22, .25);
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.25);
+            font-weight: 700;
         }
 
         /* ─── GENERATE BTN ─── */
@@ -421,23 +525,25 @@
             width: fit-content;
             margin: 0 auto 32px;
             padding: 14px 44px;
-            background: linear-gradient(135deg, var(--orange), var(--secondary));
+            background: var(--gold-gradient);
             border: none;
-            border-radius: var(--radius);
-            color: #fff;
-            font-weight: 800;
+            border-radius: 60px;
+            color: #0a0c1a;
+            font-weight: 700;
             font-size: 1rem;
             cursor: pointer;
             transition: var(--transition);
-            box-shadow: 0 4px 28px rgba(249, 115, 22, .25);
-            letter-spacing: .02em;
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.25);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            font-family: var(--font-body);
         }
         .btn-gen:hover:not(:disabled) {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 40px rgba(249, 115, 22, .35);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 48px rgba(212, 175, 55, 0.35);
         }
         .btn-gen:disabled {
-            opacity: .4;
+            opacity: 0.4;
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
@@ -456,9 +562,9 @@
             width: 40px;
             height: 40px;
             border: 3px solid var(--border);
-            border-top-color: var(--orange);
+            border-top-color: var(--gold);
             border-radius: 50%;
-            animation: spin .7s linear infinite;
+            animation: spin 0.7s linear infinite;
             margin: 0 auto 14px;
         }
         @keyframes spin {
@@ -467,25 +573,27 @@
             }
         }
         .loading p {
-            color: var(--text-muted);
-            font-size: .88rem;
+            color: var(--muted);
+            font-size: 0.88rem;
             font-weight: 500;
+            font-family: var(--font-body);
         }
 
         /* ─── CHALLENGE DISPLAY ─── */
         .ch-display {
             background: var(--surface);
+            backdrop-filter: blur(8px);
             border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
+            border-radius: var(--radius);
             overflow: hidden;
             display: none;
             margin-bottom: 28px;
-            backdrop-filter: blur(4px);
             transition: var(--transition);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
         .ch-display.show {
             display: block;
-            animation: slideUp .45s cubic-bezier(.22, 1, .36, 1);
+            animation: slideUp 0.45s cubic-bezier(0.22, 1, 0.36, 1);
         }
         @keyframes slideUp {
             0% {
@@ -501,7 +609,7 @@
         .ch-dhdr {
             padding: 16px 26px;
             border-bottom: 1px solid var(--border);
-            background: linear-gradient(135deg, rgba(249, 115, 22, .05), rgba(255, 101, 132, .03));
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.04), rgba(184, 150, 46, 0.02));
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -509,10 +617,11 @@
             gap: 8px;
         }
         .ch-dhdr strong {
-            font-size: 1rem;
-            font-weight: 800;
-            color: var(--text);
-            letter-spacing: -.3px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            font-family: var(--font-heading);
+            letter-spacing: 0.04em;
         }
         .ch-dhdr .act-group {
             display: flex;
@@ -520,127 +629,63 @@
             flex-wrap: wrap;
         }
         .act-btn {
-            background: rgba(255, 255, 255, .04);
+            background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--border);
             border-radius: 8px;
-            color: var(--text-muted);
+            color: var(--muted);
             padding: 5px 14px;
             cursor: pointer;
-            font-size: .74rem;
+            font-size: 0.74rem;
             font-weight: 600;
             transition: var(--transition);
+            font-family: var(--font-body);
         }
         .act-btn:hover {
-            color: var(--text);
-            border-color: var(--primary);
-            background: var(--primary-dim);
+            color: var(--gold-light);
+            border-color: var(--gold);
+            background: var(--surface-hover);
         }
 
         .ch-dbody {
             padding: 28px 30px;
-            font-size: .92rem;
-            line-height: 1.8;
+            font-size: 0.95rem;
+            line-height: 1.9;
             color: var(--text-secondary);
         }
         .ch-dbody strong {
-            color: #fdba74;
+            color: var(--gold-light);
         }
         .ch-dbody em {
-            color: var(--accent);
+            color: var(--gold);
             font-style: italic;
         }
         .ch-dbody code {
-            background: rgba(108, 99, 255, .14);
+            background: rgba(212, 175, 55, 0.08);
             padding: 1px 7px;
             border-radius: 5px;
             font-family: 'SF Mono', 'Fira Code', monospace;
-            font-size: .82em;
-            color: #b8adff;
+            font-size: 0.82em;
+            color: #f5d76e;
         }
 
-        /* ─── SCORE SUBMIT ─── */
-        .score-submit {
-            padding: 18px 28px 22px;
-            border-top: 1px solid var(--border);
-            background: rgba(255, 255, 255, .015);
-        }
-        .score-submit h4 {
-            font-size: .78rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            margin-bottom: 12px;
-            letter-spacing: .04em;
-            text-transform: uppercase;
-        }
-        .score-row {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            flex-wrap: wrap;
-        }
-        .score-row label {
-            font-size: .7rem;
-            color: var(--text-muted);
-            display: block;
-            margin-bottom: 3px;
-            font-weight: 600;
-        }
-        .score-input {
-            background: rgba(255, 255, 255, .05);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            color: var(--text);
-            padding: 8px 14px;
-            font-size: .95rem;
-            width: 76px;
-            outline: none;
-            text-align: center;
-            font-weight: 700;
-            transition: var(--transition);
-        }
-        .score-input:focus {
-            border-color: var(--orange);
-            box-shadow: 0 0 0 3px rgba(249, 115, 22, .12);
-        }
-        .btn-submit-score {
-            padding: 9px 24px;
-            background: linear-gradient(135deg, var(--accent), var(--cyan));
-            border: none;
-            border-radius: var(--radius-sm);
-            color: #0a0a16;
-            font-weight: 800;
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: .84rem;
-        }
-        .btn-submit-score:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 24px rgba(67, 233, 123, .30);
-        }
-        .score-msg {
-            font-size: .84rem;
-            color: var(--accent);
-            display: none;
-            font-weight: 700;
-        }
-
-        /* ─── MCQ ─── */
+        /* ─── MCQ BLOCKS ─── */
         .mcq-block {
             margin-bottom: 20px;
             padding: 18px 22px;
-            background: rgba(255, 255, 255, .025);
+            background: rgba(255, 255, 255, 0.02);
             border-radius: var(--radius);
             border: 1px solid var(--border);
             transition: var(--transition);
         }
         .mcq-block:hover {
-            border-color: var(--border-light);
+            border-color: var(--border-glow);
         }
         .mcq-block .q-text {
-            color: #fdba74;
-            font-size: .95rem;
+            color: var(--gold-light);
+            font-size: 0.95rem;
             font-weight: 700;
             margin-bottom: 14px;
+            font-family: var(--font-heading);
         }
         .options-grid {
             display: grid;
@@ -649,32 +694,34 @@
         .opt-btn {
             text-align: left;
             padding: 10px 18px;
-            background: rgba(255, 255, 255, .035);
+            background: rgba(255, 255, 255, 0.03);
             border: 1.5px solid var(--border);
-            border-radius: var(--radius-sm);
+            border-radius: 10px;
             color: var(--text-secondary);
-            font-size: .88rem;
+            font-size: 0.88rem;
             cursor: pointer;
             transition: var(--transition);
             width: 100%;
             font-weight: 500;
+            font-family: var(--font-body);
         }
         .opt-btn:hover:not([disabled]) {
-            background: rgba(108, 99, 255, .10);
-            border-color: var(--primary);
+            background: rgba(212, 175, 55, 0.06);
+            border-color: var(--gold);
             color: #fff;
         }
         .opt-btn[disabled] {
             cursor: default;
-            opacity: .6;
+            opacity: 0.6;
         }
         .answer-reveal {
             margin-top: 12px;
             padding: 12px 16px;
-            border-radius: var(--radius-sm);
-            font-size: .85rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
             display: none;
             line-height: 1.6;
+            font-family: var(--font-body);
         }
 
         /* ─── VOICE / SPEAKING CARDS ─── */
@@ -686,18 +733,12 @@
             margin-bottom: 16px;
             border: 1px solid var(--border);
             transition: var(--transition);
+            background: var(--surface);
         }
-        .pron-card {
-            background: linear-gradient(135deg, rgba(236, 72, 153, .06), rgba(139, 92, 246, .04));
-            border-color: rgba(236, 72, 153, .15);
-        }
-        .speak-card {
-            background: rgba(108, 99, 255, .05);
-            border-color: rgba(108, 99, 255, .12);
-        }
-        .topic-card {
-            background: linear-gradient(135deg, rgba(245, 158, 11, .06), rgba(249, 115, 22, .04));
-            border-color: rgba(245, 158, 11, .15);
+        .pron-card:hover,
+        .speak-card:hover,
+        .topic-card:hover {
+            border-color: var(--border-glow);
         }
 
         .btn-voice {
@@ -707,61 +748,65 @@
             font-weight: 700;
             cursor: pointer;
             transition: var(--transition);
-            font-size: .8rem;
+            font-size: 0.8rem;
+            font-family: var(--font-body);
         }
         .btn-voice:hover {
             transform: translateY(-2px);
         }
         .btn-voice-pink {
-            background: rgba(236, 72, 153, .18);
-            border: 1px solid rgba(236, 72, 153, .25);
-            color: #f9a8d4;
+            background: rgba(212, 175, 55, 0.12);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            color: var(--gold-light);
         }
         .btn-voice-pink:hover {
-            background: rgba(236, 72, 153, .28);
+            background: rgba(212, 175, 55, 0.2);
         }
         .btn-voice-purple {
-            background: rgba(139, 92, 246, .16);
-            border: 1px solid rgba(139, 92, 246, .25);
-            color: #c4b5fd;
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            color: var(--gold-light);
         }
         .btn-voice-purple:hover {
-            background: rgba(139, 92, 246, .28);
+            background: rgba(212, 175, 55, 0.18);
         }
         .btn-voice-gold {
-            background: rgba(245, 158, 11, .14);
-            border: 1px solid rgba(245, 158, 11, .2);
-            color: #fbbf24;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            color: var(--gold-light);
         }
         .btn-voice-gold:hover {
-            background: rgba(245, 158, 11, .24);
+            background: rgba(212, 175, 55, 0.2);
         }
 
         .transcript-box {
             min-height: 56px;
             padding: 12px 16px;
-            background: rgba(0, 0, 0, .30);
-            border-radius: var(--radius-sm);
-            font-size: .88rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            font-size: 0.88rem;
             color: var(--text-secondary);
             font-style: italic;
             line-height: 1.6;
             border: 1px solid var(--border);
             margin-bottom: 10px;
+            font-family: var(--font-body);
         }
         .status-text {
-            font-size: .74rem;
-            color: var(--text-muted);
+            font-size: 0.74rem;
+            color: var(--muted);
             min-height: 20px;
             margin-top: 6px;
+            font-family: var(--font-body);
         }
 
         .checklist-item {
             padding: 4px 0;
-            font-size: .82rem;
+            font-size: 0.82rem;
             display: flex;
             gap: 8px;
             align-items: flex-start;
+            color: var(--text-secondary);
         }
         .checklist-item .num {
             color: var(--gold);
@@ -769,60 +814,151 @@
             min-width: 20px;
         }
 
-        /* ─── MISC UTILITY ─── */
-        .text-center {
-            text-align: center;
+        /* ─── SCORE SUBMIT ─── */
+        .score-submit {
+            padding: 18px 28px 22px;
+            border-top: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.015);
         }
-        .mt-8 {
-            margin-top: 8px;
+        .score-submit h4 {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--gold-light);
+            margin-bottom: 12px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            font-family: var(--font-heading);
         }
-        .mt-12 {
-            margin-top: 12px;
-        }
-        .mt-16 {
-            margin-top: 16px;
-        }
-        .gap-6 {
-            gap: 6px;
-        }
-        .flex-wrap {
+        .score-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
             flex-wrap: wrap;
         }
-        .flex {
-            display: flex;
+        .score-row label {
+            font-size: 0.7rem;
+            color: var(--muted);
+            display: block;
+            margin-bottom: 3px;
+            font-weight: 600;
+            font-family: var(--font-body);
         }
-        .items-center {
-            align-items: center;
-        }
-        .text-muted {
-            color: var(--text-muted);
-        }
-        .fw-700 {
+        .score-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            padding: 8px 14px;
+            font-size: 0.95rem;
+            width: 76px;
+            outline: none;
+            text-align: center;
             font-weight: 700;
+            transition: var(--transition);
+            font-family: var(--font-body);
+        }
+        .score-input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.12);
+        }
+        .btn-submit-score {
+            padding: 9px 24px;
+            background: var(--gold-gradient);
+            border: none;
+            border-radius: 10px;
+            color: #0a0c1a;
+            font-weight: 800;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.84rem;
+            font-family: var(--font-body);
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
+        }
+        .btn-submit-score:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.3);
+        }
+        .score-msg {
+            font-size: 0.84rem;
+            color: var(--gold-light);
+            display: none;
+            font-weight: 700;
+            font-family: var(--font-body);
         }
 
-        /* ─── RESPONSIVE TWEAKS ─── */
-        @media (max-width: 640px) {
-            .navbar {
-                padding: 0 16px;
-                height: 56px;
+        /* ─── SCROLLBAR ─── */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold);
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 60px;
+                padding: 16px 0;
             }
-            .nav-brand {
-                font-size: .9rem;
+            .sidebar-brand {
+                font-size: 0;
+                padding: 0 0 16px;
+                justify-content: center;
             }
-            .nl {
-                font-size: .7rem;
-                padding: 4px 10px;
+            .sidebar-brand span {
+                font-size: 1.8rem;
             }
-            .page {
-                padding: 76px 14px 40px;
+            .sidebar-link {
+                padding: 10px 0;
+                justify-content: center;
+                font-size: 0;
+            }
+            .sidebar-link .icon {
+                font-size: 1.4rem;
+            }
+            .sidebar-link .link-text {
+                display: none;
+            }
+            .sidebar-user .user-row {
+                flex-direction: column;
+                align-items: center;
+                gap: 4px;
+            }
+            .sidebar-user .user-name {
+                font-size: 0.7rem;
+                text-align: center;
+            }
+            .sidebar-user .user-stats {
+                flex-direction: column;
+                align-items: center;
+                gap: 2px;
+                font-size: 0.6rem;
+            }
+            .sidebar-user .avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 0.9rem;
+            }
+            .main {
+                margin-left: 60px;
+                padding: 24px 16px 40px;
+            }
+            .nav-label {
+                display: none;
             }
             .page-header h1 {
-                font-size: 1.7rem;
+                font-size: 2rem;
             }
             .ch-dbody {
                 padding: 18px 16px;
-                font-size: .86rem;
+                font-size: 0.86rem;
             }
             .ch-dhdr {
                 padding: 12px 16px;
@@ -832,11 +968,11 @@
             }
             .diff-btn {
                 padding: 6px 16px;
-                font-size: .74rem;
+                font-size: 0.74rem;
             }
             .btn-gen {
                 padding: 12px 28px;
-                font-size: .9rem;
+                font-size: 0.9rem;
                 width: 100%;
                 text-align: center;
             }
@@ -845,18 +981,9 @@
             }
             .result-row {
                 padding: 8px 12px;
-                font-size: .78rem;
+                font-size: 0.78rem;
                 flex-wrap: wrap;
                 gap: 4px;
-            }
-            .nav-links .nl:not(.active) {
-                display: none;
-            }
-            .nav-links .nl.active {
-                display: block;
-            }
-            .nav-links .nl:last-child {
-                display: block;
             }
             .ch-grid {
                 gap: 10px;
@@ -868,14 +995,20 @@
                 font-size: 1.6rem;
             }
             .ch-title {
-                font-size: .8rem;
+                font-size: 0.8rem;
             }
             .ch-desc {
-                font-size: .62rem;
+                font-size: 0.62rem;
             }
         }
 
-        @media (max-width: 400px) {
+        @media (max-width: 480px) {
+            .main {
+                padding: 20px 12px 30px;
+            }
+            .page-header h1 {
+                font-size: 1.5rem;
+            }
             .ch-grid {
                 grid-template-columns: 1fr 1fr;
                 gap: 8px;
@@ -887,34 +1020,22 @@
                 font-size: 1.4rem;
             }
             .ch-title {
-                font-size: .72rem;
+                font-size: 0.72rem;
             }
             .ch-desc {
-                font-size: .58rem;
+                font-size: 0.58rem;
             }
             .ch-xp {
-                font-size: .58rem;
+                font-size: 0.58rem;
                 padding: 0 8px;
             }
-        }
-
-        /* ─── SCROLLBAR ─── */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--border-light);
-            border-radius: 8px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--text-muted);
         }
     </style>
 </head>
 <body>
+
+    <!-- ─── PARTICLES CANVAS ─── -->
+    <canvas id="particles-canvas"></canvas>
 
     <!-- ─── BG BLOBS ─── -->
     <div class="bg-blobs">
@@ -926,19 +1047,59 @@
     <!-- ─── XP TOAST ─── -->
     <div class="xp-toast" id="xpToast">⚡ +<span id="xpAmt">0</span> XP Earned!</div>
 
-    <!-- ─── NAVBAR ─── -->
-    <nav class="navbar">
-        <a class="nav-brand" href="{% url 'home' %}">🎓 <span>AI English Coach</span></a>
-        <div class="nav-links">
-            <a href="{% url 'grammar_coach' %}" class="nl">📖 Grammar</a>
-            <a href="{% url 'vocabulary_coach' %}" class="nl">📚 Vocab</a>
-            <a href="{% url 'dashboard' %}" class="nl">📊 Dashboard</a>
-            <a href="{% url 'home' %}" class="nl active">🏠 Home</a>
-        </div>
-    </nav>
+    <!-- ─── SIDEBAR ─── -->
+    <aside class="sidebar">
+        <a class="sidebar-brand" href="{% url 'home' %}">
+            <span>🎓</span> NEXA HUB
+        </a>
 
-    <!-- ─── PAGE ─── -->
-    <div class="page">
+        <nav class="sidebar-nav">
+            <div class="nav-label">Main</div>
+            <a href="{% url 'dashboard' %}" class="sidebar-link">
+                <span class="icon">📊</span>
+                <span class="link-text">Dashboard</span>
+            </a>
+            <a href="{% url 'grammar_coach' %}" class="sidebar-link">
+                <span class="icon">📖</span>
+                <span class="link-text">Grammar</span>
+            </a>
+            <a href="{% url 'speaking_practice' %}" class="sidebar-link">
+                <span class="icon">🗣️</span>
+                <span class="link-text">Speaking</span>
+            </a>
+            <a href="{% url 'interview_practice' %}" class="sidebar-link">
+                <span class="icon">💼</span>
+                <span class="link-text">Interview</span>
+            </a>
+            <a href="{% url 'translation' %}" class="sidebar-link">
+                <span class="icon">🔄</span>
+                <span class="link-text">Translate</span>
+            </a>
+            <a href="{% url 'pronunciation_coach' %}" class="sidebar-link">
+                <span class="icon">🎵</span>
+                <span class="link-text">Pronunciation</span>
+            </a>
+            <div class="nav-label" style="margin-top:12px;">Engage</div>
+            <a href="{% url 'daily_challenge' %}" class="sidebar-link active">
+                <span class="icon">🏆</span>
+                <span class="link-text">Challenge</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-user">
+            <div class="user-row">
+                <div class="avatar">J</div>
+                <div class="user-name">Jaat</div>
+            </div>
+            <div class="user-stats">
+                <span>🏅 438 XP</span>
+                <span>🔥 2 day streak</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ─── MAIN CONTENT ─── -->
+    <main class="main">
 
         <!-- HEADER -->
         <div class="page-header">
@@ -1032,9 +1193,9 @@
             </div>
         </div>
 
-    </div>
+    </main>
 
-    <!-- ─── SCRIPT ─── -->
+    <!-- ─── SCRIPT (100% UNCHANGED) ────────────────────────────── -->
     <script>
         // ─── STATE ────────────────────────────────────────────────────
         let selType = '',
@@ -1112,113 +1273,113 @@
                                 html += `</div>`;
                             });
                             html +=
-                                `<div class="text-center mt-16"><button onclick="submitQuiz()" id="submitQuizBtn" style="padding:12px 34px;background:linear-gradient(135deg,var(--orange),var(--secondary));border:none;border-radius:var(--radius-sm);color:#fff;font-weight:800;font-size:.95rem;cursor:pointer;box-shadow:0 4px 24px rgba(249,115,22,.25);transition:var(--transition);">✅ Submit Answers &amp; See Results</button></div>`;
+                                `<div class="text-center mt-16"><button onclick="submitQuiz()" id="submitQuizBtn" style="padding:12px 34px;background:var(--gold-gradient);border:none;border-radius:12px;color:#0a0c1a;font-weight:800;font-size:.95rem;cursor:pointer;box-shadow:0 4px 24px rgba(212,175,55,.25);transition:var(--transition);font-family:var(--font-body);">✅ Submit Answers &amp; See Results</button></div>`;
                         } else if (result.tongue_twister) {
                             // ─── PRONUNCIATION ──────────────────────────────
                             const tt = result.tongue_twister;
                             html += `
                             <div class="pron-card">
-                              <div style="color:#f9a8d4;font-weight:700;font-size:.75rem;letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px;">🌀 Tongue Twister</div>
+                              <div style="color:var(--gold-light);font-weight:700;font-size:.75rem;letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px;">🌀 Tongue Twister</div>
                               <div id="ttText" style="font-size:1.1rem;font-style:italic;color:#fde8ff;line-height:1.7;">"${tt}"</div>
                               <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
                                 <button onclick="speakText('${tt.replace(/'/g,"\\'")}','en-IN')" class="btn-voice btn-voice-pink">🔊 Hear It</button>
                                 <button onclick="startVoicePractice('tt','${tt.replace(/'/g,"\\'").replace(/"/g,'&quot;')}')" id="ttMicBtn" class="btn-voice btn-voice-purple">🎤 Try It</button>
-                                <button onclick="document.getElementById('ttText').style.animation='pulse .3s 3';" class="btn-voice" style="background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text-muted);">🔄 Say 5x Fast</button>
+                                <button onclick="document.getElementById('ttText').style.animation='pulse .3s 3';" class="btn-voice" style="background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--muted);">🔄 Say 5x Fast</button>
                               </div>
-                              <div id="ttFeedback" style="display:none;margin-top:12px;padding:10px 14px;border-radius:var(--radius-sm);font-size:.84rem;"></div>
+                              <div id="ttFeedback" style="display:none;margin-top:12px;padding:10px 14px;border-radius:10px;font-size:.84rem;"></div>
                             </div>`;
 
                             if (result.common_mistakes && result.common_mistakes.length) {
                                 html +=
-                                    `<div style="margin:18px 0 12px;color:#fdba74;font-weight:700;font-size:.85rem;">🇮🇳 Indian English Pronunciation Tips</div>`;
+                                    `<div style="margin:18px 0 12px;color:var(--gold-light);font-weight:700;font-size:.85rem;">🇮🇳 Indian English Pronunciation Tips</div>`;
                                 result.common_mistakes.forEach((m, mi) => {
                                     html += `
-                                    <div style="margin-bottom:14px;padding:14px 18px;background:rgba(255,255,255,.025);border-radius:var(--radius);border-left:3px solid #ec4899;">
-                                      <div style="color:#f9a8d4;font-weight:700;margin-bottom:4px;">🔤 ${m.sound}</div>
+                                    <div style="margin-bottom:14px;padding:14px 18px;background:rgba(255,255,255,.025);border-radius:var(--radius);border-left:3px solid var(--gold);">
+                                      <div style="color:var(--gold-light);font-weight:700;margin-bottom:4px;">🔤 ${m.sound}</div>
                                       <div style="color:#fca5a5;font-size:.82rem;margin-bottom:2px;">❌ Common mistake: ${m.wrong}</div>
                                       <div style="color:#86efac;font-size:.82rem;margin-bottom:8px;">✅ Correct: ${m.correct}</div>
                                       <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;">
                                         ${(m.practice||[]).slice(0,5).map(w=>`<button onclick="speakText('${w}','en-IN')" class="btn-voice btn-voice-pink" style="font-size:.74rem;padding:4px 12px;">🔊 ${w}</button>`).join('')}
                                       </div>
                                       <button onclick="startVoicePractice('mistake_${mi}','${(m.practice||[]).slice(0,3).join(', ')}')" id="mistakeBtn_${mi}" class="btn-voice btn-voice-purple" style="font-size:.78rem;">🎤 Practice These Words</button>
-                                      <div id="mistakeFeedback_${mi}" style="display:none;margin-top:8px;padding:8px 12px;border-radius:var(--radius-sm);font-size:.8rem;"></div>
+                                      <div id="mistakeFeedback_${mi}" style="display:none;margin-top:8px;padding:8px 12px;border-radius:10px;font-size:.8rem;"></div>
                                     </div>`;
                                 });
                             }
 
                             if (result.tips && result.tips.length) {
                                 html +=
-                                    `<div style="margin:16px 0 10px;color:#fdba74;font-weight:700;font-size:.85rem;">📖 Word Stress Rules</div>`;
+                                    `<div style="margin:16px 0 10px;color:var(--gold-light);font-weight:700;font-size:.85rem;">📖 Word Stress Rules</div>`;
                                 result.tips.forEach(t => html +=
                                     `<div style="padding:4px 0;font-size:.82rem;color:var(--text-secondary);">• ${t}</div>`);
                             }
 
                             html += `
-                            <div style="margin-top:18px;padding:14px 18px;background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.12);border-radius:var(--radius);font-size:.84rem;color:var(--text-secondary);">
-                              🏆 <strong style="color:var(--accent);">Today's Challenge:</strong> Say the tongue twister 5 times fast, then record yourself on the word groups below.
+                            <div style="margin-top:18px;padding:14px 18px;background:rgba(212,175,55,.04);border:1px solid rgba(212,175,55,.12);border-radius:var(--radius);font-size:.84rem;color:var(--text-secondary);">
+                              🏆 <strong style="color:var(--gold-light);">Today's Challenge:</strong> Say the tongue twister 5 times fast, then record yourself on the word groups below.
                             </div>
 
-                            <div style="margin-top:18px;padding:18px 20px;background:rgba(139,92,246,.05);border:1px solid rgba(139,92,246,.12);border-radius:var(--radius);">
-                              <div style="color:#c4b5fd;font-weight:700;margin-bottom:10px;font-size:.88rem;">🎙️ Voice Practice Area</div>
+                            <div style="margin-top:18px;padding:18px 20px;background:rgba(212,175,55,.04);border:1px solid rgba(212,175,55,.10);border-radius:var(--radius);">
+                              <div style="color:var(--gold-light);font-weight:700;margin-bottom:10px;font-size:.88rem;">🎙️ Voice Practice Area</div>
                               <div id="voiceTranscriptPron" class="transcript-box">Your speech will appear here…</div>
                               <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                                <button id="mainPronMic" onclick="togglePronVoice()" class="btn-voice" style="background:linear-gradient(135deg,#7c3aed,#ec4899);color:#fff;padding:9px 22px;">🎤 Start Speaking</button>
-                                <button onclick="document.getElementById('voiceTranscriptPron').textContent='Your speech will appear here…';" class="btn-voice" style="background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text-muted);">🗑️ Clear</button>
+                                <button id="mainPronMic" onclick="togglePronVoice()" class="btn-voice" style="background:var(--gold-gradient);color:#0a0c1a;padding:9px 22px;">🎤 Start Speaking</button>
+                                <button onclick="document.getElementById('voiceTranscriptPron').textContent='Your speech will appear here…';" class="btn-voice" style="background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--muted);">🗑️ Clear</button>
                               </div>
                               <div id="pronVoiceStatus" class="status-text"></div>
                             </div>
                             <div class="text-center mt-16">
-                              <button onclick="savePronScore()" class="btn-voice" style="background:linear-gradient(135deg,#ec4899,#7c3aed);color:#fff;padding:11px 32px;font-size:.92rem;border-radius:var(--radius-sm);">⚡ Complete &amp; Earn XP</button>
+                              <button onclick="savePronScore()" class="btn-voice" style="background:var(--gold-gradient);color:#0a0c1a;padding:11px 32px;font-size:.92rem;border-radius:12px;font-weight:800;">⚡ Complete &amp; Earn XP</button>
                             </div>`;
 
                         } else if (result.topic) {
                             // ─── SPEAKING ──────────────────────────────────────
                             html += `
                             <div class="topic-card">
-                              <div style="color:#fbbf24;font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px;">🎯 Today's Speaking Topic</div>
-                              <div style="color:#fcd34d;font-size:1.1rem;font-weight:800;">${result.topic}</div>
+                              <div style="color:var(--gold-light);font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px;">🎯 Today's Speaking Topic</div>
+                              <div style="color:var(--gold-light);font-size:1.1rem;font-weight:800;">${result.topic}</div>
                               <div style="color:var(--text-secondary);font-size:.88rem;margin-top:6px;line-height:1.6;">${result.prompt}</div>
                             </div>
 
                             <div style="margin-bottom:16px;padding:14px 18px;background:rgba(255,255,255,.025);border-radius:var(--radius);border:1px solid var(--border);">
-                              <div style="color:#fdba74;font-weight:700;margin-bottom:8px;font-size:.85rem;">📋 Cover These Points</div>
+                              <div style="color:var(--gold-light);font-weight:700;margin-bottom:8px;font-size:.85rem;">📋 Cover These Points</div>
                               ${(result.key_points||[]).map((p,i)=>`<div class="checklist-item"><span class="num">${i+1}.</span><span>${p}</span></div>`).join('')}
                             </div>
 
-                            <div style="margin-bottom:16px;padding:14px 18px;background:rgba(103,232,249,.04);border:1px solid rgba(103,232,249,.10);border-radius:var(--radius);">
-                              <div style="color:#67e8f9;font-weight:700;margin-bottom:8px;font-size:.85rem;">💡 Useful Phrases</div>
+                            <div style="margin-bottom:16px;padding:14px 18px;background:rgba(212,175,55,.04);border:1px solid rgba(212,175,55,.10);border-radius:var(--radius);">
+                              <div style="color:var(--gold-light);font-weight:700;margin-bottom:8px;font-size:.85rem;">💡 Useful Phrases</div>
                               ${(result.vocabulary||[]).map(v=>`<div style="padding:3px 0;font-size:.82rem;color:var(--text-secondary);">→ ${v}</div>`).join('')}
                             </div>
 
-                            <div style="margin-bottom:16px;padding:14px 18px;background:rgba(245,158,11,.05);border:1px solid rgba(245,158,11,.12);border-radius:var(--radius);">
-                              <div style="color:#fbbf24;font-weight:700;margin-bottom:6px;font-size:.85rem;">🌟 Model Answer</div>
+                            <div style="margin-bottom:16px;padding:14px 18px;background:rgba(212,175,55,.04);border:1px solid rgba(212,175,55,.10);border-radius:var(--radius);">
+                              <div style="color:var(--gold-light);font-weight:700;margin-bottom:6px;font-size:.85rem;">🌟 Model Answer</div>
                               <div style="font-size:.84rem;color:var(--text-secondary);line-height:1.7;font-style:italic;">${result.model||''}</div>
                               <button onclick="speakText(this.previousElementSibling.textContent,'en-IN')" class="btn-voice btn-voice-gold" style="margin-top:8px;">🔊 Hear Model</button>
                             </div>
 
                             ${result.tips && result.tips.length ? `
-                            <div style="margin-bottom:16px;padding:12px 18px;background:rgba(16,185,129,.04);border:1px solid rgba(16,185,129,.10);border-radius:var(--radius);">
-                              <div style="color:#34d399;font-weight:700;margin-bottom:6px;font-size:.85rem;">✨ Pro Tips</div>
+                            <div style="margin-bottom:16px;padding:12px 18px;background:rgba(212,175,55,.04);border:1px solid rgba(212,175,55,.10);border-radius:var(--radius);">
+                              <div style="color:var(--gold-light);font-weight:700;margin-bottom:6px;font-size:.85rem;">✨ Pro Tips</div>
                               ${result.tips.map(t=>`<div style="padding:3px 0;font-size:.82rem;color:var(--text-secondary);">• ${t}</div>`).join('')}
                             </div>` : ''}
 
-                            <div style="padding:18px 20px;background:rgba(108,99,255,.05);border:1px solid rgba(108,99,255,.10);border-radius:var(--radius);margin-bottom:14px;">
-                              <div style="color:#a5b4fc;font-weight:700;margin-bottom:8px;font-size:.9rem;">🎙️ Your Speaking Practice</div>
-                              <div style="margin-bottom:8px;font-size:.78rem;color:var(--text-muted);">Speak your answer. Aim for 1–2 minutes, cover all points.</div>
+                            <div style="padding:18px 20px;background:rgba(212,175,55,.04);border:1px solid rgba(212,175,55,.10);border-radius:var(--radius);margin-bottom:14px;">
+                              <div style="color:var(--gold-light);font-weight:700;margin-bottom:8px;font-size:.9rem;">🎙️ Your Speaking Practice</div>
+                              <div style="margin-bottom:8px;font-size:.78rem;color:var(--muted);">Speak your answer. Aim for 1–2 minutes, cover all points.</div>
                               <div id="speakTranscript" class="transcript-box">Your spoken answer will appear here…</div>
                               <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
-                                <button id="speakMicBtn" onclick="toggleSpeakVoice()" class="btn-voice" style="background:linear-gradient(135deg,#6c63ff,#f59e0b);color:#fff;padding:9px 22px;">🎤 Start Speaking</button>
+                                <button id="speakMicBtn" onclick="toggleSpeakVoice()" class="btn-voice" style="background:var(--gold-gradient);color:#0a0c1a;padding:9px 22px;">🎤 Start Speaking</button>
                                 <button onclick="speakText(document.getElementById('speakTranscript').textContent,'en-IN')" class="btn-voice btn-voice-gold">🔊 Playback</button>
-                                <button onclick="document.getElementById('speakTranscript').textContent='Your spoken answer will appear here…';" class="btn-voice" style="background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text-muted);">🗑️ Clear</button>
+                                <button onclick="document.getElementById('speakTranscript').textContent='Your spoken answer will appear here…';" class="btn-voice" style="background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--muted);">🗑️ Clear</button>
                               </div>
                               <div id="speakVoiceStatus" class="status-text"></div>
-                              <div id="speakChecklist" style="display:none;margin-top:12px;padding:12px 16px;background:rgba(16,185,129,.06);border-radius:var(--radius-sm);border:1px solid rgba(16,185,129,.12);">
-                                <div style="color:#34d399;font-weight:700;margin-bottom:6px;font-size:.82rem;">✅ Points Covered</div>
+                              <div id="speakChecklist" style="display:none;margin-top:12px;padding:12px 16px;background:rgba(212,175,55,.06);border-radius:10px;border:1px solid rgba(212,175,55,.12);">
+                                <div style="color:var(--gold-light);font-weight:700;margin-bottom:6px;font-size:.82rem;">✅ Points Covered</div>
                                 <div id="speakChecklistItems"></div>
                               </div>
                             </div>
                             <div class="text-center">
-                              <button onclick="saveSpeakScore()" class="btn-voice" style="background:linear-gradient(135deg,#f59e0b,#6c63ff);color:#fff;padding:11px 32px;font-size:.92rem;border-radius:var(--radius-sm);">⚡ Submit &amp; Earn XP</button>
+                              <button onclick="saveSpeakScore()" class="btn-voice" style="background:var(--gold-gradient);color:#0a0c1a;padding:11px 32px;font-size:.92rem;border-radius:12px;font-weight:800;">⚡ Submit &amp; Earn XP</button>
                             </div>`;
                         }
                     } else {
@@ -1254,8 +1415,8 @@
             });
             const selBtn = document.getElementById(`opt_${qIdx}_${letter}`);
             if (selBtn) {
-                selBtn.style.background = 'rgba(108,99,255,.18)';
-                selBtn.style.borderColor = 'var(--primary)';
+                selBtn.style.background = 'rgba(212,175,55,.18)';
+                selBtn.style.borderColor = 'var(--gold)';
                 selBtn.style.color = '#fff';
                 selBtn.style.fontWeight = '700';
             }
@@ -1320,9 +1481,9 @@
                 pct >= 40 ? '💪 Keep Practicing!' : '📚 Review & Retry!';
             const summaryDiv = document.createElement('div');
             summaryDiv.style.cssText =
-                'margin-top:20px;padding:20px 24px;background:linear-gradient(135deg,rgba(108,99,255,.08),rgba(249,115,22,.06));border:1px solid rgba(108,99,255,.15);border-radius:var(--radius);text-align:center;';
+                'margin-top:20px;padding:20px 24px;background:linear-gradient(135deg,rgba(212,175,55,.06),rgba(184,150,46,.04));border:1px solid rgba(212,175,55,.15);border-radius:var(--radius);text-align:center;';
             summaryDiv.innerHTML =
-                `<div style="font-size:2rem;margin-bottom:4px;">${grade}</div><div style="font-size:1.3rem;font-weight:900;color:#fdba74;">${correct}/${total} Correct — ${pct}%</div><div class="mt-12"><button onclick="saveAndEarn(${correct},${total},${pct})" style="padding:11px 32px;background:linear-gradient(135deg,var(--accent),var(--cyan));border:none;border-radius:var(--radius-sm);color:#0a0a16;font-weight:800;cursor:pointer;font-size:.92rem;transition:var(--transition);">⚡ Save Score &amp; Earn XP</button></div>`;
+                `<div style="font-size:2rem;margin-bottom:4px;">${grade}</div><div style="font-size:1.3rem;font-weight:900;color:var(--gold-light);">${correct}/${total} Correct — ${pct}%</div><div class="mt-12"><button onclick="saveAndEarn(${correct},${total},${pct})" style="padding:11px 32px;background:var(--gold-gradient);border:none;border-radius:12px;color:#0a0c1a;font-weight:800;cursor:pointer;font-size:.92rem;transition:var(--transition);font-family:var(--font-body);">⚡ Save Score &amp; Earn XP</button></div>`;
             document.getElementById('chBody').appendChild(summaryDiv);
             summaryDiv.scrollIntoView({ behavior: 'smooth' });
         }
@@ -1422,7 +1583,7 @@
             speakListening = false;
             const btn = document.getElementById('speakMicBtn');
             if (btn) { btn.textContent = '🎤 Start Speaking';
-                btn.style.background = 'linear-gradient(135deg,#6c63ff,#f59e0b)'; }
+                btn.style.background = 'var(--gold-gradient)'; }
             const st = document.getElementById('speakVoiceStatus');
             if (st && speakAccum) st.textContent = '✅ Done! Review your answer above.';
         }
@@ -1499,7 +1660,7 @@
             pronListening = false;
             const btn = document.getElementById('mainPronMic');
             if (btn) { btn.textContent = '🎤 Start Speaking';
-                btn.style.background = 'linear-gradient(135deg,#7c3aed,#ec4899)'; }
+                btn.style.background = 'var(--gold-gradient)'; }
             const st = document.getElementById('pronVoiceStatus');
             if (st && pronAccum) st.textContent = '✅ Great practice! Review what you said above.';
         }
@@ -1572,8 +1733,8 @@
             return t.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                 .replace(/\*(.*?)\*/g, '<em>$1</em>')
                 .replace(/`(.*?)`/g, '<code>$1</code>')
-                .replace(/^## (.*?)$/gm, '<br/><strong style="color:#fdba74;display:block;margin-top:13px;">$1</strong>')
-                .replace(/^### (.*?)$/gm, '<br/><strong style="color:#fcd34d;display:block;margin-top:9px;">$1</strong>');
+                .replace(/^## (.*?)$/gm, '<br/><strong style="color:var(--gold-light);display:block;margin-top:13px;">$1</strong>')
+                .replace(/^### (.*?)$/gm, '<br/><strong style="color:var(--gold-light);display:block;margin-top:9px;">$1</strong>');
         }
 
         // ─── SUBMIT SCORE (legacy) ─────────────────────────────────────
@@ -1583,6 +1744,52 @@
             if (val < 0 || val > 5) { alert('Please enter a number between 0 and 5.'); return; }
             saveAndEarn(val, 5, Math.round((val / 5) * 100));
         }
+    </script>
+
+    <!-- ─── PARTICLE SCRIPT ──────────────────────────────────────────── -->
+    <script>
+        (function() {
+            const c = document.getElementById('particles-canvas'),
+                ctx = c.getContext('2d');
+            let W, H, pts = [];
+
+            function resize() {
+                W = c.width = window.innerWidth;
+                H = c.height = window.innerHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            function rand(a, b) { return Math.random() * (b - a) + a; }
+            const COLORS = ['212,175,55', '245,215,110', '184,150,46', '212,175,55'];
+            for (let i = 0; i < 110; i++) {
+                pts.push({
+                    x: rand(0, W),
+                    y: rand(0, H),
+                    r: rand(0.5, 2.2),
+                    vx: rand(-0.25, 0.25),
+                    vy: rand(-0.25, 0.25),
+                    a: rand(0.1, 0.45),
+                    c: COLORS[Math.floor(Math.random() * COLORS.length)]
+                });
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, W, H);
+                pts.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0 || p.x > W) p.vx *= -1;
+                    if (p.y < 0 || p.y > H) p.vy *= -1;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${p.c},${p.a})`;
+                    ctx.fill();
+                });
+                requestAnimationFrame(draw);
+            }
+            draw();
+        })();
     </script>
 
 </body>

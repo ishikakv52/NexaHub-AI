@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI English Coach — Learn English Free</title>
+    <title>NEXA HUB ENGLISH COACH — Learn English Free</title>
     <style>
         /* =============================================
            LUXURY / PREMIUM THEME – Deep Navy, Gold, Elegant
            All functions and logic remain 100% unchanged
            ============================================= */
 
-        /* ─── RESET & VARIABLES ─── */
+        /* ─── RESET & VNexaBLES ─── */
         *,
         *::before,
         *::after {
@@ -738,7 +738,7 @@
 
     <!-- NAVBAR -->
     <nav>
-        <a class="nav-brand" href="{% url 'home' %}"><span>🎓</span>AI English Coach</a>
+        <a class="nav-brand" href="{% url 'home' %}"><span>🎓</span>NEXA HUB ENGLISH COACH</a>
         <div class="nav-links">
             {% if user.is_authenticated %}
                 <div class="user-pill">🎓 Hi, {{ user.first_name|default:user.username }}!</div>
@@ -753,13 +753,10 @@
 
     <!-- HERO — Robot Avatar Removed -->
     <section class="hero">
-        <div class="hero-badge">
-            <div class="dot-pulse"></div>
-            AI Powered · No API Key Needed · For Indian Learners
-        </div>
+       
 
-        <h1>Your Personal<br/><span class="grad">AI English Teacher</span></h1>
-        <p>Grammar correction, interview practice, pronunciation tips, and daily challenges — all in one place. 100% free, no API key required!</p>
+        <h1>Your Personal<br/><span class="grad">ENGLISH COACH</span></h1>
+        <p>Grammar correction, interview practice, pronunciation tips, and daily challenges — all in one place. </p>
         <div class="hero-cta">
             {% if user.is_authenticated %}
                 <!-- Only Today's Challenge remains; Voice Assistant removed -->
@@ -841,10 +838,10 @@
 
     <!-- HOW IT WORKS -->
     <div class="section" style="padding-top:0">
-        <h2 class="section-title">How <span class="grad">Aria</span> Teaches You</h2>
+        <h2 class="section-title">How <span class="grad">Nexa</span> Teaches You</h2>
         <p class="section-sub">Every single response follows the 8-step teaching method</p>
         <div class="how-grid">
-            <div class="step"><div class="step-num">1</div><div class="step-em">✅</div><div class="step-title">Answer Your Question</div><div class="step-desc">Aria always responds clearly to what you ask first.</div></div>
+            <div class="step"><div class="step-num">1</div><div class="step-em">✅</div><div class="step-title">Answer Your Question</div><div class="step-desc">Nexa always responds clearly to what you ask first.</div></div>
             <div class="step"><div class="step-num">2</div><div class="step-em">🔍</div><div class="step-title">Correct Mistakes</div><div class="step-desc">Grammar errors are identified and gently corrected every time.</div></div>
             <div class="step"><div class="step-num">3</div><div class="step-em">📖</div><div class="step-title">Explain the Rule</div><div class="step-desc">The grammar rule behind each correction is explained clearly.</div></div>
             <div class="step"><div class="step-num">4</div><div class="step-em">💡</div><div class="step-title">Better Vocabulary</div><div class="step-desc">Advanced word suggestions to make your English more natural.</div></div>
@@ -858,12 +855,12 @@
     <!-- QUOTE BAND -->
     <div class="quote-band">
         <div class="quote-text"><span class="qt-q">"</span>Don't just learn English. <em>Think</em> in English, <em>dream</em> in English, and <em>succeed</em> in English.<span class="qt-q">"</span></div>
-        <div class="quote-auth">— Aria, Your AI English Coach</div>
+        <div class="quote-auth">— Nexa, Your NEXA HUB ENGLISH COACH</div>
     </div>
 
     <!-- FOOTER -->
     <footer>
-        <p>🎓 AI English Coach · Built with Django · 100% Offline Dataset · No API Key Needed</p>
+        <p>🎓 NEXA HUB ENGLISH COACH · Built with Django · 100% Offline Dataset · No API Key Needed</p>
         <p style="margin-top:8px"><a href="{% url 'register' %}">Get Started Free</a> · <a href="{% url 'login' %}">Login</a>{% if user.is_authenticated %} · <a href="{% url 'dashboard' %}">Dashboard</a>{% endif %}</p>
     </footer>
 

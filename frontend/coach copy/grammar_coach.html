@@ -1,0 +1,1886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grammar Coach — NEXA HUB ENGLISH COACH</title>
+    <style>
+        /* =============================================
+           LUXURY / PREMIUM THEME – Deep Navy, Gold, Elegant
+           WITH LEFT SIDEBAR LAYOUT
+           ============================================= */
+
+        /* ─── RESET & VARIABLES ─── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            /* Deep navy base */
+            --bg: #0a0c1a;
+            --surface: rgba(255, 255, 255, 0.03);
+            --surface-hover: rgba(212, 175, 55, 0.06);
+            --border: rgba(212, 175, 55, 0.15);
+            --border-glow: rgba(212, 175, 55, 0.3);
+
+            /* Gold palette */
+            --gold: #d4af37;
+            --gold-light: #f5d76e;
+            --gold-dark: #b8962e;
+            --gold-gradient: linear-gradient(135deg, #f5d76e, #d4af37, #b8962e);
+
+            /* Text */
+            --text: #f0ece4;
+            --text-secondary: #d6cfb5;
+            --muted: #8a867a;
+
+            /* Typography */
+            --font-heading: 'Playfair Display', 'Georgia', serif;
+            --font-body: 'Lora', 'Segoe UI', serif;
+
+            --radius: 16px;
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(212, 175, 55, 0.05);
+            --transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+
+            /* Sidebar width */
+            --sidebar-width: 240px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.7;
+            min-height: 100vh;
+            letter-spacing: 0.02em;
+            display: flex;
+        }
+
+        /* ─── BACKGROUND BLOBS (for main content) ─── */
+        .bg-blobs {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(160px);
+            opacity: 0.10;
+            animation: floatBlob 20s ease-in-out infinite alternate;
+        }
+        .b1 {
+            width: 800px;
+            height: 800px;
+            background: #d4af37;
+            top: -300px;
+            left: -250px;
+            opacity: 0.06;
+        }
+        .b2 {
+            width: 600px;
+            height: 600px;
+            background: #b8962e;
+            bottom: -200px;
+            right: -200px;
+            animation-delay: 7s;
+            opacity: 0.05;
+        }
+        @keyframes floatBlob {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                transform: translate(50px, -50px) scale(1.1);
+            }
+        }
+
+        /* ─── PARTICLES CANVAS ─── */
+        #particles-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* ─── SIDEBAR ─── */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            z-index: 200;
+            background: rgba(10, 12, 26, 0.92);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-right: 1px solid var(--border);
+            padding: 24px 0 20px;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+            overflow-y: auto;
+        }
+        .sidebar:hover {
+            border-right-color: var(--border-glow);
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 20px 24px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: var(--font-heading);
+            text-decoration: none;
+            letter-spacing: 0.05em;
+            color: var(--gold-light);
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+        .sidebar-brand span {
+            -webkit-text-fill-color: initial;
+            font-size: 1.6rem;
+            background: none;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 20px 12px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .sidebar-nav .nav-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            padding: 8px 12px 4px;
+            font-weight: 700;
+        }
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            font-weight: 500;
+            font-family: var(--font-body);
+        }
+        .sidebar-link:hover {
+            color: var(--gold-light);
+            background: var(--surface-hover);
+        }
+        .sidebar-link.active {
+            color: var(--gold-light);
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid var(--border);
+        }
+        .sidebar-link .icon {
+            font-size: 1.1rem;
+        }
+
+        .sidebar-user {
+            border-top: 1px solid var(--border);
+            padding: 16px 20px 0;
+            margin-top: auto;
+        }
+        .sidebar-user .user-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+        }
+        .sidebar-user .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gold-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: #0a0c1a;
+            flex-shrink: 0;
+        }
+        .sidebar-user .user-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .sidebar-user .user-stats {
+            display: flex;
+            gap: 14px;
+            font-size: 0.7rem;
+            color: var(--muted);
+            padding: 4px 0 8px;
+        }
+        .sidebar-user .user-stats span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* ─── MAIN CONTENT ─── */
+        .main {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            position: relative;
+            z-index: 1;
+            padding: 40px 32px 56px;
+            min-height: 100vh;
+        }
+
+        /* ─── PAGE HEADER ─── */
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .ph-icon {
+            font-size: 3.4rem;
+            display: block;
+            margin-bottom: 4px;
+            animation: bounceIcon 2.8s ease infinite;
+        }
+        @keyframes bounceIcon {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        .page-header h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
+            font-weight: 700;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.04em;
+            line-height: 1.2;
+        }
+        .page-header p {
+            color: var(--muted);
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin: 8px auto 0;
+            font-weight: 400;
+            font-family: var(--font-body);
+        }
+
+        /* ─── TABS ─── */
+        .tabs {
+            display: flex;
+            gap: 0;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 5px;
+            margin-bottom: 26px;
+            overflow-x: auto;
+        }
+        .tab {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 12px;
+            background: none;
+            color: var(--muted);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+            text-align: center;
+            font-family: var(--font-body);
+            letter-spacing: 0.04em;
+        }
+        .tab:hover {
+            color: var(--text-secondary);
+            background: var(--surface-hover);
+        }
+        .tab.active {
+            background: var(--gold-gradient);
+            color: #0a0c1a;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.25);
+            font-weight: 700;
+        }
+
+        .tab-panel {
+            display: none;
+        }
+        .tab-panel.active {
+            display: block;
+            animation: slideUp 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        @keyframes slideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ─── INPUT CARD ─── */
+        .input-card {
+            background: var(--surface);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 18px;
+            transition: var(--transition);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+        .input-card:hover {
+            border-color: var(--border-glow);
+            box-shadow: var(--shadow);
+        }
+
+        .lbl {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--gold-light);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 8px;
+            display: block;
+            font-family: var(--font-heading);
+        }
+
+        .input-card textarea {
+            width: 100%;
+            min-height: 150px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            padding: 14px 16px;
+            font-size: 0.95rem;
+            font-family: var(--font-body);
+            outline: none;
+            resize: vertical;
+            line-height: 1.7;
+            transition: var(--transition);
+        }
+        .input-card textarea:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.08);
+        }
+
+        .chip-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin: 12px 0 18px;
+        }
+        .chip {
+            background: rgba(212, 175, 55, 0.06);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            border-radius: 20px;
+            padding: 5px 14px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font-body);
+        }
+        .chip:hover {
+            background: rgba(212, 175, 55, 0.14);
+            border-color: var(--gold);
+            color: var(--gold-light);
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 12px 28px;
+            background: var(--gold-gradient);
+            border: none;
+            border-radius: 12px;
+            color: #0a0c1a;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
+            font-family: var(--font-body);
+            letter-spacing: 0.04em;
+        }
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.3);
+        }
+        .btn-primary:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-sec {
+            padding: 12px 18px;
+            background: transparent;
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 0.88rem;
+            transition: var(--transition);
+            font-family: var(--font-body);
+        }
+        .btn-sec:hover {
+            color: var(--text-secondary);
+            border-color: var(--gold);
+            background: var(--surface-hover);
+        }
+
+        /* ─── LOADING ─── */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .loading.show {
+            display: block;
+        }
+        .spinner {
+            width: 44px;
+            height: 44px;
+            border: 3px solid var(--border);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin: 0 auto 14px;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .loading p {
+            color: var(--muted);
+            font-size: 0.88rem;
+            font-weight: 500;
+            font-family: var(--font-body);
+        }
+
+        /* ─── RESULT AREA ─── */
+        .result-area {
+            display: none;
+        }
+        .result-area.show {
+            display: block;
+            animation: slideUp 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .score-ring {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            padding: 20px 26px;
+            background: var(--surface);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            margin-bottom: 18px;
+            transition: var(--transition);
+        }
+        .score-ring:hover {
+            border-color: var(--border-glow);
+        }
+
+        .ring-svg {
+            flex-shrink: 0;
+        }
+        .ring-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.06);
+            stroke-width: 6;
+        }
+        .ring-fill {
+            fill: none;
+            stroke-width: 6;
+            stroke-linecap: round;
+            stroke-dasharray: 283;
+            stroke-dashoffset: 283;
+            transition: stroke-dashoffset 1s ease;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+
+        .score-info h3 {
+            font-size: 1.6rem;
+            font-weight: 900;
+            font-family: var(--font-heading);
+            color: var(--gold-light);
+        }
+        .score-info p {
+            color: var(--muted);
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+
+        .cats-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+        }
+        .cat-badge {
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            color: var(--gold-light);
+            font-family: var(--font-body);
+        }
+
+        /* ─── PERSONAL TIP ─── */
+        .personal-tip {
+            padding: 16px 22px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.06), rgba(184, 150, 46, 0.03));
+            border: 1px solid rgba(212, 175, 55, 0.12);
+            border-radius: var(--radius);
+            margin-bottom: 18px;
+            font-size: 0.88rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+        .personal-tip strong {
+            color: var(--gold-light);
+        }
+
+        /* ─── CORRECTED BOX ─── */
+        .corrected-box {
+            padding: 16px 22px;
+            background: rgba(212, 175, 55, 0.04);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            border-radius: var(--radius);
+            margin-bottom: 18px;
+        }
+        .corrected-box h4 {
+            color: var(--gold-light);
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 8px;
+            font-family: var(--font-heading);
+        }
+        .corrected-box p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        /* ─── NO ERRORS ─── */
+        #noErrorsBox {
+            display: none;
+            padding: 30px;
+            text-align: center;
+        }
+        #noErrorsBox h3 {
+            color: var(--gold-light);
+            margin-bottom: 8px;
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+        }
+        #noErrorsBox p {
+            color: var(--muted);
+            font-size: 0.88rem;
+        }
+
+        /* ─── ERROR CARDS ─── */
+        .error-card {
+            background: var(--surface);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(212, 175, 55, 0.12);
+            border-radius: var(--radius);
+            margin-bottom: 14px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        .error-card:hover {
+            border-color: var(--border-glow);
+        }
+
+        .ec-header {
+            padding: 14px 20px;
+            background: rgba(212, 175, 55, 0.04);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .ec-header:hover {
+            background: rgba(212, 175, 55, 0.07);
+        }
+
+        .ec-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 900;
+            color: var(--gold-light);
+            flex-shrink: 0;
+            font-family: var(--font-body);
+        }
+        .ec-title {
+            flex: 1;
+            font-size: 0.87rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            font-family: var(--font-heading);
+        }
+        .ec-cat {
+            font-size: 0.7rem;
+            padding: 3px 10px;
+            background: rgba(212, 175, 55, 0.06);
+            border: 1px solid rgba(212, 175, 55, 0.12);
+            border-radius: 10px;
+            color: var(--gold-light);
+            font-family: var(--font-body);
+        }
+
+        .ec-body {
+            padding: 16px 22px;
+            display: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .ec-body.open {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        .ec-row {
+            margin-bottom: 12px;
+            font-size: 0.87rem;
+            line-height: 1.55;
+        }
+        .ec-row span {
+            color: var(--muted);
+            font-size: 0.72rem;
+            display: block;
+            margin-bottom: 2px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .wrong-chip {
+            display: inline-block;
+            padding: 2px 12px;
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 8px;
+            color: #fca5a5;
+            font-family: 'SF Mono', monospace;
+            font-size: 0.85em;
+        }
+        .right-chip {
+            display: inline-block;
+            padding: 2px 12px;
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 8px;
+            color: var(--gold-light);
+            font-family: 'SF Mono', monospace;
+            font-size: 0.85em;
+        }
+
+        .tip-box {
+            padding: 10px 16px;
+            background: rgba(212, 175, 55, 0.04);
+            border-left: 3px solid var(--gold);
+            border-radius: 0 10px 10px 0;
+            font-size: 0.84rem;
+            margin-top: 10px;
+            color: var(--text-secondary);
+        }
+
+        .examples-list {
+            margin-top: 10px;
+            font-size: 0.83rem;
+            line-height: 1.7;
+            color: var(--muted);
+        }
+        .examples-list .example {
+            color: var(--text-secondary);
+            margin-top: 3px;
+        }
+
+        /* ─── RESULT FOOTER ─── */
+        #resultFooter {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 18px;
+        }
+        #resultFooter .btn-sec {
+            text-decoration: none;
+        }
+
+        /* ─── PRACTICE MODE ─── */
+        .mode-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .mode-tab {
+            padding: 8px 20px;
+            border: 1.5px solid var(--border);
+            border-radius: 20px;
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 0.82rem;
+            transition: var(--transition);
+            font-family: var(--font-body);
+            letter-spacing: 0.04em;
+        }
+        .mode-tab:hover {
+            color: var(--text-secondary);
+            border-color: var(--border-glow);
+        }
+        .mode-tab.active {
+            background: rgba(212, 175, 55, 0.08);
+            border-color: var(--gold);
+            color: var(--gold-light);
+        }
+
+        /* ─── Q-CARD ─── */
+        .q-card {
+            background: var(--surface);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 14px;
+            transition: var(--transition);
+        }
+        .q-card:hover {
+            border-color: var(--border-glow);
+        }
+
+        .q-card .q-text {
+            font-size: 0.93rem;
+            font-weight: 600;
+            margin-bottom: 14px;
+            color: var(--text-secondary);
+            font-family: var(--font-heading);
+        }
+
+        .q-blank {
+            border: none;
+            border-bottom: 2px solid var(--gold);
+            background: transparent;
+            color: var(--text);
+            font-size: 0.95rem;
+            min-width: 100px;
+            padding: 4px 6px;
+            outline: none;
+            font-family: var(--font-body);
+        }
+        .q-blank:focus {
+            border-bottom-color: var(--gold-light);
+        }
+
+        .opt-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 10px 16px;
+            margin-bottom: 7px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font-body);
+        }
+        .opt-btn:hover:not([disabled]) {
+            border-color: var(--gold);
+            background: var(--surface-hover);
+            color: var(--text);
+        }
+        .opt-btn[disabled] {
+            cursor: default;
+            opacity: 0.6;
+        }
+        .opt-btn.correct {
+            background: rgba(212, 175, 55, 0.08);
+            border-color: var(--gold);
+            color: var(--gold-light);
+        }
+        .opt-btn.wrong {
+            background: rgba(239, 68, 68, 0.06);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+        }
+
+        .q-feedback {
+            display: none;
+            margin-top: 12px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 0.84rem;
+            line-height: 1.6;
+            font-family: var(--font-body);
+        }
+        .q-feedback.show {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+        .q-feedback.ok {
+            background: rgba(212, 175, 55, 0.04);
+            border: 1px solid rgba(212, 175, 55, 0.12);
+            color: var(--gold-light);
+        }
+        .q-feedback.bad {
+            background: rgba(239, 68, 68, 0.04);
+            border: 1px solid rgba(239, 68, 68, 0.12);
+            color: #fca5a5;
+        }
+        .q-feedback em {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* ─── PRACTICE SCORE ─── */
+        #practiceScore {
+            display: none;
+            padding: 24px;
+            text-align: center;
+            background: var(--surface);
+            backdrop-filter: blur(8px);
+            border-radius: var(--radius);
+            margin-top: 18px;
+            border: 1px solid var(--border);
+        }
+        #practiceScore h3 {
+            font-size: 1.2rem;
+            font-family: var(--font-heading);
+            color: var(--gold-light);
+            margin-bottom: 6px;
+        }
+        #practiceScore p {
+            color: var(--muted);
+            font-size: 0.85rem;
+            margin-bottom: 14px;
+        }
+
+        /* ─── WEAK AREAS ─── */
+        #weakLoading {
+            text-align: center;
+            padding: 30px;
+            color: var(--muted);
+        }
+        #weakContent {
+            display: none;
+        }
+        #weakEmpty {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            color: var(--muted);
+        }
+        #weakEmpty p {
+            font-size: 0.88rem;
+        }
+        #weakEmpty strong {
+            color: var(--gold-light);
+        }
+
+        .weak-bar {
+            margin-bottom: 16px;
+        }
+        .wb-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.84rem;
+            margin-bottom: 6px;
+            color: var(--text-secondary);
+        }
+        .wb-label span:last-child {
+            color: var(--gold-light);
+            font-weight: 700;
+        }
+        .wb-track {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .wb-fill {
+            height: 100%;
+            background: var(--gold-gradient);
+            border-radius: 10px;
+            transition: width 0.8s ease;
+        }
+
+        #weakTip {
+            margin-bottom: 20px;
+        }
+
+        /* ─── RULE LIBRARY ─── */
+        .rule-cats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-bottom: 20px;
+        }
+        .rule-cat-btn {
+            padding: 7px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: 20px;
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: var(--transition);
+            font-family: var(--font-body);
+            letter-spacing: 0.04em;
+        }
+        .rule-cat-btn:hover {
+            color: var(--text-secondary);
+            border-color: var(--border-glow);
+        }
+        .rule-cat-btn.active {
+            background: rgba(212, 175, 55, 0.08);
+            border-color: var(--gold);
+            color: var(--gold-light);
+        }
+
+        .rule-item {
+            background: var(--surface);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            margin-bottom: 10px;
+            transition: var(--transition);
+        }
+        .rule-item:hover {
+            border-color: var(--border-glow);
+        }
+
+        .ri-rule {
+            font-size: 0.87rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--gold-light);
+            font-family: var(--font-heading);
+        }
+        .ri-expl {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        .ri-examples .example {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 3px;
+        }
+
+        /* ─── TIPS GRID ─── */
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 14px;
+            margin-top: 30px;
+        }
+        .tip-card {
+            background: var(--surface);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px 18px;
+            transition: var(--transition);
+        }
+        .tip-card:hover {
+            border-color: var(--border-glow);
+        }
+        .tip-card h3 {
+            font-size: 0.83rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--gold-light);
+            font-family: var(--font-heading);
+        }
+        .tip-card p {
+            font-size: 0.76rem;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        /* ─── SCROLLBAR ─── */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold);
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 60px;
+                padding: 16px 0;
+            }
+            .sidebar-brand {
+                font-size: 0;
+                padding: 0 0 16px;
+                justify-content: center;
+            }
+            .sidebar-brand span {
+                font-size: 1.8rem;
+            }
+            .sidebar-link {
+                padding: 10px 0;
+                justify-content: center;
+                font-size: 0;
+            }
+            .sidebar-link .icon {
+                font-size: 1.4rem;
+            }
+            .sidebar-link .link-text {
+                display: none;
+            }
+            .sidebar-user .user-row {
+                flex-direction: column;
+                align-items: center;
+                gap: 4px;
+            }
+            .sidebar-user .user-name {
+                font-size: 0.7rem;
+                text-align: center;
+            }
+            .sidebar-user .user-stats {
+                flex-direction: column;
+                align-items: center;
+                gap: 2px;
+                font-size: 0.6rem;
+            }
+            .sidebar-user .avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 0.9rem;
+            }
+            .main {
+                margin-left: 60px;
+                padding: 24px 16px 40px;
+            }
+            .nav-label {
+                display: none;
+            }
+            .tab {
+                font-size: 0.75rem;
+                padding: 8px 10px;
+            }
+            .input-card {
+                padding: 16px;
+            }
+            .btn-row {
+                flex-direction: column;
+            }
+            .btn-primary,
+            .btn-sec {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+            }
+            .score-ring {
+                flex-direction: column;
+                text-align: center;
+                padding: 16px;
+            }
+            .ec-header {
+                flex-wrap: wrap;
+            }
+            .ec-cat {
+                font-size: 0.65rem;
+            }
+            .tabs {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+            }
+            .tab {
+                flex: 0 0 auto;
+                padding: 8px 14px;
+            }
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+            .tips-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main {
+                padding: 20px 12px 30px;
+            }
+            .page-header h1 {
+                font-size: 1.5rem;
+            }
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ─── PARTICLES CANVAS ─── -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- ─── BG BLOBS ─── -->
+    <div class="bg-blobs">
+        <div class="blob b1"></div>
+        <div class="blob b2"></div>
+    </div>
+
+    <!-- ─── SIDEBAR ─── -->
+    <aside class="sidebar">
+        <a class="sidebar-brand" href="{% url 'home' %}">
+            <span>🎓</span> NEXA HUB
+        </a>
+
+        <nav class="sidebar-nav">
+            <div class="nav-label">Main</div>
+            <a href="{% url 'dashboard' %}" class="sidebar-link">
+                <span class="icon">📊</span>
+                <span class="link-text">Dashboard</span>
+            </a>
+            <a href="{% url 'grammar_coach' %}" class="sidebar-link active">
+                <span class="icon">📖</span>
+                <span class="link-text">Grammar</span>
+            </a>
+            <a href="{% url 'speaking_practice' %}" class="sidebar-link">
+                <span class="icon">🗣️</span>
+                <span class="link-text">Speaking</span>
+            </a>
+            <a href="{% url 'interview_practice' %}" class="sidebar-link">
+                <span class="icon">💼</span>
+                <span class="link-text">Interview</span>
+            </a>
+            <a href="{% url 'translation' %}" class="sidebar-link">
+                <span class="icon">🔄</span>
+                <span class="link-text">Translate</span>
+            </a>
+            <a href="{% url 'pronunciation_coach' %}" class="sidebar-link">
+                <span class="icon">🎵</span>
+                <span class="link-text">Pronunciation</span>
+            </a>
+            <div class="nav-label" style="margin-top:12px;">Engage</div>
+            <a href="{% url 'daily_challenge' %}" class="sidebar-link">
+                <span class="icon">🏆</span>
+                <span class="link-text">Challenge</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-user">
+            <div class="user-row">
+                <div class="avatar">J</div>
+                <div class="user-name">Jaat</div>
+            </div>
+            <div class="user-stats">
+                <span>🏅 438 XP</span>
+                <span>🔥 2 day streak</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ─── MAIN CONTENT ─── -->
+    <main class="main">
+
+        <!-- HEADER -->
+        <div class="page-header">
+            <span class="ph-icon">📖</span>
+            <h1>Grammar Coach</h1>
+            <p>18 grammar categories · 120+ rules · Smart error detection · Practice mode · Weak topic tracking</p>
+        </div>
+
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('check',this)">✅ Check Grammar</button>
+            <button class="tab" onclick="switchTab('practice',this)">🏋️ Practice</button>
+            <button class="tab" onclick="switchTab('weak',this)">📊 My Weak Areas</button>
+            <button class="tab" onclick="switchTab('rules',this)">📚 Rule Library</button>
+        </div>
+
+        <!-- ══ TAB 1: CHECK ══════════════════════════════════════════ -->
+        <div class="tab-panel active" id="panel-check">
+            <div class="input-card">
+                <span class="lbl">Your English Text</span>
+                <textarea id="grammarInput" placeholder="Type or paste any English text here…&#10;&#10;Example: She don't know nothing about it. I am doing job since 3 years and buyed a new car yesterday."></textarea>
+                <div style="margin-top:12px;margin-bottom:5px;" class="lbl">Try an example:</div>
+                <div class="chip-row">
+                    <span class="chip" onclick="setEx(this)">She don't know nothing about it.</span>
+                    <span class="chip" onclick="setEx(this)">I am going to market yesterday and buyed many things.</span>
+                    <span class="chip" onclick="setEx(this)">He have many informations about this matter.</span>
+                    <span class="chip" onclick="setEx(this)">They was very happy when I came here.</span>
+                    <span class="chip" onclick="setEx(this)">I am doing job since 3 years in this company.</span>
+                    <span class="chip" onclick="setEx(this)">Please do the needful and revert back to me.</span>
+                    <span class="chip" onclick="setEx(this)">Me and Rahul discussed about the project yesterday.</span>
+                    <span class="chip" onclick="setEx(this)">She should to study more harder for the exam.</span>
+                </div>
+                <div class="btn-row">
+                    <button class="btn-primary" id="checkBtn" onclick="checkGrammar()">✅ Analyse My Grammar</button>
+                    <button class="btn-sec" onclick="clearAll()">🗑 Clear</button>
+                    <button class="btn-sec" onclick="speakInput()">🔊 Read Text</button>
+                </div>
+            </div>
+
+            <div class="loading" id="loadingDiv">
+                <div class="spinner"></div>
+                <p style="color:var(--muted);font-size:.9rem;">Analysing grammar — checking 18 categories…</p>
+            </div>
+
+            <!-- RESULT AREA -->
+            <div class="result-area" id="resultArea">
+
+                <!-- Score ring -->
+                <div class="score-ring" id="scoreRing">
+                    <svg class="ring-svg" width="72" height="72" viewBox="0 0 100 100">
+                        <circle class="ring-bg" cx="50" cy="50" r="45"/>
+                        <circle class="ring-fill" id="ringFill" cx="50" cy="50" r="45"/>
+                    </svg>
+                    <div class="score-info">
+                        <h3 id="scoreNum">—</h3>
+                        <p id="gradeText">—</p>
+                        <div class="cats-row" id="catsRow"></div>
+                    </div>
+                </div>
+
+                <!-- Personal tip -->
+                <div class="personal-tip" id="personalTip" style="display:none;">
+                    <strong>🎯 Personalized Feedback:</strong> <span id="personalTipText"></span>
+                </div>
+
+                <!-- Corrected version -->
+                <div class="corrected-box" id="correctedBox" style="display:none;">
+                    <h4>✅ Corrected Version</h4>
+                    <p id="correctedText"></p>
+                </div>
+
+                <!-- No errors state -->
+                <div id="noErrorsBox" style="display:none;padding:20px;text-align:center;">
+                    <div style="font-size:2.5rem;margin-bottom:10px;">🎉</div>
+                    <h3 style="color:var(--gold-light);margin-bottom:8px;">No Grammar Errors Found!</h3>
+                    <p style="color:var(--muted);font-size:.88rem;">Your text looks grammatically correct. Try the Practice tab to challenge yourself further!</p>
+                </div>
+
+                <!-- Error cards -->
+                <div id="errorCards"></div>
+
+                <!-- Footer actions -->
+                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;" id="resultFooter">
+                    <button class="btn-sec" onclick="copyResult()">📋 Copy Analysis</button>
+                    <button class="btn-sec" onclick="speakResult()">🔊 Read Aloud</button>
+                    <button class="btn-sec" onclick="clearAll()">🔄 Check Another</button>
+                    <a href="{% url 'daily_challenge' %}" class="btn-sec" style="text-decoration:none;">🏆 Grammar Challenge</a>
+                </div>
+            </div><!-- /result-area -->
+        </div><!-- /panel-check -->
+
+        <!-- ══ TAB 2: PRACTICE ═══════════════════════════════════════ -->
+        <div class="tab-panel" id="panel-practice">
+            <div style="margin-bottom:18px;">
+                <div class="lbl">Select Practice Mode:</div>
+                <div class="mode-tabs">
+                    <button class="mode-tab active" onclick="setPracticeMode('error_correction',this)">❌ Error Correction</button>
+                    <button class="mode-tab" onclick="setPracticeMode('fill_blank',this)">📝 Fill in the Blank</button>
+                    <button class="mode-tab" onclick="setPracticeMode('rearrange',this)">🔀 Sentence Rearrangement</button>
+                </div>
+                <div class="lbl">Filter by Topic (optional):</div>
+                <div class="chip-row" id="topicChips">
+                    <span class="chip" onclick="setTopic(null,this)" style="border-color:rgba(212,175,55,.4);color:var(--gold-light);">All Topics</span>
+                    <span class="chip" onclick="setTopic('subject_verb_agreement',this)">Subject–Verb</span>
+                    <span class="chip" onclick="setTopic('tense',this)">Tenses</span>
+                    <span class="chip" onclick="setTopic('articles',this)">Articles</span>
+                    <span class="chip" onclick="setTopic('prepositions',this)">Prepositions</span>
+                    <span class="chip" onclick="setTopic('stative_verbs',this)">Stative Verbs</span>
+                    <span class="chip" onclick="setTopic('indian_english',this)">Indian English</span>
+                    <span class="chip" onclick="setTopic('modals',this)">Modal Verbs</span>
+                    <span class="chip" onclick="setTopic('passive_voice',this)">Passive Voice</span>
+                    <span class="chip" onclick="setTopic('countable_uncountable',this)">Countable/Uncountable</span>
+                </div>
+                <button class="btn-primary" onclick="loadPractice()" style="margin-top:10px;">🎯 Generate Questions</button>
+            </div>
+            <div id="practiceArea"></div>
+            <div id="practiceScore">
+                <div style="font-size:2rem;margin-bottom:8px;" id="practiceScoreIcon">🏆</div>
+                <h3 id="practiceScoreText" style="font-size:1.2rem;margin-bottom:6px;"></h3>
+                <p style="color:var(--muted);font-size:.85rem;margin-bottom:14px;" id="practiceScoreDetail"></p>
+                <button class="btn-primary" onclick="loadPractice()">🔄 Try More Questions</button>
+            </div>
+        </div>
+
+        <!-- ══ TAB 3: WEAK AREAS ════════════════════════════════════ -->
+        <div class="tab-panel" id="panel-weak">
+            <div id="weakLoading" style="text-align:center;padding:30px;color:var(--muted);">Loading your performance data…</div>
+            <div id="weakContent">
+                <div class="personal-tip" id="weakTip" style="margin-bottom:20px;"></div>
+                <div class="lbl">Your Grammar Accuracy by Topic:</div>
+                <div id="weakBars"></div>
+                <div style="margin-top:20px;padding:16px 20px;background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);">
+                    <h4 style="margin-bottom:12px;font-size:.9rem;color:var(--gold-light);font-family:var(--font-heading);">📈 How to Improve</h4>
+                    <ul style="list-style:none;font-size:.85rem;line-height:1.9;color:var(--muted);">
+                        <li>✅ Submit sentences regularly using the <strong style="color:var(--text);">Check Grammar</strong> tab</li>
+                        <li>✅ Practice your weakest topic daily in <strong style="color:var(--text);">Practice Mode</strong></li>
+                        <li>✅ Study the rules in the <strong style="color:var(--text);">Rule Library</strong> tab</li>
+                        <li>✅ Take <strong style="color:var(--text);">Grammar Challenge</strong> daily for quiz-based reinforcement</li>
+                    </ul>
+                </div>
+            </div>
+            <div id="weakEmpty">
+                <div style="font-size:2.5rem;margin-bottom:12px;">📊</div>
+                <p>No data yet! Submit text in the <strong style="color:var(--gold-light);">Check Grammar</strong> tab to start tracking your weak areas.</p>
+            </div>
+        </div>
+
+        <!-- ══ TAB 4: RULE LIBRARY ══════════════════════════════════ -->
+        <div class="tab-panel" id="panel-rules">
+            <div class="lbl">Filter by Category:</div>
+            <div class="rule-cats" id="ruleCatBtns"></div>
+            <div id="ruleContent"><p style="color:var(--muted);font-size:.88rem;">Select a category above to browse grammar rules.</p></div>
+        </div>
+
+        <!-- Quick Tips -->
+        <div class="tips-grid">
+            <div class="tip-card"><h3>⏰ Tense Tip</h3><p>yesterday/last year/ago → Simple Past. since/for + ongoing → Present Perfect Continuous. Never mix them!</p></div>
+            <div class="tip-card"><h3>📝 Articles</h3><p>'a' + consonant SOUND. 'an' + vowel SOUND. 'a university' (yoo-sound). 'an hour' (h silent). No article before sports!</p></div>
+            <div class="tip-card"><h3>🔀 Subject–Verb</h3><p>he/she/it → doesn't/isn't/hasn't/was. everyone/nobody/each → singular verb. 'They was' is ALWAYS wrong.</p></div>
+            <div class="tip-card"><h3>⚠️ Indian English</h3><p>Avoid: 'do the needful', 'revert back', 'gave exam', 'passed out from college', 'discuss about', 'prepone'. Not global English!</p></div>
+            <div class="tip-card"><h3>🧠 Stative Verbs</h3><p>know/like/want/have(possession)<br>/understand/believe — NEVER use -ing. 'I am knowing' ❌ → 'I know' ✅</p></div>
+            <div class="tip-card"><h3>🔢 Countable</h3><p>Countable → many/few. Uncountable → much/little/a lot of. Information/advice/furniture have NO plural form!</p></div>
+        </div>
+
+    </main>
+
+    <!-- ─── SCRIPT (100% UNCHANGED — all functions preserved) ──── -->
+    <script>
+        // ── State
+        let practiceMode = 'error_correction',
+            practiceCategory = null;
+        let practiceQs = [],
+            practiceAnswers = {},
+            practiceSubmitted = false;
+
+        function getCookie(n) { const v = document.cookie.match('(^|;)\\s*' + n + '\\s*=\\s*([^;]+)'); return v ? v.pop() : ''; }
+        const CSRF = getCookie('csrftoken') || '{{ csrf_token }}';
+
+        // ── Tab switching
+        function switchTab(name, btn) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('panel-' + name).classList.add('active');
+            if (name === 'weak') loadWeakAreas();
+            if (name === 'rules') loadRuleCategories();
+        }
+
+        // ── Check Grammar
+        function setEx(chip) { document.getElementById('grammarInput').value = chip.textContent; }
+
+        async function checkGrammar() {
+            const text = document.getElementById('grammarInput').value.trim();
+            if (!text) { alert('Please enter some text to check.'); return; }
+            document.getElementById('checkBtn').disabled = true;
+            document.getElementById('loadingDiv').classList.add('show');
+            document.getElementById('resultArea').classList.remove('show');
+            try {
+                const r = await fetch('{% url "ajax_grammar_raw" %}', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF },
+                    body: JSON.stringify({ text })
+                });
+                const d = await r.json();
+                document.getElementById('loadingDiv').classList.remove('show');
+                if (d.result) {
+                    renderResult(d.result);
+                } else if (d.error) {
+                    document.getElementById('errorCards').innerHTML =
+                        `<div style="padding:16px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:12px;color:#fca5a5;">❌ Error: ${d.error}<br/><small style="color:#888;">${d.trace||''}</small></div>`;
+                    document.getElementById('resultArea').classList.add('show');
+                }
+            } catch (e) {
+                document.getElementById('loadingDiv').classList.remove('show');
+                document.getElementById('errorCards').innerHTML =
+                    `<div style="padding:16px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:12px;color:#fca5a5;">❌ Network error: ${e.message}</div>`;
+                document.getElementById('resultArea').classList.add('show');
+            }
+            document.getElementById('checkBtn').disabled = false;
+        }
+
+        function renderResult(res) {
+            // Score ring
+            const score = res.score || 100;
+            const offset = 283 - (283 * score / 100);
+            const fill = document.getElementById('ringFill');
+            const color = score >= 85 ? '#43e97b' : score >= 60 ? '#f59e0b' : '#ef4444';
+            fill.style.stroke = color;
+            setTimeout(() => fill.style.strokeDashoffset = offset, 100);
+            document.getElementById('scoreNum').textContent = score + '/100';
+            document.getElementById('gradeText').textContent = res.grade || '';
+
+            // Category badges
+            const catsRow = document.getElementById('catsRow');
+            catsRow.innerHTML = '';
+            (res.categories_affected || []).forEach(c => {
+                const b = document.createElement('span');
+                b.className = 'cat-badge';
+                b.textContent = c;
+                catsRow.appendChild(b);
+            });
+
+            // Personal tip
+            const pt = res.personal_tip || '';
+            if (pt && pt.length > 10) {
+                document.getElementById('personalTipText').textContent = pt;
+                document.getElementById('personalTip').style.display = 'block';
+            } else { document.getElementById('personalTip').style.display = 'none'; }
+
+            // Corrected
+            if (res.corrected && res.corrected !== res.original) {
+                document.getElementById('correctedText').textContent = res.corrected;
+                document.getElementById('correctedBox').style.display = 'block';
+            } else { document.getElementById('correctedBox').style.display = 'none'; }
+
+            // Errors
+            const errWrap = document.getElementById('errorCards');
+            errWrap.innerHTML = '';
+            const errors = res.errors || [];
+
+            if (errors.length === 0) {
+                document.getElementById('noErrorsBox').style.display = 'block';
+            } else {
+                document.getElementById('noErrorsBox').style.display = 'none';
+                errors.forEach((err, i) => {
+                    const exHTML = (err.examples || []).slice(0, 2).map(e => `<div class="example">${e}</div>`).join(
+                    '');
+                    const card = document.createElement('div');
+                    card.className = 'error-card';
+                    card.innerHTML = `
+                <div class="ec-header" onclick="toggleEC(${i})">
+                  <div class="ec-num">${i+1}</div>
+                  <div class="ec-title">${err.category_label}</div>
+                  <div class="ec-cat">${err.rule}</div>
+                </div>
+                <div class="ec-body" id="ecb-${i}">
+                  <div class="ec-row"><span>Error Pattern</span><code class="wrong-chip">${err.wrong_template}</code></div>
+                  <div class="ec-row"><span>Correct Pattern</span><code class="right-chip">${err.correct_template}</code></div>
+                  <div class="ec-row"><span>Why?</span>${err.explanation}</div>
+                  <div class="tip-box">💡 ${err.tip}</div>
+                  ${exHTML?`<div class="examples-list" style="margin-top:10px;"><span style="color:var(--muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;">Examples</span>${exHTML}</div>`:''}
+                </div>`;
+                    errWrap.appendChild(card);
+                    if (i === 0) document.getElementById('ecb-0').classList.add('open');
+                });
+            }
+
+            document.getElementById('resultArea').classList.add('show');
+            document.getElementById('resultArea').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function toggleEC(i) {
+            const el = document.getElementById('ecb-' + i);
+            el.classList.toggle('open');
+        }
+
+        function clearAll() {
+            document.getElementById('grammarInput').value = '';
+            document.getElementById('resultArea').classList.remove('show');
+            document.getElementById('grammarInput').focus();
+        }
+
+        function copyResult() {
+            const txt = document.getElementById('errorCards').innerText;
+            navigator.clipboard.writeText(txt).then(() => alert('✅ Copied!'));
+        }
+
+        function speakResult() {
+            const t = document.getElementById('errorCards').innerText;
+            if (!('speechSynthesis' in window)) { alert('Speech not supported.'); return; }
+            window.speechSynthesis.cancel();
+            const u = new SpeechSynthesisUtterance(t.substring(0, 2200));
+            u.lang = 'en-IN';
+            u.rate = 0.84;
+            speechSynthesis.speak(u);
+        }
+
+        function speakInput() {
+            const t = document.getElementById('grammarInput').value;
+            if (!t) { return; }
+            window.speechSynthesis.cancel();
+            const u = new SpeechSynthesisUtterance(t);
+            u.lang = 'en-IN';
+            u.rate = 0.84;
+            speechSynthesis.speak(u);
+        }
+
+        // ── Practice Mode
+        function setPracticeMode(mode, btn) {
+            practiceMode = mode;
+            document.querySelectorAll('.mode-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function setTopic(cat, chip) {
+            practiceCategory = cat;
+            document.querySelectorAll('#topicChips .chip').forEach(c => {
+                c.style.borderColor = '';
+                c.style.color = '';
+            });
+            chip.style.borderColor = 'rgba(212,175,55,.5)';
+            chip.style.color = 'var(--gold-light)';
+        }
+
+        async function loadPractice() {
+            practiceAnswers = {};
+            practiceSubmitted = false;
+            document.getElementById('practiceScore').style.display = 'none';
+            document.getElementById('practiceArea').innerHTML =
+                '<div class="loading show"><div class="spinner"></div><p style="color:var(--muted);font-size:.88rem;">Loading questions…</p></div>';
+            let url = `{% url 'ajax_grammar_practice' %}?mode=${practiceMode}&n=5`;
+            if (practiceCategory) url += `&category=${practiceCategory}`;
+            try {
+                const r = await fetch(url);
+                const d = await r.json();
+                if (d.questions) renderPractice(d.questions);
+                else document.getElementById('practiceArea').innerHTML = '<p style="color:var(--muted);">Could not load questions.</p>';
+            } catch (e) {
+                document.getElementById('practiceArea').innerHTML = '<p style="color:var(--muted);">Network error.</p>';
+            }
+        }
+
+        function renderPractice(qs) {
+            practiceQs = qs;
+            const wrap = document.getElementById('practiceArea');
+            wrap.innerHTML = '';
+            if (practiceMode === 'error_correction') {
+                qs.forEach((q, i) => {
+                    const card = document.createElement('div');
+                    card.className = 'q-card';
+                    card.innerHTML = `
+                <div class="q-text">Q${i+1}. Correct the error in this sentence:</div>
+                <div style="padding:10px 14px;background:rgba(212,175,55,.05);border-radius:10px;font-size:.93rem;margin-bottom:14px;border-left:3px solid rgba(212,175,55,.3);color:var(--text-secondary);">${q.wrong}</div>
+                <input type="text" class="q-blank" style="width:100%;padding:9px 12px;background:rgba(255,255,255,.03);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-size:.9rem;outline:none;" placeholder="Type the corrected sentence…" id="pq-${i}"/>
+                <div style="margin-top:10px;display:flex;gap:8px;">
+                  <button class="btn-primary" style="padding:8px 18px;font-size:.83rem;" onclick="checkEC(${i})">Check</button>
+                </div>
+                <div class="q-feedback" id="pfb-${i}"></div>`;
+                    wrap.appendChild(card);
+                });
+            } else if (practiceMode === 'fill_blank') {
+                qs.forEach((q, i) => {
+                    const card = document.createElement('div');
+                    card.className = 'q-card';
+                    const displayQ = q.sentence.replace('_____',
+                        `<input class="q-blank" id="pq-${i}" placeholder="___" style="min-width:80px;">`);
+                    if (q.options) {
+                        card.innerHTML =
+                            `<div class="q-text">Q${i+1}. ${q.sentence.replace('_____','_____ ?')}</div>` +
+                            q.options.map((o, oi) =>
+                                `<button class="opt-btn" id="pq-${i}-${oi}" onclick="checkMCQ(${i},'${o}','${q.answer.replace(/'/g,"\\'")}','${q.rule.replace(/'/g,"\\'")}',${oi},${q.options.length})">${o}</button>`
+                                ).join('') +
+                            `<div class="q-feedback" id="pfb-${i}"></div>`;
+                    } else {
+                        card.innerHTML =
+                            `<div class="q-text">Q${i+1}. ${displayQ}</div><button class="btn-primary" style="padding:8px 18px;font-size:.83rem;margin-top:10px;" onclick="checkFill(${i},'${q.answer.replace(/'/g,"\\'")}','${q.rule.replace(/'/g,"\\'")}')">Check</button><div class="q-feedback" id="pfb-${i}"></div>`;
+                    }
+                    wrap.appendChild(card);
+                });
+            } else if (practiceMode === 'rearrange') {
+                qs.forEach((q, i) => {
+                    const card = document.createElement('div');
+                    card.className = 'q-card';
+                    card.innerHTML =
+                        `<div class="q-text">Q${i+1}. Rearrange these words into a correct sentence:</div>
+                <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px;">${q.words.map(w=>`<span style="padding:5px 12px;background:rgba(212,175,55,.06);border:1px solid rgba(212,175,55,.15);border-radius:8px;font-size:.88rem;color:var(--text-secondary);">${w}</span>`).join('')}</div>
+                <input type="text" id="pq-${i}" style="width:100%;padding:9px 12px;background:rgba(255,255,255,.03);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-size:.9rem;outline:none;" placeholder="Type the correct sentence here…"/>
+                <button class="btn-primary" style="padding:8px 18px;font-size:.83rem;margin-top:10px;" onclick="checkRearrange(${i},'${q.answer.replace(/'/g,"\\'")}','${q.rule.replace(/'/g,"\\'")}')">Check</button>
+                <div class="q-feedback" id="pfb-${i}"></div>`;
+                    wrap.appendChild(card);
+                });
+            }
+            const sb = document.createElement('div');
+            sb.style.cssText = 'margin-top:18px;text-align:center;';
+            sb.innerHTML = `<button class="btn-primary" onclick="submitAllPractice()">✅ Submit All & See Score</button>`;
+            wrap.appendChild(sb);
+        }
+
+        let practiceCorrect = 0;
+
+        function showFeedback(idx, ok, correctAns, rule) {
+            const fb = document.getElementById('pfb-' + idx);
+            fb.className = 'q-feedback show ' + (ok ? 'ok' : 'bad');
+            fb.innerHTML = ok ? `✅ Correct! <em>${rule}</em>` :
+                `❌ Incorrect. Correct answer: <strong style="color:var(--gold-light);">${correctAns}</strong><br/><em style="font-size:.8rem;">${rule}</em>`;
+            if (!practiceAnswers[idx]) { practiceAnswers[idx] = ok; if (ok) practiceCorrect++; }
+        }
+
+        function checkEC(i) {
+            const val = document.getElementById('pq-' + i).value.trim().toLowerCase();
+            const q = practiceQs[i];
+            const ok = val === q.correct.toLowerCase() || val.includes(q.correct.toLowerCase().split('.')[0]);
+            showFeedback(i, ok, q.correct, q.explanation);
+        }
+
+        function checkFill(i, ans, rule) {
+            const val = document.getElementById('pq-' + i).value.trim().toLowerCase();
+            const ok = val === ans.toLowerCase();
+            showFeedback(i, ok, ans, rule);
+        }
+
+        function checkRearrange(i, ans, rule) {
+            const val = document.getElementById('pq-' + i).value.trim().toLowerCase().replace(/[.]/g, '');
+            const correct = ans.toLowerCase().replace(/[.]/g, '');
+            const ok = val === correct;
+            showFeedback(i, ok, ans, rule);
+        }
+
+        function checkMCQ(i, selected, answer, rule, optIdx, total) {
+            if (practiceAnswers[i] !== undefined) return;
+            const ok = selected.toLowerCase() === answer.toLowerCase();
+            for (let j = 0; j < total; j++) {
+                const b = document.getElementById(`pq-${i}-${j}`);
+                if (b) { b.disabled = true; if (j === optIdx) b.classList.add(ok ? 'correct' : 'wrong'); }
+            }
+            if (!ok) {
+                for (let j = 0; j < total; j++) {
+                    const b = document.getElementById(`pq-${i}-${j}`);
+                    if (b && b.textContent.toLowerCase() === answer.toLowerCase()) b.classList.add('correct');
+                }
+            }
+            showFeedback(i, ok, answer, rule);
+            practiceAnswers[i] = ok;
+            if (ok) practiceCorrect++;
+        }
+
+        function submitAllPractice() {
+            const total = practiceQs.length;
+            const answered = Object.keys(practiceAnswers).length;
+            const correct = Object.values(practiceAnswers).filter(Boolean).length;
+            const pct = Math.round((correct / total) * 100);
+            const icon = pct === 100 ? '🏆' : pct >= 80 ? '⭐' : pct >= 60 ? '👍' : '💪';
+            document.getElementById('practiceScoreIcon').textContent = icon;
+            document.getElementById('practiceScoreText').textContent = `${correct}/${total} Correct — ${pct}%`;
+            document.getElementById('practiceScoreDetail').textContent =
+                `You answered ${answered} of ${total} questions. Keep practicing to reach 100%!`;
+            document.getElementById('practiceScore').style.display = 'block';
+            document.getElementById('practiceScore').scrollIntoView({ behavior: 'smooth' });
+            practiceCorrect = 0;
+        }
+
+        // ── Weak Areas
+        async function loadWeakAreas() {
+            document.getElementById('weakLoading').style.display = 'block';
+            document.getElementById('weakContent').style.display = 'none';
+            document.getElementById('weakEmpty').style.display = 'none';
+            try {
+                const r = await fetch('{% url "ajax_grammar_weak" %}', {
+                    headers: { 'X-CSRFToken': CSRF }
+                });
+                if (!r.ok) {
+                    const t = await r.text();
+                    document.getElementById('weakLoading').innerHTML =
+                        `<p style="color:#fca5a5;">Error ${r.status}: Could not load data. <button onclick="loadWeakAreas()" class="btn-sec" style="padding:6px 12px;font-size:.8rem;">Retry</button></p>`;
+                    return;
+                }
+                const d = await r.json();
+                document.getElementById('weakLoading').style.display = 'none';
+                if (d.weak_topics && d.weak_topics.length) {
+                    document.getElementById('weakContent').style.display = 'block';
+                    document.getElementById('weakTip').innerHTML = '<strong>🎯 Personalized Feedback:</strong> ' + (d.tip ||
+                        'Keep practicing!');
+                    const bars = document.getElementById('weakBars');
+                    bars.innerHTML = '';
+                    const max = d.weak_topics[0].count || 1;
+                    d.weak_topics.forEach(t => {
+                        const pct = Math.round((t.count / max) * 100);
+                        const label = t.category.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+                        bars.innerHTML += `<div class="weak-bar">
+                  <div class="wb-label"><span>${label}</span><span style="color:var(--gold-light);">${t.count} mistake${t.count>1?'s':''}</span></div>
+                  <div class="wb-track"><div class="wb-fill" style="width:${pct}%"></div></div>
+                </div>`;
+                    });
+                } else {
+                    document.getElementById('weakEmpty').style.display = 'block';
+                }
+            } catch (e) {
+                document.getElementById('weakLoading').innerHTML =
+                    `<p style="color:#fca5a5;">❌ ${e.message} — <button onclick="loadWeakAreas()" class="btn-sec" style="padding:6px 12px;font-size:.8rem;">Retry</button></p>`;
+            }
+        }
+
+        // ── Rule Library
+        const RULE_CATS = {
+            'subject_verb_agreement': 'Subject–Verb Agreement',
+            'tense': 'Tense Usage',
+            'articles': 'Articles',
+            'prepositions': 'Prepositions',
+            'stative_verbs': 'Stative Verbs',
+            'double_negative': 'Double Negatives',
+            'indian_english': 'Indian English',
+            'pronouns': 'Pronouns',
+            'modals': 'Modal Verbs',
+            'word_form': 'Word Forms',
+            'capitalization': 'Capitalization',
+            'reported_speech': 'Reported Speech',
+            'punctuation': 'Punctuation',
+            'comparative': 'Comparatives',
+            'questions': 'Questions',
+            'passive_voice': 'Passive Voice',
+            'confusable_words': 'Confusable Words',
+            'countable_uncountable': 'Countable vs Uncountable'
+        };
+
+        function loadRuleCategories() {
+            const btns = document.getElementById('ruleCatBtns');
+            if (btns.innerHTML) return;
+            Object.entries(RULE_CATS).forEach(([k, v]) => {
+                const b = document.createElement('button');
+                b.className = 'rule-cat-btn';
+                b.textContent = v;
+                b.onclick = () => loadRuleCategory(k, b);
+                btns.appendChild(b);
+            });
+            const first = btns.querySelector('.rule-cat-btn');
+            if (first) first.click();
+        }
+
+        async function loadRuleCategory(cat, btn) {
+            document.querySelectorAll('.rule-cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const content = document.getElementById('ruleContent');
+            content.innerHTML = '<p style="color:var(--muted);">Loading…</p>';
+            try {
+                const r = await fetch(`{% url 'ajax_grammar_rules' %}?category=${cat}`, {
+                    headers: { 'X-CSRFToken': CSRF }
+                });
+                if (!r.ok) {
+                    content.innerHTML = `<p style="color:#fca5a5;">Error ${r.status}: Could not load rules.</p>`;
+                    return;
+                }
+                const d = await r.json();
+                if (d.rules && d.rules[cat]) {
+                    const rules = d.rules[cat];
+                    content.innerHTML =
+                        `<div class="lbl" style="margin-bottom:12px;">${RULE_CATS[cat]} — ${rules.length} Rule${rules.length>1?'s':''}</div>` +
+                        rules.map(r => `<div class="rule-item">
+                  <div class="ri-rule">📌 ${r.rule}</div>
+                  <div class="ri-expl">${r.explanation}</div>
+                  ${r.examples?`<div class="ri-examples">${r.examples.map(e=>`<div class="example" style="color:var(--text-secondary);font-size:.8rem;margin-top:3px;">${e}</div>`).join('')}</div>`:''}
+                </div>`).join('');
+                } else {
+                    content.innerHTML = `<p style="color:var(--muted);">No rules found for this category.</p>`;
+                }
+            } catch (e) {
+                content.innerHTML = `<p style="color:#fca5a5;">❌ ${e.message}</p>`;
+            }
+        }
+    </script>
+
+    <!-- ─── PARTICLE SCRIPT ──────────────────────────────────────────── -->
+    <script>
+        (function() {
+            const c = document.getElementById('particles-canvas'),
+                ctx = c.getContext('2d');
+            let W, H, pts = [];
+
+            function resize() {
+                W = c.width = window.innerWidth;
+                H = c.height = window.innerHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            function rand(a, b) { return Math.random() * (b - a) + a; }
+            const COLORS = ['212,175,55', '245,215,110', '184,150,46', '212,175,55'];
+            for (let i = 0; i < 110; i++) {
+                pts.push({
+                    x: rand(0, W),
+                    y: rand(0, H),
+                    r: rand(0.5, 2.2),
+                    vx: rand(-0.25, 0.25),
+                    vy: rand(-0.25, 0.25),
+                    a: rand(0.1, 0.45),
+                    c: COLORS[Math.floor(Math.random() * COLORS.length)]
+                });
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, W, H);
+                pts.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0 || p.x > W) p.vx *= -1;
+                    if (p.y < 0 || p.y > H) p.vy *= -1;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${p.c},${p.a})`;
+                    ctx.fill();
+                });
+                requestAnimationFrame(draw);
+            }
+            draw();
+        })();
+    </script>
+
+</body>
+</html>

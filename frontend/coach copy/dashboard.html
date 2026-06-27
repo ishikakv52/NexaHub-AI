@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard — NEXA HUB ENGLISH COACH</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lora:wght@400;500;700&display=swap" rel="stylesheet" />
+    <style>
+        /* =============================================
+           LUXURY / PREMIUM THEME – Deep Navy, Gold
+           + SIDEBAR INTEGRATED (from Grammar Coach)
+           ============================================= */
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #0a0c1a;
+            --surface: rgba(255, 255, 255, 0.03);
+            --surface-hover: rgba(212, 175, 55, 0.06);
+            --border: rgba(212, 175, 55, 0.15);
+            --border-glow: rgba(212, 175, 55, 0.3);
+            --gold: #d4af37;
+            --gold-light: #f5d76e;
+            --gold-dark: #b8962e;
+            --gold-gradient: linear-gradient(135deg, #f5d76e, #d4af37, #b8962e);
+            --text: #f0ece4;
+            --text-secondary: #d6cfb5;
+            --muted: #8a867a;
+            --font-heading: 'Playfair Display', 'Georgia', serif;
+            --font-body: 'Lora', 'Segoe UI', serif;
+            --radius: 16px;
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(212, 175, 55, 0.05);
+            --transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            --sidebar-width: 240px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.7;
+            min-height: 100vh;
+            letter-spacing: 0.02em;
+            display: flex;
+        }
+
+        /* ─── SIDEBAR (from Grammar Coach) ─── */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            z-index: 200;
+            background: rgba(10, 12, 26, 0.92);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-right: 1px solid var(--border);
+            padding: 24px 0 20px;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+            overflow-y: auto;
+        }
+        .sidebar:hover {
+            border-right-color: var(--border-glow);
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 20px 24px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: var(--font-heading);
+            text-decoration: none;
+            letter-spacing: 0.05em;
+            color: var(--gold-light);
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+        .sidebar-brand span {
+            -webkit-text-fill-color: initial;
+            font-size: 1.6rem;
+            background: none;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 20px 12px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .sidebar-nav .nav-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            padding: 8px 12px 4px;
+            font-weight: 700;
+        }
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            font-weight: 500;
+            font-family: var(--font-body);
+        }
+        .sidebar-link:hover {
+            color: var(--gold-light);
+            background: var(--surface-hover);
+        }
+        .sidebar-link.active {
+            color: var(--gold-light);
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid var(--border);
+        }
+        .sidebar-link .icon {
+            font-size: 1.1rem;
+        }
+
+        .sidebar-user {
+            border-top: 1px solid var(--border);
+            padding: 16px 20px 0;
+            margin-top: auto;
+        }
+        .sidebar-user .user-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+        }
+        .sidebar-user .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gold-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: #0a0c1a;
+            flex-shrink: 0;
+        }
+        .sidebar-user .user-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .sidebar-user .user-stats {
+            display: flex;
+            gap: 14px;
+            font-size: 0.7rem;
+            color: var(--muted);
+            padding: 4px 0 8px;
+        }
+        .sidebar-user .user-stats span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* ─── MAIN WRAP ─── */
+        .main-wrap {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            transition: margin-left var(--transition);
+            min-height: 100vh;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ─── BACKGROUND BLOBS ─── */
+        .bg-blobs {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(160px);
+            opacity: 0.10;
+            animation: floatBlob 20s ease-in-out infinite alternate;
+        }
+        .b1 {
+            width: 800px;
+            height: 800px;
+            background: #d4af37;
+            top: -300px;
+            left: -250px;
+            opacity: 0.06;
+        }
+        .b2 {
+            width: 600px;
+            height: 600px;
+            background: #b8962e;
+            bottom: -200px;
+            right: -200px;
+            animation-delay: 7s;
+            opacity: 0.05;
+        }
+        .b3 {
+            width: 450px;
+            height: 450px;
+            background: #f5d76e;
+            top: 45%;
+            left: 55%;
+            animation-delay: 4s;
+            opacity: 0.04;
+        }
+        @keyframes floatBlob {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                transform: translate(50px, -50px) scale(1.1);
+            }
+        }
+
+        /* ─── PARTICLES CANVAS ─── */
+        #particles-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* ─── NAVBAR ─── */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 36px;
+            height: 76px;
+            background: rgba(10, 12, 26, 0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border);
+            transition: var(--transition);
+            padding-left: 80px;
+        }
+        .navbar:hover {
+            background: rgba(10, 12, 26, 0.95);
+            border-bottom-color: var(--border-glow);
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .navbar .nl {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            padding: 8px 18px;
+            border-radius: 30px;
+            border: 1px solid transparent;
+            font-weight: 500;
+            font-family: var(--font-body);
+            transition: var(--transition);
+            letter-spacing: 0.04em;
+        }
+        .navbar .nl:hover {
+            color: var(--gold-light);
+            border-color: var(--border);
+            background: var(--surface-hover);
+        }
+        .navbar .nl-primary {
+            background: var(--gold-gradient);
+            color: #0a0c1a !important;
+            border-color: transparent !important;
+            font-weight: 700;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.25);
+        }
+        .navbar .nl-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 36px rgba(212, 175, 55, 0.4);
+        }
+
+        .user-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 6px 18px 6px 14px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-family: var(--font-body);
+            letter-spacing: 0.04em;
+        }
+
+        /* ─── PAGE ─── */
+        .page {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 24px 44px;
+        }
+
+        /* ─── DASH HEADER ─── */
+        .dash-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 26px;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+        .user-greet h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+        .user-greet p {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-top: 4px;
+            font-family: var(--font-body);
+        }
+        .level-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.08), rgba(184, 150, 46, 0.04));
+            border: 1px solid var(--border);
+            border-radius: 60px;
+            padding: 10px 22px 10px 18px;
+            backdrop-filter: blur(4px);
+            transition: var(--transition);
+        }
+        .level-badge:hover {
+            border-color: var(--border-glow);
+            box-shadow: var(--shadow);
+        }
+        .lv-icon {
+            font-size: 1.8rem;
+        }
+        .lv-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--gold-light);
+            font-family: var(--font-heading);
+        }
+        .lv-xp {
+            font-size: 0.75rem;
+            color: var(--muted);
+            font-family: var(--font-body);
+        }
+
+        /* ─── STREAK BAR ─── */
+        .streak-bar {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.08), rgba(184, 150, 46, 0.04));
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px 24px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 22px;
+            backdrop-filter: blur(4px);
+            transition: var(--transition);
+        }
+        .streak-bar:hover {
+            border-color: var(--border-glow);
+            box-shadow: var(--shadow);
+        }
+        .streak-fire {
+            font-size: 2.8rem;
+            animation: flicker 1.5s ease-in-out infinite alternate;
+        }
+        @keyframes flicker {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.08) rotate(3deg);
+            }
+        }
+        .streak-info h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--gold-light);
+            font-family: var(--font-heading);
+        }
+        .streak-info p {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-top: 2px;
+            font-family: var(--font-body);
+        }
+
+        /* ─── CARD ─── */
+        .card {
+            background: var(--surface);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        .card:hover {
+            border-color: var(--border-glow);
+            box-shadow: var(--shadow);
+        }
+        .card-hdr {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .card-hdr h3 {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--gold-light);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-family: var(--font-heading);
+        }
+        .card-body {
+            padding: 18px 20px;
+        }
+
+        /* ─── XP PROGRESS BAR ─── */
+        .xp-bar-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--muted);
+            margin-bottom: 5px;
+            font-family: var(--font-body);
+        }
+        .xp-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .xp-bar-fill {
+            height: 100%;
+            background: var(--gold-gradient);
+            border-radius: 8px;
+            transition: width 0.8s ease;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+            width: 0%;
+        }
+
+        /* ─── STATS ROW ─── */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+            gap: 13px;
+            margin-bottom: 22px;
+        }
+        .stat-card {
+            background: var(--surface);
+            backdrop-filter: blur(4px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px 14px;
+            text-align: center;
+            transition: var(--transition);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        .stat-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--border-glow);
+            box-shadow: var(--shadow);
+        }
+        .stat-icon {
+            font-size: 1.7rem;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .stat-val {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: var(--font-heading);
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.04em;
+        }
+        .stat-lbl {
+            font-size: 0.72rem;
+            color: var(--muted);
+            margin-top: 2px;
+            font-family: var(--font-body);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        /* ─── QUICK ACTIONS ─── */
+        .qa-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+        .qa-btn {
+            background: var(--surface);
+            backdrop-filter: blur(4px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 13px 10px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .qa-btn:hover {
+            border-color: var(--gold);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+            background: var(--surface-hover);
+        }
+        .qa-icon {
+            font-size: 1.4rem;
+        }
+        .qa-lbl {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            font-family: var(--font-body);
+            letter-spacing: 0.04em;
+        }
+
+        /* ─── MAIN GRID ─── */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 18px;
+            margin-bottom: 18px;
+        }
+
+        /* ─── CHART ─── */
+        .chart-wrap {
+            position: relative;
+            height: 155px;
+        }
+
+        /* ─── SKILL SCORES ─── */
+        .scores-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;  /* 3 columns */
+            gap: 13px;
+            align-items: start;
+        }
+        .score-circle-wrap {
+            text-align: center;
+        }
+        /* Shift the Interview circle slightly to the right */
+        .score-circle-wrap:nth-child(2) {
+            justify-self: center;  /* keep in center */
+        }
+        .score-circle-wrap:last-child {
+            justify-self: end;     /* shift right */
+        }
+
+        .score-circle {
+            position: relative;
+            width: 76px;
+            height: 76px;
+            margin: 0 auto 7px;
+        }
+        .score-circle svg {
+            transform: rotate(-90deg);
+        }
+        .score-num {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--gold-light);
+            font-family: var(--font-heading);
+        }
+        .score-lbl {
+            font-size: 0.72rem;
+            color: var(--muted);
+            font-family: var(--font-body);
+            letter-spacing: 0.04em;
+        }
+
+        /* ─── BOTTOM GRID ─── */
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        /* ─── ACHIEVEMENTS ─── */
+        .ach-list {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            padding: 15px 18px;
+        }
+        .ach-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            padding: 11px 14px;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+        .ach-item:hover {
+            border-color: var(--border-glow);
+            background: var(--surface-hover);
+        }
+        .ach-badge {
+            font-size: 1.45rem;
+        }
+        .ach-name {
+            font-size: 0.86rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            font-family: var(--font-heading);
+        }
+        .ach-date {
+            font-size: 0.72rem;
+            color: var(--muted);
+            font-family: var(--font-body);
+        }
+
+        .empty-state {
+            padding: 28px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.88rem;
+            font-family: var(--font-body);
+        }
+        .empty-state span {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .empty-state a {
+            color: var(--gold-light);
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+        .empty-state a:hover {
+            color: var(--gold);
+        }
+
+        /* ─── QUIZ LIST ─── */
+        .quiz-list {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            padding: 15px 18px;
+            max-height: 260px;
+            overflow-y: auto;
+        }
+        .quiz-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        .quiz-list::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+        .quiz-list::-webkit-scrollbar-thumb:hover {
+            background: var(--gold);
+        }
+        .quiz-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 9px 14px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+        .quiz-item:hover {
+            border-color: var(--border-glow);
+            background: var(--surface-hover);
+        }
+        .quiz-type {
+            font-size: 0.84rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            font-family: var(--font-body);
+        }
+        .quiz-score {
+            font-size: 0.84rem;
+            font-weight: 900;
+            color: var(--gold-light);
+            font-family: var(--font-heading);
+        }
+        .quiz-date {
+            font-size: 0.7rem;
+            color: var(--muted);
+            font-family: var(--font-body);
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                opacity: 0;
+                width: 260px;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            .main-wrap {
+                margin-left: 0 !important;
+            }
+            .navbar {
+                padding-left: 76px;
+            }
+            .scores-grid {
+                grid-template-columns: 1fr 1fr;  /* back to 2 columns on tablet */
+            }
+            .score-circle-wrap:nth-child(2) {
+                justify-self: center;
+            }
+            .score-circle-wrap:last-child {
+                justify-self: start;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .main-grid,
+            .bottom-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats-row {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .navbar {
+                padding: 0 16px;
+                height: 66px;
+                padding-left: 68px;
+            }
+            .navbar .nl {
+                font-size: 0.75rem;
+                padding: 5px 12px;
+            }
+            .page {
+                padding: 88px 16px 32px;
+            }
+            .dash-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .level-badge {
+                align-self: flex-start;
+            }
+            .sidebar {
+                width: 260px;
+                padding: 20px 14px 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .qa-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .navbar .nl:not(.nl-primary) {
+                display: none;
+            }
+            .navbar .nl-primary {
+                display: inline-block;
+            }
+            .scores-grid {
+                grid-template-columns: 1fr 1fr;  /* 2 columns on mobile */
+            }
+            .streak-bar {
+                flex-direction: column;
+                text-align: center;
+                padding: 16px 18px;
+            }
+            .streak-fire {
+                font-size: 2.2rem;
+            }
+            .user-greet h1 {
+                font-size: 1.2rem;
+            }
+            .sidebar {
+                width: 240px;
+                padding: 16px 12px 14px;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold);
+        }
+
+        /* ─── SIDEBAR TOGGLE (mobile) ─── */
+        .sidebar-toggle {
+            position: fixed;
+            top: 18px;
+            left: 18px;
+            z-index: 210;
+            background: rgba(10, 12, 26, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--gold-light);
+            width: 44px;
+            height: 44px;
+            display: none; /* hidden on desktop, shown on mobile */
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+        .sidebar-toggle:hover {
+            border-color: var(--gold);
+            background: rgba(212, 175, 55, 0.08);
+            transform: scale(1.04);
+        }
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 195;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity var(--transition);
+        }
+        .sidebar-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        @media (max-width: 992px) {
+            .sidebar-toggle {
+                display: flex;
+            }
+            .sidebar-toggle.shifted {
+                left: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ─── SIDEBAR OVERLAY (mobile) ─── -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ─── SIDEBAR (new from Grammar Coach) ─── -->
+    <aside class="sidebar" id="sidebar">
+        <a class="sidebar-brand" href="{% url 'home' %}">
+            <span>🎓</span> NEXA HUB
+        </a>
+        <nav class="sidebar-nav">
+            <div class="nav-label">Main</div>
+            <a href="{% url 'dashboard' %}" class="sidebar-link active">
+                <span class="icon">📊</span>
+                <span class="link-text">Dashboard</span>
+            </a>
+            <a href="{% url 'grammar_coach' %}" class="sidebar-link">
+                <span class="icon">📖</span>
+                <span class="link-text">Grammar</span>
+            </a>
+            <a href="{% url 'speaking_practice' %}" class="sidebar-link">
+                <span class="icon">🗣️</span>
+                <span class="link-text">Speaking</span>
+            </a>
+            <a href="{% url 'interview_practice' %}" class="sidebar-link">
+                <span class="icon">💼</span>
+                <span class="link-text">Interview</span>
+            </a>
+            <a href="{% url 'translation' %}" class="sidebar-link">
+                <span class="icon">🔄</span>
+                <span class="link-text">Translate</span>
+            </a>
+            <a href="{% url 'pronunciation_coach' %}" class="sidebar-link">
+                <span class="icon">🎵</span>
+                <span class="link-text">Pronunciation</span>
+            </a>
+            <div class="nav-label" style="margin-top:12px;">Engage</div>
+            <a href="{% url 'daily_challenge' %}" class="sidebar-link">
+                <span class="icon">🏆</span>
+                <span class="link-text">Challenge</span>
+            </a>
+        </nav>
+        <div class="sidebar-user">
+            <div class="user-row">
+                <div class="avatar">{{ user.first_name|default:user.username|slice:":1"|upper }}</div>
+                <div class="user-name">{{ user.first_name|default:user.username }}</div>
+            </div>
+            <div class="user-stats">
+                <span>🏅 {{ profile.total_xp }} XP</span>
+                <span>🔥 {{ profile.current_streak }} day streak</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ─── SIDEBAR TOGGLE ─── -->
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+        ☰
+    </button>
+
+    <!-- ─── MAIN WRAP ─── -->
+    <div class="main-wrap" id="mainWrap">
+
+        <!-- ─── PARTICLES CANVAS ─── -->
+        <canvas id="particles-canvas"></canvas>
+
+        <!-- ─── BG BLOBS ─── -->
+        <div class="bg-blobs">
+            <div class="blob b1"></div>
+            <div class="blob b2"></div>
+            <div class="blob b3"></div>
+        </div>
+
+        <!-- ─── NAVBAR ─── -->
+        <nav class="navbar">
+            <div class="nav-links">
+                {% if user.is_authenticated %}
+                    <div class="user-pill">🎓 Hi, {{ user.first_name|default:user.username }}!</div>
+                    <a href="{% url 'dashboard' %}" class="nl">Dashboard</a>
+                    <a href="{% url 'logout' %}" class="nl">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="nl">Login</a>
+                    <a href="{% url 'register' %}" class="nl nl-primary">Get Started Free</a>
+                {% endif %}
+            </div>
+        </nav>
+
+        <!-- ─── PAGE ─── -->
+        <div class="page">
+
+            <!-- HEADER -->
+            <div class="dash-header">
+                <div class="user-greet">
+                    <h1>👋 Welcome back, {{ user.first_name|default:user.username }}!</h1>
+                    <p>Consistency is the key to fluency — keep going! 🚀</p>
+                </div>
+                <div class="level-badge">
+                    <div class="lv-icon">
+                        {% if profile.level == 'Beginner' %}🌱
+                        {% elif profile.level == 'Elementary' %}📗
+                        {% elif profile.level == 'Intermediate' %}📘
+                        {% elif profile.level == 'Advanced' %}📙
+                        {% else %}🏆{% endif %}
+                    </div>
+                    <div>
+                        <div class="lv-name">{{ profile.level }}</div>
+                        <div class="lv-xp">{{ profile.total_xp }} XP total</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STREAK -->
+            {% if profile.current_streak > 0 %}
+            <div class="streak-bar">
+                <div class="streak-fire">🔥</div>
+                <div class="streak-info">
+                    <h3>{{ profile.current_streak }}-Day Streak!</h3>
+                    <p>You're on fire! ⭐ Longest streak: {{ profile.longest_streak }} days · Keep it going every day!</p>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- XP PROGRESS -->
+            <div class="card" style="margin-bottom:18px;">
+                <div class="card-body">
+                    {% with xp=profile.total_xp %}
+                    {% if xp < 500 %}
+                        <div class="xp-bar-label"><span>🌱 Beginner</span><span>{{ xp }}/500 XP → Elementary</span></div>
+                        <div class="xp-bar"><div class="xp-bar-fill" id="xpFill" data-pct="{{ xp }}" data-min="0" data-max="500"></div></div>
+                    {% elif xp < 1500 %}
+                        <div class="xp-bar-label"><span>📗 Elementary</span><span>{{ xp }}/1500 XP → Intermediate</span></div>
+                        <div class="xp-bar"><div class="xp-bar-fill" id="xpFill" data-pct="{{ xp }}" data-min="500" data-max="1500"></div></div>
+                    {% elif xp < 3000 %}
+                        <div class="xp-bar-label"><span>📘 Intermediate</span><span>{{ xp }}/3000 XP → Advanced</span></div>
+                        <div class="xp-bar"><div class="xp-bar-fill" id="xpFill" data-pct="{{ xp }}" data-min="1500" data-max="3000"></div></div>
+                    {% elif xp < 6000 %}
+                        <div class="xp-bar-label"><span>📙 Advanced</span><span>{{ xp }}/6000 XP → Expert</span></div>
+                        <div class="xp-bar"><div class="xp-bar-fill" id="xpFill" data-pct="{{ xp }}" data-min="3000" data-max="6000"></div></div>
+                    {% else %}
+                        <div class="xp-bar-label"><span>🏆 Expert</span><span>{{ xp }} XP — Maximum Level!</span></div>
+                        <div class="xp-bar"><div class="xp-bar-fill" id="xpFill" data-pct="100" data-min="0" data-max="100"></div></div>
+                    {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+
+            <!-- STATS -->
+            <div class="stats-row">
+                <div class="stat-card"><span class="stat-icon">⚡</span><div class="stat-val">{{ profile.total_xp }}</div><div class="stat-lbl">Total XP</div></div>
+                <div class="stat-card"><span class="stat-icon">🔥</span><div class="stat-val">{{ profile.current_streak }}</div><div class="stat-lbl">Day Streak</div></div>
+                <div class="stat-card"><span class="stat-icon">⏱️</span><div class="stat-val">{{ totals.total_min|default:0 }}</div><div class="stat-lbl">Minutes Practiced</div></div>
+                <div class="stat-card"><span class="stat-icon">🏅</span><div class="stat-val">{{ achievements|length }}</div><div class="stat-lbl">Achievements</div></div>
+            </div>
+
+            <!-- QUICK ACTIONS -->
+            <div class="qa-grid">
+                <a href="{% url 'grammar_coach' %}" class="qa-btn"><span class="qa-icon">📖</span><span class="qa-lbl">Grammar</span></a>
+                <a href="{% url 'speaking_practice' %}" class="qa-btn"><span class="qa-icon">🗣️</span><span class="qa-lbl">Speaking</span></a>
+                <a href="{% url 'interview_practice' %}" class="qa-btn"><span class="qa-icon">💼</span><span class="qa-lbl">Interview</span></a>
+                <a href="{% url 'translation' %}" class="qa-btn"><span class="qa-icon">🔄</span><span class="qa-lbl">Translate</span></a>
+                <a href="{% url 'pronunciation_coach' %}" class="qa-btn"><span class="qa-icon">🎵</span><span class="qa-lbl">Pronunc.</span></a>
+                <a href="{% url 'daily_challenge' %}" class="qa-btn"><span class="qa-icon">🏆</span><span class="qa-lbl">Challenge</span></a>
+            </div>
+
+            <!-- MAIN GRID -->
+            <div class="main-grid">
+                <div class="card">
+                    <div class="card-hdr"><h3>📈 Weekly XP Progress</h3></div>
+                    <div class="card-body">
+                        <div class="chart-wrap"><canvas id="weekChart"></canvas></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-hdr"><h3>🎯 Skill Scores</h3></div>
+                    <div class="card-body">
+                        <div class="scores-grid">
+                            <!-- Speaking -->
+                            <div class="score-circle-wrap">
+                                <div class="score-circle">
+                                    <svg width="76" height="76" viewBox="0 0 76 76">
+                                        <circle cx="38" cy="38" r="30" fill="none" stroke="rgba(212,175,55,0.12)" stroke-width="7"/>
+                                        <circle cx="38" cy="38" r="30" fill="none" stroke="#d4af37" stroke-width="7"
+                                            stroke-dasharray="{{ profile.speaking_score|floatformat:0 }} 200" stroke-linecap="round"/>
+                                    </svg>
+                                    <div class="score-num">{{ profile.speaking_score|floatformat:0 }}</div>
+                                </div>
+                                <div class="score-lbl">🗣️ Speaking</div>
+                            </div>
+                            <!-- Interview (moved between Speaking and Grammar) -->
+                            <div class="score-circle-wrap">
+                                <div class="score-circle">
+                                    <svg width="76" height="76" viewBox="0 0 76 76">
+                                        <circle cx="38" cy="38" r="30" fill="none" stroke="rgba(212,175,55,0.12)" stroke-width="7"/>
+                                        <circle cx="38" cy="38" r="30" fill="none" stroke="#d4af37" stroke-width="7"
+                                            stroke-dasharray="{{ profile.interview_score|floatformat:0 }} 200" stroke-linecap="round"/>
+                                    </svg>
+                                    <div class="score-num">{{ profile.interview_score|floatformat:0 }}</div>
+                                </div>
+                                <div class="score-lbl">💼 Interview</div>
+                            </div>
+                            <!-- Grammar -->
+                            <div class="score-circle-wrap">
+                                <div class="score-circle">
+                                    <svg width="76" height="76" viewBox="0 0 76 76">
+                                        <circle cx="38" cy="38" r="30" fill="none" stroke="rgba(212,175,55,0.12)" stroke-width="7"/>
+                                        <circle cx="38" cy="38" r="30" fill="none" stroke="#d4af37" stroke-width="7"
+                                            stroke-dasharray="{{ profile.grammar_score|floatformat:0 }} 200" stroke-linecap="round"/>
+                                    </svg>
+                                    <div class="score-num">{{ profile.grammar_score|floatformat:0 }}</div>
+                                </div>
+                                <div class="score-lbl">📖 Grammar</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOTTOM GRID -->
+            <div class="bottom-grid">
+                <div class="card">
+                    <div class="card-hdr"><h3>🏅 Achievements</h3></div>
+                    {% if achievements %}
+                    <div class="ach-list">
+                        {% for a in achievements %}
+                        <div class="ach-item">
+                            <span class="ach-badge">{{ a.get_badge_display|slice:":2" }}</span>
+                            <div>
+                                <div class="ach-name">{{ a.get_badge_display|slice:"2:" }}</div>
+                                <div class="ach-date">Earned {{ a.earned_at|date:"M d, Y" }}</div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="empty-state"><span>🎯</span><p>Start learning to earn achievements!<br/><a href="{% url 'daily_challenge' %}">Try a Daily Challenge →</a></p></div>
+                    {% endif %}
+                </div>
+                <div class="card">
+                    <div class="card-hdr"><h3>📊 Recent Quiz Results</h3></div>
+                    {% if quizzes %}
+                    <div class="quiz-list">
+                        {% for q in quizzes %}
+                        <div class="quiz-item">
+                            <div>
+                                <div class="quiz-type">{{ q.get_quiz_type_display }}</div>
+                                <div class="quiz-date">{{ q.completed_at|date:"M d, Y" }}</div>
+                            </div>
+                            <div class="quiz-score">{{ q.score }}%</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="empty-state"><span>📝</span><p>No quiz results yet.<br/><a href="{% url 'daily_challenge' %}">🏆 Try a Challenge →</a></p></div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <!-- /page -->
+
+    </div>
+    <!-- /main-wrap -->
+
+    <!-- ─── SCRIPTS ─── -->
+
+    <!-- XP Progress Bar -->
+    <script>
+        (function() {
+            const fill = document.getElementById('xpFill');
+            if (!fill) return;
+            const pct = parseInt(fill.dataset.pct) || 0;
+            const min = parseInt(fill.dataset.min) || 0;
+            const max = parseInt(fill.dataset.max) || 500;
+            const pctW = max > 0 ? Math.min(((pct - min) / (max - min)) * 100, 100) : 100;
+            setTimeout(() => fill.style.width = pctW + '%', 200);
+        })();
+    </script>
+
+    <!-- Weekly Chart -->
+    <script>
+        (function() {
+            const canvas = document.getElementById('weekChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const DPR = window.devicePixelRatio || 1;
+            const W = canvas.parentElement.clientWidth;
+            const H = 155;
+            canvas.width = W * DPR;
+            canvas.height = H * DPR;
+            canvas.style.width = W + 'px';
+            canvas.style.height = H + 'px';
+            ctx.scale(DPR, DPR);
+
+            const data = {{ week_data|safe }};
+            const pad = { l: 32, r: 14, t: 14, b: 28 };
+            const cW = W - pad.l - pad.r;
+            const cH = H - pad.t - pad.b;
+            const maxV = Math.max(...data.map(d => d.xp), 10);
+            const bW = cW / data.length * 0.52;
+            const gap = cW / data.length;
+
+            ctx.strokeStyle = 'rgba(212,175,55,0.06)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 4; i++) {
+                const y = pad.t + (cH / 4) * i;
+                ctx.beginPath();
+                ctx.moveTo(pad.l, y);
+                ctx.lineTo(pad.l + cW, y);
+                ctx.stroke();
+            }
+
+            data.forEach((d, i) => {
+                const barH = Math.max((d.xp / maxV) * cH, 2);
+                const x = pad.l + i * gap + (gap - bW) / 2;
+                const y = pad.t + cH - barH;
+
+                const grad = ctx.createLinearGradient(0, y, 0, y + barH);
+                grad.addColorStop(0, '#f5d76e');
+                grad.addColorStop(1, '#b8962e');
+                ctx.fillStyle = grad;
+
+                ctx.beginPath();
+                ctx.moveTo(x + 4, y);
+                ctx.lineTo(x + bW - 4, y);
+                ctx.quadraticCurveTo(x + bW, y, x + bW, y + 4);
+                ctx.lineTo(x + bW, y + barH);
+                ctx.lineTo(x, y + barH);
+                ctx.lineTo(x, y + 4);
+                ctx.quadraticCurveTo(x, y, x + 4, y);
+                ctx.closePath();
+                ctx.fill();
+
+                if (d.xp > 0) {
+                    ctx.fillStyle = '#f0ece4';
+                    ctx.font = 'bold 10px Lora, serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(d.xp, x + bW / 2, y - 4);
+                }
+
+                ctx.fillStyle = '#8a867a';
+                ctx.font = '10px Lora, serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(d.date, x + bW / 2, H - pad.b + 16);
+            });
+
+            ctx.strokeStyle = 'rgba(212,175,55,0.08)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(pad.l, pad.t);
+            ctx.lineTo(pad.l, pad.t + cH);
+            ctx.stroke();
+        })();
+    </script>
+
+    <!-- SIDEBAR TOGGLE (mobile) -->
+    <script>
+        (function() {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.getElementById('sidebarToggle');
+            const overlay = document.getElementById('sidebarOverlay');
+            const isMobile = () => window.innerWidth <= 992;
+
+            function updateState(open) {
+                if (isMobile()) {
+                    sidebar.classList.toggle('open', open);
+                    overlay.classList.toggle('show', open);
+                } else {
+                    // desktop: always open, no toggle needed
+                }
+            }
+
+            // default: desktop = open, mobile = closed
+            if (isMobile()) {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('show');
+            } else {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('show');
+            }
+
+            toggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (!isMobile()) return;
+                const currentlyOpen = sidebar.classList.contains('open');
+                updateState(!currentlyOpen);
+            });
+
+            overlay.addEventListener('click', function() {
+                if (isMobile()) updateState(false);
+            });
+
+            // close on escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && isMobile() && sidebar.classList.contains('open')) {
+                    updateState(false);
+                }
+            });
+
+            // resize handling
+            let resizeTimer;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    const mobile = isMobile();
+                    if (!mobile) {
+                        sidebar.classList.remove('open');
+                        overlay.classList.remove('show');
+                    } else {
+                        // keep current state
+                    }
+                }, 150);
+            });
+        })();
+    </script>
+
+    <!-- PARTICLES -->
+    <script>
+        (function() {
+            const c = document.getElementById('particles-canvas'),
+                ctx = c.getContext('2d');
+            let W, H, pts = [];
+
+            function resize() {
+                W = c.width = window.innerWidth;
+                H = c.height = window.innerHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            function rand(a, b) { return Math.random() * (b - a) + a; }
+            const COLORS = ['212,175,55', '245,215,110', '184,150,46', '212,175,55'];
+            for (let i = 0; i < 110; i++) {
+                pts.push({
+                    x: rand(0, W),
+                    y: rand(0, H),
+                    r: rand(0.5, 2.2),
+                    vx: rand(-0.25, 0.25),
+                    vy: rand(-0.25, 0.25),
+                    a: rand(0.1, 0.45),
+                    c: COLORS[Math.floor(Math.random() * COLORS.length)]
+                });
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, W, H);
+                pts.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0 || p.x > W) p.vx *= -1;
+                    if (p.y < 0 || p.y > H) p.vy *= -1;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${p.c},${p.a})`;
+                    ctx.fill();
+                });
+                requestAnimationFrame(draw);
+            }
+            draw();
+        })();
+    </script>
+
+</body>
+</html>
