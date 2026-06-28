@@ -3,596 +3,994 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Text to Speech — NexaHub AI</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <title>Text to Speech · 10 Voices + Translate</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ----- LIGHT MODE (default) ----- */
     :root {
-      --bg: #080b10; --surface: #0d1117; --surface-2: #131920;
-      --border: #1e2a35; --border-glow: #2a4a5e;
-      --accent: #00d4ff; --accent-dim: #007a99; --accent-glow: rgba(0,212,255,.18);
-      --male: #4d9fff; --female: #ff6eb4;
+      --bg: #eef0ff;
+      --white: #fff;
+      --card: #f5f6ff;
+      --border: #dde0f5;
+      --pri: #4338ca;
+      --pri2: #6d59f8;
+      --glow: rgba(67,56,202,.12);
+      --txt: #18182f;
+      --muted: #5b6080;
+      --lite: #9599b8;
+      --green: #059669;
+      --red: #dc2626;
+      --orange: #ea580c;
+      --nav-bg: #ffffff;
+      --right-bg: #fafbff;
+      --vc-bg: #ffffff;
+      --shadow: 0 6px 32px rgba(67,56,202,.1);
+      --tab-bg: #f5f6ff;
+      --translate: #7c3aed;
+      --translate-glow: rgba(124,58,237,.12);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      color: var(--txt);
+      transition: background 0.25s, color 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ----- DARK MODE ----- */
+    body.dark {
+      --bg: #12121f;
+      --white: #1e1e2f;
+      --card: #28283b;
+      --border: #3a3a52;
+      --pri: #818cf8;
+      --pri2: #6366f1;
+      --glow: rgba(99,102,241,.15);
+      --txt: #e2e8f0;
+      --muted: #a0aec0;
+      --lite: #7a7a9a;
+      --green: #34d399;
+      --red: #f87171;
+      --orange: #fb923c;
+      --nav-bg: #1a1a2e;
+      --right-bg: #1c1c30;
+      --vc-bg: #25253b;
+      --shadow: 0 6px 32px rgba(0,0,0,.4);
+      --tab-bg: #2d2d44;
       --translate: #a78bfa;
-      --text: #e2eaf2; --text-muted: #5a7a8a;
-      --error: #ff4d6d; --success: #00ffb3;
-      --mono: 'DM Mono', monospace; --sans: 'Syne', sans-serif;
-      --radius: 12px; --radius-lg: 20px;
-    }
-    html, body { min-height: 100%; background: var(--bg); color: var(--text); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
-    body::before {
-      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .022;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-    }
-    .blob { position: fixed; border-radius: 50%; filter: blur(100px); pointer-events: none; z-index: 0; animation: drift 12s ease-in-out infinite alternate; }
-    .blob-1 { width:500px;height:500px;top:-150px;right:-100px;background:rgba(0,212,255,.07); }
-    .blob-2 { width:400px;height:400px;bottom:-100px;left:-80px;background:rgba(0,120,200,.06);animation-delay:-6s; }
-    @keyframes drift { from{transform:translate(0,0) scale(1)} to{transform:translate(30px,20px) scale(1.08)} }
-
-    .page { position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px 60px; }
-
-    .header { text-align:center;margin-bottom:44px;animation:fadeUp .6s ease both; }
-    .brand { font-size:11px;font-family:var(--mono);letter-spacing:.22em;color:var(--accent);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:10px; }
-    .brand-dot { width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s ease infinite; }
-    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
-    .header h1 { font-size:clamp(30px,5vw,50px);font-weight:800;letter-spacing:-.02em;background:linear-gradient(135deg,#fff 30%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text; }
-    .header p { margin-top:10px;font-size:13px;font-family:var(--mono);color:var(--text-muted);letter-spacing:.05em; }
-
-    .card { width:100%;max-width:700px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:36px 36px 32px;box-shadow:0 0 0 1px rgba(0,212,255,.04),0 40px 80px rgba(0,0,0,.5);animation:fadeUp .7s .1s ease both;position:relative;overflow:hidden; }
-    .card::before { content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent-dim),transparent);opacity:.6; }
-
-    .field { margin-bottom:26px; }
-    label { display:block;font-size:11px;font-family:var(--mono);letter-spacing:.16em;color:var(--text-muted);text-transform:uppercase;margin-bottom:10px; }
-    textarea { width:100%;min-height:150px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-family:var(--mono);font-size:14px;line-height:1.7;padding:16px 18px;resize:vertical;transition:border-color .2s,box-shadow .2s;outline:none; }
-    textarea::placeholder { color:var(--text-muted);opacity:.5; }
-    textarea:focus { border-color:var(--accent-dim);box-shadow:0 0 0 3px var(--accent-glow); }
-    .char-count { text-align:right;font-family:var(--mono);font-size:11px;color:var(--text-muted);margin-top:6px;transition:color .2s; }
-    .char-count.warn { color:#f0a500; } .char-count.over { color:var(--error); }
-
-    .voice-toggle { display:flex;gap:10px;margin-bottom:26px; }
-    .vtoggle-btn { flex:1;padding:12px 8px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--text-muted); }
-    .vtoggle-btn.male-btn.active   { border-color:var(--male);   color:var(--male);   background:rgba(77,159,255,.1);  box-shadow:0 0 16px rgba(77,159,255,.15); }
-    .vtoggle-btn.female-btn.active { border-color:var(--female); color:var(--female); background:rgba(255,110,180,.1); box-shadow:0 0 16px rgba(255,110,180,.15); }
-    .vtoggle-btn.both-btn.active   { border-color:var(--accent); color:var(--accent); background:rgba(0,212,255,.1);  box-shadow:0 0 16px var(--accent-glow); }
-    .vtoggle-btn:hover:not(.active){ border-color:var(--border-glow);color:var(--text); }
-
-    .style-grid { display:grid;grid-template-columns:repeat(5,1fr);gap:10px; }
-    @media(max-width:520px){ .style-grid{grid-template-columns:repeat(3,1fr)} }
-    .style-btn { background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 8px 12px;cursor:pointer;transition:border-color .2s,background .2s,transform .15s;text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative; }
-    .style-btn:hover { border-color:var(--accent-dim);background:rgba(0,212,255,.05);transform:translateY(-2px); }
-    .style-btn.active { border-color:var(--accent);background:rgba(0,212,255,.1);box-shadow:0 0 18px var(--accent-glow); }
-    .style-icon { font-size:22px;line-height:1; }
-    .style-name { font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--text-muted);text-transform:uppercase; }
-    .style-btn.active .style-name { color:var(--accent); }
-    #styleSelect { display:none; }
-
-    .btn-generate { width:100%;margin-top:8px;padding:17px 24px;background:transparent;border:1px solid var(--accent);border-radius:var(--radius);color:var(--accent);font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;position:relative;overflow:hidden;transition:color .2s,box-shadow .2s; }
-    .btn-generate::before { content:'';position:absolute;inset:0;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .25s ease;z-index:0; }
-    .btn-generate:hover::before { transform:scaleX(1); }
-    .btn-generate:hover { color:var(--bg);box-shadow:0 0 30px var(--accent-glow); }
-    .btn-generate:disabled { opacity:.4;cursor:not-allowed;pointer-events:none; }
-    .btn-text { position:relative;z-index:1; }
-    .spinner { display:none;position:relative;z-index:1;width:18px;height:18px;border:2px solid rgba(255,255,255,.2);border-top-color:currentColor;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto; }
-    @keyframes spin { to{transform:rotate(360deg)} }
-    .btn-generate.loading .btn-text { display:none; }
-    .btn-generate.loading .spinner  { display:block; }
-
-    .error-msg { display:none;margin-top:16px;padding:12px 16px;background:rgba(255,77,109,.08);border:1px solid rgba(255,77,109,.3);border-radius:var(--radius);font-family:var(--mono);font-size:12px;color:var(--error); }
-    .error-msg.show { display:block; }
-
-    /* Audio panel */
-    .audio-panel { display:none;margin-top:28px;background:var(--surface-2);border:1px solid var(--border-glow);border-radius:var(--radius);padding:22px 24px;animation:fadeUp .4s ease both; }
-    .audio-panel.show { display:block; }
-    .panel-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:8px; }
-    .panel-label { font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--accent);text-transform:uppercase;display:flex;align-items:center;gap:8px; }
-    .panel-label::before { content:'';display:block;width:6px;height:6px;border-radius:50%;background:var(--success);box-shadow:0 0 8px var(--success); }
-    .badge { font-family:var(--mono);font-size:10px;letter-spacing:.1em;border-radius:20px;padding:3px 10px;text-transform:uppercase; }
-    .emotion-badge { background:rgba(0,212,255,.12);border:1px solid var(--accent-dim);color:var(--accent); }
-    .lang-badge { background:rgba(255,255,255,.06);border:1px solid var(--border-glow);color:var(--text-muted); }
-
-    .waveform { display:flex;align-items:center;gap:3px;height:20px; }
-    .waveform-bar { width:3px;border-radius:2px;background:var(--accent);opacity:.5;animation:wave 1.2s ease-in-out infinite; }
-    .waveform-bar:nth-child(1){height:8px;animation-delay:0s} .waveform-bar:nth-child(2){height:16px;animation-delay:.1s}
-    .waveform-bar:nth-child(3){height:20px;animation-delay:.2s} .waveform-bar:nth-child(4){height:12px;animation-delay:.3s}
-    .waveform-bar:nth-child(5){height:18px;animation-delay:.4s} .waveform-bar:nth-child(6){height:10px;animation-delay:.15s}
-    .waveform-bar:nth-child(7){height:15px;animation-delay:.25s}
-    @keyframes wave { 0%,100%{transform:scaleY(.4);opacity:.3} 50%{transform:scaleY(1);opacity:.8} }
-    .waveform.idle .waveform-bar { animation:none;transform:scaleY(.35);opacity:.25; }
-
-    .voice-grid { display:grid;grid-template-columns:1fr 1fr;gap:14px; }
-    @media(max-width:480px){ .voice-grid{grid-template-columns:1fr} }
-    .voice-card { background:var(--surface);border-radius:var(--radius);padding:16px 18px;border:1px solid var(--border); }
-    .voice-card.male-card   { border-top:2px solid var(--male); }
-    .voice-card.female-card { border-top:2px solid var(--female); }
-    .voice-card-header { display:flex;align-items:center;gap:8px;margin-bottom:12px; }
-    .voice-icon { font-size:18px; }
-    .voice-title { font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase; }
-    .male-card .voice-title   { color:var(--male); }
-    .female-card .voice-title { color:var(--female); }
-    .voice-sub { font-family:var(--mono);font-size:10px;color:var(--text-muted);margin-left:auto; }
-    audio { width:100%;height:36px;border-radius:8px;display:block;accent-color:var(--accent); }
-
-    .download-row { display:flex;gap:12px;margin-top:16px;justify-content:flex-end; }
-    .dl-btn { font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-decoration:none;padding:6px 14px;border-radius:20px;border:1px solid;transition:opacity .2s;display:flex;align-items:center;gap:5px; }
-    .dl-btn.male-dl   { color:var(--male);  border-color:var(--male); }
-    .dl-btn.female-dl { color:var(--female);border-color:var(--female); }
-    .dl-btn:hover { opacity:.65; }
-
-    .audio-panel[data-mode="male"]   .female-card,
-    .audio-panel[data-mode="male"]   .female-dl   { display:none; }
-    .audio-panel[data-mode="female"] .male-card,
-    .audio-panel[data-mode="female"] .male-dl     { display:none; }
-
-    /* ── Translation panel ───────────────────────────────────────── */
-    .translate-panel {
-      display:none;margin-top:16px;
-      border:1px solid rgba(167,139,250,.3);
-      border-radius:var(--radius);
-      background:rgba(167,139,250,.05);
-      overflow:hidden;
-      animation:fadeUp .4s ease both;
-    }
-    .translate-panel.show { display:block; }
-
-    .translate-header {
-      padding:14px 20px;
-      border-bottom:1px solid rgba(167,139,250,.2);
-      display:flex;align-items:center;gap:10px;
-      font-family:var(--mono);font-size:10px;letter-spacing:.15em;
-      color:var(--translate);text-transform:uppercase;
-    }
-    .translate-header::before {
-      content:'🌐';font-size:14px;
+      --translate-glow: rgba(167,139,250,.15);
     }
 
-    .translate-body { padding:16px 20px; }
-
-    .translate-row { display:flex;gap:10px;align-items:stretch; }
-    .lang-select {
-      flex:1;background:var(--surface-2);border:1px solid var(--border);
-      border-radius:var(--radius);color:var(--text);
-      font-family:var(--mono);font-size:12px;padding:10px 14px;
-      outline:none;cursor:pointer;transition:border-color .2s;
-      appearance:none;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a7a8a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat:no-repeat;background-position:right 12px center;
-      padding-right:32px;
+    /* --- NAV --- */
+    nav {
+      background: var(--nav-bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+      height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      box-shadow: 0 1px 8px rgba(0,0,0,.04);
+      transition: background 0.2s, border 0.2s;
+      z-index: 10;
     }
-    .lang-select:focus { border-color:var(--translate); }
-    .lang-select option { background:var(--surface-2); }
+    .logo { font-size: 20px; font-weight: 800; letter-spacing: -.3px; }
+    .logo b { color: var(--pri); }
+    .logo i { color: var(--txt); font-style: normal; }
 
-    .btn-translate {
-      padding:10px 20px;background:transparent;
-      border:1px solid var(--translate);border-radius:var(--radius);
-      color:var(--translate);font-family:var(--sans);font-size:12px;
-      font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-      cursor:pointer;white-space:nowrap;position:relative;overflow:hidden;
-      transition:color .2s,box-shadow .2s;
+    .theme-toggle {
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 30px;
+      padding: 6px 14px;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--txt);
+      font-weight: 500;
+      transition: 0.2s;
+      font-family: 'Inter', sans-serif;
     }
-    .btn-translate::before { content:'';position:absolute;inset:0;background:var(--translate);transform:scaleX(0);transform-origin:left;transition:transform .25s ease;z-index:0; }
-    .btn-translate:hover::before { transform:scaleX(1); }
-    .btn-translate:hover { color:var(--bg);box-shadow:0 0 20px rgba(167,139,250,.3); }
-    .btn-translate:disabled { opacity:.4;cursor:not-allowed;pointer-events:none; }
-    .btn-translate .btn-text { position:relative;z-index:1; }
-    .btn-translate .spinner  { display:none;position:relative;z-index:1;width:14px;height:14px;border:2px solid rgba(255,255,255,.2);border-top-color:currentColor;border-radius:50%;animation:spin .7s linear infinite; }
-    .btn-translate.loading .btn-text { display:none; }
-    .btn-translate.loading .spinner  { display:inline-block; }
-
-    /* Translated text preview */
-    .translated-text {
-      display:none;margin-top:14px;padding:12px 14px;
-      background:var(--surface);border:1px solid var(--border);
-      border-radius:var(--radius);font-family:var(--mono);font-size:13px;
-      color:var(--text);line-height:1.6;
-    }
-    .translated-text.show { display:block; }
-    .translated-text-label {
-      font-size:10px;letter-spacing:.12em;color:var(--translate);
-      text-transform:uppercase;margin-bottom:6px;
+    .theme-toggle:hover {
+      border-color: var(--pri);
+      background: var(--glow);
     }
 
-    /* Translated audio */
-    .translate-audio { display:none;margin-top:14px; }
-    .translate-audio.show { display:grid;grid-template-columns:1fr 1fr;gap:10px; }
-    @media(max-width:480px){ .translate-audio.show{grid-template-columns:1fr} }
-    .t-voice-card {
-      background:var(--surface);border-radius:var(--radius);
-      padding:12px 14px;border:1px solid var(--border);
+    /* --- HERO --- */
+    .hero {
+      text-align: center;
+      padding: 20px 20px 16px;
+      flex-shrink: 0;
     }
-    .t-voice-card.male-card   { border-top:2px solid var(--male); }
-    .t-voice-card.female-card { border-top:2px solid var(--female); }
-    .t-voice-label { font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px; }
-    .t-voice-card.male-card   .t-voice-label { color:var(--male); }
-    .t-voice-card.female-card .t-voice-label { color:var(--female); }
+    .hero h1 {
+      font-size: clamp(24px, 3.5vw, 38px);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -1px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(130deg, var(--pri), var(--pri2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--lite);
+      font-weight: 500;
+      letter-spacing: .02em;
+    }
 
-    @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+    /* --- MAIN SHELL --- */
+    .shell {
+      flex: 1;
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 0 16px 24px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: background 0.25s, border 0.25s, box-shadow 0.25s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+    }
+
+    /* --- LEFT COLUMN --- */
+    .left {
+      padding: 18px 20px 12px;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--border);
+      transition: border 0.2s;
+      min-height: 0;
+    }
+    .plabel {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--lite);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      flex-shrink: 0;
+    }
+    #tin {
+      width: 100%;
+      border: none;
+      outline: none;
+      resize: none;
+      font-size: 15px;
+      line-height: 1.85;
+      color: var(--txt);
+      background: transparent;
+      font-family: 'Inter', sans-serif;
+      min-height: 120px;
+    }
+    #tin::placeholder { color: var(--lite); }
+
+    .abar {
+      margin-top: 8px;
+      background: var(--card);
+      border-radius: 10px;
+      padding: 8px 14px;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--border);
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    .abar.on { display: flex; }
+    .wave { flex: 1; height: 26px; display: flex; align-items: center; gap: 2px; }
+    .wave span { flex: 1; border-radius: 2px; background: var(--pri); animation: wv .9s ease-in-out infinite; }
+    .wave span:nth-child(2) { animation-delay: .1s; }
+    .wave span:nth-child(3) { animation-delay: .2s; }
+    .wave span:nth-child(4) { animation-delay: .3s; }
+    .wave span:nth-child(5) { animation-delay: .12s; }
+    .wave span:nth-child(6) { animation-delay: .22s; }
+    .wave span:nth-child(7) { animation-delay: .08s; }
+    .wave span:nth-child(8) { animation-delay: .32s; }
+    @keyframes wv { 0%, 100% { height: 4px; } 50% { height: 22px; } }
+    .atm { font-size: 11px; color: var(--muted); white-space: nowrap; }
+
+    .lfoot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      margin-top: 10px;
+      flex-wrap: wrap;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .cnt {
+      font-size: 11px;
+      color: var(--lite);
+    }
+    .spd-row { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); }
+    #spd { width: 60px; accent-color: var(--pri); }
+    .controls { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .lsw { position: relative; }
+    #lsel {
+      appearance: none;
+      border: 1.5px solid var(--border);
+      border-radius: 9px;
+      padding: 5px 24px 5px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--card);
+      color: var(--txt);
+      cursor: pointer;
+      outline: 0;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.2s, border 0.2s, color 0.2s;
+    }
+    #lsel:hover { border-color: var(--pri); }
+    .lsw::after {
+      content: '▾';
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      font-size: 10px;
+      color: var(--muted);
+    }
+    #playBtn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: none;
+      background: var(--pri);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 14px var(--glow);
+      transition: .2s;
+      flex-shrink: 0;
+    }
+    #playBtn:hover { background: var(--pri2); transform: scale(1.06); }
+    #playBtn.stop { background: var(--red); }
+    #playBtn svg { fill: #fff; }
+
+    /* --- RIGHT COLUMN --- */
+    .right {
+      padding: 18px 16px 14px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--right-bg);
+      transition: background 0.25s;
+      min-height: 0;
+    }
+    .vhead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      flex-shrink: 0;
+    }
+    .vtit {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+    .vcnt {
+      font-size: 11px;
+      color: var(--lite);
+      font-weight: 600;
+      background: var(--white);
+      padding: 4px 12px;
+      border-radius: 30px;
+      border: 1.5px solid var(--border);
+      transition: background 0.2s, border 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+      flex-shrink: 0;
+    }
+    .tab {
+      flex: 1;
+      padding: 7px 0;
+      border-radius: 10px;
+      border: 1.5px solid var(--border);
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      background: var(--tab-bg);
+      color: var(--muted);
+      transition: .2s;
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+    }
+    .tab.ta { background: var(--glow); color: var(--pri); border-color: var(--pri); }
+    .tab.tb { background: #dbeafe; color: #2563eb; border-color: #93c5fd; }
+    .tab.tg { background: #fce7f3; color: #db2777; border-color: #f9a8d4; }
+    body.dark .tab.tb { background: #1e3a5f; color: #93c5fd; border-color: #3b6b9e; }
+    body.dark .tab.tg { background: #4a1a2e; color: #f9a8d4; border-color: #7c3a5a; }
+
+    .vlist {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow-y: auto;
+      max-height: 360px;
+      padding-right: 4px;
+      min-height: 0;
+    }
+    .vlist::-webkit-scrollbar { width: 5px; }
+    .vlist::-webkit-scrollbar-thumb { background: var(--border); border-radius: 8px; }
+
+    .vc {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: .2s;
+      background: var(--vc-bg);
+      box-shadow: 0 2px 6px rgba(0,0,0,.02);
+      flex-shrink: 0;
+    }
+    .vc:hover, .vc.on {
+      border-color: var(--pri);
+      background: var(--glow);
+      box-shadow: 0 4px 12px rgba(67,56,202,.1);
+    }
+
+    .vpb {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: .18s;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    }
+    .vpb:hover { opacity: .85; transform: scale(1.08); }
+    .vpb svg { fill: #fff; width: 13px; height: 13px; }
+
+    .vi { flex: 1; min-width: 0; }
+    .vr {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 2px;
+      flex-wrap: wrap;
+    }
+    .vn {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--txt);
+      letter-spacing: -0.2px;
+    }
+    .gb {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 100px;
+    }
+    .gm { background: #dbeafe; color: #2563eb; }
+    .gf { background: #fce7f3; color: #db2777; }
+    body.dark .gm { background: #1e3a5f; color: #93c5fd; }
+    body.dark .gf { background: #4a1a2e; color: #f9a8d4; }
+
+    .vt {
+      font-size: 10px;
+      color: var(--lite);
+      font-weight: 500;
+      letter-spacing: 0.2px;
+    }
+    .vemo {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 30px;
+      margin-left: auto;
+      white-space: nowrap;
+      background: rgba(0,0,0,.02);
+      border: 1px solid var(--border);
+      transition: background 0.2s, border 0.2s, color 0.2s;
+    }
+
+    /* --- STAT & CTA --- */
+    .stat {
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      padding: 8px 14px;
+      min-height: 30px;
+      font-weight: 500;
+      flex-shrink: 0;
+      border-top: 1px solid var(--border);
+    }
+    .stat.err { color: var(--red); }
+    .stat.ok { color: var(--green); }
+    .stat.go { color: var(--pri); }
+
+    .cta {
+      border-top: 1px solid var(--border);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--card);
+      flex-shrink: 0;
+      transition: background 0.2s, border 0.2s;
+    }
+    .cta p {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* --- TRANSLATE CARD --- */
+    .tcard {
+      background: var(--white);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      padding: 18px 22px 20px;
+      transition: background 0.25s, border 0.25s;
+    }
+    .thead {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--translate);
+      letter-spacing: .3px;
+      margin-bottom: 14px;
+    }
+    .thead .dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--translate);
+      box-shadow: 0 0 8px var(--translate);
+    }
+    .trow { display: flex; gap: 10px; flex-wrap: wrap; }
+    #tlang {
+      flex: 1;
+      min-width: 160px;
+      appearance: none;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 30px 10px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      background: var(--card);
+      color: var(--txt);
+      cursor: pointer;
+      outline: 0;
+      font-family: 'Inter', sans-serif;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235b6080' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+    }
+    #tlang:hover { border-color: var(--translate); }
+    .tbtn {
+      padding: 10px 22px;
+      border-radius: 10px;
+      border: 1.5px solid var(--translate);
+      background: transparent;
+      color: var(--translate);
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      transition: .2s;
+      font-family: 'Inter', sans-serif;
+      white-space: nowrap;
+    }
+    .tbtn:hover { background: var(--translate); color: #fff; box-shadow: 0 0 16px var(--translate-glow); }
+    .tbtn:disabled { opacity: .45; cursor: not-allowed; }
+    .ttext {
+      display: none;
+      margin-top: 14px;
+      padding: 12px 14px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--txt);
+    }
+    .ttext.show { display: block; }
+    .ttext-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      color: var(--translate);
+      margin-bottom: 6px;
+    }
+    .tstat { font-size: 12px; color: var(--muted); margin-top: 10px; min-height: 16px; }
+    .tstat.err { color: var(--red); }
+    .tstat.ok { color: var(--green); }
+
+    @media (max-width: 750px) {
+      .grid { grid-template-columns: 1fr; }
+      .left { border-right: none; border-bottom: 1px solid var(--border); }
+      .vlist { max-height: 260px; }
+      nav { padding: 0 12px; }
+    }
   </style>
 </head>
 <body>
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="page">
-    <header class="header">
-      <div class="brand"><span class="brand-dot"></span>NexaHub AI<span class="brand-dot"></span></div>
-      <h1>Text to Speech</h1>
-      <p>// 25 languages · human neural voices · translate &amp; speak</p>
-    </header>
 
-    <div class="card">
+<nav>
+  <div class="logo"><b>NEXA</b><i> HUB </i> AI</div>
+  <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌓 <span id="themeLabel">Dark</span></button>
+</nav>
 
-      <!-- Text -->
-      <div class="field">
-        <label for="textInput">Input Text</label>
-        <textarea id="textInput" placeholder="Type in English, Hindi, Hinglish, or any language…" maxlength="2000" spellcheck="false"></textarea>
-        <div class="char-count" id="charCount">0 / 2000</div>
-      </div>
+<div class="hero">
+  <h1>TEXT <em>TO SPEECH</em></h1>
+  <p>10 voices · 5 emotion styles · translate &amp; speak</p>
+</div>
 
-      <!-- Voice mode -->
-      <div class="field">
-        <label>Voice</label>
-        <div class="voice-toggle" id="voiceToggle">
-          <button type="button" class="vtoggle-btn both-btn active" data-mode="both">🎙️🎤 Both</button>
-          <button type="button" class="vtoggle-btn male-btn" data-mode="male">🎙️ Male</button>
-          <button type="button" class="vtoggle-btn female-btn" data-mode="female">🎤 Female</button>
-        </div>
-      </div>
+<div class="shell">
+  <div class="card">
+    <div class="grid">
 
-      <!-- Emotion -->
-      <div class="field">
-        <label>Emotion Style</label>
-        <div class="style-grid" id="styleGrid">
-          <button type="button" class="style-btn active" data-value="friendly"><span class="style-icon">😊</span><span class="style-name">Friendly</span></button>
-          <button type="button" class="style-btn" data-value="confident"><span class="style-icon">💼</span><span class="style-name">Confident</span></button>
-          <button type="button" class="style-btn" data-value="calm"><span class="style-icon">🌊</span><span class="style-name">Calm</span></button>
-          <button type="button" class="style-btn" data-value="excited"><span class="style-icon">⚡</span><span class="style-name">Excited</span></button>
-          <button type="button" class="style-btn" data-value="apologetic"><span class="style-icon">🙏</span><span class="style-name">Apologetic</span></button>
-        </div>
-        <select id="styleSelect" name="style">
-          <option value="friendly">Friendly</option>
-          <option value="confident">Confident</option>
-          <option value="calm">Calm</option>
-          <option value="excited">Excited</option>
-          <option value="apologetic">Apologetic</option>
-        </select>
-      </div>
+      <!-- LEFT: text input -->
+      <div class="left">
+        <div class="plabel">✏️ Type here</div>
+        <textarea id="tin" placeholder="Type or paste your text here...&#10;&#10;Example: Hello, welcome to NEXA HUB Text to Speech!">Hello! Welcome to NEXA HUB Text to Speech. This tool converts your text into natural sounding speech with 10 different voices.</textarea>
 
-      <!-- Generate button -->
-      <button type="button" class="btn-generate" id="generateBtn">
-        <span class="btn-text">▶ &nbsp;Generate Speech</span>
-        <span class="spinner"></span>
-      </button>
-
-      <!-- Error -->
-      <div class="error-msg" id="errorMsg"></div>
-
-      <!-- Output -->
-      <div class="audio-panel" id="audioPanel">
-        <div class="panel-header">
-          <div class="panel-label">
-            Output Ready
-            <div class="waveform idle" id="waveform">
-              <div class="waveform-bar"></div><div class="waveform-bar"></div>
-              <div class="waveform-bar"></div><div class="waveform-bar"></div>
-              <div class="waveform-bar"></div><div class="waveform-bar"></div>
-              <div class="waveform-bar"></div>
-            </div>
-          </div>
-          <div style="display:flex;gap:6px;flex-wrap:wrap;">
-            <span class="badge emotion-badge" id="emotionBadge"></span>
-            <span class="badge lang-badge" id="langBadge" style="display:none;"></span>
-          </div>
+        <div class="abar" id="abar">
+          <div class="wave" id="waveEl"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <span class="atm" id="atm">0:00</span>
         </div>
 
-        <div class="voice-grid">
-          <div class="voice-card male-card">
-            <div class="voice-card-header">
-              <span class="voice-icon">🎙️</span>
-              <span class="voice-title">Male</span>
-              <span class="voice-sub" id="maleVoiceName">GuyNeural</span>
-            </div>
-            <audio id="malePlayer" controls></audio>
-          </div>
-          <div class="voice-card female-card">
-            <div class="voice-card-header">
-              <span class="voice-icon">🎤</span>
-              <span class="voice-title">Female</span>
-              <span class="voice-sub" id="femaleVoiceName">JennyNeural</span>
-            </div>
-            <audio id="femalePlayer" controls></audio>
-          </div>
-        </div>
-
-        <div class="download-row">
-          <a class="dl-btn male-dl"   id="dlMale"   download="male_speech.mp3">↓ Male</a>
-          <a class="dl-btn female-dl" id="dlFemale" download="female_speech.mp3">↓ Female</a>
-        </div>
-
-        <!-- Translation panel — shown after generate -->
-        <div class="translate-panel show" id="translatePanel">
-          <div class="translate-header">Translate &amp; Speak</div>
-          <div class="translate-body">
-            <div class="translate-row">
-              <select class="lang-select" id="translateLang">
-                <option value="original">— Select Language —</option>
-                <option value="en">🇺🇸 English</option>
-                <option value="hi">🇮🇳 Hindi</option>
-                <option value="fr">🇫🇷 French</option>
-                <option value="de">🇩🇪 German</option>
-                <option value="es">🇪🇸 Spanish</option>
-                <option value="ru">🇷🇺 Russian</option>
-                <option value="ar">🇸🇦 Arabic</option>
-                <option value="bn">🇧🇩 Bengali</option>
-                <option value="ta">🇮🇳 Tamil</option>
-                <option value="te">🇮🇳 Telugu</option>
-                <option value="ml">🇮🇳 Malayalam</option>
-                <option value="mr">🇮🇳 Marathi</option>
-                <option value="gu">🇮🇳 Gujarati</option>
-                <option value="ur">🇵🇰 Urdu</option>
-                <option value="zh">🇨🇳 Chinese</option>
-                <option value="ja">🇯🇵 Japanese</option>
-                <option value="pt">🇧🇷 Portuguese</option>
-                <option value="pa">🇮🇳 Punjabi</option>
-                <option value="ms">🇲🇾 Malay</option>
-                <option value="vi">🇻🇳 Vietnamese</option>
-                <option value="ko">🇰🇷 Korean</option>
-                <option value="kn">🇮🇳 Kannada</option>
-                <option value="ne">🇳🇵 Nepali</option>
-                <option value="or">🇮🇳 Odia</option>
-                <option value="sd">🇵🇰 Sindhi</option>
+        <div class="lfoot">
+          <span class="cnt" id="cnt">0 words</span>
+          <div class="spd-row">🐢<input type="range" id="spd" min="0.5" max="2" step="0.1" value="1">🐇 <span id="spdv">1.0x</span></div>
+          <div class="controls">
+            <div class="lsw">
+              <select id="lsel" onchange="updateSystemVoices()">
+                <option value="en-US">English (US)</option>
+                <option value="en-GB">English (UK)</option>
+                <option value="hi-IN">हिंदी</option>
+                <option value="bn-IN">বাংলা</option>
+                <option value="ta-IN">தமிழ்</option>
+                <option value="te-IN">తెలుగు</option>
+                <option value="kn-IN">ಕನ್ನಡ</option>
+                <option value="ml-IN">മലയാളം</option>
+                <option value="mr-IN">मराठी</option>
+                <option value="gu-IN">ગુજરાતી</option>
+                <option value="es-ES">Español</option>
+                <option value="fr-FR">Français</option>
+                <option value="de-DE">Deutsch</option>
+                <option value="ja-JP">日本語</option>
+                <option value="zh-CN">中文</option>
               </select>
-              <button type="button" class="btn-translate" id="translateBtn">
-                <span class="btn-text">🌐 Translate</span>
-                <span class="spinner"></span>
-              </button>
             </div>
-
-            <!-- Translated text preview -->
-            <div class="translated-text" id="translatedText">
-              <div class="translated-text-label" id="translatedTextLabel">Translated Text</div>
-              <div id="translatedTextContent"></div>
-            </div>
-
-            <!-- Translated audio players -->
-            <div class="translate-audio" id="translateAudio">
-              <div class="t-voice-card male-card">
-                <div class="t-voice-label">🎙️ Male</div>
-                <audio id="tMalePlayer" controls></audio>
-              </div>
-              <div class="t-voice-card female-card">
-                <div class="t-voice-label">🎤 Female</div>
-                <audio id="tFemalePlayer" controls></audio>
-              </div>
-            </div>
-
+            <button id="playBtn" onclick="togglePlay()">
+              <svg width="17" height="17" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </button>
           </div>
         </div>
+      </div>
 
-      </div><!-- /audio-panel -->
+      <!-- RIGHT: voice section -->
+      <div class="right">
+        <div class="vhead">
+          <span class="vtit">🎙️ Voices</span>
+          <span class="vcnt" id="selLbl">Arjun selected</span>
+        </div>
+        <div class="tabs">
+          <button class="tab ta" onclick="doFilt('all',this)">All (10)</button>
+          <button class="tab" onclick="doFilt('M',this)">👨 Male</button>
+          <button class="tab" onclick="doFilt('F',this)">👩 Female</button>
+        </div>
+        <div class="vlist" id="vlist"></div>
+      </div>
+    </div>
 
-    </div><!-- /card -->
-  </div><!-- /page -->
+    <div class="stat" id="stat">📌 Select a voice, enter text, and click play</div>
 
-  <script>
-  document.addEventListener('DOMContentLoaded', function () {
+    <div class="cta">
+      <p>© 2026 NEXA HUB AI</p>
+    </div>
+  </div>
 
-    // ── State ──────────────────────────────────────────────────────
-    let voiceMode     = 'both';
-    let currentText   = '';
-    let currentStyle  = 'friendly';
+  <!-- TRANSLATE & SPEAK CARD -->
+  <div class="tcard">
+    <div class="thead"><span class="dot"></span>Translate &amp; Speak</div>
+    <div class="trow">
+      <select id="tlang">
+        <option value="">— Select language —</option>
+        <option value="en">🇺🇸 English</option>
+        <option value="hi">🇮🇳 Hindi</option>
+        <option value="bn">🇧🇩 Bengali</option>
+        <option value="ta">🇮🇳 Tamil</option>
+        <option value="te">🇮🇳 Telugu</option>
+        <option value="kn">🇮🇳 Kannada</option>
+        <option value="ml">🇮🇳 Malayalam</option>
+        <option value="mr">🇮🇳 Marathi</option>
+        <option value="gu">🇮🇳 Gujarati</option>
+        <option value="pa">🇮🇳 Punjabi</option>
+        <option value="ur">🇵🇰 Urdu</option>
+        <option value="fr">🇫🇷 French</option>
+        <option value="de">🇩🇪 German</option>
+        <option value="es">🇪🇸 Spanish</option>
+        <option value="ru">🇷🇺 Russian</option>
+        <option value="ar">🇸🇦 Arabic</option>
+        <option value="zh-CN">🇨🇳 Chinese</option>
+        <option value="ja">🇯🇵 Japanese</option>
+        <option value="ko">🇰🇷 Korean</option>
+        <option value="pt">🇧🇷 Portuguese</option>
+        <option value="vi">🇻🇳 Vietnamese</option>
+        <option value="ne">🇳🇵 Nepali</option>
+      </select>
+      <button class="tbtn" id="tbtn" onclick="translateAndSpeak()">🌐 Translate &amp; Speak</button>
+    </div>
+    <div class="ttext" id="ttext">
+      <div class="ttext-label" id="ttextLabel">Translated text</div>
+      <div id="ttextContent"></div>
+    </div>
+    <div class="tstat" id="tstat"></div>
+  </div>
+</div>
 
-    // ── Char counter ───────────────────────────────────────────────
-    const textInput = document.getElementById('textInput');
-    const charCount = document.getElementById('charCount');
-    textInput.addEventListener('input', () => {
-      const len = textInput.value.length;
-      charCount.textContent = `${len} / 2000`;
-      charCount.className = 'char-count' + (len > 1800 ? ' over' : len > 1400 ? ' warn' : '');
-    });
+<script>
+  // ──────────────────────────────────────────────────────────────
+  // 10 CUSTOM VOICES
+  // ──────────────────────────────────────────────────────────────
+  const VOICES = [
+    { id: 'arjun', name: 'Arjun', g: 'M', color: '#4338ca', tag: 'Deep · Powerful', emo: '😎 Cool', pitch: 0.9, rate: 0.85 },
+    { id: 'vikram', name: 'Vikram', g: 'M', color: '#0369a1', tag: 'News · Authoritative', emo: '📰 Serious', pitch: 1.0, rate: 0.9 },
+    { id: 'rohan', name: 'Rohan', g: 'M', color: '#047857', tag: 'Friendly · Casual', emo: '😊 Chill', pitch: 1.1, rate: 1.0 },
+    { id: 'karan', name: 'Karan', g: 'M', color: '#b45309', tag: 'Energetic · Upbeat', emo: '⚡ Hyper', pitch: 1.2, rate: 1.1 },
+    { id: 'dev', name: 'Dev', g: 'M', color: '#7c3aed', tag: 'Calm · Storyteller', emo: '🌙 Calm', pitch: 0.8, rate: 0.8 },
+    { id: 'shreya', name: 'Shreya', g: 'F', color: '#be185d', tag: 'News · Bold', emo: '💼 Pro', pitch: 1.5, rate: 0.9 },
+    { id: 'ananya', name: 'Ananya', g: 'F', color: '#8b5cf6', tag: 'Warm · Soft', emo: '💕 Warm', pitch: 1.3, rate: 0.95 },
+    { id: 'priya', name: 'Priya', g: 'F', color: '#dc2626', tag: 'Cheerful · Bright', emo: '🌸 Bubbly', pitch: 1.6, rate: 1.05 },
+    { id: 'ishita', name: 'Ishita', g: 'F', color: '#ea580c', tag: 'Expressive · Story', emo: '🎭 Drama', pitch: 1.4, rate: 0.92 },
+    { id: 'neha', name: 'Neha', g: 'F', color: '#0d9488', tag: 'Gentle · Soothing', emo: '🕊️ Gentle', pitch: 1.2, rate: 0.88 },
+  ];
 
-    // ── Voice toggle ───────────────────────────────────────────────
-    document.getElementById('voiceToggle').querySelectorAll('.vtoggle-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.vtoggle-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        voiceMode = btn.dataset.mode;
-      });
-    });
+  let selId = 'arjun';
+  let filtG = 'all';
+  let synth = window.speechSynthesis; // still used by Translate & Speak panel
+  let playing = false;
+  let tmr = null;
+  let secs = 0;
+  let sysVoices = [];
 
-    // ── Emotion selector ───────────────────────────────────────────
-    const styleGrid   = document.getElementById('styleGrid');
-    const styleSelect = document.getElementById('styleSelect');
-    styleGrid.querySelectorAll('.style-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        styleGrid.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        styleSelect.value = btn.dataset.value;
-      });
-    });
+  // Emotion state: multiplies on top of the voice's own base pitch/rate,
+  // and the raw style name is sent to the backend for the male/female neural voice
+  let emoPitchMul = 1, emoRateMul = 1;
+  const DEFAULT_STYLE = 'friendly'; // sent to backend silently, no UI choice
 
-    // ── Waveform ───────────────────────────────────────────────────
-    const waveform     = document.getElementById('waveform');
-    const malePlayer   = document.getElementById('malePlayer');
-    const femalePlayer = document.getElementById('femalePlayer');
-    [malePlayer, femalePlayer].forEach(p => {
-      p.addEventListener('play',  () => waveform.classList.remove('idle'));
-      p.addEventListener('pause', () => waveform.classList.add('idle'));
-      p.addEventListener('ended', () => waveform.classList.add('idle'));
-    });
-
-    // ── Voice name map ─────────────────────────────────────────────
-    const VOICE_NAMES = {
-      en: { male: 'GuyNeural',      female: 'JennyNeural' },
-      hi: { male: 'MadhurNeural',   female: 'SwaraNeural' },
-      fr: { male: 'HenriNeural',    female: 'DeniseNeural' },
-      de: { male: 'ConradNeural',   female: 'KatjaNeural' },
-      es: { male: 'AlvaroNeural',   female: 'ElviraNeural' },
-      ru: { male: 'DmitryNeural',   female: 'SvetlanaNeural' },
-      ar: { male: 'HamedNeural',    female: 'ZariyahNeural' },
-      bn: { male: 'PradeepNeural',  female: 'NabanitaNeural' },
-      ta: { male: 'ValluvarNeural', female: 'PallaviNeural' },
-      te: { male: 'MohanNeural',    female: 'ShrutiNeural' },
-      ml: { male: 'MidhunNeural',   female: 'SobhanaNeural' },
-      mr: { male: 'ManoharNeural',  female: 'AarohiNeural' },
-      gu: { male: 'NiranjanNeural', female: 'DhwaniNeural' },
-      ur: { male: 'AsadNeural',     female: 'UzmaNeural' },
-      zh: { male: 'YunxiNeural',    female: 'XiaoxiaoNeural' },
-      ja: { male: 'KeitaNeural',    female: 'NanamiNeural' },
-      pt: { male: 'AntonioNeural',  female: 'FranciscaNeural' },
-      pa: { male: 'OjasNeural',     female: 'VaaniNeural' },
-      ms: { male: 'OsmanNeural',    female: 'YasminNeural' },
-      vi: { male: 'NamMinhNeural',  female: 'HoaiMyNeural' },
-      ko: { male: 'InJoonNeural',   female: 'SunHiNeural' },
-      kn: { male: 'GaganNeural',    female: 'SapnaNeural' },
-      ne: { male: 'SagarNeural',    female: 'HemkalaNeural' },
-      or: { male: 'SukantNeural',   female: 'SubhasiniNeural' },
-      sd: { male: 'FirasNeural',    female: 'FirasNeural' },
-    };
-
-    // ── Generate ───────────────────────────────────────────────────
-    async function generateSpeech() {
-      const text  = textInput.value.trim();
-      const style = styleSelect.value;
-      const btn   = document.getElementById('generateBtn');
-      const errEl = document.getElementById('errorMsg');
-      const panel = document.getElementById('audioPanel');
-
-      errEl.classList.remove('show');
-      panel.classList.remove('show');
-      resetTranslation();
-
-      if (!text) { showError('Please enter some text first.'); return; }
-
-      btn.classList.add('loading');
-      btn.disabled = true;
-
-      try {
-        const fd = new FormData();
-        fd.append('text', text);
-        fd.append('style', style);
-
-        const res  = await fetch('http://127.0.0.1:8000/texttospeech/generate/', { method: 'POST', body: fd });
-        const data = await res.json();
-        if (!data.success) throw new Error(data.error || 'Generation failed.');
-
-        // Store for translation
-        currentText  = text;
-        currentStyle = style;
-
-        // Players
-        malePlayer.src   = data.male;
-        femalePlayer.src = data.female;
-        malePlayer.load();
-        femalePlayer.load();
-
-        document.getElementById('dlMale').href   = data.male;
-        document.getElementById('dlFemale').href = data.female;
-
-        // Badges
-        const eLabels = { friendly:'😊 Friendly', confident:'💼 Confident', calm:'🌊 Calm', excited:'⚡ Excited', apologetic:'🙏 Apologetic' };
-        document.getElementById('emotionBadge').textContent = eLabels[data.emotion] || data.emotion;
-        const lb = document.getElementById('langBadge');
-        lb.textContent = data.language === 'Hindi' ? '🇮🇳 Hindi' : data.language === 'Hinglish' ? '🌐 Hinglish' : '🇺🇸 English';
-        lb.style.display = 'inline-block';
-
-        // Voice names
-        const vn = VOICE_NAMES[data.detected_lang] || VOICE_NAMES['en'];
-        document.getElementById('maleVoiceName').textContent   = vn.male;
-        document.getElementById('femaleVoiceName').textContent = vn.female;
-
-        panel.dataset.mode = voiceMode;
-        waveform.classList.add('idle');
-        panel.classList.add('show');
-
-        if (voiceMode === 'female') femalePlayer.play().catch(() => {});
-        else malePlayer.play().catch(() => {});
-
-      } catch (err) {
-        showError(err.message);
-      } finally {
-        btn.classList.remove('loading');
-        btn.disabled = false;
-      }
-    }
-
-    // ── Translate & Speak ──────────────────────────────────────────
-    async function translateSpeech() {
-      const targetLang = document.getElementById('translateLang').value;
-      const btn        = document.getElementById('translateBtn');
-
-      if (targetLang === 'original') {
-        showError('Please select a language to translate to.');
-        return;
-      }
-      if (!currentText) {
-        showError('Generate speech first before translating.');
-        return;
-      }
-
-      btn.classList.add('loading');
-      btn.disabled = true;
-      resetTranslation();
-
-      try {
-        const fd = new FormData();
-        fd.append('text',        currentText);
-        fd.append('target_lang', targetLang);
-        fd.append('style',       currentStyle);
-
-        const res  = await fetch('http://127.0.0.1:8000/texttospeech/translate/', { method: 'POST', body: fd });
-        const data = await res.json();
-        if (!data.success) throw new Error(data.error || 'Translation failed.');
-
-        // Show translated text
-        const ttEl = document.getElementById('translatedText');
-        document.getElementById('translatedTextLabel').textContent =
-          `Translated to ${document.getElementById('translateLang').options[document.getElementById('translateLang').selectedIndex].text.replace(/^[^\s]+\s/, '')}`;
-        document.getElementById('translatedTextContent').textContent = data.translated_text;
-        ttEl.classList.add('show');
-
-        // Show translated audio
-        document.getElementById('tMalePlayer').src   = data.male;
-        document.getElementById('tFemalePlayer').src = data.female;
-        document.getElementById('tMalePlayer').load();
-        document.getElementById('tFemalePlayer').load();
-
-        const taEl = document.getElementById('translateAudio');
-        taEl.classList.add('show');
-
-        // Auto-play
-        document.getElementById('tMalePlayer').play().catch(() => {});
-
-      } catch (err) {
-        showError(err.message);
-      } finally {
-        btn.classList.remove('loading');
-        btn.disabled = false;
-      }
-    }
-
-    function resetTranslation() {
-      document.getElementById('translatedText').classList.remove('show');
-      document.getElementById('translateAudio').classList.remove('show');
-      document.getElementById('translatedTextContent').textContent = '';
-    }
-
-    function showError(msg) {
-      const el = document.getElementById('errorMsg');
-      el.textContent = '⚠ ' + msg;
-      el.classList.add('show');
-    }
-
-    // ── Wire up ────────────────────────────────────────────────────
-    document.getElementById('generateBtn').addEventListener('click', generateSpeech);
-    document.getElementById('translateBtn').addEventListener('click', translateSpeech);
-    window.generateSpeech = generateSpeech;
-
-    textInput.addEventListener('keydown', e => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') generateSpeech();
-    });
-
+  // ─── Backend config (Django neural TTS) ──────
+  const BACKEND_URL = 'http://127.0.0.1:8000/texttospeech/generate/';
+  const audioEl = new Audio();
+  audioEl.addEventListener('ended', () => {
+    playing = false;
+    setIcon(false);
+    setStat('✅ Done!', 'ok');
+    stopTmr();
+    document.getElementById('abar').classList.remove('on');
+    setTimeout(() => setStat('📌 Select a voice, enter text, and click play', ''), 3000);
   });
-  </script>
+  audioEl.addEventListener('error', () => {
+    playing = false;
+    setIcon(false);
+    setStat('❌ Could not play audio from backend.', 'err');
+    stopTmr();
+    document.getElementById('abar').classList.remove('on');
+  });
+
+  // Calls the Django backend, gets back { male, female } mp3 URLs.
+  // voiceId (e.g. 'arjun') lets the backend pick a distinct real
+  // edge-tts voice for English/Hinglish text — see VOICE_MAP patch.
+  async function fetchBackendAudio(text, style, voiceId) {
+    const fd = new FormData();
+    fd.append('text', text);
+    fd.append('style', style);
+    if (voiceId) fd.append('voice_id', voiceId);
+    const res = await fetch(BACKEND_URL, { method: 'POST', body: fd });
+    if (!res.ok) throw new Error('Backend request failed (' + res.status + ')');
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error || 'Generation failed.');
+    return data; // { male, female, emotion, language, detected_lang, ... }
+  }
+
+  // ─── THEME TOGGLE ─────────────────────────────
+  function toggleTheme() {
+    document.body.classList.toggle('dark');
+    const label = document.getElementById('themeLabel');
+    label.textContent = document.body.classList.contains('dark') ? 'Light' : 'Dark';
+  }
+
+  // ─── Load System Voices ──────────────────────
+  function loadSysVoices() { sysVoices = synth.getVoices(); }
+  loadSysVoices();
+  if (speechSynthesis.onvoiceschanged !== undefined) speechSynthesis.onvoiceschanged = loadSysVoices;
+
+  function findBestVoice(lang, isFemale) {
+    if (!sysVoices.length) sysVoices = synth.getVoices();
+    const base = lang.split('-')[0];
+    let pool = sysVoices.filter(v => v.lang.toLowerCase().startsWith(base.toLowerCase()));
+    if (!pool.length) pool = sysVoices;
+    const femKw = ['female', 'woman', 'girl', 'zira', 'samantha', 'victoria', 'karen', 'moira', 'tessa', 'veena', 'heera', 'lekha'];
+    const malKw = ['male', 'man', 'david', 'mark', 'daniel', 'alex', 'tom', 'fred', 'ravi'];
+    let pick = null;
+    if (isFemale) pick = pool.find(v => femKw.some(k => v.name.toLowerCase().includes(k)));
+    else pick = pool.find(v => malKw.some(k => v.name.toLowerCase().includes(k)));
+    if (!pick) pick = pool[0] || sysVoices[0];
+    return pick;
+  }
+
+  // (emotion selector removed — fixed DEFAULT_STYLE used internally)
+
+  // ─── Build utterance for a given voice + text + lang ─────────
+  function buildUtterance(text, voiceData, lang) {
+    const spdMult = parseFloat(document.getElementById('spd').value);
+    const isFemale = voiceData.g === 'F';
+    const sysVoice = findBestVoice(lang, isFemale);
+    const utterance = new SpeechSynthesisUtterance(text);
+    if (sysVoice) utterance.voice = sysVoice;
+    utterance.lang = lang;
+    utterance.rate = voiceData.rate * spdMult * emoRateMul;
+    utterance.pitch = Math.min(2, Math.max(0, voiceData.pitch * emoPitchMul));
+    utterance.volume = 1.0;
+    return utterance;
+  }
+
+  // ─── Speak with Selected Voice (via Django backend) ──────────
+  async function speak() {
+    const text = document.getElementById('tin').value.trim();
+    if (!text) { setStat('⚠️ Please enter some text!', 'err'); return; }
+    const voiceData = VOICES.find(v => v.id === selId);
+    if (!voiceData) { setStat('⚠️ Please select a voice!', 'err'); return; }
+    const spdMult = parseFloat(document.getElementById('spd').value);
+
+    playing = true;
+    setIcon(true);
+    setStat(`⏳ Generating ${voiceData.name}...`, 'go');
+
+    try {
+      const data = await fetchBackendAudio(text, DEFAULT_STYLE, voiceData.id);
+      const url = voiceData.g === 'F' ? data.female : data.male;
+      if (!url) throw new Error('No audio returned for this voice gender.');
+
+      audioEl.src = url;
+      // pitch/rate per-voice "character" is simulated via playback rate
+      audioEl.playbackRate = Math.min(4, Math.max(0.25, voiceData.rate * spdMult));
+      await audioEl.play();
+
+      setStat(`🔊 ${voiceData.name} speaking...`, 'ok');
+      document.getElementById('abar').classList.add('on');
+      startTmr();
+    } catch (err) {
+      playing = false;
+      setIcon(false);
+      setStat('❌ ' + err.message, 'err');
+      console.error('Backend TTS Error:', err);
+    }
+  }
+
+  function togglePlay() {
+    if (playing) {
+      audioEl.pause();
+      playing = false;
+      setIcon(false);
+      stopTmr();
+      document.getElementById('abar').classList.remove('on');
+      setStat('⏸ Paused', '');
+      return;
+    }
+    speak();
+  }
+
+  // ─── Preview Voice (tap = select voice + use current emotion) ─
+  async function previewVoice(id) {
+    selId = id;
+    renderList();
+    const voiceData = VOICES.find(v => v.id === id);
+    setStat(`⏳ Loading preview: ${voiceData.name}...`, 'go');
+
+    try {
+      const text = `Hello! I am ${voiceData.name}. This is my voice.`;
+      const data = await fetchBackendAudio(text, DEFAULT_STYLE, voiceData.id);
+      const url = voiceData.g === 'F' ? data.female : data.male;
+      if (!url) throw new Error('No audio returned for this voice gender.');
+
+      audioEl.pause();
+      audioEl.src = url;
+      audioEl.playbackRate = Math.min(4, Math.max(0.25, voiceData.rate));
+      await audioEl.play();
+      setStat(`🎤 Preview: ${voiceData.name}`, 'go');
+    } catch (err) {
+      setStat('❌ ' + err.message, 'err');
+      console.error('Backend TTS Error:', err);
+    }
+  }
+
+  function renderList() {
+    const show = filtG === 'all' ? VOICES : VOICES.filter(v => v.g === filtG);
+    document.getElementById('vlist').innerHTML = show.map(v => `
+        <div class="vc ${v.id === selId ? 'on' : ''}" onclick="selVoice('${v.id}')">
+          <button class="vpb" style="background:${v.color}" onclick="event.stopPropagation();previewVoice('${v.id}')">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <div class="vi">
+            <div class="vr">
+              <span class="vn">${v.name}</span>
+              <span class="gb ${v.g === 'M' ? 'gm' : 'gf'}">${v.g === 'M' ? 'Male' : 'Female'}</span>
+              <span class="vemo" style="background:${v.color}22;color:${v.color}">${v.emo}</span>
+            </div>
+            <div class="vt">${v.tag}</div>
+          </div>
+        </div>
+      `).join('');
+    const p = VOICES.find(v => v.id === selId);
+    document.getElementById('selLbl').textContent = (p ? p.name : '?') + ' selected';
+  }
+
+  function selVoice(id) {
+    selId = id;
+    renderList();
+    const voice = VOICES.find(v => v.id === id);
+    setStat(`🎤 ${voice.name} selected`, 'go');
+    setTimeout(() => setStat('📌 Select a voice, enter text, and click play', ''), 1500);
+  }
+
+  function doFilt(f, btn) {
+    filtG = f;
+    document.querySelectorAll('.tab').forEach(t => t.className = 'tab');
+    if (f === 'all') btn.classList.add('ta');
+    if (f === 'M') btn.classList.add('tb');
+    if (f === 'F') btn.classList.add('tg');
+    renderList();
+  }
+
+  function updateSystemVoices() {
+    loadSysVoices();
+    setStat('🌐 Language updated (used by Translate & Speak only — main voice auto-detects)', 'ok');
+    setTimeout(() => setStat('📌 Select a voice, enter text, and click play', ''), 1500);
+  }
+
+  function setIcon(p) {
+    const b = document.getElementById('playBtn');
+    b.className = p ? 'stop' : '';
+    b.innerHTML = p
+      ? '<svg width="17" height="17" viewBox="0 0 24 24" fill="white"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg>'
+      : '<svg width="17" height="17" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>';
+  }
+
+  function setStat(m, c = '') {
+    const e = document.getElementById('stat');
+    e.textContent = m;
+    e.className = 'stat ' + c;
+  }
+
+  function startTmr() {
+    secs = 0;
+    clearInterval(tmr);
+    tmr = setInterval(() => {
+      secs++;
+      const m = Math.floor(secs / 60);
+      const s = secs % 60;
+      document.getElementById('atm').textContent = `${m}:${s.toString().padStart(2, '0')}`;
+    }, 1000);
+  }
+  function stopTmr() { clearInterval(tmr); }
+
+  // ─── Word Counter ───────────────────────────
+  const tin = document.getElementById('tin');
+  function updCnt() {
+    const t = tin.value.trim();
+    const wordCount = t ? t.split(/\s+/).length : 0;
+    document.getElementById('cnt').textContent = `${wordCount} words`;
+  }
+  tin.addEventListener('input', updCnt);
+  updCnt();
+
+  document.getElementById('spd').addEventListener('input', function () {
+    document.getElementById('spdv').textContent = parseFloat(this.value).toFixed(1) + 'x';
+  });
+
+  // ──────────────────────────────────────────────────────────────
+  // TRANSLATE & SPEAK (free, no backend — uses Google's public
+  // translate endpoint). Speaks the result with the SAME voice +
+  // emotion currently selected from the voice list above.
+  // ──────────────────────────────────────────────────────────────
+  async function translateText(text, targetLang) {
+    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${encodeURIComponent(targetLang)}&dt=t&q=${encodeURIComponent(text)}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('Translation request failed');
+    const data = await res.json();
+    return data[0].map(chunk => chunk[0]).join('');
+  }
+
+  // Map translate target codes -> a speechSynthesis lang tag for best voice match
+  const TTS_LANG_MAP = {
+    en: 'en-US', hi: 'hi-IN', bn: 'bn-IN', ta: 'ta-IN', te: 'te-IN', kn: 'kn-IN',
+    ml: 'ml-IN', mr: 'mr-IN', gu: 'gu-IN', pa: 'hi-IN', ur: 'hi-IN', fr: 'fr-FR',
+    de: 'de-DE', es: 'es-ES', ru: 'ru-RU', ar: 'ar-SA', 'zh-CN': 'zh-CN',
+    ja: 'ja-JP', ko: 'ko-KR', pt: 'pt-PT', vi: 'vi-VN', ne: 'hi-IN'
+  };
+
+  async function translateAndSpeak() {
+    const text = document.getElementById('tin').value.trim();
+    const targetLang = document.getElementById('tlang').value;
+    const btn = document.getElementById('tbtn');
+    const tstat = document.getElementById('tstat');
+    const ttext = document.getElementById('ttext');
+
+    tstat.textContent = '';
+    tstat.className = 'tstat';
+
+    if (!text) { tstat.textContent = '⚠️ Type some text in the box above first.'; tstat.className = 'tstat err'; return; }
+    if (!targetLang) { tstat.textContent = '⚠️ Please select a target language.'; tstat.className = 'tstat err'; return; }
+
+    const voiceData = VOICES.find(v => v.id === selId);
+    btn.disabled = true;
+    btn.textContent = '🌐 Translating...';
+
+    try {
+      const translated = await translateText(text, targetLang);
+      document.getElementById('ttextLabel').textContent =
+        'Translated to ' + document.getElementById('tlang').options[document.getElementById('tlang').selectedIndex].text.replace(/^[^\s]+\s/, '');
+      document.getElementById('ttextContent').textContent = translated;
+      ttext.classList.add('show');
+
+      const lang = TTS_LANG_MAP[targetLang] || 'en-US';
+      const utterance = buildUtterance(translated, voiceData, lang);
+      utterance.onstart = () => { tstat.textContent = `🔊 Speaking as ${voiceData.name}...`; tstat.className = 'tstat ok'; };
+      utterance.onend = () => { tstat.textContent = '✅ Done!'; tstat.className = 'tstat ok'; };
+      utterance.onerror = () => { tstat.textContent = '❌ Could not play this language with available system voices.'; tstat.className = 'tstat err'; };
+      synth.cancel();
+      synth.speak(utterance);
+    } catch (err) {
+      console.error(err);
+      tstat.textContent = '❌ Translation failed. Check your internet connection and try again.';
+      tstat.className = 'tstat err';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '🌐 Translate & Speak';
+    }
+  }
+
+  // ─── Init ────────────────────────────────────
+  renderList();
+</script>
 </body>
 </html>
 <!-- http://127.0.0.1:8000/tts/ -->

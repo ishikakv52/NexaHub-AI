@@ -3,6 +3,7 @@ NexaHub AI — TextToSpeech views.py
 Features:
   - 25 languages supported
   - Male/Female neural voices
+  - 10 distinct custom voices for English/Hinglish (via VOICE_MAP)
   - 5 emotion styles
   - Hinglish (Roman Hindi) auto-detection
   - Voice translation to any supported language
@@ -68,6 +69,26 @@ LANG_VOICES = {
 
 # Google Translate uses zh-CN for Chinese
 GOOGLE_LANG_MAP = {"zh": "zh-CN"}
+
+
+# ---------------------------------------------------------------------------
+# Custom voice map — 10 distinct CONFIRMED available edge-tts voices
+# (verified against edge-tts v7.2.8 voice list)
+# No API key needed — all free built-in neural voices.
+# Used only when detected language is English/Hinglish.
+# ---------------------------------------------------------------------------
+VOICE_MAP = {
+    "arjun":  ("male",   "en-US-GuyNeural"),
+    "vikram": ("male",   "en-US-AndrewNeural"),
+    "rohan":  ("male",   "en-US-BrianNeural"),
+    "karan":  ("male",   "en-US-EricNeural"),
+    "dev":    ("male",   "en-IN-PrabhatNeural"),
+    "shreya": ("female", "en-US-AriaNeural"),
+    "ananya": ("female", "en-US-JennyNeural"),
+    "priya":  ("female", "en-US-AvaNeural"),
+    "ishita": ("female", "en-US-MichelleNeural"),
+    "neha":   ("female", "en-IN-NeerjaNeural"),
+}
 
 
 # ---------------------------------------------------------------------------
@@ -140,7 +161,7 @@ def detect_language(text: str) -> str:
     words   = set(re.findall(r"[a-zA-Z]+", text.lower()))
     matches = words & HINGLISH_MARKERS
     ratio   = len(matches) / len(words) if words else 0
-    if len(matches) >= 2:           return "hinglish"
+    if len(matches) >= 2:               return "hinglish"
     if len(matches) >= 1 and ratio >= 0.3: return "hinglish"
     return "en"
 
@@ -149,7 +170,6 @@ def detect_language(text: str) -> str:
 # Translation
 # ---------------------------------------------------------------------------
 def translate_text(text: str, target_lang: str) -> str:
-    """Translate text to target language using Google Translate (free)."""
     google_lang = GOOGLE_LANG_MAP.get(target_lang, target_lang)
     translated = GoogleTranslator(source="auto", target=google_lang).translate(text)
     return translated or text
@@ -174,7 +194,6 @@ def _schedule_cleanup(*paths: str, delay: int = 60):
 # SSML builder
 # ---------------------------------------------------------------------------
 def build_ssml(text: str, voice: str, emotion: dict, lang: str) -> str:
-    # Determine xml:lang from voice name (e.g. hi-IN-MadhurNeural → hi-IN)
     parts    = voice.split("-")
     xml_lang = f"{parts[0]}-{parts[1]}" if len(parts) >= 2 else "en-US"
     inner    = f'<lang xml:lang="hi-IN">{text}</lang>' if lang == "hinglish" else text
@@ -214,15 +233,22 @@ async def _synthesize(text: str, voice: str, emotion: dict, lang: str, out_path:
 
 
 async def _generate_both(text: str, emotion_cfg: dict, voice_lang: str, detect_lang: str) -> tuple[str, str]:
-    voices     = LANG_VOICES.get(voice_lang, LANG_VOICES["en"])
-    male_path  = os.path.join(MEDIA_FOLDER, f"{uuid.uuid4().hex}.mp3")
-    female_path= os.path.join(MEDIA_FOLDER, f"{uuid.uuid4().hex}.mp3")
+    voices      = LANG_VOICES.get(voice_lang, LANG_VOICES["en"])
+    male_path   = os.path.join(MEDIA_FOLDER, f"{uuid.uuid4().hex}.mp3")
+    female_path = os.path.join(MEDIA_FOLDER, f"{uuid.uuid4().hex}.mp3")
 
     await asyncio.gather(
         _synthesize(text, voices["male"],   emotion_cfg, detect_lang, male_path),
         _synthesize(text, voices["female"], emotion_cfg, detect_lang, female_path),
     )
     return male_path, female_path
+
+
+async def _generate_one(text: str, voice_name: str, emotion_cfg: dict, lang: str) -> str:
+    """Generate a single audio file using one specific edge-tts voice."""
+    path = os.path.join(MEDIA_FOLDER, f"{uuid.uuid4().hex}.mp3")
+    await _synthesize(text, voice_name, emotion_cfg, lang, path)
+    return path
 
 
 # ---------------------------------------------------------------------------
@@ -238,11 +264,18 @@ def index(request):
 def generate_speech(request):
     """
     POST /texttospeech/generate/
-    Fields: text, style
+    Fields: text, style, voice_id (optional — e.g. 'arjun', 'shreya')
     Returns: { success, male, female, emotion, language, detected_lang }
+
+    If voice_id is provided AND the detected language is English/Hinglish,
+    a single distinct edge-tts voice (from VOICE_MAP) is generated and
+    served under BOTH the "male" and "female" keys so the frontend can
+    pick it up regardless of which key it reads from. For all other
+    languages, the standard 2-voice LANG_VOICES behaviour is used.
     """
-    text  = request.POST.get("text", "").strip()
-    style = request.POST.get("style", DEFAULT_EMOTION).strip().lower()
+    text     = request.POST.get("text", "").strip()
+    style    = request.POST.get("style", DEFAULT_EMOTION).strip().lower()
+    voice_id = request.POST.get("voice_id", "").strip().lower()
 
     if not text:
         return JsonResponse({"success": False, "error": "Text is required."})
@@ -251,21 +284,28 @@ def generate_speech(request):
     if style not in EMOTIONS:
         style = DEFAULT_EMOTION
 
-    detected    = detect_language(text)
-    voice_lang  = "hi" if detected in ("hi", "hinglish") else detected if detected in LANG_VOICES else "en"
+    detected   = detect_language(text)
+    voice_lang = "hi" if detected in ("hi", "hinglish") else detected if detected in LANG_VOICES else "en"
     emotion_cfg = EMOTIONS[style]
 
     try:
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         try:
-            male_path, female_path = loop.run_until_complete(
-                _generate_both(text, emotion_cfg, voice_lang, detected)
-            )
+            if voice_id in VOICE_MAP and voice_lang == "en":
+                gender, voice_name = VOICE_MAP[voice_id]
+                single_path = loop.run_until_complete(
+                    _generate_one(text, voice_name, emotion_cfg, detected)
+                )
+                male_path = female_path = single_path
+            else:
+                male_path, female_path = loop.run_until_complete(
+                    _generate_both(text, emotion_cfg, voice_lang, detected)
+                )
         finally:
             loop.close()
 
-        for path in (male_path, female_path):
+        for path in {male_path, female_path}:
             if not os.path.exists(path) or os.path.getsize(path) == 0:
                 raise RuntimeError(f"Empty output: {os.path.basename(path)}")
 
@@ -309,11 +349,9 @@ def translate_speech(request):
         style = DEFAULT_EMOTION
 
     try:
-        # Step 1: Translate
         translated  = translate_text(text, target_lang)
         emotion_cfg = EMOTIONS[style]
 
-        # Step 2: Generate voice in target language
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         try:

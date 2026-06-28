@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Text to Speech · 10 Voices</title>
+  <title>Text to Speech · 10 Voices + Translate</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    
+
     /* ----- LIGHT MODE (default) ----- */
     :root {
       --bg: #eef0ff;
@@ -28,13 +28,14 @@
       --vc-bg: #ffffff;
       --shadow: 0 6px 32px rgba(67,56,202,.1);
       --tab-bg: #f5f6ff;
+      --translate: #7c3aed;
+      --translate-glow: rgba(124,58,237,.12);
     }
 
     body {
       font-family: 'Inter', sans-serif;
       background: var(--bg);
-      height: 100vh;
-      overflow: hidden;
+      min-height: 100vh;
       color: var(--txt);
       transition: background 0.25s, color 0.2s;
       display: flex;
@@ -61,6 +62,8 @@
       --vc-bg: #25253b;
       --shadow: 0 6px 32px rgba(0,0,0,.4);
       --tab-bg: #2d2d44;
+      --translate: #a78bfa;
+      --translate-glow: rgba(167,139,250,.15);
     }
 
     /* --- NAV --- */
@@ -120,17 +123,24 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
+    .hero p {
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--lite);
+      font-weight: 500;
+      letter-spacing: .02em;
+    }
 
-    /* --- MAIN SHELL — takes remaining height, no overflow --- */
+    /* --- MAIN SHELL --- */
     .shell {
       flex: 1;
       max-width: 1060px;
       margin: 0 auto;
-      padding: 0 16px 16px;
+      padding: 0 16px 24px;
       width: 100%;
       display: flex;
       flex-direction: column;
-      min-height: 0;
+      gap: 16px;
     }
 
     .card {
@@ -142,15 +152,11 @@
       transition: background 0.25s, border 0.25s, box-shadow 0.25s;
       display: flex;
       flex-direction: column;
-      flex: 1;
-      min-height: 0;
     }
 
     .grid {
       display: grid;
       grid-template-columns: 1fr 380px;
-      flex: 1;
-      min-height: 0;
     }
 
     /* --- LEFT COLUMN --- */
@@ -172,7 +178,6 @@
       flex-shrink: 0;
     }
     #tin {
-      flex: 1;
       width: 100%;
       border: none;
       outline: none;
@@ -215,9 +220,9 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding-top: 8px;
+      padding-top: 10px;
       border-top: 1px solid var(--border);
-      margin-top: 8px;
+      margin-top: 10px;
       flex-wrap: wrap;
       gap: 6px;
       flex-shrink: 0;
@@ -273,7 +278,7 @@
     #playBtn.stop { background: var(--red); }
     #playBtn svg { fill: #fff; }
 
-    /* --- RIGHT COLUMN — fixed header/tabs, only list scrolls --- */
+    /* --- RIGHT COLUMN --- */
     .right {
       padding: 18px 16px 14px;
       display: flex;
@@ -333,13 +338,12 @@
     body.dark .tab.tb { background: #1e3a5f; color: #93c5fd; border-color: #3b6b9e; }
     body.dark .tab.tg { background: #4a1a2e; color: #f9a8d4; border-color: #7c3a5a; }
 
-    /* ONLY THIS SCROLLS */
     .vlist {
       display: flex;
       flex-direction: column;
       gap: 8px;
       overflow-y: auto;
-      flex: 1;
+      max-height: 360px;
       padding-right: 4px;
       min-height: 0;
     }
@@ -454,12 +458,94 @@
       color: var(--muted);
     }
 
+    /* --- TRANSLATE CARD --- */
+    .tcard {
+      background: var(--white);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      padding: 18px 22px 20px;
+      transition: background 0.25s, border 0.25s;
+    }
+    .thead {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--translate);
+      letter-spacing: .3px;
+      margin-bottom: 14px;
+    }
+    .thead .dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--translate);
+      box-shadow: 0 0 8px var(--translate);
+    }
+    .trow { display: flex; gap: 10px; flex-wrap: wrap; }
+    #tlang {
+      flex: 1;
+      min-width: 160px;
+      appearance: none;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 30px 10px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      background: var(--card);
+      color: var(--txt);
+      cursor: pointer;
+      outline: 0;
+      font-family: 'Inter', sans-serif;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235b6080' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+    }
+    #tlang:hover { border-color: var(--translate); }
+    .tbtn {
+      padding: 10px 22px;
+      border-radius: 10px;
+      border: 1.5px solid var(--translate);
+      background: transparent;
+      color: var(--translate);
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      transition: .2s;
+      font-family: 'Inter', sans-serif;
+      white-space: nowrap;
+    }
+    .tbtn:hover { background: var(--translate); color: #fff; box-shadow: 0 0 16px var(--translate-glow); }
+    .tbtn:disabled { opacity: .45; cursor: not-allowed; }
+    .ttext {
+      display: none;
+      margin-top: 14px;
+      padding: 12px 14px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--txt);
+    }
+    .ttext.show { display: block; }
+    .ttext-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      color: var(--translate);
+      margin-bottom: 6px;
+    }
+    .tstat { font-size: 12px; color: var(--muted); margin-top: 10px; min-height: 16px; }
+    .tstat.err { color: var(--red); }
+    .tstat.ok { color: var(--green); }
+
     @media (max-width: 750px) {
       .grid { grid-template-columns: 1fr; }
       .left { border-right: none; border-bottom: 1px solid var(--border); }
-      .right { max-height: 320px; }
+      .vlist { max-height: 260px; }
       nav { padding: 0 12px; }
-      body { overflow: hidden; }
     }
   </style>
 </head>
@@ -472,6 +558,7 @@
 
 <div class="hero">
   <h1>TEXT <em>TO SPEECH</em></h1>
+  <p>10 voices · 5 emotion styles · translate &amp; speak</p>
 </div>
 
 <div class="shell">
@@ -518,7 +605,7 @@
         </div>
       </div>
 
-      <!-- RIGHT: voice section — only vlist scrolls -->
+      <!-- RIGHT: voice section -->
       <div class="right">
         <div class="vhead">
           <span class="vtit">🎙️ Voices</span>
@@ -529,7 +616,6 @@
           <button class="tab" onclick="doFilt('M',this)">👨 Male</button>
           <button class="tab" onclick="doFilt('F',this)">👩 Female</button>
         </div>
-        <!-- ONLY THIS SCROLLS -->
         <div class="vlist" id="vlist"></div>
       </div>
     </div>
@@ -539,6 +625,44 @@
     <div class="cta">
       <p>© 2026 NEXA HUB AI</p>
     </div>
+  </div>
+
+  <!-- TRANSLATE & SPEAK CARD -->
+  <div class="tcard">
+    <div class="thead"><span class="dot"></span>Translate &amp; Speak</div>
+    <div class="trow">
+      <select id="tlang">
+        <option value="">— Select language —</option>
+        <option value="en">🇺🇸 English</option>
+        <option value="hi">🇮🇳 Hindi</option>
+        <option value="bn">🇧🇩 Bengali</option>
+        <option value="ta">🇮🇳 Tamil</option>
+        <option value="te">🇮🇳 Telugu</option>
+        <option value="kn">🇮🇳 Kannada</option>
+        <option value="ml">🇮🇳 Malayalam</option>
+        <option value="mr">🇮🇳 Marathi</option>
+        <option value="gu">🇮🇳 Gujarati</option>
+        <option value="pa">🇮🇳 Punjabi</option>
+        <option value="ur">🇵🇰 Urdu</option>
+        <option value="fr">🇫🇷 French</option>
+        <option value="de">🇩🇪 German</option>
+        <option value="es">🇪🇸 Spanish</option>
+        <option value="ru">🇷🇺 Russian</option>
+        <option value="ar">🇸🇦 Arabic</option>
+        <option value="zh-CN">🇨🇳 Chinese</option>
+        <option value="ja">🇯🇵 Japanese</option>
+        <option value="ko">🇰🇷 Korean</option>
+        <option value="pt">🇧🇷 Portuguese</option>
+        <option value="vi">🇻🇳 Vietnamese</option>
+        <option value="ne">🇳🇵 Nepali</option>
+      </select>
+      <button class="tbtn" id="tbtn" onclick="translateAndSpeak()">🌐 Translate &amp; Speak</button>
+    </div>
+    <div class="ttext" id="ttext">
+      <div class="ttext-label" id="ttextLabel">Translated text</div>
+      <div id="ttextContent"></div>
+    </div>
+    <div class="tstat" id="tstat"></div>
   </div>
 </div>
 
@@ -561,116 +685,129 @@
 
   let selId = 'arjun';
   let filtG = 'all';
-  let synth = window.speechSynthesis;
+  let synth = window.speechSynthesis; // still used by Translate & Speak panel
   let playing = false;
   let tmr = null;
   let secs = 0;
   let sysVoices = [];
-  let currentUtterance = null;
+
+  // Emotion state: multiplies on top of the voice's own base pitch/rate,
+  // and the raw style name is sent to the backend for the male/female neural voice
+  let emoPitchMul = 1, emoRateMul = 1;
+  const DEFAULT_STYLE = 'friendly'; // sent to backend silently, no UI choice
+
+  // ─── Backend config (Django neural TTS) ──────
+  const BACKEND_URL = 'http://127.0.0.1:8000/texttospeech/generate/';
+  const audioEl = new Audio();
+  audioEl.addEventListener('ended', () => {
+    playing = false;
+    setIcon(false);
+    setStat('✅ Done!', 'ok');
+    stopTmr();
+    document.getElementById('abar').classList.remove('on');
+    setTimeout(() => setStat('📌 Select a voice, enter text, and click play', ''), 3000);
+  });
+  audioEl.addEventListener('error', () => {
+    playing = false;
+    setIcon(false);
+    setStat('❌ Could not play audio from backend.', 'err');
+    stopTmr();
+    document.getElementById('abar').classList.remove('on');
+  });
+
+  // Calls the Django backend, gets back { male, female } mp3 URLs.
+  // voiceId (e.g. 'arjun') lets the backend pick a distinct real
+  // edge-tts voice for English/Hinglish text — see VOICE_MAP patch.
+  async function fetchBackendAudio(text, style, voiceId) {
+    const fd = new FormData();
+    fd.append('text', text);
+    fd.append('style', style);
+    if (voiceId) fd.append('voice_id', voiceId);
+    const res = await fetch(BACKEND_URL, { method: 'POST', body: fd });
+    if (!res.ok) throw new Error('Backend request failed (' + res.status + ')');
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error || 'Generation failed.');
+    return data; // { male, female, emotion, language, detected_lang, ... }
+  }
 
   // ─── THEME TOGGLE ─────────────────────────────
   function toggleTheme() {
     document.body.classList.toggle('dark');
     const label = document.getElementById('themeLabel');
-    if (document.body.classList.contains('dark')) {
-      label.textContent = 'Light';
-    } else {
-      label.textContent = 'Dark';
-    }
+    label.textContent = document.body.classList.contains('dark') ? 'Light' : 'Dark';
   }
 
   // ─── Load System Voices ──────────────────────
-  function loadSysVoices() {
-    sysVoices = synth.getVoices();
-  }
+  function loadSysVoices() { sysVoices = synth.getVoices(); }
   loadSysVoices();
-  if (speechSynthesis.onvoiceschanged !== undefined) {
-    speechSynthesis.onvoiceschanged = loadSysVoices;
-  }
+  if (speechSynthesis.onvoiceschanged !== undefined) speechSynthesis.onvoiceschanged = loadSysVoices;
 
-  // ─── Find Best System Voice ──────────────────
   function findBestVoice(lang, isFemale) {
     if (!sysVoices.length) sysVoices = synth.getVoices();
     const base = lang.split('-')[0];
     let pool = sysVoices.filter(v => v.lang.toLowerCase().startsWith(base.toLowerCase()));
     if (!pool.length) pool = sysVoices;
-
     const femKw = ['female', 'woman', 'girl', 'zira', 'samantha', 'victoria', 'karen', 'moira', 'tessa', 'veena', 'heera', 'lekha'];
     const malKw = ['male', 'man', 'david', 'mark', 'daniel', 'alex', 'tom', 'fred', 'ravi'];
-
     let pick = null;
-    if (isFemale) {
-      pick = pool.find(v => femKw.some(k => v.name.toLowerCase().includes(k)));
-    } else {
-      pick = pool.find(v => malKw.some(k => v.name.toLowerCase().includes(k)));
-    }
+    if (isFemale) pick = pool.find(v => femKw.some(k => v.name.toLowerCase().includes(k)));
+    else pick = pool.find(v => malKw.some(k => v.name.toLowerCase().includes(k)));
     if (!pick) pick = pool[0] || sysVoices[0];
     return pick;
   }
 
-  // ─── Speak with Selected Voice ──────────────
-  function speak() {
-    const text = document.getElementById('tin').value.trim();
-    if (!text) {
-      setStat('⚠️ Please enter some text!', 'err');
-      return;
-    }
+  // (emotion selector removed — fixed DEFAULT_STYLE used internally)
 
-    const lang = document.getElementById('lsel').value;
+  // ─── Build utterance for a given voice + text + lang ─────────
+  function buildUtterance(text, voiceData, lang) {
     const spdMult = parseFloat(document.getElementById('spd').value);
-
-    const voiceData = VOICES.find(v => v.id === selId);
-    if (!voiceData) {
-      setStat('⚠️ Please select a voice!', 'err');
-      return;
-    }
-
     const isFemale = voiceData.g === 'F';
     const sysVoice = findBestVoice(lang, isFemale);
-
     const utterance = new SpeechSynthesisUtterance(text);
     if (sysVoice) utterance.voice = sysVoice;
     utterance.lang = lang;
-    utterance.rate = voiceData.rate * spdMult;
-    utterance.pitch = voiceData.pitch;
+    utterance.rate = voiceData.rate * spdMult * emoRateMul;
+    utterance.pitch = Math.min(2, Math.max(0, voiceData.pitch * emoPitchMul));
     utterance.volume = 1.0;
+    return utterance;
+  }
 
-    currentUtterance = utterance;
+  // ─── Speak with Selected Voice (via Django backend) ──────────
+  async function speak() {
+    const text = document.getElementById('tin').value.trim();
+    if (!text) { setStat('⚠️ Please enter some text!', 'err'); return; }
+    const voiceData = VOICES.find(v => v.id === selId);
+    if (!voiceData) { setStat('⚠️ Please select a voice!', 'err'); return; }
+    const spdMult = parseFloat(document.getElementById('spd').value);
 
-    utterance.onstart = () => {
-      playing = true;
-      setIcon(true);
+    playing = true;
+    setIcon(true);
+    setStat(`⏳ Generating ${voiceData.name}...`, 'go');
+
+    try {
+      const data = await fetchBackendAudio(text, DEFAULT_STYLE, voiceData.id);
+      const url = voiceData.g === 'F' ? data.female : data.male;
+      if (!url) throw new Error('No audio returned for this voice gender.');
+
+      audioEl.src = url;
+      // pitch/rate per-voice "character" is simulated via playback rate
+      audioEl.playbackRate = Math.min(4, Math.max(0.25, voiceData.rate * spdMult));
+      await audioEl.play();
+
       setStat(`🔊 ${voiceData.name} speaking...`, 'ok');
       document.getElementById('abar').classList.add('on');
       startTmr();
-    };
-
-    utterance.onend = () => {
+    } catch (err) {
       playing = false;
       setIcon(false);
-      setStat('✅ Done!', 'ok');
-      stopTmr();
-      document.getElementById('abar').classList.remove('on');
-      setTimeout(() => setStat('📌 Select a voice, enter text, and click play', ''), 3000);
-    };
-
-    utterance.onerror = (e) => {
-      playing = false;
-      setIcon(false);
-      setStat('❌ Error speaking!', 'err');
-      stopTmr();
-      document.getElementById('abar').classList.remove('on');
-      console.error('TTS Error:', e);
-    };
-
-    synth.cancel();
-    synth.speak(utterance);
+      setStat('❌ ' + err.message, 'err');
+      console.error('Backend TTS Error:', err);
+    }
   }
 
-  // ─── Toggle Play ─────────────────────────────
   function togglePlay() {
     if (playing) {
-      synth.cancel();
+      audioEl.pause();
       playing = false;
       setIcon(false);
       stopTmr();
@@ -681,30 +818,30 @@
     speak();
   }
 
-  // ─── Preview Voice ───────────────────────────
-  function previewVoice(id) {
+  // ─── Preview Voice (tap = select voice + use current emotion) ─
+  async function previewVoice(id) {
     selId = id;
     renderList();
     const voiceData = VOICES.find(v => v.id === id);
-    const lang = document.getElementById('lsel').value;
-    const isFemale = voiceData.g === 'F';
-    const sysVoice = findBestVoice(lang, isFemale);
+    setStat(`⏳ Loading preview: ${voiceData.name}...`, 'go');
 
-    const text = `Hello! I am ${voiceData.name}. This is my voice.`;
-    const utterance = new SpeechSynthesisUtterance(text);
-    if (sysVoice) utterance.voice = sysVoice;
-    utterance.lang = lang;
-    utterance.rate = voiceData.rate;
-    utterance.pitch = voiceData.pitch;
-    utterance.volume = 1.0;
+    try {
+      const text = `Hello! I am ${voiceData.name}. This is my voice.`;
+      const data = await fetchBackendAudio(text, DEFAULT_STYLE, voiceData.id);
+      const url = voiceData.g === 'F' ? data.female : data.male;
+      if (!url) throw new Error('No audio returned for this voice gender.');
 
-    synth.cancel();
-    synth.speak(utterance);
-    setStat(`🎤 Preview: ${voiceData.name}`, 'go');
-    setTimeout(() => setStat('📌 Select a voice, enter text, and click play', ''), 2000);
+      audioEl.pause();
+      audioEl.src = url;
+      audioEl.playbackRate = Math.min(4, Math.max(0.25, voiceData.rate));
+      await audioEl.play();
+      setStat(`🎤 Preview: ${voiceData.name}`, 'go');
+    } catch (err) {
+      setStat('❌ ' + err.message, 'err');
+      console.error('Backend TTS Error:', err);
+    }
   }
 
-  // ─── UI: Voice List ──────────────────────────
   function renderList() {
     const show = filtG === 'all' ? VOICES : VOICES.filter(v => v.g === filtG);
     document.getElementById('vlist').innerHTML = show.map(v => `
@@ -745,11 +882,10 @@
 
   function updateSystemVoices() {
     loadSysVoices();
-    setStat('🌐 Language updated', 'ok');
+    setStat('🌐 Language updated (used by Translate & Speak only — main voice auto-detects)', 'ok');
     setTimeout(() => setStat('📌 Select a voice, enter text, and click play', ''), 1500);
   }
 
-  // ─── Helpers ─────────────────────────────────
   function setIcon(p) {
     const b = document.getElementById('playBtn');
     b.className = p ? 'stop' : '';
@@ -774,10 +910,7 @@
       document.getElementById('atm').textContent = `${m}:${s.toString().padStart(2, '0')}`;
     }, 1000);
   }
-
-  function stopTmr() {
-    clearInterval(tmr);
-  }
+  function stopTmr() { clearInterval(tmr); }
 
   // ─── Word Counter ───────────────────────────
   const tin = document.getElementById('tin');
@@ -789,13 +922,75 @@
   tin.addEventListener('input', updCnt);
   updCnt();
 
-  // ─── Speed Display ──────────────────────────
   document.getElementById('spd').addEventListener('input', function () {
     document.getElementById('spdv').textContent = parseFloat(this.value).toFixed(1) + 'x';
   });
+
+  // ──────────────────────────────────────────────────────────────
+  // TRANSLATE & SPEAK (free, no backend — uses Google's public
+  // translate endpoint). Speaks the result with the SAME voice +
+  // emotion currently selected from the voice list above.
+  // ──────────────────────────────────────────────────────────────
+  async function translateText(text, targetLang) {
+    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${encodeURIComponent(targetLang)}&dt=t&q=${encodeURIComponent(text)}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('Translation request failed');
+    const data = await res.json();
+    return data[0].map(chunk => chunk[0]).join('');
+  }
+
+  // Map translate target codes -> a speechSynthesis lang tag for best voice match
+  const TTS_LANG_MAP = {
+    en: 'en-US', hi: 'hi-IN', bn: 'bn-IN', ta: 'ta-IN', te: 'te-IN', kn: 'kn-IN',
+    ml: 'ml-IN', mr: 'mr-IN', gu: 'gu-IN', pa: 'hi-IN', ur: 'hi-IN', fr: 'fr-FR',
+    de: 'de-DE', es: 'es-ES', ru: 'ru-RU', ar: 'ar-SA', 'zh-CN': 'zh-CN',
+    ja: 'ja-JP', ko: 'ko-KR', pt: 'pt-PT', vi: 'vi-VN', ne: 'hi-IN'
+  };
+
+  async function translateAndSpeak() {
+    const text = document.getElementById('tin').value.trim();
+    const targetLang = document.getElementById('tlang').value;
+    const btn = document.getElementById('tbtn');
+    const tstat = document.getElementById('tstat');
+    const ttext = document.getElementById('ttext');
+
+    tstat.textContent = '';
+    tstat.className = 'tstat';
+
+    if (!text) { tstat.textContent = '⚠️ Type some text in the box above first.'; tstat.className = 'tstat err'; return; }
+    if (!targetLang) { tstat.textContent = '⚠️ Please select a target language.'; tstat.className = 'tstat err'; return; }
+
+    const voiceData = VOICES.find(v => v.id === selId);
+    btn.disabled = true;
+    btn.textContent = '🌐 Translating...';
+
+    try {
+      const translated = await translateText(text, targetLang);
+      document.getElementById('ttextLabel').textContent =
+        'Translated to ' + document.getElementById('tlang').options[document.getElementById('tlang').selectedIndex].text.replace(/^[^\s]+\s/, '');
+      document.getElementById('ttextContent').textContent = translated;
+      ttext.classList.add('show');
+
+      const lang = TTS_LANG_MAP[targetLang] || 'en-US';
+      const utterance = buildUtterance(translated, voiceData, lang);
+      utterance.onstart = () => { tstat.textContent = `🔊 Speaking as ${voiceData.name}...`; tstat.className = 'tstat ok'; };
+      utterance.onend = () => { tstat.textContent = '✅ Done!'; tstat.className = 'tstat ok'; };
+      utterance.onerror = () => { tstat.textContent = '❌ Could not play this language with available system voices.'; tstat.className = 'tstat err'; };
+      synth.cancel();
+      synth.speak(utterance);
+    } catch (err) {
+      console.error(err);
+      tstat.textContent = '❌ Translation failed. Check your internet connection and try again.';
+      tstat.className = 'tstat err';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '🌐 Translate & Speak';
+    }
+  }
 
   // ─── Init ────────────────────────────────────
   renderList();
 </script>
 </body>
 </html>
+<!-- http://127.0.0.1:8000/tts/ -->
