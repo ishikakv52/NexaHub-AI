@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'subscriptions',
      'VoiceAssistant.planner',
-
+'coach',
 
 
 

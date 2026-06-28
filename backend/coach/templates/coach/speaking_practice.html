@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Speaking Coach — NEXA HUB</title>
+    <style>
+        /* ===================================================
+           NEXA HUB — Premium AI Speaking Coach
+           Deep Navy + Gold luxury theme (matches existing site)
+           =================================================== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #0a0c1a;
+            --surface: rgba(255,255,255,0.03);
+            --surface-hover: rgba(212,175,55,0.06);
+            --surface-solid: #12152b;
+            --border: rgba(212,175,55,0.15);
+            --border-glow: rgba(212,175,55,0.3);
+            --gold: #d4af37;
+            --gold-light: #f5d76e;
+            --gold-dark: #b8962e;
+            --gold-gradient: linear-gradient(135deg, #f5d76e, #d4af37, #b8962e);
+            --text: #f0ece4;
+            --text-secondary: #d6cfb5;
+            --muted: #8a867a;
+            --danger: #ef4444;
+            --success: #10b981;
+            --info: #3b82f6;
+            --font-heading: 'Playfair Display', Georgia, serif;
+            --font-body: 'Lora', 'Segoe UI', serif;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(212,175,55,0.05);
+            --transition: 0.35s cubic-bezier(0.22,1,0.36,1);
+            --sidebar-width: 240px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        /* ── PARTICLES ── */
+        #particles-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+        .bg-blobs { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+        .blob { position: absolute; border-radius: 50%; filter: blur(160px); animation: floatBlob 20s ease-in-out infinite alternate; }
+        .b1 { width:800px; height:800px; background:#d4af37; top:-300px; left:-250px; opacity:0.05; }
+        .b2 { width:600px; height:600px; background:#b8962e; bottom:-200px; right:-200px; animation-delay:7s; opacity:0.04; }
+        @keyframes floatBlob { 0%{transform:translate(0,0) scale(1)} 100%{transform:translate(50px,-50px) scale(1.1)} }
+
+        /* ── SIDEBAR ── */
+        .sidebar {
+            position: fixed; top:0; left:0; bottom:0; width:var(--sidebar-width);
+            z-index: 200; background: rgba(10,12,26,0.92); backdrop-filter: blur(24px);
+            border-right: 1px solid var(--border); padding: 24px 0 20px;
+            display: flex; flex-direction: column; overflow-y: auto;
+        }
+        .sidebar-brand {
+            display: flex; align-items: center; gap: 12px; padding: 0 20px 24px;
+            font-size: 1.1rem; font-weight: 700; font-family: var(--font-heading);
+            text-decoration: none; letter-spacing: 0.05em;
+            background: var(--gold-gradient); -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; background-clip: text;
+            border-bottom: 1px solid var(--border); white-space: nowrap;
+        }
+        .sidebar-brand span { -webkit-text-fill-color: initial; font-size: 1.6rem; background: none; }
+        .sidebar-nav { flex:1; padding: 20px 12px 0; display:flex; flex-direction:column; gap:4px; }
+        .nav-label { font-size:0.65rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); padding:8px 12px 4px; font-weight:700; }
+        .sidebar-link {
+            display:flex; align-items:center; gap:12px; padding:10px 14px; border-radius:10px;
+            color:var(--muted); text-decoration:none; font-size:0.85rem; transition:var(--transition);
+            font-weight:500; font-family:var(--font-body);
+        }
+        .sidebar-link:hover { color:var(--gold-light); background:var(--surface-hover); }
+        .sidebar-link.active { color:var(--gold-light); background:rgba(212,175,55,0.08); border:1px solid var(--border); }
+        .sidebar-link .icon { font-size:1.1rem; }
+        .sidebar-user { border-top:1px solid var(--border); padding:16px 20px 0; margin-top:auto; }
+        .sidebar-user .user-row { display:flex; align-items:center; gap:12px; padding:8px 0; }
+        .sidebar-user .avatar {
+            width:40px; height:40px; border-radius:50%; background:var(--gold-gradient);
+            display:flex; align-items:center; justify-content:center;
+            font-weight:900; font-size:1.2rem; color:#0a0c1a; flex-shrink:0;
+        }
+        .sidebar-user .user-name { font-weight:700; font-size:0.9rem; color:var(--text-secondary); }
+        .sidebar-user .user-stats { display:flex; gap:14px; font-size:0.7rem; color:var(--muted); padding:4px 0 8px; }
+        .sidebar-user .user-stats span { display:flex; align-items:center; gap:4px; }
+
+        /* ── MAIN ── */
+        .main { margin-left:var(--sidebar-width); flex:1; position:relative; z-index:1; padding:32px 28px 56px; min-height:100vh; }
+
+        /* ── PAGE HEADER ── */
+        .page-header { text-align:center; margin-bottom:32px; }
+        .ph-icon { font-size:3rem; display:block; margin-bottom:4px; animation:bounceIcon 2.8s ease infinite; }
+        @keyframes bounceIcon { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+        .page-header h1 {
+            font-family: var(--font-heading); font-size: clamp(2rem,4vw,2.8rem); font-weight:700;
+            background: var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+            letter-spacing:0.04em; line-height:1.2;
+        }
+        .page-header p { color:var(--muted); font-size:1rem; max-width:560px; margin:6px auto 0; }
+
+        /* ── MODE SELECTOR ── */
+        #modeSelector { margin-bottom: 24px; }
+        .mode-section-title {
+            font-family: var(--font-heading); font-size:1rem; color:var(--gold-light);
+            font-weight:700; margin-bottom:14px; letter-spacing:0.04em;
+            display:flex; align-items:center; gap:8px;
+        }
+        .modes-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap:12px;
+        }
+        .mode-card {
+            background: var(--surface); border:1.5px solid var(--border); border-radius:var(--radius);
+            padding: 18px 14px; cursor:pointer; transition:var(--transition); text-align:center;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2); position:relative; overflow:hidden;
+        }
+        .mode-card::before {
+            content:''; position:absolute; inset:0; opacity:0;
+            background: var(--mode-color, var(--gold)); transition:opacity 0.3s;
+            border-radius: var(--radius);
+        }
+        .mode-card:hover { transform:translateY(-3px); border-color:var(--border-glow); }
+        .mode-card:hover::before { opacity:0.05; }
+        .mode-card.selected { border-color:var(--gold); background:rgba(212,175,55,0.07); box-shadow:0 0 0 2px var(--gold-dark),var(--shadow); }
+        .mode-emoji { font-size:1.8rem; display:block; margin-bottom:6px; }
+        .mode-title { font-weight:800; font-size:0.85rem; color:var(--text-secondary); font-family:var(--font-heading); letter-spacing:0.03em; }
+        .mode-desc { font-size:0.68rem; color:var(--muted); margin-top:3px; }
+        .mode-badge {
+            display:inline-block; font-size:0.58rem; font-weight:700; padding:2px 7px; border-radius:20px;
+            margin-top:6px; text-transform:uppercase; letter-spacing:0.06em;
+        }
+        .badge-beginner { background:rgba(16,185,129,0.15); color:#34d399; }
+        .badge-intermediate { background:rgba(59,130,246,0.15); color:#60a5fa; }
+        .badge-advanced { background:rgba(239,68,68,0.15); color:#f87171; }
+        .badge-mixed { background:rgba(212,175,55,0.15); color:var(--gold-light); }
+
+        /* ── START BUTTON ── */
+        .start-btn-wrap { text-align:center; margin-bottom:28px; }
+        .btn-start-session {
+            padding:14px 40px; background:var(--gold-gradient); border:none; border-radius:14px;
+            color:#0a0c1a; font-weight:900; font-size:1rem; cursor:pointer;
+            transition:var(--transition); box-shadow:0 4px 24px rgba(212,175,55,0.25);
+            font-family:var(--font-body); letter-spacing:0.05em; display:inline-flex; align-items:center; gap:10px;
+        }
+        .btn-start-session:hover:not(:disabled) { transform:translateY(-3px); box-shadow:0 8px 36px rgba(212,175,55,0.35); }
+        .btn-start-session:disabled { opacity:0.4; cursor:not-allowed; transform:none; }
+
+        /* ── SESSION AREA ── */
+        #sessionArea { display:none; }
+        #sessionArea.show { display:block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+        /* ── SESSION HEADER ── */
+        .session-header {
+            display: flex; align-items:center; justify-content:space-between;
+            background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+            padding:16px 22px; margin-bottom:20px; flex-wrap:wrap; gap:12px;
+        }
+        .session-mode-info { display:flex; align-items:center; gap:12px; }
+        .session-mode-emoji { font-size:2rem; }
+        .session-mode-name { font-family:var(--font-heading); font-weight:700; color:var(--gold-light); font-size:1.05rem; }
+        .session-mode-sub { font-size:0.78rem; color:var(--muted); }
+        .session-meta { display:flex; align-items:center; gap:16px; }
+        .turn-counter {
+            background: rgba(212,175,55,0.08); border:1px solid var(--border);
+            padding:6px 14px; border-radius:20px; font-size:0.78rem; color:var(--gold-light); font-weight:700;
+        }
+        .session-timer {
+            font-size:1.1rem; font-weight:900; color:var(--gold-light); font-family:monospace;
+            background:rgba(212,175,55,0.06); padding:6px 14px; border-radius:20px; border:1px solid var(--border);
+        }
+        .btn-end-session {
+            padding:8px 16px; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2);
+            border-radius:10px; color:#fca5a5; font-size:0.8rem; font-weight:700; cursor:pointer;
+            transition:var(--transition); font-family:var(--font-body);
+        }
+        .btn-end-session:hover { background:rgba(239,68,68,0.15); border-color:rgba(239,68,68,0.4); }
+
+        /* ── FOCUS AREAS ── */
+        .focus-areas {
+            display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; align-items:center;
+        }
+        .focus-label { font-size:0.72rem; color:var(--muted); font-weight:700; text-transform:uppercase; letter-spacing:0.06em; }
+        .focus-tag {
+            font-size:0.72rem; padding:3px 10px; border-radius:20px;
+            background:rgba(212,175,55,0.08); border:1px solid var(--border); color:var(--gold-light);
+        }
+
+        /* ── CONVERSATION AREA ── */
+        .conversation-wrap {
+            background: var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+            margin-bottom:20px; overflow:hidden;
+        }
+        .conv-header {
+            padding:12px 20px; border-bottom:1px solid var(--border);
+            background:linear-gradient(135deg,rgba(212,175,55,0.04),rgba(184,150,46,0.02));
+            display:flex; align-items:center; gap:8px;
+        }
+        .conv-header strong { font-family:var(--font-heading); color:var(--gold-light); font-size:0.88rem; }
+
+        /* Live speaking indicator */
+        .listening-indicator {
+            display: none; align-items:center; gap:8px; padding:10px 20px;
+            background:rgba(16,185,129,0.06); border-bottom:1px solid rgba(16,185,129,0.15);
+        }
+        .listening-indicator.show { display:flex; }
+        .listening-text { font-size:0.82rem; color:#34d399; font-weight:700; }
+        .wave-bars { display:flex; align-items:center; gap:3px; height:20px; }
+        .wave-bar {
+            width:3px; background:#34d399; border-radius:2px;
+            animation: wavePulse 0.8s ease-in-out infinite;
+        }
+        .wave-bar:nth-child(1){height:8px; animation-delay:0s;}
+        .wave-bar:nth-child(2){height:14px; animation-delay:0.1s;}
+        .wave-bar:nth-child(3){height:20px; animation-delay:0.2s;}
+        .wave-bar:nth-child(4){height:14px; animation-delay:0.3s;}
+        .wave-bar:nth-child(5){height:8px; animation-delay:0.4s;}
+        @keyframes wavePulse {
+            0%,100%{transform:scaleY(0.4)} 50%{transform:scaleY(1)}
+        }
+
+        #conversationLog {
+            padding: 20px; max-height: 360px; overflow-y:auto;
+            display:flex; flex-direction:column; gap:14px;
+        }
+        .bubble { display:flex; gap:12px; animation: bubbleIn 0.3s ease; }
+        @keyframes bubbleIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+        .bubble.user { flex-direction:row-reverse; }
+
+        .bubble-avatar {
+            width:36px; height:36px; border-radius:50%; display:flex; align-items:center;
+            justify-content:center; font-size:1.1rem; flex-shrink:0; border:1.5px solid var(--border);
+        }
+        .bubble.ai .bubble-avatar { background:rgba(212,175,55,0.1); }
+        .bubble.user .bubble-avatar { background:rgba(59,130,246,0.1); border-color:rgba(59,130,246,0.2); }
+
+        .bubble-content { max-width:72%; }
+        .bubble-text {
+            padding:12px 16px; border-radius:16px; font-size:0.9rem; line-height:1.6;
+        }
+        .bubble.ai .bubble-text {
+            background: linear-gradient(135deg,rgba(212,175,55,0.06),rgba(184,150,46,0.03));
+            border:1px solid var(--border); border-top-left-radius:4px; color:var(--text-secondary);
+        }
+        .bubble.user .bubble-text {
+            background: rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.15);
+            border-top-right-radius:4px; color:var(--text);
+        }
+        .bubble-meta { font-size:0.68rem; color:var(--muted); margin-top:4px; padding:0 4px; }
+        .bubble.user .bubble-meta { text-align:right; }
+
+        /* AI typing indicator */
+        .typing-bubble { display:none; }
+        .typing-bubble.show { display:flex; }
+        .typing-dots { display:flex; align-items:center; gap:4px; padding:14px 16px; }
+        .typing-dots span {
+            width:7px; height:7px; background:var(--gold); border-radius:50%;
+            animation: typingBounce 1.2s ease-in-out infinite;
+        }
+        .typing-dots span:nth-child(2){animation-delay:0.2s;}
+        .typing-dots span:nth-child(3){animation-delay:0.4s;}
+        @keyframes typingBounce { 0%,80%,100%{transform:translateY(0)} 40%{transform:translateY(-8px)} }
+
+        /* ── INPUT AREA ── */
+        .input-area {
+            background: var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+            padding:20px; margin-bottom:20px;
+        }
+        .input-label {
+            font-size:0.75rem; font-weight:700; color:var(--gold-light); text-transform:uppercase;
+            letter-spacing:0.06em; margin-bottom:10px; display:flex; align-items:center; gap:6px;
+        }
+
+        .speech-textarea {
+            width:100%; min-height:110px; background:rgba(255,255,255,0.03);
+            border:1.5px solid var(--border); border-radius:13px; color:var(--text);
+            padding:14px 16px; font-size:0.92rem; font-family:var(--font-body);
+            outline:none; resize:vertical; line-height:1.7; transition:var(--transition);
+        }
+        .speech-textarea:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(212,175,55,0.08); }
+        .speech-textarea::placeholder { color:var(--muted); opacity:0.6; }
+
+        .input-controls { display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; align-items:center; }
+        .word-count-badge {
+            font-size:0.72rem; color:var(--muted); padding:4px 10px; border-radius:20px;
+            background:rgba(255,255,255,0.03); border:1px solid var(--border);
+        }
+        .word-count-badge.good { color:#34d399; border-color:rgba(16,185,129,0.2); }
+        .word-count-badge.low { color:#f87171; border-color:rgba(239,68,68,0.2); }
+
+        /* Buttons */
+        .btn-primary {
+            padding:11px 24px; background:var(--gold-gradient); border:none; border-radius:12px;
+            color:#0a0c1a; font-weight:800; font-size:0.9rem; cursor:pointer;
+            transition:var(--transition); box-shadow:0 4px 16px rgba(212,175,55,0.2);
+            font-family:var(--font-body); letter-spacing:0.04em; display:inline-flex; align-items:center; gap:7px;
+        }
+        .btn-primary:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 8px 28px rgba(212,175,55,0.3); }
+        .btn-primary:disabled { opacity:0.35; cursor:not-allowed; transform:none; }
+
+        .btn-mic {
+            padding:11px 18px; background:rgba(16,185,129,0.08); border:1.5px solid rgba(16,185,129,0.2);
+            border-radius:12px; color:#34d399; font-weight:700; cursor:pointer; font-size:0.88rem;
+            transition:var(--transition); font-family:var(--font-body); display:inline-flex; align-items:center; gap:7px;
+        }
+        .btn-mic:hover { background:rgba(16,185,129,0.14); border-color:rgba(16,185,129,0.4); }
+        .btn-mic.recording {
+            background:rgba(239,68,68,0.08); border-color:rgba(239,68,68,0.3); color:#fca5a5;
+            animation: pulseRec 1.5s ease infinite;
+        }
+        @keyframes pulseRec {
+            0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,0.3)} 50%{box-shadow:0 0 0 6px rgba(239,68,68,0)}
+        }
+
+        .btn-ghost {
+            padding:11px 16px; background:transparent; border:1.5px solid var(--border);
+            border-radius:12px; color:var(--muted); cursor:pointer; font-size:0.85rem;
+            transition:var(--transition); font-family:var(--font-body);
+        }
+        .btn-ghost:hover { color:var(--text-secondary); border-color:var(--gold); background:var(--surface-hover); }
+
+        /* ── FEEDBACK PANEL ── */
+        #feedbackPanel { display:none; margin-bottom:20px; }
+        #feedbackPanel.show { display:block; animation:fadeIn 0.35s ease; }
+
+        .feedback-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
+        @media(max-width:640px){ .feedback-grid { grid-template-columns:1fr; } }
+
+        /* Score Ring Card */
+        .score-ring-card {
+            background: var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+            padding:20px; display:flex; flex-direction:column; align-items:center; gap:12px;
+        }
+        .progress-ring-wrap { position:relative; width:120px; height:120px; }
+        .progress-ring-wrap svg { transform:rotate(-90deg); }
+        .ring-bg { fill:none; stroke:rgba(212,175,55,0.1); stroke-width:10; }
+        .ring-fill {
+            fill:none; stroke:url(#goldGrad); stroke-width:10; stroke-linecap:round;
+            stroke-dasharray:339.29; stroke-dashoffset:339.29;
+            transition: stroke-dashoffset 1.2s cubic-bezier(0.4,0,0.2,1);
+        }
+        .ring-text {
+            position:absolute; inset:0; display:flex; flex-direction:column;
+            align-items:center; justify-content:center; line-height:1;
+        }
+        .ring-score { font-size:2rem; font-weight:900; color:var(--gold-light); font-family:var(--font-heading); }
+        .ring-label { font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; margin-top:2px; }
+        .short-feedback-text { font-size:0.85rem; color:var(--text-secondary); text-align:center; line-height:1.5; }
+
+        /* Score Bars Card */
+        .score-bars-card {
+            background: var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px;
+        }
+        .score-bars-title { font-family:var(--font-heading); color:var(--gold-light); font-size:0.88rem; font-weight:700; margin-bottom:14px; }
+        .score-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+        .score-row-label { font-size:0.75rem; color:var(--text-secondary); min-width:90px; font-weight:600; }
+        .score-bar-track { flex:1; height:7px; background:rgba(255,255,255,0.05); border-radius:4px; overflow:hidden; }
+        .score-bar-fill {
+            height:100%; border-radius:4px; background:var(--gold-gradient);
+            width:0%; transition:width 1s cubic-bezier(0.4,0,0.2,1);
+        }
+        .score-bar-fill.high { background:linear-gradient(90deg,#10b981,#34d399); }
+        .score-bar-fill.medium { background:var(--gold-gradient); }
+        .score-bar-fill.low { background:linear-gradient(90deg,#ef4444,#f87171); }
+        .score-row-num { font-size:0.78rem; font-weight:800; color:var(--gold-light); min-width:22px; text-align:right; }
+
+        /* Issues Cards */
+        .issues-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:14px; }
+        @media(max-width:768px){ .issues-row { grid-template-columns:1fr; } }
+        @media(min-width:640px) and (max-width:768px){ .issues-row { grid-template-columns:1fr 1fr; } }
+
+        .issue-card {
+            background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;
+        }
+        .issue-card-title {
+            font-size:0.75rem; font-weight:700; color:var(--gold-light); text-transform:uppercase;
+            letter-spacing:0.06em; margin-bottom:10px; display:flex; align-items:center; gap:6px;
+        }
+        .issue-item { font-size:0.8rem; color:var(--text-secondary); margin-bottom:8px; line-height:1.5; }
+        .issue-item .wrong { color:#fca5a5; font-weight:600; }
+        .issue-item .correct { color:#34d399; font-weight:600; }
+        .issue-item .rule { color:var(--muted); font-size:0.72rem; display:block; margin-top:2px; }
+        .vocab-pill {
+            display:inline-block; background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.2);
+            color:#60a5fa; padding:3px 10px; border-radius:20px; font-size:0.72rem; margin:3px 2px;
+        }
+        .filler-pill {
+            display:inline-block; background:rgba(239,68,68,0.07); border:1px solid rgba(239,68,68,0.15);
+            color:#f87171; padding:3px 10px; border-radius:20px; font-size:0.72rem; margin:3px 2px;
+        }
+        .no-issues { font-size:0.8rem; color:#34d399; display:flex; align-items:center; gap:5px; }
+
+        /* Version Cards */
+        .versions-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:14px; }
+        @media(max-width:900px){ .versions-row { grid-template-columns:1fr; } }
+
+        .version-card {
+            background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;
+        }
+        .version-label {
+            font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em;
+            margin-bottom:8px; display:flex; align-items:center; gap:5px;
+        }
+        .v-better { color:#f5d76e; }
+        .v-native { color:#34d399; }
+        .v-professional { color:#60a5fa; }
+        .version-text { font-size:0.82rem; color:var(--text-secondary); line-height:1.6; font-style:italic; }
+
+        /* ── LOADING ── */
+        .ai-processing {
+            display:none; padding:20px; text-align:center;
+            background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); margin-bottom:14px;
+        }
+        .ai-processing.show { display:block; animation:fadeIn 0.3s ease; }
+        .process-spinner {
+            width:40px; height:40px; border:3px solid var(--border); border-top-color:var(--gold);
+            border-radius:50%; animation:spin 0.7s linear infinite; margin:0 auto 12px;
+        }
+        @keyframes spin { to{transform:rotate(360deg)} }
+        .process-text { color:var(--muted); font-size:0.85rem; }
+
+        /* ── SESSION REPORT ── */
+        #reportArea { display:none; margin-bottom:28px; }
+        #reportArea.show { display:block; animation:fadeIn 0.5s ease; }
+        .report-card {
+            background:var(--surface); border:1px solid var(--border-glow); border-radius:var(--radius);
+            padding:28px; box-shadow:var(--shadow);
+        }
+        .report-header { text-align:center; margin-bottom:24px; }
+        .report-grade {
+            width:80px; height:80px; border-radius:50%; background:var(--gold-gradient);
+            display:inline-flex; align-items:center; justify-content:center;
+            font-size:2.4rem; font-weight:900; color:#0a0c1a; margin-bottom:12px;
+        }
+        .report-title { font-family:var(--font-heading); font-size:1.5rem; color:var(--gold-light); font-weight:700; }
+        .report-score { font-size:1rem; color:var(--muted); margin-top:4px; }
+        .report-trend { display:inline-block; font-size:0.85rem; color:var(--text-secondary); margin-top:6px; }
+
+        .report-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px; }
+        @media(max-width:640px){ .report-grid { grid-template-columns:1fr; } }
+
+        .report-section { background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px; }
+        .report-section-title { font-size:0.8rem; font-weight:700; color:var(--gold-light); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px; display:flex; align-items:center; gap:6px; }
+        .report-item { font-size:0.82rem; color:var(--text-secondary); margin-bottom:6px; display:flex; align-items:center; gap:7px; }
+        .report-item::before { content:'•'; color:var(--gold); }
+
+        .report-actions { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:20px; }
+        .btn-report { padding:10px 22px; border-radius:12px; font-size:0.85rem; font-weight:700; cursor:pointer; transition:var(--transition); font-family:var(--font-body); }
+        .btn-report-primary { background:var(--gold-gradient); border:none; color:#0a0c1a; }
+        .btn-report-ghost { background:transparent; border:1.5px solid var(--border); color:var(--muted); }
+        .btn-report-ghost:hover { border-color:var(--gold); color:var(--gold-light); background:var(--surface-hover); }
+
+        /* ── SCROLLBAR ── */
+        ::-webkit-scrollbar{width:5px;}
+        ::-webkit-scrollbar-track{background:var(--bg);}
+        ::-webkit-scrollbar-thumb{background:var(--border);border-radius:6px;}
+        ::-webkit-scrollbar-thumb:hover{background:var(--gold);}
+
+        /* ── RESPONSIVE ── */
+        @media(max-width:768px){
+            .sidebar{width:60px;padding:16px 0;}
+            .sidebar-brand{font-size:0;padding:0 0 16px;justify-content:center;}
+            .sidebar-brand span{font-size:1.8rem;}
+            .sidebar-link{padding:10px 0;justify-content:center;font-size:0;}
+            .sidebar-link .icon{font-size:1.4rem;}
+            .sidebar-link .link-text{display:none;}
+            .sidebar-user .user-row{flex-direction:column;align-items:center;gap:4px;}
+            .sidebar-user .user-name{font-size:0.7rem;text-align:center;}
+            .sidebar-user .user-stats{flex-direction:column;align-items:center;gap:2px;font-size:0.6rem;}
+            .sidebar-user .avatar{width:32px;height:32px;font-size:0.9rem;}
+            .main{margin-left:60px;padding:20px 14px 40px;}
+            .nav-label{display:none;}
+            .modes-grid{grid-template-columns:repeat(2,1fr);}
+            .session-header{flex-direction:column;align-items:stretch;}
+            .input-controls{flex-direction:column;align-items:stretch;}
+            .btn-primary,.btn-mic,.btn-ghost{justify-content:center;}
+        }
+        @media(max-width:480px){
+            .modes-grid{grid-template-columns:1fr 1fr;}
+            .mode-card{padding:14px 10px;}
+            .mode-emoji{font-size:1.4rem;}
+            .mode-title{font-size:0.75rem;}
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="particles-canvas"></canvas>
+<div class="bg-blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+    <a class="sidebar-brand" href="{% url 'home' %}"><span>🎓</span> NEXA HUB</a>
+    <nav class="sidebar-nav">
+        <div class="nav-label">Main</div>
+        <a href="{% url 'dashboard' %}" class="sidebar-link"><span class="icon">📊</span><span class="link-text">Dashboard</span></a>
+        <a href="{% url 'grammar_coach' %}" class="sidebar-link"><span class="icon">📖</span><span class="link-text">Grammar</span></a>
+        <a href="{% url 'speaking_practice' %}" class="sidebar-link active"><span class="icon">🗣️</span><span class="link-text">Speaking</span></a>
+        <a href="{% url 'interview_practice' %}" class="sidebar-link"><span class="icon">💼</span><span class="link-text">Interview</span></a>
+        <a href="{% url 'translation' %}" class="sidebar-link"><span class="icon">🔄</span><span class="link-text">Translate</span></a>
+        <a href="{% url 'pronunciation_coach' %}" class="sidebar-link"><span class="icon">🎵</span><span class="link-text">Pronunciation</span></a>
+        <div class="nav-label" style="margin-top:12px;">Engage</div>
+        <a href="{% url 'daily_challenge' %}" class="sidebar-link"><span class="icon">🏆</span><span class="link-text">Challenge</span></a>
+    </nav>
+    <div class="sidebar-user">
+        <div class="user-row">
+            <div class="avatar" id="sidebarAvatar">{{ username|slice:":1"|upper }}</div>
+            <div class="user-name" id="sidebarName">{{ username }}</div>
+        </div>
+        <div class="user-stats">
+            <span>🏅 {{ profile.total_xp }} XP</span>
+            <span>🔥 {{ profile.current_streak }}d</span>
+        </div>
+    </div>
+</aside>
+
+<!-- ── MAIN ── -->
+<main class="main">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <span class="ph-icon">🎙️</span>
+        <h1>AI Speaking Coach</h1>
+        <p>Choose your practice mode and have a real English conversation. Get instant feedback on grammar, fluency, vocabulary, and confidence.</p>
+    </div>
+
+    <!-- MODE SELECTOR -->
+    <div id="modeSelector">
+        <div class="mode-section-title">✨ Choose Your Practice Mode</div>
+        <div class="modes-grid" id="modesGrid">
+            {% for mode in modes %}
+            <div class="mode-card" data-mode="{{ mode.id }}" onclick="selectMode('{{ mode.id }}')"
+                 style="--mode-color:{{ mode.color }};">
+                <span class="mode-emoji">{{ mode.emoji }}</span>
+                <div class="mode-title">{{ mode.title }}</div>
+                <div class="mode-desc">{{ mode.desc }}</div>
+                <span class="mode-badge badge-{{ mode.difficulty }}">{{ mode.difficulty }}</span>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="start-btn-wrap" style="margin-top:20px;">
+            <button class="btn-start-session" id="startBtn" onclick="startSession()" disabled>
+                🚀 Start Speaking Session
+            </button>
+        </div>
+    </div>
+
+    <!-- SESSION AREA -->
+    <div id="sessionArea">
+
+        <!-- SESSION HEADER -->
+        <div class="session-header">
+            <div class="session-mode-info">
+                <span class="session-mode-emoji" id="sessionModeEmoji">🎙️</span>
+                <div>
+                    <div class="session-mode-name" id="sessionModeName">Speaking Coach</div>
+                    <div class="session-mode-sub" id="sessionModeSub">AI-powered conversation practice</div>
+                </div>
+            </div>
+            <div class="session-meta">
+                <div class="turn-counter">Turn <span id="turnNum">0</span></div>
+                <div class="session-timer" id="sessionTimer">00:00</div>
+                <button class="btn-end-session" onclick="endSession()">End Session</button>
+            </div>
+        </div>
+
+        <!-- FOCUS AREAS -->
+        <div class="focus-areas" id="focusAreas">
+            <span class="focus-label">Focus:</span>
+        </div>
+
+        <!-- CONVERSATION LOG -->
+        <div class="conversation-wrap">
+            <div class="conv-header">
+                <strong>💬 Conversation</strong>
+            </div>
+            <div class="listening-indicator" id="listeningIndicator">
+                <div class="wave-bars">
+                    <div class="wave-bar"></div><div class="wave-bar"></div>
+                    <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                </div>
+                <span class="listening-text">Listening…</span>
+            </div>
+            <div id="conversationLog">
+                <!-- Bubbles inserted here -->
+            </div>
+            <div class="typing-bubble" id="typingBubble">
+                <div class="bubble ai" style="padding:0 20px 12px;">
+                    <div class="bubble-avatar">🎓</div>
+                    <div class="bubble-content">
+                        <div class="bubble-text">
+                            <div class="typing-dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- INPUT AREA -->
+        <div class="input-area">
+            <div class="input-label">✍️ Your Response — Type or Speak</div>
+            <textarea class="speech-textarea" id="speechInput"
+                placeholder="Speak your response or type here… Aim for 4-6 sentences. The longer and more natural, the better your analysis!"
+                oninput="updateWordCount(this)"></textarea>
+            <div class="input-controls">
+                <button class="btn-primary" id="sendBtn" onclick="sendResponse()" disabled>
+                    📤 Send Response
+                </button>
+                <button class="btn-mic" id="micBtn" onclick="toggleMic()">
+                    🎤 Speak
+                </button>
+                <button class="btn-ghost" onclick="clearInput()">🗑 Clear</button>
+                <span class="word-count-badge" id="wordCountBadge">0 words</span>
+            </div>
+        </div>
+
+        <!-- AI PROCESSING -->
+        <div class="ai-processing" id="aiProcessing">
+            <div class="process-spinner"></div>
+            <p class="process-text" id="processText">Analyzing your response…</p>
+        </div>
+
+        <!-- FEEDBACK PANEL -->
+        <div id="feedbackPanel">
+
+            <!-- Score Cards Row -->
+            <div class="feedback-grid">
+                <!-- Progress Ring -->
+                <div class="score-ring-card">
+                    <div class="progress-ring-wrap">
+                        <svg viewBox="0 0 120 120" width="120" height="120">
+                            <defs>
+                                <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" style="stop-color:#f5d76e"/>
+                                    <stop offset="100%" style="stop-color:#b8962e"/>
+                                </linearGradient>
+                            </defs>
+                            <circle class="ring-bg" cx="60" cy="60" r="54"/>
+                            <circle class="ring-fill" id="ringFill" cx="60" cy="60" r="54"/>
+                        </svg>
+                        <div class="ring-text">
+                            <span class="ring-score" id="ringScore">—</span>
+                            <span class="ring-label">Overall</span>
+                        </div>
+                    </div>
+                    <div class="short-feedback-text" id="shortFeedback">—</div>
+                </div>
+
+                <!-- Score Bars -->
+                <div class="score-bars-card">
+                    <div class="score-bars-title">📊 Skill Breakdown</div>
+                    <div id="scoreBars">
+                        <!-- Bars injected here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Issues Row -->
+            <div class="issues-row">
+                <!-- Grammar Corrections -->
+                <div class="issue-card">
+                    <div class="issue-card-title">🔍 Grammar</div>
+                    <div id="grammarIssues"><div class="no-issues">✅ No mistakes spotted!</div></div>
+                </div>
+
+                <!-- Vocabulary -->
+                <div class="issue-card">
+                    <div class="issue-card-title">📚 Vocabulary</div>
+                    <div id="vocabSuggestions"><div class="no-issues">✅ Good word choices!</div></div>
+                </div>
+
+                <!-- Fillers -->
+                <div class="issue-card">
+                    <div class="issue-card-title">🎤 Filler Words</div>
+                    <div id="fillerAnalysis"><div class="no-issues">✅ Clean speech!</div></div>
+                </div>
+            </div>
+
+            <!-- Versions Row -->
+            <div class="versions-row">
+                <div class="version-card">
+                    <div class="version-label v-better">⬆️ Better Version</div>
+                    <div class="version-text" id="versionBetter">—</div>
+                </div>
+                <div class="version-card">
+                    <div class="version-label v-native">🌿 Native Version</div>
+                    <div class="version-text" id="versionNative">—</div>
+                </div>
+                <div class="version-card">
+                    <div class="version-label v-professional">💼 Professional Version</div>
+                    <div class="version-text" id="versionProfessional">—</div>
+                </div>
+            </div>
+
+        </div><!-- /feedbackPanel -->
+
+    </div><!-- /sessionArea -->
+
+    <!-- SESSION REPORT -->
+    <div id="reportArea">
+        <div class="report-card">
+            <div class="report-header">
+                <div class="report-grade" id="reportGrade">B</div>
+                <div class="report-title">Session Complete!</div>
+                <div class="report-score" id="reportScore">Overall Score: 7.2 / 10</div>
+                <div class="report-trend" id="reportTrend">📊 Consistent Performance</div>
+            </div>
+
+            <div class="report-grid">
+                <div class="report-section">
+                    <div class="report-section-title">🏆 Strengths</div>
+                    <div id="reportStrengths">—</div>
+                </div>
+                <div class="report-section">
+                    <div class="report-section-title">🎯 Areas to Improve</div>
+                    <div id="reportWeaknesses">—</div>
+                </div>
+            </div>
+
+            <div class="report-section" style="margin-bottom:16px;">
+                <div class="report-section-title">💡 Daily Practice Goals</div>
+                <div id="reportSuggestions">—</div>
+            </div>
+
+            <div class="report-actions">
+                <button class="btn-report btn-report-primary" onclick="startFresh()">🔄 New Session</button>
+                <button class="btn-report btn-report-ghost" onclick="window.location.href='{% url 'dashboard' %}'">📊 Dashboard</button>
+                <button class="btn-report btn-report-ghost" onclick="window.location.href='{% url 'interview_practice' %}'">💼 Try Interview</button>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<!-- ── SCRIPTS ── -->
+<script>
+// ============================================================
+// STATE
+// ============================================================
+let selectedMode = '';
+let sessionId = null;
+let turnNumber = 0;
+let isRecording = false;
+let recognition = null;
+let sessionTimer = null;
+let sessionSeconds = 0;
+let allScores = [];
+let sessionIssues = { grammar: {}, fillers: 0, short_answers: 0 };
+
+const CSRF = () => {
+    const v = document.cookie.match('(^|;)\\s*csrftoken\\s*=\\s*([^;]+)');
+    return v ? v.pop() : '';
+};
+
+// ============================================================
+// MODE SELECTION
+// ============================================================
+function selectMode(modeId) {
+    selectedMode = modeId;
+    document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
+    document.querySelector(`[data-mode="${modeId}"]`)?.classList.add('selected');
+    document.getElementById('startBtn').disabled = false;
+}
+
+// ============================================================
+// START SESSION
+// ============================================================
+async function startSession() {
+    if (!selectedMode) return;
+
+    document.getElementById('startBtn').disabled = true;
+    document.getElementById('startBtn').textContent = 'Starting…';
+
+    try {
+        const res = await fetch('{% url "ajax_speaking_start" %}', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF() },
+            body: JSON.stringify({ mode: selectedMode })
+        });
+        const data = await res.json();
+
+        if (data.session_id) {
+            sessionId = data.session_id;
+
+            // Show session area
+            document.getElementById('modeSelector').style.display = 'none';
+            document.getElementById('sessionArea').classList.add('show');
+            document.getElementById('reportArea').classList.remove('show');
+
+            // Set mode info
+            const modeCard = document.querySelector(`[data-mode="${selectedMode}"]`);
+            document.getElementById('sessionModeEmoji').textContent = modeCard?.querySelector('.mode-emoji')?.textContent || '🎙️';
+            document.getElementById('sessionModeName').textContent = data.mode_title;
+            document.getElementById('sessionModeSub').textContent = modeCard?.querySelector('.mode-desc')?.textContent || '';
+
+            // Focus areas
+            const fa = document.getElementById('focusAreas');
+            fa.innerHTML = '<span class="focus-label">Focus:</span>';
+            (data.focus_areas || []).forEach(f => {
+                const tag = document.createElement('span');
+                tag.className = 'focus-tag';
+                tag.textContent = f;
+                fa.appendChild(tag);
+            });
+
+            // Reset state
+            turnNumber = 0;
+            allScores = [];
+            sessionIssues = { grammar: {}, fillers: 0, short_answers: 0 };
+            document.getElementById('conversationLog').innerHTML = '';
+            document.getElementById('feedbackPanel').classList.remove('show');
+
+            // Start timer
+            sessionSeconds = 0;
+            clearInterval(sessionTimer);
+            sessionTimer = setInterval(tickTimer, 1000);
+
+            // Show AI opening message
+            addBubble('ai', data.opening);
+            document.getElementById('sendBtn').disabled = false;
+        } else {
+            alert('Failed to start session: ' + (data.error || 'Unknown error'));
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('startBtn').innerHTML = '🚀 Start Speaking Session';
+        }
+    } catch (e) {
+        alert('Network error: ' + e.message);
+        document.getElementById('startBtn').disabled = false;
+        document.getElementById('startBtn').innerHTML = '🚀 Start Speaking Session';
+    }
+}
+
+// ============================================================
+// SEND RESPONSE
+// ============================================================
+async function sendResponse() {
+    const text = document.getElementById('speechInput').value.trim();
+    if (!text) {
+        document.getElementById('speechInput').style.borderColor = 'rgba(239,68,68,0.5)';
+        setTimeout(() => document.getElementById('speechInput').style.borderColor = '', 1500);
+        return;
+    }
+
+    // Add user bubble
+    addBubble('user', text);
+    document.getElementById('speechInput').value = '';
+    updateWordCount({ value: '' });
+
+    // Disable controls
+    document.getElementById('sendBtn').disabled = true;
+    document.getElementById('feedbackPanel').classList.remove('show');
+
+    // Show typing indicator
+    showTyping(true);
+    showProcessing(true, 'Analyzing your response…');
+
+    try {
+        const res = await fetch('{% url "ajax_speaking_respond" %}', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF() },
+            body: JSON.stringify({
+                session_id: sessionId,
+                text: text,
+                session_scores: allScores,
+                session_issues: sessionIssues
+            })
+        });
+        const data = await res.json();
+
+        showTyping(false);
+        showProcessing(false);
+
+        if (data.analysis) {
+            turnNumber = data.turn_number;
+            document.getElementById('turnNum').textContent = turnNumber;
+
+            // Store scores
+            allScores.push(data.analysis.scores);
+            sessionIssues = data.analysis.session_issues || sessionIssues;
+
+            // Show AI reply
+            addBubble('ai', data.ai_reply);
+
+            // Render feedback
+            renderFeedback(data.analysis);
+        } else {
+            addBubble('ai', 'I had trouble processing that. Please try again.');
+        }
+    } catch (e) {
+        showTyping(false);
+        showProcessing(false);
+        addBubble('ai', 'Network error. Please check your connection.');
+    }
+
+    document.getElementById('sendBtn').disabled = false;
+}
+
+// ============================================================
+// RENDER FEEDBACK
+// ============================================================
+function renderFeedback(analysis) {
+    const scores = analysis.scores;
+
+    // Progress ring
+    const overall = scores.overall;
+    const circumference = 339.29;
+    const offset = circumference - (overall / 10) * circumference;
+    document.getElementById('ringScore').textContent = overall;
+    setTimeout(() => {
+        document.getElementById('ringFill').style.strokeDashoffset = offset;
+    }, 100);
+    document.getElementById('shortFeedback').textContent = analysis.short_feedback;
+
+    // Score bars
+    const barDefs = [
+        { key: 'grammar', label: 'Grammar' },
+        { key: 'fluency', label: 'Fluency' },
+        { key: 'vocabulary', label: 'Vocabulary' },
+        { key: 'pronunciation', label: 'Pronunciation' },
+        { key: 'confidence', label: 'Confidence' },
+    ];
+    const barsHtml = barDefs.map(({ key, label }) => {
+        const val = scores[key] || 0;
+        const cls = val >= 8 ? 'high' : val >= 6 ? 'medium' : 'low';
+        return `<div class="score-row">
+            <span class="score-row-label">${label}</span>
+            <div class="score-bar-track"><div class="score-bar-fill ${cls}" style="width:${val*10}%"></div></div>
+            <span class="score-row-num">${val}</span>
+        </div>`;
+    }).join('');
+    document.getElementById('scoreBars').innerHTML = barsHtml;
+
+    // Grammar issues
+    const gi = document.getElementById('grammarIssues');
+    if (analysis.grammar_issues && analysis.grammar_issues.length > 0) {
+        gi.innerHTML = analysis.grammar_issues.map(issue => `
+            <div class="issue-item">
+                <span class="wrong">✗ ${escHtml(issue.original)}</span> →
+                <span class="correct">✓ ${escHtml(issue.corrected)}</span>
+                <span class="rule">${escHtml(issue.rule)}</span>
+            </div>`).join('');
+    } else {
+        gi.innerHTML = '<div class="no-issues">✅ No mistakes spotted!</div>';
+    }
+
+    // Vocab suggestions
+    const vs = document.getElementById('vocabSuggestions');
+    if (analysis.vocab_suggestions && analysis.vocab_suggestions.length > 0) {
+        vs.innerHTML = analysis.vocab_suggestions.map(v => `
+            <div class="issue-item">
+                <span class="wrong">${escHtml(v.basic_word)}</span> →
+                ${v.alternatives.map(a => `<span class="vocab-pill">${escHtml(a)}</span>`).join('')}
+            </div>`).join('');
+    } else {
+        vs.innerHTML = '<div class="no-issues">✅ Good word choices!</div>';
+    }
+
+    // Fillers
+    const fa = document.getElementById('fillerAnalysis');
+    if (analysis.filler_data && analysis.filler_data.total_count > 0) {
+        const fl = analysis.filler_data;
+        fa.innerHTML = `<div class="issue-item" style="margin-bottom:8px">
+            <span style="color:var(--muted)">Level:</span>
+            <span class="${fl.level === 'Low' ? 'correct' : 'wrong'}">${fl.level} (${fl.ratio}%)</span>
+        </div>` + fl.fillers_found.map(f =>
+            `<span class="filler-pill">"${escHtml(f.word)}" ×${f.count}</span>`
+        ).join('');
+    } else {
+        fa.innerHTML = '<div class="no-issues">✅ Clean speech — no fillers!</div>';
+    }
+
+    // Versions
+    if (analysis.versions) {
+        document.getElementById('versionBetter').textContent = analysis.versions.better || '—';
+        document.getElementById('versionNative').textContent = analysis.versions.native || '—';
+        document.getElementById('versionProfessional').textContent = analysis.versions.professional || '—';
+    }
+
+    document.getElementById('feedbackPanel').classList.add('show');
+    document.getElementById('feedbackPanel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ============================================================
+// END SESSION
+// ============================================================
+async function endSession() {
+    if (turnNumber < 1) {
+        startFresh();
+        return;
+    }
+
+    clearInterval(sessionTimer);
+    showProcessing(true, 'Generating your session report…');
+
+    try {
+        const res = await fetch('{% url "ajax_speaking_report" %}', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF() },
+            body: JSON.stringify({
+                session_id: sessionId,
+                all_scores: allScores,
+                session_issues: sessionIssues,
+                mode: selectedMode,
+                turn_count: turnNumber
+            })
+        });
+        const data = await res.json();
+        showProcessing(false);
+
+        if (data.report) {
+            renderReport(data.report);
+        }
+    } catch (e) {
+        showProcessing(false);
+        alert('Could not generate report: ' + e.message);
+    }
+}
+
+function renderReport(report) {
+    document.getElementById('sessionArea').classList.remove('show');
+
+    document.getElementById('reportGrade').textContent = report.grade || 'B';
+    document.getElementById('reportScore').textContent = `Overall Score: ${report.overall_score} / 10 · ${report.turns_completed} turns`;
+    document.getElementById('reportTrend').textContent = report.trend || '📊 Consistent';
+
+    const strengths = document.getElementById('reportStrengths');
+    strengths.innerHTML = (report.strengths || []).map(s => `<div class="report-item">${escHtml(s)}</div>`).join('') || '<div class="report-item">Keep practicing!</div>';
+
+    const weaknesses = document.getElementById('reportWeaknesses');
+    weaknesses.innerHTML = (report.weaknesses || []).map(w => `<div class="report-item">${escHtml(w)}</div>`).join('') || '<div class="report-item" style="color:var(--success)">No major weaknesses found!</div>';
+
+    const suggestions = document.getElementById('reportSuggestions');
+    suggestions.innerHTML = (report.suggestions || []).map(s => `<div class="report-item">${escHtml(s)}</div>`).join('');
+
+    document.getElementById('reportArea').classList.add('show');
+    document.getElementById('reportArea').scrollIntoView({ behavior: 'smooth' });
+}
+
+function startFresh() {
+    // Reset everything
+    document.getElementById('reportArea').classList.remove('show');
+    document.getElementById('sessionArea').classList.remove('show');
+    document.getElementById('modeSelector').style.display = '';
+    document.getElementById('startBtn').disabled = !selectedMode;
+    document.getElementById('startBtn').innerHTML = '🚀 Start Speaking Session';
+    document.getElementById('feedbackPanel').classList.remove('show');
+    document.getElementById('conversationLog').innerHTML = '';
+    clearInterval(sessionTimer);
+    turnNumber = 0;
+    allScores = [];
+}
+
+// ============================================================
+// VOICE INPUT
+// ============================================================
+function toggleMic() {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) { alert('Please use Chrome for voice input.'); return; }
+
+    if (isRecording) {
+        recognition?.stop();
+        stopRecording();
+    } else {
+        startRecording(SR);
+    }
+}
+
+function startRecording(SR) {
+    recognition = new SR();
+    recognition.lang = 'en-IN';
+    recognition.continuous = true;
+    recognition.interimResults = true;
+
+    let finalTranscript = '';
+    recognition.onresult = (e) => {
+        let interim = '';
+        for (let i = e.resultIndex; i < e.results.length; i++) {
+            if (e.results[i].isFinal) finalTranscript += e.results[i][0].transcript + ' ';
+            else interim = e.results[i][0].transcript;
+        }
+        document.getElementById('speechInput').value = finalTranscript + interim;
+        updateWordCount({ value: document.getElementById('speechInput').value });
+    };
+    recognition.onend = () => { isRecording && stopRecording(); };
+    recognition.onerror = () => stopRecording();
+
+    recognition.start();
+    isRecording = true;
+    const btn = document.getElementById('micBtn');
+    btn.innerHTML = '⏹ Stop';
+    btn.classList.add('recording');
+    document.getElementById('listeningIndicator').classList.add('show');
+}
+
+function stopRecording() {
+    isRecording = false;
+    const btn = document.getElementById('micBtn');
+    btn.innerHTML = '🎤 Speak';
+    btn.classList.remove('recording');
+    document.getElementById('listeningIndicator').classList.remove('show');
+}
+
+// ============================================================
+// UI HELPERS
+// ============================================================
+function addBubble(role, text) {
+    const log = document.getElementById('conversationLog');
+    const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const div = document.createElement('div');
+    div.className = `bubble ${role}`;
+    div.innerHTML = `
+        <div class="bubble-avatar">${role === 'ai' ? '🎓' : '🧑'}</div>
+        <div class="bubble-content">
+            <div class="bubble-text">${escHtml(text)}</div>
+            <div class="bubble-meta">${now}</div>
+        </div>`;
+    log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+}
+
+function showTyping(show) {
+    document.getElementById('typingBubble').classList.toggle('show', show);
+    if (show) {
+        const log = document.getElementById('conversationLog');
+        log.scrollTop = log.scrollHeight;
+    }
+}
+
+function showProcessing(show, msg = '') {
+    const el = document.getElementById('aiProcessing');
+    el.classList.toggle('show', show);
+    if (msg) document.getElementById('processText').textContent = msg;
+}
+
+function clearInput() {
+    document.getElementById('speechInput').value = '';
+    updateWordCount({ value: '' });
+}
+
+function updateWordCount(el) {
+    const words = el.value.trim() ? el.value.trim().split(/\s+/).length : 0;
+    const badge = document.getElementById('wordCountBadge');
+    badge.textContent = `${words} word${words !== 1 ? 's' : ''}`;
+    badge.className = 'word-count-badge' + (words >= 50 ? ' good' : words > 0 && words < 20 ? ' low' : '');
+}
+
+function tickTimer() {
+    sessionSeconds++;
+    const m = String(Math.floor(sessionSeconds / 60)).padStart(2, '0');
+    const s = String(sessionSeconds % 60).padStart(2, '0');
+    document.getElementById('sessionTimer').textContent = `${m}:${s}`;
+}
+
+function escHtml(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+// Enter to send (Shift+Enter for newline)
+document.getElementById('speechInput')?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey && !document.getElementById('sendBtn').disabled) {
+        e.preventDefault();
+        sendResponse();
+    }
+});
+</script>
+
+<!-- PARTICLE SCRIPT -->
+<script>
+(function(){
+    const c = document.getElementById('particles-canvas'), ctx = c.getContext('2d');
+    let W, H, pts = [];
+    function resize(){ W = c.width = window.innerWidth; H = c.height = window.innerHeight; }
+    resize(); window.addEventListener('resize', resize);
+    function rand(a,b){ return Math.random()*(b-a)+a; }
+    const COLORS = ['212,175,55','245,215,110','184,150,46'];
+    for(let i=0;i<90;i++){
+        pts.push({x:rand(0,W),y:rand(0,H),r:rand(0.5,2),vx:rand(-0.2,0.2),vy:rand(-0.2,0.2),a:rand(0.08,0.35),c:COLORS[Math.floor(Math.random()*COLORS.length)]});
+    }
+    function draw(){
+        ctx.clearRect(0,0,W,H);
+        pts.forEach(p=>{
+            p.x+=p.vx; p.y+=p.vy;
+            if(p.x<0||p.x>W)p.vx*=-1; if(p.y<0||p.y>H)p.vy*=-1;
+            ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+            ctx.fillStyle=`rgba(${p.c},${p.a})`; ctx.fill();
+        });
+        requestAnimationFrame(draw);
+    }
+    draw();
+})();
+</script>
+
+</body>
+</html>
