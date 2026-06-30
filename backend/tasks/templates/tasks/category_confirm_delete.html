@@ -1,0 +1,21 @@
+{% extends 'tasks/base.html' %}
+{% block title %}Delete Category - NEXA HUB AI{% endblock %}
+{% block page_heading %}Delete Category{% endblock %}
+
+{% block content %}
+<div class="panel" style="max-width: 550px; margin:0 auto;">
+    <div class="text-center mb-3">
+        <i class="bi bi-exclamation-triangle text-danger" style="font-size: 2.5rem;"></i>
+    </div>
+    <h5 class="text-center">Delete category "{{ category.name }}"?</h5>
+    <p class="text-center text-muted">
+        Tasks in this category will not be deleted, but will become uncategorized.
+    </p>
+
+    <form method="post" class="d-flex justify-content-center gap-2 mt-3">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger px-4"><i class="bi bi-trash me-1"></i>Delete</button>
+        <a href="{% url 'tasks:categories' %}" class="btn btn-light px-4">Cancel</a>
+    </form>
+</div>
+{% endblock %}

@@ -42,6 +42,8 @@ include(
 )),
 path('diet-planner/', include('VoiceAssistant.planner.urls')),
  path("coach/", include("coach.urls")),
+    path("task", include("tasks.urls")),
+
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

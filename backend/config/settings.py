@@ -58,7 +58,7 @@ INSTALLED_APPS = [
     'subscriptions',
      'VoiceAssistant.planner',
 'coach',
-
+'tasks',
 
 
 ]
