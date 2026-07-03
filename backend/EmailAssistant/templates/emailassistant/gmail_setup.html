@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Gmail Setup - AI Email Assistant</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+(function(){
+    try {
+        var t = localStorage.getItem('ea-theme');
+        if (!t) { t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+        document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --primary:   #e2593f;
+        --primary-d: #c23f28;
+        --primary-l: #f08768;
+        --primary-soft: #fbe0d9;
+        --primary2:  #0f6b63;
+        --primary2-d: #0a4b46;
+        --google:    #b5402c;
+        --google-d:  #8f2f22;
+        --bg:        #f2f7f6;
+        --bg-glow-1: rgba(15,110,100,0.11);
+        --bg-glow-2: rgba(226,89,63,0.07);
+        --card:      #ffffff;
+        --card-alt:  #eaf4f1;
+        --text:      #0f211e;
+        --muted:     #5c7674;
+        --border:    #d7e7e3;
+        --success:   #2c7d63;
+        --success-bg:#e2f2ec;
+        --success-border:#b6e2d3;
+        --warn:      #a67c1f;
+        --warn-bg:   #f7f0da;
+        --warn-border:#ecd99e;
+        --error:     #a83250;
+        --on-accent: #fff8f6;
+        --shadow: rgba(9,38,35,0.12);
+        --shadow-strong: rgba(9,38,35,0.22);
+        --font-display: 'Fraunces', Georgia, serif;
+        --font-body: 'Inter', "Segoe UI", Roboto, Arial, sans-serif;
+        --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    }
+    [data-theme="dark"] {
+        --primary:   #f08768;
+        --primary-d: #d9573f;
+        --primary-l: #ffa88f;
+        --primary-soft: #3a221c;
+        --primary2:  #4fa89e;
+        --primary2-d: #79ddce;
+        --google:    #e2705a;
+        --google-d:  #c1573f;
+        --bg:        #0c1615;
+        --bg-glow-1: rgba(79,168,158,0.13);
+        --bg-glow-2: rgba(255,128,102,0.09);
+        --card:      #132320;
+        --card-alt:  #0e1e1b;
+        --text:      #eaf5f1;
+        --muted:     #8fada8;
+        --border:    #204440;
+        --success:   #7cd1ab;
+        --success-bg:#173329;
+        --success-border:#264a3c;
+        --warn:      #e3bb72;
+        --warn-bg:   #332918;
+        --warn-border:#4f4324;
+        --error:     #e0837c;
+        --on-accent: #2a0d06;
+        --shadow: rgba(0,12,11,0.38);
+        --shadow-strong: rgba(0,12,11,0.55);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+        font-family: var(--font-body);
+        background:
+            radial-gradient(circle at 10% 6%, var(--bg-glow-1), transparent 42%),
+            radial-gradient(circle at 92% 96%, var(--bg-glow-2), transparent 46%),
+            var(--bg);
+        color: var(--text);
+        padding: 30px 16px 60px;
+        line-height: 1.6;
+        transition: background .35s ease, color .35s ease;
+    }
+    .container { max-width: 780px; margin: 0 auto; }
+
+    .theme-toggle {
+        position: fixed; top: 18px; right: 18px;
+        width: 42px; height: 42px; border-radius: 50%;
+        border: 1px solid var(--border); background: var(--card); color: var(--text);
+        font-size: 18px; display: flex; align-items: center; justify-content: center;
+        cursor: pointer; box-shadow: 0 4px 14px var(--shadow);
+        transition: transform .2s ease, box-shadow .2s ease; z-index: 100;
+    }
+    .theme-toggle:hover { transform: translateY(-2px) rotate(-8deg); box-shadow: 0 8px 20px var(--shadow-strong); }
+
+    /* ── Top bar ── */
+    .top-bar {
+        display: flex; justify-content: space-between; align-items: center;
+        margin-bottom: 24px; flex-wrap: wrap; gap: 10px;
+    }
+    .top-bar h1 { font-family: var(--font-display); font-weight: 600; font-size: 22px; display: flex; align-items: center; gap: 10px; letter-spacing: -0.01em; }
+    .brand-seal {
+        display: flex; align-items: center; justify-content: center;
+        width: 38px; height: 38px; border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary2), var(--primary));
+        box-shadow: 0 6px 14px var(--shadow-strong);
+        font-size: 17px; flex-shrink: 0;
+    }
+    .top-bar a {
+        text-decoration: none; background: var(--card); color: var(--primary);
+        padding: 9px 16px; border-radius: 10px; border: 1px solid var(--border);
+        font-size: 13px; font-weight: 700;
+        transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .top-bar a:hover { transform: translateY(-2px); box-shadow: 0 6px 14px var(--shadow); }
+
+    /* ── Messages ── */
+    .msgs { list-style: none; margin-bottom: 18px; }
+    .msgs li { padding: 12px 16px; border-radius: 12px; margin-bottom: 8px; font-size: 14px; border: 1px solid transparent; }
+    .msgs .success { background: var(--success-bg); color: var(--success); border-color: var(--success-border); }
+    .msgs .error   { background: var(--warn-bg); color: var(--error);   border-color: var(--warn-border); }
+    .msgs .info    { background: var(--primary-soft); color: var(--primary-d); border-color: var(--border); }
+
+    /* ── Card ── */
+    .card {
+        background: var(--card); border: 1px solid var(--border); border-radius: 22px;
+        box-shadow: 0 16px 36px var(--shadow), 0 2px 8px var(--shadow); margin-bottom: 20px;
+        overflow: hidden; position: relative;
+    }
+    .card::before {
+        content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px; z-index: 1;
+        background: linear-gradient(90deg, var(--primary2), var(--primary-l), var(--primary));
+    }
+    .card-header {
+        padding: 24px 28px 18px;
+        border-bottom: 1px solid var(--border);
+        display: flex; align-items: center; gap: 14px;
+    }
+    .card-header .icon {
+        width: 46px; height: 46px; border-radius: 14px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 22px; flex-shrink: 0;
+    }
+    .icon-g  { background: var(--warn-bg); }
+    .icon-key { background: var(--primary-soft); }
+    .card-header h2 { font-family: var(--font-display); font-weight: 600; font-size: 17.5px; margin-bottom: 3px; }
+    .card-header p  { font-size: 13px; color: var(--muted); }
+    .card-body { padding: 26px 28px; }
+
+    /* ── Sender box ── */
+    .sender-box {
+        background: var(--primary-soft); border: 1px solid var(--border); border-radius: 14px;
+        padding: 14px 16px; margin-bottom: 26px;
+        display: flex; align-items: center; gap: 12px;
+    }
+    .sender-box .dot {
+        width: 40px; height: 40px; border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary), var(--primary-d)); color: var(--on-accent);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 16px; font-weight: 700; flex-shrink: 0;
+        box-shadow: 0 6px 14px var(--shadow-strong);
+    }
+    .sender-box .label { font-size: 11.5px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+    .sender-box .email { font-size: 15px; font-weight: 700; color: var(--primary-d); }
+    .sender-box .badge {
+        margin-left: auto; background: var(--success-bg); color: var(--success); border: 1px solid var(--success-border);
+        font-size: 11px; font-weight: 700; padding: 5px 11px; border-radius: 999px;
+        white-space: nowrap;
+    }
+
+    /* ── Why box ── */
+    .why-box {
+        background: var(--warn-bg); border: 1px solid var(--warn-border); border-radius: 14px;
+        padding: 15px 18px; margin-bottom: 28px; font-size: 14px;
+        display: flex; gap: 10px; color: var(--text);
+    }
+    .why-box .wi { font-size: 20px; flex-shrink: 0; }
+
+    /* ── Steps ── */
+    .steps-title {
+        font-size: 15px; font-weight: 700; margin-bottom: 18px;
+        display: flex; align-items: center; gap: 8px;
+        font-family: var(--font-display);
+    }
+    .steps-title::after {
+        content: ""; flex: 1; height: 1px; background: var(--border);
+    }
+    .step {
+        display: flex; gap: 14px; margin-bottom: 18px; align-items: flex-start;
+    }
+    .step-num {
+        width: 33px; height: 33px; border-radius: 50%; flex-shrink: 0;
+        background: linear-gradient(135deg, var(--primary), var(--primary-d)); color: var(--on-accent);
+        display: flex; align-items: center; justify-content: center;
+        font-weight: 700; font-size: 14px; margin-top: 2px;
+        box-shadow: 0 5px 12px var(--shadow-strong);
+    }
+    .step-content { flex: 1; }
+    .step-content strong { display: block; font-size: 14px; margin-bottom: 4px; }
+    .step-content p { font-size: 13px; color: var(--muted); }
+    .step-content .link-btn {
+        display: inline-block; margin-top: 7px;
+        background: var(--card-alt); color: var(--primary); text-decoration: none;
+        font-size: 12px; font-weight: 700; padding: 6px 13px;
+        border-radius: 8px; border: 1px solid var(--border);
+        transition: transform .15s ease, background .15s ease;
+    }
+    .step-content .link-btn:hover { background: var(--primary-soft); transform: translateY(-1px); }
+    .step-chip {
+        display: inline-block; background: var(--primary); color: var(--on-accent);
+        font-size: 12px; font-weight: 700; padding: 3px 10px;
+        border-radius: 6px; margin: 3px 2px;
+    }
+    .step-chip.grey { background: var(--muted); color: var(--card); }
+    .step-chip.g    { background: var(--google); color: #fff; }
+    .step-chip.green{ background: var(--success); color: var(--card); }
+    .step-note {
+        margin-top: 7px; background: var(--success-bg); border: 1px solid var(--success-border);
+        border-radius: 10px; padding: 9px 13px; font-size: 12px;
+        color: var(--success); display: flex; gap: 6px; align-items: flex-start;
+    }
+
+    /* ── Password form ── */
+    .form-section { border-top: 1px solid var(--border); padding-top: 24px; margin-top: 8px; }
+    .form-section h3 { font-family: var(--font-display); font-weight: 600; font-size: 15.5px; margin-bottom: 18px; }
+    label.field-label {
+        display: block; font-weight: 700; font-size: 12.5px; margin-bottom: 8px;
+        color: var(--muted); text-transform: uppercase; letter-spacing: .02em;
+    }
+    .form-input {
+        width: 100%; padding: 13px 16px; border-radius: 12px;
+        border: 1.5px solid var(--border); font-size: 15px;
+        background: var(--card-alt); color: var(--text); outline: none; font-family: var(--font-mono);
+        letter-spacing: .06em; transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+    .form-input:focus { border-color: var(--primary); background: var(--card); box-shadow: 0 0 0 4px var(--primary-soft); }
+    .field-hint { font-size: 12px; color: var(--muted); margin-top: 8px; }
+    .errorlist { list-style: none; color: var(--error); font-size: 13px; margin-top: 5px; }
+
+    /* Toggle show/hide password */
+    .pwd-wrap { position: relative; }
+    .toggle-pwd {
+        position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+        background: none; border: none; cursor: pointer; font-size: 18px;
+        color: var(--muted); padding: 0; line-height: 1;
+    }
+
+    /* ── Save button ── */
+    .save-btn {
+        margin-top: 22px; width: 100%; padding: 15px;
+        background: linear-gradient(135deg, var(--google), var(--google-d)); color: #fff5f7; border: none;
+        border-radius: 14px; font-size: 15px; font-weight: 800;
+        cursor: pointer; display: flex; align-items: center;
+        justify-content: center; gap: 10px;
+        box-shadow: 0 12px 26px var(--shadow-strong);
+        transition: transform .15s ease, filter .15s ease;
+    }
+    .save-btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+
+    /* ── Already configured pill ── */
+    .configured-pill {
+        background: var(--success-bg); border: 1px solid var(--success-border); border-radius: 14px;
+        padding: 13px 16px; margin-bottom: 22px; display: flex;
+        align-items: center; gap: 10px; font-size: 14px; color: var(--success);
+    }
+
+    /* ── Skip link ── */
+    .skip-link {
+        display: block; text-align: center; margin-top: 15px;
+        font-size: 13px; color: var(--muted); text-decoration: none;
+    }
+    .skip-link:hover { color: var(--primary); }
+
+    /* ── Security footer ── */
+    .security-note {
+        background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+        padding: 15px 18px; font-size: 13px; color: var(--muted);
+        display: flex; gap: 10px;
+        box-shadow: 0 6px 18px var(--shadow);
+    }
+    .security-note .si { font-size: 18px; flex-shrink: 0; }
+    .security-note a { color: var(--primary); }
+</style>
+</head>
+<body>
+<button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle dark and light mode" title="Toggle theme">
+    <span id="themeToggleIcon">🌙</span>
+</button>
+<div class="container">
+
+    <!-- Top bar -->
+    <div class="top-bar">
+        <h1><span class="brand-seal">📧</span> AI Email Assistant</h1>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <a href="{% url 'emailassistant:history' %}">View History</a>
+            <form method="post" action="{% url 'logout' %}" style="display:inline;margin:0;">
+                {% csrf_token %}
+                <button type="submit" style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;color:var(--text);">Log Out</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Flash messages -->
+    {% if messages %}
+    <ul class="msgs">
+        {% for m in messages %}<li class="{{ m.tags }}">{{ m }}</li>{% endfor %}
+    </ul>
+    {% endif %}
+
+    <!-- CARD 1 — Why we need this + sender info -->
+    <div class="card">
+        <div class="card-header">
+            <div class="icon icon-g">🔑</div>
+            <div>
+                <h2>Gmail App Password Setup</h2>
+                <p>One-time setup • Takes less than 2 minutes</p>
+            </div>
+        </div>
+        <div class="card-body">
+
+            <!-- Auto-detected Gmail -->
+            <div class="sender-box">
+                <div class="dot">{{ sender_email|first|upper }}</div>
+                <div>
+                    <div class="label">Your Gmail (auto-detected)</div>
+                    <div class="email">{{ sender_email }}</div>
+                </div>
+                <span class="badge">✓ Auto Fetched</span>
+            </div>
+
+            <!-- Why do we need this -->
+            <div class="why-box">
+                <span class="wi">💡</span>
+                <div>
+                    <strong style="font-size:14px;">Why is this needed?</strong><br>
+                    Google blocks direct password login for apps. A <strong>Gmail App Password</strong>
+                    is a special 16-character password that lets this assistant send emails
+                    from your Gmail account securely — without touching your real password.
+                    It takes about 2 minutes to generate.
+                </div>
+            </div>
+
+            <!-- Already configured banner -->
+            {% if has_config %}
+            <div class="configured-pill">
+                ✅ &nbsp; You already have an App Password saved.
+                You can update it below if needed.
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+    <!-- CARD 2 — Step-by-step instructions -->
+    <div class="card">
+        <div class="card-header">
+            <div class="icon icon-g">📋</div>
+            <div>
+                <h2>How to Get Your Gmail App Password</h2>
+                <p>Follow these steps on your computer or phone</p>
+            </div>
+        </div>
+        <div class="card-body">
+
+            <div class="steps-title">Step-by-Step Guide</div>
+
+            <!-- Step 1 -->
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <strong>Open Google Account Security settings</strong>
+                    <p>Go to your Google Account and click on the <strong>Security</strong> tab in the left sidebar.</p>
+                    <a class="link-btn" href="https://myaccount.google.com/security" target="_blank">
+                        🔗 Open Google Account Security →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <strong>Enable 2-Step Verification (if not already ON)</strong>
+                    <p>
+                        Scroll down to <em>"How you sign in to Google"</em>.
+                        Click <span class="step-chip grey">2-Step Verification</span> and follow the prompts to turn it ON.
+                    </p>
+                    <div class="step-note">
+                        ℹ️ &nbsp; App Passwords only work when 2-Step Verification is enabled.
+                        If it's already ON, skip to Step 3.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <strong>Search for "App Passwords"</strong>
+                    <p>
+                        Inside the Security page, use the search bar at the top and type
+                        <span class="step-chip">App Passwords</span> — then click the result.
+                    </p>
+                    <a class="link-btn" href="https://myaccount.google.com/apppasswords" target="_blank">
+                        🔗 Direct Link: App Passwords Page →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <strong>Sign in again if asked</strong>
+                    <p>Google may ask you to confirm your password before showing App Passwords. This is normal.</p>
+                </div>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="step">
+                <div class="step-num">5</div>
+                <div class="step-content">
+                    <strong>Create a new App Password</strong>
+                    <p>
+                        In the <em>"App name"</em> box, type a name like
+                        <span class="step-chip grey">NEXA HUB AI</span> — then click
+                        <span class="step-chip green">Create</span>.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Step 6 -->
+            <div class="step">
+                <div class="step-num">6</div>
+                <div class="step-content">
+                    <strong>Copy the 16-character password</strong>
+                    <p>
+                        Google will show a yellow box with a
+                        <strong>16-character password</strong> (like <code>abcd efgh ijkl mnop</code>).
+                        Copy it — you will only see it once!
+                    </p>
+                    <div class="step-note">
+                        ✅ &nbsp; Copy the full password including or excluding spaces — both work,
+                        we strip spaces automatically.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 7 -->
+            <div class="step">
+                <div class="step-num">7</div>
+                <div class="step-content">
+                    <strong>Paste it below and click Save</strong>
+                    <p>Come back to this page and paste the copied password in the form below.</p>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="form-section">
+                <h3>🔐 Enter Your Gmail App Password</h3>
+
+                <form method="post" novalidate>
+                    {% csrf_token %}
+
+                    <label class="field-label" for="{{ form.app_password.id_for_label }}">
+                        App Password
+                        <span style="font-weight:400; color:var(--muted); font-size:12px; text-transform:none;">
+                            (16 characters — spaces are fine)
+                        </span>
+                    </label>
+
+                    <div class="pwd-wrap">
+                        {{ form.app_password }}
+                        <!-- Toggle show/hide -->
+                        <button type="button" class="toggle-pwd" id="toggleBtn" title="Show/hide password">👁️</button>
+                    </div>
+
+                    {% if form.app_password.errors %}
+                        <ul class="errorlist">
+                            {% for e in form.app_password.errors %}<li>{{ e }}</li>{% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <p class="field-hint">
+                        Your Gmail <strong>{{ sender_email }}</strong> will be used as the sender.
+                        The App Password is saved securely and never shared.
+                    </p>
+
+                    <button type="submit" class="save-btn">
+                        <span>🔒</span> Save App Password &amp; Start Composing
+                    </button>
+                </form>
+
+                {% if has_config %}
+                    <a class="skip-link" href="{% url 'emailassistant:form' %}">
+                        ← Skip — I already have a password saved, take me to compose
+                    </a>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Security note -->
+    <div class="security-note">
+        <span class="si">🛡️</span>
+        <div>
+            <strong>Security:</strong> Your App Password is stored in this application's
+            database and is used only to send emails on your behalf via Gmail SMTP.
+            It is not your real Gmail password. You can revoke it anytime from
+            <a href="https://myaccount.google.com/apppasswords" target="_blank">Google Account → App Passwords</a>
+            without affecting your Gmail login.
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Toggle show/hide for the password field
+    var pwdField = document.getElementById("{{ form.app_password.id_for_label }}");
+    var toggleBtn = document.getElementById("toggleBtn");
+    if (pwdField && toggleBtn) {
+        toggleBtn.addEventListener("click", function () {
+            if (pwdField.type === "password") {
+                pwdField.type = "text";
+                toggleBtn.textContent = "🙈";
+            } else {
+                pwdField.type = "password";
+                toggleBtn.textContent = "👁️";
+            }
+        });
+    }
+</script>
+<script>
+(function(){
+    var btn = document.getElementById('themeToggle');
+    var icon = document.getElementById('themeToggleIcon');
+    function sync(){
+        var cur = document.documentElement.getAttribute('data-theme') || 'light';
+        icon.textContent = cur === 'dark' ? '☀️' : '🌙';
+    }
+    sync();
+    btn.addEventListener('click', function(){
+        var cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', cur);
+        try { localStorage.setItem('ea-theme', cur); } catch(e) {}
+        sync();
+    });
+})();
+</script>
+</body>
+</html>

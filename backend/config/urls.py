@@ -31,18 +31,21 @@ path('auth/', include('accounts.urls')),
     path('', include('ImageToText.urls')),
     path('voice-to-text/', include('VoiceToText.urls')),
     path("tts/", include("TextToSpeech.urls")),
-    path('texttospeech/', include('TextToSpeech.urls')),
-    path("remedies/", include("VoiceAssistant.remedies.urls")),  # ← SIRF YEH CHANGE KIYA
+
+    path("remedies/", include("VoiceAssistant.remedies.urls")), 
     path("ai-chat/", ai_chat),
-    path('', include('VoiceAssistant.VoiceAssistant.urls')),
-    path(
-'workout/',
-include(
-'VoiceAssistant.workout.urls'
-)),
+    path('fitness/', include('VoiceAssistant.VoiceAssistant.urls')),
+    path('workout/',include('VoiceAssistant.workout.urls')),
 path('diet-planner/', include('VoiceAssistant.planner.urls')),
  path("coach/", include("coach.urls")),
-    path("task", include("tasks.urls")),
+    path("task/", include("tasks.urls")),
+path("email-assistant/", include("EmailAssistant.urls")),
+
+
+
+
+    
+
 
 ]
 if settings.DEBUG:

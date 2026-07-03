@@ -59,6 +59,7 @@ INSTALLED_APPS = [
      'VoiceAssistant.planner',
 'coach',
 'tasks',
+    "EmailAssistant",
 
 
 ]
@@ -199,4 +200,6 @@ cloudinary.config(
 RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID")
 RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET")
 RAZORPAY_WEBHOOK_SECRET = os.getenv("RAZORPAY_WEBHOOK_SECRET")
-
+LOGIN_URL = 'emailassistant:login'          # 'login' se badal ke ye kar do
+LOGIN_REDIRECT_URL = 'emailassistant:form'  # already sahi hai, mat chhedo
+LOGOUT_REDIRECT_URL = 'emailassistant:login'  # 'login' se badal ke ye kar do

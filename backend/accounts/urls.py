@@ -4,8 +4,8 @@ from .views import *
 
 urlpatterns = [
     path('signup/', views.signup_view),
-    path('login/', views.login_view),
-    path('logout/', views.logout_view),
+    path('login/', views.login_view, name='login'),      # ← 'name="login"' add karo
+    path('logout/', views.logout_view, name='logout'), 
      # 🔐 NEW OTP ROUTES
     path('forgot-password/', views.forgot_password),
     path('verify-otp/', views.verify_otp),

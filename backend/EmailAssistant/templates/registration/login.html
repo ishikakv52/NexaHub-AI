@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sign In - AI Email Assistant</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+(function(){
+    try {
+        var t = localStorage.getItem('ea-theme');
+        if (!t) { t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+        document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --bg: #f2f7f6;
+        --bg-glow-1: rgba(15,110,100,0.11);
+        --bg-glow-2: rgba(226,89,63,0.07);
+        --card-bg: #ffffff;
+        --text: #0f211e;
+        --muted: #5c7674;
+        --border: #d7e7e3;
+        --accent: #e2593f;
+        --accent-dark: #c23f28;
+        --accent-light: #f08768;
+        --accent-soft: #fbe0d9;
+        --accent2: #0f6b63;
+        --accent2-dark: #0a4b46;
+        --on-accent: #fff8f6;
+        --error: #a83250;
+        --error-bg: #f9e6ec;
+        --error-border: #f0c4d3;
+        --shadow: rgba(9,38,35,0.12);
+        --shadow-strong: rgba(9,38,35,0.22);
+        --font-display: 'Fraunces', Georgia, serif;
+        --font-body: 'Inter', "Segoe UI", Roboto, Arial, sans-serif;
+    }
+    [data-theme="dark"] {
+        --bg: #0c1615;
+        --bg-glow-1: rgba(79,168,158,0.13);
+        --bg-glow-2: rgba(255,128,102,0.09);
+        --card-bg: #132320;
+        --text: #eaf5f1;
+        --muted: #8fada8;
+        --border: #204440;
+        --accent: #f08768;
+        --accent-dark: #d9573f;
+        --accent-light: #ffa88f;
+        --accent-soft: #3a221c;
+        --accent2: #4fa89e;
+        --accent2-dark: #79ddce;
+        --on-accent: #2a0d06;
+        --error: #e0837c;
+        --error-bg: #3a2427;
+        --error-border: #55323e;
+        --shadow: rgba(0,12,11,0.38);
+        --shadow-strong: rgba(0,12,11,0.55);
+    }
+    * { box-sizing: border-box; }
+    body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-body);
+        background:
+            radial-gradient(circle at 12% 8%, var(--bg-glow-1), transparent 42%),
+            radial-gradient(circle at 88% 92%, var(--bg-glow-2), transparent 46%),
+            var(--bg);
+        color: var(--text);
+        padding: 16px;
+        transition: background .35s ease, color .35s ease;
+    }
+    .theme-toggle {
+        position: fixed;
+        top: 18px;
+        right: 18px;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        border: 1px solid var(--border);
+        background: var(--card-bg);
+        color: var(--text);
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 14px var(--shadow);
+        transition: transform .2s ease, box-shadow .2s ease;
+        z-index: 100;
+    }
+    .theme-toggle:hover { transform: translateY(-2px) rotate(-8deg); box-shadow: 0 8px 20px var(--shadow-strong); }
+    .card {
+        width: 100%;
+        max-width: 380px;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        padding: 36px 30px 32px;
+        box-shadow: 0 16px 40px var(--shadow), 0 2px 8px var(--shadow);
+        position: relative;
+        overflow: hidden;
+    }
+    .card::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--accent2), var(--accent-light), var(--accent));
+    }
+    .brand-seal {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        margin: 0 auto 14px;
+        background: linear-gradient(135deg, var(--accent2), var(--accent));
+        box-shadow: 0 8px 18px var(--shadow-strong);
+        font-size: 20px;
+    }
+    h1 {
+        margin: 0 0 4px;
+        font-family: var(--font-display);
+        font-weight: 600;
+        font-size: 24px;
+        text-align: center;
+        letter-spacing: -0.01em;
+    }
+    p.sub {
+        margin: 0 0 26px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 14px;
+    }
+    .field { margin-bottom: 17px; }
+    .field label {
+        display: block;
+        font-size: 12.5px;
+        font-weight: 700;
+        letter-spacing: .02em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 7px;
+    }
+    .field input {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1.5px solid var(--border);
+        border-radius: 12px;
+        font-size: 14.5px;
+        font-family: var(--font-body);
+        background: var(--bg);
+        color: var(--text);
+        outline: none;
+        transition: border-color .15s ease, box-shadow .15s ease;
+    }
+    .field input:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px var(--accent-soft);
+    }
+    .errorlist {
+        list-style: none;
+        margin: 6px 0 0;
+        padding: 0;
+        color: var(--error);
+        font-size: 12px;
+    }
+    button[type="submit"] {
+        width: 100%;
+        padding: 13px;
+        border: none;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+        color: var(--on-accent);
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 8px;
+        box-shadow: 0 10px 22px var(--shadow-strong);
+        transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+    }
+    button[type="submit"]:hover { transform: translateY(-2px); filter: brightness(1.05); }
+    button[type="submit"]:active { transform: translateY(0); }
+    .footer-link {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 13px;
+        color: var(--muted);
+    }
+    .footer-link a {
+        color: var(--accent);
+        font-weight: 700;
+        text-decoration: none;
+    }
+    .footer-link a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+    <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle dark and light mode" title="Toggle theme">
+        <span id="themeToggleIcon">🌙</span>
+    </button>
+
+    <div class="card">
+        <div class="brand-seal">📧</div>
+        <h1>AI Email Assistant</h1>
+        <p class="sub">Sign in to continue</p>
+
+        {% if form.non_field_errors %}
+            <ul class="errorlist">
+                {% for error in form.non_field_errors %}<li>{{ error }}</li>{% endfor %}
+            </ul>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="field">
+                <label for="{{ form.username.id_for_label }}">Username</label>
+                {{ form.username }}
+                {{ form.username.errors }}
+            </div>
+            <div class="field">
+                <label for="{{ form.password.id_for_label }}">Password</label>
+                {{ form.password }}
+                {{ form.password.errors }}
+            </div>
+            <input type="hidden" name="next" value="{{ next }}">
+            <button type="submit">Sign In</button>
+        </form>
+
+        <p class="footer-link">Don't have an account? <a href="{% url 'signup' %}">Sign up</a></p>
+    </div>
+
+<script>
+(function(){
+    var btn = document.getElementById('themeToggle');
+    var icon = document.getElementById('themeToggleIcon');
+    function sync(){
+        var cur = document.documentElement.getAttribute('data-theme') || 'light';
+        icon.textContent = cur === 'dark' ? '☀️' : '🌙';
+    }
+    sync();
+    btn.addEventListener('click', function(){
+        var cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', cur);
+        try { localStorage.setItem('ea-theme', cur); } catch(e) {}
+        sync();
+    });
+})();
+</script>
+</body>
+</html>
