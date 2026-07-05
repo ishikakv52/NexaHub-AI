@@ -1,0 +1,62 @@
+{% extends 'tasks/base.html' %}
+{% block title %}{{ task.title }} - NEXA HUB AI{% endblock %}
+{% block page_heading %}Task Detail{% endblock %}
+
+{% block content %}
+<div class="panel" style="max-width: 750px; margin:0 auto;">
+    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+        <div>
+            <h4 class="mb-1">{{ task.title }}
+                {% if task.is_overdue %}<span class="badge badge-overdue rounded-pill ms-2">Overdue</span>{% endif %}
+            </h4>
+            <div class="task-meta" style="font-size:0.85rem; color:#64748b;">
+                <i class="bi bi-tag"></i> {{ task.category.name|default:"No Category" }}
+            </div>
+        </div>
+        <div class="d-flex gap-2">
+            <span class="badge badge-priority-{{ task.priority }} rounded-pill px-3 py-2">{{ task.get_priority_display }} Priority</span>
+            <span class="badge badge-status-{{ task.status }} rounded-pill px-3 py-2">{{ task.get_status_display }}</span>
+        </div>
+    </div>
+
+    <hr>
+
+    <p class="mb-3">{{ task.description|default:"No description provided."|linebreaks }}</p>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <strong>Due Date:</strong> {{ task.due_date|date:"l, M d, Y" }}
+        </div>
+        <div class="col-md-6">
+            <strong>Due Time:</strong> {{ task.due_time|time:"H:i"|default:"--" }}
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <strong>Created:</strong> {{ task.created_at|date:"M d, Y H:i" }}
+        </div>
+        <div class="col-md-6">
+            <strong>Last Updated:</strong> {{ task.updated_at|date:"M d, Y H:i" }}
+        </div>
+    </div>
+
+    <div class="d-flex gap-2 flex-wrap">
+        <a href="{% url 'tasks:edit_task' task.pk %}" class="btn btn-tm-primary"><i class="bi bi-pencil me-1"></i>Edit</a>
+
+        {% if task.status == 'pending' %}
+        <form method="post" action="{% url 'tasks:mark_complete' task.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success"><i class="bi bi-check2-circle me-1"></i>Mark Complete</button>
+        </form>
+        {% else %}
+        <form method="post" action="{% url 'tasks:mark_pending' task.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-secondary"><i class="bi bi-arrow-counterclockwise me-1"></i>Mark Pending</button>
+        </form>
+        {% endif %}
+
+        <a href="{% url 'tasks:delete_task' task.pk %}" class="btn btn-outline-danger"><i class="bi bi-trash me-1"></i>Delete</a>
+        <a href="{% url 'tasks:all_tasks' %}" class="btn btn-light">Back to List</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,429 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Email Assistant - Compose</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+(function(){
+    try {
+        var t = localStorage.getItem('ea-theme');
+        if (!t) { t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+        document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --bg: #f2f7f6;
+        --bg-glow-1: rgba(15,110,100,0.11);
+        --bg-glow-2: rgba(226,89,63,0.07);
+        --card-bg: #ffffff;
+        --input-bg: #eaf4f1;
+        --text: #0f211e;
+        --muted: #5c7674;
+        --border: #d7e7e3;
+        --accent: #e2593f;
+        --accent-dark: #c23f28;
+        --accent-light: #f08768;
+        --accent-soft: #fbe0d9;
+        --accent2: #0f6b63;
+        --accent2-dark: #0a4b46;
+        --on-accent: #fff8f6;
+        --success: #2c7d63;
+        --success-bg: #e2f2ec;
+        --success-border: #b6e2d3;
+        --error: #a83250;
+        --error-bg: #f9e6ec;
+        --error-border: #f0c4d3;
+        --warn: #a67c1f;
+        --warn-bg: #f7f0da;
+        --warn-border: #ecd99e;
+        --google: #b5402c;
+        --shadow: rgba(9,38,35,0.12);
+        --shadow-strong: rgba(9,38,35,0.22);
+        --font-display: 'Fraunces', Georgia, serif;
+        --font-body: 'Inter', "Segoe UI", Roboto, Arial, sans-serif;
+    }
+    [data-theme="dark"] {
+        --bg: #0c1615;
+        --bg-glow-1: rgba(79,168,158,0.13);
+        --bg-glow-2: rgba(255,128,102,0.09);
+        --card-bg: #132320;
+        --input-bg: #0e1e1b;
+        --text: #eaf5f1;
+        --muted: #8fada8;
+        --border: #204440;
+        --accent: #f08768;
+        --accent-dark: #d9573f;
+        --accent-light: #ffa88f;
+        --accent-soft: #3a221c;
+        --accent2: #4fa89e;
+        --accent2-dark: #79ddce;
+        --on-accent: #2a0d06;
+        --success: #7cd1ab;
+        --success-bg: #173329;
+        --success-border: #264a3c;
+        --error: #e0837c;
+        --error-bg: #3a2427;
+        --error-border: #55323e;
+        --warn: #e3bb72;
+        --warn-bg: #332918;
+        --warn-border: #4f4324;
+        --google: #e2705a;
+        --shadow: rgba(0,12,11,0.38);
+        --shadow-strong: rgba(0,12,11,0.55);
+    }
+    * { box-sizing: border-box; }
+    body {
+        margin: 0;
+        font-family: var(--font-body);
+        background:
+            radial-gradient(circle at 10% 6%, var(--bg-glow-1), transparent 42%),
+            radial-gradient(circle at 92% 96%, var(--bg-glow-2), transparent 46%),
+            var(--bg);
+        color: var(--text);
+        padding: 30px 16px 60px;
+        transition: background .35s ease, color .35s ease;
+    }
+    .theme-toggle {
+        position: fixed; top: 18px; right: 18px;
+        width: 42px; height: 42px; border-radius: 50%;
+        border: 1px solid var(--border); background: var(--card-bg); color: var(--text);
+        font-size: 18px; display: flex; align-items: center; justify-content: center;
+        cursor: pointer; box-shadow: 0 4px 14px var(--shadow);
+        transition: transform .2s ease, box-shadow .2s ease; z-index: 100;
+    }
+    .theme-toggle:hover { transform: translateY(-2px) rotate(-8deg); box-shadow: 0 8px 20px var(--shadow-strong); }
+    .container { max-width: 760px; margin: 0 auto; }
+    .top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .top-bar h1 {
+        font-family: var(--font-display);
+        font-weight: 600;
+        font-size: 23px;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        letter-spacing: -0.01em;
+    }
+    .brand-seal {
+        display: flex; align-items: center; justify-content: center;
+        width: 38px; height: 38px; border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent2), var(--accent));
+        box-shadow: 0 6px 14px var(--shadow-strong);
+        font-size: 17px; flex-shrink: 0;
+    }
+    .top-bar a {
+        text-decoration: none;
+        background: var(--card-bg);
+        color: var(--accent);
+        padding: 9px 16px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        font-size: 13.5px;
+        font-weight: 700;
+        transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .top-bar a:hover { transform: translateY(-2px); box-shadow: 0 6px 14px var(--shadow); }
+    .card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        padding: 30px;
+        box-shadow: 0 16px 36px var(--shadow), 0 2px 8px var(--shadow);
+        margin-bottom: 20px;
+        position: relative;
+        overflow: hidden;
+    }
+    .card::before {
+        content: "";
+        position: absolute; top: 0; left: 0; right: 0; height: 4px;
+        background: linear-gradient(90deg, var(--accent2), var(--accent-light), var(--accent));
+    }
+    .sender-box {
+        background: var(--accent-soft);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 13px 16px;
+        margin-bottom: 24px;
+        font-size: 14px;
+        color: var(--text);
+        font-weight: 600;
+    }
+    .sender-box strong { display: block; font-size: 11.5px; color: var(--muted); margin-bottom: 3px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+    label {
+        display: block;
+        font-weight: 700;
+        font-size: 12.5px;
+        text-transform: uppercase;
+        letter-spacing: .02em;
+        color: var(--muted);
+        margin: 18px 0 7px;
+    }
+    .form-input, .form-textarea, select.form-input {
+        width: 100%;
+        padding: 12px 14px;
+        border-radius: 12px;
+        border: 1.5px solid var(--border);
+        font-size: 14.5px;
+        font-family: var(--font-body);
+        background: var(--input-bg);
+        color: var(--text);
+        outline: none;
+        transition: border-color 0.15s ease, box-shadow .15s ease, background .15s ease;
+    }
+    .form-input:focus, .form-textarea:focus {
+        border-color: var(--accent);
+        background: var(--card-bg);
+        box-shadow: 0 0 0 4px var(--accent-soft);
+    }
+    .errorlist {
+        list-style: none;
+        margin: 6px 0 0;
+        padding: 0;
+        color: var(--error);
+        font-size: 13px;
+    }
+    .radio-group {
+        display: flex;
+        gap: 10px;
+        margin-top: 8px;
+        flex-wrap: wrap;
+    }
+    .radio-group label {
+        margin: 0;
+        text-transform: none;
+        font-weight: 600;
+        font-size: 13.5px;
+        color: var(--text);
+        background: var(--input-bg);
+        border: 1.5px solid var(--border);
+        padding: 10px 16px;
+        border-radius: 999px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        transition: border-color .15s ease, background .15s ease, transform .15s ease;
+    }
+    .radio-group label:hover { transform: translateY(-1px); border-color: var(--accent-light); }
+    .radio-group label:has(input:checked) {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+        color: var(--accent-dark);
+    }
+    .radio-group input { accent-color: var(--accent); }
+    .submit-btn {
+        margin-top: 28px;
+        width: 100%;
+        background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+        color: var(--on-accent);
+        border: none;
+        padding: 15px;
+        border-radius: 14px;
+        font-size: 15.5px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 12px 26px var(--shadow-strong);
+        transition: transform .15s ease, filter .15s ease;
+    }
+    .submit-btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+    .submit-btn:active { transform: translateY(0); }
+    .messages { list-style: none; padding: 0; margin: 0 0 16px; }
+    .messages li {
+        padding: 12px 16px;
+        border-radius: 12px;
+        margin-bottom: 8px;
+        font-size: 14px;
+        border: 1px solid transparent;
+    }
+    .messages .success { background: var(--success-bg); color: var(--success); border-color: var(--success-border); }
+    .messages .error { background: var(--error-bg); color: var(--error); border-color: var(--error-border); }
+    .messages .warning { background: var(--warn-bg); color: var(--warn); border-color: var(--warn-border); }
+    .hint { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    input[type="file"].form-input { padding: 10px 14px; }
+</style>
+</head>
+<body>
+<button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle dark and light mode" title="Toggle theme">
+    <span id="themeToggleIcon">🌙</span>
+</button>
+<div class="container">
+
+    <div class="top-bar">
+        <h1><span class="brand-seal">📧</span> AI Email Assistant</h1>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <a href="{% url 'emailassistant:gmail_setup' %}" style="color:var(--google);">⚙️ Gmail Setup</a>
+            <a href="{% url 'emailassistant:history' %}">View History</a>
+            <form method="post" action="{% url 'logout' %}" style="display:inline;margin:0;">
+                {% csrf_token %}
+                <button type="submit" style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;color:var(--text);">Log Out</button>
+            </form>
+        </div>
+    </div>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <div class="card">
+        <div class="sender-box">
+            <strong>Sender (automatically detected)</strong>
+            {{ sender_email }}
+        </div>
+
+        <form method="post" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+
+            <label for="{{ form.receiver_email.id_for_label }}">Receiver Email</label>
+            {{ form.receiver_email }}
+            {{ form.receiver_email.errors }}
+
+            <label for="{{ form.topic.id_for_label }}">Topic</label>
+            {{ form.topic }}
+            {{ form.topic.errors }}
+
+            <div id="subtopicWrapper">
+                <label for="{{ form.subtopic.id_for_label }}">Specific Type</label>
+                {{ form.subtopic }}
+                {{ form.subtopic.errors }}
+                <div class="hint">Pick the situation closest to yours — it shapes the actual email content.</div>
+            </div>
+
+            <div id="customDetailWrapper" style="display:none;">
+                <label for="{{ form.custom_detail.id_for_label }}">Describe your situation</label>
+                {{ form.custom_detail }}
+                {{ form.custom_detail.errors }}
+                <div class="hint">A short, specific detail makes the email sound like you wrote it yourself.</div>
+            </div>
+
+            <label for="{{ form.category.id_for_label }}">Email Category</label>
+            {{ form.category }}
+            {{ form.category.errors }}
+
+            <label for="{{ form.tone.id_for_label }}">Writing Tone</label>
+            {{ form.tone }}
+            {{ form.tone.errors }}
+
+            <label for="{{ form.length.id_for_label }}">Email Length</label>
+            {{ form.length }}
+            {{ form.length.errors }}
+
+            <label>Quality Level</label>
+            <div class="radio-group">
+                {% for radio in form.premium_level %}
+                    <label>{{ radio.tag }} {{ radio.choice_label }}</label>
+                {% endfor %}
+            </div>
+            {{ form.premium_level.errors }}
+
+            <label for="{{ form.attachments.id_for_label }}">Attachments</label>
+            {{ form.attachments }}
+            {{ form.attachments.errors }}
+            <div class="hint">You can attach images, PDFs, Word files, or text files.</div>
+
+            <button type="submit" class="submit-btn">Generate Email ✨</button>
+        </form>
+    </div>
+</div>
+<script>
+(function(){
+    var SUBTOPICS = {{ subtopics_json|safe }};
+    var CUSTOM_VALUE = "{{ custom_subtopic_value|escapejs }}";
+
+    var topicSelect    = document.getElementById('id_topic');
+    var subtopicSelect = document.getElementById('id_subtopic');
+    var subtopicWrapper = document.getElementById('subtopicWrapper');
+    var customWrapper   = document.getElementById('customDetailWrapper');
+    var customInput     = document.getElementById('id_custom_detail');
+
+    var prevSubtopic = "{{ form.subtopic.value|default_if_none:''|escapejs }}";
+
+    function toggleCustomBox(){
+        var showCustom = (subtopicSelect.options.length === 0)
+            || subtopicSelect.value === CUSTOM_VALUE
+            || topicSelect.value === 'Other';
+        customWrapper.style.display = showCustom ? 'block' : 'none';
+    }
+
+    function populateSubtopics(topic, preselect){
+        var list = SUBTOPICS[topic] || [];
+        subtopicSelect.innerHTML = '';
+
+        if (!list.length) {
+            // e.g. "Other" — no preset list, go straight to the free-text box.
+            subtopicWrapper.style.display = 'none';
+            toggleCustomBox();
+            return;
+        }
+
+        subtopicWrapper.style.display = 'block';
+
+        var placeholder = document.createElement('option');
+        placeholder.value = '';
+        placeholder.textContent = '-- Select the specific situation --';
+        subtopicSelect.appendChild(placeholder);
+
+        list.forEach(function(item){
+            var opt = document.createElement('option');
+            opt.value = item;
+            opt.textContent = item.charAt(0).toUpperCase() + item.slice(1);
+            subtopicSelect.appendChild(opt);
+        });
+
+        var customOpt = document.createElement('option');
+        customOpt.value = CUSTOM_VALUE;
+        customOpt.textContent = 'Other — describe it myself';
+        subtopicSelect.appendChild(customOpt);
+
+        if (preselect && (list.indexOf(preselect) !== -1 || preselect === CUSTOM_VALUE)) {
+            subtopicSelect.value = preselect;
+        }
+        toggleCustomBox();
+    }
+
+    topicSelect.addEventListener('change', function(){
+        populateSubtopics(topicSelect.value, '');
+    });
+    subtopicSelect.addEventListener('change', toggleCustomBox);
+
+    // Initial render — preserves the previous selection if the form
+    // is being re-shown after a validation error.
+    populateSubtopics(topicSelect.value, prevSubtopic);
+})();
+</script>
+<script>
+(function(){
+    var btn = document.getElementById('themeToggle');
+    var icon = document.getElementById('themeToggleIcon');
+    function sync(){
+        var cur = document.documentElement.getAttribute('data-theme') || 'light';
+        icon.textContent = cur === 'dark' ? '☀️' : '🌙';
+    }
+    sync();
+    btn.addEventListener('click', function(){
+        var cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', cur);
+        try { localStorage.setItem('ea-theme', cur); } catch(e) {}
+        sync();
+    });
+})();
+</script>
+</body>
+</html>

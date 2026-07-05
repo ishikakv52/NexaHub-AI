@@ -1,0 +1,59 @@
+{% extends 'tasks/base.html' %}
+{% block title %}{{ page_title }} - NEXA HUB AI{% endblock %}
+{% block page_heading %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<div class="panel" style="max-width: 700px; margin:0 auto;">
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label class="form-label">Title</label>
+            {{ form.title }}
+            {% for error in form.title.errors %}<div class="text-danger small mt-1">{{ error }}</div>{% endfor %}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            {{ form.description }}
+            {% for error in form.description.errors %}<div class="text-danger small mt-1">{{ error }}</div>{% endfor %}
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Category</label>
+                {{ form.category }}
+                {% for error in form.category.errors %}<div class="text-danger small mt-1">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Priority</label>
+                {{ form.priority }}
+                {% for error in form.priority.errors %}<div class="text-danger small mt-1">{{ error }}</div>{% endfor %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Due Date</label>
+                {{ form.due_date }}
+                {% for error in form.due_date.errors %}<div class="text-danger small mt-1">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Due Time</label>
+                {{ form.due_time }}
+                {% for error in form.due_time.errors %}<div class="text-danger small mt-1">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Status</label>
+                {{ form.status }}
+                {% for error in form.status.errors %}<div class="text-danger small mt-1">{{ error }}</div>{% endfor %}
+            </div>
+        </div>
+
+        <div class="d-flex gap-2 mt-3">
+            <button type="submit" class="btn btn-tm-primary"><i class="bi bi-check-lg me-1"></i>{{ btn_label }}</button>
+            <a href="{% if task %}{% url 'tasks:task_detail' task.pk %}{% else %}{% url 'tasks:all_tasks' %}{% endif %}" class="btn btn-light">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

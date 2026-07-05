@@ -1,0 +1,92 @@
+{% extends 'tasks/base.html' %}
+{% block title %}{{ page_title }} - NEXA HUB AI{% endblock %}
+{% block page_heading %}{{ page_title }}{% endblock %}
+
+{% block content %}
+
+<div class="filter-bar" style="background:#fff; border-radius:20px; padding:1.2rem 1.5rem; margin-bottom:1.5rem; box-shadow:0 4px 16px rgba(0,0,0,0.03); border:1px solid rgba(0,0,0,0.02);">
+    <form method="get" class="row g-2 align-items-end">
+        <div class="col-md-3">
+            <label class="form-label small mb-1">Search</label>
+            {{ filter_form.search }}
+        </div>
+        <div class="col-md-2">
+            <label class="form-label small mb-1">Category</label>
+            {{ filter_form.category }}
+        </div>
+        <div class="col-md-2">
+            <label class="form-label small mb-1">Priority</label>
+            {{ filter_form.priority }}
+        </div>
+        <div class="col-md-2">
+            <label class="form-label small mb-1">Status</label>
+            {{ filter_form.status }}
+        </div>
+        <div class="col-md-2">
+            <label class="form-label small mb-1">Sort By</label>
+            {{ filter_form.sort }}
+        </div>
+        <div class="col-md-1 d-flex gap-2">
+            <button type="submit" class="btn btn-tm-primary w-100"><i class="bi bi-funnel"></i></button>
+        </div>
+    </form>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <span class="text-muted">{{ tasks|length }} task{{ tasks|length|pluralize }} found</span>
+    <a href="{% url 'tasks:add_task' %}" class="btn btn-tm-primary"><i class="bi bi-plus-circle me-1"></i> Add Task</a>
+</div>
+
+{% if tasks %}
+    {% for task in tasks %}
+    <div class="task-card" style="background:#fff; border-radius:16px; padding:1rem 1.2rem; margin-bottom:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.04); border-left:4px solid transparent; transition: transform 0.15s, box-shadow 0.15s; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+        <div style="flex:1;">
+            <div class="task-title" style="font-weight:600; font-size:1.05rem;">
+                <a href="{% url 'tasks:task_detail' task.pk %}" class="text-decoration-none text-dark">{{ task.title }}</a>
+                {% if task.is_overdue %}<span class="badge badge-overdue rounded-pill ms-2">Overdue</span>{% endif %}
+            </div>
+            <div class="task-meta mt-1" style="font-size:0.8rem; color:#64748b;">
+                <i class="bi bi-tag"></i> {{ task.category.name|default:"No Category" }}
+                &nbsp;&middot;&nbsp;
+                <i class="bi bi-calendar3"></i> {{ task.due_date|date:"M d, Y" }}{% if task.due_time %} at {{ task.due_time|time:"H:i" }}{% endif %}
+            </div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <span class="badge badge-priority-{{ task.priority }} rounded-pill px-3 py-2">{{ task.get_priority_display }}</span>
+            <span class="badge badge-status-{{ task.status }} rounded-pill px-3 py-2">{{ task.get_status_display }}</span>
+            <div class="dropdown">
+                <button class="btn btn-sm btn-light" data-bs-toggle="dropdown"><i class="bi bi-three-dots-vertical"></i></button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="{% url 'tasks:task_detail' task.pk %}"><i class="bi bi-eye me-2"></i>View</a></li>
+                    <li><a class="dropdown-item" href="{% url 'tasks:edit_task' task.pk %}"><i class="bi bi-pencil me-2"></i>Edit</a></li>
+                    <li>
+                        {% if task.status == 'pending' %}
+                        <form method="post" action="{% url 'tasks:mark_complete' task.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="dropdown-item"><i class="bi bi-check2-circle me-2"></i>Mark Complete</button>
+                        </form>
+                        {% else %}
+                        <form method="post" action="{% url 'tasks:mark_pending' task.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="dropdown-item"><i class="bi bi-arrow-counterclockwise me-2"></i>Mark Pending</button>
+                        </form>
+                        {% endif %}
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="{% url 'tasks:delete_task' task.pk %}"><i class="bi bi-trash me-2"></i>Delete</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+    <div class="panel">
+        <div class="empty-state">
+            <i class="bi bi-clipboard-x"></i>
+            No tasks found.
+            <a href="{% url 'tasks:add_task' %}">Add your first task</a>.
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}
