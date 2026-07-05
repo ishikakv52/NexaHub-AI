@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'TextToSpeech',
 'VoiceAssistant.VoiceAssistant',
     'AiTeacher',
-    'BusinessManagement',
+
     'accounts',
     'VoiceToText',
     'ImageToText',
