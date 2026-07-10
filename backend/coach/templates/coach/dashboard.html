@@ -1,17 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard — NEXA HUB ENGLISH COACH</title>
-    <!-- Google Fonts -->
+    <title>Dashboard — NEXA HUB AI ENGLISH COACH</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lora:wght@400;500;700&display=swap" rel="stylesheet" />
     <style>
-        /* =============================================
-           LUXURY / PREMIUM THEME – Deep Navy, Gold
-           + SIDEBAR EXACTLY MATCHES Pronunciation Coach
-           ============================================= */
-
         *,
         *::before,
         *::after {
@@ -20,10 +14,14 @@
             padding: 0;
         }
 
+        /* ===== LIGHT & DARK MODE VARIABLES ===== */
         :root {
+            /* Dark Mode (Default) */
             --bg: #0a0c1a;
+            --bg-secondary: #12142a;
             --surface: rgba(255, 255, 255, 0.03);
             --surface-hover: rgba(212, 175, 55, 0.06);
+            --surface-card: rgba(255, 255, 255, 0.03);
             --border: rgba(212, 175, 55, 0.15);
             --border-glow: rgba(212, 175, 55, 0.3);
             --gold: #d4af37;
@@ -33,12 +31,49 @@
             --text: #f0ece4;
             --text-secondary: #d6cfb5;
             --muted: #8a867a;
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(212, 175, 55, 0.05);
+            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.2);
+            --navbar-bg: rgba(10, 12, 26, 0.85);
+            --sidebar-bg: rgba(10, 12, 26, 0.92);
+            --blob-opacity: 0.10;
+            --stat-bg: rgba(255, 255, 255, 0.03);
+            --ach-bg: rgba(255, 255, 255, 0.02);
+            --quiz-bg: rgba(255, 255, 255, 0.02);
+            --toggle-bg: rgba(10, 12, 26, 0.8);
+            --overlay-bg: rgba(0, 0, 0, 0.55);
             --font-heading: 'Playfair Display', 'Georgia', serif;
             --font-body: 'Lora', 'Segoe UI', serif;
             --radius: 16px;
-            --shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(212, 175, 55, 0.05);
             --transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
             --sidebar-width: 240px;
+            --chart-text: #f0ece4;
+            --chart-muted: #8a867a;
+        }
+
+        /* ===== LIGHT MODE ===== */
+        [data-theme="light"] {
+            --bg: #f5f0e8;
+            --bg-secondary: #ede8df;
+            --surface: rgba(0, 0, 0, 0.02);
+            --surface-hover: rgba(212, 175, 55, 0.08);
+            --surface-card: rgba(255, 255, 255, 0.7);
+            --border: rgba(184, 150, 46, 0.25);
+            --border-glow: rgba(212, 175, 55, 0.4);
+            --text: #1a1a2e;
+            --text-secondary: #2d2d44;
+            --muted: #6b6b7a;
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(212, 175, 55, 0.1);
+            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --navbar-bg: rgba(245, 240, 232, 0.92);
+            --sidebar-bg: rgba(245, 240, 232, 0.95);
+            --blob-opacity: 0.05;
+            --stat-bg: rgba(255, 255, 255, 0.5);
+            --ach-bg: rgba(255, 255, 255, 0.4);
+            --quiz-bg: rgba(255, 255, 255, 0.4);
+            --toggle-bg: rgba(245, 240, 232, 0.9);
+            --overlay-bg: rgba(0, 0, 0, 0.3);
+            --chart-text: #1a1a2e;
+            --chart-muted: #6b6b7a;
         }
 
         html {
@@ -54,9 +89,10 @@
             min-height: 100vh;
             letter-spacing: 0.02em;
             display: flex;
+            transition: background 0.4s ease, color 0.4s ease;
         }
 
-        /* ─── SIDEBAR — EXACT COPY from Pronunciation Coach ─── */
+        /* ─── SIDEBAR ─── */
         .sidebar {
             position: fixed;
             top: 0;
@@ -64,14 +100,14 @@
             bottom: 0;
             width: var(--sidebar-width);
             z-index: 200;
-            background: rgba(10, 12, 26, 0.92);
+            background: var(--sidebar-bg);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
             border-right: 1px solid var(--border);
             padding: 24px 0 20px;
             display: flex;
             flex-direction: column;
-            transition: var(--transition);
+            transition: all 0.4s ease;
             overflow-y: auto;
         }
         .sidebar:hover {
@@ -95,6 +131,7 @@
             background-clip: text;
             border-bottom: 1px solid var(--border);
             white-space: nowrap;
+            transition: all 0.4s ease;
         }
         .sidebar-brand span {
             -webkit-text-fill-color: initial;
@@ -116,6 +153,7 @@
             color: var(--muted);
             padding: 8px 12px 4px;
             font-weight: 700;
+            transition: color 0.4s ease;
         }
         .sidebar-link {
             display: flex;
@@ -126,7 +164,7 @@
             color: var(--muted);
             text-decoration: none;
             font-size: 0.85rem;
-            transition: var(--transition);
+            transition: all 0.4s ease;
             font-weight: 500;
             font-family: var(--font-body);
         }
@@ -147,6 +185,7 @@
             border-top: 1px solid var(--border);
             padding: 16px 20px 0;
             margin-top: auto;
+            transition: border-color 0.4s ease;
         }
         .sidebar-user .user-row {
             display: flex;
@@ -171,6 +210,7 @@
             font-weight: 700;
             font-size: 0.9rem;
             color: var(--text-secondary);
+            transition: color 0.4s ease;
         }
         .sidebar-user .user-stats {
             display: flex;
@@ -178,6 +218,7 @@
             font-size: 0.7rem;
             color: var(--muted);
             padding: 4px 0 8px;
+            transition: color 0.4s ease;
         }
         .sidebar-user .user-stats span {
             display: flex;
@@ -189,7 +230,7 @@
         .main-wrap {
             flex: 1;
             margin-left: var(--sidebar-width);
-            transition: margin-left var(--transition);
+            transition: margin-left 0.4s ease;
             min-height: 100vh;
             width: 100%;
             position: relative;
@@ -208,8 +249,9 @@
             position: absolute;
             border-radius: 50%;
             filter: blur(160px);
-            opacity: 0.10;
+            opacity: var(--blob-opacity);
             animation: floatBlob 20s ease-in-out infinite alternate;
+            transition: opacity 0.6s ease;
         }
         .b1 {
             width: 800px;
@@ -217,7 +259,6 @@
             background: #d4af37;
             top: -300px;
             left: -250px;
-            opacity: 0.06;
         }
         .b2 {
             width: 600px;
@@ -226,7 +267,6 @@
             bottom: -200px;
             right: -200px;
             animation-delay: 7s;
-            opacity: 0.05;
         }
         .b3 {
             width: 450px;
@@ -235,7 +275,6 @@
             top: 45%;
             left: 55%;
             animation-delay: 4s;
-            opacity: 0.04;
         }
         @keyframes floatBlob {
             0% {
@@ -263,19 +302,24 @@
             z-index: 100;
             display: flex;
             align-items: center;
-            justify-content: flex-end;
+            justify-content: space-between;
             padding: 0 36px;
             height: 76px;
-            background: rgba(10, 12, 26, 0.85);
+            background: var(--navbar-bg);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
             border-bottom: 1px solid var(--border);
-            transition: var(--transition);
+            transition: all 0.4s ease;
             padding-left: 80px;
         }
         .navbar:hover {
-            background: rgba(10, 12, 26, 0.95);
             border-bottom-color: var(--border-glow);
+        }
+
+        .navbar .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .navbar .nav-links {
@@ -292,7 +336,7 @@
             border: 1px solid transparent;
             font-weight: 500;
             font-family: var(--font-body);
-            transition: var(--transition);
+            transition: all 0.4s ease;
             letter-spacing: 0.04em;
         }
         .navbar .nl:hover {
@@ -325,6 +369,52 @@
             color: var(--text-secondary);
             font-family: var(--font-body);
             letter-spacing: 0.04em;
+            transition: all 0.4s ease;
+        }
+
+        /* ─── THEME TOGGLE BUTTON ─── */
+        .theme-toggle {
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            color: var(--text-secondary);
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.3rem;
+            transition: all 0.4s ease;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .theme-toggle:hover {
+            border-color: var(--gold);
+            background: var(--surface-hover);
+            transform: rotate(15deg);
+        }
+        .theme-toggle .sun-icon,
+        .theme-toggle .moon-icon {
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: absolute;
+        }
+        .theme-toggle .sun-icon {
+            opacity: 0;
+            transform: rotate(-90deg) scale(0);
+        }
+        .theme-toggle .moon-icon {
+            opacity: 1;
+            transform: rotate(0) scale(1);
+        }
+        [data-theme="light"] .theme-toggle .sun-icon {
+            opacity: 1;
+            transform: rotate(0) scale(1);
+        }
+        [data-theme="light"] .theme-toggle .moon-icon {
+            opacity: 0;
+            transform: rotate(90deg) scale(0);
         }
 
         /* ─── PAGE ─── */
@@ -350,23 +440,26 @@
             font-size: clamp(1.3rem, 2.2vw, 1.8rem);
             font-weight: 700;
             letter-spacing: 0.02em;
+            color: var(--text);
+            transition: color 0.4s ease;
         }
         .user-greet p {
             color: var(--muted);
             font-size: 0.9rem;
             margin-top: 4px;
             font-family: var(--font-body);
+            transition: color 0.4s ease;
         }
         .level-badge {
             display: flex;
             align-items: center;
             gap: 12px;
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.08), rgba(184, 150, 46, 0.04));
+            background: var(--surface-card);
             border: 1px solid var(--border);
             border-radius: 60px;
             padding: 10px 22px 10px 18px;
             backdrop-filter: blur(4px);
-            transition: var(--transition);
+            transition: all 0.4s ease;
         }
         .level-badge:hover {
             border-color: var(--border-glow);
@@ -385,11 +478,12 @@
             font-size: 0.75rem;
             color: var(--muted);
             font-family: var(--font-body);
+            transition: color 0.4s ease;
         }
 
         /* ─── STREAK BAR ─── */
         .streak-bar {
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.08), rgba(184, 150, 46, 0.04));
+            background: var(--surface-card);
             border: 1px solid var(--border);
             border-radius: var(--radius);
             padding: 18px 24px;
@@ -398,7 +492,7 @@
             gap: 18px;
             margin-bottom: 22px;
             backdrop-filter: blur(4px);
-            transition: var(--transition);
+            transition: all 0.4s ease;
         }
         .streak-bar:hover {
             border-color: var(--border-glow);
@@ -427,17 +521,18 @@
             color: var(--muted);
             margin-top: 2px;
             font-family: var(--font-body);
+            transition: color 0.4s ease;
         }
 
         /* ─── CARD ─── */
         .card {
-            background: var(--surface);
+            background: var(--surface-card);
             backdrop-filter: blur(8px);
             border: 1px solid var(--border);
             border-radius: var(--radius);
             overflow: hidden;
-            transition: var(--transition);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s ease;
+            box-shadow: var(--shadow-sm);
         }
         .card:hover {
             border-color: var(--border-glow);
@@ -449,6 +544,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            transition: border-color 0.4s ease;
         }
         .card-hdr h3 {
             font-size: 0.8rem;
@@ -470,12 +566,17 @@
             color: var(--muted);
             margin-bottom: 5px;
             font-family: var(--font-body);
+            transition: color 0.4s ease;
         }
         .xp-bar {
             height: 8px;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 8px;
             overflow: hidden;
+            transition: background 0.4s ease;
+        }
+        [data-theme="light"] .xp-bar {
+            background: rgba(0, 0, 0, 0.06);
         }
         .xp-bar-fill {
             height: 100%;
@@ -494,14 +595,14 @@
             margin-bottom: 22px;
         }
         .stat-card {
-            background: var(--surface);
+            background: var(--stat-bg);
             backdrop-filter: blur(4px);
             border: 1px solid var(--border);
             border-radius: var(--radius);
             padding: 16px 14px;
             text-align: center;
-            transition: var(--transition);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            transition: all 0.4s ease;
+            box-shadow: var(--shadow-sm);
         }
         .stat-card:hover {
             transform: translateY(-3px);
@@ -530,6 +631,7 @@
             font-family: var(--font-body);
             text-transform: uppercase;
             letter-spacing: 0.06em;
+            transition: color 0.4s ease;
         }
 
         /* ─── QUICK ACTIONS ─── */
@@ -540,7 +642,7 @@
             margin-bottom: 22px;
         }
         .qa-btn {
-            background: var(--surface);
+            background: var(--surface-card);
             backdrop-filter: blur(4px);
             border: 1px solid var(--border);
             border-radius: var(--radius);
@@ -548,12 +650,12 @@
             text-align: center;
             text-decoration: none;
             color: var(--text);
-            transition: var(--transition);
+            transition: all 0.4s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 5px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-sm);
         }
         .qa-btn:hover {
             border-color: var(--gold);
@@ -570,6 +672,7 @@
             color: var(--text-secondary);
             font-family: var(--font-body);
             letter-spacing: 0.04em;
+            transition: color 0.4s ease;
         }
 
         /* ─── MAIN GRID ─── */
@@ -584,6 +687,10 @@
         .chart-wrap {
             position: relative;
             height: 155px;
+        }
+        .chart-wrap canvas {
+            width: 100% !important;
+            height: 100% !important;
         }
 
         /* ─── SKILL SCORES ─── */
@@ -612,6 +719,9 @@
         .score-circle svg {
             transform: rotate(-90deg);
         }
+        .score-circle circle:last-child {
+            transition: stroke-dasharray 0.8s ease;
+        }
         .score-num {
             position: absolute;
             inset: 0;
@@ -628,6 +738,7 @@
             color: var(--muted);
             font-family: var(--font-body);
             letter-spacing: 0.04em;
+            transition: color 0.4s ease;
         }
 
         /* ─── BOTTOM GRID ─── */
@@ -648,11 +759,11 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--ach-bg);
             border-radius: 12px;
             padding: 11px 14px;
             border: 1px solid var(--border);
-            transition: var(--transition);
+            transition: all 0.4s ease;
         }
         .ach-item:hover {
             border-color: var(--border-glow);
@@ -666,11 +777,13 @@
             font-weight: 700;
             color: var(--text-secondary);
             font-family: var(--font-heading);
+            transition: color 0.4s ease;
         }
         .ach-date {
             font-size: 0.72rem;
             color: var(--muted);
             font-family: var(--font-body);
+            transition: color 0.4s ease;
         }
 
         .empty-state {
@@ -679,6 +792,7 @@
             color: var(--muted);
             font-size: 0.88rem;
             font-family: var(--font-body);
+            transition: color 0.4s ease;
         }
         .empty-state span {
             font-size: 2.5rem;
@@ -719,10 +833,10 @@
             align-items: center;
             justify-content: space-between;
             padding: 9px 14px;
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--quiz-bg);
             border-radius: 10px;
             border: 1px solid var(--border);
-            transition: var(--transition);
+            transition: all 0.4s ease;
         }
         .quiz-item:hover {
             border-color: var(--border-glow);
@@ -733,6 +847,7 @@
             font-weight: 700;
             color: var(--text-secondary);
             font-family: var(--font-body);
+            transition: color 0.4s ease;
         }
         .quiz-score {
             font-size: 0.84rem;
@@ -744,26 +859,46 @@
             font-size: 0.7rem;
             color: var(--muted);
             font-family: var(--font-body);
+            transition: color 0.4s ease;
         }
 
-        /* ─── RESPONSIVE – matches Pronunciation Coach ─── */
+        /* ─── RESPONSIVE ─── */
         @media (max-width: 768px) {
             .sidebar {
                 width: 60px;
                 padding: 16px 0;
+                transform: translateX(0);
+            }
+            .sidebar.open {
+                width: 240px;
             }
             .sidebar-brand {
                 font-size: 0;
                 padding: 0 0 16px;
                 justify-content: center;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+            .sidebar.open .sidebar-brand {
+                font-size: 1.1rem;
+                padding: 0 20px 24px;
+                justify-content: flex-start;
             }
             .sidebar-brand span {
                 font-size: 1.8rem;
+            }
+            .sidebar.open .sidebar-brand span {
+                font-size: 1.6rem;
             }
             .sidebar-link {
                 padding: 10px 0;
                 justify-content: center;
                 font-size: 0;
+            }
+            .sidebar.open .sidebar-link {
+                padding: 10px 14px;
+                justify-content: flex-start;
+                font-size: 0.85rem;
             }
             .sidebar-link .icon {
                 font-size: 1.4rem;
@@ -771,14 +906,25 @@
             .sidebar-link .link-text {
                 display: none;
             }
+            .sidebar.open .sidebar-link .link-text {
+                display: inline;
+            }
             .sidebar-user .user-row {
                 flex-direction: column;
                 align-items: center;
                 gap: 4px;
             }
+            .sidebar.open .sidebar-user .user-row {
+                flex-direction: row;
+                gap: 12px;
+            }
             .sidebar-user .user-name {
                 font-size: 0.7rem;
                 text-align: center;
+            }
+            .sidebar.open .sidebar-user .user-name {
+                font-size: 0.9rem;
+                text-align: left;
             }
             .sidebar-user .user-stats {
                 flex-direction: column;
@@ -786,10 +932,20 @@
                 gap: 2px;
                 font-size: 0.6rem;
             }
+            .sidebar.open .sidebar-user .user-stats {
+                flex-direction: row;
+                gap: 14px;
+                font-size: 0.7rem;
+            }
             .sidebar-user .avatar {
                 width: 32px;
                 height: 32px;
                 font-size: 0.9rem;
+            }
+            .sidebar.open .sidebar-user .avatar {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
             }
             .main-wrap {
                 margin-left: 60px;
@@ -832,8 +988,16 @@
             .nav-label {
                 display: none;
             }
+            .sidebar.open .nav-label {
+                display: block;
+            }
             .sidebar-toggle {
                 display: flex !important;
+            }
+            .theme-toggle {
+                width: 38px;
+                height: 38px;
+                font-size: 1.1rem;
             }
         }
 
@@ -842,7 +1006,7 @@
                 grid-template-columns: repeat(2, 1fr);
             }
             .qa-grid {
-                grid-template-columns: repeat(4, 1fr);
+                grid-template-columns: repeat(3, 1fr);
             }
             .navbar .nl:not(.nl-primary) {
                 display: none;
@@ -874,6 +1038,7 @@
         }
         ::-webkit-scrollbar-track {
             background: var(--bg);
+            transition: background 0.4s ease;
         }
         ::-webkit-scrollbar-thumb {
             background: var(--border);
@@ -883,13 +1048,13 @@
             background: var(--gold);
         }
 
-        /* ─── SIDEBAR TOGGLE (mobile) ─── */
+        /* ─── SIDEBAR TOGGLE ─── */
         .sidebar-toggle {
             position: fixed;
             top: 18px;
             left: 18px;
             z-index: 210;
-            background: rgba(10, 12, 26, 0.8);
+            background: var(--toggle-bg);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--border);
@@ -902,31 +1067,30 @@
             justify-content: center;
             font-size: 1.4rem;
             cursor: pointer;
-            transition: var(--transition);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            transition: all 0.4s ease;
+            box-shadow: var(--shadow-sm);
         }
         .sidebar-toggle:hover {
             border-color: var(--gold);
-            background: rgba(212, 175, 55, 0.08);
+            background: var(--surface-hover);
             transform: scale(1.04);
         }
         .sidebar-overlay {
             position: fixed;
             inset: 0;
             z-index: 195;
-            background: rgba(0, 0, 0, 0.55);
+            background: var(--overlay-bg);
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
             opacity: 0;
             pointer-events: none;
-            transition: opacity var(--transition);
+            transition: opacity 0.4s ease;
         }
         .sidebar-overlay.show {
             opacity: 1;
             pointer-events: auto;
         }
 
-        /* Hide toggle on desktop */
         @media (min-width: 769px) {
             .sidebar-toggle {
                 display: none !important;
@@ -939,212 +1103,217 @@
 </head>
 <body>
 
-    <!-- ─── SIDEBAR OVERLAY (mobile) ─── -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <!-- ─── SIDEBAR – exactly as Pronunciation Coach ─── -->
     <aside class="sidebar" id="sidebar">
-        <a class="sidebar-brand" href="{% url 'home' %}">
-            <span>🎓</span> NEXA HUB
+        <a class="sidebar-brand" href="#">
+            <span>🎓</span> NEXA HUB AI
         </a>
         <nav class="sidebar-nav">
             <div class="nav-label">Main</div>
-            <a href="{% url 'dashboard' %}" class="sidebar-link active">
+            <a href="#" class="sidebar-link active">
                 <span class="icon">📊</span>
                 <span class="link-text">Dashboard</span>
             </a>
-            <a href="{% url 'grammar_coach' %}" class="sidebar-link">
+            <a href="#" class="sidebar-link">
                 <span class="icon">📖</span>
                 <span class="link-text">Grammar</span>
             </a>
-            <a href="{% url 'speaking_practice' %}" class="sidebar-link">
+            <a href="#" class="sidebar-link">
                 <span class="icon">🗣️</span>
                 <span class="link-text">Speaking</span>
             </a>
-            <a href="{% url 'interview_simulator' %}" class="sidebar-link">
+            <a href="#" class="sidebar-link">
                 <span class="icon">💼</span>
                 <span class="link-text">Interview</span>
             </a>
-            <a href="{% url 'translation' %}" class="sidebar-link">
+            <a href="#" class="sidebar-link">
                 <span class="icon">🔄</span>
                 <span class="link-text">Translate</span>
             </a>
-            <a href="{% url 'pronunciation_coach' %}" class="sidebar-link">
+            <a href="#" class="sidebar-link">
                 <span class="icon">🎵</span>
                 <span class="link-text">Pronunciation</span>
             </a>
             <div class="nav-label" style="margin-top:12px;">Engage</div>
-            <a href="{% url 'daily_challenge' %}" class="sidebar-link">
+            <a href="#" class="sidebar-link">
                 <span class="icon">🏆</span>
                 <span class="link-text">Challenge</span>
             </a>
         </nav>
         <div class="sidebar-user">
             <div class="user-row">
-                <div class="avatar">{{ user.first_name|default:user.username|slice:":1"|upper }}</div>
-                <div class="user-name">{{ user.first_name|default:user.username }}</div>
+                <div class="avatar">A</div>
+                <div class="user-name">Ahmed</div>
             </div>
             <div class="user-stats">
-                <span>🏅 {{ profile.total_xp }} XP</span>
-                <span>🔥 {{ profile.current_streak }} day streak</span>
+                <span>🏅 2,450 XP</span>
+                <span>🔥 7 day streak</span>
             </div>
         </div>
     </aside>
 
-    <!-- ─── SIDEBAR TOGGLE ─── -->
     <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
         ☰
     </button>
 
-    <!-- ─── MAIN WRAP ─── -->
     <div class="main-wrap" id="mainWrap">
 
-        <!-- ─── PARTICLES CANVAS ─── -->
         <canvas id="particles-canvas"></canvas>
 
-        <!-- ─── BG BLOBS ─── -->
         <div class="bg-blobs">
             <div class="blob b1"></div>
             <div class="blob b2"></div>
             <div class="blob b3"></div>
         </div>
 
-        <!-- ─── NAVBAR ─── -->
         <nav class="navbar">
+            <div class="nav-left">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <span class="sun-icon">☀️</span>
+                    <span class="moon-icon">🌙</span>
+                </button>
+            </div>
             <div class="nav-links">
-                {% if user.is_authenticated %}
-                    <div class="user-pill">🎓 Hi, {{ user.first_name|default:user.username }}!</div>
-                    <a href="{% url 'home' %}" class="nl">Home</a>
-                    <a href="{% url 'logout' %}" class="nl">Logout</a>
-                {% else %}
-                    <a href="{% url 'login' %}" class="nl">Login</a>
-                    <a href="{% url 'register' %}" class="nl nl-primary">Get Started Free</a>
-                {% endif %}
+                <div class="user-pill">🎓 Hi, Ahmed!</div>
+                <a href="#" class="nl">Home</a>
+                <a href="#" class="nl">Logout</a>
             </div>
         </nav>
 
-        <!-- ─── PAGE ─── -->
         <div class="page">
 
-            <!-- HEADER -->
             <div class="dash-header">
                 <div class="user-greet">
-                    <h1>👋 Welcome back, {{ user.first_name|default:user.username }}!</h1>
+                    <h1>👋 Welcome back, Ahmed!</h1>
                     <p>Consistency is the key to fluency — keep going! 🚀</p>
                 </div>
                 <div class="level-badge">
-                    <div class="lv-icon">
-                        {% if profile.level == 'Beginner' %}🌱
-                        {% elif profile.level == 'Elementary' %}📗
-                        {% elif profile.level == 'Intermediate' %}📘
-                        {% elif profile.level == 'Advanced' %}📙
-                        {% else %}🏆{% endif %}
-                    </div>
+                    <div class="lv-icon">📘</div>
                     <div>
-                        <div class="lv-name">{{ profile.level }}</div>
-                        <div class="lv-xp">{{ profile.total_xp }} XP total</div>
+                        <div class="lv-name">Intermediate</div>
+                        <div class="lv-xp">2,450 XP total</div>
                     </div>
                 </div>
             </div>
 
-            <!-- STREAK -->
-            {% if profile.current_streak > 0 %}
             <div class="streak-bar">
                 <div class="streak-fire">🔥</div>
                 <div class="streak-info">
-                    <h3>{{ profile.current_streak }}-Day Streak!</h3>
-                    <p>You're on fire! ⭐ Longest streak: {{ profile.longest_streak }} days · Keep it going every day!</p>
+                    <h3>7-Day Streak!</h3>
+                    <p>You're on fire! ⭐ Longest streak: 12 days · Keep it going every day!</p>
                 </div>
             </div>
-            {% endif %}
 
-            <!-- XP PROGRESS -->
             <div class="card" style="margin-bottom:18px;">
                 <div class="card-body">
-                    {% with xp=profile.total_xp %}
-                    {% if xp < 500 %}
-                        <div class="xp-bar-label"><span>🌱 Beginner</span><span>{{ xp }}/500 XP → Elementary</span></div>
-                        <div class="xp-bar"><div class="xp-bar-fill" id="xpFill" data-pct="{{ xp }}" data-min="0" data-max="500"></div></div>
-                    {% elif xp < 1500 %}
-                        <div class="xp-bar-label"><span>📗 Elementary</span><span>{{ xp }}/1500 XP → Intermediate</span></div>
-                        <div class="xp-bar"><div class="xp-bar-fill" id="xpFill" data-pct="{{ xp }}" data-min="500" data-max="1500"></div></div>
-                    {% elif xp < 3000 %}
-                        <div class="xp-bar-label"><span>📘 Intermediate</span><span>{{ xp }}/3000 XP → Advanced</span></div>
-                        <div class="xp-bar"><div class="xp-bar-fill" id="xpFill" data-pct="{{ xp }}" data-min="1500" data-max="3000"></div></div>
-                    {% elif xp < 6000 %}
-                        <div class="xp-bar-label"><span>📙 Advanced</span><span>{{ xp }}/6000 XP → Expert</span></div>
-                        <div class="xp-bar"><div class="xp-bar-fill" id="xpFill" data-pct="{{ xp }}" data-min="3000" data-max="6000"></div></div>
-                    {% else %}
-                        <div class="xp-bar-label"><span>🏆 Expert</span><span>{{ xp }} XP — Maximum Level!</span></div>
-                        <div class="xp-bar"><div class="xp-bar-fill" id="xpFill" data-pct="100" data-min="0" data-max="100"></div></div>
-                    {% endif %}
-                    {% endwith %}
+                    <div class="xp-bar-label">
+                        <span>📘 Intermediate</span>
+                        <span>2,450/3,000 XP → Advanced</span>
+                    </div>
+                    <div class="xp-bar">
+                        <div class="xp-bar-fill" id="xpFill" style="width: 81.6%;"></div>
+                    </div>
                 </div>
             </div>
 
-            <!-- STATS -->
             <div class="stats-row">
-                <div class="stat-card"><span class="stat-icon">⚡</span><div class="stat-val">{{ profile.total_xp }}</div><div class="stat-lbl">Total XP</div></div>
-                <div class="stat-card"><span class="stat-icon">🔥</span><div class="stat-val">{{ profile.current_streak }}</div><div class="stat-lbl">Day Streak</div></div>
-                <div class="stat-card"><span class="stat-icon">⏱️</span><div class="stat-val">{{ totals.total_min|default:0 }}</div><div class="stat-lbl">Minutes Practiced</div></div>
-                <div class="stat-card"><span class="stat-icon">🏅</span><div class="stat-val">{{ achievements|length }}</div><div class="stat-lbl">Achievements</div></div>
+                <div class="stat-card">
+                    <span class="stat-icon">⚡</span>
+                    <div class="stat-val">2,450</div>
+                    <div class="stat-lbl">Total XP</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon">🔥</span>
+                    <div class="stat-val">7</div>
+                    <div class="stat-lbl">Day Streak</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon">⏱️</span>
+                    <div class="stat-val">186</div>
+                    <div class="stat-lbl">Minutes Practiced</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon">🏅</span>
+                    <div class="stat-val">5</div>
+                    <div class="stat-lbl">Achievements</div>
+                </div>
             </div>
 
-            <!-- QUICK ACTIONS -->
             <div class="qa-grid">
-                <a href="{% url 'grammar_coach' %}" class="qa-btn"><span class="qa-icon">📖</span><span class="qa-lbl">Grammar</span></a>
-                <a href="{% url 'speaking_practice' %}" class="qa-btn"><span class="qa-icon">🗣️</span><span class="qa-lbl">Speaking</span></a>
-                <a href="{% url 'interview_simulator' %}" class="qa-btn"><span class="qa-icon">💼</span><span class="qa-lbl">Interview</span></a>
-                <a href="{% url 'translation' %}" class="qa-btn"><span class="qa-icon">🔄</span><span class="qa-lbl">Translate</span></a>
-                <a href="{% url 'pronunciation_coach' %}" class="qa-btn"><span class="qa-icon">🎵</span><span class="qa-lbl">Pronunc.</span></a>
-                <a href="{% url 'daily_challenge' %}" class="qa-btn"><span class="qa-icon">🏆</span><span class="qa-lbl">Challenge</span></a>
+                <a href="#" class="qa-btn">
+                    <span class="qa-icon">📖</span>
+                    <span class="qa-lbl">Grammar</span>
+                </a>
+                <a href="#" class="qa-btn">
+                    <span class="qa-icon">🗣️</span>
+                    <span class="qa-lbl">Speaking</span>
+                </a>
+                <a href="#" class="qa-btn">
+                    <span class="qa-icon">💼</span>
+                    <span class="qa-lbl">Interview</span>
+                </a>
+                <a href="#" class="qa-btn">
+                    <span class="qa-icon">🔄</span>
+                    <span class="qa-lbl">Translate</span>
+                </a>
+                <a href="#" class="qa-btn">
+                    <span class="qa-icon">🎵</span>
+                    <span class="qa-lbl">Pronunc.</span>
+                </a>
+                <a href="#" class="qa-btn">
+                    <span class="qa-icon">🏆</span>
+                    <span class="qa-lbl">Challenge</span>
+                </a>
             </div>
 
-            <!-- MAIN GRID -->
             <div class="main-grid">
                 <div class="card">
-                    <div class="card-hdr"><h3>📈 Weekly XP Progress</h3></div>
+                    <div class="card-hdr">
+                        <h3>📈 Weekly XP Progress</h3>
+                    </div>
                     <div class="card-body">
-                        <div class="chart-wrap"><canvas id="weekChart"></canvas></div>
+                        <div class="chart-wrap">
+                            <canvas id="weekChart"></canvas>
+                        </div>
                     </div>
                 </div>
                 <div class="card">
-                    <div class="card-hdr"><h3>🎯 Skill Scores</h3></div>
+                    <div class="card-hdr">
+                        <h3>🎯 Skill Scores</h3>
+                    </div>
                     <div class="card-body">
                         <div class="scores-grid">
-                            <!-- Speaking -->
                             <div class="score-circle-wrap">
                                 <div class="score-circle">
                                     <svg width="76" height="76" viewBox="0 0 76 76">
                                         <circle cx="38" cy="38" r="30" fill="none" stroke="rgba(212,175,55,0.12)" stroke-width="7"/>
                                         <circle cx="38" cy="38" r="30" fill="none" stroke="#d4af37" stroke-width="7"
-                                            stroke-dasharray="{{ profile.speaking_score|floatformat:0 }} 200" stroke-linecap="round"/>
+                                            stroke-dasharray="85 200" stroke-linecap="round"/>
                                     </svg>
-                                    <div class="score-num">{{ profile.speaking_score|floatformat:0 }}</div>
+                                    <div class="score-num">85</div>
                                 </div>
                                 <div class="score-lbl">🗣️ Speaking</div>
                             </div>
-                            <!-- Interview -->
                             <div class="score-circle-wrap">
                                 <div class="score-circle">
                                     <svg width="76" height="76" viewBox="0 0 76 76">
                                         <circle cx="38" cy="38" r="30" fill="none" stroke="rgba(212,175,55,0.12)" stroke-width="7"/>
                                         <circle cx="38" cy="38" r="30" fill="none" stroke="#d4af37" stroke-width="7"
-                                            stroke-dasharray="{{ profile.interview_score|floatformat:0 }} 200" stroke-linecap="round"/>
+                                            stroke-dasharray="72 200" stroke-linecap="round"/>
                                     </svg>
-                                    <div class="score-num">{{ profile.interview_score|floatformat:0 }}</div>
+                                    <div class="score-num">72</div>
                                 </div>
                                 <div class="score-lbl">💼 Interview</div>
                             </div>
-                            <!-- Grammar -->
                             <div class="score-circle-wrap">
                                 <div class="score-circle">
                                     <svg width="76" height="76" viewBox="0 0 76 76">
                                         <circle cx="38" cy="38" r="30" fill="none" stroke="rgba(212,175,55,0.12)" stroke-width="7"/>
                                         <circle cx="38" cy="38" r="30" fill="none" stroke="#d4af37" stroke-width="7"
-                                            stroke-dasharray="{{ profile.grammar_score|floatformat:0 }} 200" stroke-linecap="round"/>
+                                            stroke-dasharray="90 200" stroke-linecap="round"/>
                                     </svg>
-                                    <div class="score-num">{{ profile.grammar_score|floatformat:0 }}</div>
+                                    <div class="score-num">90</div>
                                 </div>
                                 <div class="score-lbl">📖 Grammar</div>
                             </div>
@@ -1153,55 +1322,113 @@
                 </div>
             </div>
 
-            <!-- BOTTOM GRID -->
             <div class="bottom-grid">
                 <div class="card">
-                    <div class="card-hdr"><h3>🏅 Achievements</h3></div>
-                    {% if achievements %}
+                    <div class="card-hdr">
+                        <h3>🏅 Achievements</h3>
+                    </div>
                     <div class="ach-list">
-                        {% for a in achievements %}
                         <div class="ach-item">
-                            <span class="ach-badge">{{ a.get_badge_display|slice:":2" }}</span>
+                            <span class="ach-badge">🔥</span>
                             <div>
-                                <div class="ach-name">{{ a.get_badge_display|slice:"2:" }}</div>
-                                <div class="ach-date">Earned {{ a.earned_at|date:"M d, Y" }}</div>
+                                <div class="ach-name">7-Day Streak</div>
+                                <div class="ach-date">Earned Mar 15, 2026</div>
                             </div>
                         </div>
-                        {% endfor %}
+                        <div class="ach-item">
+                            <span class="ach-badge">📚</span>
+                            <div>
+                                <div class="ach-name">Grammar Master</div>
+                                <div class="ach-date">Earned Mar 12, 2026</div>
+                            </div>
+                        </div>
+                        <div class="ach-item">
+                            <span class="ach-badge">💪</span>
+                            <div>
+                                <div class="ach-name">Quick Learner</div>
+                                <div class="ach-date">Earned Mar 08, 2026</div>
+                            </div>
+                        </div>
                     </div>
-                    {% else %}
-                    <div class="empty-state"><span>🎯</span><p>Start learning to earn achievements!<br/><a href="{% url 'daily_challenge' %}">Try a Daily Challenge →</a></p></div>
-                    {% endif %}
                 </div>
                 <div class="card">
-                    <div class="card-hdr"><h3>📊 Recent Quiz Results</h3></div>
-                    {% if quizzes %}
+                    <div class="card-hdr">
+                        <h3>📊 Recent Quiz Results</h3>
+                    </div>
                     <div class="quiz-list">
-                        {% for q in quizzes %}
                         <div class="quiz-item">
                             <div>
-                                <div class="quiz-type">{{ q.get_quiz_type_display }}</div>
-                                <div class="quiz-date">{{ q.completed_at|date:"M d, Y" }}</div>
+                                <div class="quiz-type">Grammar Quiz</div>
+                                <div class="quiz-date">Mar 16, 2026</div>
                             </div>
-                            <div class="quiz-score">{{ q.score }}%</div>
+                            <div class="quiz-score">95%</div>
                         </div>
-                        {% endfor %}
+                        <div class="quiz-item">
+                            <div>
+                                <div class="quiz-type">Speaking Practice</div>
+                                <div class="quiz-date">Mar 15, 2026</div>
+                            </div>
+                            <div class="quiz-score">88%</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div>
+                                <div class="quiz-type">Interview Prep</div>
+                                <div class="quiz-date">Mar 14, 2026</div>
+                            </div>
+                            <div class="quiz-score">76%</div>
+                        </div>
                     </div>
-                    {% else %}
-                    <div class="empty-state"><span>📝</span><p>No quiz results yet.<br/><a href="{% url 'daily_challenge' %}">🏆 Try a Challenge →</a></p></div>
-                    {% endif %}
                 </div>
             </div>
         </div>
-        <!-- /page -->
 
     </div>
-    <!-- /main-wrap -->
 
-    <!-- ─── SCRIPTS ─── -->
-
-    <!-- XP Progress Bar -->
     <script>
+        // ===== THEME TOGGLE =====
+        (function() {
+            const themeToggle = document.getElementById('themeToggle');
+            const html = document.documentElement;
+            
+            // Check for saved theme preference
+            let savedTheme = localStorage.getItem('theme');
+            if (!savedTheme) {
+                // Check system preference
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+                    savedTheme = 'light';
+                } else {
+                    savedTheme = 'dark';
+                }
+            }
+            
+            // Apply theme
+            html.setAttribute('data-theme', savedTheme);
+            
+            // Toggle theme on button click
+            themeToggle.addEventListener('click', function() {
+                const currentTheme = html.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                html.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                
+                // Redraw chart with new theme colors
+                redrawChart();
+            });
+            
+            // Listen for system theme changes
+            if (window.matchMedia) {
+                window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', function(e) {
+                    if (!localStorage.getItem('theme')) {
+                        html.setAttribute('data-theme', e.matches ? 'light' : 'dark');
+                        redrawChart();
+                    }
+                });
+            }
+        })();
+    </script>
+
+    <script>
+        // XP Progress Bar
         (function() {
             const fill = document.getElementById('xpFill');
             if (!fill) return;
@@ -1213,120 +1440,152 @@
         })();
     </script>
 
-    <!-- Weekly Chart -->
     <script>
+        // Weekly Chart
         (function() {
             const canvas = document.getElementById('weekChart');
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
-            const DPR = window.devicePixelRatio || 1;
-            const W = canvas.parentElement.clientWidth;
-            const H = 155;
-            canvas.width = W * DPR;
-            canvas.height = H * DPR;
-            canvas.style.width = W + 'px';
-            canvas.style.height = H + 'px';
-            ctx.scale(DPR, DPR);
+            let DPR = window.devicePixelRatio || 1;
+            let W, H;
 
-            const data = {{ week_data|safe }};
-            const pad = { l: 32, r: 14, t: 14, b: 28 };
-            const cW = W - pad.l - pad.r;
-            const cH = H - pad.t - pad.b;
-            const maxV = Math.max(...data.map(d => d.xp), 10);
-            const bW = cW / data.length * 0.52;
-            const gap = cW / data.length;
+            const data = [
+                { date: 'Mon', xp: 320 },
+                { date: 'Tue', xp: 280 },
+                { date: 'Wed', xp: 450 },
+                { date: 'Thu', xp: 200 },
+                { date: 'Fri', xp: 380 },
+                { date: 'Sat', xp: 500 },
+                { date: 'Sun', xp: 320 }
+            ];
 
-            ctx.strokeStyle = 'rgba(212,175,55,0.06)';
-            ctx.lineWidth = 1;
-            for (let i = 0; i <= 4; i++) {
-                const y = pad.t + (cH / 4) * i;
+            function getThemeColors() {
+                const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+                return {
+                    text: isLight ? '#1a1a2e' : '#f0ece4',
+                    muted: isLight ? '#6b6b7a' : '#8a867a',
+                    grid: isLight ? 'rgba(0,0,0,0.06)' : 'rgba(212,175,55,0.06)',
+                    gridBorder: isLight ? 'rgba(0,0,0,0.08)' : 'rgba(212,175,55,0.08)'
+                };
+            }
+
+            function resizeCanvas() {
+                const container = canvas.parentElement;
+                W = container.clientWidth;
+                H = 155;
+                DPR = window.devicePixelRatio || 1;
+                canvas.width = W * DPR;
+                canvas.height = H * DPR;
+                canvas.style.width = W + 'px';
+                canvas.style.height = H + 'px';
+                ctx.scale(DPR, DPR);
+            }
+
+            function drawChart() {
+                resizeCanvas();
+                const colors = getThemeColors();
+                const pad = { l: 32, r: 14, t: 14, b: 28 };
+                const cW = W - pad.l - pad.r;
+                const cH = H - pad.t - pad.b;
+                const maxV = Math.max(...data.map(d => d.xp), 10);
+                const bW = cW / data.length * 0.52;
+                const gap = cW / data.length;
+
+                // Clear canvas
+                ctx.clearRect(0, 0, W, H);
+
+                // Grid lines
+                ctx.strokeStyle = colors.grid;
+                ctx.lineWidth = 1;
+                for (let i = 0; i <= 4; i++) {
+                    const y = pad.t + (cH / 4) * i;
+                    ctx.beginPath();
+                    ctx.moveTo(pad.l, y);
+                    ctx.lineTo(pad.l + cW, y);
+                    ctx.stroke();
+                }
+
+                // Bars
+                data.forEach((d, i) => {
+                    const barH = Math.max((d.xp / maxV) * cH, 2);
+                    const x = pad.l + i * gap + (gap - bW) / 2;
+                    const y = pad.t + cH - barH;
+
+                    const grad = ctx.createLinearGradient(0, y, 0, y + barH);
+                    grad.addColorStop(0, '#f5d76e');
+                    grad.addColorStop(1, '#b8962e');
+                    ctx.fillStyle = grad;
+
+                    ctx.beginPath();
+                    ctx.moveTo(x + 4, y);
+                    ctx.lineTo(x + bW - 4, y);
+                    ctx.quadraticCurveTo(x + bW, y, x + bW, y + 4);
+                    ctx.lineTo(x + bW, y + barH);
+                    ctx.lineTo(x, y + barH);
+                    ctx.lineTo(x, y + 4);
+                    ctx.quadraticCurveTo(x, y, x + 4, y);
+                    ctx.closePath();
+                    ctx.fill();
+
+                    if (d.xp > 0) {
+                        ctx.fillStyle = colors.text;
+                        ctx.font = 'bold 10px Lora, serif';
+                        ctx.textAlign = 'center';
+                        ctx.fillText(d.xp, x + bW / 2, y - 4);
+                    }
+
+                    ctx.fillStyle = colors.muted;
+                    ctx.font = '10px Lora, serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(d.date, x + bW / 2, H - pad.b + 16);
+                });
+
+                ctx.strokeStyle = colors.gridBorder;
+                ctx.lineWidth = 1;
                 ctx.beginPath();
-                ctx.moveTo(pad.l, y);
-                ctx.lineTo(pad.l + cW, y);
+                ctx.moveTo(pad.l, pad.t);
+                ctx.lineTo(pad.l, pad.t + cH);
                 ctx.stroke();
             }
 
-            data.forEach((d, i) => {
-                const barH = Math.max((d.xp / maxV) * cH, 2);
-                const x = pad.l + i * gap + (gap - bW) / 2;
-                const y = pad.t + cH - barH;
+            // Make drawChart globally accessible for theme toggle
+            window.redrawChart = drawChart;
 
-                const grad = ctx.createLinearGradient(0, y, 0, y + barH);
-                grad.addColorStop(0, '#f5d76e');
-                grad.addColorStop(1, '#b8962e');
-                ctx.fillStyle = grad;
+            // Initial draw
+            drawChart();
 
-                ctx.beginPath();
-                ctx.moveTo(x + 4, y);
-                ctx.lineTo(x + bW - 4, y);
-                ctx.quadraticCurveTo(x + bW, y, x + bW, y + 4);
-                ctx.lineTo(x + bW, y + barH);
-                ctx.lineTo(x, y + barH);
-                ctx.lineTo(x, y + 4);
-                ctx.quadraticCurveTo(x, y, x + 4, y);
-                ctx.closePath();
-                ctx.fill();
-
-                if (d.xp > 0) {
-                    ctx.fillStyle = '#f0ece4';
-                    ctx.font = 'bold 10px Lora, serif';
-                    ctx.textAlign = 'center';
-                    ctx.fillText(d.xp, x + bW / 2, y - 4);
-                }
-
-                ctx.fillStyle = '#8a867a';
-                ctx.font = '10px Lora, serif';
-                ctx.textAlign = 'center';
-                ctx.fillText(d.date, x + bW / 2, H - pad.b + 16);
+            // Resize observer
+            let resizeTimer;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(drawChart, 100);
             });
 
-            ctx.strokeStyle = 'rgba(212,175,55,0.08)';
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(pad.l, pad.t);
-            ctx.lineTo(pad.l, pad.t + cH);
-            ctx.stroke();
+            // Redraw on theme change
+            const observer = new MutationObserver(function() {
+                drawChart();
+            });
+            observer.observe(document.documentElement, {
+                attributes: true,
+                attributeFilter: ['data-theme']
+            });
         })();
     </script>
 
-    <!-- SIDEBAR TOGGLE (mobile) -->
     <script>
+        // Sidebar Toggle
         (function() {
             const sidebar = document.getElementById('sidebar');
             const toggle = document.getElementById('sidebarToggle');
             const overlay = document.getElementById('sidebarOverlay');
 
-            // On mobile, sidebar collapses to 60px (matching Pronunciation Coach)
-            // The toggle only shows on mobile (max-width: 768px)
-            // On desktop (769px+), sidebar is always visible at 240px
-
             function isMobile() {
                 return window.innerWidth <= 768;
             }
 
-            // Desktop: ensure sidebar is visible, overlay hidden
-            // Mobile: sidebar is collapsed by default (width: 60px), toggle opens it to full width
-            function updateSidebar() {
-                if (isMobile()) {
-                    // On mobile, sidebar is collapsed by default (60px)
-                    // Toggle will expand it
-                    sidebar.classList.remove('open'); // collapsed state
-                    overlay.classList.remove('show');
-                } else {
-                    // Desktop: sidebar is always visible (240px)
-                    sidebar.classList.remove('open');
-                    overlay.classList.remove('show');
-                }
-            }
-
-            // Initial state
-            updateSidebar();
-
-            // Toggle click: only on mobile, expand/collapse
             toggle.addEventListener('click', function(e) {
                 e.stopPropagation();
                 if (!isMobile()) return;
-                // Toggle 'open' class — when open, sidebar expands to 240px
                 const currentlyOpen = sidebar.classList.contains('open');
                 if (currentlyOpen) {
                     sidebar.classList.remove('open');
@@ -1337,7 +1596,6 @@
                 }
             });
 
-            // Overlay click: close
             overlay.addEventListener('click', function() {
                 if (isMobile()) {
                     sidebar.classList.remove('open');
@@ -1345,7 +1603,6 @@
                 }
             });
 
-            // Escape key: close
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape' && isMobile() && sidebar.classList.contains('open')) {
                     sidebar.classList.remove('open');
@@ -1353,14 +1610,12 @@
                 }
             });
 
-            // Resize: update state
             let resizeTimer;
             window.addEventListener('resize', function() {
                 clearTimeout(resizeTimer);
                 resizeTimer = setTimeout(() => {
-                    updateSidebar();
-                    // If on desktop, ensure overlay is hidden
                     if (!isMobile()) {
+                        sidebar.classList.remove('open');
                         overlay.classList.remove('show');
                     }
                 }, 150);
@@ -1368,8 +1623,8 @@
         })();
     </script>
 
-    <!-- PARTICLES -->
     <script>
+        // Particles
         (function() {
             const c = document.getElementById('particles-canvas'),
                 ctx = c.getContext('2d');

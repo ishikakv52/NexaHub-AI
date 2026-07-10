@@ -1,30 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI Speaking Coach — NEXA HUB</title>
+    <title>NEXA HUB AI — AI Speaking Coach</title>
     <style>
-        /* ===================================================
-           NEXA HUB — Premium AI Speaking Coach
-           Deep Navy + Gold luxury theme (matches existing site)
-           =================================================== */
+        /* ====================================================
+           NEXA HUB AI — Premium AI Speaking Coach
+           Light & Dark Mode Support
+           ==================================================== */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
+            /* ── DARK MODE (default) ── */
             --bg: #0a0c1a;
+            --bg-secondary: #12152b;
             --surface: rgba(255,255,255,0.03);
             --surface-hover: rgba(212,175,55,0.06);
             --surface-solid: #12152b;
             --border: rgba(212,175,55,0.15);
             --border-glow: rgba(212,175,55,0.3);
+            --text: #f0ece4;
+            --text-secondary: #d6cfb5;
+            --muted: #8a867a;
+            --shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(212,175,55,0.05);
+            --shadow-light: 0 20px 60px rgba(0,0,0,0.3);
+            
+            /* ── SHARED ── */
             --gold: #d4af37;
             --gold-light: #f5d76e;
             --gold-dark: #b8962e;
             --gold-gradient: linear-gradient(135deg, #f5d76e, #d4af37, #b8962e);
-            --text: #f0ece4;
-            --text-secondary: #d6cfb5;
-            --muted: #8a867a;
             --danger: #ef4444;
             --success: #10b981;
             --info: #3b82f6;
@@ -32,9 +38,30 @@
             --font-body: 'Lora', 'Segoe UI', serif;
             --radius: 16px;
             --radius-sm: 10px;
-            --shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(212,175,55,0.05);
             --transition: 0.35s cubic-bezier(0.22,1,0.36,1);
             --sidebar-width: 240px;
+            
+            /* ── SCROLLBAR ── */
+            --scrollbar-track: var(--bg);
+            --scrollbar-thumb: var(--border);
+        }
+
+        /* ── LIGHT MODE ── */
+        [data-theme="light"] {
+            --bg: #f5f0eb;
+            --bg-secondary: #e8e0d8;
+            --surface: rgba(0,0,0,0.03);
+            --surface-hover: rgba(212,175,55,0.08);
+            --surface-solid: #f0ebe4;
+            --border: rgba(212,175,55,0.25);
+            --border-glow: rgba(212,175,55,0.4);
+            --text: #1a1a2e;
+            --text-secondary: #2d2d44;
+            --muted: #6b6b7a;
+            --shadow: 0 20px 60px rgba(0,0,0,0.1), 0 0 0 1px rgba(212,175,55,0.1);
+            --shadow-light: 0 20px 60px rgba(0,0,0,0.08);
+            --scrollbar-track: #f0ebe4;
+            --scrollbar-thumb: #d4af37;
         }
 
         html { scroll-behavior: smooth; }
@@ -47,58 +74,274 @@
             display: flex;
             overflow-x: hidden;
             line-height: 1.7;
+            transition: background 0.4s ease, color 0.4s ease;
+        }
+
+        /* ── TOP LEFT BRAND ── */
+        .top-brand {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--surface);
+            backdrop-filter: blur(12px);
+            padding: 10px 20px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-light);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .top-brand:hover {
+            border-color: var(--gold);
+            box-shadow: 0 8px 32px rgba(212,175,55,0.15);
+            transform: translateY(-2px);
+        }
+        .top-brand .brand-icon {
+            font-size: 1.8rem;
+            filter: drop-shadow(0 0 12px rgba(212,175,55,0.3));
+        }
+        .top-brand .brand-text {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.05em;
+        }
+        .top-brand .brand-ai {
+            font-size: 0.65rem;
+            background: var(--gold-gradient);
+            color: #0a0c1a;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            -webkit-text-fill-color: #0a0c1a;
+        }
+        .top-brand .brand-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--gold);
+            border-radius: 50%;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.3); }
+        }
+
+        /* ── THEME TOGGLE ── */
+        .theme-toggle-wrap {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .theme-toggle {
+            background: var(--surface);
+            backdrop-filter: blur(12px);
+            border: 1.5px solid var(--border);
+            border-radius: 50px;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-light);
+            position: relative;
+            width: 80px;
+            height: 42px;
+            overflow: hidden;
+        }
+        .theme-toggle:hover {
+            border-color: var(--gold);
+            box-shadow: 0 4px 20px rgba(212,175,55,0.2);
+            transform: scale(1.02);
+        }
+        .theme-toggle .toggle-bg {
+            position: absolute;
+            inset: 0;
+            border-radius: 50px;
+            background: var(--gold-gradient);
+            opacity: 0.1;
+            transition: opacity 0.4s ease;
+        }
+        [data-theme="light"] .theme-toggle .toggle-bg {
+            opacity: 0.2;
+        }
+        .theme-toggle .toggle-track {
+            position: relative;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--gold-gradient);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 12px rgba(212,175,55,0.4);
+            z-index: 2;
+            margin-left: 2px;
+        }
+        [data-theme="light"] .theme-toggle .toggle-track {
+            transform: translateX(38px);
+        }
+        .theme-toggle .toggle-icon {
+            font-size: 1rem;
+            line-height: 1;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+        }
+        .theme-toggle .toggle-label {
+            position: absolute;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .theme-toggle .toggle-label.dark-label {
+            right: 10px;
+            opacity: 1;
+        }
+        .theme-toggle .toggle-label.light-label {
+            left: 10px;
+            opacity: 0;
+        }
+        [data-theme="light"] .theme-toggle .toggle-label.dark-label {
+            opacity: 0;
+        }
+        [data-theme="light"] .theme-toggle .toggle-label.light-label {
+            opacity: 1;
+        }
+        .theme-status {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--muted);
+            min-width: 42px;
+            text-align: center;
+            transition: color 0.3s ease;
+            letter-spacing: 0.04em;
+        }
+        .theme-status.active-dark {
+            color: var(--gold-light);
+        }
+        .theme-status.active-light {
+            color: var(--gold-dark);
         }
 
         /* ── PARTICLES ── */
-        #particles-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-        .bg-blobs { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-        .blob { position: absolute; border-radius: 50%; filter: blur(160px); animation: floatBlob 20s ease-in-out infinite alternate; }
+        #particles-canvas { 
+            position: fixed; 
+            inset: 0; 
+            z-index: 0; 
+            pointer-events: none; 
+            transition: opacity 0.6s ease;
+        }
+        [data-theme="light"] #particles-canvas {
+            opacity: 0.4;
+        }
+        .bg-blobs { 
+            position: fixed; 
+            inset: 0; 
+            z-index: 0; 
+            pointer-events: none; 
+            overflow: hidden; 
+            transition: opacity 0.6s ease;
+        }
+        [data-theme="light"] .bg-blobs {
+            opacity: 0.3;
+        }
+        .blob { 
+            position: absolute; 
+            border-radius: 50%; 
+            filter: blur(160px); 
+            animation: floatBlob 20s ease-in-out infinite alternate; 
+        }
         .b1 { width:800px; height:800px; background:#d4af37; top:-300px; left:-250px; opacity:0.05; }
         .b2 { width:600px; height:600px; background:#b8962e; bottom:-200px; right:-200px; animation-delay:7s; opacity:0.04; }
+        [data-theme="light"] .b1 { opacity:0.12; }
+        [data-theme="light"] .b2 { opacity:0.08; }
         @keyframes floatBlob { 0%{transform:translate(0,0) scale(1)} 100%{transform:translate(50px,-50px) scale(1.1)} }
 
         /* ── SIDEBAR ── */
         .sidebar {
             position: fixed; top:0; left:0; bottom:0; width:var(--sidebar-width);
-            z-index: 200; background: rgba(10,12,26,0.92); backdrop-filter: blur(24px);
-            border-right: 1px solid var(--border); padding: 24px 0 20px;
+            z-index: 200; 
+            background: var(--surface);
+            backdrop-filter: blur(24px);
+            border-right: 1px solid var(--border); 
+            padding: 80px 0 20px;
             display: flex; flex-direction: column; overflow-y: auto;
+            transition: background 0.4s ease, border-color 0.4s ease;
         }
-        .sidebar-brand {
-            display: flex; align-items: center; gap: 12px; padding: 0 20px 24px;
-            font-size: 1.1rem; font-weight: 700; font-family: var(--font-heading);
-            text-decoration: none; letter-spacing: 0.05em;
-            background: var(--gold-gradient); -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent; background-clip: text;
-            border-bottom: 1px solid var(--border); white-space: nowrap;
-        }
-        .sidebar-brand span { -webkit-text-fill-color: initial; font-size: 1.6rem; background: none; }
         .sidebar-nav { flex:1; padding: 20px 12px 0; display:flex; flex-direction:column; gap:4px; }
-        .nav-label { font-size:0.65rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); padding:8px 12px 4px; font-weight:700; }
+        .nav-label { 
+            font-size:0.65rem; text-transform:uppercase; letter-spacing:0.08em; 
+            color:var(--muted); padding:8px 12px 4px; font-weight:700; 
+            transition: color 0.3s ease;
+        }
         .sidebar-link {
             display:flex; align-items:center; gap:12px; padding:10px 14px; border-radius:10px;
             color:var(--muted); text-decoration:none; font-size:0.85rem; transition:var(--transition);
             font-weight:500; font-family:var(--font-body);
         }
         .sidebar-link:hover { color:var(--gold-light); background:var(--surface-hover); }
-        .sidebar-link.active { color:var(--gold-light); background:rgba(212,175,55,0.08); border:1px solid var(--border); }
+        .sidebar-link.active { 
+            color:var(--gold-light); 
+            background:rgba(212,175,55,0.08); 
+            border:1px solid var(--border); 
+        }
         .sidebar-link .icon { font-size:1.1rem; }
-        .sidebar-user { border-top:1px solid var(--border); padding:16px 20px 0; margin-top:auto; }
+        .sidebar-user { 
+            border-top:1px solid var(--border); 
+            padding:16px 20px 0; 
+            margin-top:auto; 
+            transition: border-color 0.3s ease;
+        }
         .sidebar-user .user-row { display:flex; align-items:center; gap:12px; padding:8px 0; }
         .sidebar-user .avatar {
             width:40px; height:40px; border-radius:50%; background:var(--gold-gradient);
             display:flex; align-items:center; justify-content:center;
             font-weight:900; font-size:1.2rem; color:#0a0c1a; flex-shrink:0;
         }
-        .sidebar-user .user-name { font-weight:700; font-size:0.9rem; color:var(--text-secondary); }
-        .sidebar-user .user-stats { display:flex; gap:14px; font-size:0.7rem; color:var(--muted); padding:4px 0 8px; }
+        .sidebar-user .user-name { 
+            font-weight:700; font-size:0.9rem; 
+            color:var(--text-secondary); 
+            transition: color 0.3s ease;
+        }
+        .sidebar-user .user-stats { 
+            display:flex; gap:14px; font-size:0.7rem; 
+            color:var(--muted); padding:4px 0 8px; 
+            transition: color 0.3s ease;
+        }
         .sidebar-user .user-stats span { display:flex; align-items:center; gap:4px; }
 
         /* ── MAIN ── */
-        .main { margin-left:var(--sidebar-width); flex:1; position:relative; z-index:1; padding:32px 28px 56px; min-height:100vh; }
+        .main { 
+            margin-left:var(--sidebar-width); 
+            flex:1; 
+            position:relative; 
+            z-index:1; 
+            padding:32px 28px 56px; 
+            min-height:100vh;
+            transition: background 0.4s ease;
+        }
 
         /* ── PAGE HEADER ── */
-        .page-header { text-align:center; margin-bottom:32px; }
+        .page-header { text-align:center; margin-bottom:32px; padding-top: 10px; }
         .ph-icon { font-size:3rem; display:block; margin-bottom:4px; animation:bounceIcon 2.8s ease infinite; }
         @keyframes bounceIcon { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
         .page-header h1 {
@@ -106,7 +349,29 @@
             background: var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
             letter-spacing:0.04em; line-height:1.2;
         }
-        .page-header p { color:var(--muted); font-size:1rem; max-width:560px; margin:6px auto 0; }
+        .page-header .brand-sub {
+            display: inline-block;
+            font-size: 0.85rem;
+            color: var(--gold-light);
+            background: rgba(212,175,55,0.08);
+            border: 1px solid var(--border);
+            padding: 4px 16px;
+            border-radius: 20px;
+            margin-top: 8px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+        [data-theme="light"] .page-header .brand-sub {
+            background: rgba(212,175,55,0.12);
+        }
+        .page-header p { 
+            color:var(--muted); 
+            font-size:1rem; 
+            max-width:560px; 
+            margin:6px auto 0; 
+            transition: color 0.3s ease;
+        }
 
         /* ── MODE SELECTOR ── */
         #modeSelector { margin-bottom: 24px; }
@@ -115,13 +380,33 @@
             font-weight:700; margin-bottom:14px; letter-spacing:0.04em;
             display:flex; align-items:center; gap:8px;
         }
+        .mode-section-title .brand-tag {
+            font-size: 0.6rem;
+            background: var(--gold-gradient);
+            color: #0a0c1a;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
         .modes-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap:12px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
         }
         .mode-card {
-            background: var(--surface); border:1.5px solid var(--border); border-radius:var(--radius);
-            padding: 18px 14px; cursor:pointer; transition:var(--transition); text-align:center;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.2); position:relative; overflow:hidden;
+            background: var(--surface); 
+            border:1.5px solid var(--border); 
+            border-radius:var(--radius);
+            padding: 18px 14px; cursor:pointer; transition:var(--transition); 
+            text-align:center;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2); 
+            position:relative; overflow:hidden;
+        }
+        [data-theme="light"] .mode-card {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+            background: rgba(255,255,255,0.5);
         }
         .mode-card::before {
             content:''; position:absolute; inset:0; opacity:0;
@@ -130,13 +415,46 @@
         }
         .mode-card:hover { transform:translateY(-3px); border-color:var(--border-glow); }
         .mode-card:hover::before { opacity:0.05; }
-        .mode-card.selected { border-color:var(--gold); background:rgba(212,175,55,0.07); box-shadow:0 0 0 2px var(--gold-dark),var(--shadow); }
+        .mode-card.selected { 
+            border-color:var(--gold); 
+            background:rgba(212,175,55,0.07); 
+            box-shadow:0 0 0 2px var(--gold-dark),var(--shadow); 
+        }
+        [data-theme="light"] .mode-card.selected {
+            background: rgba(212,175,55,0.1);
+        }
+        .mode-card.selected .mode-badge-ai { opacity: 1; }
         .mode-emoji { font-size:1.8rem; display:block; margin-bottom:6px; }
-        .mode-title { font-weight:800; font-size:0.85rem; color:var(--text-secondary); font-family:var(--font-heading); letter-spacing:0.03em; }
-        .mode-desc { font-size:0.68rem; color:var(--muted); margin-top:3px; }
+        .mode-title { 
+            font-weight:800; font-size:0.85rem; 
+            color:var(--text-secondary); 
+            font-family:var(--font-heading); 
+            letter-spacing:0.03em;
+            transition: color 0.3s ease;
+        }
+        .mode-desc { 
+            font-size:0.68rem; 
+            color:var(--muted); 
+            margin-top:3px; 
+            transition: color 0.3s ease;
+        }
         .mode-badge {
             display:inline-block; font-size:0.58rem; font-weight:700; padding:2px 7px; border-radius:20px;
             margin-top:6px; text-transform:uppercase; letter-spacing:0.06em;
+        }
+        .mode-badge-ai {
+            display: inline-block;
+            font-size: 0.5rem;
+            font-weight: 800;
+            color: var(--gold-light);
+            background: rgba(212,175,55,0.1);
+            border: 1px solid var(--border);
+            padding: 1px 8px;
+            border-radius: 10px;
+            margin-top: 4px;
+            opacity: 0.6;
+            transition: var(--transition);
+            letter-spacing: 0.08em;
         }
         .badge-beginner { background:rgba(16,185,129,0.15); color:#34d399; }
         .badge-intermediate { background:rgba(59,130,246,0.15); color:#60a5fa; }
@@ -151,6 +469,13 @@
             transition:var(--transition); box-shadow:0 4px 24px rgba(212,175,55,0.25);
             font-family:var(--font-body); letter-spacing:0.05em; display:inline-flex; align-items:center; gap:10px;
         }
+        .btn-start-session .btn-brand {
+            font-size: 0.6rem;
+            background: rgba(10,12,26,0.15);
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-weight: 800;
+        }
         .btn-start-session:hover:not(:disabled) { transform:translateY(-3px); box-shadow:0 8px 36px rgba(212,175,55,0.35); }
         .btn-start-session:disabled { opacity:0.4; cursor:not-allowed; transform:none; }
 
@@ -162,21 +487,48 @@
         /* ── SESSION HEADER ── */
         .session-header {
             display: flex; align-items:center; justify-content:space-between;
-            background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+            background:var(--surface); 
+            border:1px solid var(--border); 
+            border-radius:var(--radius);
             padding:16px 22px; margin-bottom:20px; flex-wrap:wrap; gap:12px;
+            transition: background 0.3s ease, border-color 0.3s ease;
         }
         .session-mode-info { display:flex; align-items:center; gap:12px; }
         .session-mode-emoji { font-size:2rem; }
-        .session-mode-name { font-family:var(--font-heading); font-weight:700; color:var(--gold-light); font-size:1.05rem; }
-        .session-mode-sub { font-size:0.78rem; color:var(--muted); }
+        .session-mode-name { 
+            font-family:var(--font-heading); font-weight:700; color:var(--gold-light); font-size:1.05rem; 
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .session-mode-name .session-brand {
+            font-size: 0.55rem;
+            background: var(--gold-gradient);
+            color: #0a0c1a;
+            padding: 1px 10px;
+            border-radius: 12px;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+        }
+        .session-mode-sub { 
+            font-size:0.78rem; 
+            color:var(--muted); 
+            transition: color 0.3s ease;
+        }
         .session-meta { display:flex; align-items:center; gap:16px; }
         .turn-counter {
-            background: rgba(212,175,55,0.08); border:1px solid var(--border);
-            padding:6px 14px; border-radius:20px; font-size:0.78rem; color:var(--gold-light); font-weight:700;
+            background: rgba(212,175,55,0.08); 
+            border:1px solid var(--border); 
+            padding:6px 14px; border-radius:20px; 
+            font-size:0.78rem; color:var(--gold-light); font-weight:700;
+            transition: background 0.3s ease, border-color 0.3s ease;
         }
         .session-timer {
             font-size:1.1rem; font-weight:900; color:var(--gold-light); font-family:monospace;
-            background:rgba(212,175,55,0.06); padding:6px 14px; border-radius:20px; border:1px solid var(--border);
+            background:rgba(212,175,55,0.06); 
+            padding:6px 14px; border-radius:20px; 
+            border:1px solid var(--border);
+            transition: background 0.3s ease, border-color 0.3s ease;
         }
         .btn-end-session {
             padding:8px 16px; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2);
@@ -189,28 +541,55 @@
         .focus-areas {
             display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; align-items:center;
         }
-        .focus-label { font-size:0.72rem; color:var(--muted); font-weight:700; text-transform:uppercase; letter-spacing:0.06em; }
+        .focus-label { 
+            font-size:0.72rem; color:var(--muted); font-weight:700; text-transform:uppercase; 
+            letter-spacing:0.06em; 
+            transition: color 0.3s ease;
+        }
         .focus-tag {
             font-size:0.72rem; padding:3px 10px; border-radius:20px;
             background:rgba(212,175,55,0.08); border:1px solid var(--border); color:var(--gold-light);
+            transition: background 0.3s ease, border-color 0.3s ease;
         }
 
         /* ── CONVERSATION AREA ── */
         .conversation-wrap {
-            background: var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+            background: var(--surface); 
+            border:1px solid var(--border); 
+            border-radius:var(--radius);
             margin-bottom:20px; overflow:hidden;
+            transition: background 0.3s ease, border-color 0.3s ease;
         }
         .conv-header {
             padding:12px 20px; border-bottom:1px solid var(--border);
             background:linear-gradient(135deg,rgba(212,175,55,0.04),rgba(184,150,46,0.02));
             display:flex; align-items:center; gap:8px;
+            transition: border-color 0.3s ease, background 0.3s ease;
         }
-        .conv-header strong { font-family:var(--font-heading); color:var(--gold-light); font-size:0.88rem; }
+        [data-theme="light"] .conv-header {
+            background: rgba(212,175,55,0.06);
+        }
+        .conv-header strong { 
+            font-family:var(--font-heading); color:var(--gold-light); font-size:0.88rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .conv-header .conv-brand {
+            font-size: 0.5rem;
+            background: var(--gold-gradient);
+            color: #0a0c1a;
+            padding: 1px 8px;
+            border-radius: 10px;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+        }
 
         /* Live speaking indicator */
         .listening-indicator {
             display: none; align-items:center; gap:8px; padding:10px 20px;
             background:rgba(16,185,129,0.06); border-bottom:1px solid rgba(16,185,129,0.15);
+            transition: background 0.3s ease, border-color 0.3s ease;
         }
         .listening-indicator.show { display:flex; }
         .listening-text { font-size:0.82rem; color:#34d399; font-weight:700; }
@@ -239,6 +618,7 @@
         .bubble-avatar {
             width:36px; height:36px; border-radius:50%; display:flex; align-items:center;
             justify-content:center; font-size:1.1rem; flex-shrink:0; border:1.5px solid var(--border);
+            transition: border-color 0.3s ease;
         }
         .bubble.ai .bubble-avatar { background:rgba(212,175,55,0.1); }
         .bubble.user .bubble-avatar { background:rgba(59,130,246,0.1); border-color:rgba(59,130,246,0.2); }
@@ -246,16 +626,29 @@
         .bubble-content { max-width:72%; }
         .bubble-text {
             padding:12px 16px; border-radius:16px; font-size:0.9rem; line-height:1.6;
+            transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
         .bubble.ai .bubble-text {
             background: linear-gradient(135deg,rgba(212,175,55,0.06),rgba(184,150,46,0.03));
             border:1px solid var(--border); border-top-left-radius:4px; color:var(--text-secondary);
         }
+        [data-theme="light"] .bubble.ai .bubble-text {
+            background: rgba(212,175,55,0.08);
+        }
         .bubble.user .bubble-text {
             background: rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.15);
             border-top-right-radius:4px; color:var(--text);
         }
-        .bubble-meta { font-size:0.68rem; color:var(--muted); margin-top:4px; padding:0 4px; }
+        [data-theme="light"] .bubble.user .bubble-text {
+            background: rgba(59,130,246,0.1);
+        }
+        .bubble-meta { 
+            font-size:0.68rem; 
+            color:var(--muted); 
+            margin-top:4px; 
+            padding:0 4px; 
+            transition: color 0.3s ease;
+        }
         .bubble.user .bubble-meta { text-align:right; }
 
         /* AI typing indicator */
@@ -272,8 +665,14 @@
 
         /* ── INPUT AREA ── */
         .input-area {
-            background: var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+            background: var(--surface); 
+            border:1px solid var(--border); 
+            border-radius:var(--radius);
             padding:20px; margin-bottom:20px;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+        [data-theme="light"] .input-area {
+            background: rgba(255,255,255,0.4);
         }
         .input-label {
             font-size:0.75rem; font-weight:700; color:var(--gold-light); text-transform:uppercase;
@@ -281,10 +680,18 @@
         }
 
         .speech-textarea {
-            width:100%; min-height:110px; background:rgba(255,255,255,0.03);
-            border:1.5px solid var(--border); border-radius:13px; color:var(--text);
+            width:100%; min-height:110px; 
+            background:rgba(255,255,255,0.03);
+            border:1.5px solid var(--border); 
+            border-radius:13px; 
+            color:var(--text);
             padding:14px 16px; font-size:0.92rem; font-family:var(--font-body);
-            outline:none; resize:vertical; line-height:1.7; transition:var(--transition);
+            outline:none; resize:vertical; line-height:1.7; 
+            transition:var(--transition), background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+        [data-theme="light"] .speech-textarea {
+            background: rgba(255,255,255,0.6);
+            color: #1a1a2e;
         }
         .speech-textarea:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(212,175,55,0.08); }
         .speech-textarea::placeholder { color:var(--muted); opacity:0.6; }
@@ -293,6 +700,10 @@
         .word-count-badge {
             font-size:0.72rem; color:var(--muted); padding:4px 10px; border-radius:20px;
             background:rgba(255,255,255,0.03); border:1px solid var(--border);
+            transition: color 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+        }
+        [data-theme="light"] .word-count-badge {
+            background: rgba(255,255,255,0.6);
         }
         .word-count-badge.good { color:#34d399; border-color:rgba(16,185,129,0.2); }
         .word-count-badge.low { color:#f87171; border-color:rgba(239,68,68,0.2); }
@@ -303,6 +714,13 @@
             color:#0a0c1a; font-weight:800; font-size:0.9rem; cursor:pointer;
             transition:var(--transition); box-shadow:0 4px 16px rgba(212,175,55,0.2);
             font-family:var(--font-body); letter-spacing:0.04em; display:inline-flex; align-items:center; gap:7px;
+        }
+        .btn-primary .btn-ai-tag {
+            font-size: 0.55rem;
+            background: rgba(10,12,26,0.2);
+            padding: 1px 8px;
+            border-radius: 8px;
+            font-weight: 800;
         }
         .btn-primary:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 8px 28px rgba(212,175,55,0.3); }
         .btn-primary:disabled { opacity:0.35; cursor:not-allowed; transform:none; }
@@ -337,8 +755,14 @@
 
         /* Score Ring Card */
         .score-ring-card {
-            background: var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+            background: var(--surface); 
+            border:1px solid var(--border); 
+            border-radius:var(--radius);
             padding:20px; display:flex; flex-direction:column; align-items:center; gap:12px;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+        [data-theme="light"] .score-ring-card {
+            background: rgba(255,255,255,0.4);
         }
         .progress-ring-wrap { position:relative; width:120px; height:120px; }
         .progress-ring-wrap svg { transform:rotate(-90deg); }
@@ -354,16 +778,52 @@
         }
         .ring-score { font-size:2rem; font-weight:900; color:var(--gold-light); font-family:var(--font-heading); }
         .ring-label { font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; margin-top:2px; }
-        .short-feedback-text { font-size:0.85rem; color:var(--text-secondary); text-align:center; line-height:1.5; }
+        .short-feedback-text { 
+            font-size:0.85rem; 
+            color:var(--text-secondary); 
+            text-align:center; 
+            line-height:1.5; 
+            transition: color 0.3s ease;
+        }
 
         /* Score Bars Card */
         .score-bars-card {
-            background: var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px;
+            background: var(--surface); 
+            border:1px solid var(--border); 
+            border-radius:var(--radius); 
+            padding:20px;
+            transition: background 0.3s ease, border-color 0.3s ease;
         }
-        .score-bars-title { font-family:var(--font-heading); color:var(--gold-light); font-size:0.88rem; font-weight:700; margin-bottom:14px; }
+        [data-theme="light"] .score-bars-card {
+            background: rgba(255,255,255,0.4);
+        }
+        .score-bars-title { 
+            font-family:var(--font-heading); color:var(--gold-light); font-size:0.88rem; font-weight:700; margin-bottom:14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .score-bars-title .brand-tiny {
+            font-size: 0.5rem;
+            background: var(--gold-gradient);
+            color: #0a0c1a;
+            padding: 1px 8px;
+            border-radius: 8px;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+        }
         .score-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
-        .score-row-label { font-size:0.75rem; color:var(--text-secondary); min-width:90px; font-weight:600; }
+        .score-row-label { 
+            font-size:0.75rem; 
+            color:var(--text-secondary); 
+            min-width:90px; 
+            font-weight:600; 
+            transition: color 0.3s ease;
+        }
         .score-bar-track { flex:1; height:7px; background:rgba(255,255,255,0.05); border-radius:4px; overflow:hidden; }
+        [data-theme="light"] .score-bar-track {
+            background: rgba(0,0,0,0.06);
+        }
         .score-bar-fill {
             height:100%; border-radius:4px; background:var(--gold-gradient);
             width:0%; transition:width 1s cubic-bezier(0.4,0,0.2,1);
@@ -371,7 +831,12 @@
         .score-bar-fill.high { background:linear-gradient(90deg,#10b981,#34d399); }
         .score-bar-fill.medium { background:var(--gold-gradient); }
         .score-bar-fill.low { background:linear-gradient(90deg,#ef4444,#f87171); }
-        .score-row-num { font-size:0.78rem; font-weight:800; color:var(--gold-light); min-width:22px; text-align:right; }
+        .score-row-num { 
+            font-size:0.78rem; font-weight:800; 
+            color:var(--gold-light); 
+            min-width:22px; 
+            text-align:right; 
+        }
 
         /* Issues Cards */
         .issues-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:14px; }
@@ -379,14 +844,28 @@
         @media(min-width:640px) and (max-width:768px){ .issues-row { grid-template-columns:1fr 1fr; } }
 
         .issue-card {
-            background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;
+            background:var(--surface); 
+            border:1px solid var(--border); 
+            border-radius:var(--radius-sm); 
+            padding:16px;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+        [data-theme="light"] .issue-card {
+            background: rgba(255,255,255,0.4);
         }
         .issue-card-title {
             font-size:0.75rem; font-weight:700; color:var(--gold-light); text-transform:uppercase;
             letter-spacing:0.06em; margin-bottom:10px; display:flex; align-items:center; gap:6px;
         }
-        .issue-item { font-size:0.8rem; color:var(--text-secondary); margin-bottom:8px; line-height:1.5; }
+        .issue-item { 
+            font-size:0.8rem; 
+            color:var(--text-secondary); 
+            margin-bottom:8px; 
+            line-height:1.5; 
+            transition: color 0.3s ease;
+        }
         .issue-item .wrong { color:#fca5a5; font-weight:600; }
+        [data-theme="light"] .issue-item .wrong { color:#dc2626; }
         .issue-item .correct { color:#34d399; font-weight:600; }
         .issue-item .rule { color:var(--muted); font-size:0.72rem; display:block; margin-top:2px; }
         .vocab-pill {
@@ -397,14 +876,27 @@
             display:inline-block; background:rgba(239,68,68,0.07); border:1px solid rgba(239,68,68,0.15);
             color:#f87171; padding:3px 10px; border-radius:20px; font-size:0.72rem; margin:3px 2px;
         }
-        .no-issues { font-size:0.8rem; color:#34d399; display:flex; align-items:center; gap:5px; }
+        .no-issues { 
+            font-size:0.8rem; 
+            color:#34d399; 
+            display:flex; 
+            align-items:center; 
+            gap:5px; 
+        }
 
         /* Version Cards */
         .versions-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:14px; }
         @media(max-width:900px){ .versions-row { grid-template-columns:1fr; } }
 
         .version-card {
-            background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;
+            background:var(--surface); 
+            border:1px solid var(--border); 
+            border-radius:var(--radius-sm); 
+            padding:16px;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+        [data-theme="light"] .version-card {
+            background: rgba(255,255,255,0.4);
         }
         .version-label {
             font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em;
@@ -413,12 +905,22 @@
         .v-better { color:#f5d76e; }
         .v-native { color:#34d399; }
         .v-professional { color:#60a5fa; }
-        .version-text { font-size:0.82rem; color:var(--text-secondary); line-height:1.6; font-style:italic; }
+        .version-text { 
+            font-size:0.82rem; 
+            color:var(--text-secondary); 
+            line-height:1.6; 
+            font-style:italic; 
+            transition: color 0.3s ease;
+        }
 
         /* ── LOADING ── */
         .ai-processing {
             display:none; padding:20px; text-align:center;
-            background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); margin-bottom:14px;
+            background:var(--surface); 
+            border:1px solid var(--border); 
+            border-radius:var(--radius); 
+            margin-bottom:14px;
+            transition: background 0.3s ease, border-color 0.3s ease;
         }
         .ai-processing.show { display:block; animation:fadeIn 0.3s ease; }
         .process-spinner {
@@ -426,14 +928,29 @@
             border-radius:50%; animation:spin 0.7s linear infinite; margin:0 auto 12px;
         }
         @keyframes spin { to{transform:rotate(360deg)} }
-        .process-text { color:var(--muted); font-size:0.85rem; }
+        .process-text { 
+            color:var(--muted); 
+            font-size:0.85rem; 
+            transition: color 0.3s ease;
+        }
+        .process-text .brand-name {
+            color: var(--gold-light);
+            font-weight: 700;
+        }
 
         /* ── SESSION REPORT ── */
         #reportArea { display:none; margin-bottom:28px; }
         #reportArea.show { display:block; animation:fadeIn 0.5s ease; }
         .report-card {
-            background:var(--surface); border:1px solid var(--border-glow); border-radius:var(--radius);
+            background:var(--surface); 
+            border:1px solid var(--border-glow); 
+            border-radius:var(--radius);
             padding:28px; box-shadow:var(--shadow);
+            transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        [data-theme="light"] .report-card {
+            background: rgba(255,255,255,0.4);
+            box-shadow: var(--shadow-light);
         }
         .report-header { text-align:center; margin-bottom:24px; }
         .report-grade {
@@ -441,35 +958,129 @@
             display:inline-flex; align-items:center; justify-content:center;
             font-size:2.4rem; font-weight:900; color:#0a0c1a; margin-bottom:12px;
         }
-        .report-title { font-family:var(--font-heading); font-size:1.5rem; color:var(--gold-light); font-weight:700; }
-        .report-score { font-size:1rem; color:var(--muted); margin-top:4px; }
-        .report-trend { display:inline-block; font-size:0.85rem; color:var(--text-secondary); margin-top:6px; }
+        .report-title { 
+            font-family:var(--font-heading); font-size:1.5rem; color:var(--gold-light); font-weight:700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .report-title .report-brand {
+            font-size: 0.6rem;
+            background: var(--gold-gradient);
+            color: #0a0c1a;
+            padding: 2px 12px;
+            border-radius: 14px;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+        }
+        .report-score { 
+            font-size:1rem; 
+            color:var(--muted); 
+            margin-top:4px; 
+            transition: color 0.3s ease;
+        }
+        .report-trend { 
+            display:inline-block; 
+            font-size:0.85rem; 
+            color:var(--text-secondary); 
+            margin-top:6px; 
+            transition: color 0.3s ease;
+        }
 
         .report-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px; }
         @media(max-width:640px){ .report-grid { grid-template-columns:1fr; } }
 
-        .report-section { background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px; }
-        .report-section-title { font-size:0.8rem; font-weight:700; color:var(--gold-light); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px; display:flex; align-items:center; gap:6px; }
-        .report-item { font-size:0.82rem; color:var(--text-secondary); margin-bottom:6px; display:flex; align-items:center; gap:7px; }
+        .report-section { 
+            background:rgba(255,255,255,0.02); 
+            border:1px solid var(--border); 
+            border-radius:var(--radius-sm); 
+            padding:16px;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+        [data-theme="light"] .report-section {
+            background: rgba(255,255,255,0.3);
+        }
+        .report-section-title { 
+            font-size:0.8rem; font-weight:700; color:var(--gold-light); text-transform:uppercase; 
+            letter-spacing:0.06em; margin-bottom:12px; display:flex; align-items:center; gap:6px; 
+        }
+        .report-item { 
+            font-size:0.82rem; 
+            color:var(--text-secondary); 
+            margin-bottom:6px; 
+            display:flex; 
+            align-items:center; 
+            gap:7px; 
+            transition: color 0.3s ease;
+        }
         .report-item::before { content:'•'; color:var(--gold); }
 
         .report-actions { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:20px; }
-        .btn-report { padding:10px 22px; border-radius:12px; font-size:0.85rem; font-weight:700; cursor:pointer; transition:var(--transition); font-family:var(--font-body); }
+        .btn-report { 
+            padding:10px 22px; border-radius:12px; font-size:0.85rem; 
+            font-weight:700; cursor:pointer; transition:var(--transition); 
+            font-family:var(--font-body); 
+        }
         .btn-report-primary { background:var(--gold-gradient); border:none; color:#0a0c1a; }
         .btn-report-ghost { background:transparent; border:1.5px solid var(--border); color:var(--muted); }
         .btn-report-ghost:hover { border-color:var(--gold); color:var(--gold-light); background:var(--surface-hover); }
 
         /* ── SCROLLBAR ── */
         ::-webkit-scrollbar{width:5px;}
-        ::-webkit-scrollbar-track{background:var(--bg);}
-        ::-webkit-scrollbar-thumb{background:var(--border);border-radius:6px;}
+        ::-webkit-scrollbar-track{background:var(--scrollbar-track);}
+        ::-webkit-scrollbar-thumb{background:var(--scrollbar-thumb);border-radius:6px;}
         ::-webkit-scrollbar-thumb:hover{background:var(--gold);}
 
         /* ── RESPONSIVE ── */
+        @media(max-width:992px){
+            .modes-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
         @media(max-width:768px){
-            .sidebar{width:60px;padding:16px 0;}
-            .sidebar-brand{font-size:0;padding:0 0 16px;justify-content:center;}
-            .sidebar-brand span{font-size:1.8rem;}
+            .top-brand {
+                top: 12px;
+                left: 12px;
+                padding: 8px 14px;
+                gap: 8px;
+            }
+            .top-brand .brand-text { font-size: 1rem; }
+            .top-brand .brand-ai { font-size: 0.55rem; padding: 1px 8px; }
+            .top-brand .brand-icon { font-size: 1.4rem; }
+            .top-brand .brand-dot { display: none; }
+            
+            .theme-toggle-wrap {
+                top: 12px;
+                right: 12px;
+                gap: 6px;
+            }
+            .theme-toggle {
+                width: 60px;
+                height: 34px;
+                padding: 3px;
+            }
+            .theme-toggle .toggle-track {
+                width: 28px;
+                height: 28px;
+                font-size: 0.8rem;
+                margin-left: 1px;
+            }
+            [data-theme="light"] .theme-toggle .toggle-track {
+                transform: translateX(26px);
+            }
+            .theme-toggle .toggle-label {
+                font-size: 0.5rem;
+            }
+            .theme-toggle .toggle-label.dark-label { right: 6px; }
+            .theme-toggle .toggle-label.light-label { left: 6px; }
+            .theme-status { 
+                font-size: 0.6rem; 
+                min-width: 32px;
+            }
+            
+            .sidebar{width:60px;padding:80px 0 20px;}
+            .sidebar-brand{display:none;}
             .sidebar-link{padding:10px 0;justify-content:center;font-size:0;}
             .sidebar-link .icon{font-size:1.4rem;}
             .sidebar-link .link-text{display:none;}
@@ -479,13 +1090,50 @@
             .sidebar-user .avatar{width:32px;height:32px;font-size:0.9rem;}
             .main{margin-left:60px;padding:20px 14px 40px;}
             .nav-label{display:none;}
-            .modes-grid{grid-template-columns:repeat(2,1fr);}
+            .modes-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
             .session-header{flex-direction:column;align-items:stretch;}
             .input-controls{flex-direction:column;align-items:stretch;}
             .btn-primary,.btn-mic,.btn-ghost{justify-content:center;}
+            .session-mode-name .session-brand{display:none;}
         }
         @media(max-width:480px){
-            .modes-grid{grid-template-columns:1fr 1fr;}
+            .top-brand {
+                top: 10px;
+                left: 10px;
+                padding: 6px 12px;
+            }
+            .top-brand .brand-text { font-size: 0.85rem; }
+            .top-brand .brand-ai { font-size: 0.5rem; padding: 1px 6px; }
+            .top-brand .brand-icon { font-size: 1.2rem; }
+            
+            .theme-toggle-wrap {
+                top: 10px;
+                right: 10px;
+            }
+            .theme-toggle {
+                width: 50px;
+                height: 30px;
+                padding: 2px;
+            }
+            .theme-toggle .toggle-track {
+                width: 24px;
+                height: 24px;
+                font-size: 0.7rem;
+            }
+            [data-theme="light"] .theme-toggle .toggle-track {
+                transform: translateX(22px);
+            }
+            .theme-toggle .toggle-label { display: none; }
+            .theme-status { 
+                font-size: 0.55rem; 
+                min-width: 28px;
+            }
+            
+            .modes-grid {
+                grid-template-columns: 1fr 1fr;
+            }
             .mode-card{padding:14px 10px;}
             .mode-emoji{font-size:1.4rem;}
             .mode-title{font-size:0.75rem;}
@@ -494,31 +1142,49 @@
 </head>
 <body>
 
+<!-- ── TOP LEFT BRAND ── -->
+<a href="/" class="top-brand" id="topBrand">
+    <span class="brand-icon">🎓</span>
+    <span class="brand-text">NEXA HUB</span>
+    <span class="brand-ai">AI</span>
+    <span class="brand-dot"></span>
+</a>
+
+<!-- ── THEME TOGGLE ── -->
+<div class="theme-toggle-wrap">
+    <span class="theme-status" id="themeStatus">🌙</span>
+    <div class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">
+        <div class="toggle-bg"></div>
+        <span class="toggle-label dark-label">Dark</span>
+        <span class="toggle-label light-label">Light</span>
+        <span class="toggle-track" id="toggleTrack">🌙</span>
+    </div>
+</div>
+
 <canvas id="particles-canvas"></canvas>
 <div class="bg-blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
 
 <!-- ── SIDEBAR ── -->
 <aside class="sidebar">
-    <a class="sidebar-brand" href="{% url 'home' %}"><span>🎓</span> NEXA HUB</a>
     <nav class="sidebar-nav">
         <div class="nav-label">Main</div>
-        <a href="{% url 'dashboard' %}" class="sidebar-link"><span class="icon">📊</span><span class="link-text">Dashboard</span></a>
-        <a href="{% url 'grammar_coach' %}" class="sidebar-link"><span class="icon">📖</span><span class="link-text">Grammar</span></a>
-        <a href="{% url 'speaking_practice' %}" class="sidebar-link active"><span class="icon">🗣️</span><span class="link-text">Speaking</span></a>
-        <a href="{% url 'interview_practice' %}" class="sidebar-link"><span class="icon">💼</span><span class="link-text">Interview</span></a>
-        <a href="{% url 'translation' %}" class="sidebar-link"><span class="icon">🔄</span><span class="link-text">Translate</span></a>
-        <a href="{% url 'pronunciation_coach' %}" class="sidebar-link"><span class="icon">🎵</span><span class="link-text">Pronunciation</span></a>
+        <a href="/dashboard" class="sidebar-link"><span class="icon">📊</span><span class="link-text">Dashboard</span></a>
+        <a href="/grammar" class="sidebar-link"><span class="icon">📖</span><span class="link-text">Grammar</span></a>
+        <a href="/speaking" class="sidebar-link active"><span class="icon">🗣️</span><span class="link-text">Speaking</span></a>
+        <a href="/interview" class="sidebar-link"><span class="icon">💼</span><span class="link-text">Interview</span></a>
+        <a href="/translation" class="sidebar-link"><span class="icon">🔄</span><span class="link-text">Translate</span></a>
+        <a href="/pronunciation" class="sidebar-link"><span class="icon">🎵</span><span class="link-text">Pronunciation</span></a>
         <div class="nav-label" style="margin-top:12px;">Engage</div>
-        <a href="{% url 'daily_challenge' %}" class="sidebar-link"><span class="icon">🏆</span><span class="link-text">Challenge</span></a>
+        <a href="/challenge" class="sidebar-link"><span class="icon">🏆</span><span class="link-text">Challenge</span></a>
     </nav>
     <div class="sidebar-user">
         <div class="user-row">
-            <div class="avatar" id="sidebarAvatar">{{ username|slice:":1"|upper }}</div>
-            <div class="user-name" id="sidebarName">{{ username }}</div>
+            <div class="avatar" id="sidebarAvatar">G</div>
+            <div class="user-name" id="sidebarName">Guest</div>
         </div>
         <div class="user-stats">
-            <span>🏅 {{ profile.total_xp }} XP</span>
-            <span>🔥 {{ profile.current_streak }}d</span>
+            <span>🏅 0 XP</span>
+            <span>🔥 0d</span>
         </div>
     </div>
 </aside>
@@ -530,27 +1196,24 @@
     <div class="page-header">
         <span class="ph-icon">🎙️</span>
         <h1>AI Speaking Coach</h1>
+        <span class="brand-sub">⚡ Powered by NEXA HUB AI</span>
         <p>Choose your practice mode and have a real English conversation. Get instant feedback on grammar, fluency, vocabulary, and confidence.</p>
     </div>
 
     <!-- MODE SELECTOR -->
     <div id="modeSelector">
-        <div class="mode-section-title">✨ Choose Your Practice Mode</div>
+        <div class="mode-section-title">
+            ✨ Choose Your Practice Mode
+            <span class="brand-tag">NEXA AI</span>
+        </div>
         <div class="modes-grid" id="modesGrid">
-            {% for mode in modes %}
-            <div class="mode-card" data-mode="{{ mode.id }}" onclick="selectMode('{{ mode.id }}')"
-                 style="--mode-color:{{ mode.color }};">
-                <span class="mode-emoji">{{ mode.emoji }}</span>
-                <div class="mode-title">{{ mode.title }}</div>
-                <div class="mode-desc">{{ mode.desc }}</div>
-                <span class="mode-badge badge-{{ mode.difficulty }}">{{ mode.difficulty }}</span>
-            </div>
-            {% endfor %}
+            <!-- Mode cards will be populated by JavaScript -->
         </div>
 
         <div class="start-btn-wrap" style="margin-top:20px;">
             <button class="btn-start-session" id="startBtn" onclick="startSession()" disabled>
                 🚀 Start Speaking Session
+                <span class="btn-brand">NEXA AI</span>
             </button>
         </div>
     </div>
@@ -563,7 +1226,10 @@
             <div class="session-mode-info">
                 <span class="session-mode-emoji" id="sessionModeEmoji">🎙️</span>
                 <div>
-                    <div class="session-mode-name" id="sessionModeName">Speaking Coach</div>
+                    <div class="session-mode-name" id="sessionModeName">
+                        Speaking Coach
+                        <span class="session-brand">NEXA AI</span>
+                    </div>
                     <div class="session-mode-sub" id="sessionModeSub">AI-powered conversation practice</div>
                 </div>
             </div>
@@ -582,7 +1248,10 @@
         <!-- CONVERSATION LOG -->
         <div class="conversation-wrap">
             <div class="conv-header">
-                <strong>💬 Conversation</strong>
+                <strong>
+                    💬 Conversation
+                    <span class="conv-brand">NEXA AI</span>
+                </strong>
             </div>
             <div class="listening-indicator" id="listeningIndicator">
                 <div class="wave-bars">
@@ -617,6 +1286,7 @@
             <div class="input-controls">
                 <button class="btn-primary" id="sendBtn" onclick="sendResponse()" disabled>
                     📤 Send Response
+                    <span class="btn-ai-tag">AI</span>
                 </button>
                 <button class="btn-mic" id="micBtn" onclick="toggleMic()">
                     🎤 Speak
@@ -629,7 +1299,9 @@
         <!-- AI PROCESSING -->
         <div class="ai-processing" id="aiProcessing">
             <div class="process-spinner"></div>
-            <p class="process-text" id="processText">Analyzing your response…</p>
+            <p class="process-text" id="processText">
+                <span class="brand-name">NEXA AI</span> is analyzing your response…
+            </p>
         </div>
 
         <!-- FEEDBACK PANEL -->
@@ -660,7 +1332,10 @@
 
                 <!-- Score Bars -->
                 <div class="score-bars-card">
-                    <div class="score-bars-title">📊 Skill Breakdown</div>
+                    <div class="score-bars-title">
+                        📊 Skill Breakdown
+                        <span class="brand-tiny">NEXA</span>
+                    </div>
                     <div id="scoreBars">
                         <!-- Bars injected here -->
                     </div>
@@ -713,7 +1388,10 @@
         <div class="report-card">
             <div class="report-header">
                 <div class="report-grade" id="reportGrade">B</div>
-                <div class="report-title">Session Complete!</div>
+                <div class="report-title">
+                    Session Complete!
+                    <span class="report-brand">NEXA AI</span>
+                </div>
                 <div class="report-score" id="reportScore">Overall Score: 7.2 / 10</div>
                 <div class="report-trend" id="reportTrend">📊 Consistent Performance</div>
             </div>
@@ -736,16 +1414,106 @@
 
             <div class="report-actions">
                 <button class="btn-report btn-report-primary" onclick="startFresh()">🔄 New Session</button>
-                <button class="btn-report btn-report-ghost" onclick="window.location.href='{% url 'dashboard' %}'">📊 Dashboard</button>
-                <button class="btn-report btn-report-ghost" onclick="window.location.href='{% url 'interview_practice' %}'">💼 Try Interview</button>
+                <button class="btn-report btn-report-ghost" onclick="window.location.href='/dashboard'">📊 Dashboard</button>
+                <button class="btn-report btn-report-ghost" onclick="window.location.href='/interview'">💼 Try Interview</button>
             </div>
         </div>
     </div>
 
 </main>
 
-<!-- ── SCRIPTS ── -->
 <script>
+// ============================================================
+// THEME TOGGLE
+// ============================================================
+function toggleTheme() {
+    const html = document.documentElement;
+    const currentTheme = html.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    html.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    
+    // Update toggle visual
+    const track = document.getElementById('toggleTrack');
+    const status = document.getElementById('themeStatus');
+    
+    if (newTheme === 'light') {
+        track.textContent = '☀️';
+        status.textContent = '☀️';
+        status.className = 'theme-status active-light';
+    } else {
+        track.textContent = '🌙';
+        status.textContent = '🌙';
+        status.className = 'theme-status active-dark';
+    }
+}
+
+// Load saved theme
+function loadTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const track = document.getElementById('toggleTrack');
+    const status = document.getElementById('themeStatus');
+    
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        if (savedTheme === 'light') {
+            track.textContent = '☀️';
+            status.textContent = '☀️';
+            status.className = 'theme-status active-light';
+        } else {
+            track.textContent = '🌙';
+            status.textContent = '🌙';
+            status.className = 'theme-status active-dark';
+        }
+    } else {
+        // Check system preference
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+            document.documentElement.setAttribute('data-theme', 'light');
+            track.textContent = '☀️';
+            status.textContent = '☀️';
+            status.className = 'theme-status active-light';
+        } else {
+            status.className = 'theme-status active-dark';
+        }
+    }
+}
+
+// Listen for system theme changes
+if (window.matchMedia) {
+    window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+            const newTheme = e.matches ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            const track = document.getElementById('toggleTrack');
+            const status = document.getElementById('themeStatus');
+            if (newTheme === 'light') {
+                track.textContent = '☀️';
+                status.textContent = '☀️';
+                status.className = 'theme-status active-light';
+            } else {
+                track.textContent = '🌙';
+                status.textContent = '🌙';
+                status.className = 'theme-status active-dark';
+            }
+        }
+    });
+}
+
+// ============================================================
+// SAMPLE MODES DATA
+// ============================================================
+const MODES_DATA = [
+    { id: 'casual', emoji: '🗣️', title: 'Casual Chat', desc: 'Everyday conversation practice', difficulty: 'beginner', color: '#10b981' },
+    { id: 'business', emoji: '💼', title: 'Business Talk', desc: 'Professional workplace scenarios', difficulty: 'advanced', color: '#3b82f6' },
+    { id: 'debate', emoji: '⚡', title: 'Debate & Opinion', desc: 'Argue & articulate your views', difficulty: 'intermediate', color: '#f59e0b' },
+    { id: 'interview', emoji: '🎯', title: 'Job Interview', desc: 'Common interview questions', difficulty: 'intermediate', color: '#8b5cf6' },
+    { id: 'presentation', emoji: '📊', title: 'Presentation', desc: 'Practice public speaking', difficulty: 'advanced', color: '#ec4899' },
+    { id: 'travel', emoji: '✈️', title: 'Travel English', desc: 'Real-world travel scenarios', difficulty: 'beginner', color: '#14b8a6' },
+    { id: 'storytelling', emoji: '📖', title: 'Storytelling', desc: 'Narrate and describe stories', difficulty: 'intermediate', color: '#f472b6' },
+    { id: 'academic', emoji: '📚', title: 'Academic English', desc: 'Formal academic discussions', difficulty: 'advanced', color: '#a78bfa' }
+];
+
 // ============================================================
 // STATE
 // ============================================================
@@ -758,15 +1526,43 @@ let sessionTimer = null;
 let sessionSeconds = 0;
 let allScores = [];
 let sessionIssues = { grammar: {}, fillers: 0, short_answers: 0 };
+let conversationHistory = [];
+let isProcessing = false;
 
-const CSRF = () => {
-    const v = document.cookie.match('(^|;)\\s*csrftoken\\s*=\\s*([^;]+)');
-    return v ? v.pop() : '';
-};
+// ============================================================
+// CSRF TOKEN HELPER
+// ============================================================
+function getCSRFToken() {
+    const cookieValue = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('csrftoken='));
+    return cookieValue ? cookieValue.split('=')[1] : '';
+}
 
 // ============================================================
 // MODE SELECTION
 // ============================================================
+function initializeModes() {
+    const grid = document.getElementById('modesGrid');
+    grid.innerHTML = '';
+    
+    MODES_DATA.forEach(mode => {
+        const card = document.createElement('div');
+        card.className = 'mode-card';
+        card.dataset.mode = mode.id;
+        card.style.setProperty('--mode-color', mode.color);
+        card.innerHTML = `
+            <span class="mode-emoji">${mode.emoji}</span>
+            <div class="mode-title">${mode.title}</div>
+            <div class="mode-desc">${mode.desc}</div>
+            <span class="mode-badge badge-${mode.difficulty}">${mode.difficulty}</span>
+            <span class="mode-badge-ai">NEXA AI</span>
+        `;
+        card.addEventListener('click', () => selectMode(mode.id));
+        grid.appendChild(card);
+    });
+}
+
 function selectMode(modeId) {
     selectedMode = modeId;
     document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
@@ -778,67 +1574,69 @@ function selectMode(modeId) {
 // START SESSION
 // ============================================================
 async function startSession() {
-    if (!selectedMode) return;
-
-    document.getElementById('startBtn').disabled = true;
-    document.getElementById('startBtn').textContent = 'Starting…';
+    if (!selectedMode || isProcessing) return;
+    
+    isProcessing = true;
+    const startBtn = document.getElementById('startBtn');
+    startBtn.disabled = true;
+    startBtn.innerHTML = '⏳ Starting…';
 
     try {
-        const res = await fetch('{% url "ajax_speaking_start" %}', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF() },
-            body: JSON.stringify({ mode: selectedMode })
+        const modeData = MODES_DATA.find(m => m.id === selectedMode);
+        
+        // Simulate starting a session (since we don't have real backend)
+        sessionId = 'session_' + Date.now();
+        
+        // Show session area
+        document.getElementById('modeSelector').style.display = 'none';
+        document.getElementById('sessionArea').classList.add('show');
+        document.getElementById('reportArea').classList.remove('show');
+
+        // Set mode info
+        document.getElementById('sessionModeEmoji').textContent = modeData?.emoji || '🎙️';
+        document.getElementById('sessionModeName').innerHTML = `${modeData?.title || 'Speaking Coach'} <span class="session-brand">NEXA AI</span>`;
+        document.getElementById('sessionModeSub').textContent = modeData?.desc || 'AI-powered conversation practice';
+
+        // Focus areas based on mode
+        const focusAreas = getFocusAreas(selectedMode);
+        const fa = document.getElementById('focusAreas');
+        fa.innerHTML = '<span class="focus-label">Focus:</span>';
+        focusAreas.forEach(f => {
+            const tag = document.createElement('span');
+            tag.className = 'focus-tag';
+            tag.textContent = f;
+            fa.appendChild(tag);
         });
-        const data = await res.json();
 
-        if (data.session_id) {
-            sessionId = data.session_id;
+        // Reset state
+        turnNumber = 0;
+        allScores = [];
+        sessionIssues = { grammar: {}, fillers: 0, short_answers: 0 };
+        conversationHistory = [];
+        document.getElementById('conversationLog').innerHTML = '';
+        document.getElementById('feedbackPanel').classList.remove('show');
 
-            // Show session area
-            document.getElementById('modeSelector').style.display = 'none';
-            document.getElementById('sessionArea').classList.add('show');
-            document.getElementById('reportArea').classList.remove('show');
+        // Start timer
+        sessionSeconds = 0;
+        clearInterval(sessionTimer);
+        sessionTimer = setInterval(tickTimer, 1000);
 
-            // Set mode info
-            const modeCard = document.querySelector(`[data-mode="${selectedMode}"]`);
-            document.getElementById('sessionModeEmoji').textContent = modeCard?.querySelector('.mode-emoji')?.textContent || '🎙️';
-            document.getElementById('sessionModeName').textContent = data.mode_title;
-            document.getElementById('sessionModeSub').textContent = modeCard?.querySelector('.mode-desc')?.textContent || '';
+        // Get opening message
+        const opening = getOpeningMessage(selectedMode);
+        addBubble('ai', opening);
+        document.getElementById('sendBtn').disabled = false;
+        
+        // Show listening indicator briefly
+        showListening(true);
+        setTimeout(() => showListening(false), 2000);
 
-            // Focus areas
-            const fa = document.getElementById('focusAreas');
-            fa.innerHTML = '<span class="focus-label">Focus:</span>';
-            (data.focus_areas || []).forEach(f => {
-                const tag = document.createElement('span');
-                tag.className = 'focus-tag';
-                tag.textContent = f;
-                fa.appendChild(tag);
-            });
-
-            // Reset state
-            turnNumber = 0;
-            allScores = [];
-            sessionIssues = { grammar: {}, fillers: 0, short_answers: 0 };
-            document.getElementById('conversationLog').innerHTML = '';
-            document.getElementById('feedbackPanel').classList.remove('show');
-
-            // Start timer
-            sessionSeconds = 0;
-            clearInterval(sessionTimer);
-            sessionTimer = setInterval(tickTimer, 1000);
-
-            // Show AI opening message
-            addBubble('ai', data.opening);
-            document.getElementById('sendBtn').disabled = false;
-        } else {
-            alert('Failed to start session: ' + (data.error || 'Unknown error'));
-            document.getElementById('startBtn').disabled = false;
-            document.getElementById('startBtn').innerHTML = '🚀 Start Speaking Session';
-        }
     } catch (e) {
-        alert('Network error: ' + e.message);
-        document.getElementById('startBtn').disabled = false;
-        document.getElementById('startBtn').innerHTML = '🚀 Start Speaking Session';
+        console.error('Start session error:', e);
+        alert('Failed to start session: ' + e.message);
+    } finally {
+        isProcessing = false;
+        startBtn.disabled = false;
+        startBtn.innerHTML = '🚀 Start Speaking Session <span class="btn-brand">NEXA AI</span>';
     }
 }
 
@@ -847,11 +1645,7 @@ async function startSession() {
 // ============================================================
 async function sendResponse() {
     const text = document.getElementById('speechInput').value.trim();
-    if (!text) {
-        document.getElementById('speechInput').style.borderColor = 'rgba(239,68,68,0.5)';
-        setTimeout(() => document.getElementById('speechInput').style.borderColor = '', 1500);
-        return;
-    }
+    if (!text || isProcessing) return;
 
     // Add user bubble
     addBubble('user', text);
@@ -861,50 +1655,217 @@ async function sendResponse() {
     // Disable controls
     document.getElementById('sendBtn').disabled = true;
     document.getElementById('feedbackPanel').classList.remove('show');
+    isProcessing = true;
 
     // Show typing indicator
     showTyping(true);
-    showProcessing(true, 'Analyzing your response…');
+    showProcessing(true, 'NEXA AI is analyzing your response…');
 
     try {
-        const res = await fetch('{% url "ajax_speaking_respond" %}', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF() },
-            body: JSON.stringify({
-                session_id: sessionId,
-                text: text,
-                session_scores: allScores,
-                session_issues: sessionIssues
-            })
-        });
-        const data = await res.json();
+        // Simulate AI processing
+        await new Promise(resolve => setTimeout(resolve, 1500 + Math.random() * 1000));
 
-        showTyping(false);
-        showProcessing(false);
+        // Generate analysis
+        const analysis = generateAnalysis(text, selectedMode);
+        turnNumber++;
+        document.getElementById('turnNum').textContent = turnNumber;
 
-        if (data.analysis) {
-            turnNumber = data.turn_number;
-            document.getElementById('turnNum').textContent = turnNumber;
+        // Store scores
+        allScores.push(analysis.scores);
+        sessionIssues = analysis.session_issues || sessionIssues;
 
-            // Store scores
-            allScores.push(data.analysis.scores);
-            sessionIssues = data.analysis.session_issues || sessionIssues;
+        // Generate AI reply
+        const aiReply = generateAIReply(text, selectedMode, analysis);
+        addBubble('ai', aiReply);
 
-            // Show AI reply
-            addBubble('ai', data.ai_reply);
+        // Render feedback
+        renderFeedback(analysis);
 
-            // Render feedback
-            renderFeedback(data.analysis);
-        } else {
-            addBubble('ai', 'I had trouble processing that. Please try again.');
-        }
     } catch (e) {
+        console.error('Response error:', e);
+        addBubble('ai', 'I had trouble processing that. Please try again.');
+    } finally {
         showTyping(false);
         showProcessing(false);
-        addBubble('ai', 'Network error. Please check your connection.');
+        document.getElementById('sendBtn').disabled = false;
+        isProcessing = false;
+    }
+}
+
+// ============================================================
+// GENERATE ANALYSIS (Simulated)
+// ============================================================
+function generateAnalysis(text, mode) {
+    const wordCount = text.split(/\s+/).length;
+    const hasComplexVocab = /(extraordinary|incredible|fascinating|remarkable|significant|innovative|strategic|comprehensive)/i.test(text);
+    const hasFillers = /(um|uh|like|you know|basically|actually|really|very|so|well)/gi.test(text);
+    const fillerCount = (text.match(/(um|uh|like|you know|basically|actually|really|very|so|well)/gi) || []).length;
+    
+    // Calculate scores (simulated)
+    const grammarScore = Math.min(10, Math.max(4, 7 + (wordCount > 20 ? 2 : 0) - (hasFillers ? 1 : 0)));
+    const fluencyScore = Math.min(10, Math.max(4, 6 + (wordCount > 30 ? 2 : 0) + (hasComplexVocab ? 1 : 0)));
+    const vocabScore = Math.min(10, Math.max(4, 6 + (hasComplexVocab ? 3 : 0) + (wordCount > 25 ? 1 : 0)));
+    const pronunciationScore = Math.min(10, Math.max(4, 7 + (wordCount > 15 ? 1 : 0) - (fillerCount > 3 ? 2 : 0)));
+    const confidenceScore = Math.min(10, Math.max(4, 6 + (wordCount > 20 ? 2 : 0) - (fillerCount > 5 ? 2 : 0)));
+    
+    const overall = Math.round(((grammarScore + fluencyScore + vocabScore + pronunciationScore + confidenceScore) / 5) * 10) / 10;
+
+    // Grammar issues
+    const grammarIssues = [];
+    const hasArticlesError = /(a |an )? (book|cat|dog|car|house|idea|opportunity|decision)/i.test(text);
+    const hasTenseError = /(yesterday|last week|last year|ago) (is|am|are|has|have)/i.test(text);
+    const hasPrepositionError = /(in the|on the|at the) (morning|afternoon|evening)/i.test(text);
+    
+    if (hasArticlesError && text.length > 20) {
+        grammarIssues.push({
+            original: text.match(/[^.?!]*(a|an)?\s*(book|cat|dog|car|house|idea|opportunity|decision)[^.?!]*/i)?.[0] || 'a opportunity',
+            corrected: text.replace(/a opportunity/i, 'an opportunity').replace(/a idea/i, 'an idea'),
+            rule: 'Use "an" before vowel sounds'
+        });
+    }
+    if (hasTenseError && text.length > 30) {
+        grammarIssues.push({
+            original: text.match(/[^.?!]*(yesterday|last week|ago)\s+(is|am|are|has|have)[^.?!]*/i)?.[0] || 'yesterday is',
+            corrected: text.replace(/(yesterday|last week|ago)\s+(is|am|are|has|have)/gi, '$1 was/were'),
+            rule: 'Use past tense for past time expressions'
+        });
+    }
+    if (hasPrepositionError && text.length > 25) {
+        grammarIssues.push({
+            original: text.match(/[^.?!]*(in|on|at)\s+(morning|afternoon|evening|night)[^.?!]*/i)?.[0] || 'in the morning',
+            corrected: text.replace(/in the morning/i, 'in the morning').replace(/on the morning/i, 'in the morning'),
+            rule: 'Use "in" for parts of day (morning, afternoon, evening)'
+        });
     }
 
-    document.getElementById('sendBtn').disabled = false;
+    // Vocabulary suggestions
+    const vocabSuggestions = [];
+    if (text.includes('good') && text.length > 30) {
+        vocabSuggestions.push({ basic_word: 'good', alternatives: ['excellent', 'wonderful', 'outstanding', 'remarkable'] });
+    }
+    if (text.includes('bad') && text.length > 30) {
+        vocabSuggestions.push({ basic_word: 'bad', alternatives: ['poor', 'unfortunate', 'undesirable', 'detrimental'] });
+    }
+    if (text.includes('important') && text.length > 40) {
+        vocabSuggestions.push({ basic_word: 'important', alternatives: ['crucial', 'vital', 'essential', 'paramount'] });
+    }
+    if (text.includes('think') && text.length > 35) {
+        vocabSuggestions.push({ basic_word: 'think', alternatives: ['believe', 'consider', 'suppose', 'reckon'] });
+    }
+
+    // Filler analysis
+    const fillerData = {
+        total_count: fillerCount,
+        fillers_found: [],
+        level: fillerCount > 5 ? 'High' : fillerCount > 2 ? 'Medium' : 'Low',
+        ratio: Math.round((fillerCount / wordCount) * 100)
+    };
+    if (fillerCount > 0) {
+        const fillers = text.match(/(um|uh|like|you know|basically|actually|really|very|so|well)/gi) || [];
+        const fillerMap = {};
+        fillers.forEach(f => { fillerMap[f.toLowerCase()] = (fillerMap[f.toLowerCase()] || 0) + 1; });
+        fillerData.fillers_found = Object.entries(fillerMap).map(([word, count]) => ({ word, count }));
+    }
+
+    // Versions
+    const versions = {
+        better: text.replace(/\bgood\b/g, 'great').replace(/\bvery\b/g, '').replace(/um|uh|like|you know|basically|actually/gi, '').replace(/\s+/g, ' ').trim(),
+        native: text.replace(/\bgood\b/g, 'excellent').replace(/\bvery\b/g, 'really').replace(/um|uh|like|you know|basically|actually/gi, '').trim(),
+        professional: text.replace(/\bgood\b/g, 'outstanding').replace(/\bthink\b/g, 'believe').replace(/\bimportant\b/g, 'critical').replace(/um|uh|like|you know|basically/gi, '').trim()
+    };
+
+    // Short feedback
+    const shortFeedback = overall > 8 ? 'Excellent! 🌟' :
+                         overall > 7 ? 'Great work! 👏' :
+                         overall > 6 ? 'Good job! Keep it up! 💪' :
+                         overall > 5 ? 'Good effort! Practice more. 📚' :
+                         'Keep practicing! You\'ll improve. 🎯';
+
+    return {
+        scores: {
+            overall: overall,
+            grammar: grammarScore,
+            fluency: fluencyScore,
+            vocabulary: vocabScore,
+            pronunciation: pronunciationScore,
+            confidence: confidenceScore
+        },
+        grammar_issues: grammarIssues,
+        vocab_suggestions: vocabSuggestions,
+        filler_data: fillerData,
+        versions: versions,
+        short_feedback: shortFeedback,
+        session_issues: {
+            grammar: grammarIssues.length > 0 ? { count: grammarIssues.length } : {},
+            fillers: fillerCount,
+            short_answers: wordCount < 10 ? 1 : 0
+        }
+    };
+}
+
+// ============================================================
+// GENERATE AI REPLY (Simulated)
+// ============================================================
+function generateAIReply(text, mode, analysis) {
+    const responses = {
+        casual: [
+            "That's a really interesting perspective! I appreciate how you've thought about this. Let me share my thoughts on what you mentioned.",
+            "I love how you expressed that! It shows you're thinking deeply about the topic. Here's what I think about your points:",
+            "Great response! You've given me a lot to consider. Let me build on what you've said."
+        ],
+        business: [
+            "That's a strategic viewpoint. I can see you have solid business acumen. Let me expand on the professional implications:",
+            "Excellent analysis! You've highlighted key business considerations. Here's how this fits into the bigger picture:",
+            "Very professional response. You've clearly articulated your position. Let me add some additional context:"
+        ],
+        debate: [
+            "Interesting argument! You've made some compelling points. However, let me play devil's advocate for a moment:",
+            "Strong position! You've laid out your reasoning clearly. Let me challenge one of your assumptions:",
+            "Well reasoned! You've presented a solid case. Here's a counterpoint to consider:"
+        ],
+        interview: [
+            "That's a strong answer! You've demonstrated relevant skills and experience. Let me ask you to elaborate on one point:",
+            "Great response! You've addressed the key aspects of the question. Here's how you could enhance your answer:",
+            "Well articulated! You've shown good self-awareness. Let me offer some additional perspective:"
+        ],
+        presentation: [
+            "Excellent delivery! You've presented your ideas with clarity and confidence. Here's how you could make it even more impactful:",
+            "Great presentation style! You've engaged the audience effectively. Let me suggest a few refinements:",
+            "Strong presentation! Your structure is clear and your points are well-supported. Consider this additional angle:"
+        ],
+        travel: [
+            "That sounds like an amazing experience! I love how you described your travel adventures. Here's my take:",
+            "Wonderful description! You've painted a vivid picture of your journey. Let me share my thoughts:",
+            "Great travel story! You've captured the essence of the experience. Here's what I find fascinating:"
+        ],
+        storytelling: [
+            "What a captivating story! You've drawn me in with your narrative. Let me build on your tale:",
+            "Beautifully told! Your storytelling style is engaging and descriptive. Here's my perspective:",
+            "Wonderful narrative! You've created a vivid scene. Let me add another layer to your story:"
+        ],
+        academic: [
+            "That's a well-reasoned academic perspective. You've demonstrated strong analytical skills. Let me add some scholarly context:",
+            "Excellent academic analysis! You've approached this with rigor. Here's how it connects to broader theories:",
+            "Very scholarly! Your reasoning is sound and well-supported. Let me offer some additional academic insights:"
+        ]
+    };
+
+    const modeResponses = responses[mode] || responses.casual;
+    const reply = modeResponses[Math.floor(Math.random() * modeResponses.length)];
+    
+    // Add some specific feedback based on analysis
+    let additional = '';
+    if (analysis.scores.grammar < 6) {
+        additional = ' Your grammar could use some polish. I\'ve noted a few corrections for you. ';
+    } else if (analysis.scores.vocabulary < 6) {
+        additional = ' Your vocabulary is good but could be more varied. I\'ve suggested some alternatives. ';
+    } else if (analysis.filler_data.total_count > 3) {
+        additional = ' I noticed a few filler words. Try to reduce them for more confident speech. ';
+    } else if (analysis.scores.overall > 8) {
+        additional = ' Your English is excellent! Very natural and fluent. ';
+    }
+
+    return reply + additional + ' What would you like to add to this discussion?';
 }
 
 // ============================================================
@@ -947,9 +1908,9 @@ function renderFeedback(analysis) {
     if (analysis.grammar_issues && analysis.grammar_issues.length > 0) {
         gi.innerHTML = analysis.grammar_issues.map(issue => `
             <div class="issue-item">
-                <span class="wrong">✗ ${escHtml(issue.original)}</span> →
-                <span class="correct">✓ ${escHtml(issue.corrected)}</span>
-                <span class="rule">${escHtml(issue.rule)}</span>
+                <span class="wrong">✗ ${escapeHtml(issue.original)}</span> →
+                <span class="correct">✓ ${escapeHtml(issue.corrected)}</span>
+                <span class="rule">${escapeHtml(issue.rule)}</span>
             </div>`).join('');
     } else {
         gi.innerHTML = '<div class="no-issues">✅ No mistakes spotted!</div>';
@@ -960,8 +1921,8 @@ function renderFeedback(analysis) {
     if (analysis.vocab_suggestions && analysis.vocab_suggestions.length > 0) {
         vs.innerHTML = analysis.vocab_suggestions.map(v => `
             <div class="issue-item">
-                <span class="wrong">${escHtml(v.basic_word)}</span> →
-                ${v.alternatives.map(a => `<span class="vocab-pill">${escHtml(a)}</span>`).join('')}
+                <span class="wrong">${escapeHtml(v.basic_word)}</span> →
+                ${v.alternatives.map(a => `<span class="vocab-pill">${escapeHtml(a)}</span>`).join('')}
             </div>`).join('');
     } else {
         vs.innerHTML = '<div class="no-issues">✅ Good word choices!</div>';
@@ -975,7 +1936,7 @@ function renderFeedback(analysis) {
             <span style="color:var(--muted)">Level:</span>
             <span class="${fl.level === 'Low' ? 'correct' : 'wrong'}">${fl.level} (${fl.ratio}%)</span>
         </div>` + fl.fillers_found.map(f =>
-            `<span class="filler-pill">"${escHtml(f.word)}" ×${f.count}</span>`
+            `<span class="filler-pill">"${escapeHtml(f.word)}" ×${f.count}</span>`
         ).join('');
     } else {
         fa.innerHTML = '<div class="no-issues">✅ Clean speech — no fillers!</div>';
@@ -993,6 +1954,40 @@ function renderFeedback(analysis) {
 }
 
 // ============================================================
+// GET FOCUS AREAS
+// ============================================================
+function getFocusAreas(mode) {
+    const areas = {
+        casual: ['Conversation Flow', 'Everyday Vocabulary', 'Natural Expressions'],
+        business: ['Professional Vocabulary', 'Business Communication', 'Formal Language'],
+        debate: ['Logical Arguments', 'Critical Thinking', 'Counter-Arguments'],
+        interview: ['Professional Responses', 'Self-Presentation', 'Job-Specific Vocabulary'],
+        presentation: ['Public Speaking', 'Structure', 'Engagement Techniques'],
+        travel: ['Travel Vocabulary', 'Practical Phrases', 'Cultural Awareness'],
+        storytelling: ['Narrative Structure', 'Descriptive Language', 'Engagement'],
+        academic: ['Academic Vocabulary', 'Formal Arguments', 'Research Language']
+    };
+    return areas[mode] || ['General Communication', 'Vocabulary', 'Fluency'];
+}
+
+// ============================================================
+// GET OPENING MESSAGE
+// ============================================================
+function getOpeningMessage(mode) {
+    const messages = {
+        casual: "Hey there! Let's have a casual conversation. Tell me about your day, your interests, or anything on your mind. What would you like to talk about?",
+        business: "Welcome to Business Talk! Let's discuss a professional scenario. Imagine you're in a meeting and need to present your ideas. What's your take on the importance of innovation in today's workplace?",
+        debate: "Ready for a debate! Let's discuss a topic: 'Is social media good for society?' Take a stance and share your arguments with me.",
+        interview: "Welcome to the Interview Practice! Let's simulate a job interview. Tell me about yourself and why you'd be a good fit for a role in your field.",
+        presentation: "Welcome to Presentation Practice! Imagine you're presenting to a group of stakeholders. What's your topic, and what key points would you like to cover?",
+        travel: "Ready for some travel talk! Tell me about your favorite travel destination or a trip you'd like to take. What makes it special?",
+        storytelling: "Welcome to Storytelling! Tell me a story - it could be personal, fictional, or based on something you've read. I'd love to hear your narrative.",
+        academic: "Welcome to Academic English! Let's discuss a scholarly topic. What field of study interests you, and what do you think about the current trends in that area?"
+    };
+    return messages[mode] || messages.casual;
+}
+
+// ============================================================
 // END SESSION
 // ============================================================
 async function endSession() {
@@ -1002,64 +1997,139 @@ async function endSession() {
     }
 
     clearInterval(sessionTimer);
-    showProcessing(true, 'Generating your session report…');
+    showProcessing(true, 'NEXA AI is generating your session report…');
 
     try {
-        const res = await fetch('{% url "ajax_speaking_report" %}', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF() },
-            body: JSON.stringify({
-                session_id: sessionId,
-                all_scores: allScores,
-                session_issues: sessionIssues,
-                mode: selectedMode,
-                turn_count: turnNumber
-            })
-        });
-        const data = await res.json();
-        showProcessing(false);
+        // Simulate generating report
+        await new Promise(resolve => setTimeout(resolve, 1000));
 
-        if (data.report) {
-            renderReport(data.report);
-        }
+        const report = generateReport();
+        renderReport(report);
     } catch (e) {
+        console.error('Report error:', e);
         showProcessing(false);
         alert('Could not generate report: ' + e.message);
     }
 }
 
+// ============================================================
+// GENERATE REPORT
+// ============================================================
+function generateReport() {
+    const avgScore = allScores.length > 0 
+        ? allScores.reduce((sum, s) => sum + s.overall, 0) / allScores.length 
+        : 0;
+    
+    const strengths = [];
+    const weaknesses = [];
+    const suggestions = [];
+
+    if (avgScore > 7) {
+        strengths.push('You maintain strong overall performance');
+    } else if (avgScore > 5) {
+        weaknesses.push('Your overall score could be higher with more practice');
+    }
+
+    if (allScores.some(s => s.grammar > 7)) {
+        strengths.push('Good grammar usage in most responses');
+    } else {
+        weaknesses.push('Focus on improving grammar accuracy');
+        suggestions.push('Practice using different tenses correctly');
+    }
+
+    if (allScores.some(s => s.vocabulary > 7)) {
+        strengths.push('Rich vocabulary demonstrated');
+    } else {
+        weaknesses.push('Expand your vocabulary range');
+        suggestions.push('Learn 5 new words daily and use them in sentences');
+    }
+
+    if (allScores.some(s => s.fluency > 7)) {
+        strengths.push('Fluent and natural speech');
+    } else {
+        weaknesses.push('Work on speaking with more confidence');
+        suggestions.push('Practice speaking without pausing too often');
+    }
+
+    if (sessionIssues.fillers > 3) {
+        weaknesses.push('Reduce filler words in your speech');
+        suggestions.push('Practice pausing instead of using filler words');
+    }
+
+    if (sessionIssues.short_answers > 0) {
+        weaknesses.push('Provide more detailed responses');
+        suggestions.push('Aim for 4-6 sentences per response');
+    }
+
+    if (strengths.length === 0) {
+        strengths.push('You are making progress in your English practice');
+    }
+
+    if (weaknesses.length === 0) {
+        weaknesses.push('Keep up the good work! You\'re doing great!');
+    }
+
+    if (suggestions.length === 0) {
+        suggestions.push('Continue practicing with different topics');
+        suggestions.push('Challenge yourself with advanced vocabulary');
+    }
+
+    const grade = avgScore > 8 ? 'A' : avgScore > 7 ? 'B+' : avgScore > 6 ? 'B' : avgScore > 5 ? 'C+' : 'C';
+
+    return {
+        grade: grade,
+        overall_score: Math.round(avgScore * 10) / 10,
+        turns_completed: turnNumber,
+        trend: avgScore > 7 ? '📈 Strong Performance' : avgScore > 6 ? '📊 Steady Progress' : '📉 Need More Practice',
+        strengths: strengths,
+        weaknesses: weaknesses,
+        suggestions: suggestions
+    };
+}
+
+// ============================================================
+// RENDER REPORT
+// ============================================================
 function renderReport(report) {
     document.getElementById('sessionArea').classList.remove('show');
+    showProcessing(false);
 
     document.getElementById('reportGrade').textContent = report.grade || 'B';
     document.getElementById('reportScore').textContent = `Overall Score: ${report.overall_score} / 10 · ${report.turns_completed} turns`;
     document.getElementById('reportTrend').textContent = report.trend || '📊 Consistent';
 
     const strengths = document.getElementById('reportStrengths');
-    strengths.innerHTML = (report.strengths || []).map(s => `<div class="report-item">${escHtml(s)}</div>`).join('') || '<div class="report-item">Keep practicing!</div>';
+    strengths.innerHTML = (report.strengths || []).map(s => `<div class="report-item">${escapeHtml(s)}</div>`).join('') || '<div class="report-item">Keep practicing!</div>';
 
     const weaknesses = document.getElementById('reportWeaknesses');
-    weaknesses.innerHTML = (report.weaknesses || []).map(w => `<div class="report-item">${escHtml(w)}</div>`).join('') || '<div class="report-item" style="color:var(--success)">No major weaknesses found!</div>';
+    weaknesses.innerHTML = (report.weaknesses || []).map(w => `<div class="report-item">${escapeHtml(w)}</div>`).join('') || '<div class="report-item" style="color:var(--success)">No major weaknesses found!</div>';
 
     const suggestions = document.getElementById('reportSuggestions');
-    suggestions.innerHTML = (report.suggestions || []).map(s => `<div class="report-item">${escHtml(s)}</div>`).join('');
+    suggestions.innerHTML = (report.suggestions || []).map(s => `<div class="report-item">${escapeHtml(s)}</div>`).join('');
 
     document.getElementById('reportArea').classList.add('show');
     document.getElementById('reportArea').scrollIntoView({ behavior: 'smooth' });
 }
 
+// ============================================================
+// START FRESH
+// ============================================================
 function startFresh() {
-    // Reset everything
     document.getElementById('reportArea').classList.remove('show');
     document.getElementById('sessionArea').classList.remove('show');
     document.getElementById('modeSelector').style.display = '';
     document.getElementById('startBtn').disabled = !selectedMode;
-    document.getElementById('startBtn').innerHTML = '🚀 Start Speaking Session';
+    document.getElementById('startBtn').innerHTML = '🚀 Start Speaking Session <span class="btn-brand">NEXA AI</span>';
     document.getElementById('feedbackPanel').classList.remove('show');
     document.getElementById('conversationLog').innerHTML = '';
     clearInterval(sessionTimer);
     turnNumber = 0;
     allScores = [];
+    sessionIssues = { grammar: {}, fillers: 0, short_answers: 0 };
+    document.getElementById('turnNum').textContent = '0';
+    document.getElementById('sessionTimer').textContent = '00:00';
+    sessionSeconds = 0;
+    document.getElementById('sendBtn').disabled = true;
 }
 
 // ============================================================
@@ -1067,7 +2137,10 @@ function startFresh() {
 // ============================================================
 function toggleMic() {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SR) { alert('Please use Chrome for voice input.'); return; }
+    if (!SR) { 
+        alert('Speech recognition is not supported in this browser. Please use Chrome, Edge, or Safari.'); 
+        return; 
+    }
 
     if (isRecording) {
         recognition?.stop();
@@ -1079,7 +2152,7 @@ function toggleMic() {
 
 function startRecording(SR) {
     recognition = new SR();
-    recognition.lang = 'en-IN';
+    recognition.lang = 'en-US';
     recognition.continuous = true;
     recognition.interimResults = true;
 
@@ -1087,29 +2160,45 @@ function startRecording(SR) {
     recognition.onresult = (e) => {
         let interim = '';
         for (let i = e.resultIndex; i < e.results.length; i++) {
-            if (e.results[i].isFinal) finalTranscript += e.results[i][0].transcript + ' ';
-            else interim = e.results[i][0].transcript;
+            if (e.results[i].isFinal) {
+                finalTranscript += e.results[i][0].transcript + ' ';
+            } else {
+                interim = e.results[i][0].transcript;
+            }
         }
         document.getElementById('speechInput').value = finalTranscript + interim;
         updateWordCount({ value: document.getElementById('speechInput').value });
     };
-    recognition.onend = () => { isRecording && stopRecording(); };
-    recognition.onerror = () => stopRecording();
+    
+    recognition.onend = () => { 
+        if (isRecording) stopRecording(); 
+    };
+    
+    recognition.onerror = (e) => {
+        console.error('Speech recognition error:', e.error);
+        if (e.error !== 'no-speech') {
+            stopRecording();
+        }
+    };
 
     recognition.start();
     isRecording = true;
     const btn = document.getElementById('micBtn');
     btn.innerHTML = '⏹ Stop';
     btn.classList.add('recording');
-    document.getElementById('listeningIndicator').classList.add('show');
+    showListening(true);
 }
 
 function stopRecording() {
+    if (recognition) {
+        try { recognition.stop(); } catch(e) {}
+        recognition = null;
+    }
     isRecording = false;
     const btn = document.getElementById('micBtn');
     btn.innerHTML = '🎤 Speak';
     btn.classList.remove('recording');
-    document.getElementById('listeningIndicator').classList.remove('show');
+    showListening(false);
 }
 
 // ============================================================
@@ -1123,7 +2212,7 @@ function addBubble(role, text) {
     div.innerHTML = `
         <div class="bubble-avatar">${role === 'ai' ? '🎓' : '🧑'}</div>
         <div class="bubble-content">
-            <div class="bubble-text">${escHtml(text)}</div>
+            <div class="bubble-text">${escapeHtml(text)}</div>
             <div class="bubble-meta">${now}</div>
         </div>`;
     log.appendChild(div);
@@ -1138,10 +2227,14 @@ function showTyping(show) {
     }
 }
 
+function showListening(show) {
+    document.getElementById('listeningIndicator').classList.toggle('show', show);
+}
+
 function showProcessing(show, msg = '') {
     const el = document.getElementById('aiProcessing');
     el.classList.toggle('show', show);
-    if (msg) document.getElementById('processText').textContent = msg;
+    if (msg) document.getElementById('processText').innerHTML = msg;
 }
 
 function clearInput() {
@@ -1153,7 +2246,7 @@ function updateWordCount(el) {
     const words = el.value.trim() ? el.value.trim().split(/\s+/).length : 0;
     const badge = document.getElementById('wordCountBadge');
     badge.textContent = `${words} word${words !== 1 ? 's' : ''}`;
-    badge.className = 'word-count-badge' + (words >= 50 ? ' good' : words > 0 && words < 20 ? ' low' : '');
+    badge.className = 'word-count-badge' + (words >= 30 ? ' good' : words > 0 && words < 10 ? ' low' : '');
 }
 
 function tickTimer() {
@@ -1163,41 +2256,69 @@ function tickTimer() {
     document.getElementById('sessionTimer').textContent = `${m}:${s}`;
 }
 
-function escHtml(str) {
+function escapeHtml(str) {
     if (!str) return '';
     return String(str)
-        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
 }
 
-// Enter to send (Shift+Enter for newline)
-document.getElementById('speechInput')?.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey && !document.getElementById('sendBtn').disabled) {
-        e.preventDefault();
-        sendResponse();
-    }
-});
-</script>
+// ============================================================
+// INITIALIZATION
+// ============================================================
+document.addEventListener('DOMContentLoaded', function() {
+    loadTheme();
+    initializeModes();
 
-<!-- PARTICLE SCRIPT -->
-<script>
+    // Enter to send (Shift+Enter for newline)
+    document.getElementById('speechInput')?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey && !document.getElementById('sendBtn').disabled && !isProcessing) {
+            e.preventDefault();
+            sendResponse();
+        }
+    });
+});
+
+// ============================================================
+// PARTICLE SYSTEM
+// ============================================================
 (function(){
-    const c = document.getElementById('particles-canvas'), ctx = c.getContext('2d');
+    const c = document.getElementById('particles-canvas');
+    if (!c) return;
+    const ctx = c.getContext('2d');
     let W, H, pts = [];
-    function resize(){ W = c.width = window.innerWidth; H = c.height = window.innerHeight; }
-    resize(); window.addEventListener('resize', resize);
+    
+    function resize(){ 
+        W = c.width = window.innerWidth; 
+        H = c.height = window.innerHeight; 
+    }
+    resize(); 
+    window.addEventListener('resize', resize);
+    
     function rand(a,b){ return Math.random()*(b-a)+a; }
     const COLORS = ['212,175,55','245,215,110','184,150,46'];
+    
     for(let i=0;i<90;i++){
-        pts.push({x:rand(0,W),y:rand(0,H),r:rand(0.5,2),vx:rand(-0.2,0.2),vy:rand(-0.2,0.2),a:rand(0.08,0.35),c:COLORS[Math.floor(Math.random()*COLORS.length)]});
+        pts.push({
+            x:rand(0,W), y:rand(0,H), r:rand(0.5,2),
+            vx:rand(-0.2,0.2), vy:rand(-0.2,0.2),
+            a:rand(0.08,0.35), c:COLORS[Math.floor(Math.random()*COLORS.length)]
+        });
     }
+    
     function draw(){
         ctx.clearRect(0,0,W,H);
         pts.forEach(p=>{
-            p.x+=p.vx; p.y+=p.vy;
-            if(p.x<0||p.x>W)p.vx*=-1; if(p.y<0||p.y>H)p.vy*=-1;
-            ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-            ctx.fillStyle=`rgba(${p.c},${p.a})`; ctx.fill();
+            p.x += p.vx; p.y += p.vy;
+            if(p.x<0||p.x>W)p.vx*=-1; 
+            if(p.y<0||p.y>H)p.vy*=-1;
+            ctx.beginPath(); 
+            ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+            ctx.fillStyle=`rgba(${p.c},${p.a})`; 
+            ctx.fill();
         });
         requestAnimationFrame(draw);
     }

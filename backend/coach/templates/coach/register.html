@@ -1,449 +1,638 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Register — NEXA HUB ENGLISH COACH</title>
-    <style>
-        /* =============================================
-           LUXURY / PREMIUM THEME – Deep Navy, Gold, Elegant
-           Applied to Register Page (100% function-preserved)
-           ============================================= */
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register — NEXA HUB AI</title>
+  <style>
+    /* =============================================
+       LUXURY / PREMIUM THEME – Deep Navy, Gold, Elegant
+       with Light / Dark Mode Toggle
+       ============================================= */
 
-        /* ─── RESET & VNexaBLES ─── */
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    /* ─── RESET & VARIABLES ─── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        :root {
-            /* Deep navy base */
-            --bg: #0a0c1a;
-            --surface: rgba(255, 255, 255, 0.03);
-            --surface-hover: rgba(212, 175, 55, 0.06);
-            --border: rgba(212, 175, 55, 0.15);
-            --border-glow: rgba(212, 175, 55, 0.3);
+    :root {
+      /* ── DARK MODE (default) ── */
+      --bg: #0a0c1a;
+      --surface: rgba(255, 255, 255, 0.03);
+      --surface-hover: rgba(212, 175, 55, 0.06);
+      --border: rgba(212, 175, 55, 0.15);
+      --border-glow: rgba(212, 175, 55, 0.3);
+      --text: #f0ece4;
+      --text-secondary: #d6cfb5;
+      --muted: #8a867a;
+      --shadow: 0 28px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(212, 175, 55, 0.05);
+      --input-bg: rgba(255, 255, 255, 0.04);
+      --blob-opacity: 0.10;
+      --card-bg: var(--surface);
+      --error-bg: rgba(239, 68, 68, 0.06);
+      --error-border: rgba(239, 68, 68, 0.2);
+      --error-text: #fca5a5;
+    }
 
-            /* Gold palette */
-            --gold: #d4af37;
-            --gold-light: #f5d76e;
-            --gold-dark: #b8962e;
-            --gold-gradient: linear-gradient(135deg, #f5d76e, #d4af37, #b8962e);
+    /* ── LIGHT MODE ── */
+    [data-theme="light"] {
+      --bg: #f5f0e8;
+      --surface: rgba(255, 255, 255, 0.6);
+      --surface-hover: rgba(212, 175, 55, 0.10);
+      --border: rgba(212, 175, 55, 0.25);
+      --border-glow: rgba(212, 175, 55, 0.5);
+      --text: #1e1a14;
+      --text-secondary: #3d352a;
+      --muted: #6b6356;
+      --shadow: 0 28px 60px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(212, 175, 55, 0.15);
+      --input-bg: rgba(0, 0, 0, 0.03);
+      --blob-opacity: 0.04;
+      --card-bg: rgba(255, 255, 255, 0.7);
+      --error-bg: rgba(239, 68, 68, 0.08);
+      --error-border: rgba(239, 68, 68, 0.3);
+      --error-text: #b91c1c;
+    }
 
-            /* Text */
-            --text: #f0ece4;
-            --text-secondary: #d6cfb5;
-            --muted: #8a867a;
+    html {
+      scroll-behavior: smooth;
+    }
 
-            /* Accents (kept for compatibility) */
-            --primary: #d4af37;
-            --secondary: #b8962e;
-            --accent: #f5d76e;
-            --purple: #d4af37;
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      overflow: hidden;
+      line-height: 1.7;
+      min-height: 100vh;
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      transition: background 0.5s ease, color 0.5s ease;
+    }
 
-            /* Typography */
-            --font-heading: 'Playfair Display', 'Georgia', serif;
-            --font-body: 'Lora', 'Segoe UI', serif;
+    /* ─── TYPOGRAPHY ─── */
+    :root {
+      --font-heading: 'Playfair Display', 'Georgia', serif;
+      --font-body: 'Lora', 'Segoe UI', serif;
+      --radius: 20px;
+      --transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      --gold: #d4af37;
+      --gold-light: #f5d76e;
+      --gold-dark: #b8962e;
+      --gold-gradient: linear-gradient(135deg, #f5d76e, #d4af37, #b8962e);
+    }
 
-            --radius: 20px;
-            --shadow: 0 28px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(212, 175, 55, 0.05);
-            --transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-        }
+    /* ─── TOP-LEFT BRAND ─── */
+    .brand-top-left {
+      position: fixed;
+      top: 28px;
+      left: 32px;
+      z-index: 10;
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      background: var(--gold-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 30px rgba(212, 175, 55, 0.15);
+      pointer-events: none;
+      user-select: none;
+      transition: opacity 0.3s ease;
+    }
 
-        html {
-            scroll-behavior: smooth;
-        }
+    /* ─── THEME TOGGLE ─── */
+    .theme-toggle {
+      position: fixed;
+      top: 28px;
+      right: 32px;
+      z-index: 10;
+      background: var(--surface);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      padding: 8px 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      color: var(--text);
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+    }
+    .theme-toggle:hover {
+      border-color: var(--border-glow);
+      transform: scale(1.03);
+    }
+    .theme-toggle .icon {
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+    .theme-toggle .label {
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
 
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: var(--font-body);
-            overflow: hidden;
-            line-height: 1.7;
-            min-height: 100vh;
-            letter-spacing: 0.02em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
+    /* ─── BACKGROUND BLOBS ─── */
+    .bg-blobs {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(160px);
+      opacity: var(--blob-opacity);
+      animation: floatBlob 20s ease-in-out infinite alternate;
+      transition: opacity 0.8s ease;
+    }
+    .b1 {
+      width: 800px;
+      height: 800px;
+      background: #d4af37;
+      top: -300px;
+      left: -250px;
+    }
+    .b2 {
+      width: 600px;
+      height: 600px;
+      background: #b8962e;
+      bottom: -200px;
+      right: -200px;
+      animation-delay: 7s;
+    }
+    .b3 {
+      width: 450px;
+      height: 450px;
+      background: #f5d76e;
+      top: 45%;
+      left: 55%;
+      animation-delay: 4s;
+    }
+    @keyframes floatBlob {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+      100% {
+        transform: translate(50px, -50px) scale(1.1);
+      }
+    }
 
-        /* ─── BACKGROUND BLOBS ─── */
-        .bg-blobs {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
-            overflow: hidden;
-        }
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(160px);
-            opacity: 0.10;
-            animation: floatBlob 20s ease-in-out infinite alternate;
-        }
-        .b1 {
-            width: 800px;
-            height: 800px;
-            background: #d4af37;
-            top: -300px;
-            left: -250px;
-            opacity: 0.06;
-        }
-        .b2 {
-            width: 600px;
-            height: 600px;
-            background: #b8962e;
-            bottom: -200px;
-            right: -200px;
-            animation-delay: 7s;
-            opacity: 0.05;
-        }
-        .b3 {
-            width: 450px;
-            height: 450px;
-            background: #f5d76e;
-            top: 45%;
-            left: 55%;
-            animation-delay: 4s;
-            opacity: 0.04;
-        }
-        @keyframes floatBlob {
-            0% {
-                transform: translate(0, 0) scale(1);
-            }
-            100% {
-                transform: translate(50px, -50px) scale(1.1);
-            }
-        }
+    /* ─── PARTICLES CANVAS ─── */
+    #particles-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
 
-        /* ─── PARTICLES CANVAS ─── */
-        #particles-canvas {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
-        }
+    /* ─── REGISTER CARD ─── */
+    .card {
+      position: relative;
+      z-index: 1;
+      background: var(--card-bg);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 44px 38px;
+      width: 100%;
+      max-width: 460px;
+      box-shadow: var(--shadow);
+      animation: slideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: background 0.5s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+    }
+    .card:hover {
+      border-color: var(--border-glow);
+    }
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(36px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-        /* ─── REGISTER CARD ─── */
-        .card {
-            position: relative;
-            z-index: 1;
-            background: var(--surface);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 44px 38px;
-            width: 100%;
-            max-width: 460px;
-            box-shadow: var(--shadow);
-            animation: slideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-            transition: var(--transition);
-        }
-        .card:hover {
-            border-color: var(--border-glow);
-        }
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(36px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    /* ─── LOGO ─── */
+    .logo {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .logo-icon {
+      font-size: 48px;
+      display: block;
+      margin-bottom: 8px;
+      animation: bounceIcon 2.8s ease infinite;
+    }
+    @keyframes bounceIcon {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+    .logo h1 {
+      font-size: 1.5rem;
+      font-weight: 900;
+      font-family: var(--font-heading);
+      background: var(--gold-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 0.04em;
+    }
+    .logo p {
+      color: var(--muted);
+      font-size: 0.83rem;
+      margin-top: 4px;
+      font-family: var(--font-body);
+      transition: color 0.4s ease;
+    }
 
-        /* ─── LOGO ─── */
-        .logo {
-            text-align: center;
-            margin-bottom: 28px;
-        }
-        .logo-icon {
-            font-size: 48px;
-            display: block;
-            margin-bottom: 8px;
-            animation: bounceIcon 2.8s ease infinite;
-        }
-        @keyframes bounceIcon {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-        .logo h1 {
-            font-size: 1.5rem;
-            font-weight: 900;
-            font-family: var(--font-heading);
-            background: var(--gold-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: 0.04em;
-        }
-        .logo p {
-            color: var(--muted);
-            font-size: 0.83rem;
-            margin-top: 4px;
-            font-family: var(--font-body);
-        }
+    /* ─── FORM FIELDS ─── */
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 13px;
+    }
+    .field {
+      margin-bottom: 15px;
+    }
+    .field label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 5px;
+      font-family: var(--font-heading);
+      transition: color 0.4s ease;
+    }
+    .field input {
+      width: 100%;
+      padding: 12px 15px;
+      background: var(--input-bg);
+      border: 1.5px solid var(--border);
+      border-radius: 11px;
+      color: var(--text);
+      font-size: 0.93rem;
+      outline: none;
+      transition: var(--transition), background 0.4s ease;
+      font-family: var(--font-body);
+    }
+    .field input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.08);
+    }
+    .field input::placeholder {
+      color: var(--muted);
+      opacity: 0.6;
+    }
 
-        /* ─── FORM FIELDS ─── */
-        .row-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 13px;
-        }
-        .field {
-            margin-bottom: 15px;
-        }
-        .field label {
-            display: block;
-            font-size: 0.72rem;
-            font-weight: 700;
-            color: var(--gold-light);
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            margin-bottom: 5px;
-            font-family: var(--font-heading);
-        }
-        .field input {
-            width: 100%;
-            padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1.5px solid var(--border);
-            border-radius: 11px;
-            color: var(--text);
-            font-size: 0.93rem;
-            outline: none;
-            transition: var(--transition);
-            font-family: var(--font-body);
-        }
-        .field input:focus {
-            border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.08);
-        }
-        .field input::placeholder {
-            color: var(--muted);
-            opacity: 0.6;
-        }
+    .hint {
+      font-size: 0.73rem;
+      color: var(--muted);
+      margin-top: 5px;
+      font-family: var(--font-body);
+      transition: color 0.4s ease;
+    }
 
-        .hint {
-            font-size: 0.73rem;
-            color: var(--muted);
-            margin-top: 5px;
-            font-family: var(--font-body);
-        }
+    /* ─── BUTTON ─── */
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      margin-top: 6px;
+      background: var(--gold-gradient);
+      border: none;
+      border-radius: 12px;
+      color: #0a0c1a;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: var(--transition);
+      letter-spacing: 0.04em;
+      box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
+      font-family: var(--font-body);
+    }
+    .btn-submit:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(212, 175, 55, 0.35);
+    }
 
-        /* ─── BUTTON ─── */
-        .btn-submit {
-            width: 100%;
-            padding: 14px;
-            margin-top: 6px;
-            background: var(--gold-gradient);
-            border: none;
-            border-radius: 12px;
-            color: #0a0c1a;
-            font-size: 1rem;
-            font-weight: 800;
-            cursor: pointer;
-            transition: var(--transition);
-            letter-spacing: 0.04em;
-            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
-            font-family: var(--font-body);
-        }
-        .btn-submit:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.35);
-        }
+    /* ─── ERROR MESSAGE ─── */
+    .error-msg {
+      background: var(--error-bg);
+      border: 1px solid var(--error-border);
+      color: var(--error-text);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 0.86rem;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-body);
+      transition: background 0.4s ease, border-color 0.4s ease, color 0.4s ease;
+    }
 
-        /* ─── ERROR MESSAGE ─── */
-        .error-msg {
-            background: rgba(239, 68, 68, 0.06);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            color: #fca5a5;
-            border-radius: 10px;
-            padding: 12px 16px;
-            font-size: 0.86rem;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-family: var(--font-body);
-        }
+    /* ─── FOOTER LINK ─── */
+    .footer-link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.86rem;
+      color: var(--muted);
+      font-family: var(--font-body);
+      transition: color 0.4s ease;
+    }
+    .footer-link a {
+      color: var(--gold-light);
+      text-decoration: none;
+      font-weight: 700;
+      transition: var(--transition);
+    }
+    .footer-link a:hover {
+      color: var(--gold);
+      text-decoration: underline;
+    }
 
-        /* ─── FOOTER LINK ─── */
-        .footer-link {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 0.86rem;
-            color: var(--muted);
-            font-family: var(--font-body);
-        }
-        .footer-link a {
-            color: var(--gold-light);
-            text-decoration: none;
-            font-weight: 700;
-            transition: var(--transition);
-        }
-        .footer-link a:hover {
-            color: var(--gold);
-            text-decoration: underline;
-        }
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 480px) {
+      .card {
+        padding: 32px 20px;
+      }
+      .row-2 {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      .logo h1 {
+        font-size: 1.3rem;
+      }
+      .logo-icon {
+        font-size: 40px;
+      }
+      .field input {
+        font-size: 0.9rem;
+        padding: 11px 14px;
+      }
+      .btn-submit {
+        font-size: 0.9rem;
+        padding: 12px;
+      }
+      .brand-top-left {
+        top: 16px;
+        left: 20px;
+        font-size: 1.1rem;
+      }
+      .theme-toggle {
+        top: 16px;
+        right: 20px;
+        padding: 6px 12px;
+        font-size: 0.7rem;
+      }
+      .theme-toggle .label {
+        display: none;
+      }
+    }
 
-        /* ─── RESPONSIVE ─── */
-        @media (max-width: 480px) {
-            .card {
-                padding: 32px 20px;
-            }
-            .row-2 {
-                grid-template-columns: 1fr;
-                gap: 0;
-            }
-            .logo h1 {
-                font-size: 1.3rem;
-            }
-            .logo-icon {
-                font-size: 40px;
-            }
-            .field input {
-                font-size: 0.9rem;
-                padding: 11px 14px;
-            }
-            .btn-submit {
-                font-size: 0.9rem;
-                padding: 12px;
-            }
-        }
-
-        /* ─── SCROLLBAR ─── */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 8px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--gold);
-        }
-    </style>
+    /* ─── SCROLLBAR ─── */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 8px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--gold);
+    }
+  </style>
 </head>
 <body>
 
-    <!-- ─── PARTICLES CANVAS ─── -->
-    <canvas id="particles-canvas"></canvas>
+  <!-- ─── TOP-LEFT BRAND ─── -->
+  <div class="brand-top-left">NEXA HUB AI</div>
 
-    <!-- ─── BG BLOBS ─── -->
-    <div class="bg-blobs">
-        <div class="blob b1"></div>
-        <div class="blob b2"></div>
-        <div class="blob b3"></div>
+  <!-- ─── THEME TOGGLE ─── -->
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+    <span class="icon" id="themeIcon">🌙</span>
+    <span class="label" id="themeLabel">Dark</span>
+  </button>
+
+  <!-- ─── PARTICLES CANVAS ─── -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- ─── BG BLOBS ─── -->
+  <div class="bg-blobs">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+
+  <!-- ─── REGISTER CARD ─── -->
+  <div class="card">
+    <div class="logo">
+      <span class="logo-icon">🚀</span>
+      <h1>Create Your Account</h1>
+      <!-- <p>Start your English learning journey — free, no API key needed!</p> -->
     </div>
 
-    <!-- ─── REGISTER CARD ─── -->
-    <div class="card">
-        <div class="logo">
-            <span class="logo-icon">🚀</span>
-            <h1>Create Your Account</h1>
-            <p>Start your English learning journey — free, no API key needed!</p>
+    <div id="error-container" style="display: none;" class="error-msg">⚠️ <span id="error-text"></span></div>
+
+    <form id="register-form" method="post" action="#">
+      <input type="hidden" name="csrfmiddlewaretoken" value="dummy-csrf-token" />
+      <div class="row-2">
+        <div class="field">
+          <label>First Name</label>
+          <input type="text" name="first_name" id="first_name" placeholder="NEXA HUB AI" required />
         </div>
-
-        {% if error %}
-        <div class="error-msg">⚠️ {{ error }}</div>
-        {% endif %}
-
-        <form method="post">
-            {% csrf_token %}
-            <div class="row-2">
-                <div class="field">
-                    <label>First Name</label>
-                    <input type="text" name="first_name" placeholder="Rahul" required />
-                </div>
-                <div class="field">
-                    <label>Username</label>
-                    <input type="text" name="username" placeholder="rahul123" required />
-                </div>
-            </div>
-            <div class="field">
-                <label>Email Address</label>
-                <input type="email" name="email" placeholder="rahul@example.com" />
-            </div>
-            <div class="row-2">
-                <div class="field">
-                    <label>Password</label>
-                    <input type="password" name="password" placeholder="Min 6 chars" required />
-                </div>
-                <div class="field">
-                    <label>Confirm</label>
-                    <input type="password" name="password2" placeholder="Repeat" required />
-                </div>
-            </div>
-            <p class="hint">💡 Password must be at least 6 characters long.</p>
-            <button type="submit" class="btn-submit">🎓 Join NEXA HUB ENGLISH COACH — Free!</button>
-        </form>
-
-        <div class="footer-link">
-            Already have an account? <a href="{% url 'login' %}">Sign in →</a>
+        <div class="field">
+          <label>Username</label>
+          <input type="text" name="username" id="username" placeholder="nexa_ai" required />
         </div>
+      </div>
+      <div class="field">
+        <label>Email Address</label>
+        <input type="email" name="email" id="email" placeholder="nexa@example.com" />
+      </div>
+      <div class="row-2">
+        <div class="field">
+          <label>Password</label>
+          <input type="password" name="password" id="password" placeholder="Min 6 chars" required />
+        </div>
+        <div class="field">
+          <label>Confirm</label>
+          <input type="password" name="password2" id="password2" placeholder="Repeat" required />
+        </div>
+      </div>
+      <p class="hint">💡 Password must be at least 6 characters long.</p>
+      <button type="submit" class="btn-submit">🎓 Join NEXA HUB ENGLISH COACH — Free!</button>
+    </form>
+
+    <div class="footer-link">
+      Already have an account? <a href="#" onclick="alert('Login page would open here.'); return false;">Sign in →</a>
     </div>
+  </div>
 
-    <!-- ─── PARTICLE SCRIPT ──────────────────────────────────────────── -->
-    <script>
-        (function() {
-            const c = document.getElementById('particles-canvas'),
-                ctx = c.getContext('2d');
-            let W, H, pts = [];
+  <!-- ─── SCRIPTS ────────────────────────────────────────────────────── -->
+  <script>
+    // ─── PARTICLES ──────────────────────────────────────────────────
+    (function() {
+      const c = document.getElementById('particles-canvas'),
+        ctx = c.getContext('2d');
+      let W, H, pts = [];
 
-            function resize() {
-                W = c.width = window.innerWidth;
-                H = c.height = window.innerHeight;
-            }
-            resize();
-            window.addEventListener('resize', resize);
+      function resize() {
+        W = c.width = window.innerWidth;
+        H = c.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
 
-            function rand(a, b) { return Math.random() * (b - a) + a; }
-            const COLORS = ['212,175,55', '245,215,110', '184,150,46', '212,175,55'];
-            for (let i = 0; i < 110; i++) {
-                pts.push({
-                    x: rand(0, W),
-                    y: rand(0, H),
-                    r: rand(0.5, 2.2),
-                    vx: rand(-0.25, 0.25),
-                    vy: rand(-0.25, 0.25),
-                    a: rand(0.1, 0.45),
-                    c: COLORS[Math.floor(Math.random() * COLORS.length)]
-                });
-            }
+      function rand(a, b) { return Math.random() * (b - a) + a; }
+      const COLORS = ['212,175,55', '245,215,110', '184,150,46', '212,175,55'];
+      for (let i = 0; i < 110; i++) {
+        pts.push({
+          x: rand(0, W),
+          y: rand(0, H),
+          r: rand(0.5, 2.2),
+          vx: rand(-0.25, 0.25),
+          vy: rand(-0.25, 0.25),
+          a: rand(0.1, 0.45),
+          c: COLORS[Math.floor(Math.random() * COLORS.length)]
+        });
+      }
 
-            function draw() {
-                ctx.clearRect(0, 0, W, H);
-                pts.forEach(p => {
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    if (p.x < 0 || p.x > W) p.vx *= -1;
-                    if (p.y < 0 || p.y > H) p.vy *= -1;
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(${p.c},${p.a})`;
-                    ctx.fill();
-                });
-                requestAnimationFrame(draw);
-            }
-            draw();
-        })();
-    </script>
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+        pts.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0 || p.x > W) p.vx *= -1;
+          if (p.y < 0 || p.y > H) p.vy *= -1;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${p.c},${p.a})`;
+          ctx.fill();
+        });
+        requestAnimationFrame(draw);
+      }
+      draw();
+    })();
+
+    // ─── THEME TOGGLE ──────────────────────────────────────────────
+    (function() {
+      const toggle = document.getElementById('themeToggle');
+      const icon = document.getElementById('themeIcon');
+      const label = document.getElementById('themeLabel');
+      const html = document.documentElement;
+
+      // Get stored theme or system preference
+      const stored = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      let currentTheme = stored || (prefersDark ? 'dark' : 'light');
+
+      function setTheme(theme) {
+        if (theme === 'dark') {
+          html.setAttribute('data-theme', 'dark');
+          icon.textContent = '🌙';
+          label.textContent = 'Dark';
+          localStorage.setItem('theme', 'dark');
+        } else {
+          html.setAttribute('data-theme', 'light');
+          icon.textContent = '☀️';
+          label.textContent = 'Light';
+          localStorage.setItem('theme', 'light');
+        }
+        currentTheme = theme;
+      }
+
+      // Apply initial theme
+      setTheme(currentTheme);
+
+      toggle.addEventListener('click', () => {
+        const next = currentTheme === 'dark' ? 'light' : 'dark';
+        setTheme(next);
+      });
+    })();
+
+    // ─── FORM VALIDATION ───────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('register-form');
+      const errorContainer = document.getElementById('error-container');
+      const errorText = document.getElementById('error-text');
+
+      // Simulate Django error via URL param ?error=1
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('error')) {
+        errorContainer.style.display = 'flex';
+        errorText.textContent = 'This email or username is already registered.';
+      }
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        errorContainer.style.display = 'none';
+        errorText.textContent = '';
+
+        const firstName = document.getElementById('first_name').value.trim();
+        const username = document.getElementById('username').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        const password2 = document.getElementById('password2').value;
+
+        let errorMsg = '';
+
+        if (!firstName) {
+          errorMsg = 'First name is required.';
+        } else if (!username) {
+          errorMsg = 'Username is required.';
+        } else if (username.length < 3) {
+          errorMsg = 'Username must be at least 3 characters.';
+        } else if (email && !email.includes('@')) {
+          errorMsg = 'Please enter a valid email address.';
+        } else if (!password) {
+          errorMsg = 'Password is required.';
+        } else if (password.length < 6) {
+          errorMsg = 'Password must be at least 6 characters long.';
+        } else if (password !== password2) {
+          errorMsg = 'Passwords do not match.';
+        }
+
+        if (errorMsg) {
+          errorContainer.style.display = 'flex';
+          errorText.textContent = errorMsg;
+          return;
+        }
+
+        alert('✅ Registration successful! Welcome to NEXA HUB ENGLISH COACH.\n(Your account would be created.)');
+        form.reset();
+        errorContainer.style.display = 'none';
+      });
+    });
+  </script>
 
 </body>
 </html>

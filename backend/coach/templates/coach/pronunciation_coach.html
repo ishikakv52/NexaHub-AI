@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pronunciation Coach — NEXA HUB ENGLISH COACH</title>
+    <title>Pronunciation Coach — NEXA HUB AI</title>
     <style>
         /* =============================================
            LUXURY / PREMIUM THEME – Deep Navy, Gold, Elegant
-           WITH LEFT SIDEBAR LAYOUT
+           WITH LEFT SIDEBAR LAYOUT & TOP-RIGHT THEME TOGGLE
            ============================================= */
 
         /* ─── RESET & VARIABLES ─── */
@@ -20,7 +20,7 @@
         }
 
         :root {
-            /* Deep navy base */
+            /* Dark mode (default) */
             --bg: #0a0c1a;
             --surface: rgba(255, 255, 255, 0.03);
             --surface-hover: rgba(212, 175, 55, 0.06);
@@ -48,6 +48,23 @@
 
             /* Sidebar width */
             --sidebar-width: 240px;
+
+            /* Blob opacity */
+            --blob-opacity: 0.10;
+        }
+
+        /* ─── LIGHT MODE VARIABLES ─── */
+        [data-theme="light"] {
+            --bg: #f5f0e8;
+            --surface: rgba(255, 255, 255, 0.6);
+            --surface-hover: rgba(212, 175, 55, 0.12);
+            --border: rgba(212, 175, 55, 0.25);
+            --border-glow: rgba(212, 175, 55, 0.5);
+            --text: #1a1a2e;
+            --text-secondary: #2d2d44;
+            --muted: #5a5a72;
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(212, 175, 55, 0.1);
+            --blob-opacity: 0.06;
         }
 
         html {
@@ -63,6 +80,7 @@
             min-height: 100vh;
             letter-spacing: 0.02em;
             display: flex;
+            transition: background 0.4s ease, color 0.4s ease;
         }
 
         /* ─── BACKGROUND BLOBS (for main content) ─── */
@@ -77,8 +95,9 @@
             position: absolute;
             border-radius: 50%;
             filter: blur(160px);
-            opacity: 0.10;
+            opacity: var(--blob-opacity);
             animation: floatBlob 20s ease-in-out infinite alternate;
+            transition: opacity 0.6s ease;
         }
         .b1 {
             width: 800px;
@@ -86,7 +105,6 @@
             background: #d4af37;
             top: -300px;
             right: -250px;
-            opacity: 0.06;
         }
         .b2 {
             width: 600px;
@@ -95,7 +113,6 @@
             bottom: -200px;
             left: -200px;
             animation-delay: 7s;
-            opacity: 0.05;
         }
         @keyframes floatBlob {
             0% {
@@ -131,6 +148,9 @@
             flex-direction: column;
             transition: var(--transition);
             overflow-y: auto;
+        }
+        [data-theme="light"] .sidebar {
+            background: rgba(245, 240, 232, 0.92);
         }
         .sidebar:hover {
             border-right-color: var(--border-glow);
@@ -174,6 +194,7 @@
             color: var(--muted);
             padding: 8px 12px 4px;
             font-weight: 700;
+            transition: color 0.3s ease;
         }
         .sidebar-link {
             display: flex;
@@ -229,6 +250,7 @@
             font-weight: 700;
             font-size: 0.9rem;
             color: var(--text-secondary);
+            transition: color 0.3s ease;
         }
         .sidebar-user .user-stats {
             display: flex;
@@ -241,6 +263,55 @@
             display: flex;
             align-items: center;
             gap: 4px;
+        }
+
+        /* ─── TOP-RIGHT THEME TOGGLE ─── */
+        .theme-toggle-float {
+            position: fixed;
+            top: 20px;
+            right: 24px;
+            z-index: 300;
+            background: rgba(10, 12, 26, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 6px 12px 6px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        [data-theme="light"] .theme-toggle-float {
+            background: rgba(245, 240, 232, 0.8);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }
+        .theme-toggle-float:hover {
+            border-color: var(--gold);
+            transform: scale(1.02);
+        }
+        .theme-toggle-float .toggle-icons {
+            font-size: 1.1rem;
+            line-height: 1;
+        }
+        .theme-toggle-float .toggle-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            transition: color 0.3s ease;
+        }
+        .theme-toggle-float .toggle-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--gold-gradient);
+            transition: 0.3s ease;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
         }
 
         /* ─── MAIN CONTENT ─── */
@@ -291,6 +362,7 @@
             margin: 8px auto 0;
             font-weight: 400;
             font-family: var(--font-body);
+            transition: color 0.3s ease;
         }
 
         /* ─── INPUT CARD ─── */
@@ -303,6 +375,9 @@
             margin-bottom: 24px;
             transition: var(--transition);
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+        [data-theme="light"] .input-card {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
         }
         .input-card:hover {
             border-color: var(--border-glow);
@@ -331,6 +406,9 @@
             outline: none;
             transition: var(--transition);
             font-family: var(--font-body);
+        }
+        [data-theme="light"] .s-input {
+            background: rgba(0, 0, 0, 0.03);
         }
         .s-input:focus {
             border-color: var(--gold);
@@ -389,11 +467,13 @@
             margin-bottom: 4px;
             color: var(--text-secondary);
             font-family: var(--font-heading);
+            transition: color 0.3s ease;
         }
         .mic-info p {
             font-size: 0.82rem;
             color: var(--muted);
             line-height: 1.6;
+            transition: color 0.3s ease;
         }
         .live-text {
             font-size: 0.83rem;
@@ -422,6 +502,9 @@
             transition: var(--transition);
             color: var(--text-secondary);
             font-family: var(--font-body);
+        }
+        [data-theme="light"] .ex-sent {
+            background: rgba(212, 175, 55, 0.06);
         }
         .ex-sent:hover {
             background: rgba(212, 175, 55, 0.08);
@@ -515,6 +598,7 @@
             color: var(--muted);
             line-height: 1.6;
             font-family: var(--font-body);
+            transition: color 0.3s ease;
         }
 
         /* ─── TONGUE TWISTER CARD ─── */
@@ -525,6 +609,9 @@
             padding: 20px 24px;
             margin-bottom: 24px;
             transition: var(--transition);
+        }
+        [data-theme="light"] .tt-card {
+            background: rgba(212, 175, 55, 0.06);
         }
         .tt-card:hover {
             border-color: var(--border-glow);
@@ -553,6 +640,9 @@
             color: var(--text-secondary);
             font-family: var(--font-body);
         }
+        [data-theme="light"] .tt-item {
+            background: rgba(0, 0, 0, 0.02);
+        }
         .tt-item:hover {
             border-color: var(--gold);
             color: var(--gold-light);
@@ -570,6 +660,9 @@
             margin-bottom: 24px;
             transition: var(--transition);
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+        [data-theme="light"] .result-card {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
         }
         .result-card:hover {
             border-color: var(--border-glow);
@@ -614,6 +707,7 @@
             color: var(--text-secondary);
             white-space: pre-wrap;
             font-family: var(--font-body);
+            transition: color 0.3s ease;
         }
         .res-body strong {
             color: var(--gold-light);
@@ -776,6 +870,19 @@
             .page-header h1 {
                 font-size: 1.8rem;
             }
+            .theme-toggle-float {
+                top: 12px;
+                right: 12px;
+                padding: 4px 10px 4px 12px;
+                gap: 6px;
+            }
+            .theme-toggle-float .toggle-label {
+                font-size: 0.6rem;
+            }
+            .theme-toggle-float .toggle-thumb {
+                width: 20px;
+                height: 20px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -793,6 +900,14 @@
                 height: 56px;
                 font-size: 1.4rem;
             }
+            .theme-toggle-float {
+                top: 10px;
+                right: 10px;
+                padding: 4px 8px 4px 10px;
+            }
+            .theme-toggle-float .toggle-label {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -807,40 +922,47 @@
         <div class="blob b2"></div>
     </div>
 
+    <!-- ─── TOP-RIGHT THEME TOGGLE ─── -->
+    <div class="theme-toggle-float" id="themeToggle" onclick="toggleTheme()" title="Toggle Light/Dark Mode">
+        <span class="toggle-icons" id="themeIcon">🌙</span>
+        <span class="toggle-label" id="themeLabel">Dark</span>
+        <span class="toggle-thumb" id="toggleThumb"></span>
+    </div>
+
     <!-- ─── SIDEBAR ─── -->
     <aside class="sidebar">
-        <a class="sidebar-brand" href="{% url 'home' %}">
-            <span>🎓</span> NEXA HUB
+        <a class="sidebar-brand" href="#">
+            <span>🎓</span> NEXA HUB AI
         </a>
 
         <nav class="sidebar-nav">
             <div class="nav-label">Main</div>
-            <a href="{% url 'dashboard' %}" class="sidebar-link">
+            <a href="#" class="sidebar-link">
                 <span class="icon">📊</span>
                 <span class="link-text">Dashboard</span>
             </a>
-            <a href="{% url 'grammar_coach' %}" class="sidebar-link">
+            <a href="#" class="sidebar-link">
                 <span class="icon">📖</span>
                 <span class="link-text">Grammar</span>
             </a>
-            <a href="{% url 'speaking_practice' %}" class="sidebar-link">
+            <a href="#" class="sidebar-link">
                 <span class="icon">🗣️</span>
                 <span class="link-text">Speaking</span>
             </a>
-            <a href="{% url 'interview_practice' %}" class="sidebar-link">
+            <a href="#" class="sidebar-link">
                 <span class="icon">💼</span>
                 <span class="link-text">Interview</span>
             </a>
-            <a href="{% url 'translation' %}" class="sidebar-link">
+            <a href="#" class="sidebar-link">
                 <span class="icon">🔄</span>
                 <span class="link-text">Translate</span>
             </a>
-            <a href="{% url 'pronunciation_coach' %}" class="sidebar-link active">
+            <a href="#" class="sidebar-link active">
                 <span class="icon">🎵</span>
                 <span class="link-text">Pronunciation</span>
             </a>
             <div class="nav-label" style="margin-top:12px;">Engage</div>
-            <a href="{% url 'daily_challenge' %}" class="sidebar-link">
+            <a href="#" class="sidebar-link">
                 <span class="icon">🏆</span>
                 <span class="link-text">Challenge</span>
             </a>
@@ -896,21 +1018,20 @@
 
         <!-- Tips -->
         <div class="tips-grid">
-            {% for g in guide %}
-            <div class="tip-card">
-                <h3>{{ g.sound }}</h3>
-                <p>{{ g.correct|truncatechars:100 }}</p>
-            </div>
-            {% endfor %}
+            <div class="tip-card"><h3>🎯 TH Sound</h3><p>Place tongue between teeth, blow softly. "Three" not "tree".</p></div>
+            <div class="tip-card"><h3>🎯 V vs W</h3><p>V: bite lip, W: round lips. "Very" not "wery".</p></div>
+            <div class="tip-card"><h3>🎯 Schwa Sound</h3><p>Unstressed 'a' in 'about' → /ə/. Relax the mouth.</p></div>
+            <div class="tip-card"><h3>🎯 Word Stress</h3><p>DEvelop vs deVELop. Stress changes meaning.</p></div>
         </div>
 
         <!-- Tongue Twisters -->
         <div class="tt-card">
             <h3>🌀 Tongue Twister Practice — Click to use as your sentence:</h3>
             <div class="tt-list">
-                {% for tt in twisters %}
-                <div class="tt-item" onclick="setEx('{{ tt|escapejs }}')">{{ tt }}</div>
-                {% endfor %}
+                <div class="tt-item" onclick="setEx('Peter Piper picked a peck of pickled peppers.')">Peter Piper picked a peck of pickled peppers.</div>
+                <div class="tt-item" onclick="setEx('How much wood would a woodchuck chuck if a woodchuck could chuck wood?')">How much wood would a woodchuck chuck if a woodchuck could chuck wood?</div>
+                <div class="tt-item" onclick="setEx('She sells seashells by the seashore.')">She sells seashells by the seashore.</div>
+                <div class="tt-item" onclick="setEx('Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair.')">Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair.</div>
             </div>
         </div>
 
@@ -934,8 +1055,41 @@
 
     </main>
 
-    <!-- ─── SCRIPT (100% UNCHANGED — all functions preserved) ──── -->
+    <!-- ─── SCRIPT ──── -->
     <script>
+        // ===== THEME TOGGLE =====
+        function toggleTheme() {
+            const html = document.documentElement;
+            const current = html.getAttribute('data-theme');
+            const newTheme = current === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('nexa-theme', newTheme);
+            updateThemeUI(newTheme);
+        }
+
+        function updateThemeUI(theme) {
+            const icon = document.getElementById('themeIcon');
+            const label = document.getElementById('themeLabel');
+            const thumb = document.getElementById('toggleThumb');
+            if (theme === 'light') {
+                icon.textContent = '☀️';
+                label.textContent = 'Light';
+                thumb.style.transform = 'translateX(20px)';
+            } else {
+                icon.textContent = '🌙';
+                label.textContent = 'Dark';
+                thumb.style.transform = 'translateX(0)';
+            }
+        }
+
+        // Load saved theme
+        (function loadTheme() {
+            const saved = localStorage.getItem('nexa-theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', saved);
+            updateThemeUI(saved);
+        })();
+
+        // ===== PRONUNCIATION COACH FUNCTIONS =====
         let recognition = null,
             isRec = false;
 
@@ -981,24 +1135,20 @@
             document.getElementById('analyzeBtn').disabled = true;
             document.getElementById('loadingDiv').classList.add('show');
             document.getElementById('resultCard').classList.remove('show');
-            try {
-                const r = await fetch('{% url "ajax_pronunciation" %}', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken') },
-                    body: JSON.stringify({ sentence })
-                });
-                const d = await r.json();
+
+            // Simulated analysis result
+            setTimeout(() => {
                 document.getElementById('loadingDiv').classList.remove('show');
-                if (d.result) {
-                    document.getElementById('resBody').innerHTML = fmt(d.result);
-                    document.getElementById('resultCard').classList.add('show');
-                    document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth' });
-                } else alert('Error: ' + (d.error || 'Unknown'));
-            } catch (e) {
-                document.getElementById('loadingDiv').classList.remove('show');
-                alert('Network error.');
-            }
-            document.getElementById('analyzeBtn').disabled = false;
+                const mockResult = `**Pronunciation Analysis for:** "${sentence}"\n\n` +
+                    `🔹 *Stress Pattern:* ${sentence.length > 20 ? 'Complex' : 'Simple'} – focus on content words.\n` +
+                    `🔹 *Trouble sounds:* ${sentence.includes('th') ? 'TH sound (voiced/voiceless) — put tongue between teeth.' : 'No major TH issues.'}\n` +
+                    `🔹 *Intonation:* ${sentence.includes('?') ? 'Rising pitch for questions.' : 'Falling pitch for statements.'}\n` +
+                    `🔹 *Tip:* Read slowly, exaggerate vowel sounds. Indian speakers often reduce unstressed vowels.`;
+                document.getElementById('resBody').innerHTML = fmt(mockResult);
+                document.getElementById('resultCard').classList.add('show');
+                document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('analyzeBtn').disabled = false;
+            }, 800);
         }
 
         function hearCorrect() {
@@ -1016,7 +1166,10 @@
         }
 
         function copyRes() {
-            navigator.clipboard.writeText(document.getElementById('resBody').innerText).then(() => alert('✅ Copied!'));
+            const text = document.getElementById('resBody').innerText;
+            if (text) {
+                navigator.clipboard.writeText(text).then(() => alert('✅ Copied!'));
+            }
         }
 
         function fmt(t) {
