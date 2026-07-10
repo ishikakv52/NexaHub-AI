@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NEXA HUB AI — Learn English Free</title>
+
+    <!-- Google Fonts: Playfair Display + Lora -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* =============================================
+           LUXURY / PREMIUM THEME – Deep Navy, Gold, Elegant
+           ============================================= */
+
+        /* ─── RESET & VARIABLES ─── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #0a0c1a;
+            --surface: rgba(255, 255, 255, 0.03);
+            --surface-hover: rgba(212, 175, 55, 0.06);
+            --border: rgba(212, 175, 55, 0.15);
+            --border-glow: rgba(212, 175, 55, 0.3);
+            --gold: #d4af37;
+            --gold-light: #f5d76e;
+            --gold-dark: #b8962e;
+            --gold-gradient: linear-gradient(135deg, #f5d76e, #d4af37, #b8962e);
+            --text: #f0ece4;
+            --text-secondary: #d6cfb5;
+            --muted: #8a867a;
+            --font-heading: 'Playfair Display', 'Georgia', serif;
+            --font-body: 'Lora', 'Segoe UI', serif;
+            --radius: 16px;
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(212, 175, 55, 0.05);
+            --transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            --nav-bg: rgba(10, 12, 26, 0.85);
+            --modal-bg: linear-gradient(145deg, #12152a, #0a0c1a);
+            --toast-bg: linear-gradient(145deg, #12152a, #0a0c1a);
+            --input-bg: rgba(255, 255, 255, 0.04);
+        }
+
+        /* Light mode overrides */
+        body.light-mode {
+            --bg: #f5f2eb;
+            --surface: rgba(255, 255, 255, 0.6);
+            --surface-hover: rgba(212, 175, 55, 0.08);
+            --border: rgba(212, 175, 55, 0.25);
+            --border-glow: rgba(212, 175, 55, 0.5);
+            --text: #1e1b16;
+            --text-secondary: #3d3528;
+            --muted: #6b6255;
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(212, 175, 55, 0.15);
+            --nav-bg: rgba(245, 242, 235, 0.9);
+            --modal-bg: linear-gradient(145deg, #f5f2eb, #e8e3d8);
+            --toast-bg: linear-gradient(145deg, #f5f2eb, #e8e3d8);
+            --input-bg: rgba(0, 0, 0, 0.04);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.7;
+            min-height: 100vh;
+            letter-spacing: 0.02em;
+            transition: background 0.4s ease, color 0.4s ease;
+        }
+
+        /* ─── BACKGROUND BLOBS ─── */
+        .bg-blobs {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(160px);
+            opacity: 0.10;
+            animation: floatBlob 20s ease-in-out infinite alternate;
+            transition: opacity 0.6s ease;
+        }
+        body.light-mode .blob {
+            opacity: 0.06;
+        }
+        .b1 {
+            width: 800px;
+            height: 800px;
+            background: #d4af37;
+            top: -300px;
+            left: -250px;
+            opacity: 0.06;
+        }
+        body.light-mode .b1 {
+            opacity: 0.04;
+        }
+        .b2 {
+            width: 600px;
+            height: 600px;
+            background: #b8962e;
+            bottom: -200px;
+            right: -200px;
+            animation-delay: 7s;
+            opacity: 0.05;
+        }
+        body.light-mode .b2 {
+            opacity: 0.03;
+        }
+        .b3 {
+            width: 450px;
+            height: 450px;
+            background: #f5d76e;
+            top: 45%;
+            left: 55%;
+            animation-delay: 4s;
+            opacity: 0.04;
+        }
+        body.light-mode .b3 {
+            opacity: 0.02;
+        }
+        @keyframes floatBlob {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                transform: translate(50px, -50px) scale(1.1);
+            }
+        }
+
+        /* ─── PARTICLES CANVAS ─── */
+        #particles-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* ─── NAVBAR ─── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 36px;
+            height: 76px;
+            background: var(--nav-bg);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+        nav:hover {
+            border-bottom-color: var(--border-glow);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            font-family: var(--font-heading);
+            text-decoration: none;
+            letter-spacing: 0.05em;
+            color: var(--gold-light);
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .nav-brand span {
+            -webkit-text-fill-color: initial;
+            font-size: 1.8rem;
+            background: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .nl {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            padding: 8px 18px;
+            border-radius: 30px;
+            border: 1px solid transparent;
+            font-weight: 500;
+            font-family: var(--font-body);
+            transition: var(--transition);
+            letter-spacing: 0.04em;
+            cursor: pointer;
+            background: transparent;
+        }
+        .nl:hover {
+            color: var(--gold-light);
+            border-color: var(--border);
+            background: var(--surface-hover);
+        }
+        .nl-btn {
+            background: var(--gold-gradient);
+            color: #0a0c1a !important;
+            border-color: transparent !important;
+            font-weight: 700;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.25);
+        }
+        .nl-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 36px rgba(212, 175, 55, 0.4);
+            background: linear-gradient(135deg, #f5d76e, #d4af37);
+        }
+        body.light-mode .nl-btn {
+            color: #0a0c1a !important;
+        }
+
+        .user-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 6px 18px 6px 14px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-family: var(--font-body);
+            letter-spacing: 0.04em;
+        }
+
+        /* ─── HERO ─── */
+        .hero {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 110px 24px 70px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid var(--border);
+            border-radius: 60px;
+            padding: 8px 28px 8px 22px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--gold-light);
+            font-family: var(--font-body);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            backdrop-filter: blur(4px);
+            margin-bottom: 32px;
+            animation: fadeUp 0.9s ease both;
+        }
+        .dot-pulse {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--gold);
+            animation: pulse 2s ease infinite;
+        }
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.3;
+                transform: scale(1.8);
+            }
+        }
+
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2.6rem, 6.5vw, 4.6rem);
+            font-weight: 700;
+            line-height: 1.08;
+            margin-bottom: 22px;
+            letter-spacing: 0.02em;
+            animation: fadeUp 0.9s ease 0.2s both;
+        }
+        .grad {
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--muted);
+            max-width: 600px;
+            line-height: 1.9;
+            margin-bottom: 44px;
+            font-family: var(--font-body);
+            letter-spacing: 0.02em;
+            animation: fadeUp 0.9s ease 0.3s both;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-cta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            justify-content: center;
+            margin-bottom: 60px;
+            animation: fadeUp 0.9s ease 0.4s both;
+        }
+        .cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 38px;
+            border-radius: 60px;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: var(--font-body);
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+        .cta-main {
+            background: var(--gold-gradient);
+            color: #0a0c1a;
+            box-shadow: 0 8px 40px rgba(212, 175, 55, 0.25);
+        }
+        .cta-main:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 16px 56px rgba(212, 175, 55, 0.35);
+        }
+        .cta-sec {
+            background: transparent;
+            color: var(--gold-light);
+            border: 1.5px solid var(--border);
+            backdrop-filter: blur(4px);
+        }
+        .cta-sec:hover {
+            transform: translateY(-4px);
+            border-color: var(--gold);
+            background: rgba(212, 175, 55, 0.04);
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.06);
+        }
+
+        .stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 48px;
+            justify-content: center;
+            animation: fadeUp 0.9s ease 0.5s both;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-val {
+            font-size: 2.2rem;
+            font-weight: 700;
+            font-family: var(--font-heading);
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.05em;
+        }
+        .stat-lbl {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-top: 4px;
+            font-weight: 400;
+            font-family: var(--font-body);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        /* ─── SECTION ─── */
+        .section {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 90px 24px;
+        }
+        .section-title {
+            text-align: center;
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 14px;
+            letter-spacing: 0.04em;
+            color: var(--text);
+        }
+        .section-sub {
+            text-align: center;
+            color: var(--muted);
+            margin-bottom: 60px;
+            font-size: 1.05rem;
+            font-family: var(--font-body);
+            letter-spacing: 0.04em;
+        }
+
+        /* ─── FEATURE CARDS ─── */
+        .feat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .feat-card {
+            background: var(--surface);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px 26px 28px;
+            text-decoration: none;
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+        body.light-mode .feat-card {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        }
+        .feat-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.04) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .feat-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gold-gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+        .feat-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--border-glow);
+            box-shadow: var(--shadow);
+        }
+        .feat-card:hover::before {
+            opacity: 1;
+        }
+        .feat-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .fi {
+            font-size: 2.5rem;
+            display: inline-block;
+            transition: transform 0.4s ease;
+        }
+        .feat-card:hover .fi {
+            transform: scale(1.08) rotate(-2deg);
+        }
+
+        .ft {
+            font-size: 1.15rem;
+            font-weight: 700;
+            font-family: var(--font-heading);
+            letter-spacing: 0.04em;
+            color: var(--text-secondary);
+        }
+        .fd {
+            font-size: 0.9rem;
+            color: var(--muted);
+            line-height: 1.8;
+            font-family: var(--font-body);
+        }
+        .fc-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 4px;
+        }
+        .fc-tag {
+            font-size: 0.7rem;
+            padding: 4px 16px;
+            border-radius: 30px;
+            background: rgba(212, 175, 55, 0.06);
+            border: 1px solid var(--border);
+            color: var(--gold-light);
+            font-weight: 500;
+            font-family: var(--font-body);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+        body.light-mode .fc-tag {
+            color: var(--gold-dark);
+        }
+        .fa {
+            margin-top: auto;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--gold);
+            align-self: flex-end;
+            transition: transform 0.4s ease;
+            font-family: var(--font-heading);
+        }
+        .feat-card:hover .fa {
+            transform: translateX(8px);
+        }
+
+        /* ─── HOW IT WORKS ─── */
+        .how-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 24px;
+        }
+        .step {
+            background: var(--surface);
+            backdrop-filter: blur(4px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px 20px 24px;
+            text-align: center;
+            position: relative;
+            transition: var(--transition);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        body.light-mode .step {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+        }
+        .step:hover {
+            transform: translateY(-6px);
+            border-color: var(--border-glow);
+            background: var(--surface-hover);
+            box-shadow: var(--shadow);
+        }
+        .step-num {
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gold-gradient);
+            color: #0a0c1a;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(212, 175, 55, 0.25);
+            font-family: var(--font-heading);
+        }
+        .step-em {
+            font-size: 2.4rem;
+            margin-bottom: 14px;
+            display: block;
+        }
+        .step-title {
+            font-weight: 700;
+            font-family: var(--font-heading);
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            letter-spacing: 0.04em;
+            color: var(--text-secondary);
+        }
+        .step-desc {
+            font-size: 0.85rem;
+            color: var(--muted);
+            line-height: 1.7;
+            font-family: var(--font-body);
+        }
+
+        /* ─── QUOTE BAND ─── */
+        .quote-band {
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.04), rgba(184, 150, 46, 0.04));
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 80px 24px;
+            text-align: center;
+            backdrop-filter: blur(4px);
+            transition: background 0.4s ease, border-color 0.4s ease;
+        }
+        body.light-mode .quote-band {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.06), rgba(184, 150, 46, 0.04));
+        }
+        .quote-text {
+            font-family: var(--font-heading);
+            font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+            font-weight: 700;
+            max-width: 760px;
+            margin: 0 auto 20px;
+            line-height: 1.6;
+            letter-spacing: 0.04em;
+            color: var(--text-secondary);
+        }
+        .qt-q {
+            color: var(--gold);
+            font-size: 1.2em;
+            font-family: var(--font-heading);
+        }
+        .quote-auth {
+            color: var(--muted);
+            font-size: 0.95rem;
+            font-weight: 400;
+            font-family: var(--font-body);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        /* ─── LOGIN MODAL ─── */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(10, 12, 26, 0.85);
+            backdrop-filter: blur(12px);
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+        body.light-mode .modal-overlay {
+            background: rgba(245, 242, 235, 0.85);
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal {
+            background: var(--modal-bg);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 48px 40px 40px;
+            max-width: 420px;
+            width: 90%;
+            position: relative;
+            box-shadow: var(--shadow);
+            animation: slideUp 0.4s ease;
+            transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .modal-close:hover {
+            color: var(--gold-light);
+            transform: rotate(90deg);
+        }
+
+        .modal h2 {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+        .modal-sub {
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            font-family: var(--font-body);
+            letter-spacing: 0.04em;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 1rem;
+            font-family: var(--font-body);
+            transition: var(--transition);
+            outline: none;
+        }
+        .form-group input:focus {
+            border-color: var(--gold);
+            background: rgba(212, 175, 55, 0.04);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+        .form-group input::placeholder {
+            color: var(--muted);
+            opacity: 0.6;
+        }
+
+        .form-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 8px;
+        }
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: var(--gold-gradient);
+            color: #0a0c1a;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: var(--font-body);
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.3);
+        }
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        .modal-switch {
+            text-align: center;
+            margin-top: 16px;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+        .modal-switch a {
+            color: var(--gold-light);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .modal-switch a:hover {
+            color: var(--gold);
+            text-decoration: underline;
+        }
+        body.light-mode .modal-switch a {
+            color: var(--gold-dark);
+        }
+        body.light-mode .modal-switch a:hover {
+            color: var(--gold);
+        }
+
+        .error-msg {
+            background: rgba(255, 0, 0, 0.08);
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            color: #ff6b6b;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            display: none;
+            margin-bottom: 16px;
+        }
+        .error-msg.show {
+            display: block;
+        }
+
+        .success-msg {
+            background: rgba(46, 204, 113, 0.08);
+            border: 1px solid rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            display: none;
+            margin-bottom: 16px;
+        }
+        .success-msg.show {
+            display: block;
+        }
+
+        /* ─── TOAST NOTIFICATION ─── */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 2000;
+            background: var(--toast-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 18px 28px;
+            box-shadow: var(--shadow);
+            transform: translateY(120px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            max-width: 400px;
+        }
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .toast-icon {
+            font-size: 1.8rem;
+        }
+        .toast-msg {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-family: var(--font-body);
+        }
+        .toast-close {
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-left: auto;
+        }
+        .toast-close:hover {
+            color: var(--gold-light);
+        }
+
+        /* ─── FOOTER REMOVED ─── */
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 768px) {
+            nav {
+                padding: 0 16px;
+                height: 66px;
+            }
+            .nav-brand {
+                font-size: 1.1rem;
+            }
+            .nl {
+                font-size: 0.75rem;
+                padding: 5px 12px;
+            }
+            .user-pill {
+                font-size: 0.7rem;
+                padding: 4px 10px;
+            }
+            .hero {
+                padding: 90px 16px 40px;
+            }
+            .hero h1 {
+                font-size: clamp(2rem, 8vw, 2.8rem);
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .cta {
+                padding: 14px 26px;
+                font-size: 0.85rem;
+            }
+            .section {
+                padding: 60px 16px;
+            }
+            .feat-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+            .feat-card {
+                padding: 22px 18px;
+            }
+            .fi {
+                font-size: 2rem;
+            }
+            .ft {
+                font-size: 1rem;
+            }
+            .fd {
+                font-size: 0.8rem;
+            }
+            .how-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 18px;
+            }
+            .step {
+                padding: 22px 16px 18px;
+            }
+            .stats {
+                gap: 28px;
+            }
+            .stat-val {
+                font-size: 1.8rem;
+            }
+            .modal {
+                padding: 32px 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .feat-grid {
+                grid-template-columns: 1fr;
+            }
+            .how-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-cta {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .cta {
+                justify-content: center;
+            }
+            .nav-links .nl:not(.nl-btn):not(.user-pill) {
+                display: none;
+            }
+            .toast {
+                left: 20px;
+                right: 20px;
+                bottom: 20px;
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Canvas for particles -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Animated blobs -->
+    <div class="bg-blobs">
+        <div class="blob b1"></div>
+        <div class="blob b2"></div>
+        <div class="blob b3"></div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav>
+        <a class="nav-brand" href="#"><span>🎓</span>NEXA HUB AI</a>
+        <div class="nav-links" id="navLinks">
+            <button id="themeToggle" class="nl" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+            <a href="#features" class="nl">Features</a>
+            <a href="#how-it-works" class="nl">How It Works</a>
+            <!-- Auth links will be updated by JavaScript -->
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-badge">
+            <span class="dot-pulse"></span>
+            <span>AI-Powered English Learning</span>
+        </div>
+        <h1>Your Personal<br/><span class="grad">ENGLISH COACH</span></h1>
+        <p>Grammar correction, interview practice, pronunciation tips, and daily challenges — all in one place.</p>
+        <div class="hero-cta" id="heroCta">
+            <!-- Will be updated by JavaScript -->
+        </div>
+        <div class="stats">
+            <div class="stat"><div class="stat-val">7</div><div class="stat-lbl">Learning Modules</div></div>
+            <div class="stat"><div class="stat-val">500+</div><div class="stat-lbl">Grammar Rules</div></div>
+            <div class="stat"><div class="stat-val">200+</div><div class="stat-lbl">Vocabulary Words</div></div>
+            <div class="stat"><div class="stat-val">24/7</div><div class="stat-lbl">Available</div></div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <div class="section" id="features">
+        <h2 class="section-title">Everything You Need to <span class="grad">Master English</span></h2>
+        <p class="section-sub">7 powerful modules taught by your AI teacher — NEXA HUB 🎓</p>
+        <div class="feat-grid">
+            <div class="feat-card" onclick="handleFeatureClick('Grammar Coach')">
+                <div class="fi">📖</div>
+                <div class="ft">Grammar Coach</div>
+                <div class="fd">Paste any text — get instant corrections with rule explanations and exercises.</div>
+                <div class="fc-tags"><span class="fc-tag">Error Detection</span><span class="fc-tag">Rule Explanation</span><span class="fc-tag">Practice</span></div>
+                <div class="fa">→</div>
+            </div>
+            <div class="feat-card" onclick="handleFeatureClick('Speaking Practice')">
+                <div class="fi">🗣️</div>
+                <div class="ft">Speaking Practice</div>
+                <div class="fd">10 daily topics — get detailed AI feedback on fluency, grammar, vocabulary & model answers.</div>
+                <div class="fc-tags"><span class="fc-tag">10 Topics</span><span class="fc-tag">AI Feedback</span><span class="fc-tag">Model Answers</span></div>
+                <div class="fa">→</div>
+            </div>
+            <div class="feat-card" onclick="handleFeatureClick('Interview Practice')">
+                <div class="fi">💼</div>
+                <div class="ft">Interview Practice</div>
+                <div class="fd">HR & behavioral questions — AI evaluates grammar, confidence & professionalism.</div>
+                <div class="fc-tags"><span class="fc-tag">HR Questions</span><span class="fc-tag">Score Card</span><span class="fc-tag">Model Answers</span></div>
+                <div class="fa">→</div>
+            </div>
+            <div class="feat-card" onclick="handleFeatureClick('Translation')">
+                <div class="fi">🔄</div>
+                <div class="ft">Translation</div>
+                <div class="fd">Hindi ↔ English with grammar notes, alternatives, usage tips & common Indian mistakes.</div>
+                <div class="fc-tags"><span class="fc-tag">Hindi→English</span><span class="fc-tag">English→Hindi</span><span class="fc-tag">Notes</span></div>
+                <div class="fa">→</div>
+            </div>
+            <div class="feat-card" onclick="handleFeatureClick('Pronunciation Coach')">
+                <div class="fi">🎵</div>
+                <div class="ft">Pronunciation Coach</div>
+                <div class="fd">Analyze any sentence — IPA guide, stress patterns & tips for Indian English speakers.</div>
+                <div class="fc-tags"><span class="fc-tag">IPA Guide</span><span class="fc-tag">Stress Patterns</span><span class="fc-tag">Drills</span></div>
+                <div class="fa">→</div>
+            </div>
+            <div class="feat-card" onclick="handleFeatureClick('Daily Challenge')">
+                <div class="fi">🏆</div>
+                <div class="ft">Daily Challenge</div>
+                <div class="fd">Grammar, Vocabulary, Speaking & Pronunciation challenges. Earn XP and maintain streaks!</div>
+                <div class="fc-tags"><span class="fc-tag">4 Quiz Types</span><span class="fc-tag">Earn XP</span><span class="fc-tag">Streak</span></div>
+                <div class="fa">→</div>
+            </div>
+            <div class="feat-card" onclick="handleFeatureClick('Progress Dashboard')">
+                <div class="fi">📊</div>
+                <div class="ft">Progress Dashboard</div>
+                <div class="fd">Track XP, streaks, scores, achievements and weekly progress with beautiful charts.</div>
+                <div class="fc-tags"><span class="fc-tag">Charts</span><span class="fc-tag">Streaks</span><span class="fc-tag">Achievements</span></div>
+                <div class="fa">→</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <div class="section" id="how-it-works" style="padding-top:0">
+        <h2 class="section-title">How <span class="grad">Nexa</span> Teaches You</h2>
+        <p class="section-sub">Every single response follows the 8-step teaching method</p>
+        <div class="how-grid">
+            <div class="step"><div class="step-num">1</div><div class="step-em">✅</div><div class="step-title">Answer Your Question</div><div class="step-desc">Nexa always responds clearly to what you ask first.</div></div>
+            <div class="step"><div class="step-num">2</div><div class="step-em">🔍</div><div class="step-title">Correct Mistakes</div><div class="step-desc">Grammar errors are identified and gently corrected every time.</div></div>
+            <div class="step"><div class="step-num">3</div><div class="step-em">📖</div><div class="step-title">Explain the Rule</div><div class="step-desc">The grammar rule behind each correction is explained clearly.</div></div>
+            <div class="step"><div class="step-num">4</div><div class="step-em">💡</div><div class="step-title">Better Vocabulary</div><div class="step-desc">Advanced word suggestions to make your English more natural.</div></div>
+            <div class="step"><div class="step-num">5</div><div class="step-em">🗣️</div><div class="step-title">Pronunciation Tips</div><div class="step-desc">IPA guides and tips tailored for Indian English speakers.</div></div>
+            <div class="step"><div class="step-num">6</div><div class="step-em">📝</div><div class="step-title">3 Examples</div><div class="step-desc">Example sentences showing correct usage in real contexts.</div></div>
+            <div class="step"><div class="step-num">7</div><div class="step-em">🏋️</div><div class="step-title">Practice Exercise</div><div class="step-desc">A quick exercise to reinforce what was just taught.</div></div>
+            <div class="step"><div class="step-num">8</div><div class="step-em">❓</div><div class="step-title">Follow-up Question</div><div class="step-desc">One question to keep you practicing and thinking in English.</div></div>
+        </div>
+    </div>
+
+    <!-- QUOTE BAND -->
+    <div class="quote-band">
+        <div class="quote-text"><span class="qt-q">"</span>Don't just learn English. <em>Think</em> in English, <em>dream</em> in English, and <em>succeed</em> in English.<span class="qt-q">"</span></div>
+        <div class="quote-auth">— Nexa, Your NEXA HUB AI</div>
+    </div>
+
+    <!-- ============================================================
+    LOGIN / REGISTER MODAL
+    ============================================================ -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeAuthModal()">&times;</button>
+            <h2 id="modalTitle">Welcome Back</h2>
+            <p class="modal-sub" id="modalSub">Sign in to continue your English learning journey</p>
+            
+            <div class="error-msg" id="errorMsg"></div>
+            <div class="success-msg" id="successMsg"></div>
+
+            <form id="authForm" onsubmit="handleAuthSubmit(event)">
+                <div class="form-group" id="nameGroup" style="display:none;">
+                    <label>Full Name</label>
+                    <input type="text" id="fullName" placeholder="Enter your full name" />
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="emailInput" placeholder="you@example.com" required />
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="passwordInput" placeholder="••••••••" required minlength="6" />
+                </div>
+                <div class="form-group" id="confirmGroup" style="display:none;">
+                    <label>Confirm Password</label>
+                    <input type="password" id="confirmPassword" placeholder="••••••••" minlength="6" />
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit" id="submitBtn">Sign In</button>
+                </div>
+            </form>
+
+            <div class="modal-switch">
+                <span id="switchText">Don't have an account?</span>
+                <a id="switchLink" onclick="toggleAuthMode()">Create one</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    TOAST NOTIFICATION
+    ============================================================ -->
+    <div class="toast" id="toast">
+        <span class="toast-icon" id="toastIcon">✅</span>
+        <span class="toast-msg" id="toastMsg">Welcome back!</span>
+        <button class="toast-close" onclick="hideToast()">&times;</button>
+    </div>
+
+    <!-- ============================================================
+    PARTICLE SCRIPT
+    ============================================================ -->
+    <script>
+        // ─── PARTICLE SYSTEM ───
+        (function() {
+            const c = document.getElementById('particles-canvas'),
+                ctx = c.getContext('2d');
+            let W, H, pts = [];
+
+            function resize() {
+                W = c.width = window.innerWidth;
+                H = c.height = window.innerHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            function rand(a, b) { return Math.random() * (b - a) + a; }
+            const COLORS = ['212,175,55', '245,215,110', '184,150,46', '212,175,55'];
+            for (let i = 0; i < 110; i++) {
+                pts.push({
+                    x: rand(0, W),
+                    y: rand(0, H),
+                    r: rand(0.5, 2.2),
+                    vx: rand(-0.25, 0.25),
+                    vy: rand(-0.25, 0.25),
+                    a: rand(0.1, 0.45),
+                    c: COLORS[Math.floor(Math.random() * COLORS.length)]
+                });
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, W, H);
+                pts.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0 || p.x > W) p.vx *= -1;
+                    if (p.y < 0 || p.y > H) p.vy *= -1;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${p.c},${p.a})`;
+                    ctx.fill();
+                });
+                requestAnimationFrame(draw);
+            }
+            draw();
+        })();
+
+        // ─── AUTH STATE ───
+        let currentUser = null;
+        let isLoginMode = true;
+
+        // ─── DOM REFS ───
+        const navLinks = document.getElementById('navLinks');
+        const heroCta = document.getElementById('heroCta');
+        const authModal = document.getElementById('authModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalSub = document.getElementById('modalSub');
+        const submitBtn = document.getElementById('submitBtn');
+        const switchText = document.getElementById('switchText');
+        const switchLink = document.getElementById('switchLink');
+        const errorMsg = document.getElementById('errorMsg');
+        const successMsg = document.getElementById('successMsg');
+        const nameGroup = document.getElementById('nameGroup');
+        const confirmGroup = document.getElementById('confirmGroup');
+        const fullName = document.getElementById('fullName');
+        const emailInput = document.getElementById('emailInput');
+        const passwordInput = document.getElementById('passwordInput');
+        const confirmPassword = document.getElementById('confirmPassword');
+        const authForm = document.getElementById('authForm');
+
+        // ─── DEMO USERS (simulated database) ───
+        const users = [
+            { id: 1, name: 'Alex Johnson', email: 'alex@example.com', password: 'password123' },
+            { id: 2, name: 'Sarah Williams', email: 'sarah@example.com', password: 'password123' },
+            { id: 3, name: 'Michael Chen', email: 'michael@example.com', password: 'password123' }
+        ];
+
+        // ─── UPDATE UI BASED ON AUTH STATE ───
+        function updateUI() {
+            if (currentUser) {
+                // Update Navbar
+                navLinks.innerHTML = `
+                    <button id="themeToggle" class="nl" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+                    <div class="user-pill">
+                        <i class="fas fa-user-circle" style="color: var(--gold);"></i>
+                        ${currentUser.name}
+                    </div>
+                    <a href="#features" class="nl">Features</a>
+                    <a href="#how-it-works" class="nl">How It Works</a>
+                    <a onclick="handleLogout()" class="nl" style="cursor:pointer;">Logout</a>
+                `;
+
+                // Update Hero CTA
+                heroCta.innerHTML = `
+                    <a href="#features" class="cta cta-main">📖 Continue Learning</a>
+                    <a onclick="handleFeatureClick('Dashboard')" class="cta cta-sec">📊 Dashboard</a>
+                `;
+
+                // Show toast
+                showToast('🎉', `Welcome back, ${currentUser.name}!`);
+            } else {
+                // Update Navbar
+                navLinks.innerHTML = `
+                    <button id="themeToggle" class="nl" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+                    <a href="#features" class="nl">Features</a>
+                    <a href="#how-it-works" class="nl">How It Works</a>
+                    <a onclick="openLoginModal()" class="nl">Login</a>
+                    <a onclick="openRegisterModal()" class="nl nl-btn">Get Started Free</a>
+                `;
+
+                // Update Hero CTA
+                heroCta.innerHTML = `
+                    <a onclick="openRegisterModal()" class="cta cta-main">🚀 Start Learning Free</a>
+                    <a onclick="openLoginModal()" class="cta cta-sec">🔑 Sign In</a>
+                `;
+            }
+            // Re-bind theme toggle after re-render
+            bindThemeToggle();
+        }
+
+        // ─── THEME TOGGLE ───
+        function bindThemeToggle() {
+            const themeBtn = document.getElementById('themeToggle');
+            if (themeBtn) {
+                themeBtn.addEventListener('click', toggleTheme);
+                updateThemeIcon(themeBtn);
+            }
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            const themeBtn = document.getElementById('themeToggle');
+            if (themeBtn) updateThemeIcon(themeBtn);
+        }
+
+        function updateThemeIcon(btn) {
+            if (!btn) return;
+            const isLight = document.body.classList.contains('light-mode');
+            btn.innerHTML = isLight ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        }
+
+        // ─── INIT THEME ───
+        (function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-mode');
+            }
+            // Theme button will be bound after nav renders
+        })();
+
+        // ─── TOAST ───
+        let toastTimeout;
+
+        function showToast(icon, msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastIcon').textContent = icon;
+            document.getElementById('toastMsg').textContent = msg;
+            toast.classList.add('show');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(hideToast, 5000);
+        }
+
+        function hideToast() {
+            document.getElementById('toast').classList.remove('show');
+        }
+
+        // ─── AUTH MODAL ───
+        function openLoginModal() {
+            isLoginMode = true;
+            modalTitle.textContent = 'Welcome Back';
+            modalSub.textContent = 'Sign in to continue your English learning journey';
+            submitBtn.textContent = 'Sign In';
+            switchText.textContent = "Don't have an account?";
+            switchLink.textContent = 'Create one';
+            nameGroup.style.display = 'none';
+            confirmGroup.style.display = 'none';
+            fullName.required = false;
+            confirmPassword.required = false;
+            errorMsg.classList.remove('show');
+            successMsg.classList.remove('show');
+            authModal.classList.add('active');
+            emailInput.value = '';
+            passwordInput.value = '';
+            fullName.value = '';
+            confirmPassword.value = '';
+        }
+
+        function openRegisterModal() {
+            isLoginMode = false;
+            modalTitle.textContent = 'Create Account';
+            modalSub.textContent = 'Start your free English learning journey today';
+            submitBtn.textContent = 'Create Account';
+            switchText.textContent = 'Already have an account?';
+            switchLink.textContent = 'Sign in';
+            nameGroup.style.display = 'block';
+            confirmGroup.style.display = 'block';
+            fullName.required = true;
+            confirmPassword.required = true;
+            errorMsg.classList.remove('show');
+            successMsg.classList.remove('show');
+            authModal.classList.add('active');
+            emailInput.value = '';
+            passwordInput.value = '';
+            fullName.value = '';
+            confirmPassword.value = '';
+        }
+
+        function toggleAuthMode() {
+            if (isLoginMode) {
+                openRegisterModal();
+            } else {
+                openLoginModal();
+            }
+        }
+
+        function closeAuthModal() {
+            authModal.classList.remove('active');
+            errorMsg.classList.remove('show');
+            successMsg.classList.remove('show');
+        }
+
+        // Close modal on overlay click
+        authModal.addEventListener('click', function(e) {
+            if (e.target === this) closeAuthModal();
+        });
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeAuthModal();
+        });
+
+        // ─── HANDLE AUTH SUBMIT ───
+        function handleAuthSubmit(e) {
+            e.preventDefault();
+            errorMsg.classList.remove('show');
+            successMsg.classList.remove('show');
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            if (!email || !password) {
+                showError('Please fill in all required fields.');
+                return;
+            }
+
+            if (isLoginMode) {
+                // LOGIN
+                const user = users.find(u => u.email === email && u.password === password);
+                if (user) {
+                    currentUser = { id: user.id, name: user.name, email: user.email };
+                    closeAuthModal();
+                    updateUI();
+                    showToast('🎉', `Welcome back, ${user.name}!`);
+                } else {
+                    showError('Invalid email or password. Please try again.');
+                }
+            } else {
+                // REGISTER
+                const name = fullName.value.trim();
+                const confirmPass = confirmPassword.value;
+
+                if (!name) {
+                    showError('Please enter your full name.');
+                    return;
+                }
+                if (password !== confirmPass) {
+                    showError('Passwords do not match.');
+                    return;
+                }
+                if (users.find(u => u.email === email)) {
+                    showError('An account with this email already exists.');
+                    return;
+                }
+
+                // Create new user
+                const newUser = {
+                    id: users.length + 1,
+                    name: name,
+                    email: email,
+                    password: password
+                };
+                users.push(newUser);
+                currentUser = { id: newUser.id, name: newUser.name, email: newUser.email };
+                closeAuthModal();
+                updateUI();
+                showToast('🎉', `Welcome to NEXA HUB, ${name}! Your journey begins now.`);
+            }
+        }
+
+        function showError(msg) {
+            errorMsg.textContent = msg;
+            errorMsg.classList.add('show');
+            setTimeout(() => errorMsg.classList.remove('show'), 5000);
+        }
+
+        // ─── HANDLE LOGOUT ───
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                currentUser = null;
+                updateUI();
+                showToast('👋', 'You have been logged out successfully.');
+            }
+        }
+
+        // ─── HANDLE GET STARTED ───
+        function handleGetStarted() {
+            if (currentUser) {
+                showToast('💡', 'You are already logged in! Continue learning.');
+            } else {
+                openRegisterModal();
+            }
+        }
+
+        // ─── HANDLE FEATURE CLICK ───
+        function handleFeatureClick(feature) {
+            if (currentUser) {
+                showToast('📚', `Opening ${feature}...`);
+            } else {
+                showToast('🔒', 'Please login to access this feature.');
+                setTimeout(openLoginModal, 1000);
+            }
+        }
+
+        // ─── INIT ───
+        updateUI();
+
+        // Handle Enter key for auth form
+        document.getElementById('authForm').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                handleAuthSubmit(e);
+            }
+        });
+
+        // ─── THEME: extra binding after initial render ───
+        setTimeout(() => {
+            const btn = document.getElementById('themeToggle');
+            if (btn) {
+                const newBtn = btn.cloneNode(true);
+                btn.parentNode.replaceChild(newBtn, btn);
+                newBtn.addEventListener('click', toggleTheme);
+                updateThemeIcon(newBtn);
+            }
+        }, 100);
+    </script>
+
+</body>
+</html>

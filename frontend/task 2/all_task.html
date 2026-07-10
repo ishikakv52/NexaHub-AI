@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Task Management · NEXA HUB AI</title>
+  <!-- Bootstrap 5 + Icons + Inter font -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+      transition: background 0.25s ease, color 0.2s ease;
+    }
+
+    /* ----- LIGHT THEME (default) ----- */
+    body.light-theme {
+      background: #f1f5f9;  /* solid light gray-blue */
+      color: #0f172a;
+    }
+    body.light-theme .filter-bar {
+      background: #ffffff;
+      border: 1px solid #e9edf2;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+    }
+    body.light-theme .task-card {
+      background: #ffffff;
+      border: 1px solid #edf2f7;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+    body.light-theme .task-card:hover {
+      background: #fafcff;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+    }
+    body.light-theme .btn-icon {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      color: #475569;
+    }
+    body.light-theme .btn-icon:hover {
+      background: #f1f5f9;
+      border-color: #b9c7e0;
+      color: #0f172a;
+    }
+    body.light-theme .empty-state {
+      background: #ffffff;
+      border: 1px solid #edf2f7;
+    }
+    body.light-theme .dropdown-menu {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+    }
+    body.light-theme .dropdown-item {
+      color: #1e293b;
+    }
+    body.light-theme .dropdown-item:hover {
+      background: #f1f5f9;
+    }
+    body.light-theme .dropdown-item.text-danger:hover {
+      background: #fee2e2;
+    }
+    body.light-theme .app-header h1 {
+      color: #0f172a;
+    }
+    body.light-theme .app-header .subtitle {
+      color: #475569;
+    }
+    body.light-theme .task-stats .task-count {
+      color: #475569;
+    }
+    body.light-theme .task-stats .task-count strong {
+      color: #0f172a;
+    }
+    body.light-theme .task-title a {
+      color: #0f172a;
+    }
+    body.light-theme .task-title a:hover {
+      color: #6366f1;
+    }
+    body.light-theme .task-meta {
+      color: #64748b;
+    }
+    body.light-theme .badge-overdue {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+    body.light-theme .badge-priority-high {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+    body.light-theme .badge-priority-medium {
+      background: #fef3c7;
+      color: #b45309;
+    }
+    body.light-theme .badge-priority-low {
+      background: #d1fae5;
+      color: #065f46;
+    }
+    body.light-theme .badge-status-pending {
+      background: #fef3c7;
+      color: #b45309;
+    }
+    body.light-theme .badge-status-in_progress {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+    body.light-theme .badge-status-completed {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    /* ----- DARK THEME ----- */
+    body.dark-theme {
+      background: #0f172a;
+      color: #e2e8f0;
+    }
+    body.dark-theme .app-header h1 {
+      color: #f1f5f9;
+    }
+    body.dark-theme .app-header .subtitle {
+      color: #94a3b8;
+    }
+    body.dark-theme .filter-bar {
+      background: #1e293b;
+      border: 1px solid #334155;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+    body.dark-theme .filter-bar .form-label {
+      color: #cbd5e1;
+    }
+    body.dark-theme .filter-bar .form-control,
+    body.dark-theme .filter-bar .form-select {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #f1f5f9;
+    }
+    body.dark-theme .filter-bar .form-control:focus,
+    body.dark-theme .filter-bar .form-select:focus {
+      background: #1e293b;
+      border-color: #818cf8;
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.25);
+    }
+    body.dark-theme .task-stats .task-count {
+      color: #94a3b8;
+    }
+    body.dark-theme .task-stats .task-count strong {
+      color: #f1f5f9;
+    }
+    body.dark-theme .task-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    body.dark-theme .task-card:hover {
+      background: #2d3a4f;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.4);
+    }
+    body.dark-theme .task-title a {
+      color: #f1f5f9;
+    }
+    body.dark-theme .task-title a:hover {
+      color: #a5b4fc;
+    }
+    body.dark-theme .task-meta {
+      color: #94a3b8;
+    }
+    body.dark-theme .btn-icon {
+      background: #2d3a4f;
+      border: 1px solid #475569;
+      color: #cbd5e1;
+    }
+    body.dark-theme .btn-icon:hover {
+      background: #3b4a63;
+      border-color: #64748b;
+      color: #f8fafc;
+    }
+    body.dark-theme .dropdown-menu {
+      background: #1e293b;
+      border: 1px solid #334155;
+    }
+    body.dark-theme .dropdown-item {
+      color: #e2e8f0;
+    }
+    body.dark-theme .dropdown-item:hover {
+      background: #334155;
+      color: #f1f5f9;
+    }
+    body.dark-theme .dropdown-item.text-danger:hover {
+      background: #450a0a;
+      color: #fca5a5;
+    }
+    body.dark-theme .empty-state {
+      background: #1e293b;
+      border: 1px solid #334155;
+    }
+    body.dark-theme .empty-state h5 {
+      color: #f1f5f9;
+    }
+    body.dark-theme .empty-state p {
+      color: #94a3b8;
+    }
+    body.dark-theme .empty-state i {
+      color: #475569;
+    }
+    body.dark-theme .badge-overdue {
+      background: #7f1d1d;
+      color: #fecaca;
+    }
+    body.dark-theme .badge-priority-high {
+      background: #7f1d1d;
+      color: #fecaca;
+    }
+    body.dark-theme .badge-priority-medium {
+      background: #78350f;
+      color: #fde68a;
+    }
+    body.dark-theme .badge-priority-low {
+      background: #064e3b;
+      color: #a7f3d0;
+    }
+    body.dark-theme .badge-status-pending {
+      background: #78350f;
+      color: #fde68a;
+    }
+    body.dark-theme .badge-status-in_progress {
+      background: #1e3a8a;
+      color: #bfdbfe;
+    }
+    body.dark-theme .badge-status-completed {
+      background: #064e3b;
+      color: #a7f3d0;
+    }
+
+    /* ----- shared styles ----- */
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    .app-header { margin-bottom: 2rem; }
+    .app-header h1 {
+      font-weight: 700;
+      font-size: 2rem;
+      margin: 0;
+    }
+    .app-header .subtitle { font-size: 0.95rem; }
+    .logo-highlight {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .filter-bar {
+      border-radius: 20px;
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 1.5rem;
+      transition: background 0.2s, border 0.2s;
+    }
+    .filter-bar .form-label {
+      font-weight: 500;
+    }
+    .filter-bar .form-control,
+    .filter-bar .form-select {
+      border-radius: 12px;
+      font-size: 0.9rem;
+      padding: 0.5rem 0.75rem;
+      transition: 0.2s;
+    }
+
+    .btn-tm-primary {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      border: none;
+      color: #fff;
+      padding: 0.5rem 1.25rem;
+      border-radius: 12px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    .btn-tm-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(99, 102, 241, 0.30);
+      color: #fff;
+    }
+    .btn-tm-primary:active { transform: translateY(0); }
+
+    .task-stats {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .task-count { font-size: 0.9rem; }
+
+    .task-card {
+      border-radius: 18px;
+      padding: 1rem 1.2rem;
+      margin-bottom: 0.8rem;
+      border-left: 4px solid transparent;
+      transition: all 0.2s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .task-card:hover { transform: translateX(5px); }
+    .task-card.priority-high { border-left-color: #dc3545; }
+    .task-card.priority-medium { border-left-color: #f59e0b; }
+    .task-card.priority-low { border-left-color: #10b981; }
+    .task-card.status-completed { opacity: 0.7; }
+    .task-card.status-completed .task-title { text-decoration: line-through; }
+
+    .task-info { flex: 1; min-width: 200px; }
+    .task-title {
+      font-weight: 600;
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .task-title a {
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .task-meta {
+      font-size: 0.8rem;
+      margin-top: 0.25rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .task-meta i { margin-right: 0.2rem; }
+
+    .task-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .badge-custom {
+      padding: 0.35rem 0.85rem;
+      border-radius: 50px;
+      font-weight: 500;
+      font-size: 0.75rem;
+    }
+
+    .dropdown-toggle::after { display: none; }
+    .dropdown-item { font-size: 0.9rem; padding: 0.5rem 1rem; }
+    .dropdown-item i { width: 1.2rem; text-align: center; }
+
+    .btn-icon {
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 1rem;
+      border-radius: 28px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.02);
+    }
+
+    /* theme toggle button */
+    .theme-toggle-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .theme-toggle-btn {
+      background: transparent;
+      border: 1px solid #cbd5e1;
+      border-radius: 40px;
+      padding: 0.4rem 0.9rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: 0.2s;
+      color: #1e293b;
+    }
+    body.dark-theme .theme-toggle-btn {
+      border-color: #475569;
+      color: #e2e8f0;
+    }
+    .theme-toggle-btn:hover {
+      background: rgba(99, 102, 241, 0.08);
+      border-color: #6366f1;
+    }
+    body.dark-theme .theme-toggle-btn:hover {
+      background: rgba(99, 102, 241, 0.15);
+    }
+
+    @media (max-width: 768px) {
+      .filter-bar .col-md-3,
+      .filter-bar .col-md-2,
+      .filter-bar .col-md-1 { margin-bottom: 0.5rem; }
+      .task-card { padding: 0.8rem 1rem; }
+      .task-title { font-size: 0.95rem; }
+      .task-actions {
+        width: 100%;
+        justify-content: flex-start;
+        margin-top: 0.5rem;
+      }
+      .app-header h1 { font-size: 1.5rem; }
+    }
+    @media (max-width: 576px) {
+      body { padding: 1rem 0.75rem; }
+      .filter-bar { padding: 1rem; }
+      .task-stats {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .task-stats .btn { width: 100%; }
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .task-card { animation: slideIn 0.3s ease forwards; }
+  </style>
+</head>
+<body class="light-theme">
+
+<div class="container">
+  <!-- Header + Theme toggle -->
+  <div class="app-header d-flex flex-wrap justify-content-between align-items-center">
+    <div>
+      <h1><span class="logo-highlight">NEXA HUB</span> AI</h1>
+      <p class="subtitle">Task Management Dashboard</p>
+    </div>
+    <div class="theme-toggle-wrap mt-2 mt-sm-0">
+      <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle theme">
+        <i class="bi bi-sun-fill" id="themeIcon"></i>
+        <span id="themeLabel">Light</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar">
+    <form method="get" class="row g-2 align-items-end">
+      <div class="col-md-3">
+        <label class="form-label small mb-1">Search</label>
+        <input type="text" class="form-control" placeholder="Search tasks..." name="search" value="">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label small mb-1">Category</label>
+        <select class="form-select" name="category">
+          <option value="">All Categories</option>
+          <option value="work">Work</option>
+          <option value="personal">Personal</option>
+          <option value="shopping">Shopping</option>
+          <option value="health">Health</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label class="form-label small mb-1">Priority</label>
+        <select class="form-select" name="priority">
+          <option value="">All Priorities</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label class="form-label small mb-1">Status</label>
+        <select class="form-select" name="status">
+          <option value="">All Status</option>
+          <option value="pending">Pending</option>
+          <option value="in_progress">In Progress</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label class="form-label small mb-1">Sort By</label>
+        <select class="form-select" name="sort">
+          <option value="due_date">Due Date</option>
+          <option value="priority">Priority</option>
+          <option value="title">Title</option>
+          <option value="created_at">Created</option>
+        </select>
+      </div>
+      <div class="col-md-1 d-flex gap-2">
+        <button type="submit" class="btn btn-tm-primary w-100">
+          <i class="bi bi-funnel"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Task Stats & Add Button -->
+  <div class="task-stats">
+    <span class="task-count"><strong>8</strong> tasks found</span>
+    <button class="btn btn-tm-primary">
+      <i class="bi bi-plus-circle me-1"></i> Add Task
+    </button>
+  </div>
+
+  <!-- Task List -->
+  <!-- Task 1 High -->
+  <div class="task-card priority-high">
+    <div class="task-info">
+      <div class="task-title">
+        <a href="#">Complete Project Proposal</a>
+        <span class="badge badge-overdue badge-custom">Overdue</span>
+      </div>
+      <div class="task-meta">
+        <span><i class="bi bi-tag"></i> Work</span>
+        <span><i class="bi bi-calendar3"></i> Dec 15, 2024 at 17:00</span>
+      </div>
+    </div>
+    <div class="task-actions">
+      <span class="badge badge-priority-high badge-custom">High</span>
+      <span class="badge badge-status-pending badge-custom">Pending</span>
+      <div class="dropdown">
+        <button class="btn-icon" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-three-dots-vertical"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" href="#"><i class="bi bi-eye me-2"></i>View</a></li>
+          <li><a class="dropdown-item" href="#"><i class="bi bi-pencil me-2"></i>Edit</a></li>
+          <li><form method="post"><button type="submit" class="dropdown-item"><i class="bi bi-check2-circle me-2"></i>Mark Complete</button></form></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i>Delete</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Task 2 Medium -->
+  <div class="task-card priority-medium">
+    <div class="task-info">
+      <div class="task-title"><a href="#">Team Meeting Preparation</a></div>
+      <div class="task-meta">
+        <span><i class="bi bi-tag"></i> Work</span>
+        <span><i class="bi bi-calendar3"></i> Dec 18, 2024 at 10:00</span>
+      </div>
+    </div>
+    <div class="task-actions">
+      <span class="badge badge-priority-medium badge-custom">Medium</span>
+      <span class="badge badge-status-in_progress badge-custom">In Progress</span>
+      <div class="dropdown">
+        <button class="btn-icon" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-three-dots-vertical"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" href="#"><i class="bi bi-eye me-2"></i>View</a></li>
+          <li><a class="dropdown-item" href="#"><i class="bi bi-pencil me-2"></i>Edit</a></li>
+          <li><form method="post"><button type="submit" class="dropdown-item"><i class="bi bi-check2-circle me-2"></i>Mark Complete</button></form></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i>Delete</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Task 3 Low -->
+  <div class="task-card priority-low">
+    <div class="task-info">
+      <div class="task-title"><a href="#">Buy Office Supplies</a></div>
+      <div class="task-meta">
+        <span><i class="bi bi-tag"></i> Shopping</span>
+        <span><i class="bi bi-calendar3"></i> Dec 20, 2024</span>
+      </div>
+    </div>
+    <div class="task-actions">
+      <span class="badge badge-priority-low badge-custom">Low</span>
+      <span class="badge badge-status-pending badge-custom">Pending</span>
+      <div class="dropdown">
+        <button class="btn-icon" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-three-dots-vertical"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" href="#"><i class="bi bi-eye me-2"></i>View</a></li>
+          <li><a class="dropdown-item" href="#"><i class="bi bi-pencil me-2"></i>Edit</a></li>
+          <li><form method="post"><button type="submit" class="dropdown-item"><i class="bi bi-check2-circle me-2"></i>Mark Complete</button></form></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i>Delete</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Task 4 Completed -->
+  <div class="task-card priority-low status-completed">
+    <div class="task-info">
+      <div class="task-title"><a href="#">Update Website Content</a></div>
+      <div class="task-meta">
+        <span><i class="bi bi-tag"></i> Work</span>
+        <span><i class="bi bi-calendar3"></i> Dec 10, 2024</span>
+      </div>
+    </div>
+    <div class="task-actions">
+      <span class="badge badge-priority-low badge-custom">Low</span>
+      <span class="badge badge-status-completed badge-custom">Completed</span>
+      <div class="dropdown">
+        <button class="btn-icon" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-three-dots-vertical"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" href="#"><i class="bi bi-eye me-2"></i>View</a></li>
+          <li><a class="dropdown-item" href="#"><i class="bi bi-pencil me-2"></i>Edit</a></li>
+          <li><form method="post"><button type="submit" class="dropdown-item"><i class="bi bi-arrow-counterclockwise me-2"></i>Mark Pending</button></form></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i>Delete</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  (function() {
+    // ----- THEME TOGGLE -----
+    const toggleBtn = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const themeLabel = document.getElementById('themeLabel');
+    const body = document.body;
+
+    function setTheme(theme) {
+      if (theme === 'dark') {
+        body.classList.remove('light-theme');
+        body.classList.add('dark-theme');
+        themeIcon.className = 'bi bi-moon-fill';
+        themeLabel.textContent = 'Dark';
+        localStorage.setItem('nexa-theme', 'dark');
+      } else {
+        body.classList.remove('dark-theme');
+        body.classList.add('light-theme');
+        themeIcon.className = 'bi bi-sun-fill';
+        themeLabel.textContent = 'Light';
+        localStorage.setItem('nexa-theme', 'light');
+      }
+    }
+
+    // load saved theme
+    const saved = localStorage.getItem('nexa-theme');
+    if (saved === 'dark') {
+      setTheme('dark');
+    } else {
+      setTheme('light');
+    }
+
+    toggleBtn.addEventListener('click', function() {
+      const isDark = body.classList.contains('dark-theme');
+      setTheme(isDark ? 'light' : 'dark');
+    });
+
+    // ----- INTERACTIVE TOUCHES -----
+    document.querySelectorAll('.task-card').forEach(card => {
+      card.addEventListener('click', function(e) {
+        if (e.target.closest('.btn-icon') || e.target.closest('a') || e.target.closest('button')) return;
+        this.style.transform = 'scale(0.98)';
+        setTimeout(() => this.style.transform = '', 150);
+      });
+    });
+
+    const filterForm = document.querySelector('form');
+    if (filterForm) {
+      filterForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const btn = this.querySelector('button[type="submit"]');
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
+        btn.disabled = true;
+        setTimeout(() => {
+          btn.innerHTML = '<i class="bi bi-funnel"></i>';
+          btn.disabled = false;
+        }, 1000);
+      });
+    }
+
+    const addBtn = document.querySelector('.btn-tm-primary');
+    if (addBtn && addBtn.textContent.trim().includes('Add')) {
+      addBtn.addEventListener('click', function(e) {
+        if (this.textContent.trim().includes('Add')) {
+          this.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Adding...';
+          setTimeout(() => {
+            this.innerHTML = '<i class="bi bi-plus-circle me-1"></i> Add Task';
+          }, 1000);
+        }
+      });
+    }
+
+    document.querySelectorAll('.dropdown').forEach(dd => {
+      dd.addEventListener('show.bs.dropdown', function() {
+        const icon = this.querySelector('.btn-icon');
+        if (icon) icon.style.background = '#f1f5f9';
+      });
+      dd.addEventListener('hide.bs.dropdown', function() {
+        const icon = this.querySelector('.btn-icon');
+        if (icon) icon.style.background = '';
+      });
+    });
+
+    console.log('🌓 NEXA HUB AI · light/dark mode fixed');
+  })();
+</script>
+</body>
+</html>

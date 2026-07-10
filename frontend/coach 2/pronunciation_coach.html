@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pronunciation Coach — NEXA HUB AI</title>
+    <style>
+        /* =============================================
+           LUXURY / PREMIUM THEME – Deep Navy, Gold, Elegant
+           WITH LEFT SIDEBAR LAYOUT & TOP-RIGHT THEME TOGGLE
+           ============================================= */
+
+        /* ─── RESET & VARIABLES ─── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            /* Dark mode (default) */
+            --bg: #0a0c1a;
+            --surface: rgba(255, 255, 255, 0.03);
+            --surface-hover: rgba(212, 175, 55, 0.06);
+            --border: rgba(212, 175, 55, 0.15);
+            --border-glow: rgba(212, 175, 55, 0.3);
+
+            /* Gold palette */
+            --gold: #d4af37;
+            --gold-light: #f5d76e;
+            --gold-dark: #b8962e;
+            --gold-gradient: linear-gradient(135deg, #f5d76e, #d4af37, #b8962e);
+
+            /* Text */
+            --text: #f0ece4;
+            --text-secondary: #d6cfb5;
+            --muted: #8a867a;
+
+            /* Typography */
+            --font-heading: 'Playfair Display', 'Georgia', serif;
+            --font-body: 'Lora', 'Segoe UI', serif;
+
+            --radius: 16px;
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(212, 175, 55, 0.05);
+            --transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+
+            /* Sidebar width */
+            --sidebar-width: 240px;
+
+            /* Blob opacity */
+            --blob-opacity: 0.10;
+        }
+
+        /* ─── LIGHT MODE VARIABLES ─── */
+        [data-theme="light"] {
+            --bg: #f5f0e8;
+            --surface: rgba(255, 255, 255, 0.6);
+            --surface-hover: rgba(212, 175, 55, 0.12);
+            --border: rgba(212, 175, 55, 0.25);
+            --border-glow: rgba(212, 175, 55, 0.5);
+            --text: #1a1a2e;
+            --text-secondary: #2d2d44;
+            --muted: #5a5a72;
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(212, 175, 55, 0.1);
+            --blob-opacity: 0.06;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.7;
+            min-height: 100vh;
+            letter-spacing: 0.02em;
+            display: flex;
+            transition: background 0.4s ease, color 0.4s ease;
+        }
+
+        /* ─── BACKGROUND BLOBS (for main content) ─── */
+        .bg-blobs {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(160px);
+            opacity: var(--blob-opacity);
+            animation: floatBlob 20s ease-in-out infinite alternate;
+            transition: opacity 0.6s ease;
+        }
+        .b1 {
+            width: 800px;
+            height: 800px;
+            background: #d4af37;
+            top: -300px;
+            right: -250px;
+        }
+        .b2 {
+            width: 600px;
+            height: 600px;
+            background: #b8962e;
+            bottom: -200px;
+            left: -200px;
+            animation-delay: 7s;
+        }
+        @keyframes floatBlob {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                transform: translate(50px, -50px) scale(1.1);
+            }
+        }
+
+        /* ─── PARTICLES CANVAS ─── */
+        #particles-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* ─── SIDEBAR ─── */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            z-index: 200;
+            background: rgba(10, 12, 26, 0.92);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-right: 1px solid var(--border);
+            padding: 24px 0 20px;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+            overflow-y: auto;
+        }
+        [data-theme="light"] .sidebar {
+            background: rgba(245, 240, 232, 0.92);
+        }
+        .sidebar:hover {
+            border-right-color: var(--border-glow);
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 20px 24px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: var(--font-heading);
+            text-decoration: none;
+            letter-spacing: 0.05em;
+            color: var(--gold-light);
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+        .sidebar-brand span {
+            -webkit-text-fill-color: initial;
+            font-size: 1.6rem;
+            background: none;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 20px 12px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .sidebar-nav .nav-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            padding: 8px 12px 4px;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            font-weight: 500;
+            font-family: var(--font-body);
+        }
+        .sidebar-link:hover {
+            color: var(--gold-light);
+            background: var(--surface-hover);
+        }
+        .sidebar-link.active {
+            color: var(--gold-light);
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid var(--border);
+        }
+        .sidebar-link .icon {
+            font-size: 1.1rem;
+        }
+
+        .sidebar-user {
+            border-top: 1px solid var(--border);
+            padding: 16px 20px 0;
+            margin-top: auto;
+        }
+        .sidebar-user .user-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+        }
+        .sidebar-user .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gold-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: #0a0c1a;
+            flex-shrink: 0;
+        }
+        .sidebar-user .user-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+        .sidebar-user .user-stats {
+            display: flex;
+            gap: 14px;
+            font-size: 0.7rem;
+            color: var(--muted);
+            padding: 4px 0 8px;
+        }
+        .sidebar-user .user-stats span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* ─── TOP-RIGHT THEME TOGGLE ─── */
+        .theme-toggle-float {
+            position: fixed;
+            top: 20px;
+            right: 24px;
+            z-index: 300;
+            background: rgba(10, 12, 26, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 6px 12px 6px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        [data-theme="light"] .theme-toggle-float {
+            background: rgba(245, 240, 232, 0.8);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }
+        .theme-toggle-float:hover {
+            border-color: var(--gold);
+            transform: scale(1.02);
+        }
+        .theme-toggle-float .toggle-icons {
+            font-size: 1.1rem;
+            line-height: 1;
+        }
+        .theme-toggle-float .toggle-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            transition: color 0.3s ease;
+        }
+        .theme-toggle-float .toggle-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--gold-gradient);
+            transition: 0.3s ease;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+        }
+
+        /* ─── MAIN CONTENT ─── */
+        .main {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            position: relative;
+            z-index: 1;
+            padding: 40px 32px 56px;
+            min-height: 100vh;
+        }
+
+        /* ─── PAGE HEADER ─── */
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .ph-icon {
+            font-size: 3.4rem;
+            display: block;
+            margin-bottom: 4px;
+            animation: bounceIcon 2.8s ease infinite;
+        }
+        @keyframes bounceIcon {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        .page-header h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
+            font-weight: 700;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.04em;
+            line-height: 1.2;
+        }
+        .page-header p {
+            color: var(--muted);
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin: 8px auto 0;
+            font-weight: 400;
+            font-family: var(--font-body);
+            transition: color 0.3s ease;
+        }
+
+        /* ─── INPUT CARD ─── */
+        .input-card {
+            background: var(--surface);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 26px 28px;
+            margin-bottom: 24px;
+            transition: var(--transition);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+        [data-theme="light"] .input-card {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+        }
+        .input-card:hover {
+            border-color: var(--border-glow);
+            box-shadow: var(--shadow);
+        }
+
+        .lbl {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--gold-light);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 7px;
+            display: block;
+            font-family: var(--font-heading);
+        }
+
+        .s-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            padding: 13px 18px;
+            font-size: 1.02rem;
+            outline: none;
+            transition: var(--transition);
+            font-family: var(--font-body);
+        }
+        [data-theme="light"] .s-input {
+            background: rgba(0, 0, 0, 0.03);
+        }
+        .s-input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.08);
+        }
+        .s-input::placeholder {
+            color: var(--muted);
+            opacity: 0.6;
+        }
+
+        /* ─── MIC SECTION ─── */
+        .mic-section {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin: 18px 0;
+        }
+        .mic-circle {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            background: var(--gold-gradient);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.25);
+            flex-shrink: 0;
+            color: #0a0c1a;
+        }
+        .mic-circle:hover {
+            transform: scale(1.06);
+        }
+        .mic-circle.rec {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+            animation: micPulse 1.2s ease infinite;
+            color: #fff;
+        }
+        @keyframes micPulse {
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 0 16px rgba(239, 68, 68, 0);
+            }
+        }
+
+        .mic-info h3 {
+            font-size: 0.97rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+            color: var(--text-secondary);
+            font-family: var(--font-heading);
+            transition: color 0.3s ease;
+        }
+        .mic-info p {
+            font-size: 0.82rem;
+            color: var(--muted);
+            line-height: 1.6;
+            transition: color 0.3s ease;
+        }
+        .live-text {
+            font-size: 0.83rem;
+            color: var(--gold-light);
+            font-style: italic;
+            margin-top: 5px;
+            min-height: 18px;
+            font-family: var(--font-body);
+        }
+
+        /* ─── EXAMPLE GRID ─── */
+        .ex-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 10px;
+            margin: 14px 0;
+        }
+        .ex-sent {
+            background: rgba(212, 175, 55, 0.04);
+            border: 1px solid rgba(212, 175, 55, 0.12);
+            border-radius: 11px;
+            padding: 12px 16px;
+            cursor: pointer;
+            font-size: 0.84rem;
+            line-height: 1.5;
+            transition: var(--transition);
+            color: var(--text-secondary);
+            font-family: var(--font-body);
+        }
+        [data-theme="light"] .ex-sent {
+            background: rgba(212, 175, 55, 0.06);
+        }
+        .ex-sent:hover {
+            background: rgba(212, 175, 55, 0.08);
+            border-color: var(--gold);
+            color: var(--gold-light);
+        }
+        .ex-sent strong {
+            display: block;
+            font-size: 0.72rem;
+            color: var(--gold);
+            margin-bottom: 3px;
+            font-family: var(--font-heading);
+            letter-spacing: 0.04em;
+        }
+
+        /* ─── BUTTON ROW ─── */
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 14px;
+            flex-wrap: wrap;
+        }
+        .btn-analyze {
+            padding: 12px 28px;
+            background: var(--gold-gradient);
+            border: none;
+            border-radius: 12px;
+            color: #0a0c1a;
+            font-weight: 800;
+            font-size: 0.94rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
+            font-family: var(--font-body);
+            letter-spacing: 0.04em;
+        }
+        .btn-analyze:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.3);
+        }
+        .btn-analyze:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-hear {
+            padding: 12px 20px;
+            background: transparent;
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            font-family: var(--font-body);
+        }
+        .btn-hear:hover {
+            color: var(--text-secondary);
+            border-color: var(--gold);
+            background: var(--surface-hover);
+        }
+
+        /* ─── TIPS GRID ─── */
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+        .tip-card {
+            background: var(--surface);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px 18px;
+            transition: var(--transition);
+        }
+        .tip-card:hover {
+            border-color: var(--border-glow);
+        }
+        .tip-card h3 {
+            font-size: 0.85rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+            color: var(--gold-light);
+            font-family: var(--font-heading);
+        }
+        .tip-card p {
+            font-size: 0.78rem;
+            color: var(--muted);
+            line-height: 1.6;
+            font-family: var(--font-body);
+            transition: color 0.3s ease;
+        }
+
+        /* ─── TONGUE TWISTER CARD ─── */
+        .tt-card {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.04), rgba(184, 150, 46, 0.02));
+            border: 1px solid rgba(212, 175, 55, 0.12);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            margin-bottom: 24px;
+            transition: var(--transition);
+        }
+        [data-theme="light"] .tt-card {
+            background: rgba(212, 175, 55, 0.06);
+        }
+        .tt-card:hover {
+            border-color: var(--border-glow);
+        }
+        .tt-card h3 {
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: var(--gold-light);
+            margin-bottom: 12px;
+            font-family: var(--font-heading);
+        }
+        .tt-list {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+        .tt-item {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            padding: 10px 16px;
+            font-size: 0.88rem;
+            line-height: 1.6;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            color: var(--text-secondary);
+            font-family: var(--font-body);
+        }
+        [data-theme="light"] .tt-item {
+            background: rgba(0, 0, 0, 0.02);
+        }
+        .tt-item:hover {
+            border-color: var(--gold);
+            color: var(--gold-light);
+            background: var(--surface-hover);
+        }
+
+        /* ─── RESULT CARD ─── */
+        .result-card {
+            background: var(--surface);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            display: none;
+            margin-bottom: 24px;
+            transition: var(--transition);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+        [data-theme="light"] .result-card {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+        }
+        .result-card:hover {
+            border-color: var(--border-glow);
+            box-shadow: var(--shadow);
+        }
+        .result-card.show {
+            display: block;
+            animation: slideUp 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .res-hdr {
+            padding: 14px 22px;
+            border-bottom: 1px solid var(--border);
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.04), rgba(184, 150, 46, 0.02));
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .res-hdr strong {
+            color: var(--gold-light);
+            font-family: var(--font-heading);
+            font-size: 0.9rem;
+            letter-spacing: 0.04em;
+        }
+
+        .res-body {
+            padding: 22px 26px;
+            font-size: 0.93rem;
+            line-height: 1.85;
+            color: var(--text-secondary);
+            white-space: pre-wrap;
+            font-family: var(--font-body);
+            transition: color 0.3s ease;
+        }
+        .res-body strong {
+            color: var(--gold-light);
+        }
+        .res-body em {
+            color: var(--gold);
+            font-style: italic;
+        }
+        .res-body code {
+            background: rgba(212, 175, 55, 0.08);
+            padding: 1px 7px;
+            border-radius: 5px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.82em;
+            color: var(--gold-light);
+        }
+
+        .act-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--muted);
+            padding: 6px 14px;
+            cursor: pointer;
+            font-size: 0.77rem;
+            transition: var(--transition);
+            text-decoration: none;
+            font-family: var(--font-body);
+        }
+        .act-btn:hover {
+            color: var(--gold-light);
+            border-color: var(--gold);
+            background: var(--surface-hover);
+        }
+
+        /* ─── LOADING ─── */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 30px;
+        }
+        .loading.show {
+            display: block;
+        }
+        .spinner {
+            width: 44px;
+            height: 44px;
+            border: 3px solid var(--border);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin: 0 auto 14px;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .loading p {
+            color: var(--muted);
+            font-size: 0.9rem;
+            font-family: var(--font-body);
+        }
+
+        /* ─── SCROLLBAR ─── */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold);
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 60px;
+                padding: 16px 0;
+            }
+            .sidebar-brand {
+                font-size: 0;
+                padding: 0 0 16px;
+                justify-content: center;
+            }
+            .sidebar-brand span {
+                font-size: 1.8rem;
+            }
+            .sidebar-link {
+                padding: 10px 0;
+                justify-content: center;
+                font-size: 0;
+            }
+            .sidebar-link .icon {
+                font-size: 1.4rem;
+            }
+            .sidebar-link .link-text {
+                display: none;
+            }
+            .sidebar-user .user-row {
+                flex-direction: column;
+                align-items: center;
+                gap: 4px;
+            }
+            .sidebar-user .user-name {
+                font-size: 0.7rem;
+                text-align: center;
+            }
+            .sidebar-user .user-stats {
+                flex-direction: column;
+                align-items: center;
+                gap: 2px;
+                font-size: 0.6rem;
+            }
+            .sidebar-user .avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 0.9rem;
+            }
+            .main {
+                margin-left: 60px;
+                padding: 24px 16px 40px;
+            }
+            .nav-label {
+                display: none;
+            }
+            .input-card {
+                padding: 18px 16px;
+            }
+            .mic-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            .ex-grid {
+                grid-template-columns: 1fr;
+            }
+            .btn-row {
+                flex-direction: column;
+            }
+            .btn-analyze,
+            .btn-hear {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+            }
+            .tips-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .res-hdr {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 6px;
+            }
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+            .theme-toggle-float {
+                top: 12px;
+                right: 12px;
+                padding: 4px 10px 4px 12px;
+                gap: 6px;
+            }
+            .theme-toggle-float .toggle-label {
+                font-size: 0.6rem;
+            }
+            .theme-toggle-float .toggle-thumb {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main {
+                padding: 20px 12px 30px;
+            }
+            .page-header h1 {
+                font-size: 1.5rem;
+            }
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+            .mic-circle {
+                width: 56px;
+                height: 56px;
+                font-size: 1.4rem;
+            }
+            .theme-toggle-float {
+                top: 10px;
+                right: 10px;
+                padding: 4px 8px 4px 10px;
+            }
+            .theme-toggle-float .toggle-label {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ─── PARTICLES CANVAS ─── -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- ─── BG BLOBS ─── -->
+    <div class="bg-blobs">
+        <div class="blob b1"></div>
+        <div class="blob b2"></div>
+    </div>
+
+    <!-- ─── TOP-RIGHT THEME TOGGLE ─── -->
+    <div class="theme-toggle-float" id="themeToggle" onclick="toggleTheme()" title="Toggle Light/Dark Mode">
+        <span class="toggle-icons" id="themeIcon">🌙</span>
+        <span class="toggle-label" id="themeLabel">Dark</span>
+        <span class="toggle-thumb" id="toggleThumb"></span>
+    </div>
+
+    <!-- ─── SIDEBAR ─── -->
+    <aside class="sidebar">
+        <a class="sidebar-brand" href="#">
+            <span>🎓</span> NEXA HUB AI
+        </a>
+
+        <nav class="sidebar-nav">
+            <div class="nav-label">Main</div>
+            <a href="#" class="sidebar-link">
+                <span class="icon">📊</span>
+                <span class="link-text">Dashboard</span>
+            </a>
+            <a href="#" class="sidebar-link">
+                <span class="icon">📖</span>
+                <span class="link-text">Grammar</span>
+            </a>
+            <a href="#" class="sidebar-link">
+                <span class="icon">🗣️</span>
+                <span class="link-text">Speaking</span>
+            </a>
+            <a href="#" class="sidebar-link">
+                <span class="icon">💼</span>
+                <span class="link-text">Interview</span>
+            </a>
+            <a href="#" class="sidebar-link">
+                <span class="icon">🔄</span>
+                <span class="link-text">Translate</span>
+            </a>
+            <a href="#" class="sidebar-link active">
+                <span class="icon">🎵</span>
+                <span class="link-text">Pronunciation</span>
+            </a>
+            <div class="nav-label" style="margin-top:12px;">Engage</div>
+            <a href="#" class="sidebar-link">
+                <span class="icon">🏆</span>
+                <span class="link-text">Challenge</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-user">
+            <div class="user-row">
+                <div class="avatar">J</div>
+                <div class="user-name">Jaat</div>
+            </div>
+            <div class="user-stats">
+                <span>🏅 438 XP</span>
+                <span>🔥 2 day streak</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ─── MAIN CONTENT ─── -->
+    <main class="main">
+
+        <!-- HEADER -->
+        <div class="page-header">
+            <span class="ph-icon">🎵</span>
+            <h1>Pronunciation Coach</h1>
+            <p>Type or speak any sentence — Nexa analyzes pronunciation, stress patterns &amp; gives expert tips for Indian speakers!</p>
+        </div>
+
+        <!-- INPUT CARD -->
+        <div class="input-card">
+            <span class="lbl">Enter a sentence to analyze:</span>
+            <input type="text" class="s-input" id="sentInput" placeholder="e.g. The thirty-three thieves thought that they thrilled the throne throughout Thursday." onkeydown="if(event.key==='Enter') analyzeNow()" />
+            <div class="mic-section">
+                <button class="mic-circle" id="micCircle" onclick="toggleMic()">🎤</button>
+                <div class="mic-info">
+                    <h3>Or speak your sentence</h3>
+                    <p>Click the microphone, say your sentence clearly, and Nexa will analyze your pronunciation!</p>
+                    <div class="live-text" id="liveText"></div>
+                </div>
+            </div>
+            <span class="lbl">Or try one of these challenging sentences:</span>
+            <div class="ex-grid">
+                <div class="ex-sent" onclick="setEx(this.dataset.s)" data-s="The thirty-three thieves thought that they thrilled the throne throughout Thursday."><strong>TH Sound</strong>The thirty-three thieves thought that they thrilled the throne throughout Thursday.</div>
+                <div class="ex-sent" onclick="setEx(this.dataset.s)" data-s="Whether the weather is fine or whether the weather is not, we'll weather the weather."><strong>W Sound</strong>Whether the weather is fine or whether the weather is not, we'll weather the weather.</div>
+                <div class="ex-sent" onclick="setEx(this.dataset.s)" data-s="I would like to schedule a meeting at the library to discuss the project thoroughly."><strong>Business Words</strong>I would like to schedule a meeting at the library to discuss the project thoroughly.</div>
+                <div class="ex-sent" onclick="setEx(this.dataset.s)" data-s="She sells seashells by the seashore and the shells she sells are seashells."><strong>S Sound</strong>She sells seashells by the seashore and the shells she sells are seashells.</div>
+            </div>
+            <div class="btn-row">
+                <button class="btn-analyze" id="analyzeBtn" onclick="analyzeNow()">🎤 Analyze Pronunciation</button>
+                <button class="btn-hear" onclick="hearCorrect()">🔊 Hear Correct Pronunciation</button>
+                <button class="btn-hear" onclick="document.getElementById('sentInput').value='';document.getElementById('resultCard').classList.remove('show');">Clear</button>
+            </div>
+        </div>
+
+        <!-- Tips -->
+        <div class="tips-grid">
+            <div class="tip-card"><h3>🎯 TH Sound</h3><p>Place tongue between teeth, blow softly. "Three" not "tree".</p></div>
+            <div class="tip-card"><h3>🎯 V vs W</h3><p>V: bite lip, W: round lips. "Very" not "wery".</p></div>
+            <div class="tip-card"><h3>🎯 Schwa Sound</h3><p>Unstressed 'a' in 'about' → /ə/. Relax the mouth.</p></div>
+            <div class="tip-card"><h3>🎯 Word Stress</h3><p>DEvelop vs deVELop. Stress changes meaning.</p></div>
+        </div>
+
+        <!-- Tongue Twisters -->
+        <div class="tt-card">
+            <h3>🌀 Tongue Twister Practice — Click to use as your sentence:</h3>
+            <div class="tt-list">
+                <div class="tt-item" onclick="setEx('Peter Piper picked a peck of pickled peppers.')">Peter Piper picked a peck of pickled peppers.</div>
+                <div class="tt-item" onclick="setEx('How much wood would a woodchuck chuck if a woodchuck could chuck wood?')">How much wood would a woodchuck chuck if a woodchuck could chuck wood?</div>
+                <div class="tt-item" onclick="setEx('She sells seashells by the seashore.')">She sells seashells by the seashore.</div>
+                <div class="tt-item" onclick="setEx('Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair.')">Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair.</div>
+            </div>
+        </div>
+
+        <!-- LOADING -->
+        <div class="loading" id="loadingDiv">
+            <div class="spinner"></div>
+            <p>Nexa is analyzing pronunciation…</p>
+        </div>
+
+        <!-- RESULT CARD -->
+        <div class="result-card" id="resultCard">
+            <div class="res-hdr">
+                <strong>🎤 Pronunciation Analysis by Nexa</strong>
+                <div style="display:flex;gap:7px;flex-wrap:wrap;">
+                    <button class="act-btn" onclick="hearCorrect()">🔊 Hear It</button>
+                    <button class="act-btn" onclick="copyRes()">📋 Copy</button>
+                </div>
+            </div>
+            <div class="res-body" id="resBody"></div>
+        </div>
+
+    </main>
+
+    <!-- ─── SCRIPT ──── -->
+    <script>
+        // ===== THEME TOGGLE =====
+        function toggleTheme() {
+            const html = document.documentElement;
+            const current = html.getAttribute('data-theme');
+            const newTheme = current === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('nexa-theme', newTheme);
+            updateThemeUI(newTheme);
+        }
+
+        function updateThemeUI(theme) {
+            const icon = document.getElementById('themeIcon');
+            const label = document.getElementById('themeLabel');
+            const thumb = document.getElementById('toggleThumb');
+            if (theme === 'light') {
+                icon.textContent = '☀️';
+                label.textContent = 'Light';
+                thumb.style.transform = 'translateX(20px)';
+            } else {
+                icon.textContent = '🌙';
+                label.textContent = 'Dark';
+                thumb.style.transform = 'translateX(0)';
+            }
+        }
+
+        // Load saved theme
+        (function loadTheme() {
+            const saved = localStorage.getItem('nexa-theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', saved);
+            updateThemeUI(saved);
+        })();
+
+        // ===== PRONUNCIATION COACH FUNCTIONS =====
+        let recognition = null,
+            isRec = false;
+
+        function setEx(s) { document.getElementById('sentInput').value = s; }
+
+        function toggleMic() {
+            const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SR) { alert('Use Chrome for speech recognition.'); return; }
+            if (isRec) { recognition && recognition.stop(); } else {
+                recognition = new SR();
+                recognition.lang = 'en-IN';
+                recognition.continuous = false;
+                recognition.interimResults = true;
+                recognition.onresult = e => {
+                    let interim = '',
+                        final = '';
+                    for (let i = e.resultIndex; i < e.results.length; i++) {
+                        if (e.results[i].isFinal) final += e.results[i][0].transcript;
+                        else interim = e.results[i][0].transcript;
+                    }
+                    document.getElementById('liveText').textContent = '🎤 ' + (final || interim);
+                    if (final) {
+                        document.getElementById('sentInput').value = final.trim();
+                        document.getElementById('liveText').textContent = '✅ Captured!';
+                    }
+                };
+                recognition.onstart = () => {
+                    isRec = true;
+                    document.getElementById('micCircle').classList.add('rec');
+                    document.getElementById('liveText').textContent = '🎤 Listening…';
+                };
+                recognition.onend = () => {
+                    isRec = false;
+                    document.getElementById('micCircle').classList.remove('rec');
+                };
+                recognition.start();
+            }
+        }
+
+        async function analyzeNow() {
+            const sentence = document.getElementById('sentInput').value.trim();
+            if (!sentence) { alert('Please enter a sentence to analyze.'); return; }
+            document.getElementById('analyzeBtn').disabled = true;
+            document.getElementById('loadingDiv').classList.add('show');
+            document.getElementById('resultCard').classList.remove('show');
+
+            // Simulated analysis result
+            setTimeout(() => {
+                document.getElementById('loadingDiv').classList.remove('show');
+                const mockResult = `**Pronunciation Analysis for:** "${sentence}"\n\n` +
+                    `🔹 *Stress Pattern:* ${sentence.length > 20 ? 'Complex' : 'Simple'} – focus on content words.\n` +
+                    `🔹 *Trouble sounds:* ${sentence.includes('th') ? 'TH sound (voiced/voiceless) — put tongue between teeth.' : 'No major TH issues.'}\n` +
+                    `🔹 *Intonation:* ${sentence.includes('?') ? 'Rising pitch for questions.' : 'Falling pitch for statements.'}\n` +
+                    `🔹 *Tip:* Read slowly, exaggerate vowel sounds. Indian speakers often reduce unstressed vowels.`;
+                document.getElementById('resBody').innerHTML = fmt(mockResult);
+                document.getElementById('resultCard').classList.add('show');
+                document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('analyzeBtn').disabled = false;
+            }, 800);
+        }
+
+        function hearCorrect() {
+            const s = document.getElementById('sentInput').value;
+            if (!s) { alert('Enter a sentence first.'); return; }
+            window.speechSynthesis.cancel();
+            const u = new SpeechSynthesisUtterance(s);
+            u.lang = 'en-US';
+            u.rate = 0.72;
+            const voices = speechSynthesis.getVoices();
+            const fv = voices.find(v => v.name.includes('Samantha') || v.name.includes('Karen') || v.name.includes(
+                'Zira') || v.name.includes('Google UK English Female'));
+            if (fv) u.voice = fv;
+            speechSynthesis.speak(u);
+        }
+
+        function copyRes() {
+            const text = document.getElementById('resBody').innerText;
+            if (text) {
+                navigator.clipboard.writeText(text).then(() => alert('✅ Copied!'));
+            }
+        }
+
+        function fmt(t) {
+            return t.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/`(.*?)`/g, '<code>$1</code>')
+                .replace(/^## (.*?)$/gm, '<br/><strong style="color:var(--gold-light);display:block;margin-top:13px;">$1</strong>');
+        }
+
+        function getCookie(n) {
+            const v = document.cookie.match('(^|;)\\s*' + n + '\\s*=\\s*([^;]+)');
+            return v ? v.pop() : '';
+        }
+
+        window.speechSynthesis && (window.speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices());
+    </script>
+
+    <!-- ─── PARTICLE SCRIPT ──────────────────────────────────────────── -->
+    <script>
+        (function() {
+            const c = document.getElementById('particles-canvas'),
+                ctx = c.getContext('2d');
+            let W, H, pts = [];
+
+            function resize() {
+                W = c.width = window.innerWidth;
+                H = c.height = window.innerHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            function rand(a, b) { return Math.random() * (b - a) + a; }
+            const COLORS = ['212,175,55', '245,215,110', '184,150,46', '212,175,55'];
+            for (let i = 0; i < 110; i++) {
+                pts.push({
+                    x: rand(0, W),
+                    y: rand(0, H),
+                    r: rand(0.5, 2.2),
+                    vx: rand(-0.25, 0.25),
+                    vy: rand(-0.25, 0.25),
+                    a: rand(0.1, 0.45),
+                    c: COLORS[Math.floor(Math.random() * COLORS.length)]
+                });
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, W, H);
+                pts.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0 || p.x > W) p.vx *= -1;
+                    if (p.y < 0 || p.y > H) p.vy *= -1;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${p.c},${p.a})`;
+                    ctx.fill();
+                });
+                requestAnimationFrame(draw);
+            }
+            draw();
+        })();
+    </script>
+
+</body>
+</html>
