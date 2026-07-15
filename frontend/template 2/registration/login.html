@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEXA HUB AI · Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       CSS VARIABLES - LIGHT & DARK THEME
+    ============================================ */
+    :root {
+      --bg: #F0F6FD;
+      --card-bg: rgba(255, 255, 255, 0.92);
+      --card-border: #DCE6F0;
+      --text: #1A2A3B;
+      --text-muted: #8A9AAE;
+      --input-bg: #F5F9FF;
+      --input-border: #DCE6F0;
+      --shadow: 0 16px 48px rgba(0, 0, 0, 0.08);
+      --shadow-hover: 0 24px 64px rgba(0, 0, 0, 0.12);
+      --primary: #4A9AF0;
+      --primary-dark: #2A7AD8;
+      --gradient: linear-gradient(135deg, #4A9AF0, #2A7AD8);
+      --seal-shadow: rgba(74, 154, 240, 0.3);
+      --btn-shadow: rgba(74, 154, 240, 0.3);
+      --btn-shadow-hover: rgba(74, 154, 240, 0.4);
+      --top-text: #1A2A3B;
+      --top-sub: #8A9AAE;
+      --toggle-bg: rgba(255, 255, 255, 0.85);
+      --toggle-border: #DCE6F0;
+      --toggle-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+      --toggle-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
+      --success: #2D7D6F;
+      --error-color: #E2593F;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0A1A2B;
+      --card-bg: rgba(19, 35, 32, 0.92);
+      --card-border: #204440;
+      --text: #EAF5F1;
+      --text-muted: #5C7A74;
+      --input-bg: #0E1E1B;
+      --input-border: #204440;
+      --shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+      --shadow-hover: 0 24px 64px rgba(0, 0, 0, 0.6);
+      --primary: #6BAFFF;
+      --primary-dark: #4A9AF0;
+      --gradient: linear-gradient(135deg, #6BAFFF, #4A9AF0);
+      --seal-shadow: rgba(107, 175, 255, 0.3);
+      --btn-shadow: rgba(107, 175, 255, 0.3);
+      --btn-shadow-hover: rgba(107, 175, 255, 0.4);
+      --top-text: #EAF5F1;
+      --top-sub: #5C7A74;
+      --toggle-bg: rgba(19, 35, 32, 0.88);
+      --toggle-border: #204440;
+      --toggle-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+      --toggle-hover: 0 8px 24px rgba(0, 0, 0, 0.5);
+      --success: #5BBFB0;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.35s ease, color 0.35s ease;
+    }
+
+    /* Background Animation */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(74, 154, 240, 0.08), transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(226, 89, 63, 0.05), transparent 50%),
+        var(--bg);
+      transition: background 0.35s ease;
+    }
+    .bg .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.30;
+      animation: float 20s infinite alternate;
+      transition: opacity 0.35s ease;
+    }
+    .bg .orb:nth-child(1) {
+      width: 400px; height: 400px;
+      top: -10%; left: -10%;
+      background: radial-gradient(circle, #4A9AF0, #2A7AD8);
+    }
+    .bg .orb:nth-child(2) {
+      width: 500px; height: 500px;
+      bottom: -15%; right: -10%;
+      background: radial-gradient(circle, #6BAFFF, #4A9AF0);
+      animation-duration: 26s;
+      animation-delay: -6s;
+    }
+    .bg .orb:nth-child(3) {
+      width: 300px; height: 300px;
+      top: 50%; left: 50%;
+      background: radial-gradient(circle, #F08768, #E2593F);
+      animation-duration: 22s;
+      animation-delay: -11s;
+      opacity: 0.15;
+    }
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(40px, -50px) scale(1.1); }
+      66% { transform: translate(-30px, 30px) scale(0.9); }
+      100% { transform: translate(20px, -30px) scale(1.05); }
+    }
+
+    /* ===== THEME TOGGLE ===== */
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid var(--toggle-border);
+      background: var(--toggle-bg);
+      color: var(--text);
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: var(--toggle-shadow);
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+    .theme-toggle:hover {
+      transform: translateY(-3px) rotate(-12deg);
+      box-shadow: var(--toggle-hover);
+      border-color: var(--primary);
+    }
+
+    /* ===== LOGIN CARD ===== */
+    .card {
+      width: 100%;
+      max-width: 400px;
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 40px 32px 36px;
+      box-shadow: var(--shadow);
+      position: relative;
+      z-index: 1;
+      transition: all 0.3s ease;
+    }
+    .card:hover {
+      box-shadow: var(--shadow-hover);
+    }
+
+    /* Brand Inside Card */
+    .card-brand {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .card-brand .seal {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      background: var(--gradient);
+      box-shadow: 0 8px 24px var(--seal-shadow);
+      font-size: 26px;
+      transition: transform 0.3s ease;
+    }
+    .card-brand .seal:hover { transform: scale(1.05) rotate(-5deg); }
+    .card-brand .title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 700;
+      font-size: 32px;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+    .card-brand .title .highlight {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Form */
+    .form-group {
+      margin-bottom: 18px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid var(--input-border);
+      border-radius: 12px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      background: var(--input-bg);
+      color: var(--text);
+      outline: none;
+      transition: all 0.3s ease;
+    }
+    .form-group input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(74, 154, 240, 0.12);
+      background: var(--card-bg);
+    }
+    .form-group input::placeholder {
+      color: var(--text-muted);
+      opacity: 0.6;
+    }
+
+    /* Password Toggle */
+    .pwd-wrap {
+      position: relative;
+    }
+    .pwd-wrap input {
+      padding-right: 44px;
+    }
+    .pwd-toggle {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      font-size: 18px;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      line-height: 1;
+    }
+    .pwd-toggle:hover {
+      background: rgba(74, 154, 240, 0.10);
+      color: var(--text);
+    }
+
+    /* Error */
+    .error-msg {
+      color: var(--error-color);
+      font-size: 12px;
+      font-weight: 500;
+      margin-top: 4px;
+      display: none;
+    }
+    .error-msg.show { display: block; }
+    .form-group input.error {
+      border-color: var(--error-color);
+    }
+    .form-group input.error:focus {
+      box-shadow: 0 0 0 4px rgba(226, 89, 63, 0.10);
+    }
+
+    /* Button */
+    .btn-login {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: var(--gradient);
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      box-shadow: 0 8px 24px var(--btn-shadow);
+      transition: all 0.3s ease;
+      margin-top: 6px;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-login:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 36px var(--btn-shadow-hover);
+    }
+    .btn-login:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .btn-login .spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    .btn-login.loading .spinner {
+      display: inline-block;
+    }
+    .btn-login.loading .btn-text {
+      display: none;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Toast Message */
+    .toast {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      z-index: 2000;
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      color: white;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      transform: translateX(120%);
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      max-width: 360px;
+    }
+    .toast.show {
+      transform: translateX(0);
+    }
+    .toast.success {
+      background: var(--success);
+    }
+    .toast.error {
+      background: var(--error-color);
+    }
+    .toast .close-toast {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      margin-left: 12px;
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+    }
+    .toast .close-toast:hover { opacity: 1; }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .footer a {
+      color: var(--primary);
+      font-weight: 700;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .footer a:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+    .footer .sep {
+      margin: 0 8px;
+      color: var(--card-border);
+    }
+
+    /* ===== TOP LEFT - NEXA HUB AI ===== */
+    .top-left {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 100;
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: -0.02em;
+      color: var(--top-text);
+      transition: color 0.35s ease;
+    }
+    .top-left .website-name {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .top-left .website-name .nexa {
+      color: var(--primary);
+      transition: color 0.35s ease;
+    }
+    .top-left .website-name .hub {
+      color: var(--top-text);
+      transition: color 0.35s ease;
+    }
+    .top-left .website-name .ai {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .top-left .sub {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--top-sub);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      display: block;
+      -webkit-text-fill-color: var(--top-sub);
+      transition: color 0.35s ease;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .top-left {
+        top: 16px;
+        left: 16px;
+        font-size: 18px;
+      }
+      .top-left .sub { font-size: 8px; }
+      .theme-toggle {
+        top: 12px;
+        right: 12px;
+        width: 40px;
+        height: 40px;
+        font-size: 17px;
+      }
+      .card {
+        padding: 32px 20px 28px;
+        margin-top: 20px;
+      }
+      .card-brand .title { font-size: 28px; }
+      .card-brand .seal { width: 48px; height: 48px; font-size: 22px; }
+      .toast {
+        top: 70px;
+        right: 12px;
+        left: 12px;
+        max-width: none;
+        font-size: 13px;
+        padding: 12px 18px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .top-left {
+        top: 12px;
+        left: 12px;
+        font-size: 16px;
+      }
+      .theme-toggle {
+        top: 10px;
+        right: 10px;
+        width: 36px;
+        height: 36px;
+        font-size: 15px;
+      }
+      .card { padding: 24px 16px 20px; }
+      .card-brand .title { font-size: 24px; }
+      .card-brand .seal { width: 42px; height: 42px; font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background -->
+  <div class="bg">
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+  </div>
+
+  <!-- ===== THEME TOGGLE ===== -->
+  <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+    <span id="themeIcon">🌙</span>
+  </button>
+
+  <!-- ===== TOAST MESSAGE ===== -->
+  <div class="toast" id="toast">
+    <span id="toastMessage">✅ Login successful!</span>
+    <button class="close-toast" id="closeToast">✕</button>
+  </div>
+
+  <!-- ===== TOP LEFT - NEXA HUB AI ===== -->
+  <div class="top-left">
+    <div class="website-name">
+      <span class="nexa">NEXA</span>
+      <span class="hub">HUB</span>
+      <span class="ai">AI</span>
+    </div>
+    <span class="sub">Smart Email Assistant</span>
+  </div>
+
+  <!-- ===== LOGIN CARD ===== -->
+  <div class="card">
+
+    <!-- Brand Inside Card -->
+    <div class="card-brand">
+      <div class="seal">⚡</div>
+      <div class="title">
+        <span class="highlight">Login</span>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <form id="loginForm" novalidate>
+
+      <!-- Username -->
+      <div class="form-group">
+        <label for="username">Username or Email</label>
+        <input type="text" id="username" placeholder="Enter your username" value="nexahub">
+        <div class="error-msg" id="usernameError">⚠️ Please enter your username</div>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="pwd-wrap">
+          <input type="password" id="password" placeholder="Enter your password" value="password123">
+          <button type="button" class="pwd-toggle" id="pwdToggle">👁️</button>
+        </div>
+        <div class="error-msg" id="passwordError">⚠️ Please enter your password</div>
+      </div>
+
+      <!-- Login Button -->
+      <button type="submit" class="btn-login" id="loginBtn">
+        <span class="spinner"></span>
+        <span class="btn-text">🔐 Login</span>
+      </button>
+    </form>
+
+    <!-- Footer -->
+    <div class="footer">
+      <a href="#" id="forgotLink">Forgot password?</a>
+      <span class="sep">•</span>
+      <a href="#" id="signupLink">Create account</a>
+    </div>
+
+  </div>
+
+  <script>
+    (function() {
+      'use strict';
+
+      // ============================
+      // DOM REFERENCES
+      // ============================
+      const themeBtn = document.getElementById('themeToggle');
+      const themeIcon = document.getElementById('themeIcon');
+      const form = document.getElementById('loginForm');
+      const usernameInput = document.getElementById('username');
+      const passwordInput = document.getElementById('password');
+      const usernameError = document.getElementById('usernameError');
+      const passwordError = document.getElementById('passwordError');
+      const loginBtn = document.getElementById('loginBtn');
+      const pwdToggle = document.getElementById('pwdToggle');
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toastMessage');
+      const closeToast = document.getElementById('closeToast');
+
+      // ============================
+      // THEME TOGGLE
+      // ============================
+      function setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        try { localStorage.setItem('nexa-theme', theme); } catch (e) {}
+        themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+        themeBtn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+      }
+
+      let savedTheme = localStorage.getItem('nexa-theme');
+      if (!savedTheme) {
+        savedTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      setTheme(savedTheme);
+
+      themeBtn.addEventListener('click', function() {
+        const current = document.documentElement.getAttribute('data-theme');
+        setTheme(current === 'dark' ? 'light' : 'dark');
+      });
+
+      // ============================
+      // PASSWORD TOGGLE
+      // ============================
+      pwdToggle.addEventListener('click', function() {
+        if (passwordInput.type === 'password') {
+          passwordInput.type = 'text';
+          this.textContent = '🙈';
+          this.setAttribute('aria-label', 'Hide password');
+        } else {
+          passwordInput.type = 'password';
+          this.textContent = '👁️';
+          this.setAttribute('aria-label', 'Show password');
+        }
+      });
+
+      // ============================
+      // CLEAR ERRORS ON INPUT
+      // ============================
+      usernameInput.addEventListener('input', function() {
+        this.classList.remove('error');
+        usernameError.classList.remove('show');
+      });
+
+      passwordInput.addEventListener('input', function() {
+        this.classList.remove('error');
+        passwordError.classList.remove('show');
+      });
+
+      // ============================
+      // TOAST FUNCTIONS
+      // ============================
+      let toastTimeout = null;
+
+      function showToast(message, type = 'success') {
+        toast.className = 'toast ' + type;
+        toastMessage.textContent = message;
+        
+        // Force reflow
+        void toast.offsetWidth;
+        toast.classList.add('show');
+        
+        if (toastTimeout) clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(function() {
+          toast.classList.remove('show');
+        }, 4000);
+      }
+
+      closeToast.addEventListener('click', function() {
+        toast.classList.remove('show');
+        if (toastTimeout) clearTimeout(toastTimeout);
+      });
+
+      // Close toast on click anywhere outside
+      document.addEventListener('click', function(e) {
+        if (toast.classList.contains('show') && !toast.contains(e.target) && e.target !== toast) {
+          toast.classList.remove('show');
+          if (toastTimeout) clearTimeout(toastTimeout);
+        }
+      });
+
+      // ============================
+      // FORM SUBMIT
+      // ============================
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        let hasError = false;
+
+        // Validate username
+        if (!usernameInput.value.trim()) {
+          usernameInput.classList.add('error');
+          usernameError.classList.add('show');
+          hasError = true;
+        } else {
+          usernameInput.classList.remove('error');
+          usernameError.classList.remove('show');
+        }
+
+        // Validate password
+        if (!passwordInput.value.trim()) {
+          passwordInput.classList.add('error');
+          passwordError.classList.add('show');
+          hasError = true;
+        } else {
+          passwordInput.classList.remove('error');
+          passwordError.classList.remove('show');
+        }
+
+        if (hasError) return;
+
+        // Show loading
+        loginBtn.classList.add('loading');
+        loginBtn.disabled = true;
+
+        // Simulate API call
+        setTimeout(function() {
+          loginBtn.classList.remove('loading');
+          loginBtn.disabled = false;
+          
+          // Show success toast
+          showToast('✅ Welcome back, ' + usernameInput.value.trim() + '!', 'success');
+          
+          // Log to console
+          console.log('🔐 User logged in:', usernameInput.value);
+          console.log('📧 Redirecting to dashboard...');
+          
+          // Reset form (optional)
+          // form.reset();
+          
+        }, 1500);
+      });
+
+      // ============================
+      // ENTER KEY SUPPORT
+      // ============================
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          const active = document.activeElement;
+          if (active && (active.id === 'username' || active.id === 'password')) {
+            e.preventDefault();
+            form.dispatchEvent(new Event('submit'));
+          }
+        }
+      });
+
+      // ============================
+      // FOOTER LINKS
+      // ============================
+      document.getElementById('forgotLink').addEventListener('click', function(e) {
+        e.preventDefault();
+        showToast('🔑 Password reset link sent to your email!', 'success');
+      });
+
+      document.getElementById('signupLink').addEventListener('click', function(e) {
+        e.preventDefault();
+        showToast('📝 Redirecting to sign up page...', 'success');
+      });
+
+      // ============================
+      // DEMO CREDENTIALS HINT
+      // ============================
+      console.log('🚀 NEXA HUB AI · Login Page');
+      console.log('💡 Demo Credentials:');
+      console.log('   Username: nexahub');
+      console.log('   Password: password123');
+
+      // Show a small hint on load
+      setTimeout(function() {
+        showToast('💡 Use "nexahub" / "password123" to login', 'success');
+      }, 500);
+
+    })();
+  </script>
+
+</body>
+</html>

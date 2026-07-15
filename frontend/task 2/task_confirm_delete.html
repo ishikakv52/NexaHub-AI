@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Categories - NEXA HUB AI</title>
+    <title>Confirm Purge - NEXA HUB AI</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -90,10 +90,10 @@
             <a href="dashboard.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white font-medium">
                 <i class="fa-solid fa-chart-pie w-5"></i> Dashboard
             </a>
-            <a href="all_tasks.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white font-medium">
+            <a href="all_tasks.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-all bg-brand-600 text-white font-bold shadow-md">
                 <i class="fa-solid fa-list-check w-5"></i> All Tasks
             </a>
-            <a href="categories.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-all bg-brand-600 text-white font-bold shadow-md">
+            <a href="categories.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white font-medium">
                 <i class="fa-solid fa-box w-5"></i> Categories
             </a>
             <a href="profile.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white font-medium">
@@ -112,28 +112,13 @@
     <!-- Main Dynamic Window Content -->
     <main class="flex-1 p-6 lg:p-8 overflow-y-auto max-w-full">
         
-<div class="mb-8 flex justify-between items-center">
-    <div>
-        <h1 class="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Context Modules</h1>
-        <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Manage functional domain scopes</p>
-    </div>
-    <a href="edit_category.html" class="bg-brand-600 hover:bg-brand-700 text-white font-bold px-4 py-2.5 rounded-xl text-sm"><i class="fa-solid fa-plus mr-1"></i> Add Category</a>
-</div>
-
-<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
-        <div>
-            <div class="w-10 h-10 bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 rounded-xl flex items-center justify-center text-lg mb-4"><i class="fa-solid fa-code"></i></div>
-            <h3 class="font-extrabold text-slate-900 dark:text-white text-lg">Backend Core System</h3>
-            <p class="text-slate-500 dark:text-slate-400 text-xs mt-1">Functional clusters processing core microservices architecture pipelines.</p>
-        </div>
-        <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-xs">
-            <span class="font-bold text-slate-400">14 Registered Active Agents</span>
-            <div class="flex gap-2.5 text-slate-400">
-                <a href="edit_category.html" class="hover:text-brand-500"><i class="fa-solid fa-pencil"></i></a>
-                <a href="category_confirm_delete.html" class="hover:text-rose-500"><i class="fa-solid fa-trash"></i></a>
-            </div>
-        </div>
+<div class="max-w-md mx-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-2xl text-center shadow-lg">
+    <div class="w-12 h-12 bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 text-xl rounded-full flex items-center justify-center mx-auto mb-4"><i class="fa-solid fa-triangle-exclamation"></i></div>
+    <h3 class="text-xl font-black text-slate-900 dark:text-white tracking-tight">Purge Agent Pipeline?</h3>
+    <p class="text-slate-500 dark:text-slate-400 text-sm mt-1.5 mb-6">Warning: Purging this vector terminates running automation state instantly from NEXA HUB AI network cluster.</p>
+    <div class="flex items-center justify-center gap-3">
+        <a href="all_tasks.html" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold rounded-xl text-xs">Retain Agent</a>
+        <a href="all_tasks.html" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl text-xs shadow-md">Confirm Absolute Purge</a>
     </div>
 </div>
 

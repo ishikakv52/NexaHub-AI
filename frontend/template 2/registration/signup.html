@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up · NEXA HUB AI</title>
+  <!-- Google Fonts: Fraunces + Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', 'Segoe UI', Roboto, Arial, sans-serif;
+      padding: 16px;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.3s ease, color 0.3s ease;
+      background-image:
+        radial-gradient(circle at 12% 8%, var(--bg-glow-1), transparent 42%),
+        radial-gradient(circle at 88% 92%, var(--bg-glow-2), transparent 46%);
+      position: relative;
+    }
+
+    /* ----- LIGHT THEME ----- */
+    :root {
+      --bg: #e8f0fe;
+      --bg-glow-1: rgba(52, 102, 204, 0.10);
+      --bg-glow-2: rgba(226, 89, 63, 0.06);
+      --card-bg: #ffffff;
+      --text: #0f211e;
+      --muted: #5c7674;
+      --border: #c5d8e8;
+      --accent: #4a90d9;
+      --accent-dark: #3a7bc8;
+      --accent-light: #7bb3e6;
+      --accent-soft: #d4e6fa;
+      --accent2: #0f6b63;
+      --accent2-dark: #0a4b46;
+      --on-accent: #ffffff;
+      --error: #a83250;
+      --error-bg: #f9e6ec;
+      --error-border: #f0c4d3;
+      --shadow: rgba(9, 38, 35, 0.10);
+      --shadow-strong: rgba(9, 38, 35, 0.20);
+      --font-display: 'Fraunces', Georgia, serif;
+      --font-body: 'Inter', 'Segoe UI', Roboto, Arial, sans-serif;
+    }
+
+    /* ----- DARK THEME ----- */
+    [data-theme="dark"] {
+      --bg: #141e2b;
+      --bg-glow-1: rgba(79, 168, 158, 0.10);
+      --bg-glow-2: rgba(255, 128, 102, 0.07);
+      --card-bg: #1a2a3a;
+      --text: #eaf5f1;
+      --muted: #9ab0c0;
+      --border: #2a4055;
+      --accent: #5b9bd5;
+      --accent-dark: #4a8ac4;
+      --accent-light: #8abfeb;
+      --accent-soft: #1e3348;
+      --accent2: #4fa89e;
+      --accent2-dark: #79ddce;
+      --on-accent: #ffffff;
+      --error: #e0837c;
+      --error-bg: #3a2427;
+      --error-border: #55323e;
+      --shadow: rgba(0, 12, 11, 0.40);
+      --shadow-strong: rgba(0, 12, 11, 0.55);
+    }
+
+    /* ----- TOP LEFT BRAND NAME ----- */
+    .brand-top-left {
+      position: fixed;
+      top: 24px;
+      left: 28px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      z-index: 200;
+      text-transform: uppercase;
+      opacity: 0.9;
+      transition: color 0.3s ease;
+      text-shadow: 0 2px 8px var(--shadow);
+    }
+
+    .brand-top-left span {
+      font-weight: 300;
+      opacity: 0.6;
+    }
+
+    /* ----- THEME TOGGLE (fixed) ----- */
+    .theme-toggle {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text);
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 14px var(--shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      z-index: 100;
+      background-color: var(--card-bg);
+      backdrop-filter: blur(2px);
+    }
+    .theme-toggle:hover {
+      transform: translateY(-2px) rotate(-8deg);
+      box-shadow: 0 8px 20px var(--shadow-strong);
+    }
+
+    /* ----- CARD ----- */
+    .card {
+      width: 100%;
+      max-width: 400px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 36px 30px 32px;
+      box-shadow: 0 16px 40px var(--shadow), 0 2px 8px var(--shadow);
+      position: relative;
+      overflow: hidden;
+      transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    /* brand seal */
+    .brand-seal {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      margin: 0 auto 14px;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      box-shadow: 0 8px 18px var(--shadow-strong);
+      font-size: 20px;
+      color: var(--on-accent);
+    }
+
+    h1 {
+      margin: 0 0 4px;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 24px;
+      text-align: center;
+      letter-spacing: -0.01em;
+      color: var(--text);
+    }
+
+    p.sub {
+      margin: 0 0 26px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 400;
+    }
+
+    /* ----- FORM FIELDS ----- */
+    .field {
+      margin-bottom: 17px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 7px;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-size: 14.5px;
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.2s;
+    }
+
+    .field input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-soft);
+      background: var(--card-bg);
+    }
+
+    .help-text {
+      margin: 6px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .errorlist {
+      list-style: none;
+      margin: 6px 0 0;
+      padding: 0;
+      color: var(--error);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .errorlist li {
+      margin-top: 2px;
+    }
+
+    /* ----- SUBMIT BUTTON (Light Blue) ----- */
+    button[type="submit"] {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: var(--on-accent);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+      box-shadow: 0 10px 22px var(--shadow-strong);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+      font-family: var(--font-body);
+    }
+
+    button[type="submit"]:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+      box-shadow: 0 14px 28px var(--shadow-strong);
+    }
+
+    button[type="submit"]:active {
+      transform: translateY(0);
+      box-shadow: 0 6px 14px var(--shadow);
+    }
+
+    /* footer link */
+    .footer-link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .footer-link a {
+      color: var(--accent);
+      font-weight: 700;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .footer-link a:hover {
+      text-decoration: underline;
+      color: var(--accent-dark);
+    }
+
+    /* non-field error */
+    .nonfield-error {
+      background: var(--error-bg);
+      border-left: 4px solid var(--error);
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      color: var(--error);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .brand-top-left {
+        font-size: 14px;
+        top: 16px;
+        left: 16px;
+      }
+      .theme-toggle {
+        top: 12px;
+        right: 12px;
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- TOP LEFT BRAND NAME -->
+  <div class="brand-top-left">NEXA HUB <span>AI</span></div>
+
+  <!-- THEME TOGGLE -->
+  <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle dark and light mode" title="Toggle theme">
+    <span id="themeToggleIcon">🌙</span>
+  </button>
+
+  <!-- MAIN CARD -->
+  <div class="card">
+    <div class="brand-seal">📧</div>
+    
+    <h1>AI Email Assistant</h1>
+    <p class="sub">Create your account</p>
+
+    <!-- FORM -->
+    <form id="signupForm" novalidate>
+      <!-- username -->
+      <div class="field">
+        <label for="id_username">Username</label>
+        <input type="text" name="username" id="id_username" placeholder="Choose a unique username" value="alex_ai">
+        <p class="help-text">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</p>
+        <ul class="errorlist" id="usernameErrors" style="display: none;">
+          <li>A user with that username already exists.</li>
+        </ul>
+      </div>
+
+      <!-- email -->
+      <div class="field">
+        <label for="id_email">Email</label>
+        <input type="email" name="email" id="id_email" placeholder="you@example.com" value="demo@ai-assist.com">
+        <p class="help-text">We'll never share your email.</p>
+        <ul class="errorlist" id="emailErrors" style="display: none;">
+          <li>Enter a valid email address.</li>
+        </ul>
+      </div>
+
+      <!-- password1 -->
+      <div class="field">
+        <label for="id_password1">Password</label>
+        <input type="password" name="password1" id="id_password1" placeholder="••••••••" value="SecurePass123">
+        <ul class="errorlist" id="password1Errors" style="display: none;">
+          <li>This password is too common.</li>
+        </ul>
+      </div>
+
+      <!-- password2 -->
+      <div class="field">
+        <label for="id_password2">Confirm Password</label>
+        <input type="password" name="password2" id="id_password2" placeholder="••••••••" value="SecurePass123">
+        <ul class="errorlist" id="password2Errors" style="display: none;">
+          <li>The two password fields didn't match.</li>
+        </ul>
+      </div>
+
+      <button type="submit" id="submitBtn">Create Account</button>
+    </form>
+
+    <p class="footer-link">Already have an account? <a href="#" onclick="alert('Sign in page (demo)')">Sign in</a></p>
+  </div>
+
+  <script>
+    (function() {
+      // ----- THEME TOGGLE (persistent) -----
+      const btn = document.getElementById('themeToggle');
+      const icon = document.getElementById('themeToggleIcon');
+
+      function syncThemeIcon() {
+        const theme = document.documentElement.getAttribute('data-theme') || 'light';
+        icon.textContent = theme === 'dark' ? '☀️' : '🌙';
+      }
+      syncThemeIcon();
+
+      try {
+        const stored = localStorage.getItem('ea-theme');
+        if (stored) {
+          document.documentElement.setAttribute('data-theme', stored);
+        } else {
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+        }
+        syncThemeIcon();
+      } catch (e) { /* ignore */ }
+
+      btn.addEventListener('click', function() {
+        const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', current);
+        try {
+          localStorage.setItem('ea-theme', current);
+        } catch (e) {}
+        syncThemeIcon();
+      });
+
+      // ----- FORM SUBMIT (DEMO) -----
+      const form = document.getElementById('signupForm');
+
+      function showError(id, message) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.style.display = 'block';
+        if (message) {
+          el.innerHTML = `<li>${message}</li>`;
+        }
+      }
+
+      function hideError(id) {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+      }
+
+      function clearAllErrors() {
+        hideError('usernameErrors');
+        hideError('emailErrors');
+        hideError('password1Errors');
+        hideError('password2Errors');
+        const nonField = document.querySelector('.nonfield-error');
+        if (nonField) nonField.remove();
+      }
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        clearAllErrors();
+
+        const username = document.getElementById('id_username').value.trim();
+        const email = document.getElementById('id_email').value.trim();
+        const p1 = document.getElementById('id_password1').value;
+        const p2 = document.getElementById('id_password2').value;
+
+        let isValid = true;
+
+        if (username.length < 3) {
+          showError('usernameErrors', 'Username must be at least 3 characters.');
+          isValid = false;
+        } else if (username.includes(' ')) {
+          showError('usernameErrors', 'Username cannot contain spaces.');
+          isValid = false;
+        }
+
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+          showError('emailErrors', 'Enter a valid email address.');
+          isValid = false;
+        }
+
+        if (p1.length < 6) {
+          showError('password1Errors', 'Password must be at least 6 characters.');
+          isValid = false;
+        }
+
+        if (p1 !== p2) {
+          showError('password2Errors', 'The two password fields didn\'t match.');
+          isValid = false;
+        }
+
+        if (isValid) {
+          alert('✅ Account created successfully!\nWelcome to NEXA HUB AI');
+        } else {
+          const card = document.querySelector('.card');
+          const existing = document.querySelector('.nonfield-error');
+          if (!existing) {
+            const div = document.createElement('div');
+            div.className = 'nonfield-error';
+            div.textContent = '⚠️ Please fix the errors above.';
+            const sub = document.querySelector('.sub');
+            sub.parentNode.insertBefore(div, sub.nextSibling);
+          }
+        }
+      });
+
+      const signInLink = document.querySelector('.footer-link a');
+      if (signInLink) {
+        signInLink.addEventListener('click', function(e) {
+          e.preventDefault();
+          alert('Sign in page (demo) — replace with your login URL');
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

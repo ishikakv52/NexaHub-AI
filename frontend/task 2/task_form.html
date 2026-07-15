@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Categories - NEXA HUB AI</title>
+    <title>Configure Task - NEXA HUB AI</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -90,10 +90,10 @@
             <a href="dashboard.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white font-medium">
                 <i class="fa-solid fa-chart-pie w-5"></i> Dashboard
             </a>
-            <a href="all_tasks.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white font-medium">
+            <a href="all_tasks.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-all bg-brand-600 text-white font-bold shadow-md">
                 <i class="fa-solid fa-list-check w-5"></i> All Tasks
             </a>
-            <a href="categories.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-all bg-brand-600 text-white font-bold shadow-md">
+            <a href="categories.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white font-medium">
                 <i class="fa-solid fa-box w-5"></i> Categories
             </a>
             <a href="profile.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-all text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white font-medium">
@@ -112,29 +112,41 @@
     <!-- Main Dynamic Window Content -->
     <main class="flex-1 p-6 lg:p-8 overflow-y-auto max-w-full">
         
-<div class="mb-8 flex justify-between items-center">
-    <div>
-        <h1 class="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Context Modules</h1>
-        <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Manage functional domain scopes</p>
-    </div>
-    <a href="edit_category.html" class="bg-brand-600 hover:bg-brand-700 text-white font-bold px-4 py-2.5 rounded-xl text-sm"><i class="fa-solid fa-plus mr-1"></i> Add Category</a>
-</div>
-
-<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+<div class="max-w-2xl mx-auto bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 lg:p-8 shadow-sm">
+    <h2 class="text-2xl font-black text-slate-900 dark:text-white tracking-tight mb-1">Configure Operational Agent</h2>
+    <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Modify parameters or provision brand new deployment vectors instantly</p>
+    
+    <form action="all_tasks.html" method="GET" class="space-y-5">
         <div>
-            <div class="w-10 h-10 bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 rounded-xl flex items-center justify-center text-lg mb-4"><i class="fa-solid fa-code"></i></div>
-            <h3 class="font-extrabold text-slate-900 dark:text-white text-lg">Backend Core System</h3>
-            <p class="text-slate-500 dark:text-slate-400 text-xs mt-1">Functional clusters processing core microservices architecture pipelines.</p>
+            <label class="block text-xs font-bold uppercase text-slate-700 dark:text-slate-300 tracking-wider mb-1.5">Agent Pipeline Header</label>
+            <input type="text" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="e.g. Optimize data compression grid">
         </div>
-        <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-xs">
-            <span class="font-bold text-slate-400">14 Registered Active Agents</span>
-            <div class="flex gap-2.5 text-slate-400">
-                <a href="edit_category.html" class="hover:text-brand-500"><i class="fa-solid fa-pencil"></i></a>
-                <a href="category_confirm_delete.html" class="hover:text-rose-500"><i class="fa-solid fa-trash"></i></a>
+        <div>
+            <label class="block text-xs font-bold uppercase text-slate-700 dark:text-slate-300 tracking-wider mb-1.5">Comprehensive Objective Summary</label>
+            <textarea rows="4" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="Describe detailed logs objectives..."></textarea>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-xs font-bold uppercase text-slate-700 dark:text-slate-300 tracking-wider mb-1.5">Context Module Space</label>
+                <select class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    <option>Backend Core System</option>
+                    <option>AI Data Clustering</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-bold uppercase text-slate-700 dark:text-slate-300 tracking-wider mb-1.5">Priority Weight Factor</label>
+                <select class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    <option>Low Priority</option>
+                    <option>Medium Tier</option>
+                    <option>Critical High Severity</option>
+                </select>
             </div>
         </div>
-    </div>
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+            <a href="all_tasks.html" class="px-4 py-2.5 text-sm font-bold text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all">Dismiss</a>
+            <button type="submit" class="px-5 py-2.5 text-sm font-bold bg-brand-600 hover:bg-brand-700 text-white rounded-xl shadow-lg transition-transform hover:scale-[1.02]">Save Pipeline Changes</button>
+        </div>
+    </form>
 </div>
 
     </main>

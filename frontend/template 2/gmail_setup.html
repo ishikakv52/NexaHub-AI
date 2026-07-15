@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXA HUB AI - Gmail App Password Setup</title>
+<meta name="description" content="NEXA HUB AI - AI-powered email assistant that helps you compose, send, and manage emails with artificial intelligence">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+    /* ============================================
+       CSS VARIABLES & THEME
+    ============================================ */
+    :root {
+        /* Primary Colors */
+        --primary: #6C63FF;
+        --primary-dark: #5A52D5;
+        --primary-light: #8B83FF;
+        --primary-soft: #EEECFF;
+        --primary-gradient: linear-gradient(135deg, #6C63FF, #4A3FCF);
+        
+        /* Secondary Colors */
+        --secondary: #00C9A7;
+        --secondary-dark: #00A889;
+        --secondary-soft: #E6FFF9;
+        
+        /* Accent Colors */
+        --accent: #FF6B6B;
+        --accent-soft: #FFE8E8;
+        
+        /* Google Colors */
+        --google: #EA4335;
+        --google-dark: #D33426;
+        
+        /* Neutral Colors */
+        --bg: #F8F9FE;
+        --bg-alt: #F0F1F8;
+        --card: #FFFFFF;
+        --card-alt: #F5F6FC;
+        --text: #1A1A2E;
+        --text-secondary: #4A4A6A;
+        --text-muted: #8A8AA8;
+        --border: #E4E6F0;
+        --border-light: #EEF0F8;
+        
+        /* Status Colors */
+        --success: #00C9A7;
+        --success-bg: #E6FFF9;
+        --success-border: #A8F0E0;
+        --warning: #FFB84D;
+        --warning-bg: #FFF8E6;
+        --warning-border: #FFE8B0;
+        --error: #FF6B6B;
+        --error-bg: #FFE8E8;
+        --error-border: #FFC8C8;
+        --info: #6C63FF;
+        --info-bg: #EEECFF;
+        --info-border: #C8C4FF;
+        
+        /* Shadows */
+        --shadow-sm: 0 2px 8px rgba(108, 99, 255, 0.08);
+        --shadow-md: 0 8px 24px rgba(108, 99, 255, 0.12);
+        --shadow-lg: 0 16px 48px rgba(108, 99, 255, 0.15);
+        --shadow-xl: 0 24px 64px rgba(108, 99, 255, 0.20);
+        
+        /* Typography */
+        --font-display: 'Fraunces', Georgia, serif;
+        --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+        
+        /* Spacing */
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+        --radius-xl: 24px;
+        --radius-full: 9999px;
+        
+        /* Transitions */
+        --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Dark Theme */
+    [data-theme="dark"] {
+        --primary: #8B83FF;
+        --primary-dark: #6C63FF;
+        --primary-light: #A89FFF;
+        --primary-soft: #2A2848;
+        --primary-gradient: linear-gradient(135deg, #8B83FF, #6C63FF);
+        
+        --bg: #0F0F1A;
+        --bg-alt: #1A1A2E;
+        --card: #1A1A2E;
+        --card-alt: #24243A;
+        --text: #EEEEFF;
+        --text-secondary: #B0B0D0;
+        --text-muted: #707090;
+        --border: #2A2A44;
+        --border-light: #333350;
+        
+        --success-bg: #0D2D24;
+        --success-border: #1A4A3A;
+        --warning-bg: #2D2410;
+        --warning-border: #4A3A1A;
+        --error-bg: #2D1018;
+        --error-border: #4A1A28;
+        --info-bg: #1A1840;
+        --info-border: #2A2860;
+        
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+        --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+        --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
+        --shadow-xl: 0 24px 64px rgba(0, 0, 0, 0.6);
+    }
+
+    /* ============================================
+       RESET & BASE STYLES
+    ============================================ */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: var(--font-body);
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        line-height: 1.6;
+        transition: background var(--transition-slow), color var(--transition-slow);
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    /* Animated Background */
+    body::before {
+        content: '';
+        position: fixed;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: 
+            radial-gradient(circle at 20% 30%, rgba(108, 99, 255, 0.03) 0%, transparent 50%),
+            radial-gradient(circle at 80% 70%, rgba(0, 201, 167, 0.03) 0%, transparent 50%);
+        z-index: 0;
+        pointer-events: none;
+        animation: floatBackground 60s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatBackground {
+        0% { transform: translate(0, 0) rotate(0deg); }
+        100% { transform: translate(2%, 2%) rotate(2deg); }
+    }
+
+    .container {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 20px 16px 40px;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* ============================================
+       SCROLLBAR STYLING
+    ============================================ */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+        background: var(--bg-alt);
+        border-radius: var(--radius-full);
+    }
+    ::-webkit-scrollbar-thumb {
+        background: var(--primary);
+        border-radius: var(--radius-full);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--primary-dark);
+    }
+
+    /* ============================================
+       THEME TOGGLE
+    ============================================ */
+    .theme-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: 2px solid var(--border);
+        background: var(--card);
+        color: var(--text);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: var(--shadow-md);
+        transition: all var(--transition);
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.8);
+    }
+
+    [data-theme="dark"] .theme-toggle {
+        background: rgba(26, 26, 46, 0.8);
+    }
+
+    .theme-toggle:hover {
+        transform: translateY(-3px) rotate(-12deg);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--primary);
+    }
+
+    .theme-toggle:active {
+        transform: scale(0.95);
+    }
+
+    /* ============================================
+       TOP NAVIGATION
+    ============================================ */
+    .top-nav {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 12px 24px;
+        margin-bottom: 28px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        box-shadow: var(--shadow-sm);
+        transition: all var(--transition);
+        position: relative;
+        z-index: 10;
+    }
+
+    .top-nav:hover {
+        box-shadow: var(--shadow-md);
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: var(--text);
+    }
+
+    .logo-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: var(--radius-md);
+        background: var(--primary-gradient);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
+        transition: transform var(--transition);
+        flex-shrink: 0;
+    }
+
+    .logo:hover .logo-icon {
+        transform: scale(1.05) rotate(-5deg);
+    }
+
+    .logo-text {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 20px;
+        letter-spacing: -0.02em;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .logo-sub {
+        font-size: 11px;
+        color: var(--text-muted);
+        font-weight: 400;
+        display: block;
+        -webkit-text-fill-color: var(--text-muted);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
+
+    .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .nav-btn {
+        padding: 8px 16px;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text-secondary);
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all var(--transition);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: var(--font-body);
+    }
+
+    .nav-btn:hover {
+        background: var(--primary-soft);
+        border-color: var(--primary);
+        color: var(--primary);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .nav-btn-primary {
+        background: var(--primary-gradient);
+        color: white;
+        border-color: var(--primary);
+    }
+
+    .nav-btn-primary:hover {
+        background: var(--primary-dark);
+        color: white;
+        box-shadow: var(--shadow-md);
+        transform: translateY(-2px);
+    }
+
+    .nav-btn-logout {
+        border-color: var(--error);
+        color: var(--error);
+    }
+
+    .nav-btn-logout:hover {
+        background: var(--error);
+        color: white;
+        border-color: var(--error);
+    }
+
+    /* ============================================
+       PAGE HEADER
+    ============================================ */
+    .page-header {
+        text-align: center;
+        margin-bottom: 32px;
+        padding: 20px 0;
+    }
+
+    .page-header .brand-tag {
+        display: inline-block;
+        background: var(--primary-gradient);
+        color: white;
+        padding: 4px 16px;
+        border-radius: var(--radius-full);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+    }
+
+    .page-header h1 {
+        font-family: var(--font-display);
+        font-size: 32px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin-bottom: 8px;
+    }
+
+    .page-header h1 .highlight {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .page-header p {
+        color: var(--text-secondary);
+        font-size: 16px;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    /* ============================================
+       STATUS BADGE
+    ============================================ */
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 16px;
+        border-radius: var(--radius-full);
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 16px;
+    }
+
+    .status-badge.success {
+        background: var(--success-bg);
+        color: var(--success);
+        border: 1px solid var(--success-border);
+    }
+
+    .status-badge.warning {
+        background: var(--warning-bg);
+        color: #B8860B;
+        border: 1px solid var(--warning-border);
+    }
+
+    .status-badge .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        display: inline-block;
+        animation: pulse 2s infinite;
+    }
+
+    .status-badge.success .dot {
+        background: var(--success);
+    }
+
+    .status-badge.warning .dot {
+        background: #B8860B;
+    }
+
+    @keyframes pulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    /* ============================================
+       MESSAGES / ALERTS
+    ============================================ */
+    .messages {
+        list-style: none;
+        margin-bottom: 24px;
+    }
+
+    .messages li {
+        padding: 14px 20px;
+        border-radius: var(--radius-md);
+        margin-bottom: 10px;
+        font-size: 14px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        animation: slideDown 0.4s ease;
+        border: 1px solid transparent;
+    }
+
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-15px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .messages .success {
+        background: var(--success-bg);
+        color: var(--success);
+        border-color: var(--success-border);
+    }
+
+    .messages .error {
+        background: var(--error-bg);
+        color: var(--error);
+        border-color: var(--error-border);
+    }
+
+    .messages .warning {
+        background: var(--warning-bg);
+        color: #B8860B;
+        border-color: var(--warning-border);
+    }
+
+    .messages .info {
+        background: var(--info-bg);
+        color: var(--primary);
+        border-color: var(--info-border);
+    }
+
+    .messages .msg-icon {
+        font-size: 20px;
+        flex-shrink: 0;
+    }
+
+    /* ============================================
+       CARDS
+    ============================================ */
+    .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-sm);
+        margin-bottom: 24px;
+        overflow: hidden;
+        transition: all var(--transition);
+        position: relative;
+    }
+
+    .card:hover {
+        box-shadow: var(--shadow-md);
+    }
+
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--primary-gradient);
+        z-index: 2;
+    }
+
+    .card-header {
+        padding: 24px 28px 18px;
+        border-bottom: 1px solid var(--border-light);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .card-header .icon {
+        width: 48px;
+        height: 48px;
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        flex-shrink: 0;
+        background: var(--primary-soft);
+    }
+
+    .card-header .icon.green {
+        background: var(--success-bg);
+    }
+
+    .card-header .icon.orange {
+        background: var(--warning-bg);
+    }
+
+    .card-header .icon.red {
+        background: var(--error-bg);
+    }
+
+    .card-header h2 {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 18px;
+        margin-bottom: 2px;
+        letter-spacing: -0.01em;
+    }
+
+    .card-header p {
+        font-size: 13px;
+        color: var(--text-muted);
+    }
+
+    .card-body {
+        padding: 24px 28px;
+    }
+
+    /* ============================================
+       SENDER INFO BOX
+    ============================================ */
+    .sender-box {
+        background: var(--primary-soft);
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-md);
+        padding: 16px 20px;
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+        transition: background var(--transition);
+    }
+
+    .sender-avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: var(--primary-gradient);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: 700;
+        flex-shrink: 0;
+        box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
+    }
+
+    .sender-info {
+        flex: 1;
+        min-width: 150px;
+    }
+
+    .sender-info .label {
+        font-size: 11px;
+        color: var(--text-muted);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+    }
+
+    .sender-info .email {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--primary-dark);
+        word-break: break-all;
+    }
+
+    .sender-badge {
+        background: var(--success-bg);
+        color: var(--success);
+        border: 1px solid var(--success-border);
+        padding: 4px 14px;
+        border-radius: var(--radius-full);
+        font-size: 11px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    /* ============================================
+       INFO / WHY BOX
+    ============================================ */
+    .info-box {
+        background: var(--info-bg);
+        border: 1px solid var(--info-border);
+        border-radius: var(--radius-md);
+        padding: 16px 20px;
+        margin-bottom: 24px;
+        display: flex;
+        gap: 14px;
+        font-size: 14px;
+        transition: background var(--transition);
+    }
+
+    .info-box .icon {
+        font-size: 22px;
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+
+    .info-box strong {
+        display: block;
+        margin-bottom: 2px;
+        color: var(--text);
+    }
+
+    .info-box p {
+        color: var(--text-secondary);
+    }
+
+    /* ============================================
+       CONFIGURED PILL
+    ============================================ */
+    .configured-pill {
+        background: var(--success-bg);
+        border: 1px solid var(--success-border);
+        border-radius: var(--radius-md);
+        padding: 14px 18px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--success);
+        font-weight: 500;
+        font-size: 14px;
+    }
+
+    /* ============================================
+       STEPS
+    ============================================ */
+    .steps-title {
+        font-family: var(--font-display);
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .steps-title::after {
+        content: '';
+        flex: 1;
+        height: 2px;
+        background: var(--border-light);
+        border-radius: 2px;
+    }
+
+    .step {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 20px;
+        align-items: flex-start;
+        padding: 4px 0;
+    }
+
+    .step-number {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        background: var(--primary-gradient);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 14px;
+        box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
+        margin-top: 2px;
+    }
+
+    .step-content {
+        flex: 1;
+    }
+
+    .step-content strong {
+        display: block;
+        font-size: 15px;
+        margin-bottom: 3px;
+        color: var(--text);
+    }
+
+    .step-content p {
+        font-size: 13.5px;
+        color: var(--text-secondary);
+        line-height: 1.5;
+    }
+
+    .step-content .link-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 8px;
+        padding: 6px 16px;
+        border-radius: var(--radius-sm);
+        background: var(--card-alt);
+        border: 1px solid var(--border);
+        color: var(--primary);
+        text-decoration: none;
+        font-size: 12.5px;
+        font-weight: 600;
+        transition: all var(--transition);
+    }
+
+    .step-content .link-btn:hover {
+        background: var(--primary-soft);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-sm);
+        border-color: var(--primary);
+    }
+
+    .step-chip {
+        display: inline-block;
+        padding: 2px 12px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 700;
+        font-family: var(--font-mono);
+        background: var(--primary);
+        color: white;
+        margin: 2px 3px;
+    }
+
+    .step-chip.grey {
+        background: var(--text-muted);
+        color: white;
+    }
+
+    .step-chip.green {
+        background: var(--success);
+        color: white;
+    }
+
+    .step-chip.google {
+        background: var(--google);
+        color: white;
+    }
+
+    .step-note {
+        margin-top: 8px;
+        padding: 10px 14px;
+        border-radius: var(--radius-sm);
+        background: var(--success-bg);
+        border: 1px solid var(--success-border);
+        color: var(--success);
+        font-size: 12.5px;
+        display: flex;
+        gap: 8px;
+        align-items: flex-start;
+    }
+
+    .step-note code {
+        background: var(--card-alt);
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-family: var(--font-mono);
+        font-size: 12px;
+    }
+
+    /* ============================================
+       FORM
+    ============================================ */
+    .form-section {
+        border-top: 2px solid var(--border-light);
+        padding-top: 28px;
+        margin-top: 12px;
+    }
+
+    .form-section h3 {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 17px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .form-label {
+        display: block;
+        font-weight: 700;
+        font-size: 13px;
+        margin-bottom: 8px;
+        color: var(--text);
+        letter-spacing: 0.01em;
+    }
+
+    .form-label .hint {
+        font-weight: 400;
+        color: var(--text-muted);
+        font-size: 12.5px;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 14px 18px;
+        border-radius: var(--radius-md);
+        border: 2px solid var(--border);
+        font-size: 15px;
+        font-family: var(--font-mono);
+        background: var(--card-alt);
+        color: var(--text);
+        outline: none;
+        transition: all var(--transition);
+        letter-spacing: 0.06em;
+    }
+
+    .form-input:focus {
+        border-color: var(--primary);
+        background: var(--card);
+        box-shadow: 0 0 0 4px var(--primary-soft);
+    }
+
+    .form-input::placeholder {
+        font-family: var(--font-body);
+        letter-spacing: 0.02em;
+        color: var(--text-muted);
+        opacity: 0.6;
+    }
+
+    .form-input.error {
+        border-color: var(--error);
+    }
+
+    .form-input.error:focus {
+        box-shadow: 0 0 0 4px var(--error-bg);
+    }
+
+    .form-hint {
+        font-size: 12.5px;
+        color: var(--text-muted);
+        margin-top: 10px;
+        line-height: 1.5;
+    }
+
+    .form-hint strong {
+        color: var(--text);
+    }
+
+    .errorlist {
+        list-style: none;
+        color: var(--error);
+        font-size: 13px;
+        margin-top: 6px;
+        font-weight: 500;
+    }
+
+    .errorlist li {
+        padding: 4px 0;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    /* Password Toggle */
+    .password-wrapper {
+        position: relative;
+    }
+
+    .password-toggle {
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 20px;
+        color: var(--text-muted);
+        padding: 8px;
+        border-radius: 50%;
+        transition: all var(--transition);
+        line-height: 1;
+    }
+
+    .password-toggle:hover {
+        background: var(--primary-soft);
+        color: var(--text);
+    }
+
+    /* ============================================
+       BUTTONS
+    ============================================ */
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 14px 28px;
+        border-radius: var(--radius-md);
+        font-size: 15px;
+        font-weight: 700;
+        font-family: var(--font-body);
+        border: none;
+        cursor: pointer;
+        transition: all var(--transition);
+        text-decoration: none;
+    }
+
+    .btn-primary {
+        background: var(--primary-gradient);
+        color: white;
+        box-shadow: 0 8px 24px rgba(108, 99, 255, 0.3);
+        width: 100%;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 36px rgba(108, 99, 255, 0.4);
+    }
+
+    .btn-primary:active {
+        transform: translateY(0);
+    }
+
+    .btn-google {
+        background: linear-gradient(135deg, var(--google), var(--google-dark));
+        color: white;
+        box-shadow: 0 8px 24px rgba(234, 67, 53, 0.3);
+        width: 100%;
+    }
+
+    .btn-google:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 36px rgba(234, 67, 53, 0.4);
+    }
+
+    .btn-secondary {
+        background: var(--card-alt);
+        color: var(--text);
+        border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+        background: var(--primary-soft);
+        border-color: var(--primary);
+        color: var(--primary);
+        transform: translateY(-2px);
+    }
+
+    /* ============================================
+       SKIP LINK
+    ============================================ */
+    .skip-link-wrapper {
+        text-align: center;
+        margin-top: 16px;
+    }
+
+    .skip-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--text-muted);
+        text-decoration: none;
+        font-size: 13.5px;
+        font-weight: 600;
+        transition: all var(--transition);
+        padding: 4px 12px;
+        border-radius: var(--radius-sm);
+    }
+
+    .skip-link:hover {
+        color: var(--primary);
+        transform: translateX(4px);
+        background: var(--primary-soft);
+    }
+
+    /* ============================================
+       SECURITY FOOTER
+    ============================================ */
+    .security-footer {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 20px 24px;
+        display: flex;
+        gap: 16px;
+        box-shadow: var(--shadow-sm);
+        margin-top: 8px;
+        transition: all var(--transition);
+    }
+
+    .security-footer:hover {
+        box-shadow: var(--shadow-md);
+    }
+
+    .security-footer .icon {
+        font-size: 22px;
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+
+    .security-footer strong {
+        color: var(--text);
+        display: block;
+        margin-bottom: 2px;
+    }
+
+    .security-footer p {
+        color: var(--text-secondary);
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    .security-footer a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+        transition: color var(--transition);
+    }
+
+    .security-footer a:hover {
+        color: var(--primary-dark);
+        text-decoration: underline;
+    }
+
+    /* ============================================
+       FOOTER
+    ============================================ */
+    .site-footer {
+        text-align: center;
+        margin-top: 32px;
+        padding: 20px 0 8px;
+        border-top: 1px solid var(--border-light);
+    }
+
+    .site-footer p {
+        font-size: 13px;
+        color: var(--text-muted);
+    }
+
+    .site-footer .brand {
+        font-weight: 700;
+        color: var(--primary);
+    }
+
+    .site-footer a {
+        color: var(--primary);
+        text-decoration: none;
+    }
+
+    .site-footer a:hover {
+        text-decoration: underline;
+    }
+
+    /* ============================================
+       RESPONSIVE
+    ============================================ */
+    @media (max-width: 768px) {
+        .container {
+            padding: 16px 12px 32px;
+        }
+
+        .top-nav {
+            padding: 12px 16px;
+        }
+
+        .logo-text {
+            font-size: 17px;
+        }
+
+        .logo-sub {
+            font-size: 10px;
+        }
+
+        .page-header h1 {
+            font-size: 26px;
+        }
+
+        .page-header p {
+            font-size: 14px;
+        }
+
+        .card-header {
+            padding: 18px 16px 14px;
+            flex-wrap: wrap;
+        }
+
+        .card-body {
+            padding: 18px 16px;
+        }
+
+        .sender-box {
+            padding: 14px 16px;
+            flex-wrap: wrap;
+        }
+
+        .sender-badge {
+            margin-left: 0;
+        }
+
+        .step {
+            gap: 12px;
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            font-size: 12px;
+        }
+
+        .form-input {
+            font-size: 14px;
+            padding: 12px 14px;
+        }
+
+        .theme-toggle {
+            top: 12px;
+            right: 12px;
+            width: 40px;
+            height: 40px;
+            font-size: 17px;
+        }
+
+        .security-footer {
+            flex-direction: column;
+            gap: 8px;
+            padding: 16px 18px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .top-nav {
+            flex-direction: column;
+            align-items: stretch;
+            text-align: center;
+        }
+
+        .nav-actions {
+            justify-content: center;
+        }
+
+        .nav-btn {
+            font-size: 12px;
+            padding: 6px 12px;
+        }
+
+        .page-header h1 {
+            font-size: 22px;
+        }
+
+        .card-header h2 {
+            font-size: 16px;
+        }
+
+        .step-content strong {
+            font-size: 14px;
+        }
+    }
+
+    /* ============================================
+       UTILITY
+    ============================================ */
+    .text-center { text-align: center; }
+    .mt-8 { margin-top: 8px; }
+    .mt-16 { margin-top: 16px; }
+    .mb-8 { margin-bottom: 8px; }
+    .mb-16 { margin-bottom: 16px; }
+    .gap-8 { gap: 8px; }
+    .gap-12 { gap: 12px; }
+    .flex { display: flex; }
+    .flex-center { display: flex; align-items: center; justify-content: center; }
+    .flex-wrap { flex-wrap: wrap; }
+    .w-full { width: 100%; }
+</style>
+</head>
+<body>
+
+<!-- ==========================================
+     THEME TOGGLE
+========================================== -->
+<button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+    <span id="themeIcon">🌙</span>
+</button>
+
+<!-- ==========================================
+     MAIN CONTAINER
+========================================== -->
+<div class="container">
+
+    <!-- ===== TOP NAVIGATION ===== -->
+    <nav class="top-nav" role="navigation" aria-label="Main navigation">
+        <a href="#" class="logo">
+            <span class="logo-icon">⚡</span>
+            <span>
+                <span class="logo-text">NEXA HUB AI</span>
+                <span class="logo-sub">Smart Email Management</span>
+            </span>
+        </a>
+        <div class="nav-actions">
+            <a href="#" class="nav-btn">📋 History</a>
+            <a href="#" class="nav-btn nav-btn-primary">✨ Compose</a>
+            <button class="nav-btn nav-btn-logout">🚪 Log Out</button>
+        </div>
+    </nav>
+
+    <!-- ===== PAGE HEADER ===== -->
+    <header class="page-header">
+        <div class="brand-tag">⚡ NEXA HUB AI</div>
+        <div class="status-badge warning">
+            <span class="dot"></span>
+            <span>Setup Required</span>
+        </div>
+        <h1>
+            <span class="highlight">Gmail App Password</span> Setup
+        </h1>
+        <p>Connect your Gmail account to start using AI-powered email features</p>
+    </header>
+
+    <!-- ===== MESSAGES ===== -->
+    <ul class="messages">
+        <li class="info">
+            <span class="msg-icon">ℹ️</span>
+            Please set up your Gmail App Password to enable email sending
+        </li>
+        <li class="success">
+            <span class="msg-icon">✅</span>
+            Your Gmail account has been detected successfully
+        </li>
+    </ul>
+
+    <!-- ==========================================
+         CARD 1: SETUP OVERVIEW
+    ========================================== -->
+    <div class="card">
+        <div class="card-header">
+            <div class="icon">🔑</div>
+            <div>
+                <h2>Gmail App Password Setup</h2>
+                <p>One-time configuration • Takes less than 2 minutes</p>
+            </div>
+        </div>
+        <div class="card-body">
+
+            <!-- Sender Info -->
+            <div class="sender-box">
+                <div class="sender-avatar">J</div>
+                <div class="sender-info">
+                    <div class="label">Your Gmail (auto-detected)</div>
+                    <div class="email">john.doe@gmail.com</div>
+                </div>
+                <span class="sender-badge">✓ Auto Fetched</span>
+            </div>
+
+            <!-- Info Box -->
+            <div class="info-box">
+                <span class="icon">💡</span>
+                <div>
+                    <strong>Why is this needed?</strong>
+                    <p>Google blocks direct password login for third-party apps. A <strong>Gmail App Password</strong> is a special 16-character password that allows this AI assistant to send emails from your Gmail account securely — without exposing your real password.</p>
+                </div>
+            </div>
+
+            <!-- Already Configured -->
+            <div class="configured-pill">
+                <span>✅</span>
+                You already have an App Password saved. You can update it below if needed.
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ==========================================
+         CARD 2: INSTRUCTIONS + FORM
+    ========================================== -->
+    <div class="card">
+        <div class="card-header">
+            <div class="icon green">📋</div>
+            <div>
+                <h2>How to Get Your App Password</h2>
+                <p>Follow these 7 simple steps</p>
+            </div>
+        </div>
+        <div class="card-body">
+
+            <!-- Steps Title -->
+            <div class="steps-title">Step-by-Step Guide</div>
+
+            <!-- Step 1 -->
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <strong>Open Google Account Security</strong>
+                    <p>Go to your Google Account and click on the <strong>Security</strong> tab in the left sidebar.</p>
+                    <a href="https://myaccount.google.com/security" target="_blank" rel="noopener noreferrer" class="link-btn">
+                        🔗 Open Google Account Security →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <strong>Enable 2-Step Verification</strong>
+                    <p>Scroll to <em>"How you sign in to Google"</em>. Click <span class="step-chip grey">2-Step Verification</span> and turn it ON.</p>
+                    <div class="step-note">
+                        ℹ️ App Passwords only work with 2-Step Verification enabled. Skip this if already ON.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <strong>Search for "App Passwords"</strong>
+                    <p>Use the search bar and type <span class="step-chip">App Passwords</span>, then click the result.</p>
+                    <a href="https://myaccount.google.com/apppasswords" target="_blank" rel="noopener noreferrer" class="link-btn">
+                        🔗 Direct Link: App Passwords →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <strong>Sign in Again (if prompted)</strong>
+                    <p>Google may ask you to confirm your password for security — this is normal.</p>
+                </div>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <strong>Create a New App Password</strong>
+                    <p>In the <em>"App name"</em> field, type <span class="step-chip grey">NEXA HUB AI</span>, then click <span class="step-chip green">Create</span>.</p>
+                </div>
+            </div>
+
+            <!-- Step 6 -->
+            <div class="step">
+                <div class="step-number">6</div>
+                <div class="step-content">
+                    <strong>Copy the 16-Character Password</strong>
+                    <p>Google will display a yellow box with a <strong>16-character password</strong> like <code>abcd efgh ijkl mnop</code>. Copy it — you'll only see it once!</p>
+                    <div class="step-note">
+                        ✅ Spaces are fine — we'll strip them automatically.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 7 -->
+            <div class="step">
+                <div class="step-number">7</div>
+                <div class="step-content">
+                    <strong>Paste &amp; Save Below</strong>
+                    <p>Return to this page and paste the password in the form below.</p>
+                </div>
+            </div>
+
+            <!-- ===== FORM ===== -->
+            <div class="form-section">
+                <h3>🔐 Enter Your App Password</h3>
+
+                <form method="post" novalidate>
+                    <div class="form-group">
+                        <label class="form-label" for="app_password">
+                            App Password
+                            <span class="hint">(16 characters — spaces are fine)</span>
+                        </label>
+
+                        <div class="password-wrapper">
+                            <input
+                                type="password"
+                                id="app_password"
+                                name="app_password"
+                                class="form-input"
+                                placeholder="Paste your 16-character password here"
+                                autocomplete="off"
+                                required
+                            >
+                            <button type="button" class="password-toggle" id="togglePassword" aria-label="Toggle password visibility">
+                                👁️
+                            </button>
+                        </div>
+
+                        <ul class="errorlist">
+                            <li>⚠️ This field is required</li>
+                        </ul>
+                    </div>
+
+                    <p class="form-hint">
+                        Your Gmail <strong>john.doe@gmail.com</strong> will be used as the sender.
+                        The App Password is encrypted and never shared with anyone.
+                    </p>
+
+                    <button type="submit" class="btn btn-google">
+                        <span>🔒</span> Save Password &amp; Start Composing
+                    </button>
+                </form>
+
+                <!-- Skip Link -->
+                <div class="skip-link-wrapper">
+                    <a href="#" class="skip-link">
+                        ← Skip — I already have a password saved, take me to compose
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ==========================================
+         SECURITY FOOTER
+    ========================================== -->
+    <div class="security-footer">
+        <span class="icon">🛡️</span>
+        <div>
+            <strong>Security &amp; Privacy</strong>
+            <p>
+                Your App Password is encrypted and stored securely. It is used only to send emails
+                via Gmail SMTP on your behalf. You can revoke it anytime from
+                <a href="https://myaccount.google.com/apppasswords" target="_blank" rel="noopener noreferrer">
+                    Google Account → App Passwords
+                </a>
+                without affecting your Gmail login.
+            </p>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         FOOTER
+    ========================================== -->
+    <footer class="site-footer">
+        <p>
+            © 2026 <span class="brand">NEXA HUB AI</span> — 
+            <a href="#">Privacy Policy</a> • 
+            <a href="#">Terms of Service</a> • 
+            <a href="#">Contact</a>
+        </p>
+    </footer>
+
+</div>
+
+<!-- ==========================================
+     SCRIPTS
+========================================== -->
+<script>
+    (function() {
+        'use strict';
+
+        // ---- Theme Toggle ----
+        const themeBtn = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            try { localStorage.setItem('ea-theme', theme); } catch (e) {}
+            themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+            themeBtn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+        }
+
+        // Load saved theme
+        function loadTheme() {
+            let theme;
+            try { theme = localStorage.getItem('ea-theme'); } catch (e) {}
+            if (!theme) {
+                theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            setTheme(theme);
+        }
+        loadTheme();
+
+        themeBtn.addEventListener('click', function() {
+            const current = document.documentElement.getAttribute('data-theme');
+            setTheme(current === 'dark' ? 'light' : 'dark');
+        });
+
+        // ---- Password Toggle ----
+        const pwdInput = document.getElementById('app_password');
+        const toggleBtn = document.getElementById('togglePassword');
+
+        if (pwdInput && toggleBtn) {
+            toggleBtn.addEventListener('click', function() {
+                if (pwdInput.type === 'password') {
+                    pwdInput.type = 'text';
+                    toggleBtn.textContent = '🙈';
+                    toggleBtn.setAttribute('aria-label', 'Hide password');
+                } else {
+                    pwdInput.type = 'password';
+                    toggleBtn.textContent = '👁️';
+                    toggleBtn.setAttribute('aria-label', 'Show password');
+                }
+            });
+        }
+
+        // ---- Auto-focus on password field ----
+        if (pwdInput) {
+            setTimeout(function() {
+                pwdInput.focus();
+            }, 400);
+        }
+
+        // ---- Form validation (client-side) ----
+        const form = document.querySelector('form');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                const input = document.getElementById('app_password');
+                const errorList = document.querySelector('.errorlist');
+                
+                if (input && input.value.trim().length < 10) {
+                    e.preventDefault();
+                    input.classList.add('error');
+                    if (errorList) {
+                        errorList.innerHTML = '<li>⚠️ Please enter a valid App Password (minimum 10 characters)</li>';
+                    }
+                    return false;
+                }
+                return true;
+            });
+
+            // Clear error on input
+            const input = document.getElementById('app_password');
+            if (input) {
+                input.addEventListener('input', function() {
+                    this.classList.remove('error');
+                });
+            }
+        }
+
+    })();
+</script>
+</body>
+</html>
