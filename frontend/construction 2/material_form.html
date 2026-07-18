@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material Form - NEXA HUB AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Same as worker_form.html */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #1a5e3a;
+            --primary-dark: #0f4027;
+            --secondary: #f59e0b;
+            --danger: #dc2626;
+            --success: #16a34a;
+            --warning: #f59e0b;
+            --bg: #f0f4f8;
+            --card: #ffffff;
+            --sidebar-bg: #0f172a;
+            --header-bg: rgba(255,255,255,0.92);
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --text-sidebar: #e2e8f0;
+            --border: #e2e8f0;
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.08);
+            --radius: 12px;
+            --transition: all 0.3s ease;
+            --particle-color: rgba(15,23,42,0.06);
+            --gradient-1: #e8f0fe;
+            --gradient-2: #d4e4f7;
+        }
+        
+        [data-theme="dark"] {
+            --bg: #0a0f1e;
+            --card: #151e2f;
+            --sidebar-bg: #020617;
+            --header-bg: rgba(10,15,30,0.92);
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --text-sidebar: #cbd5e1;
+            --border: #1e293b;
+            --shadow: 0 1px 3px rgba(0,0,0,0.4);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.5);
+            --particle-color: rgba(255,255,255,0.06);
+            --gradient-1: #0f1a2e;
+            --gradient-2: #1a2744;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+            transition: var(--transition);
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 0;
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2), var(--gradient-1));
+            background-size: 300% 300%;
+            animation: gradientShift 10s ease-in-out infinite;
+            transition: var(--transition);
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .particles {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--particle-color);
+            animation: floatParticle 20s ease-in-out infinite;
+        }
+        
+        .particle:nth-child(1) { width: 10px; height: 10px; left: 5%; animation-delay: 0s; animation-duration: 22s; }
+        .particle:nth-child(2) { width: 18px; height: 18px; left: 20%; animation-delay: 2s; animation-duration: 28s; }
+        .particle:nth-child(3) { width: 6px; height: 6px; left: 35%; animation-delay: 4s; animation-duration: 18s; }
+        .particle:nth-child(4) { width: 14px; height: 14px; left: 50%; animation-delay: 1s; animation-duration: 24s; }
+        .particle:nth-child(5) { width: 22px; height: 22px; left: 65%; animation-delay: 3s; animation-duration: 30s; }
+        .particle:nth-child(6) { width: 8px; height: 8px; left: 80%; animation-delay: 5s; animation-duration: 20s; }
+        .particle:nth-child(7) { width: 16px; height: 16px; left: 10%; animation-delay: 4s; animation-duration: 26s; }
+        .particle:nth-child(8) { width: 12px; height: 12px; left: 45%; animation-delay: 2s; animation-duration: 32s; }
+        .particle:nth-child(9) { width: 20px; height: 20px; left: 75%; animation-delay: 3.5s; animation-duration: 25s; }
+        .particle:nth-child(10) { width: 7px; height: 7px; left: 90%; animation-delay: 1.5s; animation-duration: 19s; }
+        
+        @keyframes floatParticle {
+            0% { transform: translateY(0) translateX(0) scale(1); opacity: 0.5; }
+            50% { transform: translateY(-120px) translateX(50px) scale(1.4); opacity: 0.15; }
+            100% { transform: translateY(-250px) translateX(-30px) scale(0.7); opacity: 0; }
+        }
+        
+        .app-container {
+            display: flex;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .sidebar {
+            width: 260px;
+            background: var(--sidebar-bg);
+            color: var(--text-sidebar);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0; left: 0; bottom: 0;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar .logo {
+            padding: 24px 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .sidebar .logo i { font-size: 28px; color: var(--secondary); }
+        .sidebar .logo h2 { font-size: 18px; font-weight: 700; color: white; }
+        .sidebar .logo h2 span { color: var(--secondary); }
+        .sidebar .logo .tagline {
+            font-size: 9px;
+            color: var(--text-muted);
+            opacity: 0.5;
+            display: block;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .nav-menu {
+            padding: 16px 12px;
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .nav-menu .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            color: var(--text-sidebar);
+            text-decoration: none;
+            border-radius: var(--radius);
+            transition: var(--transition);
+            margin-bottom: 2px;
+            font-size: 14px;
+            position: relative;
+        }
+        
+        .nav-menu .nav-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 20%;
+            bottom: 20%;
+            width: 3px;
+            background: var(--secondary);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-menu .nav-item:hover {
+            background: rgba(255,255,255,0.06);
+            color: white;
+            padding-left: 20px;
+        }
+        
+        .nav-menu .nav-item.active {
+            background: rgba(255,255,255,0.08);
+            color: white;
+        }
+        
+        .nav-menu .nav-item.active::before { transform: scaleY(1); }
+        .nav-menu .nav-item i { width: 20px; text-align: center; font-size: 15px; }
+        
+        .sidebar-footer {
+            padding: 16px 20px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        
+        .theme-toggle-btn {
+            background: rgba(255,255,255,0.06);
+            border: none;
+            color: var(--text-sidebar);
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+        
+        .theme-toggle-btn:hover { background: rgba(255,255,255,0.12); }
+        
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: var(--header-bg);
+            backdrop-filter: blur(20px);
+            padding: 12px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: var(--transition);
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .menu-toggle {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: none;
+            transition: var(--transition);
+        }
+        
+        .menu-toggle:hover { transform: rotate(90deg); }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .brand-name {
+            font-size: 18px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .brand-tagline {
+            font-size: 11px;
+            color: var(--text-muted);
+            opacity: 0.6;
+            font-weight: 400;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .theme-toggle-header {
+            background: var(--border);
+            border: none;
+            padding: 8px 14px;
+            border-radius: 50px;
+            cursor: pointer;
+            color: var(--text);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        .theme-toggle-header:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .notification {
+            position: relative;
+            cursor: pointer;
+            font-size: 18px;
+            color: var(--text-muted);
+            padding: 8px;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+        
+        .notification:hover {
+            background: var(--border);
+            color: var(--text);
+        }
+        
+        .notification .badge {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: var(--danger);
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 50%;
+            font-weight: 600;
+            min-width: 18px;
+            text-align: center;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 4px 12px 4px 4px;
+            border-radius: 50px;
+            transition: var(--transition);
+        }
+        
+        .user-profile:hover { background: var(--border); }
+        .user-profile img {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+        }
+        .user-profile span { font-weight: 500; font-size: 14px; }
+        
+        .page-content {
+            padding: 28px 32px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .page-header h2 { font-size: 22px; font-weight: 600; }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: var(--radius);
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            font-size: 14px;
+            text-decoration: none;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(26,94,58,0.3);
+        }
+        
+        .btn-secondary {
+            background: var(--border);
+            color: var(--text);
+            border: none;
+            padding: 8px 18px;
+            border-radius: var(--radius);
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            font-size: 14px;
+            text-decoration: none;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--text-muted);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .btn-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 8px 16px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+        
+        .btn-link:hover { text-decoration: underline; }
+        
+        .card {
+            background: var(--card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .card:hover { box-shadow: var(--shadow-lg); }
+        .card-body { padding: 24px; }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .form-group { margin-bottom: 16px; }
+        
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 4px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .form-group .required { color: var(--danger); }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            outline: none;
+            font-size: 14px;
+            background: var(--bg);
+            color: var(--text);
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26,94,58,0.1);
+        }
+        
+        textarea.form-control { resize: vertical; font-family: inherit; }
+        .full-width { grid-column: 1 / -1; }
+        
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); width: 280px; }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; }
+            .menu-toggle { display: block; }
+            .page-content { padding: 16px; }
+            .header { padding: 12px 16px; }
+            .brand-tagline { display: none; }
+            .form-grid { grid-template-columns: 1fr; }
+            .form-actions { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="logo">
+                <i class="fas fa-hard-hat"></i>
+                <div>
+                    <h2>NEXA <span>HUB</span> AI</h2>
+                    <span class="tagline">Construction Management</span>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item"><i class="fas fa-th-large"></i> <span>Dashboard</span></a>
+                <a href="worker_list.html" class="nav-item"><i class="fas fa-users"></i> <span>Workers</span></a>
+                <a href="site_list.html" class="nav-item"><i class="fas fa-map-marker-alt"></i> <span>Sites</span></a>
+                <a href="project_list.html" class="nav-item"><i class="fas fa-project-diagram"></i> <span>Projects</span></a>
+                <a href="material_list.html" class="nav-item active"><i class="fas fa-cubes"></i> <span>Materials</span></a>
+                <a href="supplier_list.html" class="nav-item"><i class="fas fa-truck"></i> <span>Suppliers</span></a>
+                <a href="reminder_list.html" class="nav-item"><i class="fas fa-bell"></i> <span>Reminders</span></a>
+                <a href="reports_insights.html" class="nav-item"><i class="fas fa-chart-line"></i> <span>Reports</span></a>
+                <a href="settings_business.html" class="nav-item"><i class="fas fa-cog"></i> <span>Settings</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="theme-toggle-btn" onclick="toggleTheme()">
+                    <i class="fas fa-sun" id="sidebarThemeIcon"></i>
+                    <span id="sidebarThemeLabel">Light Mode</span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <div class="header-left">
+                    <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+                    <div class="brand">
+                        <span class="brand-name">NEXA HUB AI</span>
+                        <span class="brand-tagline">| Construction Management</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <!-- THEME TOGGLE - SWAPPED ICONS -->
+                    <button class="theme-toggle-header" onclick="toggleTheme()">
+                        <i class="fas fa-sun" id="headerThemeIcon"></i>
+                        <span id="headerThemeLabel">Light</span>
+                    </button>
+                    <div class="notification"><i class="fas fa-bell"></i><span class="badge">3</span></div>
+                    <div class="user-profile">
+                        <img src="https://ui-avatars.com/api/?name=Admin+User&background=2d6a4f&color=fff" alt="User">
+                        <span>Admin</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <div class="page-header">
+                    <h2>Add / Edit Material</h2>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <form onsubmit="event.preventDefault(); alert('✅ Material saved successfully!'); window.location.href='material_list.html';">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Material Name <span class="required">*</span></label>
+                                    <input type="text" class="form-control" required placeholder="Enter material name">
+                                </div>
+                                <div class="form-group">
+                                    <label>Material Code <span class="required">*</span></label>
+                                    <input type="text" class="form-control" required placeholder="MT-001">
+                                </div>
+                                <div class="form-group">
+                                    <label>Category <span class="required">*</span></label>
+                                    <select class="form-control" required>
+                                        <option value="">Select Category</option>
+                                        <option>Cement</option>
+                                        <option>Steel</option>
+                                        <option>Bricks</option>
+                                        <option>Wood</option>
+                                        <option>Glass</option>
+                                        <option>Electrical</option>
+                                        <option>Plumbing</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Unit</label>
+                                    <select class="form-control">
+                                        <option>Bags</option>
+                                        <option>Pieces</option>
+                                        <option>Units</option>
+                                        <option>Sheets</option>
+                                        <option>Rolls</option>
+                                        <option>Kg</option>
+                                        <option>Liters</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Quantity <span class="required">*</span></label>
+                                    <input type="number" class="form-control" required placeholder="0">
+                                </div>
+                                <div class="form-group">
+                                    <label>Min Stock Level</label>
+                                    <input type="number" class="form-control" placeholder="0">
+                                </div>
+                                <div class="form-group">
+                                    <label>Unit Price ($)</label>
+                                    <input type="number" class="form-control" placeholder="0.00">
+                                </div>
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <select class="form-control">
+                                        <option>In Stock</option>
+                                        <option>Low Stock</option>
+                                        <option>Out of Stock</option>
+                                    </select>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>Description</label>
+                                    <textarea class="form-control" rows="3" placeholder="Enter material description"></textarea>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>Supplier</label>
+                                    <input type="text" class="form-control" placeholder="Supplier name">
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Save Material</button>
+                                <button type="reset" class="btn-secondary"><i class="fas fa-undo"></i> Reset</button>
+                                <a href="material_list.html" class="btn-link">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const current = html.getAttribute('data-theme') || 'light';
+            const newTheme = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateUI(newTheme);
+        }
+        
+        function updateUI(theme) {
+            const headerIcon = document.getElementById('headerThemeIcon');
+            const headerLabel = document.getElementById('headerThemeLabel');
+            const sidebarIcon = document.getElementById('sidebarThemeIcon');
+            const sidebarLabel = document.getElementById('sidebarThemeLabel');
+            
+            if (theme === 'dark') {
+                // Dark Mode = Show Moon icon
+                if (headerIcon) headerIcon.className = 'fas fa-moon';
+                if (headerLabel) headerLabel.textContent = 'Dark';
+                if (sidebarIcon) sidebarIcon.className = 'fas fa-moon';
+                if (sidebarLabel) sidebarLabel.textContent = 'Dark Mode';
+            } else {
+                // Light Mode = Show Sun icon
+                if (headerIcon) headerIcon.className = 'fas fa-sun';
+                if (headerLabel) headerLabel.textContent = 'Light';
+                if (sidebarIcon) sidebarIcon.className = 'fas fa-sun';
+                if (sidebarLabel) sidebarLabel.textContent = 'Light Mode';
+            }
+        }
+        
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const saved = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', saved);
+            updateUI(saved);
+        });
+        
+        document.addEventListener('click', function(e) {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.querySelector('.menu-toggle');
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(e.target) && !toggle.contains(e.target)) {
+                    sidebar.classList.remove('open');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

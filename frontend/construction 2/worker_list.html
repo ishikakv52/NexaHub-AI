@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worker List - NEXA HUB AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #1a5e3a;
+            --primary-dark: #0f4027;
+            --secondary: #f59e0b;
+            --danger: #dc2626;
+            --success: #16a34a;
+            --warning: #f59e0b;
+            --bg: #f0f4f8;
+            --card: #ffffff;
+            --sidebar-bg: #0f172a;
+            --header-bg: rgba(255,255,255,0.92);
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --text-sidebar: #e2e8f0;
+            --border: #e2e8f0;
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.08);
+            --radius: 12px;
+            --transition: all 0.3s ease;
+            --particle-color: rgba(15,23,42,0.06);
+            --gradient-1: #e8f0fe;
+            --gradient-2: #d4e4f7;
+        }
+        
+        [data-theme="dark"] {
+            --bg: #0a0f1e;
+            --card: #151e2f;
+            --sidebar-bg: #020617;
+            --header-bg: rgba(10,15,30,0.92);
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --text-sidebar: #cbd5e1;
+            --border: #1e293b;
+            --shadow: 0 1px 3px rgba(0,0,0,0.4);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.5);
+            --particle-color: rgba(255,255,255,0.06);
+            --gradient-1: #0f1a2e;
+            --gradient-2: #1a2744;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+            transition: var(--transition);
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 0;
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2), var(--gradient-1));
+            background-size: 300% 300%;
+            animation: gradientShift 10s ease-in-out infinite;
+            transition: var(--transition);
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .particles {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--particle-color);
+            animation: floatParticle 20s ease-in-out infinite;
+        }
+        
+        .particle:nth-child(1) { width: 10px; height: 10px; left: 5%; animation-delay: 0s; animation-duration: 22s; }
+        .particle:nth-child(2) { width: 18px; height: 18px; left: 20%; animation-delay: 2s; animation-duration: 28s; }
+        .particle:nth-child(3) { width: 6px; height: 6px; left: 35%; animation-delay: 4s; animation-duration: 18s; }
+        .particle:nth-child(4) { width: 14px; height: 14px; left: 50%; animation-delay: 1s; animation-duration: 24s; }
+        .particle:nth-child(5) { width: 22px; height: 22px; left: 65%; animation-delay: 3s; animation-duration: 30s; }
+        .particle:nth-child(6) { width: 8px; height: 8px; left: 80%; animation-delay: 5s; animation-duration: 20s; }
+        .particle:nth-child(7) { width: 16px; height: 16px; left: 10%; animation-delay: 4s; animation-duration: 26s; }
+        .particle:nth-child(8) { width: 12px; height: 12px; left: 45%; animation-delay: 2s; animation-duration: 32s; }
+        .particle:nth-child(9) { width: 20px; height: 20px; left: 75%; animation-delay: 3.5s; animation-duration: 25s; }
+        .particle:nth-child(10) { width: 7px; height: 7px; left: 90%; animation-delay: 1.5s; animation-duration: 19s; }
+        
+        @keyframes floatParticle {
+            0% { transform: translateY(0) translateX(0) scale(1); opacity: 0.5; }
+            50% { transform: translateY(-120px) translateX(50px) scale(1.4); opacity: 0.15; }
+            100% { transform: translateY(-250px) translateX(-30px) scale(0.7); opacity: 0; }
+        }
+        
+        .app-container {
+            display: flex;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .sidebar {
+            width: 260px;
+            background: var(--sidebar-bg);
+            color: var(--text-sidebar);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0; left: 0; bottom: 0;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .sidebar .logo {
+            padding: 24px 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .sidebar .logo i {
+            font-size: 28px;
+            color: var(--secondary);
+        }
+        
+        .sidebar .logo h2 {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .sidebar .logo h2 span { color: var(--secondary); }
+        .sidebar .logo .tagline {
+            font-size: 9px;
+            color: var(--text-muted);
+            opacity: 0.5;
+            display: block;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .nav-menu {
+            padding: 16px 12px;
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .nav-menu .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            color: var(--text-sidebar);
+            text-decoration: none;
+            border-radius: var(--radius);
+            transition: var(--transition);
+            margin-bottom: 2px;
+            font-size: 14px;
+            position: relative;
+        }
+        
+        .nav-menu .nav-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 20%;
+            bottom: 20%;
+            width: 3px;
+            background: var(--secondary);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-menu .nav-item:hover {
+            background: rgba(255,255,255,0.06);
+            color: white;
+            padding-left: 20px;
+        }
+        
+        .nav-menu .nav-item.active {
+            background: rgba(255,255,255,0.08);
+            color: white;
+        }
+        
+        .nav-menu .nav-item.active::before {
+            transform: scaleY(1);
+        }
+        
+        .nav-menu .nav-item i { width: 20px; text-align: center; font-size: 15px; }
+        
+        .sidebar-footer {
+            padding: 16px 20px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        
+        .theme-toggle-btn {
+            background: rgba(255,255,255,0.06);
+            border: none;
+            color: var(--text-sidebar);
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+        
+        .theme-toggle-btn:hover { background: rgba(255,255,255,0.12); }
+        
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: var(--header-bg);
+            backdrop-filter: blur(20px);
+            padding: 12px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: var(--transition);
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .menu-toggle {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: none;
+            transition: var(--transition);
+        }
+        
+        .menu-toggle:hover { transform: rotate(90deg); }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .brand-name {
+            font-size: 18px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .brand-tagline {
+            font-size: 11px;
+            color: var(--text-muted);
+            opacity: 0.6;
+            font-weight: 400;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .theme-toggle-header {
+            background: var(--border);
+            border: none;
+            padding: 8px 14px;
+            border-radius: 50px;
+            cursor: pointer;
+            color: var(--text);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        .theme-toggle-header:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .notification {
+            position: relative;
+            cursor: pointer;
+            font-size: 18px;
+            color: var(--text-muted);
+            padding: 8px;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+        
+        .notification:hover {
+            background: var(--border);
+            color: var(--text);
+        }
+        
+        .notification .badge {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: var(--danger);
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 50%;
+            font-weight: 600;
+            min-width: 18px;
+            text-align: center;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 4px 12px 4px 4px;
+            border-radius: 50px;
+            transition: var(--transition);
+        }
+        
+        .user-profile:hover { background: var(--border); }
+        
+        .user-profile img {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+        }
+        
+        .user-profile span {
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .page-content {
+            padding: 28px 32px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        
+        .page-header h2 {
+            font-size: 22px;
+            font-weight: 600;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: var(--radius);
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            font-size: 14px;
+            text-decoration: none;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(26,94,58,0.3);
+        }
+        
+        .btn-secondary {
+            background: var(--border);
+            color: var(--text);
+            border: none;
+            padding: 8px 18px;
+            border-radius: var(--radius);
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            font-size: 14px;
+            text-decoration: none;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--text-muted);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .card {
+            background: var(--card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .card:hover { box-shadow: var(--shadow-lg); }
+        
+        .card-body { padding: 20px; }
+        
+        .table-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 0 12px;
+        }
+        
+        .search-box i { color: var(--text-muted); }
+        
+        .search-box input {
+            border: none;
+            padding: 8px 12px;
+            background: transparent;
+            outline: none;
+            width: 220px;
+            color: var(--text);
+        }
+        
+        .filter-options {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .filter-select {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg);
+            color: var(--text);
+            outline: none;
+            cursor: pointer;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        
+        .data-table th {
+            text-align: left;
+            padding: 10px 16px;
+            background: var(--border);
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        
+        .data-table td {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .data-table tbody tr {
+            transition: var(--transition);
+        }
+        
+        .data-table tbody tr:hover {
+            background: var(--border);
+        }
+        
+        .badge {
+            padding: 3px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .badge.success { background: #dcfce7; color: var(--success); }
+        .badge.danger { background: #fee2e2; color: var(--danger); }
+        .badge.warning { background: #fef3c7; color: var(--warning); }
+        .badge.info { background: #dbeafe; color: #2563eb; }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            padding: 4px 8px;
+            cursor: pointer;
+            border-radius: 4px;
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+        
+        .action-btn:hover {
+            background: var(--border);
+            transform: scale(1.1);
+        }
+        
+        .action-btn.view { color: #2563eb; }
+        .action-btn.edit { color: var(--warning); }
+        .action-btn.delete { color: var(--danger); }
+        .action-btn.approve { color: var(--success); }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            margin-top: 16px;
+        }
+        
+        .page-btn {
+            padding: 6px 12px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--text);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .page-btn:hover {
+            background: var(--border);
+            transform: translateY(-2px);
+        }
+        
+        .page-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 280px;
+            }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; }
+            .menu-toggle { display: block; }
+            .page-content { padding: 16px; }
+            .header { padding: 12px 16px; }
+            .brand-tagline { display: none; }
+            .table-toolbar { flex-direction: column; align-items: stretch; }
+            .search-box input { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="logo">
+                <i class="fas fa-hard-hat"></i>
+                <div>
+                    <h2>NEXA <span>HUB</span> AI</h2>
+                    <span class="tagline">Construction Management</span>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item"><i class="fas fa-th-large"></i> <span>Dashboard</span></a>
+                <a href="worker_list.html" class="nav-item active"><i class="fas fa-users"></i> <span>Workers</span></a>
+                <a href="site_list.html" class="nav-item"><i class="fas fa-map-marker-alt"></i> <span>Sites</span></a>
+                <a href="project_list.html" class="nav-item"><i class="fas fa-project-diagram"></i> <span>Projects</span></a>
+                <a href="material_list.html" class="nav-item"><i class="fas fa-cubes"></i> <span>Materials</span></a>
+                <a href="supplier_list.html" class="nav-item"><i class="fas fa-truck"></i> <span>Suppliers</span></a>
+                <a href="reminder_list.html" class="nav-item"><i class="fas fa-bell"></i> <span>Reminders</span></a>
+                <a href="reports_insights.html" class="nav-item"><i class="fas fa-chart-line"></i> <span>Reports</span></a>
+                <a href="settings_business.html" class="nav-item"><i class="fas fa-cog"></i> <span>Settings</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="theme-toggle-btn" onclick="toggleTheme()">
+                    <i class="fas fa-sun" id="sidebarThemeIcon"></i>
+                    <span id="sidebarThemeLabel">Light Mode</span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <div class="header-left">
+                    <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+                    <div class="brand">
+                        <span class="brand-name">NEXA HUB AI</span>
+                        <span class="brand-tagline">| Construction Management</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <!-- THEME TOGGLE - SWAPPED ICONS -->
+                    <button class="theme-toggle-header" onclick="toggleTheme()">
+                        <i class="fas fa-sun" id="headerThemeIcon"></i>
+                        <span id="headerThemeLabel">Light</span>
+                    </button>
+                    <div class="notification"><i class="fas fa-bell"></i><span class="badge">3</span></div>
+                    <div class="user-profile">
+                        <img src="https://ui-avatars.com/api/?name=Admin+User&background=2d6a4f&color=fff" alt="User">
+                        <span>Admin</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <div class="page-header">
+                    <h2>Worker List</h2>
+                    <div>
+                        <a href="worker_form.html" class="btn-primary"><i class="fas fa-plus"></i> Add Worker</a>
+                        <a href="worker_daily_entry.html" class="btn-secondary"><i class="fas fa-clock"></i> Daily Entry</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-toolbar">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" placeholder="Search workers..." id="searchInput" onkeyup="filterTable()">
+                            </div>
+                            <div class="filter-options">
+                                <select class="filter-select">
+                                    <option>All Sites</option>
+                                    <option>Site A</option>
+                                    <option>Site B</option>
+                                    <option>Site C</option>
+                                </select>
+                                <select class="filter-select">
+                                    <option>All Status</option>
+                                    <option>Active</option>
+                                    <option>On Leave</option>
+                                    <option>Inactive</option>
+                                </select>
+                                <button class="btn-secondary"><i class="fas fa-download"></i> Export</button>
+                            </div>
+                        </div>
+
+                        <table class="data-table" id="dataTable">
+                            <thead>
+                                <tr><th>ID</th><th>Name</th><th>Contact</th><th>Site</th><th>Role</th><th>Status</th><th>Actions</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>WK-001</td>
+                                    <td>Raj Kumar</td>
+                                    <td>+91-98765-43210</td>
+                                    <td>Site A</td>
+                                    <td>Supervisor</td>
+                                    <td><span class="badge success">Active</span></td>
+                                    <td>
+                                        <a href="worker_detail.html" class="action-btn view"><i class="fas fa-eye"></i></a>
+                                        <a href="worker_form.html" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                                        <a href="worker_daily_entry.html" class="action-btn approve"><i class="fas fa-clock"></i></a>
+                                        <button class="action-btn delete" onclick="confirmDelete()"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>WK-002</td>
+                                    <td>Amit Singh</td>
+                                    <td>+91-98765-43211</td>
+                                    <td>Site B</td>
+                                    <td>Labour</td>
+                                    <td><span class="badge warning">On Leave</span></td>
+                                    <td>
+                                        <a href="worker_detail.html" class="action-btn view"><i class="fas fa-eye"></i></a>
+                                        <a href="worker_form.html" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                                        <a href="worker_daily_entry.html" class="action-btn approve"><i class="fas fa-clock"></i></a>
+                                        <button class="action-btn delete" onclick="confirmDelete()"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>WK-003</td>
+                                    <td>Vikram Patel</td>
+                                    <td>+91-98765-43212</td>
+                                    <td>Site A</td>
+                                    <td>Driver</td>
+                                    <td><span class="badge success">Active</span></td>
+                                    <td>
+                                        <a href="worker_detail.html" class="action-btn view"><i class="fas fa-eye"></i></a>
+                                        <a href="worker_form.html" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                                        <a href="worker_daily_entry.html" class="action-btn approve"><i class="fas fa-clock"></i></a>
+                                        <button class="action-btn delete" onclick="confirmDelete()"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>WK-004</td>
+                                    <td>Manoj Sharma</td>
+                                    <td>+91-98765-43213</td>
+                                    <td>Site C</td>
+                                    <td>Labour</td>
+                                    <td><span class="badge danger">Inactive</span></td>
+                                    <td>
+                                        <a href="worker_detail.html" class="action-btn view"><i class="fas fa-eye"></i></a>
+                                        <a href="worker_form.html" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                                        <a href="worker_daily_entry.html" class="action-btn approve"><i class="fas fa-clock"></i></a>
+                                        <button class="action-btn delete" onclick="confirmDelete()"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="pagination">
+                            <button class="page-btn"><i class="fas fa-chevron-left"></i></button>
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn">2</button>
+                            <button class="page-btn">3</button>
+                            <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const current = html.getAttribute('data-theme') || 'light';
+            const newTheme = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateUI(newTheme);
+        }
+        
+        function updateUI(theme) {
+            const headerIcon = document.getElementById('headerThemeIcon');
+            const headerLabel = document.getElementById('headerThemeLabel');
+            const sidebarIcon = document.getElementById('sidebarThemeIcon');
+            const sidebarLabel = document.getElementById('sidebarThemeLabel');
+            
+            if (theme === 'dark') {
+                // Dark Mode = Show Moon icon
+                if (headerIcon) headerIcon.className = 'fas fa-moon';
+                if (headerLabel) headerLabel.textContent = 'Dark';
+                if (sidebarIcon) sidebarIcon.className = 'fas fa-moon';
+                if (sidebarLabel) sidebarLabel.textContent = 'Dark Mode';
+            } else {
+                // Light Mode = Show Sun icon
+                if (headerIcon) headerIcon.className = 'fas fa-sun';
+                if (headerLabel) headerLabel.textContent = 'Light';
+                if (sidebarIcon) sidebarIcon.className = 'fas fa-sun';
+                if (sidebarLabel) sidebarLabel.textContent = 'Light Mode';
+            }
+        }
+        
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+        
+        function filterTable() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('dataTable');
+            const rows = table.getElementsByTagName('tr');
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                let found = false;
+                for (let j = 0; j < cells.length; j++) {
+                    const text = cells[j].textContent || cells[j].innerText;
+                    if (text.toLowerCase().indexOf(filter) > -1) { found = true; break; }
+                }
+                rows[i].style.display = found ? '' : 'none';
+            }
+        }
+        
+        function confirmDelete() {
+            if (confirm('⚠️ Are you sure you want to delete this worker?')) {
+                alert('🗑️ Deleted successfully!');
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const saved = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', saved);
+            updateUI(saved);
+        });
+        
+        document.addEventListener('click', function(e) {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.querySelector('.menu-toggle');
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(e.target) && !toggle.contains(e.target)) {
+                    sidebar.classList.remove('open');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

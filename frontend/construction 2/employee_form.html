@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Form - NEXA HUB AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* ============================================
+           LIGHT THEME (Default)
+        ============================================ */
+        :root {
+            --bg-body: #f1f5f9;
+            --bg-card: #ffffff;
+            --bg-sidebar: #0f172a;
+            --bg-header: #ffffff;
+            --bg-input: #ffffff;
+            --bg-modal: #ffffff;
+            
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --text-muted: #64748b;
+            --text-sidebar: #cbd5e1;
+            --text-sidebar-hover: #ffffff;
+            --text-white: #ffffff;
+            
+            --border-color: #e2e8f0;
+            --shadow: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+            
+            --primary: #1a5e3a;
+            --primary-dark: #0f4027;
+            --primary-light: #2d6a4f;
+            --secondary: #f59e0b;
+            --danger: #dc2626;
+            --success: #16a34a;
+            --warning: #f59e0b;
+            
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            
+            --radius: 8px;
+            --transition: 0.3s ease;
+        }
+
+        /* ============================================
+           DARK THEME
+        ============================================ */
+        [data-theme="dark"] {
+            --bg-body: #0b1120;
+            --bg-card: #1e293b;
+            --bg-sidebar: #0b1120;
+            --bg-header: #1e293b;
+            --bg-input: #1e293b;
+            --bg-modal: #1e293b;
+            
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --text-sidebar: #94a3b8;
+            --text-sidebar-hover: #ffffff;
+            --text-white: #ffffff;
+            
+            --border-color: #334155;
+            --shadow: 0 1px 3px rgba(0,0,0,0.5);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.6);
+            
+            --gray-50: #1e293b;
+            --gray-100: #2d3a4f;
+            --gray-200: #334155;
+            --gray-300: #475569;
+            --gray-400: #64748b;
+            --gray-500: #94a3b8;
+            --gray-600: #cbd5e1;
+            --gray-700: #e2e8f0;
+            --gray-800: #f1f5f9;
+            --gray-900: #f8fafc;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-body);
+            color: var(--text-primary);
+            display: flex;
+            min-height: 100vh;
+            transition: background var(--transition), color var(--transition);
+        }
+        .app-container { display: flex; width: 100%; min-height: 100vh; }
+        
+        /* ============================================
+           SIDEBAR
+        ============================================ */
+        .sidebar {
+            width: 260px;
+            background: var(--bg-sidebar);
+            color: var(--text-white);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 1000;
+            transition: transform 0.3s ease, background var(--transition);
+            border-right: 1px solid var(--border-color);
+        }
+        .sidebar .logo {
+            padding: 20px 20px 16px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .sidebar .logo i { font-size: 26px; color: var(--secondary); }
+        .sidebar .logo .brand .brand-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-white);
+        }
+        .sidebar .logo .brand .brand-tag {
+            font-size: 10px;
+            font-weight: 400;
+            color: var(--secondary);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .nav-menu { padding: 20px 12px; flex: 1; overflow-y: auto; }
+        .nav-menu .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 16px;
+            color: var(--text-sidebar);
+            text-decoration: none;
+            border-radius: var(--radius);
+            transition: background 0.2s, color 0.2s;
+            margin-bottom: 3px;
+            font-size: 14px;
+        }
+        .nav-menu .nav-item:hover { background: rgba(255,255,255,0.07); color: var(--text-sidebar-hover); }
+        .nav-menu .nav-item.active { background: var(--primary-light); color: var(--text-white); }
+        .nav-menu .nav-item i { width: 20px; text-align: center; font-size: 15px; }
+        .nav-menu .nav-item span { font-size: 14px; }
+        
+        /* ============================================
+           MAIN CONTENT
+        ============================================ */
+        .main-content { flex: 1; margin-left: 260px; min-height: 100vh; transition: margin 0.3s; }
+        
+        /* ============================================
+           HEADER
+        ============================================ */
+        .header {
+            background: var(--bg-header);
+            padding: 14px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            transition: background var(--transition), border-color var(--transition);
+        }
+        .header-left { display: flex; align-items: center; gap: 16px; }
+        .header-left h1 {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .menu-toggle {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: none;
+        }
+        .header-right { display: flex; align-items: center; gap: 20px; }
+        
+        /* Theme Toggle Button */
+        .theme-toggle {
+            background: var(--gray-100);
+            border: 1px solid var(--border-color);
+            border-radius: 40px;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
+        }
+        .theme-toggle:hover { background: var(--gray-200); color: var(--text-primary); }
+        
+        .notification {
+            position: relative;
+            cursor: pointer;
+            font-size: 20px;
+            color: var(--text-secondary);
+        }
+        .notification .badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: var(--danger);
+            color: var(--text-white);
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 50%;
+            font-weight: 600;
+        }
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        .user-profile img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: var(--gray-200);
+        }
+        .user-profile span {
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+        
+        /* ============================================
+           PAGE CONTENT
+        ============================================ */
+        .page-content { padding: 24px 28px; }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .page-header h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        /* ============================================
+           BUTTONS
+        ============================================ */
+        .btn-primary {
+            background: var(--primary);
+            color: var(--text-white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--radius);
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background var(--transition);
+        }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-secondary {
+            background: var(--gray-200);
+            color: var(--text-secondary);
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--radius);
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background var(--transition);
+        }
+        .btn-secondary:hover { background: var(--gray-300); }
+        .btn-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 10px 20px;
+            font-weight: 500;
+            transition: color var(--transition);
+        }
+        .btn-link:hover { text-decoration: underline; color: var(--text-primary); }
+        
+        /* ============================================
+           CARD
+        ============================================ */
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: background var(--transition), border-color var(--transition);
+        }
+        .card-body { padding: 24px; }
+        
+        /* ============================================
+           FORM
+        ============================================ */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .form-group { margin-bottom: 16px; }
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 4px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .form-group .required { color: var(--danger); }
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            outline: none;
+            font-size: 14px;
+            background: var(--bg-input);
+            color: var(--text-primary);
+            transition: background var(--transition), border-color var(--transition), color var(--transition);
+        }
+        .form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26,94,58,0.1); }
+        .form-control::placeholder { color: var(--text-muted); }
+        .form-control option { background: var(--bg-input); color: var(--text-primary); }
+        textarea.form-control { resize: vertical; font-family: inherit; }
+        .full-width { grid-column: 1 / -1; }
+        
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+            transition: border-color var(--transition);
+        }
+        
+        /* ============================================
+           RESPONSIVE
+        ============================================ */
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); width: 280px; }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; }
+            .menu-toggle { display: block; }
+            .page-content { padding: 16px; }
+            .header { padding: 12px 16px; }
+            .header-left h1 { font-size: 18px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .form-actions { flex-wrap: wrap; }
+            .form-actions .btn-primary, .form-actions .btn-secondary { flex: 1; justify-content: center; }
+            .user-profile span { display: none; }
+        }
+        @media (max-width: 480px) {
+            .form-actions { flex-direction: column; }
+            .form-actions .btn-primary, .form-actions .btn-secondary { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="logo">
+                <i class="fas fa-hard-hat"></i>
+                <div class="brand">
+                    <span class="brand-name">NEXA HUB AI</span>
+                    <span class="brand-tag">construction</span>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item">
+                    <i class="fas fa-th-large"></i> <span>Dashboard</span>
+                </a>
+                <a href="employee_list.html" class="nav-item">
+                    <i class="fas fa-users"></i> <span>Employees</span>
+                </a>
+                <a href="employee_form.html" class="nav-item active">
+                    <i class="fas fa-user-plus"></i> <span>Add Employee</span>
+                </a>
+                <a href="client_list.html" class="nav-item">
+                    <i class="fas fa-user-tie"></i> <span>Clients</span>
+                </a>
+                <a href="attendance_daily.html" class="nav-item">
+                    <i class="fas fa-clipboard-check"></i> <span>Attendance</span>
+                </a>
+                <a href="bill_list.html" class="nav-item">
+                    <i class="fas fa-file-invoice"></i> <span>Bills</span>
+                </a>
+                <a href="equipment_list.html" class="nav-item">
+                    <i class="fas fa-tools"></i> <span>Equipment</span>
+                </a>
+                <a href="finance_asset_list.html" class="nav-item">
+                    <i class="fas fa-chart-pie"></i> <span>Finance</span>
+                </a>
+                <a href="department_list.html" class="nav-item">
+                    <i class="fas fa-building"></i> <span>Departments</span>
+                </a>
+                <a href="leave_request_list.html" class="nav-item">
+                    <i class="fas fa-calendar-alt"></i> <span>Leave Requests</span>
+                </a>
+                <a href="employee_portal.html" class="nav-item">
+                    <i class="fas fa-user-circle"></i> <span>Employee Portal</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <div class="header-left">
+                    <button class="menu-toggle" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1>Employee Form</h1>
+                </div>
+                <div class="header-right">
+                    <!-- Theme Toggle Button -->
+                    <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
+                        <i class="fas fa-sun" id="themeIcon"></i>
+                    </button>
+                    <div class="notification">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </div>
+                    <div class="user-profile">
+                        <img src="https://ui-avatars.com/api/?name=Admin+User&background=2d6a4f&color=fff" alt="User">
+                        <span>Admin</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <div class="page-header">
+                    <h2>Add / Edit Employee</h2>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <form class="form-container" id="mainForm" onsubmit="event.preventDefault(); alert('Employee saved successfully!');">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>First Name <span class="required">*</span></label>
+                                    <input type="text" class="form-control" required placeholder="Enter first name">
+                                </div>
+                                <div class="form-group">
+                                    <label>Last Name <span class="required">*</span></label>
+                                    <input type="text" class="form-control" required placeholder="Enter last name">
+                                </div>
+                                <div class="form-group">
+                                    <label>Email <span class="required">*</span></label>
+                                    <input type="email" class="form-control" required placeholder="Enter email address">
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone</label>
+                                    <input type="text" class="form-control" placeholder="Enter phone number">
+                                </div>
+                                <div class="form-group">
+                                    <label>Department <span class="required">*</span></label>
+                                    <select class="form-control" required>
+                                        <option value="">Select Department</option>
+                                        <option>Engineering</option>
+                                        <option>Construction</option>
+                                        <option>Finance</option>
+                                        <option>Human Resources</option>
+                                        <option>Administration</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Designation</label>
+                                    <select class="form-control">
+                                        <option value="">Select Designation</option>
+                                        <option>Manager</option>
+                                        <option>Senior Engineer</option>
+                                        <option>Engineer</option>
+                                        <option>Supervisor</option>
+                                        <option>Worker</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Date of Joining</label>
+                                    <input type="date" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <select class="form-control">
+                                        <option>Active</option>
+                                        <option>On Leave</option>
+                                        <option>Inactive</option>
+                                    </select>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>Address</label>
+                                    <textarea class="form-control" rows="3" placeholder="Enter full address"></textarea>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>Notes / Remarks</label>
+                                    <textarea class="form-control" rows="3" placeholder="Any additional notes"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Save Employee</button>
+                                <button type="reset" class="btn-secondary"><i class="fas fa-undo"></i> Reset</button>
+                                <a href="employee_list.html" class="btn-link">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // ============================================
+        // SIDEBAR TOGGLE
+        // ============================================
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        document.addEventListener('click', function(e) {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.querySelector('.menu-toggle');
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(e.target) && !toggle.contains(e.target)) {
+                    sidebar.classList.remove('open');
+                }
+            }
+        });
+
+        // ============================================
+        // DARK/LIGHT MODE
+        // ============================================
+        const themeIcon = document.getElementById('themeIcon');
+        const themeToggle = document.getElementById('themeToggle');
+
+        function updateIcon(theme) {
+            if (theme === 'dark') {
+                themeIcon.className = 'fas fa-moon';
+            } else {
+                themeIcon.className = 'fas fa-sun';
+            }
+        }
+
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('nexa-theme', theme);
+            updateIcon(theme);
+        }
+
+        function toggleTheme() {
+            let current = document.documentElement.getAttribute('data-theme');
+            if (current === 'dark') {
+                setTheme('light');
+            } else {
+                setTheme('dark');
+            }
+        }
+
+        // Load saved theme
+        let savedTheme = localStorage.getItem('nexa-theme');
+        if (!savedTheme) {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                savedTheme = 'dark';
+            } else {
+                savedTheme = 'light';
+            }
+        }
+        setTheme(savedTheme);
+
+        // Theme toggle event
+        if (themeToggle) {
+            themeToggle.addEventListener('click', toggleTheme);
+        }
+
+        console.log('✅ NEXA HUB AI - Employee Form with Dark/Light Mode!');
+    </script>
+</body>
+</html>
