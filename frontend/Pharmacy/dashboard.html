@@ -1,0 +1,1121 @@
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard · {{ store_name }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+    <style>
+        /* ===== ROOT VARIABLES ===== */
+        :root {
+            --slate-950: #0F172A;
+            --slate-900: #1E293B;
+            --slate-800: #334155;
+            --slate-700: #475569;
+            --slate-600: #64748B;
+            --slate-400: #94A3B8;
+            --slate-200: #E2E8F0;
+            --slate-100: #F1F5F9;
+            --slate-50: #F8FAFC;
+            --cyan-500: #06B6D4;
+            --cyan-600: #0891B2;
+            --cyan-700: #0E7490;
+            --cyan-800: #155E75;
+            --cyan-glow: rgba(6, 182, 212, 0.4);
+            --cyan-soft: #E0F2FE;
+            --gold-500: #C99A3F;
+            --gold-soft: #FDF3E0;
+            --danger-soft: #FEE2E2;
+            --danger: #DC2626;
+            --success-soft: #D1FAE5;
+            --success: #065F46;
+            --white-glass: rgba(255, 255, 255, 0.75);
+            --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+            --shadow-md: 0 10px 30px -8px rgba(15, 23, 42, 0.15);
+            --shadow-lg: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
+            --shadow-xl: 0 35px 60px -15px rgba(15, 23, 42, 0.3);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        * { box-sizing: border-box; }
+        html, body { 
+            height: 100%; 
+            margin: 0;
+        }
+        body {
+            font-family: 'Inter', 'Plus Jakarta Sans', -apple-system, sans-serif;
+            background: var(--slate-50);
+            color: var(--slate-950);
+            display: flex;
+            min-height: 100vh;
+            animation: fadeIn 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .brand-font { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; }
+        a { text-decoration: none; }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: scale(0.98); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes slideUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 0 0 var(--cyan-glow); }
+            50% { box-shadow: 0 0 0 10px rgba(6, 182, 212, 0.08); }
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+            100% { transform: translateY(0px); }
+        }
+        @keyframes countUp {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* ===== SIDEBAR - FULL LENGTH ===== */
+        .erp-sidebar {
+            width: 264px;
+            min-width: 264px;
+            background: linear-gradient(180deg, var(--slate-950) 0%, var(--slate-900) 100%);
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            min-height: 100vh;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 1px solid rgba(255,255,255,0.05);
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.1) transparent;
+            z-index: 100;
+        }
+        .erp-sidebar::-webkit-scrollbar { width: 4px; }
+        .erp-sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+
+        /* Sidebar Glow Effect */
+        .erp-sidebar::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 80% 20%, rgba(6, 182, 212, 0.06), transparent 60%);
+            pointer-events: none;
+        }
+
+        .erp-brand {
+            padding: 28px 22px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            position: relative;
+            z-index: 1;
+        }
+        .erp-brand-mark {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--cyan-500), var(--cyan-700));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #fff;
+            font-weight: 800;
+            box-shadow: 0 6px 24px var(--cyan-glow);
+            transition: var(--transition);
+        }
+        .erp-brand-mark:hover {
+            transform: rotate(-6deg) scale(1.05);
+            box-shadow: 0 8px 32px var(--cyan-glow);
+        }
+        .erp-brand-text { line-height: 1.2; }
+        .erp-brand-text strong {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+            display: block;
+            color: #fff;
+            letter-spacing: -0.3px;
+        }
+        .erp-brand-text strong span {
+            color: var(--cyan-500);
+        }
+        .erp-brand-text span {
+            font-size: 10px;
+            letter-spacing: 1.8px;
+            color: var(--slate-400);
+            text-transform: uppercase;
+        }
+
+        .erp-nav { 
+            padding: 16px 12px; 
+            flex: 1; 
+            position: relative;
+            z-index: 1;
+        }
+        .erp-nav-label {
+            font-size: 10px;
+            letter-spacing: 1.6px;
+            text-transform: uppercase;
+            color: var(--slate-400);
+            padding: 14px 12px 8px;
+            font-weight: 600;
+        }
+        .erp-nav a {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: #94A3B8;
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 13.5px;
+            font-weight: 500;
+            margin-bottom: 2px;
+            transition: var(--transition);
+            position: relative;
+        }
+        .erp-nav a i {
+            width: 20px;
+            text-align: center;
+            color: var(--slate-400);
+            font-size: 15px;
+            transition: var(--transition);
+        }
+        .erp-nav a:hover {
+            background: rgba(255,255,255,0.06);
+            color: #fff;
+            transform: translateX(4px);
+        }
+        .erp-nav a:hover i {
+            color: var(--cyan-500);
+        }
+        .erp-nav a.active {
+            background: rgba(6, 182, 212, 0.12);
+            color: #fff;
+            box-shadow: inset 3px 0 0 var(--cyan-500);
+        }
+        .erp-nav a.active i {
+            color: var(--cyan-500);
+        }
+        .erp-nav a.active::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: linear-gradient(180deg, var(--cyan-500), var(--cyan-700));
+            border-radius: 0 4px 4px 0;
+        }
+
+        .erp-sidebar-footer {
+            padding: 16px 18px 22px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            font-size: 12px;
+            color: var(--slate-400);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            z-index: 1;
+        }
+        .erp-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--cyan-500), var(--cyan-700));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 14px;
+            border: 2px solid rgba(6,182,212,0.3);
+            box-shadow: 0 0 0 2px rgba(6,182,212,0.1);
+            transition: var(--transition);
+        }
+        .erp-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 4px rgba(6,182,212,0.15);
+        }
+        .erp-sidebar-footer div div {
+            color: #fff;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        .erp-sidebar-footer a {
+            color: var(--slate-400);
+            font-size: 12px;
+            transition: var(--transition);
+        }
+        .erp-sidebar-footer a:hover {
+            color: var(--cyan-500);
+        }
+
+        /* ===== MAIN ===== */
+        .erp-main {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            background: var(--slate-50);
+        }
+
+        /* ===== TOPBAR ===== */
+        .erp-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 32px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.5);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 2px 16px rgba(15,23,42,0.04);
+        }
+        .erp-topbar h1 {
+            font-size: 22px;
+            font-weight: 700;
+            margin: 0;
+            color: var(--slate-950);
+            letter-spacing: -0.3px;
+        }
+        .erp-topbar .sub {
+            color: var(--slate-600);
+            font-size: 13px;
+            font-weight: 500;
+            margin-top: 2px;
+        }
+        .erp-search {
+            position: relative;
+            width: 280px;
+            max-width: 40vw;
+        }
+        .erp-search input {
+            width: 100%;
+            padding: 9px 16px 9px 42px;
+            border-radius: 999px;
+            border: 1.5px solid var(--slate-200);
+            background: rgba(255,255,255,0.5);
+            font-size: 13.5px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        .erp-search input:focus {
+            outline: none;
+            border-color: var(--cyan-500);
+            box-shadow: 0 0 0 4px var(--cyan-glow);
+            background: #fff;
+        }
+        .erp-search i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--slate-400);
+            font-size: 14px;
+        }
+
+        .btn-erp-outline {
+            background: transparent;
+            border: 1.5px solid var(--slate-200);
+            color: var(--slate-600);
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-erp-outline:hover {
+            border-color: var(--cyan-500);
+            color: var(--cyan-600);
+            background: rgba(6,182,212,0.06);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(6,182,212,0.15);
+        }
+
+        /* ===== CONTENT ===== */
+        .erp-content {
+            padding: 28px 32px 50px;
+            flex: 1;
+            animation: slideUp 0.5s ease-out 0.1s both;
+        }
+
+        /* ===== STAT CARDS ===== */
+        .stat-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.5);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            padding: 22px 24px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 0.5s ease-out both;
+        }
+        .stat-card:nth-child(1) { animation-delay: 0.05s; }
+        .stat-card:nth-child(2) { animation-delay: 0.1s; }
+        .stat-card:nth-child(3) { animation-delay: 0.15s; }
+        .stat-card:nth-child(4) { animation-delay: 0.2s; }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            opacity: 0.05;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+        .stat-card:hover::before {
+            transform: scale(1.2);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(6, 182, 212, 0.15);
+        }
+        .stat-card .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 12px;
+            transition: var(--transition);
+            animation: float 4s ease-in-out infinite;
+        }
+        .stat-card:nth-child(2) .stat-icon { animation-delay: 0.5s; }
+        .stat-card:nth-child(3) .stat-icon { animation-delay: 1s; }
+        .stat-card:nth-child(4) .stat-icon { animation-delay: 1.5s; }
+
+        .stat-card:hover .stat-icon {
+            transform: scale(1.08) rotate(-3deg);
+        }
+        .stat-card .stat-value {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 30px;
+            font-weight: 700;
+            color: var(--slate-950);
+            animation: countUp 0.6s ease-out both;
+        }
+        .stat-card .stat-label {
+            color: var(--slate-600);
+            font-size: 13px;
+            font-weight: 500;
+            margin-top: 2px;
+        }
+        .stat-card .stat-badge {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 14px;
+            border-radius: 999px;
+            display: inline-block;
+            margin-top: 6px;
+        }
+
+        .stat-icon-cyan { 
+            background: linear-gradient(135deg, var(--cyan-soft), #B3E5F4); 
+            color: var(--cyan-600); 
+        }
+        .stat-icon-danger { 
+            background: linear-gradient(135deg, var(--danger-soft), #FECACA); 
+            color: var(--danger); 
+        }
+        .stat-icon-gold { 
+            background: linear-gradient(135deg, var(--gold-soft), #FDE68A); 
+            color: var(--gold-500); 
+        }
+        .stat-icon-success { 
+            background: linear-gradient(135deg, var(--success-soft), #A7F3D0); 
+            color: var(--success); 
+        }
+
+        /* ===== PANELS ===== */
+        .panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.5);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            padding: 22px 24px;
+            transition: var(--transition);
+            height: 100%;
+            animation: slideUp 0.5s ease-out both;
+        }
+        .panel:hover {
+            box-shadow: var(--shadow-md);
+            border-color: rgba(6, 182, 212, 0.08);
+        }
+        .panel-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--slate-950);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .panel-title i {
+            color: var(--cyan-500);
+            font-size: 18px;
+        }
+        .panel-sub {
+            color: var(--slate-600);
+            font-size: 12.5px;
+            font-weight: 500;
+            margin-top: 2px;
+            margin-bottom: 16px;
+        }
+
+        .chart-box {
+            position: relative;
+            height: 250px;
+        }
+
+        .no-data-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--slate-400);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* ===== TABLES ===== */
+        .table-erp {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 13.5px;
+        }
+        .table-erp thead th {
+            text-align: left;
+            font-size: 10.5px;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            color: var(--slate-600);
+            font-weight: 700;
+            padding: 10px 14px;
+            border-bottom: 2px solid var(--slate-200);
+        }
+        .table-erp tbody td {
+            padding: 11px 14px;
+            border-bottom: 1px solid var(--slate-100);
+            vertical-align: middle;
+            color: var(--slate-700);
+        }
+        .table-erp tbody tr {
+            transition: var(--transition);
+            cursor: default;
+        }
+        .table-erp tbody tr:hover {
+            background: rgba(6, 182, 212, 0.04);
+            transform: translateX(2px);
+        }
+        .table-erp tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* ===== BADGES ===== */
+        .badge-soft {
+            padding: 4px 14px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-block;
+            letter-spacing: 0.2px;
+        }
+        .badge-danger {
+            background: var(--danger-soft);
+            color: var(--danger);
+        }
+        .badge-warn {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+        .badge-success {
+            background: var(--success-soft);
+            color: var(--success);
+        }
+        .badge-cyan {
+            background: var(--cyan-soft);
+            color: var(--cyan-700);
+        }
+        .badge-gold {
+            background: var(--gold-soft);
+            color: var(--gold-500);
+        }
+
+        /* ===== ALERT ===== */
+        .alert-erp {
+            border-radius: var(--radius-sm);
+            padding: 12px 20px;
+            font-size: 13.5px;
+            font-weight: 600;
+            background: var(--success-soft);
+            border: 1px solid #6EE7B7;
+            color: var(--success);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        /* ===== MODAL ===== */
+        .modal-content {
+            border-radius: var(--radius);
+            border: none;
+            box-shadow: var(--shadow-xl);
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(8px);
+        }
+        .modal-header {
+            border-bottom: 1px solid var(--slate-200);
+            padding: 20px 24px;
+        }
+        .modal-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .erp-sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                transform: translateX(-100%);
+                transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+                height: 100vh;
+                min-height: 100vh;
+                z-index: 1000;
+                box-shadow: 0 0 40px rgba(0,0,0,0.3);
+            }
+            .erp-sidebar.open {
+                transform: translateX(0);
+            }
+            /* Overlay */
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.3);
+                z-index: 999;
+                backdrop-filter: blur(4px);
+            }
+            .sidebar-overlay.active {
+                display: block;
+            }
+            .erp-topbar .erp-search {
+                display: none;
+            }
+            .erp-topbar {
+                padding: 12px 20px;
+            }
+            .erp-content {
+                padding: 20px 16px;
+            }
+            .stat-card .stat-value {
+                font-size: 22px;
+            }
+            .panel {
+                padding: 18px 16px;
+            }
+            .chart-box {
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .erp-topbar h1 {
+                font-size: 18px;
+            }
+            .erp-topbar .sub {
+                font-size: 11px;
+            }
+            .erp-brand-text strong {
+                font-size: 17px;
+            }
+            .erp-sidebar {
+                width: 260px;
+                min-width: 260px;
+            }
+            .modal-body .row {
+                flex-direction: column;
+            }
+            .stat-card {
+                padding: 14px 16px;
+            }
+            .stat-card .stat-value {
+                font-size: 20px;
+            }
+            .stat-card .stat-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+            .table-erp {
+                font-size: 12px;
+            }
+            .table-erp thead th, .table-erp tbody td {
+                padding: 8px 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== SIDEBAR OVERLAY (Mobile) ===== -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="erp-sidebar" id="erpSidebar">
+        <div class="erp-brand">
+            <div class="erp-brand-mark">Rx</div>
+            <div class="erp-brand-text">
+                <strong>Pharmacy<span>ERP</span></strong>
+                <span>Control Center</span>
+            </div>
+        </div>
+        <nav class="erp-nav">
+            <a href="{% url 'dashboard' %}" class="active"><i class="fa-solid fa-house"></i><span>Dashboard</span></a>
+            <a href="{% url 'employee-list' %}" class=""><i class="fa-solid fa-users"></i><span>Employees</span></a>
+            <a href="{% url 'staff-list' %}" class=""><i class="fa-solid fa-user-doctor"></i><span>Pharmacy Staff</span></a>
+            <a href="{% url 'attendance-daily' %}" class=""><i class="fa-solid fa-clock"></i><span>Attendance</span></a>
+                <a href="{% url 'salary-list' %}" class=""><i class="fa-solid fa-sack-dollar"></i><span>Salary</span></a>
+            <a href="{% url 'medicine-list' %}" class=""><i class="fa-solid fa-pills"></i><span>Medicines</span></a>
+            <a href="{% url 'inventory-dashboard' %}" class=""><i class="fa-solid fa-boxes-stacked"></i><span>Inventory</span></a>
+            <a href="{% url 'supplier-list' %}" class=""><i class="fa-solid fa-building"></i><span>Suppliers</span></a>
+            <a href="{% url 'sale-list' %}" class=""><i class="fa-solid fa-cart-shopping"></i><span>Sales & Billing</span></a>
+            <a href="{% url 'customer-list' %}" class=""><i class="fa-solid fa-user"></i><span>Customers</span></a>
+            <a href="{% url 'prescription-list' %}" class=""><i class="fa-solid fa-file-medical"></i><span>Prescriptions</span></a>
+            <a href="{% url 'delivery-dashboard' %}" class=""><i class="fa-solid fa-truck-fast"></i><span>Delivery</span></a>
+            <a href="{% url 'finance-expense-list' %}" class=""><i class="fa-solid fa-sack-dollar"></i><span>Finance</span></a>
+            <a href="{% url 'reports-insights' %}" class=""><i class="fa-solid fa-chart-line"></i><span>Reports</span></a>
+            <a href="{% url 'reminder-list' %}" class=""><i class="fa-solid fa-bell"></i><span>Reminders</span></a>
+            <a href="{% url 'settings-business' %}" class=""><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+            <div class="erp-nav-label">Quick Access</div>
+            <a href="{% url 'sale-new' %}"><i class="fa-solid fa-receipt"></i><span>POS</span></a>
+            <a href="{% url 'medicine-list' %}"><i class="fa-solid fa-dna"></i><span>Batches</span></a>
+            <a href="{% url 'branch-list' %}"><i class="fa-solid fa-map-location-dot"></i><span>Branches</span></a>
+        </nav>
+        <div class="erp-sidebar-footer">
+            <div class="erp-avatar">{{ request.user.username|default:"A"|first|upper }}</div>
+            <div>
+                <div>{{ request.user.get_full_name|default:request.user.username }}</div>
+                <a href="{% url 'logout' %}">Sign out</a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ===== MAIN ===== -->
+    <div class="erp-main">
+
+        <!-- TOPBAR -->
+        <header class="erp-topbar">
+            <div>
+                <button class="btn d-md-none" onclick="toggleSidebar()" style="padding:4px 8px; font-size:20px; border:none; background:transparent; color:var(--slate-600);">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <h1>Dashboard</h1>
+                <div class="sub">Welcome back — here's what's happening today.</div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <div class="erp-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search {{ store_name }}...">
+                </div>
+                <button type="button" class="btn-erp-outline" data-bs-toggle="modal" data-bs-target="#helpModal" title="Help &amp; Guide" style="padding:8px 14px;">
+                    <i class="fa-solid fa-circle-question"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- CONTENT -->
+        <main class="erp-content">
+
+            <!-- Django Messages -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert-erp mb-4">
+                        <i class="fa-regular fa-circle-check"></i>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <!-- ===== STAT CARDS ===== -->
+            <div class="row g-3 mb-4">
+                <div class="col-6 col-lg-4">
+                    <div class="stat-card">
+                        <div class="stat-icon stat-icon-cyan"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                        <div class="stat-value">₹{{ todays_sales_total|default:"0"|floatformat:0|intcomma }}</div>
+                        <div class="stat-label">Today's Sales</div>
+                        <div class="stat-badge" style="background:var(--cyan-soft);color:var(--cyan-600);">{{ todays_sales_count|default:"0" }} bills</div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-4">
+                    <div class="stat-card">
+                        <div class="stat-icon stat-icon-danger"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <div class="stat-value">{{ low_stock_count|default:"0" }}</div>
+                        <div class="stat-label">Low Stock Batches</div>
+                        <div class="stat-badge" style="background:var(--danger-soft);color:var(--danger);">Needs attention</div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-4">
+                    <div class="stat-card">
+                        <div class="stat-icon stat-icon-gold"><i class="fa-solid fa-hourglass-half"></i></div>
+                        <div class="stat-value">{{ expiring_count|default:"0" }}</div>
+                        <div class="stat-label">Expiring in 7 Days</div>
+                        <div class="stat-badge" style="background:var(--gold-soft);color:var(--gold-500);">Check soon</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== CHARTS ROW 1 ===== -->
+            <div class="row g-3 mb-4">
+                <div class="col-lg-6 offset-lg-3">
+                    <div class="panel">
+                        <div class="panel-title"><i class="fa-regular fa-chart-pie"></i> Payment Method Split</div>
+                        <div class="panel-sub">Share of completed sales by payment mode</div>
+                        <div class="chart-box">
+                            <canvas id="paymentPieChart"></canvas>
+                            <div id="paymentPiePlaceholder" class="no-data-placeholder" style="display:none;">
+                                <i class="fa-regular fa-chart-pie me-2"></i> No payment data
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== CHARTS ROW 2 ===== -->
+            <div class="row g-3 mb-4">
+                <div class="col-lg-6">
+                    <div class="panel">
+                        <div class="panel-title"><i class="fa-regular fa-chart-bar"></i> Category-wise Sales</div>
+                        <div class="panel-sub">Revenue contribution by medicine category</div>
+                        <div class="chart-box">
+                            <canvas id="categoryBarChart"></canvas>
+                            <div id="categoryBarPlaceholder" class="no-data-placeholder" style="display:none;">
+                                <i class="fa-regular fa-chart-bar me-2"></i> No category data
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="panel">
+                        <div class="panel-title"><i class="fa-regular fa-crown"></i> Top Selling Medicines</div>
+                        <div class="panel-sub">By quantity sold</div>
+                        <div class="chart-box">
+                            <canvas id="topMedsChart"></canvas>
+                            <div id="topMedsPlaceholder" class="no-data-placeholder" style="display:none;">
+                                <i class="fa-regular fa-crown me-2"></i> No sales data
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== ALERTS TABLES ===== -->
+            <div class="row g-3">
+                <div class="col-lg-6">
+                    <div class="panel">
+                        <div class="panel-title"><i class="fa-solid fa-box-open" style="color:var(--danger);"></i> Low Stock Alerts</div>
+                        <div class="panel-sub">Batches that need immediate restocking</div>
+                        <div class="table-responsive">
+                            <table class="table-erp">
+                                <thead>
+                                    <tr><th>Medicine</th><th>Batch</th><th style="text-align:center;">Qty Left</th></tr>
+                                </thead>
+                                <tbody>
+                                {% if low_stock_items %}
+                                    {% for b in low_stock_items %}
+                                        <tr>
+                                            <td><strong>{{ b.medicine.name }}</strong></td>
+                                            <td><code style="background:var(--slate-100);padding:2px 8px;border-radius:6px;font-size:12px;">{{ b.batch_number }}</code></td>
+                                            <td style="text-align:center;"><span class="badge-soft badge-danger">{{ b.quantity }} left</span></td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr><td colspan="3" class="text-center py-4 text-muted" style="font-size:14px;"><i class="fa-regular fa-circle-check me-2" style="color:var(--success);"></i> All stock levels healthy.</td></tr>
+                                {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="panel">
+                        <div class="panel-title"><i class="fa-solid fa-hourglass-half" style="color:var(--gold-500);"></i> Expiring Soon</div>
+                        <div class="panel-sub">Batches expiring within the next 7 days</div>
+                        <div class="table-responsive">
+                            <table class="table-erp">
+                                <thead>
+                                    <tr><th>Medicine</th><th>Batch</th><th style="text-align:center;">Expiry</th></tr>
+                                </thead>
+                                <tbody>
+                                {% if expiring_items %}
+                                    {% for b in expiring_items %}
+                                        <tr>
+                                            <td><strong>{{ b.medicine.name }}</strong></td>
+                                            <td><code style="background:var(--slate-100);padding:2px 8px;border-radius:6px;font-size:12px;">{{ b.batch_number }}</code></td>
+                                            <td style="text-align:center;"><span class="badge-soft badge-warn">{{ b.expiry_date }}</span></td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr><td colspan="3" class="text-center py-4 text-muted" style="font-size:14px;"><i class="fa-regular fa-calendar-check me-2" style="color:var(--success);"></i> Nothing expiring this week.</td></tr>
+                                {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ===== HELP MODAL ===== -->
+    <div class="modal fade" id="helpModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fa-regular fa-circle-question me-2" style="color:var(--cyan-500);"></i>
+                        Dashboard Guide
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-4">
+                        <div class="col-md-7">
+                            <div style="font-size:10px; letter-spacing:1.4px; text-transform:uppercase; color:var(--slate-600); font-weight:700; margin-bottom:10px;">
+                                Step-by-Step Guide
+                            </div>
+                            <ol style="padding-left:18px; font-size:14px; line-height:1.8; color:var(--slate-700);">
+                                <li class="mb-2">The three cards at the top show today's sales, low stock batches, and medicines expiring in 7 days.</li>
+                                <li class="mb-2">Category-wise Sales and Top Selling Medicines charts update automatically as new sales are recorded.</li>
+                                <li class="mb-2">Low Stock and Expiring Soon tables link straight into the Inventory module so you can act on an alert immediately.</li>
+                            </ol>
+                        </div>
+                        <div class="col-md-5">
+                            <div style="font-size:10px; letter-spacing:1.4px; text-transform:uppercase; color:var(--slate-600); font-weight:700; margin-bottom:10px;">
+                                Video Walkthrough
+                            </div>
+                            <div class="d-flex align-items-center justify-content-center flex-column text-center" style="background:var(--slate-50); border:1.5px dashed var(--slate-200); border-radius:var(--radius-sm); height:220px; padding:0 20px;">
+                                <i class="fa-regular fa-circle-play" style="font-size:36px; color:var(--cyan-500); margin-bottom:12px;"></i>
+                                <div style="font-size:13px; color:var(--slate-600);">Video guide coming soon for this page.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== CHART.JS SCRIPTS - ERROR HANDLING ===== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Color palette
+            const cyan = '#06B6D4';
+            const cyanDark = '#0E7490';
+            const gold = '#C99A3F';
+            
+            // Helper to safely parse data
+            function safeParse(data, fallback) {
+                try {
+                    if (typeof data === 'string') {
+                        const parsed = JSON.parse(data);
+                        return Array.isArray(parsed) ? parsed : fallback;
+                    }
+                    return Array.isArray(data) ? data : fallback;
+                } catch (e) {
+                    return fallback;
+                }
+            }
+
+            // Get data with defaults
+            const payLabels = safeParse('{{ pay_labels|default:"[]"|safe }}', []);
+            const payValues = safeParse('{{ pay_values|default:"[]"|safe }}', []);
+            const catLabels = safeParse('{{ cat_labels|default:"[]"|safe }}', []);
+            const catValues = safeParse('{{ cat_values|default:"[]"|safe }}', []);
+            const topLabels = safeParse('{{ top_labels|default:"[]"|safe }}', []);
+            const topValues = safeParse('{{ top_values|default:"[]"|safe }}', []);
+
+            // 2. Payment Pie
+            const ctx2 = document.getElementById('paymentPieChart');
+            const p2 = document.getElementById('paymentPiePlaceholder');
+            if (ctx2 && payLabels.length > 0 && payValues.length > 0) {
+                new Chart(ctx2, {
+                    type: 'pie',
+                    data: {
+                        labels: payLabels,
+                        datasets: [{
+                            data: payValues,
+                            backgroundColor: [cyan, gold, cyanDark, '#64748B'],
+                            borderColor: '#fff',
+                            borderWidth: 2,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { font: { size: 11, family: 'Inter' }, padding: 16, usePointStyle: true, pointStyle: 'circle' }
+                            }
+                        }
+                    }
+                });
+            } else if (p2) {
+                ctx2.style.display = 'none';
+                p2.style.display = 'flex';
+            }
+
+            // 3. Category Bar
+            const ctx3 = document.getElementById('categoryBarChart');
+            const p3 = document.getElementById('categoryBarPlaceholder');
+            if (ctx3 && catLabels.length > 0 && catValues.length > 0) {
+                new Chart(ctx3, {
+                    type: 'bar',
+                    data: {
+                        labels: catLabels,
+                        datasets: [{
+                            label: 'Revenue (₹)',
+                            data: catValues,
+                            backgroundColor: cyan,
+                            borderRadius: 6,
+                            borderSkipped: false,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            y: { beginAtZero: true, grid: { color: 'rgba(15, 23, 42, 0.06)' }, ticks: { font: { size: 11, family: 'Inter' } } },
+                            x: { grid: { display: false }, ticks: { font: { size: 10, family: 'Inter' } } }
+                        }
+                    }
+                });
+            } else if (p3) {
+                ctx3.style.display = 'none';
+                p3.style.display = 'flex';
+            }
+
+            // 4. Top Meds
+            const ctx4 = document.getElementById('topMedsChart');
+            const p4 = document.getElementById('topMedsPlaceholder');
+            if (ctx4 && topLabels.length > 0 && topValues.length > 0) {
+                new Chart(ctx4, {
+                    type: 'bar',
+                    data: {
+                        labels: topLabels,
+                        datasets: [{
+                            label: 'Units Sold',
+                            data: topValues,
+                            backgroundColor: gold,
+                            borderRadius: 6,
+                            borderSkipped: false,
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            y: { grid: { display: false }, ticks: { font: { size: 10, family: 'Inter' } } },
+                            x: { beginAtZero: true, grid: { color: 'rgba(15, 23, 42, 0.06)' }, ticks: { font: { size: 11, family: 'Inter' } } }
+                        }
+                    }
+                });
+            } else if (p4) {
+                ctx4.style.display = 'none';
+                p4.style.display = 'flex';
+            }
+        });
+
+        // ===== SIDEBAR TOGGLE FUNCTIONS =====
+        function toggleSidebar() {
+            const sidebar = document.getElementById('erpSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
+        }
+
+        function closeSidebar() {
+            document.getElementById('erpSidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Auto-close sidebar on link click (mobile)
+        document.querySelectorAll('.erp-nav a').forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth < 992) {
+                    closeSidebar();
+                }
+            });
+        });
+
+        // Close sidebar on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeSidebar();
+            }
+        });
+    </script>
+</body>
+</html>

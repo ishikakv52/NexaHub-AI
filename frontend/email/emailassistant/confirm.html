@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Email Assistant - Confirm Send</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+(function(){
+    try {
+        var t = localStorage.getItem('ea-theme');
+        if (!t) { t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+        document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --bg: #f2f7f6;
+        --bg-glow-1: rgba(15,110,100,0.11);
+        --bg-glow-2: rgba(226,89,63,0.07);
+        --card-bg: #ffffff;
+        --input-bg: #eaf4f1;
+        --text: #0f211e;
+        --muted: #5c7674;
+        --border: #d7e7e3;
+        --accent: #e2593f;
+        --accent-dark: #c23f28;
+        --accent-light: #f08768;
+        --accent-soft: #fbe0d9;
+        --accent2: #0f6b63;
+        --accent2-dark: #0a4b46;
+        --on-accent: #fff8f6;
+        --danger: #a83250;
+        --danger-dark: #821f3c;
+        --shadow: rgba(9,38,35,0.12);
+        --shadow-strong: rgba(9,38,35,0.22);
+        --overlay: rgba(8,28,26,0.58);
+        --font-display: 'Fraunces', Georgia, serif;
+        --font-body: 'Inter', "Segoe UI", Roboto, Arial, sans-serif;
+    }
+    [data-theme="dark"] {
+        --bg: #0c1615;
+        --bg-glow-1: rgba(79,168,158,0.13);
+        --bg-glow-2: rgba(255,128,102,0.09);
+        --card-bg: #132320;
+        --input-bg: #0e1e1b;
+        --text: #eaf5f1;
+        --muted: #8fada8;
+        --border: #204440;
+        --accent: #f08768;
+        --accent-dark: #d9573f;
+        --accent-light: #ffa88f;
+        --accent-soft: #3a221c;
+        --accent2: #4fa89e;
+        --accent2-dark: #79ddce;
+        --on-accent: #2a0d06;
+        --danger: #e0837c;
+        --danger-dark: #c94f6c;
+        --shadow: rgba(0,12,11,0.38);
+        --shadow-strong: rgba(0,12,11,0.55);
+        --overlay: rgba(0,10,9,0.7);
+    }
+    * { box-sizing: border-box; }
+    body {
+        margin: 0;
+        font-family: var(--font-body);
+        background:
+            radial-gradient(circle at 10% 6%, var(--bg-glow-1), transparent 42%),
+            radial-gradient(circle at 92% 96%, var(--bg-glow-2), transparent 46%),
+            var(--bg);
+        color: var(--text);
+        padding: 30px 16px 60px;
+        transition: background .35s ease, color .35s ease;
+    }
+    .theme-toggle {
+        position: fixed; top: 18px; right: 18px;
+        width: 42px; height: 42px; border-radius: 50%;
+        border: 1px solid var(--border); background: var(--card-bg); color: var(--text);
+        font-size: 18px; display: flex; align-items: center; justify-content: center;
+        cursor: pointer; box-shadow: 0 4px 14px var(--shadow);
+        transition: transform .2s ease, box-shadow .2s ease; z-index: 100;
+    }
+    .theme-toggle:hover { transform: translateY(-2px) rotate(-8deg); box-shadow: 0 8px 20px var(--shadow-strong); }
+    .container { max-width: 700px; margin: 0 auto; }
+    .top-bar h1 {
+        font-family: var(--font-display);
+        font-weight: 600;
+        font-size: 23px;
+        margin: 0 0 22px;
+        display: flex; align-items: center; gap: 10px;
+        letter-spacing: -0.01em;
+    }
+    .brand-seal {
+        display: flex; align-items: center; justify-content: center;
+        width: 38px; height: 38px; border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent2), var(--accent));
+        box-shadow: 0 6px 14px var(--shadow-strong);
+        font-size: 17px; flex-shrink: 0;
+    }
+    .card {
+        background: var(--card-bg); border: 1px solid var(--border); border-radius: 22px; padding: 30px;
+        box-shadow: 0 16px 36px var(--shadow), 0 2px 8px var(--shadow);
+        position: relative; overflow: hidden;
+    }
+    .card::before {
+        content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+        background: linear-gradient(90deg, var(--accent2), var(--accent-light), var(--accent));
+    }
+    .field { margin-bottom: 18px; }
+    .field-label { font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 6px; }
+    .field-value { font-size: 15px; padding: 12px 15px; background: var(--input-bg); border: 1px solid var(--border); border-radius: 12px; }
+    .body-box { white-space: pre-wrap; line-height: 1.7; font-size: 14px; }
+    .send-btn {
+        margin-top: 24px; width: 100%; background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: var(--on-accent);
+        border: none; padding: 15px; border-radius: 14px; font-size: 15.5px;
+        font-weight: 700; cursor: pointer; box-shadow: 0 12px 26px var(--shadow-strong);
+        transition: transform .15s ease, filter .15s ease;
+    }
+    .send-btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+    .back-link { display: inline-block; margin-top: 16px; font-size: 13px; color: var(--muted); text-decoration: none; }
+    .back-link:hover { color: var(--accent); }
+
+    /* --- Confirmation modal --- */
+    .overlay {
+        display: none;
+        position: fixed; inset: 0;
+        background: var(--overlay);
+        backdrop-filter: blur(2px);
+        align-items: center; justify-content: center;
+        z-index: 50;
+        padding: 16px;
+    }
+    .overlay.active { display: flex; }
+    .modal {
+        background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 30px;
+        max-width: 380px; width: 100%;
+        box-shadow: 0 24px 60px var(--shadow-strong);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .modal::before {
+        content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+        background: linear-gradient(90deg, var(--danger), var(--accent-light), var(--danger));
+    }
+    .modal h2 { margin: 6px 0 10px; font-family: var(--font-display); font-weight: 600; font-size: 19px; }
+    .modal p { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+    .modal-actions { display: flex; gap: 10px; }
+    .modal-actions button {
+        flex: 1; padding: 13px; border-radius: 12px; border: none;
+        font-size: 14px; font-weight: 700; cursor: pointer;
+        transition: transform .15s ease, filter .15s ease;
+    }
+    .btn-yes { background: linear-gradient(135deg, var(--danger), var(--danger-dark)); color: #fff5f7; }
+    .btn-yes:hover { transform: translateY(-2px); filter: brightness(1.05); }
+    .btn-no { background: var(--input-bg); color: var(--text); border: 1px solid var(--border) !important; }
+    .btn-no:hover { background: var(--accent-soft); }
+</style>
+</head>
+<body>
+<button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle dark and light mode" title="Toggle theme">
+    <span id="themeToggleIcon">🌙</span>
+</button>
+<div class="container">
+    <div class="top-bar"><h1><span class="brand-seal">📨</span> Confirm &amp; Send</h1></div>
+
+    <div class="card">
+        <div class="field">
+            <div class="field-label">From</div>
+            <div class="field-value">{{ sender_email }}</div>
+        </div>
+        <div class="field">
+            <div class="field-label">To</div>
+            <div class="field-value">{{ draft.receiver_email }}</div>
+        </div>
+        <div class="field">
+            <div class="field-label">Subject</div>
+            <div class="field-value">{{ draft.subject }}</div>
+        </div>
+        <div class="field">
+            <div class="field-label">Body</div>
+            <div class="field-value body-box">{{ draft.body }}</div>
+        </div>
+
+        {% if draft.attachments %}
+        <div class="field">
+            <div class="field-label">Attachments</div>
+            <div class="field-value">
+                <ul style="margin:0;padding-left:18px;">
+                    {% for attachment in draft.attachments %}
+                    <li>{{ attachment.name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Real form that posts to the confirm view. JS only controls when it submits. -->
+        <form method="post" id="sendForm">
+            {% csrf_token %}
+            <button type="button" class="send-btn" id="openConfirmBtn">Send Email 🚀</button>
+        </form>
+
+        <a class="back-link" href="{% url 'emailassistant:preview' %}">← Back to edit</a>
+    </div>
+</div>
+
+<!-- Confirmation overlay box -->
+<div class="overlay" id="confirmOverlay">
+    <div class="modal">
+        <h2>Are you sure you want to send this email?</h2>
+        <p>This action cannot be undone. The email will be sent to {{ draft.receiver_email }}.</p>
+        <div class="modal-actions">
+            <button type="button" class="btn-no" id="cancelBtn">NO</button>
+            <button type="button" class="btn-yes" id="confirmBtn">YES, SEND</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Plain vanilla JS only - no AJAX libraries, no frameworks.
+    var overlay = document.getElementById("confirmOverlay");
+    var openBtn = document.getElementById("openConfirmBtn");
+    var cancelBtn = document.getElementById("cancelBtn");
+    var confirmBtn = document.getElementById("confirmBtn");
+    var sendForm = document.getElementById("sendForm");
+
+    openBtn.addEventListener("click", function () {
+        overlay.classList.add("active");
+    });
+
+    cancelBtn.addEventListener("click", function () {
+        // "NO" -> just close the box, user stays on this page (can go back to edit)
+        overlay.classList.remove("active");
+    });
+
+    confirmBtn.addEventListener("click", function () {
+        // "YES" -> actually submit the form, which triggers the real SMTP send
+        sendForm.submit();
+    });
+</script>
+<script>
+(function(){
+    var btn = document.getElementById('themeToggle');
+    var icon = document.getElementById('themeToggleIcon');
+    function sync(){
+        var cur = document.documentElement.getAttribute('data-theme') || 'light';
+        icon.textContent = cur === 'dark' ? '☀️' : '🌙';
+    }
+    sync();
+    btn.addEventListener('click', function(){
+        var cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', cur);
+        try { localStorage.setItem('ea-theme', cur); } catch(e) {}
+        sync();
+    });
+})();
+</script>
+</body>
+</html>
+
+<!-- 
+http://127.0.0.1:8000/email-assistant/signup/   → naya account banao
+                    ↓ (auto-login ho jayega signup ke baad)
+http://127.0.0.1:8000/email-assistant/gmail-setup/
+                    ↓
+http://127.0.0.1:8000/email-assistant/ -->
