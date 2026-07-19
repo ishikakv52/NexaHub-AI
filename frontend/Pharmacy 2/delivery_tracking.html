@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Delivery Tracking</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#080d1a;
+    color:#e5e7eb;
+    transition:.4s;
+}
+
+/* ANIMATED BACKGROUND */
+
+.background{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:-1;
+}
+
+.grid{
+    position:absolute;
+    inset:0;
+    opacity:.06;
+    background-image:
+    linear-gradient(#fff 1px,transparent 1px),
+    linear-gradient(90deg,#fff 1px,transparent 1px);
+    background-size:45px 45px;
+}
+
+.orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(100px);
+    opacity:.25;
+    animation:float 12s infinite alternate ease-in-out;
+}
+
+.orb1{
+    width:350px;
+    height:350px;
+    background:#06b6d4;
+    top:-100px;
+    left:250px;
+}
+
+.orb2{
+    width:300px;
+    height:300px;
+    background:#7c3aed;
+    right:-80px;
+    top:250px;
+    animation-delay:2s;
+}
+
+.orb3{
+    width:250px;
+    height:250px;
+    background:#2563eb;
+    bottom:-100px;
+    left:40%;
+    animation-delay:4s;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    padding:22px 15px;
+    background:rgba(15,23,42,.88);
+    backdrop-filter:blur(18px);
+    border-right:1px solid #263244;
+    z-index:10;
+    animation:slideIn .7s ease;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 12px 25px;
+    border-bottom:1px solid #263244;
+    margin-bottom:18px;
+}
+
+.logo-icon{
+    width:44px;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:13px;
+    font-size:23px;
+    color:#fff;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    animation:glow 2s infinite alternate;
+}
+
+.logo h2{
+    font-size:17px;
+}
+
+.logo span{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.menu-title{
+    padding:12px;
+    color:#64748b;
+    font-size:11px;
+    text-transform:uppercase;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    margin:5px 0;
+    color:#94a3b8;
+    text-decoration:none;
+    border-radius:9px;
+    transition:.3s;
+}
+
+.menu a:hover,
+.menu a.active{
+    color:#fff;
+    background:linear-gradient(90deg,#06b6d422,#7c3aed22);
+    transform:translateX(5px);
+}
+
+.menu a.active{
+    border-left:3px solid #06b6d4;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:260px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:75px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    background:rgba(15,23,42,.7);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid #263244;
+}
+
+.search{
+    width:350px;
+}
+
+.search input{
+    width:100%;
+    padding:12px 18px;
+    background:#0b1120aa;
+    color:#fff;
+    border:1px solid #263244;
+    border-radius:10px;
+    outline:none;
+}
+
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:22px;
+}
+
+.theme-btn{
+    width:42px;
+    height:42px;
+    border:1px solid #263244;
+    border-radius:50%;
+    background:#0b1120;
+    color:#facc15;
+    font-size:19px;
+    cursor:pointer;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.profile small{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    font-weight:bold;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+}
+
+/* CONTENT */
+
+.content{
+    padding:30px;
+}
+
+.page-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:25px;
+}
+
+.page-header h1{
+    font-size:28px;
+}
+
+.page-header p{
+    color:#94a3b8;
+    margin-top:5px;
+}
+
+.refresh-btn{
+    padding:12px 20px;
+    color:#fff;
+    border:0;
+    border-radius:9px;
+    cursor:pointer;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    transition:.3s;
+}
+
+.refresh-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 0 25px #06b6d455;
+}
+
+/* SEARCH TRACKING */
+
+.tracking-search{
+    display:flex;
+    gap:12px;
+    margin-bottom:22px;
+}
+
+.tracking-search input{
+    flex:1;
+    padding:15px 18px;
+    color:#fff;
+    background:#0b1120;
+    border:1px solid #334155;
+    border-radius:10px;
+    outline:none;
+}
+
+.track-btn{
+    padding:0 25px;
+    color:#fff;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    border:0;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:22px;
+}
+
+.stat-card{
+    padding:20px;
+    background:rgba(15,23,42,.78);
+    backdrop-filter:blur(18px);
+    border:1px solid #263244;
+    border-radius:16px;
+    animation:fadeUp .7s ease;
+}
+
+.stat-card small{
+    color:#94a3b8;
+}
+
+.stat-card h2{
+    margin-top:10px;
+    font-size:28px;
+}
+
+.stat-icon{
+    float:right;
+    font-size:25px;
+}
+
+/* MAIN GRID */
+
+.tracking-grid{
+    display:grid;
+    grid-template-columns:1.3fr .7fr;
+    gap:22px;
+}
+
+/* MAP */
+
+.map-card{
+    min-height:470px;
+    padding:22px;
+    background:rgba(15,23,42,.78);
+    backdrop-filter:blur(18px);
+    border:1px solid #263244;
+    border-radius:18px;
+}
+
+.card-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+}
+
+.card-header h2{
+    font-size:19px;
+}
+
+.live-badge{
+    padding:6px 10px;
+    color:#22c55e;
+    background:#22c55e22;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.map{
+    position:relative;
+    height:380px;
+    overflow:hidden;
+    border-radius:15px;
+    background:
+    linear-gradient(35deg,transparent 48%,#334155 49%,#334155 51%,transparent 52%),
+    linear-gradient(120deg,transparent 48%,#334155 49%,#334155 51%,transparent 52%),
+    #0b1120;
+    background-size:100px 100px;
+}
+
+.map::before{
+    content:"";
+    position:absolute;
+    width:70%;
+    height:4px;
+    top:50%;
+    left:15%;
+    transform:rotate(-12deg);
+    background:linear-gradient(90deg,#22c55e,#06b6d4,#7c3aed);
+    box-shadow:0 0 15px #06b6d4;
+}
+
+.location{
+    position:absolute;
+    width:42px;
+    height:42px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    font-size:20px;
+    background:#0f172a;
+    border:3px solid #06b6d4;
+    box-shadow:0 0 20px #06b6d4;
+    z-index:2;
+}
+
+.location.start{
+    left:12%;
+    top:58%;
+    border-color:#22c55e;
+}
+
+.location.current{
+    left:48%;
+    top:48%;
+    animation:pulse 1.5s infinite;
+}
+
+.location.destination{
+    right:12%;
+    top:32%;
+    border-color:#7c3aed;
+}
+
+.map-label{
+    position:absolute;
+    padding:6px 10px;
+    color:#fff;
+    background:#020617cc;
+    border-radius:6px;
+    font-size:11px;
+}
+
+.label-start{
+    left:7%;
+    top:70%;
+}
+
+.label-current{
+    left:40%;
+    top:58%;
+}
+
+.label-destination{
+    right:5%;
+    top:22%;
+}
+
+/* DELIVERY LIST */
+
+.delivery-list{
+    padding:22px;
+    background:rgba(15,23,42,.78);
+    backdrop-filter:blur(18px);
+    border:1px solid #263244;
+    border-radius:18px;
+}
+
+.delivery-item{
+    display:flex;
+    gap:14px;
+    padding:16px 0;
+    border-bottom:1px solid #263244;
+}
+
+.delivery-item:last-child{
+    border-bottom:0;
+}
+
+.delivery-icon{
+    width:42px;
+    height:42px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:#06b6d422;
+}
+
+.delivery-info{
+    flex:1;
+}
+
+.delivery-info h3{
+    font-size:14px;
+}
+
+.delivery-info p{
+    margin-top:5px;
+    color:#94a3b8;
+    font-size:12px;
+}
+
+.delivery-status{
+    color:#22c55e;
+    font-size:11px;
+    font-weight:bold;
+}
+
+/* TIMELINE */
+
+.timeline-card{
+    margin-top:22px;
+    padding:22px;
+    background:rgba(15,23,42,.78);
+    border:1px solid #263244;
+    border-radius:18px;
+}
+
+.timeline{
+    display:flex;
+    justify-content:space-between;
+    position:relative;
+    margin-top:25px;
+}
+
+.timeline::before{
+    content:"";
+    position:absolute;
+    top:19px;
+    left:8%;
+    right:8%;
+    height:3px;
+    background:#334155;
+}
+
+.step{
+    position:relative;
+    z-index:1;
+    text-align:center;
+    width:20%;
+}
+
+.step-icon{
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:auto;
+    border-radius:50%;
+    background:#1e293b;
+    border:2px solid #334155;
+}
+
+.step.completed .step-icon{
+    color:#fff;
+    background:#06b6d4;
+    border-color:#06b6d4;
+}
+
+.step.active .step-icon{
+    color:#fff;
+    background:#7c3aed;
+    border-color:#7c3aed;
+    animation:pulse 1.5s infinite;
+}
+
+.step p{
+    margin-top:10px;
+    font-size:11px;
+    color:#94a3b8;
+}
+
+/* LIGHT MODE */
+
+body.light-mode{
+    background:#f1f5f9;
+    color:#0f172a;
+}
+
+body.light-mode .sidebar,
+body.light-mode .topbar,
+body.light-mode .stat-card,
+body.light-mode .map-card,
+body.light-mode .delivery-list,
+body.light-mode .timeline-card{
+    background:rgba(255,255,255,.92);
+    border-color:#e2e8f0;
+}
+
+body.light-mode .search input,
+body.light-mode .tracking-search input{
+    background:#f8fafc;
+    color:#0f172a;
+    border-color:#cbd5e1;
+}
+
+body.light-mode .theme-btn{
+    background:#f8fafc;
+    color:#7c3aed;
+}
+
+body.light-mode .delivery-item{
+    border-color:#e2e8f0;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+
+    .tracking-grid{
+        grid-template-columns:1fr;
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:800px){
+
+    .sidebar{
+        width:70px;
+        padding:15px 8px;
+    }
+
+    .logo h2,
+    .logo span,
+    .menu-title,
+    .menu a span{
+        display:none;
+    }
+
+    .logo{
+        justify-content:center;
+    }
+
+    .menu a{
+        justify-content:center;
+    }
+
+    .main{
+        margin-left:70px;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .search{
+        width:180px;
+    }
+
+    .content{
+        padding:18px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .tracking-search{
+        flex-direction:column;
+    }
+
+    .track-btn{
+        padding:13px;
+    }
+
+    .timeline{
+        overflow-x:auto;
+        gap:25px;
+        justify-content:flex-start;
+    }
+
+    .step{
+        min-width:100px;
+    }
+
+}
+
+/* ANIMATIONS */
+
+@keyframes float{
+
+    from{
+        transform:translate(0,0) scale(1);
+    }
+
+    to{
+        transform:translate(80px,50px) scale(1.2);
+    }
+
+}
+
+@keyframes slideIn{
+
+    from{
+        transform:translateX(-100%);
+        opacity:0;
+    }
+
+    to{
+        transform:translateX(0);
+        opacity:1;
+    }
+
+}
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+@keyframes pulse{
+
+    0%{
+        box-shadow:0 0 0 0 #7c3aed88;
+    }
+
+    70%{
+        box-shadow:0 0 0 15px transparent;
+    }
+
+    100%{
+        box-shadow:0 0 0 0 transparent;
+    }
+
+}
+
+@keyframes glow{
+
+    from{
+        box-shadow:0 0 10px #06b6d455;
+    }
+
+    to{
+        box-shadow:0 0 30px #06b6d488;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="background">
+
+    <div class="grid"></div>
+
+    <div class="orb orb1"></div>
+
+    <div class="orb orb2"></div>
+
+    <div class="orb orb3"></div>
+
+</div>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            ✦
+        </div>
+
+        <div>
+
+            <h2>NEXA HUB AI</h2>
+
+            <span>
+                AI Management System
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="menu-title">
+        Main Menu
+    </div>
+
+    <nav class="menu">
+
+        <a href="dashboard.html">
+            📊 <span>Dashboard</span>
+        </a>
+
+        <a href="inventory_dashboard.html">
+            📦 <span>Inventory</span>
+        </a>
+
+        <a href="medicine_catalog_import.html">
+            💊 <span>Medicines</span>
+        </a>
+
+        <a href="inventory_low_stock.html">
+            ⚠️ <span>Low Stock</span>
+        </a>
+
+        <a href="inventory_expiry.html">
+            ⏳ <span>Expiry</span>
+        </a>
+
+        <a href="inventory_adjustment_form.html">
+            ⚙️ <span>Adjustment</span>
+        </a>
+
+        <a href="customer_list.html">
+            👥 <span>Customers</span>
+        </a>
+
+        <a href="employee_list.html">
+            👨‍💼 <span>Employees</span>
+        </a>
+
+        <a href="delivery_dashboard.html">
+            🚚 <span>Delivery</span>
+        </a>
+
+        <a href="delivery_tracking.html" class="active">
+            📍 <span>Tracking</span>
+        </a>
+
+    </nav>
+
+    <div class="menu-title">
+        Management
+    </div>
+
+    <nav class="menu">
+
+        <a href="finance_income_form.html">
+            💰 <span>Income</span>
+        </a>
+
+        <a href="finance_expense_list.html">
+            💸 <span>Expenses</span>
+        </a>
+
+        <a href="finance_asset_list.html">
+            🏢 <span>Assets</span>
+        </a>
+
+        <a href="attendance_daily.html">
+            🕒 <span>Attendance</span>
+        </a>
+
+        <a href="branch_list.html">
+            🏬 <span>Branches</span>
+        </a>
+
+        <a href="batch_list.html">
+            🧾 <span>Batches</span>
+        </a>
+
+    </nav>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+<header class="topbar">
+
+    <div class="search">
+
+        <input
+            type="text"
+            placeholder="Search delivery..."
+        >
+
+    </div>
+
+    <div class="top-actions">
+
+        <button
+            class="theme-btn"
+            id="themeBtn"
+            onclick="toggleTheme()"
+        >
+            🌙
+        </button>
+
+        <div class="profile">
+
+            <div>
+
+                <b>
+                    Admin User
+                </b>
+
+                <small>
+                    Administrator
+                </small>
+
+            </div>
+
+            <div class="avatar">
+                A
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+<section class="content">
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>
+                📍 Delivery Tracking
+            </h1>
+
+            <p>
+                Track active medicine deliveries in real time.
+            </p>
+
+        </div>
+
+        <button
+            class="refresh-btn"
+            onclick="refreshTracking()"
+        >
+            🔄 Refresh Tracking
+        </button>
+
+    </div>
+
+    <!-- TRACKING SEARCH -->
+
+    <div class="tracking-search">
+
+        <input
+            type="text"
+            id="trackingInput"
+            placeholder="Enter tracking ID e.g. DEL-2026-001"
+        >
+
+        <button
+            class="track-btn"
+            onclick="trackDelivery()"
+        >
+            🔍 Track Delivery
+        </button>
+
+    </div>
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+        <div class="stat-card">
+
+            <span class="stat-icon">
+                🚚
+            </span>
+
+            <small>
+                Active Deliveries
+            </small>
+
+            <h2>
+                24
+            </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+            <span class="stat-icon">
+                📍
+            </span>
+
+            <small>
+                In Transit
+            </small>
+
+            <h2>
+                16
+            </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+            <span class="stat-icon">
+                ✅
+            </span>
+
+            <small>
+                Delivered Today
+            </small>
+
+            <h2>
+                38
+            </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+            <span class="stat-icon">
+                ⏱️
+            </span>
+
+            <small>
+                Avg. Delivery Time
+            </small>
+
+            <h2>
+                32m
+            </h2>
+
+        </div>
+
+    </div>
+
+    <!-- TRACKING AREA -->
+
+    <div class="tracking-grid">
+
+        <div class="map-card">
+
+            <div class="card-header">
+
+                <h2>
+                    🗺️ Live Delivery Route
+                </h2>
+
+                <span class="live-badge">
+                    ● LIVE
+                </span>
+
+            </div>
+
+            <div class="map">
+
+                <div class="location start">
+                    🏪
+                </div>
+
+                <div class="map-label label-start">
+                    Main Pharmacy
+                </div>
+
+                <div class="location current">
+                    🚚
+                </div>
+
+                <div class="map-label label-current">
+                    Delivery Partner
+                </div>
+
+                <div class="location destination">
+                    📍
+                </div>
+
+                <div class="map-label label-destination">
+                    Customer Location
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="delivery-list">
+
+            <div class="card-header">
+
+                <h2>
+                    🚚 Active Deliveries
+                </h2>
+
+            </div>
+
+            <div class="delivery-item">
+
+                <div class="delivery-icon">
+                    🚚
+                </div>
+
+                <div class="delivery-info">
+
+                    <h3>
+                        DEL-2026-001
+                    </h3>
+
+                    <p>
+                        Raj Nagar → Sector 62
+                    </p>
+
+                </div>
+
+                <span class="delivery-status">
+                    In Transit
+                </span>
+
+            </div>
+
+            <div class="delivery-item">
+
+                <div class="delivery-icon">
+                    🛵
+                </div>
+
+                <div class="delivery-info">
+
+                    <h3>
+                        DEL-2026-002
+                    </h3>
+
+                    <p>
+                        Main Branch → Indirapuram
+                    </p>
+
+                </div>
+
+                <span class="delivery-status">
+                    On Route
+                </span>
+
+            </div>
+
+            <div class="delivery-item">
+
+                <div class="delivery-icon">
+                    🚚
+                </div>
+
+                <div class="delivery-info">
+
+                    <h3>
+                        DEL-2026-003
+                    </h3>
+
+                    <p>
+                        North Branch → Vaishali
+                    </p>
+
+                </div>
+
+                <span class="delivery-status">
+                    In Transit
+                </span>
+
+            </div>
+
+            <div class="delivery-item">
+
+                <div class="delivery-icon">
+                    🛵
+                </div>
+
+                <div class="delivery-info">
+
+                    <h3>
+                        DEL-2026-004
+                    </h3>
+
+                    <p>
+                        South Branch → Noida
+                    </p>
+
+                </div>
+
+                <span class="delivery-status">
+                    On Route
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- TIMELINE -->
+
+    <div class="timeline-card">
+
+        <div class="card-header">
+
+            <h2>
+                📦 Delivery Status Timeline
+            </h2>
+
+            <span>
+                DEL-2026-001
+            </span>
+
+        </div>
+
+        <div class="timeline">
+
+            <div class="step completed">
+
+                <div class="step-icon">
+                    ✓
+                </div>
+
+                <p>
+                    Order Placed
+                </p>
+
+            </div>
+
+            <div class="step completed">
+
+                <div class="step-icon">
+                    ✓
+                </div>
+
+                <p>
+                    Packed
+                </p>
+
+            </div>
+
+            <div class="step completed">
+
+                <div class="step-icon">
+                    ✓
+                </div>
+
+                <p>
+                    Picked Up
+                </p>
+
+            </div>
+
+            <div class="step active">
+
+                <div class="step-icon">
+                    🚚
+                </div>
+
+                <p>
+                    In Transit
+                </p>
+
+            </div>
+
+            <div class="step">
+
+                <div class="step-icon">
+                    📍
+                </div>
+
+                <p>
+                    Delivered
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+<script>
+
+/* THEME */
+
+function toggleTheme(){
+
+    document.body.classList.toggle(
+        "light-mode"
+    );
+
+    const button =
+        document.getElementById(
+            "themeBtn"
+        );
+
+    if(
+        document.body.classList.contains(
+            "light-mode"
+        )
+    ){
+
+        button.innerHTML = "☀️";
+
+        localStorage.setItem(
+            "theme",
+            "light"
+        );
+
+    }else{
+
+        button.innerHTML = "🌙";
+
+        localStorage.setItem(
+            "theme",
+            "dark"
+        );
+
+    }
+
+}
+
+/* LOAD THEME */
+
+window.addEventListener(
+    "load",
+    function(){
+
+        if(
+            localStorage.getItem(
+                "theme"
+            )
+            ===
+            "light"
+        ){
+
+            document.body.classList.add(
+                "light-mode"
+            );
+
+            document.getElementById(
+                "themeBtn"
+            ).innerHTML = "☀️";
+
+        }
+
+    }
+);
+
+/* TRACK DELIVERY */
+
+function trackDelivery(){
+
+    const id =
+        document
+        .getElementById(
+            "trackingInput"
+        )
+        .value
+        .trim();
+
+    if(
+        id === ""
+    ){
+
+        alert(
+            "Please enter a tracking ID."
+        );
+
+        return;
+
+    }
+
+    alert(
+        "Tracking delivery: "
+        +
+        id
+    );
+
+}
+
+/* REFRESH */
+
+function refreshTracking(){
+
+    const button =
+        document.querySelector(
+            ".refresh-btn"
+        );
+
+    button.innerHTML =
+        "⏳ Updating...";
+
+    setTimeout(
+        function(){
+
+            button.innerHTML =
+                "🔄 Refresh Tracking";
+
+            alert(
+                "Delivery tracking updated successfully!"
+            );
+
+        },
+        1200
+    );
+
+}
+
+</script>
+
+</body>
+</html>

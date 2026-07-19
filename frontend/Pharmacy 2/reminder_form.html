@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Reminder Form</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#080d1a;
+    color:#e5e7eb;
+}
+
+.background{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:-1;
+}
+
+.grid{
+    position:absolute;
+    inset:0;
+    opacity:.06;
+    background-image:
+    linear-gradient(#fff 1px,transparent 1px),
+    linear-gradient(90deg,#fff 1px,transparent 1px);
+    background-size:45px 45px;
+}
+
+.orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(100px);
+    opacity:.25;
+    animation:float 12s infinite alternate ease-in-out;
+}
+
+.orb1{
+    width:350px;
+    height:350px;
+    background:#06b6d4;
+    top:-100px;
+    left:250px;
+}
+
+.orb2{
+    width:300px;
+    height:300px;
+    background:#7c3aed;
+    right:-80px;
+    top:250px;
+}
+
+.orb3{
+    width:250px;
+    height:250px;
+    background:#2563eb;
+    bottom:-100px;
+    left:40%;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    padding:22px 15px;
+    background:rgba(15,23,42,.88);
+    backdrop-filter:blur(18px);
+    border-right:1px solid #263244;
+    z-index:10;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 12px 25px;
+    border-bottom:1px solid #263244;
+    margin-bottom:18px;
+}
+
+.logo-icon{
+    width:44px;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:13px;
+    font-size:23px;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+}
+
+.logo h2{
+    font-size:17px;
+}
+
+.logo span{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.menu-title{
+    padding:12px;
+    color:#64748b;
+    font-size:11px;
+    text-transform:uppercase;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    margin:5px 0;
+    color:#94a3b8;
+    text-decoration:none;
+    border-radius:9px;
+    transition:.3s;
+}
+
+.menu a:hover,
+.menu a.active{
+    color:#fff;
+    background:linear-gradient(90deg,#06b6d422,#7c3aed22);
+    transform:translateX(5px);
+}
+
+.menu a.active{
+    border-left:3px solid #06b6d4;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:260px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:75px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    background:rgba(15,23,42,.7);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid #263244;
+}
+
+.search{
+    width:350px;
+}
+
+.search input{
+    width:100%;
+    padding:12px 18px;
+    background:#0b1120aa;
+    color:#fff;
+    border:1px solid #263244;
+    border-radius:10px;
+    outline:none;
+}
+
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:22px;
+}
+
+.theme-btn{
+    width:42px;
+    height:42px;
+    border:1px solid #263244;
+    border-radius:50%;
+    background:#0b1120;
+    color:#facc15;
+    font-size:19px;
+    cursor:pointer;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.profile small{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    font-weight:bold;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+}
+
+/* CONTENT */
+
+.content{
+    padding:30px;
+}
+
+.page-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:25px;
+}
+
+.page-header h1{
+    font-size:28px;
+}
+
+.page-header p{
+    color:#94a3b8;
+    margin-top:5px;
+}
+
+.back-btn{
+    padding:11px 18px;
+    color:#cbd5e1;
+    background:transparent;
+    border:1px solid #334155;
+    border-radius:9px;
+    cursor:pointer;
+}
+
+/* FORM */
+
+.form-container{
+    max-width:1100px;
+    margin:auto;
+}
+
+.form-card{
+    padding:28px;
+    background:rgba(15,23,42,.78);
+    backdrop-filter:blur(18px);
+    border:1px solid #263244;
+    border-radius:20px;
+}
+
+.form-heading{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding-bottom:22px;
+    margin-bottom:25px;
+    border-bottom:1px solid #263244;
+}
+
+.form-icon{
+    width:58px;
+    height:58px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:16px;
+    font-size:30px;
+    background:linear-gradient(135deg,#06b6d422,#7c3aed22);
+}
+
+.form-heading h2{
+    font-size:21px;
+}
+
+.form-heading p{
+    color:#94a3b8;
+    font-size:13px;
+    margin-top:5px;
+}
+
+.section-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:25px 0 17px;
+    color:#06b6d4;
+    font-size:16px;
+    font-weight:bold;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.form-group.full{
+    grid-column:1/-1;
+}
+
+label{
+    color:#cbd5e1;
+    font-size:13px;
+    font-weight:600;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:13px 15px;
+    color:#fff;
+    background:#0b1120;
+    border:1px solid #334155;
+    border-radius:9px;
+    outline:none;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#06b6d4;
+    box-shadow:0 0 0 3px #06b6d422;
+}
+
+textarea{
+    min-height:120px;
+    resize:vertical;
+}
+
+input::placeholder,
+textarea::placeholder{
+    color:#64748b;
+}
+
+/* REMINDER TYPE */
+
+.reminder-types{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.type-card{
+    padding:16px;
+    text-align:center;
+    cursor:pointer;
+    color:#cbd5e1;
+    background:#0b1120;
+    border:1px solid #334155;
+    border-radius:10px;
+    transition:.3s;
+}
+
+.type-card:hover,
+.type-card.active{
+    color:#fff;
+    border-color:#06b6d4;
+    background:#06b6d415;
+    transform:translateY(-3px);
+}
+
+.type-card span{
+    display:block;
+    font-size:25px;
+    margin-bottom:8px;
+}
+
+.type-card small{
+    color:#94a3b8;
+}
+
+/* ACTIONS */
+
+.form-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:12px;
+    margin-top:30px;
+    padding-top:22px;
+    border-top:1px solid #263244;
+}
+
+.cancel-btn,
+.save-btn{
+    padding:13px 25px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.cancel-btn{
+    color:#cbd5e1;
+    background:transparent;
+    border:1px solid #334155;
+}
+
+.save-btn{
+    color:#fff;
+    border:0;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+}
+
+/* LIGHT MODE */
+
+body.light-mode{
+    background:#f1f5f9;
+    color:#0f172a;
+}
+
+body.light-mode .sidebar,
+body.light-mode .topbar,
+body.light-mode .form-card{
+    background:rgba(255,255,255,.92);
+    border-color:#e2e8f0;
+}
+
+body.light-mode input,
+body.light-mode select,
+body.light-mode textarea,
+body.light-mode .type-card{
+    background:#f8fafc;
+    color:#0f172a;
+    border-color:#cbd5e1;
+}
+
+body.light-mode label{
+    color:#334155;
+}
+
+body.light-mode .form-heading,
+body.light-mode .form-actions{
+    border-color:#e2e8f0;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:800px){
+
+    .sidebar{
+        width:70px;
+        padding:15px 8px;
+    }
+
+    .logo h2,
+    .logo span,
+    .menu-title,
+    .menu a span{
+        display:none;
+    }
+
+    .logo{
+        justify-content:center;
+    }
+
+    .menu a{
+        justify-content:center;
+    }
+
+    .main{
+        margin-left:70px;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .search{
+        width:180px;
+    }
+
+    .content{
+        padding:18px;
+    }
+
+    .page-header{
+        display:block;
+    }
+
+    .back-btn{
+        margin-top:15px;
+    }
+
+    .form-card{
+        padding:20px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .reminder-types{
+        grid-template-columns:1fr;
+    }
+
+    .form-actions{
+        flex-direction:column;
+    }
+
+    .cancel-btn,
+    .save-btn{
+        width:100%;
+    }
+
+}
+
+@keyframes float{
+
+    from{
+        transform:translate(0,0) scale(1);
+    }
+
+    to{
+        transform:translate(80px,50px) scale(1.2);
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="background">
+
+    <div class="grid"></div>
+
+    <div class="orb orb1"></div>
+
+    <div class="orb orb2"></div>
+
+    <div class="orb orb3"></div>
+
+</div>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            ✦
+        </div>
+
+        <div>
+
+            <h2>NEXA HUB AI</h2>
+
+            <span>
+                AI Management System
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="menu-title">
+        Main Menu
+    </div>
+
+    <nav class="menu">
+
+        <a href="dashboard.html">
+            📊 <span>Dashboard</span>
+        </a>
+
+        <a href="inventory_dashboard.html">
+            📦 <span>Inventory</span>
+        </a>
+
+        <a href="medicine_list.html">
+            💊 <span>Medicines</span>
+        </a>
+
+        <a href="prescription_list.html">
+            📄 <span>Prescriptions</span>
+        </a>
+
+        <a href="customer_list.html">
+            👥 <span>Customers</span>
+        </a>
+
+        <a href="employee_list.html">
+            👨‍💼 <span>Employees</span>
+        </a>
+
+        <a href="delivery_dashboard.html">
+            🚚 <span>Delivery</span>
+        </a>
+
+        <a href="reminder_list.html" class="active">
+            🔔 <span>Reminders</span>
+        </a>
+
+    </nav>
+
+    <div class="menu-title">
+        Management
+    </div>
+
+    <nav class="menu">
+
+        <a href="purchase_order_list.html">
+            🛒 <span>Purchase Orders</span>
+        </a>
+
+        <a href="sale_list.html">
+            🧾 <span>Sales</span>
+        </a>
+
+        <a href="finance_income_form.html">
+            💰 <span>Income</span>
+        </a>
+
+        <a href="finance_expense_list.html">
+            💸 <span>Expenses</span>
+        </a>
+
+        <a href="settings_business.html">
+            ⚙️ <span>Settings</span>
+        </a>
+
+    </nav>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+<header class="topbar">
+
+    <div class="search">
+
+        <input
+            type="text"
+            placeholder="Search reminders..."
+        >
+
+    </div>
+
+    <div class="top-actions">
+
+        <button
+            class="theme-btn"
+            id="themeBtn"
+            onclick="toggleTheme()"
+        >
+            🌙
+        </button>
+
+        <div class="profile">
+
+            <div>
+
+                <b>
+                    Admin User
+                </b>
+
+                <small>
+                    Administrator
+                </small>
+
+            </div>
+
+            <div class="avatar">
+                A
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+<section class="content">
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>
+                🔔 Create Reminder
+            </h1>
+
+            <p>
+                Create a new reminder for customers, medicines, or business activities.
+            </p>
+
+        </div>
+
+        <button
+            class="back-btn"
+            onclick="goBack()"
+        >
+            ← Back to Reminders
+        </button>
+
+    </div>
+
+    <div class="form-container">
+
+        <div class="form-card">
+
+            <div class="form-heading">
+
+                <div class="form-icon">
+                    🔔
+                </div>
+
+                <div>
+
+                    <h2>
+                        Reminder Information
+                    </h2>
+
+                    <p>
+                        Set reminder details and schedule notifications.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <form
+                id="reminderForm"
+                onsubmit="saveReminder(event)"
+            >
+
+                <div class="section-title">
+                    📌 Reminder Type
+                </div>
+
+                <div class="reminder-types">
+
+                    <div
+                        class="type-card active"
+                        onclick="selectType(this,'Medicine Reminder')"
+                    >
+
+                        <span>💊</span>
+
+                        <b>
+                            Medicine
+                        </b>
+
+                        <small>
+                            Medicine schedule
+                        </small>
+
+                    </div>
+
+                    <div
+                        class="type-card"
+                        onclick="selectType(this,'Customer Follow-up')"
+                    >
+
+                        <span>👤</span>
+
+                        <b>
+                            Customer
+                        </b>
+
+                        <small>
+                            Customer follow-up
+                        </small>
+
+                    </div>
+
+                    <div
+                        class="type-card"
+                        onclick="selectType(this,'Business Task')"
+                    >
+
+                        <span>📋</span>
+
+                        <b>
+                            Business Task
+                        </b>
+
+                        <small>
+                            Important task
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <input
+                    type="hidden"
+                    id="reminderType"
+                    value="Medicine Reminder"
+                >
+
+                <div class="section-title">
+                    📝 Reminder Details
+                </div>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>
+                            Reminder Title *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="title"
+                            placeholder="Enter reminder title"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Priority
+                        </label>
+
+                        <select id="priority">
+
+                            <option>
+                                Normal
+                            </option>
+
+                            <option>
+                                High
+                            </option>
+
+                            <option>
+                                Urgent
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Reminder Date *
+                        </label>
+
+                        <input
+                            type="date"
+                            id="date"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Reminder Time *
+                        </label>
+
+                        <input
+                            type="time"
+                            id="time"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Repeat
+                        </label>
+
+                        <select id="repeat">
+
+                            <option>
+                                Does Not Repeat
+                            </option>
+
+                            <option>
+                                Daily
+                            </option>
+
+                            <option>
+                                Weekly
+                            </option>
+
+                            <option>
+                                Monthly
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Notification Method
+                        </label>
+
+                        <select id="notification">
+
+                            <option>
+                                In-App Notification
+                            </option>
+
+                            <option>
+                                Email
+                            </option>
+
+                            <option>
+                                SMS
+                            </option>
+
+                            <option>
+                                All Notifications
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group full">
+
+                        <label>
+                            Description / Notes
+                        </label>
+
+                        <textarea
+                            id="description"
+                            placeholder="Enter reminder details..."
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        class="cancel-btn"
+                        onclick="resetForm()"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="save-btn"
+                    >
+                        🔔 Save Reminder
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+<script>
+
+/* THEME */
+
+function toggleTheme(){
+
+    document.body.classList.toggle(
+        "light-mode"
+    );
+
+    const button =
+    document.getElementById(
+        "themeBtn"
+    );
+
+    if(
+        document.body.classList.contains(
+            "light-mode"
+        )
+    ){
+
+        button.innerHTML = "☀️";
+
+        localStorage.setItem(
+            "theme",
+            "light"
+        );
+
+    }else{
+
+        button.innerHTML = "🌙";
+
+        localStorage.setItem(
+            "theme",
+            "dark"
+        );
+
+    }
+
+}
+
+/* LOAD THEME */
+
+window.addEventListener(
+    "load",
+    function(){
+
+        if(
+            localStorage.getItem(
+                "theme"
+            )
+            ===
+            "light"
+        ){
+
+            document.body.classList.add(
+                "light-mode"
+            );
+
+            document.getElementById(
+                "themeBtn"
+            ).innerHTML = "☀️";
+
+        }
+
+    }
+);
+
+/* SELECT TYPE */
+
+function selectType(
+    element,
+    type
+){
+
+    document
+    .querySelectorAll(
+        ".type-card"
+    )
+    .forEach(
+        card =>
+        card.classList.remove(
+            "active"
+        )
+    );
+
+    element.classList.add(
+        "active"
+    );
+
+    document.getElementById(
+        "reminderType"
+    ).value = type;
+
+}
+
+/* SAVE */
+
+function saveReminder(event){
+
+    event.preventDefault();
+
+    const title =
+    document.getElementById(
+        "title"
+    ).value;
+
+    alert(
+        title
+        +
+        " reminder saved successfully!"
+    );
+
+}
+
+/* RESET */
+
+function resetForm(){
+
+    document
+    .getElementById(
+        "reminderForm"
+    )
+    .reset();
+
+}
+
+/* BACK */
+
+function goBack(){
+
+    window.location.href =
+    "reminder_list.html";
+
+}
+
+</script>
+
+</body>
+
+</html>

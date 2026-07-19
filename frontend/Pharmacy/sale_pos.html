@@ -1,0 +1,507 @@
+{% load humanize %}<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Point of Sale · {{ store_name }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <style>
+        :root {
+            --teal-950: #06232a;
+            --teal-900: #0a2e33;
+            --teal-800: #0f3d3e;
+            --teal-700: #14544f;
+            --teal-600: #196b5f;
+            --teal-500: #1f8a72;
+            --gold-500: #c99a3f;
+            --gold-400: #dcb35f;
+            --gold-300: #ecd39a;
+            --parchment: #faf7f0;
+            --parchment-dim: #f1ece0;
+            --ink: #1c211f;
+            --ink-soft: #5c645f;
+            --line: #e7e0d0;
+            --danger: #b5443a;
+            --success: #2f7d5e;
+            --warn: #b8863a;
+            --radius: 14px;
+            --shadow-sm: 0 1px 2px rgba(20,20,10,.06);
+            --shadow-md: 0 10px 30px -12px rgba(10,40,35,.25);
+        }
+        * { box-sizing: border-box; }
+        html, body { height: 100%; }
+        body {
+            margin: 0;
+            font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--parchment);
+            color: var(--ink);
+            display: flex;
+            min-height: 100vh;
+        }
+        h1, h2, h3, .brand-font { font-family: 'Fraunces', Georgia, serif; }
+        a { text-decoration: none; }
+
+        /* ---------- SIDEBAR ---------- */
+        .erp-sidebar {
+            width: 264px;
+            min-width: 264px;
+            background: linear-gradient(190deg, var(--teal-950), var(--teal-800) 80%);
+            color: #e9f3f0;
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 1px solid rgba(255,255,255,.06);
+        }
+        .erp-sidebar::-webkit-scrollbar { width: 6px; }
+        .erp-sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 10px; }
+        .erp-brand {
+            padding: 26px 22px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255,255,255,.08);
+        }
+        .erp-brand-mark {
+            width: 40px; height: 40px; border-radius: 11px;
+            background: linear-gradient(135deg, var(--gold-400), var(--gold-500));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 19px; color: var(--teal-950); font-weight: 800;
+            box-shadow: var(--shadow-sm);
+        }
+        .erp-brand-text { line-height: 1.15; }
+        .erp-brand-text strong { font-family: 'Fraunces', serif; font-size: 18px; display: block; color: #fff; letter-spacing: .2px; }
+        .erp-brand-text span { font-size: 11px; letter-spacing: 1.6px; color: var(--gold-300); text-transform: uppercase; }
+        .erp-nav { padding: 14px 12px; flex: 1; }
+        .erp-nav-label { font-size: 10.5px; letter-spacing: 1.4px; text-transform: uppercase; color: #8fb0a9; padding: 14px 12px 6px; }
+        .erp-nav a {
+            display: flex; align-items: center; gap: 12px;
+            color: #d9e9e4; padding: 10px 12px; border-radius: 10px;
+            font-size: 14.2px; font-weight: 500; margin-bottom: 2px;
+            transition: background .15s ease, color .15s ease;
+        }
+        .erp-nav a i { width: 18px; text-align: center; color: #86b3a7; font-size: 14px; }
+        .erp-nav a:hover { background: rgba(255,255,255,.06); color: #fff; }
+        .erp-nav a.active { background: linear-gradient(90deg, rgba(201,154,63,.22), rgba(201,154,63,.05)); color: #fff; box-shadow: inset 3px 0 0 var(--gold-400); }
+        .erp-nav a.active i { color: var(--gold-400); }
+        .erp-sidebar-footer {
+            padding: 16px 18px 22px; border-top: 1px solid rgba(255,255,255,.08);
+            font-size: 12px; color: #9fc0b8; display: flex; align-items: center; gap: 10px;
+        }
+        .erp-avatar {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: var(--teal-700); display: flex; align-items: center; justify-content: center;
+            color: var(--gold-300); font-weight: 700; font-size: 13px; border: 1px solid rgba(255,255,255,.12);
+        }
+
+        /* ---------- MAIN ---------- */
+        .erp-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+        .erp-topbar {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 18px 30px; background: #fffdf8; border-bottom: 1px solid var(--line);
+            position: sticky; top: 0; z-index: 5;
+        }
+        .erp-topbar h1 { font-size: 21px; margin: 0; font-weight: 600; }
+        .erp-topbar .sub { color: var(--ink-soft); font-size: 12.5px; margin-top: 2px; }
+        .erp-search { position: relative; width: 320px; max-width: 40vw; }
+        .erp-search input {
+            width: 100%; padding: 9px 14px 9px 36px; border-radius: 999px; border: 1px solid var(--line);
+            background: var(--parchment-dim); font-size: 13.5px;
+        }
+        .erp-search i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--ink-soft); font-size: 12px; }
+        .erp-content { padding: 26px 30px 50px; flex: 1; }
+
+        /* ---------- COMPONENTS ---------- */
+        .stat-card {
+            background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+            padding: 18px 20px; box-shadow: var(--shadow-sm); position: relative; overflow: hidden;
+        }
+        .stat-card .icon {
+            width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            font-size: 17px; margin-bottom: 12px;
+        }
+        .stat-card .value { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 600; }
+        .stat-card .label { color: var(--ink-soft); font-size: 12.5px; margin-top: 2px; }
+        .bg-teal-soft { background: #e9f3ef; color: var(--teal-600); }
+        .bg-gold-soft { background: #faf1dd; color: var(--gold-500); }
+        .bg-danger-soft { background: #fbe9e7; color: var(--danger); }
+        .bg-success-soft { background: #e8f5ee; color: var(--success); }
+
+        .panel {
+            background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+            box-shadow: var(--shadow-sm); padding: 22px;
+        }
+        .panel-title { font-family: 'Fraunces', serif; font-size: 16.5px; font-weight: 600; margin-bottom: 4px; }
+        .panel-sub { color: var(--ink-soft); font-size: 12.5px; margin-bottom: 16px; }
+
+        .table-erp { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13.6px; }
+        .table-erp thead th {
+            text-align: left; font-size: 11px; letter-spacing: .8px; text-transform: uppercase;
+            color: var(--ink-soft); font-weight: 600; padding: 10px 14px; border-bottom: 1px solid var(--line);
+        }
+        .table-erp tbody td { padding: 12px 14px; border-bottom: 1px solid #f1ece0; vertical-align: middle; }
+        .table-erp tbody tr:hover { background: #fbf8f1; }
+
+        .badge-soft { padding: 4px 11px; border-radius: 999px; font-size: 11.3px; font-weight: 600; display: inline-block; }
+        .badge-teal { background: #e9f3ef; color: var(--teal-600); }
+        .badge-gold { background: #faf1dd; color: var(--gold-500); }
+        .badge-danger { background: #fbe9e7; color: var(--danger); }
+        .badge-success { background: #e8f5ee; color: var(--success); }
+        .badge-warn { background: #fbf1de; color: var(--warn); }
+
+        .btn-erp-primary {
+            background: linear-gradient(135deg, var(--teal-600), var(--teal-700));
+            color: #fff; border: none; padding: 10px 18px; border-radius: 10px; font-weight: 600; font-size: 13.5px;
+        }
+        .btn-erp-primary:hover { color: #fff; opacity: .92; }
+        .btn-erp-gold {
+            background: linear-gradient(135deg, var(--gold-400), var(--gold-500));
+            color: var(--teal-950); border: none; padding: 10px 18px; border-radius: 10px; font-weight: 700; font-size: 13.5px;
+        }
+        .btn-erp-outline {
+            background: transparent; border: 1px solid var(--line); color: var(--ink); padding: 9px 16px; border-radius: 10px; font-size: 13.5px; font-weight: 600;
+        }
+        .form-control, .form-select { border-radius: 9px; border: 1px solid var(--line); font-size: 13.8px; }
+        .form-control:focus, .form-select:focus { border-color: var(--teal-500); box-shadow: 0 0 0 3px rgba(31,138,114,.12); }
+        label.form-label { font-size: 12.8px; font-weight: 600; color: var(--ink-soft); }
+
+        .chart-box { position: relative; height: 260px; }
+        .alert-erp { border-radius: 10px; border: 1px solid var(--line); padding: 10px 14px; font-size: 13px; }
+
+        @media (max-width: 900px) {
+            .erp-sidebar { position: fixed; z-index: 40; transform: translateX(-100%); transition: transform .2s ease; }
+            .erp-sidebar.open { transform: translateX(0); }
+            .erp-search { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <aside class="erp-sidebar" id="erpSidebar">
+        <div class="erp-brand">
+            <div class="erp-brand-mark">Rx</div>
+            <div class="erp-brand-text">
+                <strong>{{ store_name }}</strong>
+                <span>Control Center</span>
+            </div>
+        </div>
+        <nav class="erp-nav">
+                <a href="{% url 'dashboard' %}" class=""><i class="fa-solid fa-house"></i><span>Dashboard</span></a>
+                <a href="{% url 'employee-list' %}" class=""><i class="fa-solid fa-users"></i><span>Employees</span></a>
+                <a href="{% url 'staff-list' %}" class=""><i class="fa-solid fa-user-doctor"></i><span>Pharmacy Staff</span></a>
+                <a href="{% url 'attendance-daily' %}" class=""><i class="fa-solid fa-clock"></i><span>Attendance</span></a>
+                <a href="{% url 'salary-list' %}" class=""><i class="fa-solid fa-sack-dollar"></i><span>Salary</span></a>
+                <a href="{% url 'medicine-list' %}" class=""><i class="fa-solid fa-pills"></i><span>Medicines</span></a>
+                <a href="{% url 'inventory-dashboard' %}" class=""><i class="fa-solid fa-boxes-stacked"></i><span>Inventory</span></a>
+                <a href="{% url 'supplier-list' %}" class=""><i class="fa-solid fa-building"></i><span>Suppliers</span></a>
+                <a href="{% url 'sale-list' %}" class="active"><i class="fa-solid fa-cart-shopping"></i><span>Sales & Billing</span></a>
+                <a href="{% url 'customer-list' %}" class=""><i class="fa-solid fa-user"></i><span>Customers</span></a>
+                <a href="{% url 'prescription-list' %}" class=""><i class="fa-solid fa-file-medical"></i><span>Prescriptions</span></a>
+                <a href="{% url 'delivery-dashboard' %}" class=""><i class="fa-solid fa-truck-fast"></i><span>Delivery</span></a>
+                <a href="{% url 'finance-expense-list' %}" class=""><i class="fa-solid fa-sack-dollar"></i><span>Finance</span></a>
+                <a href="{% url 'reports-insights' %}" class=""><i class="fa-solid fa-chart-line"></i><span>Reports</span></a>
+                <a href="{% url 'reminder-list' %}" class=""><i class="fa-solid fa-bell"></i><span>Reminders</span></a>
+                <a href="{% url 'settings-business' %}" class=""><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+            <div class="erp-nav-label">Quick Access</div>
+                <a href="{% url 'sale-new' %}"><i class="fa-solid fa-receipt"></i><span>POS</span></a>
+                <a href="{% url 'medicine-list' %}"><i class="fa-solid fa-dna"></i><span>Batches</span></a>
+                <a href="{% url 'branch-list' %}"><i class="fa-solid fa-map-location-dot"></i><span>Branches</span></a>
+        </nav>
+        <div class="erp-sidebar-footer">
+            <div class="erp-avatar">{{ request.user.username|default:"A"|first|upper }}</div>
+            <div>
+                <div style="color:#fff;font-weight:600;">{{ request.user.get_full_name|default:request.user.username }}</div>
+                <a href="{% url 'logout' %}" style="color:#9fc0b8;">Sign out</a>
+            </div>
+        </div>
+    </aside>
+    <div class="erp-main">
+        <header class="erp-topbar">
+            <div>
+                <button class="btn d-md-none" onclick="document.getElementById('erpSidebar').classList.toggle('open')"><i class="fa-solid fa-bars"></i></button>
+                <h1>Point of Sale</h1>
+                <div class="sub">Quick billing counter with live cart.</div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <div class="erp-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search {{ store_name }}...">
+                </div>
+                <button type="button" class="btn-erp-outline" data-bs-toggle="modal" data-bs-target="#helpModal" title="Help &amp; Guide" style="padding:9px 14px;">
+                    <i class="fa-solid fa-circle-question"></i>
+                </button>
+            </div>
+        </header>
+        <main class="erp-content">
+{% if messages %}
+{% for message in messages %}
+            <div class="alert-erp mb-3" style="background:#e8f5ee;border-color:#cfead9;">{{ message }}</div>
+{% endfor %}
+{% endif %}
+
+            <div class="row g-3">
+                <div class="col-lg-8">
+                    <div class="panel">
+                        <input type="text" id="posSearch" class="form-control mb-3" placeholder="Scan barcode or search medicine...">
+                        <div class="row g-2" id="posGrid" style="max-height:520px;overflow-y:auto;">
+                        {% for m in medicines %}
+                            <div class="col-6 col-md-4 pos-item" data-name="{{ m.name|lower }}" data-barcode="{{ m.barcode }}">
+                                <div class="border rounded-3 p-2 h-100" style="cursor:pointer;border-color:var(--line) !important;"
+                                     onclick='addToCart({{ m.pk }}, "{{ m.name|escapejs }}", {{ m.batches.first.pk|default:"null" }}, {{ m.selling_price }})'>
+                                    <div style="font-weight:600;font-size:13px;">{{ m.name }}</div>
+                                    <div class="text-muted" style="font-size:11px;">{{ m.pack_size }}</div>
+                                    <div class="badge-soft badge-teal mt-1">₹{{ m.selling_price }}</div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="panel">
+                        <div class="panel-title">Cart</div>
+
+                        <select id="posCustomer" class="form-select mb-2">
+                            <option value="">Walk-in Customer</option>
+                            {% for c in customers %}<option value="{{ c.pk }}">{{ c.name }} ({{ c.phone }})</option>{% endfor %}
+                        </select>
+
+                        <div class="mb-3">
+                            <div style="font-size:11px;color:var(--ink-soft);font-weight:600;margin-bottom:4px;">Or add a new customer</div>
+                            <div class="d-flex gap-2">
+                                <input type="text" id="posNewCustomerName" class="form-control form-control-sm" placeholder="Name">
+                                <input type="text" id="posNewCustomerPhone" class="form-control form-control-sm" placeholder="Mobile number">
+                            </div>
+                        </div>
+
+                        <div id="cartItems" style="max-height:280px;overflow-y:auto;"></div>
+                        <hr>
+                        <div class="d-flex justify-content-between"><span>Subtotal</span><span id="posSubtotal">₹0.00</span></div>
+                        <div class="row g-2 mb-2">
+                            <div class="col-6">
+                                <label class="form-label">Discount (%)</label>
+                                <input type="number" id="posDiscountPercent" class="form-control" value="0" min="0" max="100" step="0.01">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label">GST (%)</label>
+                                <input type="number" id="posGstPercent" class="form-control" value="0" min="0" max="100" step="0.01">
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between" style="font-size:13px;color:var(--ink-soft);"><span>Discount Amount</span><span id="posDiscountAmount">-₹0.00</span></div>
+                        <div class="d-flex justify-content-between" style="font-size:13px;color:var(--ink-soft);"><span>Taxable Amount</span><span id="posTaxableAmount">₹0.00</span></div>
+                        <div class="d-flex justify-content-between mb-2" style="font-size:13px;color:var(--ink-soft);"><span>GST Amount</span><span id="posGstAmount">+₹0.00</span></div>
+                        <select id="posPayment" class="form-select mb-3">
+                            <option value="CASH">Cash</option><option value="CARD">Card</option>
+                            <option value="UPI">UPI</option><option value="ONLINE">Online</option>
+                        </select>
+
+                        <div id="upiQrPanel" class="border rounded-3 p-3 mb-3 text-center" style="display:none;border-color:var(--line) !important;background:#fbf8f1;">
+                            <div style="font-size:12.5px;font-weight:600;color:var(--ink-soft);margin-bottom:8px;">
+                                <i class="fa-solid fa-qrcode me-1"></i> <span id="qrPanelLabel">Scan to Pay via UPI</span>
+                            </div>
+                            <input type="text" id="upiVpaInput" class="form-control form-control-sm mb-2 text-center"
+                                   value="{{ upi_vpa }}" placeholder="yourpharmacy@upi" style="max-width:220px;margin:0 auto;">
+                            <div id="qrcodeCanvas" class="d-flex justify-content-center mb-2"></div>
+                            <div id="upiQrAmount" class="text-muted mb-2" style="font-size:12px;">Amount: ₹0.00</div>
+                            <div class="text-muted" style="font-size:11px;">
+                                <i class="fa-solid fa-circle-info me-1"></i> Confirm the payment in your bank/UPI app, then click below.
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between fw-bold mb-3"><span>Grand Total</span><span id="posGrandTotal">₹0.00</span></div>
+
+                        <button id="btnCompleteSale" class="btn-erp-gold w-100" onclick="checkout()">
+                            <i class="fa-solid fa-check me-1"></i> Complete Sale
+                        </button>
+                        <button id="btnConfirmUpiPaid" class="btn-erp-gold w-100" style="display:none;background:linear-gradient(135deg,var(--success),#1f8a72);" onclick="checkout()">
+                            <i class="fa-solid fa-circle-check me-1"></i> Payment Received — Complete Sale
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <div class="modal fade" id="helpModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content" style="border-radius:16px;border:1px solid var(--line);">
+                <div class="modal-header" style="border-bottom:1px solid var(--line);">
+                    <h5 class="modal-title" style="font-family:'Fraunces',serif;font-weight:600;">
+                        <i class="fa-solid fa-circle-question me-2" style="color:var(--gold-500);"></i>Point of Sale Guide
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-4">
+                        <div class="col-md-7">
+                            <div style="font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-soft);font-weight:700;margin-bottom:10px;">Step-by-Step Guide</div>
+                            <ol style="padding-left:18px;font-size:13.6px;line-height:1.75;color:var(--ink);">
+                    <li class="mb-2">Search or scan a barcode in the box above the medicine grid to filter items quickly.</li>
+                    <li class="mb-2">Click a medicine tile to add it to the cart — click again to increase quantity.</li>
+                    <li class="mb-2">Pick an existing customer from the dropdown, or type a new Name + Mobile directly — it's saved automatically on checkout.</li>
+                    <li class="mb-2">Choosing UPI or Online as the payment method shows a live QR code — the amount updates automatically as the cart changes.</li>
+                    <li class="mb-2">For UPI/Online, click 'Payment Received — Complete Sale' only after you've confirmed the payment in your bank/UPI app (this keeps sales accurate — no gateway is connected to auto-verify).</li>
+                    <li class="mb-2">For Cash/Card, just click 'Complete Sale' to finalize — this deducts stock from the batch automatically.</li>
+                            </ol>
+                        </div>
+                        <div class="col-md-5">
+                            <div style="font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-soft);font-weight:700;margin-bottom:10px;">Video Walkthrough</div>
+                            <div class="d-flex align-items-center justify-content-center flex-column text-center" style="background:#faf7f0;border:1px dashed var(--line);border-radius:12px;height:220px;padding:0 16px;">
+                                <i class="fa-solid fa-circle-play" style="font-size:32px;color:var(--gold-500);margin-bottom:10px;"></i>
+                                <div style="font-size:12.3px;color:var(--ink-soft);">Video guide coming soon for this page.</div>
+                            </div>
+                            <!-- To enable a real video later: replace the placeholder div above with
+                            <video controls style="width:100%;border-radius:12px;">
+                                <source src="/static/help_videos/pos.mp4" type="video/mp4">
+                            </video>
+                            -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        let cart = [];
+        function addToCart(medId, name, batchId, price) {
+            if (!batchId) { alert('No batch available for this medicine.'); return; }
+            const existing = cart.find(i => i.batch_id === batchId);
+            if (existing) { existing.quantity += 1; } else { cart.push({ batch_id: batchId, name: name, price: price, quantity: 1 }); }
+            renderCart();
+        }
+        function removeFromCart(batchId) { cart = cart.filter(i => i.batch_id !== batchId); renderCart(); }
+
+        /* Computes subtotal, discount amount (from %), taxable amount, GST amount (from %),
+           and grand total. Discount is applied first, then GST is charged on the discounted
+           (taxable) amount — this is the standard billing order. */
+        function computeTotals() {
+            const subtotal = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+            let discountPercent = parseFloat(document.getElementById('posDiscountPercent').value || 0);
+            let gstPercent = parseFloat(document.getElementById('posGstPercent').value || 0);
+            discountPercent = Math.min(Math.max(discountPercent, 0), 100);
+            gstPercent = Math.max(gstPercent, 0);
+
+            const discountAmount = subtotal * (discountPercent / 100);
+            const taxableAmount = Math.max(0, subtotal - discountAmount);
+            const gstAmount = taxableAmount * (gstPercent / 100);
+            const grandTotal = taxableAmount + gstAmount;
+
+            return { subtotal, discountPercent, gstPercent, discountAmount, taxableAmount, gstAmount, grandTotal };
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cartItems');
+            container.innerHTML = cart.map(i => `
+                <div class="d-flex justify-content-between align-items-center mb-2" style="font-size:13px;">
+                    <div>${i.name}<br><span class="text-muted">₹${i.price} × ${i.quantity}</span></div>
+                    <div><button class="btn btn-sm btn-outline-danger" onclick="removeFromCart(${i.batch_id})"><i class="fa-solid fa-xmark"></i></button></div>
+                </div>`).join('') || '<div class="text-muted text-center py-3">Cart is empty</div>';
+
+            const t = computeTotals();
+            document.getElementById('posSubtotal').innerText = '₹' + t.subtotal.toFixed(2);
+            document.getElementById('posDiscountAmount').innerText = '-₹' + t.discountAmount.toFixed(2) + ` (${t.discountPercent}%)`;
+            document.getElementById('posTaxableAmount').innerText = '₹' + t.taxableAmount.toFixed(2);
+            document.getElementById('posGstAmount').innerText = '+₹' + t.gstAmount.toFixed(2) + ` (${t.gstPercent}%)`;
+            document.getElementById('posGrandTotal').innerText = '₹' + t.grandTotal.toFixed(2);
+
+            const method = document.getElementById('posPayment').value;
+            if (method === 'UPI' || method === 'ONLINE') { generateUpiQr(); }
+        }
+        document.getElementById('posDiscountPercent').addEventListener('input', renderCart);
+        document.getElementById('posGstPercent').addEventListener('input', renderCart);
+
+        let qrInstance = null;
+        function generateUpiQr() {
+            const t = computeTotals();
+            const amount = t.grandTotal.toFixed(2);
+            const vpa = document.getElementById('upiVpaInput').value.trim() || 'yourpharmacy@upi';
+            const payeeName = "{{ upi_payee_name|escapejs }}" || '{{ store_name|escapejs }} Store';
+            const upiUri = `upi://pay?pa=${encodeURIComponent(vpa)}&pn=${encodeURIComponent(payeeName)}&am=${amount}&cu=INR&tn=${encodeURIComponent('{{ store_name|escapejs }} Sale')}`;
+
+            const canvasEl = document.getElementById('qrcodeCanvas');
+            canvasEl.innerHTML = '';
+            if (amount > 0) {
+                qrInstance = new QRCode(canvasEl, { text: upiUri, width: 160, height: 160, colorDark: '#0a2e33', colorLight: '#ffffff' });
+            } else {
+                canvasEl.innerHTML = '<div class="text-muted" style="font-size:12px;">Add items to cart to generate QR</div>';
+            }
+            document.getElementById('upiQrAmount').innerText = 'Amount: ₹' + amount;
+        }
+
+        function togglePaymentUI() {
+            const panel = document.getElementById('upiQrPanel');
+            const method = document.getElementById('posPayment').value;
+            const label = document.getElementById('qrPanelLabel');
+            const btnNormal = document.getElementById('btnCompleteSale');
+            const btnConfirm = document.getElementById('btnConfirmUpiPaid');
+
+            if (method === 'UPI' || method === 'ONLINE') {
+                panel.style.display = 'block';
+                label.innerText = method === 'UPI' ? 'Scan to Pay via UPI' : 'Scan to Pay Online';
+                generateUpiQr();
+                btnNormal.style.display = 'none';
+                btnConfirm.style.display = 'block';
+            } else {
+                panel.style.display = 'none';
+                btnNormal.style.display = 'block';
+                btnConfirm.style.display = 'none';
+            }
+        }
+        document.getElementById('posPayment').addEventListener('change', togglePaymentUI);
+        document.getElementById('upiVpaInput').addEventListener('input', generateUpiQr);
+
+        document.getElementById('posSearch').addEventListener('input', function(e) {
+            const q = e.target.value.toLowerCase();
+            document.querySelectorAll('.pos-item').forEach(el => {
+                el.style.display = (el.dataset.name.includes(q) || el.dataset.barcode.includes(q)) ? '' : 'none';
+            });
+        });
+        function getCookie(name) {
+            const value = `; ${document.cookie}`; const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+        function checkout() {
+            if (cart.length === 0) { alert('Cart is empty'); return; }
+            const newName = document.getElementById('posNewCustomerName').value.trim();
+            const newPhone = document.getElementById('posNewCustomerPhone').value.trim();
+            if (newPhone && newPhone.length < 6) { alert('Please enter a valid mobile number.'); return; }
+
+            const t = computeTotals();
+            fetch("{% url 'sale-checkout' %}", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken') },
+                body: JSON.stringify({
+                    items: cart.map(i => ({ batch_id: i.batch_id, quantity: i.quantity })),
+                    customer_id: document.getElementById('posCustomer').value,
+                    customer_name: newName,
+                    customer_phone: newPhone,
+                    payment_method: document.getElementById('posPayment').value,
+                    discount: parseFloat(t.discountAmount.toFixed(2)),
+                    discount_percent: t.discountPercent,
+                    tax: parseFloat(t.gstAmount.toFixed(2)),
+                    gst_percent: t.gstPercent,
+                })
+            }).then(r => r.json()).then(data => {
+                if (data.success) {
+                    alert('Sale completed: ' + data.sale_number);
+                    window.open('/sales/' + data.sale_id + '/invoice/', '_blank');
+                    window.location.href = '/sales/' + data.sale_id + '/';
+                }
+                else { alert('Error: ' + data.error); }
+            });
+        }
+
+    </script>
+</body>
+</html>

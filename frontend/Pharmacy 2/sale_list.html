@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Sale List</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#080d1a;
+    color:#e5e7eb;
+    transition:.4s;
+}
+
+/* BACKGROUND */
+
+.background{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:-1;
+}
+
+.grid{
+    position:absolute;
+    inset:0;
+    opacity:.06;
+    background-image:
+    linear-gradient(#fff 1px,transparent 1px),
+    linear-gradient(90deg,#fff 1px,transparent 1px);
+    background-size:45px 45px;
+}
+
+.orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(100px);
+    opacity:.25;
+    animation:float 12s infinite alternate ease-in-out;
+}
+
+.orb1{
+    width:350px;
+    height:350px;
+    background:#06b6d4;
+    top:-100px;
+    left:250px;
+}
+
+.orb2{
+    width:300px;
+    height:300px;
+    background:#7c3aed;
+    right:-80px;
+    top:250px;
+    animation-delay:2s;
+}
+
+.orb3{
+    width:250px;
+    height:250px;
+    background:#2563eb;
+    bottom:-100px;
+    left:40%;
+    animation-delay:4s;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    padding:22px 15px;
+    background:rgba(15,23,42,.88);
+    backdrop-filter:blur(18px);
+    border-right:1px solid #263244;
+    z-index:10;
+    animation:slideIn .7s ease;
+    overflow-y:auto;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 12px 25px;
+    border-bottom:1px solid #263244;
+    margin-bottom:18px;
+}
+
+.logo-icon{
+    width:44px;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:13px;
+    font-size:23px;
+    color:#fff;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    animation:glow 2s infinite alternate;
+}
+
+.logo h2{
+    font-size:17px;
+}
+
+.logo span{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.menu-title{
+    padding:12px;
+    color:#64748b;
+    font-size:11px;
+    text-transform:uppercase;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    margin:5px 0;
+    color:#94a3b8;
+    text-decoration:none;
+    border-radius:9px;
+    transition:.3s;
+}
+
+.menu a:hover,
+.menu a.active{
+    color:#fff;
+    background:linear-gradient(90deg,#06b6d422,#7c3aed22);
+    transform:translateX(5px);
+}
+
+.menu a.active{
+    border-left:3px solid #06b6d4;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:260px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:75px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    background:rgba(15,23,42,.7);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid #263244;
+}
+
+.search{
+    width:350px;
+}
+
+.search input{
+    width:100%;
+    padding:12px 18px;
+    background:#0b1120aa;
+    color:#fff;
+    border:1px solid #263244;
+    border-radius:10px;
+    outline:none;
+}
+
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:22px;
+}
+
+.theme-btn{
+    width:42px;
+    height:42px;
+    border:1px solid #263244;
+    border-radius:50%;
+    background:#0b1120;
+    color:#facc15;
+    font-size:19px;
+    cursor:pointer;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.profile small{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    font-weight:bold;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+}
+
+/* CONTENT */
+
+.content{
+    padding:30px;
+}
+
+.page-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:25px;
+}
+
+.page-header h1{
+    font-size:28px;
+}
+
+.page-header p{
+    color:#94a3b8;
+    margin-top:5px;
+}
+
+.add-btn{
+    padding:13px 20px;
+    color:#fff;
+    border:0;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:600;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    transition:.3s;
+}
+
+.add-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 0 25px #06b6d455;
+}
+
+/* SUMMARY */
+
+.summary-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:25px;
+}
+
+.summary-card{
+    padding:20px;
+    background:rgba(15,23,42,.78);
+    backdrop-filter:blur(18px);
+    border:1px solid #263244;
+    border-radius:15px;
+    transition:.3s;
+}
+
+.summary-card:hover{
+    transform:translateY(-5px);
+    border-color:#06b6d4;
+}
+
+.summary-card span{
+    display:block;
+    color:#94a3b8;
+    font-size:12px;
+    margin-bottom:10px;
+}
+
+.summary-card strong{
+    font-size:24px;
+    color:#06b6d4;
+}
+
+/* LIST CARD */
+
+.list-card{
+    padding:24px;
+    background:rgba(15,23,42,.78);
+    backdrop-filter:blur(18px);
+    border:1px solid #263244;
+    border-radius:20px;
+    animation:fadeUp .8s ease;
+}
+
+.list-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.list-header h2{
+    font-size:19px;
+}
+
+.filters{
+    display:flex;
+    gap:10px;
+}
+
+.filters input,
+.filters select{
+    padding:10px 13px;
+    color:#fff;
+    background:#0b1120;
+    border:1px solid #334155;
+    border-radius:8px;
+    outline:none;
+}
+
+/* TABLE */
+
+.table-wrapper{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    min-width:1100px;
+    border-collapse:collapse;
+}
+
+thead{
+    background:#0b1120aa;
+}
+
+th{
+    padding:15px;
+    color:#94a3b8;
+    font-size:12px;
+    text-align:left;
+    white-space:nowrap;
+}
+
+td{
+    padding:16px 15px;
+    border-top:1px solid #263244;
+    font-size:13px;
+    white-space:nowrap;
+}
+
+tbody tr{
+    transition:.3s;
+}
+
+tbody tr:hover{
+    background:#06b6d40d;
+}
+
+/* CUSTOMER */
+
+.customer{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.customer-avatar{
+    width:38px;
+    height:38px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    font-size:12px;
+    font-weight:bold;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+}
+
+.customer-info strong{
+    display:block;
+}
+
+.customer-info small{
+    color:#64748b;
+    font-size:11px;
+}
+
+/* BADGES */
+
+.badge{
+    display:inline-block;
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:600;
+}
+
+.completed{
+    color:#22c55e;
+    background:#22c55e1c;
+}
+
+.pending{
+    color:#facc15;
+    background:#facc151c;
+}
+
+.cancelled{
+    color:#ef4444;
+    background:#ef44441c;
+}
+
+.paid{
+    color:#06b6d4;
+    background:#06b6d41c;
+}
+
+/* ACTIONS */
+
+.actions{
+    display:flex;
+    gap:7px;
+}
+
+.action-btn{
+    width:32px;
+    height:32px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid #334155;
+    border-radius:7px;
+    background:transparent;
+    color:#cbd5e1;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.action-btn:hover{
+    color:#06b6d4;
+    border-color:#06b6d4;
+}
+
+.delete-btn:hover{
+    color:#ef4444;
+    border-color:#ef4444;
+}
+
+/* LIGHT MODE */
+
+body.light-mode{
+    background:#f1f5f9;
+    color:#0f172a;
+}
+
+body.light-mode .sidebar,
+body.light-mode .topbar,
+body.light-mode .summary-card,
+body.light-mode .list-card{
+    background:rgba(255,255,255,.92);
+    border-color:#e2e8f0;
+}
+
+body.light-mode .search input,
+body.light-mode .filters input,
+body.light-mode .filters select{
+    background:#f8fafc;
+    color:#0f172a;
+    border-color:#cbd5e1;
+}
+
+body.light-mode .theme-btn{
+    background:#f8fafc;
+    color:#7c3aed;
+}
+
+body.light-mode thead{
+    background:#f8fafc;
+}
+
+body.light-mode td{
+    border-color:#e2e8f0;
+}
+
+body.light-mode .action-btn{
+    color:#475569;
+    border-color:#cbd5e1;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+
+    .summary-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:800px){
+
+    .sidebar{
+        width:70px;
+        padding:15px 8px;
+    }
+
+    .logo h2,
+    .logo span,
+    .menu-title,
+    .menu a span{
+        display:none;
+    }
+
+    .logo{
+        justify-content:center;
+    }
+
+    .menu a{
+        justify-content:center;
+    }
+
+    .main{
+        margin-left:70px;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .search{
+        width:180px;
+    }
+
+    .content{
+        padding:18px;
+    }
+
+    .page-header{
+        display:block;
+    }
+
+    .add-btn{
+        margin-top:15px;
+        width:100%;
+    }
+
+    .summary-grid{
+        grid-template-columns:1fr;
+    }
+
+    .list-card{
+        padding:15px;
+    }
+
+    .list-header{
+        display:block;
+    }
+
+    .filters{
+        flex-direction:column;
+        margin-top:15px;
+    }
+
+}
+
+/* ANIMATIONS */
+
+@keyframes float{
+
+    from{
+        transform:translate(0,0) scale(1);
+    }
+
+    to{
+        transform:translate(80px,50px) scale(1.2);
+    }
+
+}
+
+@keyframes slideIn{
+
+    from{
+        transform:translateX(-100%);
+        opacity:0;
+    }
+
+    to{
+        transform:translateX(0);
+        opacity:1;
+    }
+
+}
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+@keyframes glow{
+
+    from{
+        box-shadow:0 0 10px #06b6d455;
+    }
+
+    to{
+        box-shadow:0 0 30px #06b6d488;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="background">
+
+    <div class="grid"></div>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+
+</div>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            ✦
+        </div>
+
+        <div>
+
+            <h2>NEXA HUB AI</h2>
+
+            <span>
+                AI Management System
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="menu-title">
+        Main Menu
+    </div>
+
+    <nav class="menu">
+
+        <a href="dashboard.html">
+            📊 <span>Dashboard</span>
+        </a>
+
+        <a href="inventory_dashboard.html">
+            📦 <span>Inventory</span>
+        </a>
+
+        <a href="medicine_list.html">
+            💊 <span>Medicines</span>
+        </a>
+
+        <a href="prescription_list.html">
+            📄 <span>Prescriptions</span>
+        </a>
+
+        <a href="customer_list.html">
+            👥 <span>Customers</span>
+        </a>
+
+        <a href="employee_list.html">
+            👨‍💼 <span>Employees</span>
+        </a>
+
+        <a href="delivery_dashboard.html">
+            🚚 <span>Delivery</span>
+        </a>
+
+        <a href="reports_insights.html">
+            📈 <span>Reports & Insights</span>
+        </a>
+
+    </nav>
+
+    <div class="menu-title">
+        Management
+    </div>
+
+    <nav class="menu">
+
+        <a href="purchase_order_list.html">
+            🛒 <span>Purchase Orders</span>
+        </a>
+
+        <a href="return_form.html">
+            ↩️ <span>Returns</span>
+        </a>
+
+        <a href="sale_list.html" class="active">
+            🧾 <span>Sales</span>
+        </a>
+
+        <a href="finance_income_form.html">
+            💰 <span>Income</span>
+        </a>
+
+        <a href="finance_expense_list.html">
+            💸 <span>Expenses</span>
+        </a>
+
+        <a href="salary_list.html">
+            📋 <span>Salary List</span>
+        </a>
+
+        <a href="settings_business.html">
+            ⚙️ <span>Settings</span>
+        </a>
+
+    </nav>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+<header class="topbar">
+
+    <div class="search">
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search invoice or customer..."
+            onkeyup="searchSales()"
+        >
+
+    </div>
+
+    <div class="top-actions">
+
+        <button
+            class="theme-btn"
+            id="themeBtn"
+            onclick="toggleTheme()"
+        >
+            🌙
+        </button>
+
+        <div class="profile">
+
+            <div>
+
+                <b>
+                    Admin User
+                </b>
+
+                <small>
+                    Administrator
+                </small>
+
+            </div>
+
+            <div class="avatar">
+                A
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+<section class="content">
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>
+                🧾 Sales List
+            </h1>
+
+            <p>
+                Manage and track all pharmacy sales transactions.
+            </p>
+
+        </div>
+
+        <button
+            class="add-btn"
+            onclick="newSale()"
+        >
+            ➕ New Sale
+        </button>
+
+    </div>
+
+    <!-- SUMMARY -->
+
+    <div class="summary-grid">
+
+        <div class="summary-card">
+
+            <span>
+                Total Sales
+            </span>
+
+            <strong>
+                1,284
+            </strong>
+
+        </div>
+
+        <div class="summary-card">
+
+            <span>
+                Today's Sales
+            </span>
+
+            <strong>
+                ₹86,450
+            </strong>
+
+        </div>
+
+        <div class="summary-card">
+
+            <span>
+                This Month
+            </span>
+
+            <strong>
+                ₹18.6L
+            </strong>
+
+        </div>
+
+        <div class="summary-card">
+
+            <span>
+                Pending Payments
+            </span>
+
+            <strong>
+                ₹42,500
+            </strong>
+
+        </div>
+
+    </div>
+
+    <!-- LIST -->
+
+    <div class="list-card">
+
+        <div class="list-header">
+
+            <h2>
+                Sales Transactions
+            </h2>
+
+            <div class="filters">
+
+                <select
+                    id="statusFilter"
+                    onchange="filterSales()"
+                >
+
+                    <option value="all">
+                        All Status
+                    </option>
+
+                    <option value="completed">
+                        Completed
+                    </option>
+
+                    <option value="pending">
+                        Pending
+                    </option>
+
+                    <option value="cancelled">
+                        Cancelled
+                    </option>
+
+                </select>
+
+                <select
+                    id="paymentFilter"
+                    onchange="filterSales()"
+                >
+
+                    <option value="all">
+                        All Payments
+                    </option>
+
+                    <option value="paid">
+                        Paid
+                    </option>
+
+                    <option value="pending">
+                        Pending
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Invoice
+                        </th>
+
+                        <th>
+                            Customer
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Items
+                        </th>
+
+                        <th>
+                            Amount
+                        </th>
+
+                        <th>
+                            Payment
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Actions
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="salesList">
+
+                    <tr>
+
+                        <td>
+                            <b>
+                                INV-2026-00125
+                            </b>
+                        </td>
+
+                        <td>
+
+                            <div class="customer">
+
+                                <div class="customer-avatar">
+                                    RS
+                                </div>
+
+                                <div class="customer-info">
+
+                                    <strong>
+                                        Rahul Sharma
+                                    </strong>
+
+                                    <small>
+                                        +91 98765 43210
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            19 Jul 2026
+                        </td>
+
+                        <td>
+                            5 Items
+                        </td>
+
+                        <td>
+                            <b>
+                                ₹525
+                            </b>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge paid">
+                                Paid
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge completed">
+                                Completed
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <div class="actions">
+
+                                <button
+                                    class="action-btn"
+                                    onclick="viewSale('INV-2026-00125')"
+                                >
+                                    👁️
+                                </button>
+
+                                <button
+                                    class="action-btn"
+                                    onclick="printSale()"
+                                >
+                                    🖨️
+                                </button>
+
+                                <button
+                                    class="action-btn delete-btn"
+                                    onclick="deleteSale('INV-2026-00125')"
+                                >
+                                    🗑️
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            <b>
+                                INV-2026-00124
+                            </b>
+                        </td>
+
+                        <td>
+
+                            <div class="customer">
+
+                                <div class="customer-avatar">
+                                    PS
+                                </div>
+
+                                <div class="customer-info">
+
+                                    <strong>
+                                        Priya Singh
+                                    </strong>
+
+                                    <small>
+                                        +91 87654 32109
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            18 Jul 2026
+                        </td>
+
+                        <td>
+                            3 Items
+                        </td>
+
+                        <td>
+                            <b>
+                                ₹1,240
+                            </b>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge paid">
+                                Paid
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge completed">
+                                Completed
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <div class="actions">
+
+                                <button
+                                    class="action-btn"
+                                    onclick="viewSale('INV-2026-00124')"
+                                >
+                                    👁️
+                                </button>
+
+                                <button
+                                    class="action-btn"
+                                    onclick="printSale()"
+                                >
+                                    🖨️
+                                </button>
+
+                                <button
+                                    class="action-btn delete-btn"
+                                    onclick="deleteSale('INV-2026-00124')"
+                                >
+                                    🗑️
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            <b>
+                                INV-2026-00123
+                            </b>
+                        </td>
+
+                        <td>
+
+                            <div class="customer">
+
+                                <div class="customer-avatar">
+                                    AK
+                                </div>
+
+                                <div class="customer-info">
+
+                                    <strong>
+                                        Amit Kumar
+                                    </strong>
+
+                                    <small>
+                                        +91 76543 21098
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            17 Jul 2026
+                        </td>
+
+                        <td>
+                            8 Items
+                        </td>
+
+                        <td>
+                            <b>
+                                ₹2,850
+                            </b>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge pending">
+                                Pending
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge pending">
+                                Pending
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <div class="actions">
+
+                                <button
+                                    class="action-btn"
+                                    onclick="viewSale('INV-2026-00123')"
+                                >
+                                    👁️
+                                </button>
+
+                                <button
+                                    class="action-btn"
+                                    onclick="printSale()"
+                                >
+                                    🖨️
+                                </button>
+
+                                <button
+                                    class="action-btn delete-btn"
+                                    onclick="deleteSale('INV-2026-00123')"
+                                >
+                                    🗑️
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            <b>
+                                INV-2026-00122
+                            </b>
+                        </td>
+
+                        <td>
+
+                            <div class="customer">
+
+                                <div class="customer-avatar">
+                                    NV
+                                </div>
+
+                                <div class="customer-info">
+
+                                    <strong>
+                                        Neha Verma
+                                    </strong>
+
+                                    <small>
+                                        +91 65432 10987
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            16 Jul 2026
+                        </td>
+
+                        <td>
+                            2 Items
+                        </td>
+
+                        <td>
+                            <b>
+                                ₹680
+                            </b>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge paid">
+                                Paid
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge cancelled">
+                                Cancelled
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <div class="actions">
+
+                                <button
+                                    class="action-btn"
+                                    onclick="viewSale('INV-2026-00122')"
+                                >
+                                    👁️
+                                </button>
+
+                                <button
+                                    class="action-btn"
+                                    onclick="printSale()"
+                                >
+                                    🖨️
+                                </button>
+
+                                <button
+                                    class="action-btn delete-btn"
+                                    onclick="deleteSale('INV-2026-00122')"
+                                >
+                                    🗑️
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+<script>
+
+/* THEME */
+
+function toggleTheme(){
+
+    document.body.classList.toggle(
+        "light-mode"
+    );
+
+    const button =
+    document.getElementById(
+        "themeBtn"
+    );
+
+    if(
+        document.body.classList.contains(
+            "light-mode"
+        )
+    ){
+
+        button.innerHTML =
+        "☀️";
+
+        localStorage.setItem(
+            "theme",
+            "light"
+        );
+
+    }else{
+
+        button.innerHTML =
+        "🌙";
+
+        localStorage.setItem(
+            "theme",
+            "dark"
+        );
+
+    }
+
+}
+
+/* LOAD THEME */
+
+window.addEventListener(
+    "load",
+    function(){
+
+        if(
+            localStorage.getItem(
+                "theme"
+            )
+            ===
+            "light"
+        ){
+
+            document.body.classList.add(
+                "light-mode"
+            );
+
+            document.getElementById(
+                "themeBtn"
+            ).innerHTML =
+            "☀️";
+
+        }
+
+    }
+);
+
+/* NEW SALE */
+
+function newSale(){
+
+    window.location.href =
+    "sale_pos.html";
+
+}
+
+/* SEARCH */
+
+function searchSales(){
+
+    const search =
+    document
+    .getElementById(
+        "searchInput"
+    )
+    .value
+    .toLowerCase();
+
+    const rows =
+    document
+    .querySelectorAll(
+        "#salesList tr"
+    );
+
+    rows.forEach(
+        function(row){
+
+            const text =
+            row.innerText
+            .toLowerCase();
+
+            row.style.display =
+            text.includes(
+                search
+            )
+            ?
+            ""
+            :
+            "none";
+
+        }
+    );
+
+}
+
+/* FILTER */
+
+function filterSales(){
+
+    const status =
+    document
+    .getElementById(
+        "statusFilter"
+    )
+    .value
+    .toLowerCase();
+
+    const payment =
+    document
+    .getElementById(
+        "paymentFilter"
+    )
+    .value
+    .toLowerCase();
+
+    const rows =
+    document
+    .querySelectorAll(
+        "#salesList tr"
+    );
+
+    rows.forEach(
+        function(row){
+
+            const text =
+            row.innerText
+            .toLowerCase();
+
+            const statusMatch =
+            status === "all"
+            ||
+            text.includes(
+                status
+            );
+
+            const paymentMatch =
+            payment === "all"
+            ||
+            text.includes(
+                payment
+            );
+
+            row.style.display =
+            statusMatch &&
+            paymentMatch
+            ?
+            ""
+            :
+            "none";
+
+        }
+    );
+
+}
+
+/* VIEW */
+
+function viewSale(
+    invoice
+){
+
+    window.location.href =
+    "sale_detail.html";
+
+}
+
+/* PRINT */
+
+function printSale(){
+
+    window.location.href =
+    "sale_invoice.html";
+
+}
+
+/* DELETE */
+
+function deleteSale(
+    invoice
+){
+
+    const confirmDelete =
+    confirm(
+        "Are you sure you want to delete "
+        +
+        invoice
+        +
+        "?"
+    );
+
+    if(
+        confirmDelete
+    ){
+
+        alert(
+            "Sale deleted successfully!"
+        );
+
+    }
+
+}
+
+</script>
+
+</body>
+
+</html>

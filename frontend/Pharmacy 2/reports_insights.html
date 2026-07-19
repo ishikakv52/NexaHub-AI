@@ -1,0 +1,1701 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Reports & Insights</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#080d1a;
+    color:#e5e7eb;
+    transition:.4s;
+}
+
+/* BACKGROUND */
+
+.background{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:-1;
+}
+
+.grid{
+    position:absolute;
+    inset:0;
+    opacity:.06;
+    background-image:
+    linear-gradient(#fff 1px,transparent 1px),
+    linear-gradient(90deg,#fff 1px,transparent 1px);
+    background-size:45px 45px;
+}
+
+.orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(100px);
+    opacity:.25;
+    animation:float 12s infinite alternate ease-in-out;
+}
+
+.orb1{
+    width:350px;
+    height:350px;
+    background:#06b6d4;
+    top:-100px;
+    left:250px;
+}
+
+.orb2{
+    width:300px;
+    height:300px;
+    background:#7c3aed;
+    right:-80px;
+    top:250px;
+    animation-delay:2s;
+}
+
+.orb3{
+    width:250px;
+    height:250px;
+    background:#2563eb;
+    bottom:-100px;
+    left:40%;
+    animation-delay:4s;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    padding:22px 15px;
+    background:rgba(15,23,42,.88);
+    backdrop-filter:blur(18px);
+    border-right:1px solid #263244;
+    z-index:10;
+    animation:slideIn .7s ease;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 12px 25px;
+    border-bottom:1px solid #263244;
+    margin-bottom:18px;
+}
+
+.logo-icon{
+    width:44px;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:13px;
+    font-size:23px;
+    color:#fff;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    animation:glow 2s infinite alternate;
+}
+
+.logo h2{
+    font-size:17px;
+}
+
+.logo span{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.menu-title{
+    padding:12px;
+    color:#64748b;
+    font-size:11px;
+    text-transform:uppercase;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    margin:5px 0;
+    color:#94a3b8;
+    text-decoration:none;
+    border-radius:9px;
+    transition:.3s;
+}
+
+.menu a:hover,
+.menu a.active{
+    color:#fff;
+    background:linear-gradient(90deg,#06b6d422,#7c3aed22);
+    transform:translateX(5px);
+}
+
+.menu a.active{
+    border-left:3px solid #06b6d4;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:260px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:75px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    background:rgba(15,23,42,.7);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid #263244;
+}
+
+.search{
+    width:350px;
+}
+
+.search input{
+    width:100%;
+    padding:12px 18px;
+    background:#0b1120aa;
+    color:#fff;
+    border:1px solid #263244;
+    border-radius:10px;
+    outline:none;
+}
+
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:22px;
+}
+
+.theme-btn{
+    width:42px;
+    height:42px;
+    border:1px solid #263244;
+    border-radius:50%;
+    background:#0b1120;
+    color:#facc15;
+    font-size:19px;
+    cursor:pointer;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.profile small{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    font-weight:bold;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+}
+
+/* CONTENT */
+
+.content{
+    padding:30px;
+}
+
+.page-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:25px;
+}
+
+.page-header h1{
+    font-size:28px;
+}
+
+.page-header p{
+    color:#94a3b8;
+    margin-top:5px;
+}
+
+/* FILTER */
+
+.filter-bar{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:25px;
+}
+
+.filter-bar select,
+.filter-bar input{
+    padding:12px 15px;
+    color:#fff;
+    background:#0b1120;
+    border:1px solid #334155;
+    border-radius:9px;
+    outline:none;
+}
+
+.filter-bar input{
+    flex:1;
+    min-width:220px;
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:25px;
+}
+
+.stat-card{
+    padding:20px;
+    background:rgba(15,23,42,.78);
+    border:1px solid #263244;
+    border-radius:16px;
+    backdrop-filter:blur(18px);
+    animation:fadeUp .8s ease;
+}
+
+.stat-icon{
+    float:right;
+    font-size:27px;
+}
+
+.stat-card p{
+    color:#94a3b8;
+    font-size:13px;
+}
+
+.stat-card h2{
+    margin-top:8px;
+    font-size:27px;
+}
+
+.stat-card small{
+    display:block;
+    margin-top:8px;
+    color:#4ade80;
+}
+
+/* DASHBOARD GRID */
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:1.4fr 1fr;
+    gap:20px;
+    margin-bottom:25px;
+}
+
+/* CARD */
+
+.card{
+    padding:22px;
+    background:rgba(15,23,42,.78);
+    border:1px solid #263244;
+    border-radius:16px;
+    backdrop-filter:blur(18px);
+    animation:fadeUp .8s ease;
+}
+
+.card-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.card-header h2{
+    font-size:18px;
+}
+
+.card-header span{
+    color:#94a3b8;
+    font-size:12px;
+}
+
+/* BAR CHART */
+
+.chart{
+    height:260px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-around;
+    gap:15px;
+    padding:20px 10px 0;
+    border-bottom:1px solid #334155;
+}
+
+.bar-wrapper{
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    align-items:center;
+    gap:8px;
+    flex:1;
+}
+
+.bar{
+    width:100%;
+    max-width:45px;
+    min-height:20px;
+    border-radius:7px 7px 0 0;
+    background:linear-gradient(180deg,#06b6d4,#7c3aed);
+    transition:.4s;
+}
+
+.bar:hover{
+    transform:scaleY(1.08);
+    box-shadow:0 0 20px #06b6d455;
+}
+
+.bar-wrapper span{
+    color:#94a3b8;
+    font-size:11px;
+}
+
+/* DONUT */
+
+.donut-area{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:30px;
+    min-height:260px;
+}
+
+.donut{
+    width:170px;
+    height:170px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:
+    conic-gradient(
+        #06b6d4 0deg 140deg,
+        #7c3aed 140deg 250deg,
+        #facc15 250deg 310deg,
+        #ef4444 310deg 360deg
+    );
+    position:relative;
+}
+
+.donut::after{
+    content:"";
+    position:absolute;
+    width:105px;
+    height:105px;
+    border-radius:50%;
+    background:#0f172a;
+}
+
+.donut-center{
+    position:absolute;
+    z-index:2;
+    text-align:center;
+}
+
+.donut-center strong{
+    display:block;
+    font-size:24px;
+}
+
+.donut-center span{
+    color:#94a3b8;
+    font-size:11px;
+}
+
+.legend{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.legend-item{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    color:#cbd5e1;
+    font-size:13px;
+}
+
+.legend-dot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+}
+
+.dot-cyan{
+    background:#06b6d4;
+}
+
+.dot-purple{
+    background:#7c3aed;
+}
+
+.dot-yellow{
+    background:#facc15;
+}
+
+.dot-red{
+    background:#ef4444;
+}
+
+/* INSIGHTS */
+
+.insights-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+    margin-bottom:25px;
+}
+
+.insight-card{
+    padding:22px;
+    background:rgba(15,23,42,.78);
+    border:1px solid #263244;
+    border-radius:16px;
+    transition:.3s;
+}
+
+.insight-card:hover{
+    transform:translateY(-5px);
+    border-color:#06b6d4;
+}
+
+.insight-icon{
+    width:48px;
+    height:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:13px;
+    font-size:24px;
+    background:#06b6d422;
+    margin-bottom:15px;
+}
+
+.insight-card h3{
+    font-size:16px;
+    margin-bottom:8px;
+}
+
+.insight-card p{
+    color:#94a3b8;
+    font-size:13px;
+    line-height:1.6;
+}
+
+.insight-value{
+    margin-top:15px;
+    color:#06b6d4;
+    font-size:22px;
+    font-weight:bold;
+}
+
+/* TABLE */
+
+.table-card{
+    overflow:hidden;
+    background:rgba(15,23,42,.78);
+    border:1px solid #263244;
+    border-radius:16px;
+    backdrop-filter:blur(18px);
+}
+
+.table-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px;
+    border-bottom:1px solid #263244;
+}
+
+.table-header h2{
+    font-size:18px;
+}
+
+.table-header button{
+    padding:9px 15px;
+    color:#fff;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    border:0;
+    border-radius:7px;
+    cursor:pointer;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,
+td{
+    padding:16px 18px;
+    text-align:left;
+    border-bottom:1px solid #263244;
+}
+
+th{
+    color:#94a3b8;
+    font-size:12px;
+    text-transform:uppercase;
+}
+
+td{
+    font-size:13px;
+}
+
+tr:hover{
+    background:#06b6d408;
+}
+
+/* BADGES */
+
+.badge{
+    display:inline-block;
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.badge-up{
+    color:#4ade80;
+    background:#22c55e22;
+}
+
+.badge-down{
+    color:#f87171;
+    background:#ef444422;
+}
+
+.badge-warning{
+    color:#facc15;
+    background:#facc1522;
+}
+
+/* LIGHT MODE */
+
+body.light-mode{
+    background:#f1f5f9;
+    color:#0f172a;
+}
+
+body.light-mode .sidebar,
+body.light-mode .topbar,
+body.light-mode .stat-card,
+body.light-mode .card,
+body.light-mode .insight-card,
+body.light-mode .table-card{
+    background:rgba(255,255,255,.92);
+    border-color:#e2e8f0;
+}
+
+body.light-mode .search input,
+body.light-mode .filter-bar input,
+body.light-mode .filter-bar select{
+    background:#f8fafc;
+    color:#0f172a;
+    border-color:#cbd5e1;
+}
+
+body.light-mode .donut::after{
+    background:#fff;
+}
+
+body.light-mode th,
+body.light-mode td{
+    border-color:#e2e8f0;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .dashboard-grid{
+        grid-template-columns:1fr;
+    }
+
+    .insights-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:800px){
+
+    .sidebar{
+        width:70px;
+        padding:15px 8px;
+    }
+
+    .logo h2,
+    .logo span,
+    .menu-title,
+    .menu a span{
+        display:none;
+    }
+
+    .logo{
+        justify-content:center;
+    }
+
+    .menu a{
+        justify-content:center;
+    }
+
+    .main{
+        margin-left:70px;
+    }
+
+    .table-card{
+        overflow-x:auto;
+    }
+
+    table{
+        min-width:800px;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .search{
+        width:180px;
+    }
+
+    .content{
+        padding:18px;
+    }
+
+    .page-header{
+        display:block;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .insights-grid{
+        grid-template-columns:1fr;
+    }
+
+    .donut-area{
+        flex-direction:column;
+    }
+
+}
+
+/* ANIMATIONS */
+
+@keyframes float{
+
+    from{
+        transform:translate(0,0) scale(1);
+    }
+
+    to{
+        transform:translate(80px,50px) scale(1.2);
+    }
+
+}
+
+@keyframes slideIn{
+
+    from{
+        transform:translateX(-100%);
+        opacity:0;
+    }
+
+    to{
+        transform:translateX(0);
+        opacity:1;
+    }
+
+}
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+@keyframes glow{
+
+    from{
+        box-shadow:0 0 10px #06b6d455;
+    }
+
+    to{
+        box-shadow:0 0 30px #06b6d488;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="background">
+
+    <div class="grid"></div>
+
+    <div class="orb orb1"></div>
+
+    <div class="orb orb2"></div>
+
+    <div class="orb orb3"></div>
+
+</div>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            ✦
+        </div>
+
+        <div>
+
+            <h2>NEXA HUB AI</h2>
+
+            <span>
+                AI Management System
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="menu-title">
+        Main Menu
+    </div>
+
+    <nav class="menu">
+
+        <a href="dashboard.html">
+            📊 <span>Dashboard</span>
+        </a>
+
+        <a href="inventory_dashboard.html">
+            📦 <span>Inventory</span>
+        </a>
+
+        <a href="medicine_list.html">
+            💊 <span>Medicines</span>
+        </a>
+
+        <a href="prescription_list.html">
+            📄 <span>Prescriptions</span>
+        </a>
+
+        <a href="customer_list.html">
+            👥 <span>Customers</span>
+        </a>
+
+        <a href="employee_list.html">
+            👨‍💼 <span>Employees</span>
+        </a>
+
+        <a href="delivery_dashboard.html">
+            🚚 <span>Delivery</span>
+        </a>
+
+        <a href="reminder_list.html">
+            🔔 <span>Reminders</span>
+        </a>
+
+        <a href="reports_insights.html" class="active">
+            📈 <span>Reports & Insights</span>
+        </a>
+
+    </nav>
+
+    <div class="menu-title">
+        Management
+    </div>
+
+    <nav class="menu">
+
+        <a href="purchase_order_list.html">
+            🛒 <span>Purchase Orders</span>
+        </a>
+
+        <a href="sale_list.html">
+            🧾 <span>Sales</span>
+        </a>
+
+        <a href="finance_income_form.html">
+            💰 <span>Income</span>
+        </a>
+
+        <a href="finance_expense_list.html">
+            💸 <span>Expenses</span>
+        </a>
+
+        <a href="settings_business.html">
+            ⚙️ <span>Settings</span>
+        </a>
+
+    </nav>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+<header class="topbar">
+
+    <div class="search">
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search reports..."
+            onkeyup="searchReports()"
+        >
+
+    </div>
+
+    <div class="top-actions">
+
+        <button
+            class="theme-btn"
+            id="themeBtn"
+            onclick="toggleTheme()"
+        >
+            🌙
+        </button>
+
+        <div class="profile">
+
+            <div>
+
+                <b>
+                    Admin User
+                </b>
+
+                <small>
+                    Administrator
+                </small>
+
+            </div>
+
+            <div class="avatar">
+                A
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+<section class="content">
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>
+                📊 Reports & Insights
+            </h1>
+
+            <p>
+                Analyze business performance and discover important insights.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- FILTER -->
+
+    <div class="filter-bar">
+
+        <input
+            type="text"
+            placeholder="Search report data..."
+            id="reportSearch"
+            onkeyup="searchReports()"
+        >
+
+        <select>
+
+            <option>
+                This Month
+            </option>
+
+            <option>
+                Last Month
+            </option>
+
+            <option>
+                Last 3 Months
+            </option>
+
+            <option>
+                This Year
+            </option>
+
+        </select>
+
+        <select>
+
+            <option>
+                All Departments
+            </option>
+
+            <option>
+                Inventory
+            </option>
+
+            <option>
+                Sales
+            </option>
+
+            <option>
+                Finance
+            </option>
+
+            <option>
+                Delivery
+            </option>
+
+        </select>
+
+    </div>
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+        <div class="stat-card">
+
+            <span class="stat-icon">
+                💰
+            </span>
+
+            <p>
+                Total Revenue
+            </p>
+
+            <h2>
+                ₹4,85,600
+            </h2>
+
+            <small>
+                ↑ 12.5% this month
+            </small>
+
+        </div>
+
+        <div class="stat-card">
+
+            <span class="stat-icon">
+                🧾
+            </span>
+
+            <p>
+                Total Sales
+            </p>
+
+            <h2>
+                1,248
+            </h2>
+
+            <small>
+                ↑ 8.4% this month
+            </small>
+
+        </div>
+
+        <div class="stat-card">
+
+            <span class="stat-icon">
+                📦
+            </span>
+
+            <p>
+                Inventory Value
+            </p>
+
+            <h2>
+                ₹8,42,300
+            </h2>
+
+            <small>
+                ↑ 5.2% this month
+            </small>
+
+        </div>
+
+        <div class="stat-card">
+
+            <span class="stat-icon">
+                📈
+            </span>
+
+            <p>
+                Net Profit
+            </p>
+
+            <h2>
+                ₹1,26,850
+            </h2>
+
+            <small>
+                ↑ 15.8% this month
+            </small>
+
+        </div>
+
+    </div>
+
+    <!-- CHARTS -->
+
+    <div class="dashboard-grid">
+
+        <!-- SALES CHART -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <h2>
+                    📈 Monthly Sales Performance
+                </h2>
+
+                <span>
+                    2026
+                </span>
+
+            </div>
+
+            <div class="chart">
+
+                <div class="bar-wrapper">
+
+                    <div
+                        class="bar"
+                        style="height:45%"
+                    ></div>
+
+                    <span>
+                        Jan
+                    </span>
+
+                </div>
+
+                <div class="bar-wrapper">
+
+                    <div
+                        class="bar"
+                        style="height:58%"
+                    ></div>
+
+                    <span>
+                        Feb
+                    </span>
+
+                </div>
+
+                <div class="bar-wrapper">
+
+                    <div
+                        class="bar"
+                        style="height:50%"
+                    ></div>
+
+                    <span>
+                        Mar
+                    </span>
+
+                </div>
+
+                <div class="bar-wrapper">
+
+                    <div
+                        class="bar"
+                        style="height:70%"
+                    ></div>
+
+                    <span>
+                        Apr
+                    </span>
+
+                </div>
+
+                <div class="bar-wrapper">
+
+                    <div
+                        class="bar"
+                        style="height:65%"
+                    ></div>
+
+                    <span>
+                        May
+                    </span>
+
+                </div>
+
+                <div class="bar-wrapper">
+
+                    <div
+                        class="bar"
+                        style="height:82%"
+                    ></div>
+
+                    <span>
+                        Jun
+                    </span>
+
+                </div>
+
+                <div class="bar-wrapper">
+
+                    <div
+                        class="bar"
+                        style="height:92%"
+                    ></div>
+
+                    <span>
+                        Jul
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- CATEGORY CHART -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <h2>
+                    💊 Sales by Category
+                </h2>
+
+                <span>
+                    This Month
+                </span>
+
+            </div>
+
+            <div class="donut-area">
+
+                <div class="donut">
+
+                    <div class="donut-center">
+
+                        <strong>
+                            ₹4.8L
+                        </strong>
+
+                        <span>
+                            Total Sales
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="legend">
+
+                    <div class="legend-item">
+
+                        <span class="legend-dot dot-cyan"></span>
+
+                        Pain Relief
+                        <b>
+                            38%
+                        </b>
+
+                    </div>
+
+                    <div class="legend-item">
+
+                        <span class="legend-dot dot-purple"></span>
+
+                        Antibiotics
+                        <b>
+                            30%
+                        </b>
+
+                    </div>
+
+                    <div class="legend-item">
+
+                        <span class="legend-dot dot-yellow"></span>
+
+                        Vitamins
+                        <b>
+                            17%
+                        </b>
+
+                    </div>
+
+                    <div class="legend-item">
+
+                        <span class="legend-dot dot-red"></span>
+
+                        Others
+                        <b>
+                            15%
+                        </b>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- INSIGHTS -->
+
+    <div class="insights-grid">
+
+        <div class="insight-card">
+
+            <div class="insight-icon">
+                🔥
+            </div>
+
+            <h3>
+                Top Selling Medicine
+            </h3>
+
+            <p>
+                Paracetamol 500mg has the highest sales volume this month.
+            </p>
+
+            <div class="insight-value">
+                428 Units Sold
+            </div>
+
+        </div>
+
+        <div class="insight-card">
+
+            <div class="insight-icon">
+                ⚠️
+            </div>
+
+            <h3>
+                Low Stock Alert
+            </h3>
+
+            <p>
+                18 medicines are currently below their minimum stock level.
+            </p>
+
+            <div class="insight-value">
+                18 Medicines
+            </div>
+
+        </div>
+
+        <div class="insight-card">
+
+            <div class="insight-icon">
+                🚚
+            </div>
+
+            <h3>
+                Delivery Performance
+            </h3>
+
+            <p>
+                Your delivery success rate improved compared to last month.
+            </p>
+
+            <div class="insight-value">
+                96.4% Success
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- REPORT TABLE -->
+
+    <div class="table-card">
+
+        <div class="table-header">
+
+            <h2>
+                📋 Key Performance Reports
+            </h2>
+
+            <button
+                onclick="exportReport()"
+            >
+                📥 Export Report
+            </button>
+
+        </div>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Report
+                    </th>
+
+                    <th>
+                        Department
+                    </th>
+
+                    <th>
+                        Current Value
+                    </th>
+
+                    <th>
+                        Previous Value
+                    </th>
+
+                    <th>
+                        Growth
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="reportTable">
+
+                <tr>
+
+                    <td>
+                        Monthly Revenue
+                    </td>
+
+                    <td>
+                        Finance
+                    </td>
+
+                    <td>
+                        ₹4,85,600
+                    </td>
+
+                    <td>
+                        ₹4,31,700
+                    </td>
+
+                    <td>
+                        <span class="badge badge-up">
+                            +12.5%
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="badge badge-up">
+                            Growing
+                        </span>
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        Total Sales
+                    </td>
+
+                    <td>
+                        Sales
+                    </td>
+
+                    <td>
+                        1,248
+                    </td>
+
+                    <td>
+                        1,151
+                    </td>
+
+                    <td>
+                        <span class="badge badge-up">
+                            +8.4%
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="badge badge-up">
+                            Positive
+                        </span>
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        Inventory Turnover
+                    </td>
+
+                    <td>
+                        Inventory
+                    </td>
+
+                    <td>
+                        4.8x
+                    </td>
+
+                    <td>
+                        5.2x
+                    </td>
+
+                    <td>
+                        <span class="badge badge-down">
+                            -7.6%
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="badge badge-warning">
+                            Monitor
+                        </span>
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        Delivery Success
+                    </td>
+
+                    <td>
+                        Delivery
+                    </td>
+
+                    <td>
+                        96.4%
+                    </td>
+
+                    <td>
+                        92.1%
+                    </td>
+
+                    <td>
+                        <span class="badge badge-up">
+                            +4.3%
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="badge badge-up">
+                            Excellent
+                        </span>
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+</main>
+
+<script>
+
+/* THEME */
+
+function toggleTheme(){
+
+    document.body.classList.toggle(
+        "light-mode"
+    );
+
+    const button =
+    document.getElementById(
+        "themeBtn"
+    );
+
+    if(
+        document.body.classList.contains(
+            "light-mode"
+        )
+    ){
+
+        button.innerHTML =
+        "☀️";
+
+        localStorage.setItem(
+            "theme",
+            "light"
+        );
+
+    }else{
+
+        button.innerHTML =
+        "🌙";
+
+        localStorage.setItem(
+            "theme",
+            "dark"
+        );
+
+    }
+
+}
+
+/* LOAD THEME */
+
+window.addEventListener(
+    "load",
+    function(){
+
+        if(
+            localStorage.getItem(
+                "theme"
+            )
+            ===
+            "light"
+        ){
+
+            document.body.classList.add(
+                "light-mode"
+            );
+
+            document.getElementById(
+                "themeBtn"
+            ).innerHTML =
+            "☀️";
+
+        }
+
+    }
+);
+
+/* SEARCH REPORTS */
+
+function searchReports(){
+
+    const value =
+    document
+    .getElementById(
+        "reportSearch"
+    )
+    .value
+    .toLowerCase();
+
+    const rows =
+    document
+    .querySelectorAll(
+        "#reportTable tr"
+    );
+
+    rows.forEach(
+        row => {
+
+            row.style.display =
+            row.innerText
+            .toLowerCase()
+            .includes(
+                value
+            )
+            ?
+            ""
+            :
+            "none";
+
+        }
+    );
+
+}
+
+/* EXPORT */
+
+function exportReport(){
+
+    alert(
+        "Report exported successfully!"
+    );
+
+}
+
+</script>
+
+</body>
+
+</html>

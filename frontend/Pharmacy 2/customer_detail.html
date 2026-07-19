@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXA HUB AI | Customer Details</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#080d1a;
+    color:#e5e7eb;
+    transition:.4s ease;
+}
+
+/* Animated Background */
+.background{
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    overflow:hidden;
+}
+
+.grid-bg{
+    position:absolute;
+    inset:0;
+    opacity:.06;
+    background-image:
+    linear-gradient(#fff 1px,transparent 1px),
+    linear-gradient(90deg,#fff 1px,transparent 1px);
+    background-size:45px 45px;
+}
+
+.orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(90px);
+    opacity:.25;
+    animation:float 12s infinite alternate ease-in-out;
+}
+
+.orb1{
+    width:360px;
+    height:360px;
+    background:#06b6d4;
+    top:-120px;
+    left:250px;
+}
+
+.orb2{
+    width:300px;
+    height:300px;
+    background:#7c3aed;
+    right:-80px;
+    top:250px;
+    animation-delay:2s;
+}
+
+.orb3{
+    width:260px;
+    height:260px;
+    background:#2563eb;
+    bottom:-100px;
+    left:40%;
+    animation-delay:4s;
+}
+
+/* Sidebar */
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    padding:22px 15px;
+    background:rgba(15,23,42,.88);
+    backdrop-filter:blur(18px);
+    border-right:1px solid #263244;
+    z-index:10;
+    animation:slideIn .7s ease;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 12px 25px;
+    border-bottom:1px solid #263244;
+    margin-bottom:18px;
+}
+
+.logo-icon{
+    width:44px;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:13px;
+    font-size:23px;
+    color:#fff;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    animation:glow 2s infinite alternate;
+}
+
+.logo h2{
+    font-size:17px;
+}
+
+.logo span{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.menu-title{
+    padding:12px;
+    color:#64748b;
+    font-size:11px;
+    text-transform:uppercase;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    margin:5px 0;
+    color:#94a3b8;
+    text-decoration:none;
+    border-radius:9px;
+    transition:.3s;
+}
+
+.menu a:hover,
+.menu a.active{
+    color:#fff;
+    background:linear-gradient(90deg,#06b6d422,#7c3aed22);
+    transform:translateX(5px);
+}
+
+.menu a.active{
+    border-left:3px solid #06b6d4;
+}
+
+/* Main */
+.main{
+    margin-left:260px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:75px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    background:rgba(15,23,42,.7);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid #263244;
+}
+
+.search{
+    width:350px;
+}
+
+.search input{
+    width:100%;
+    padding:12px 18px;
+    background:#0b1120aa;
+    color:#fff;
+    border:1px solid #263244;
+    border-radius:10px;
+    outline:none;
+}
+
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:22px;
+}
+
+.theme-btn{
+    width:42px;
+    height:42px;
+    border:1px solid #263244;
+    border-radius:50%;
+    background:#0b1120;
+    color:#facc15;
+    font-size:19px;
+    cursor:pointer;
+    transition:.4s;
+}
+
+.theme-btn:hover{
+    transform:rotate(25deg) scale(1.1);
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.profile small{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    font-weight:bold;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+}
+
+/* Content */
+.content{
+    padding:30px;
+}
+
+.heading{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.heading h1{
+    font-size:28px;
+}
+
+.heading p{
+    color:#94a3b8;
+    margin-top:5px;
+}
+
+.back-btn,
+.edit-btn{
+    padding:11px 18px;
+    border-radius:9px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.back-btn{
+    border:1px solid #263244;
+    background:transparent;
+    color:#cbd5e1;
+}
+
+.edit-btn{
+    border:0;
+    color:#fff;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+}
+
+.back-btn:hover,
+.edit-btn:hover{
+    transform:translateY(-3px);
+}
+
+/* Customer Profile */
+.profile-card{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    padding:25px;
+    background:rgba(15,23,42,.78);
+    backdrop-filter:blur(18px);
+    border:1px solid #263244;
+    border-radius:18px;
+    margin-bottom:22px;
+    animation:fadeUp .7s ease;
+}
+
+.customer-info{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.customer-avatar{
+    width:78px;
+    height:78px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:22px;
+    font-size:27px;
+    font-weight:bold;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    box-shadow:0 0 25px #06b6d455;
+}
+
+.customer-info h2{
+    font-size:24px;
+}
+
+.customer-info p{
+    color:#94a3b8;
+    margin-top:6px;
+}
+
+.customer-id{
+    color:#38bdf8;
+    font-size:13px;
+    margin-top:7px;
+}
+
+/* Grid */
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px;
+}
+
+.panel{
+    padding:25px;
+    background:rgba(15,23,42,.78);
+    backdrop-filter:blur(18px);
+    border:1px solid #263244;
+    border-radius:18px;
+    animation:fadeUp .9s ease;
+}
+
+.panel.full{
+    grid-column:1/-1;
+}
+
+.panel h2{
+    font-size:19px;
+    margin-bottom:20px;
+}
+
+/* Details */
+.details-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+}
+
+.detail-item{
+    padding:15px;
+    border:1px solid #263244;
+    border-radius:10px;
+    background:#0b112055;
+}
+
+.detail-item label{
+    display:block;
+    color:#64748b;
+    font-size:11px;
+    text-transform:uppercase;
+    margin-bottom:7px;
+}
+
+.detail-item strong{
+    font-size:14px;
+}
+
+/* Stats */
+.customer-stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+}
+
+.mini-stat{
+    padding:18px;
+    border-radius:12px;
+    background:#0b112055;
+    border:1px solid #263244;
+}
+
+.mini-stat .icon{
+    font-size:22px;
+}
+
+.mini-stat h3{
+    margin-top:12px;
+    font-size:24px;
+}
+
+.mini-stat p{
+    color:#94a3b8;
+    font-size:12px;
+    margin-top:4px;
+}
+
+/* Table */
+.table-wrapper{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:700px;
+}
+
+th{
+    text-align:left;
+    padding:14px;
+    color:#94a3b8;
+    font-size:12px;
+    background:#0b1120;
+}
+
+td{
+    padding:14px;
+    border-top:1px solid #263244;
+    font-size:13px;
+}
+
+.status{
+    display:inline-block;
+    padding:6px 11px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:600;
+}
+
+.status.completed{
+    color:#22c55e;
+    background:#22c55e22;
+}
+
+.status.pending{
+    color:#f97316;
+    background:#f9731622;
+}
+
+/* Light Mode */
+body.light-mode{
+    background:#f1f5f9;
+    color:#0f172a;
+}
+
+body.light-mode .sidebar,
+body.light-mode .topbar,
+body.light-mode .profile-card,
+body.light-mode .panel{
+    background:rgba(255,255,255,.9);
+    border-color:#e2e8f0;
+}
+
+body.light-mode .search input{
+    background:#f8fafc;
+    color:#0f172a;
+    border-color:#cbd5e1;
+}
+
+body.light-mode .detail-item,
+body.light-mode .mini-stat{
+    background:#f8fafc;
+    border-color:#e2e8f0;
+}
+
+body.light-mode th{
+    background:#f8fafc;
+}
+
+body.light-mode td{
+    border-color:#e2e8f0;
+}
+
+body.light-mode .menu a{
+    color:#64748b;
+}
+
+body.light-mode .menu a:hover,
+body.light-mode .menu a.active{
+    color:#0f172a;
+    background:#e0f2fe;
+}
+
+body.light-mode .theme-btn{
+    background:#f8fafc;
+    color:#7c3aed;
+}
+
+/* Responsive */
+@media(max-width:900px){
+
+    .dashboard-grid{
+        grid-template-columns:1fr;
+    }
+
+    .panel.full{
+        grid-column:auto;
+    }
+
+}
+
+@media(max-width:750px){
+
+    .sidebar{
+        width:70px;
+        padding:15px 8px;
+    }
+
+    .logo h2,
+    .logo span,
+    .menu-title,
+    .menu a span{
+        display:none;
+    }
+
+    .logo{
+        justify-content:center;
+    }
+
+    .menu a{
+        justify-content:center;
+    }
+
+    .main{
+        margin-left:70px;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .search{
+        width:200px;
+    }
+
+    .heading{
+        display:block;
+    }
+
+    .back-btn{
+        margin-top:18px;
+    }
+
+    .profile-card{
+        display:block;
+    }
+
+    .edit-btn{
+        margin-top:20px;
+        width:100%;
+    }
+
+}
+
+@media(max-width:550px){
+
+    .content{
+        padding:18px;
+    }
+
+    .details-grid{
+        grid-template-columns:1fr;
+    }
+
+    .customer-stats{
+        grid-template-columns:1fr;
+    }
+
+}
+
+/* Animations */
+@keyframes float{
+    from{
+        transform:translate(0,0) scale(1);
+    }
+    to{
+        transform:translate(80px,50px) scale(1.2);
+    }
+}
+
+@keyframes slideIn{
+    from{
+        transform:translateX(-100%);
+        opacity:0;
+    }
+    to{
+        transform:translateX(0);
+        opacity:1;
+    }
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes glow{
+    from{
+        box-shadow:0 0 10px #06b6d455;
+    }
+    to{
+        box-shadow:0 0 30px #06b6d488;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="background">
+    <div class="grid-bg"></div>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+</div>
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            ✦
+        </div>
+
+        <div>
+            <h2>NEXA HUB AI</h2>
+            <span>AI Management System</span>
+        </div>
+
+    </div>
+
+    <div class="menu-title">
+        Main Menu
+    </div>
+
+    <nav class="menu">
+
+        <a href="dashboard.html">
+            📊 <span>Dashboard</span>
+        </a>
+
+        <a href="inventory_dashboard.html">
+            📦 <span>Inventory</span>
+        </a>
+
+        <a href="medicine_catalog_import.html">
+            💊 <span>Medicines</span>
+        </a>
+
+        <a href="customer_list.html" class="active">
+            👥 <span>Customers</span>
+        </a>
+
+        <a href="employee_list.html">
+            👨‍💼 <span>Employees</span>
+        </a>
+
+        <a href="delivery_dashboard.html">
+            🚚 <span>Delivery</span>
+        </a>
+
+    </nav>
+
+    <div class="menu-title">
+        Management
+    </div>
+
+    <nav class="menu">
+
+        <a href="finance_income_form.html">
+            💰 <span>Finance</span>
+        </a>
+
+        <a href="attendance_daily.html">
+            🕒 <span>Attendance</span>
+        </a>
+
+        <a href="branch_list.html">
+            🏢 <span>Branches</span>
+        </a>
+
+        <a href="batch_list.html">
+            🧾 <span>Batches</span>
+        </a>
+
+    </nav>
+
+</aside>
+
+<main class="main">
+
+    <header class="topbar">
+
+        <div class="search">
+            <input
+                type="text"
+                placeholder="Search customer..."
+            >
+        </div>
+
+        <div class="top-actions">
+
+            <button
+                class="theme-btn"
+                id="themeBtn"
+                onclick="toggleTheme()"
+            >
+                🌙
+            </button>
+
+            <div class="profile">
+
+                <div>
+                    <b>Admin User</b>
+                    <small>Administrator</small>
+                </div>
+
+                <div class="avatar">
+                    A
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <section class="content">
+
+        <div class="heading">
+
+            <div>
+                <h1>Customer Details</h1>
+                <p>View complete customer information and purchase history.</p>
+            </div>
+
+            <button
+                class="back-btn"
+                onclick="goBack()"
+            >
+                ← Back to Customers
+            </button>
+
+        </div>
+
+        <div class="profile-card">
+
+            <div class="customer-info">
+
+                <div class="customer-avatar">
+                    RS
+                </div>
+
+                <div>
+
+                    <h2>Rahul Sharma</h2>
+
+                    <p>
+                        Premium Customer • Active
+                    </p>
+
+                    <div class="customer-id">
+                        Customer ID: CUST-1001
+                    </div>
+
+                </div>
+
+            </div>
+
+            <button
+                class="edit-btn"
+                onclick="editCustomer()"
+            >
+                ✎ Edit Customer
+            </button>
+
+        </div>
+
+        <div class="dashboard-grid">
+
+            <div class="panel">
+
+                <h2>
+                    👤 Personal Information
+                </h2>
+
+                <div class="details-grid">
+
+                    <div class="detail-item">
+                        <label>Full Name</label>
+                        <strong>Rahul Sharma</strong>
+                    </div>
+
+                    <div class="detail-item">
+                        <label>Customer ID</label>
+                        <strong>CUST-1001</strong>
+                    </div>
+
+                    <div class="detail-item">
+                        <label>Phone Number</label>
+                        <strong>+91 98765 43210</strong>
+                    </div>
+
+                    <div class="detail-item">
+                        <label>Email Address</label>
+                        <strong>rahul@example.com</strong>
+                    </div>
+
+                    <div class="detail-item">
+                        <label>Date of Birth</label>
+                        <strong>15 August 1998</strong>
+                    </div>
+
+                    <div class="detail-item">
+                        <label>Customer Since</label>
+                        <strong>12 January 2024</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="panel">
+
+                <h2>
+                    📍 Contact Information
+                </h2>
+
+                <div class="details-grid">
+
+                    <div class="detail-item">
+                        <label>City</label>
+                        <strong>New Delhi</strong>
+                    </div>
+
+                    <div class="detail-item">
+                        <label>State</label>
+                        <strong>Delhi</strong>
+                    </div>
+
+                    <div class="detail-item">
+                        <label>PIN Code</label>
+                        <strong>110001</strong>
+                    </div>
+
+                    <div class="detail-item">
+                        <label>Preferred Contact</label>
+                        <strong>WhatsApp</strong>
+                    </div>
+
+                    <div class="detail-item" style="grid-column:1/-1;">
+                        <label>Complete Address</label>
+                        <strong>
+                            24, Main Market, New Delhi, Delhi - 110001
+                        </strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="panel full">
+
+                <h2>
+                    📊 Customer Overview
+                </h2>
+
+                <div class="customer-stats">
+
+                    <div class="mini-stat">
+
+                        <div class="icon">
+                            🛒
+                        </div>
+
+                        <h3>
+                            42
+                        </h3>
+
+                        <p>
+                            Total Orders
+                        </p>
+
+                    </div>
+
+                    <div class="mini-stat">
+
+                        <div class="icon">
+                            💰
+                        </div>
+
+                        <h3>
+                            ₹18,450
+                        </h3>
+
+                        <p>
+                            Total Spent
+                        </p>
+
+                    </div>
+
+                    <div class="mini-stat">
+
+                        <div class="icon">
+                            📅
+                        </div>
+
+                        <h3>
+                            2 Years
+                        </h3>
+
+                        <p>
+                            Customer Duration
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="panel full">
+
+                <h2>
+                    🧾 Recent Purchase History
+                </h2>
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Date</th>
+                                <th>Items</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+                                <td>#ORD-2048</td>
+                                <td>18 July 2026</td>
+                                <td>4 Items</td>
+                                <td>₹1,250</td>
+                                <td>
+                                    <span class="status completed">
+                                        Completed
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>#ORD-2031</td>
+                                <td>05 July 2026</td>
+                                <td>2 Items</td>
+                                <td>₹850</td>
+                                <td>
+                                    <span class="status completed">
+                                        Completed
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>#ORD-1998</td>
+                                <td>20 June 2026</td>
+                                <td>6 Items</td>
+                                <td>₹2,400</td>
+                                <td>
+                                    <span class="status completed">
+                                        Completed
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>#ORD-1980</td>
+                                <td>12 June 2026</td>
+                                <td>3 Items</td>
+                                <td>₹620</td>
+                                <td>
+                                    <span class="status pending">
+                                        Pending
+                                    </span>
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script>
+
+function toggleTheme(){
+
+    document.body.classList.toggle("light-mode");
+
+    const btn =
+        document.getElementById("themeBtn");
+
+    if(
+        document.body.classList.contains("light-mode")
+    ){
+
+        btn.innerHTML = "☀️";
+
+        localStorage.setItem(
+            "theme",
+            "light"
+        );
+
+    }else{
+
+        btn.innerHTML = "🌙";
+
+        localStorage.setItem(
+            "theme",
+            "dark"
+        );
+
+    }
+
+}
+
+window.addEventListener(
+    "load",
+    function(){
+
+        if(
+            localStorage.getItem("theme")
+            ===
+            "light"
+        ){
+
+            document.body.classList.add(
+                "light-mode"
+            );
+
+            document.getElementById(
+                "themeBtn"
+            ).innerHTML = "☀️";
+
+        }
+
+    }
+);
+
+function goBack(){
+
+    window.location.href =
+        "customer_list.html";
+
+}
+
+function editCustomer(){
+
+    alert(
+        "Customer edit mode will open here."
+    );
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Inventory Adjustment</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#080d1a;
+    color:#e5e7eb;
+    transition:.4s;
+}
+
+/* ANIMATED BACKGROUND */
+
+.background{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:-1;
+}
+
+.grid{
+    position:absolute;
+    inset:0;
+    opacity:.06;
+    background-image:
+    linear-gradient(#fff 1px,transparent 1px),
+    linear-gradient(90deg,#fff 1px,transparent 1px);
+    background-size:45px 45px;
+}
+
+.orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(100px);
+    opacity:.25;
+    animation:float 12s infinite alternate ease-in-out;
+}
+
+.orb1{
+    width:350px;
+    height:350px;
+    background:#06b6d4;
+    top:-100px;
+    left:250px;
+}
+
+.orb2{
+    width:300px;
+    height:300px;
+    background:#7c3aed;
+    right:-80px;
+    top:250px;
+    animation-delay:2s;
+}
+
+.orb3{
+    width:250px;
+    height:250px;
+    background:#2563eb;
+    bottom:-100px;
+    left:40%;
+    animation-delay:4s;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    padding:22px 15px;
+    background:rgba(15,23,42,.88);
+    backdrop-filter:blur(18px);
+    border-right:1px solid #263244;
+    z-index:10;
+    animation:slideIn .7s ease;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 12px 25px;
+    border-bottom:1px solid #263244;
+    margin-bottom:18px;
+}
+
+.logo-icon{
+    width:44px;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:13px;
+    font-size:23px;
+    color:#fff;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    animation:glow 2s infinite alternate;
+}
+
+.logo h2{
+    font-size:17px;
+}
+
+.logo span{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.menu-title{
+    padding:12px;
+    color:#64748b;
+    font-size:11px;
+    text-transform:uppercase;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    margin:5px 0;
+    color:#94a3b8;
+    text-decoration:none;
+    border-radius:9px;
+    transition:.3s;
+}
+
+.menu a:hover,
+.menu a.active{
+    color:#fff;
+    background:linear-gradient(90deg,#06b6d422,#7c3aed22);
+    transform:translateX(5px);
+}
+
+.menu a.active{
+    border-left:3px solid #06b6d4;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:260px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:75px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    background:rgba(15,23,42,.7);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid #263244;
+}
+
+.search{
+    width:350px;
+}
+
+.search input{
+    width:100%;
+    padding:12px 18px;
+    background:#0b1120aa;
+    color:#fff;
+    border:1px solid #263244;
+    border-radius:10px;
+    outline:none;
+}
+
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:22px;
+}
+
+.theme-btn{
+    width:42px;
+    height:42px;
+    border:1px solid #263244;
+    border-radius:50%;
+    background:#0b1120;
+    color:#facc15;
+    font-size:19px;
+    cursor:pointer;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.profile small{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    font-weight:bold;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+}
+
+/* CONTENT */
+
+.content{
+    padding:30px;
+}
+
+.page-header{
+    margin-bottom:25px;
+}
+
+.page-header h1{
+    font-size:28px;
+}
+
+.page-header p{
+    color:#94a3b8;
+    margin-top:5px;
+}
+
+/* LAYOUT */
+
+.form-layout{
+    display:grid;
+    grid-template-columns:1.5fr 1fr;
+    gap:22px;
+}
+
+/* CARD */
+
+.card{
+    padding:24px;
+    background:rgba(15,23,42,.78);
+    backdrop-filter:blur(18px);
+    border:1px solid #263244;
+    border-radius:18px;
+    animation:fadeUp .8s ease;
+}
+
+.card h2{
+    font-size:19px;
+    margin-bottom:22px;
+}
+
+/* FORM */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.form-group.full{
+    grid-column:1/-1;
+}
+
+label{
+    color:#94a3b8;
+    font-size:13px;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:13px 15px;
+    color:#fff;
+    background:#0b1120;
+    border:1px solid #334155;
+    border-radius:9px;
+    outline:none;
+    transition:.3s;
+}
+
+textarea{
+    min-height:110px;
+    resize:vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#06b6d4;
+    box-shadow:0 0 0 3px #06b6d411;
+}
+
+/* ADJUSTMENT TYPE */
+
+.adjustment-type{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.type-option{
+    position:relative;
+}
+
+.type-option input{
+    display:none;
+}
+
+.type-option label{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    padding:14px;
+    border:1px solid #334155;
+    border-radius:10px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.type-option input:checked + label{
+    color:#fff;
+    border-color:#06b6d4;
+    background:#06b6d422;
+}
+
+/* PREVIEW */
+
+.preview-card{
+    min-height:100%;
+}
+
+.preview-box{
+    padding:20px;
+    border:1px solid #263244;
+    border-radius:14px;
+    background:#0b112066;
+}
+
+.preview-medicine{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding-bottom:18px;
+    border-bottom:1px solid #263244;
+}
+
+.medicine-icon{
+    width:55px;
+    height:55px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:14px;
+    font-size:26px;
+    background:linear-gradient(135deg,#06b6d422,#7c3aed22);
+}
+
+.preview-medicine small{
+    display:block;
+    color:#94a3b8;
+    margin-top:5px;
+}
+
+.preview-row{
+    display:flex;
+    justify-content:space-between;
+    padding:14px 0;
+    border-bottom:1px solid #263244;
+}
+
+.preview-row:last-child{
+    border-bottom:0;
+}
+
+.preview-row span{
+    color:#94a3b8;
+}
+
+.preview-row strong{
+    color:#fff;
+}
+
+/* STOCK RESULT */
+
+.stock-result{
+    margin-top:20px;
+    padding:18px;
+    border-radius:12px;
+    text-align:center;
+    background:#06b6d411;
+    border:1px solid #06b6d433;
+}
+
+.stock-result small{
+    display:block;
+    color:#94a3b8;
+}
+
+.stock-result h2{
+    margin:8px 0 0;
+    color:#06b6d4;
+    font-size:30px;
+}
+
+/* BUTTONS */
+
+.form-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:12px;
+    margin-top:24px;
+}
+
+.btn{
+    padding:12px 22px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:600;
+    transition:.3s;
+}
+
+.btn-cancel{
+    color:#94a3b8;
+    background:transparent;
+    border:1px solid #334155;
+}
+
+.btn-save{
+    color:#fff;
+    border:0;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+}
+
+.btn:hover{
+    transform:translateY(-3px);
+}
+
+.btn-save:hover{
+    box-shadow:0 0 25px #06b6d455;
+}
+
+/* RECENT ADJUSTMENTS */
+
+.recent-card{
+    margin-top:22px;
+}
+
+.recent-list{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.recent-item{
+    padding:16px;
+    border:1px solid #263244;
+    border-radius:12px;
+    background:#0b112066;
+}
+
+.recent-item h3{
+    font-size:14px;
+}
+
+.recent-item small{
+    display:block;
+    color:#94a3b8;
+    margin-top:6px;
+}
+
+.adjustment-badge{
+    display:inline-block;
+    margin-top:12px;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:11px;
+}
+
+.added{
+    color:#22c55e;
+    background:#22c55e22;
+}
+
+.removed{
+    color:#ef4444;
+    background:#ef444422;
+}
+
+/* LIGHT MODE */
+
+body.light-mode{
+    background:#f1f5f9;
+    color:#0f172a;
+}
+
+body.light-mode .sidebar,
+body.light-mode .topbar,
+body.light-mode .card{
+    background:rgba(255,255,255,.92);
+    border-color:#e2e8f0;
+}
+
+body.light-mode input,
+body.light-mode select,
+body.light-mode textarea{
+    background:#f8fafc;
+    color:#0f172a;
+    border-color:#cbd5e1;
+}
+
+body.light-mode .theme-btn{
+    background:#f8fafc;
+    color:#7c3aed;
+}
+
+body.light-mode .type-option label{
+    border-color:#cbd5e1;
+}
+
+body.light-mode .preview-box,
+body.light-mode .recent-item{
+    background:#f8fafc;
+    border-color:#e2e8f0;
+}
+
+body.light-mode .preview-row,
+body.light-mode .preview-medicine{
+    border-color:#e2e8f0;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+
+    .form-layout{
+        grid-template-columns:1fr;
+    }
+
+    .recent-list{
+        grid-template-columns:1fr 1fr;
+    }
+
+}
+
+@media(max-width:800px){
+
+    .sidebar{
+        width:70px;
+        padding:15px 8px;
+    }
+
+    .logo h2,
+    .logo span,
+    .menu-title,
+    .menu a span{
+        display:none;
+    }
+
+    .logo{
+        justify-content:center;
+    }
+
+    .menu a{
+        justify-content:center;
+    }
+
+    .main{
+        margin-left:70px;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .search{
+        width:180px;
+    }
+
+    .content{
+        padding:18px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-group.full{
+        grid-column:auto;
+    }
+
+    .recent-list{
+        grid-template-columns:1fr;
+    }
+
+    .form-actions{
+        flex-direction:column;
+    }
+
+    .btn{
+        width:100%;
+    }
+
+}
+
+/* ANIMATIONS */
+
+@keyframes float{
+
+    from{
+        transform:translate(0,0) scale(1);
+    }
+
+    to{
+        transform:translate(80px,50px) scale(1.2);
+    }
+
+}
+
+@keyframes slideIn{
+
+    from{
+        transform:translateX(-100%);
+        opacity:0;
+    }
+
+    to{
+        transform:translateX(0);
+        opacity:1;
+    }
+
+}
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+@keyframes glow{
+
+    from{
+        box-shadow:0 0 10px #06b6d455;
+    }
+
+    to{
+        box-shadow:0 0 30px #06b6d488;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="background">
+
+    <div class="grid"></div>
+
+    <div class="orb orb1"></div>
+
+    <div class="orb orb2"></div>
+
+    <div class="orb orb3"></div>
+
+</div>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            ✦
+        </div>
+
+        <div>
+
+            <h2>NEXA HUB AI</h2>
+
+            <span>
+                AI Management System
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="menu-title">
+        Main Menu
+    </div>
+
+    <nav class="menu">
+
+        <a href="dashboard.html">
+            📊 <span>Dashboard</span>
+        </a>
+
+        <a href="inventory_dashboard.html">
+            📦 <span>Inventory</span>
+        </a>
+
+        <a href="medicine_catalog_import.html">
+            💊 <span>Medicines</span>
+        </a>
+
+        <a href="inventory_low_stock.html">
+            ⚠️ <span>Low Stock</span>
+        </a>
+
+        <a href="inventory_expiry.html">
+            ⏳ <span>Expiry</span>
+        </a>
+
+        <a href="inventory_adjustment_form.html" class="active">
+            ⚙️ <span>Adjustment</span>
+        </a>
+
+        <a href="customer_list.html">
+            👥 <span>Customers</span>
+        </a>
+
+        <a href="employee_list.html">
+            👨‍💼 <span>Employees</span>
+        </a>
+
+        <a href="delivery_dashboard.html">
+            🚚 <span>Delivery</span>
+        </a>
+
+    </nav>
+
+    <div class="menu-title">
+        Management
+    </div>
+
+    <nav class="menu">
+
+        <a href="finance_income_form.html">
+            💰 <span>Finance</span>
+        </a>
+
+        <a href="attendance_daily.html">
+            🕒 <span>Attendance</span>
+        </a>
+
+        <a href="branch_list.html">
+            🏢 <span>Branches</span>
+        </a>
+
+        <a href="batch_list.html">
+            🧾 <span>Batches</span>
+        </a>
+
+    </nav>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+<header class="topbar">
+
+    <div class="search">
+
+        <input
+            type="text"
+            placeholder="Search inventory..."
+        >
+
+    </div>
+
+    <div class="top-actions">
+
+        <button
+            class="theme-btn"
+            id="themeBtn"
+            onclick="toggleTheme()"
+        >
+            🌙
+        </button>
+
+        <div class="profile">
+
+            <div>
+
+                <b>
+                    Admin User
+                </b>
+
+                <small>
+                    Administrator
+                </small>
+
+            </div>
+
+            <div class="avatar">
+                A
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+<section class="content">
+
+    <div class="page-header">
+
+        <h1>
+            ⚙️ Inventory Adjustment
+        </h1>
+
+        <p>
+            Manually increase or decrease medicine inventory stock.
+        </p>
+
+    </div>
+
+    <div class="form-layout">
+
+        <!-- FORM -->
+
+        <div class="card">
+
+            <h2>
+                📝 Create Stock Adjustment
+            </h2>
+
+            <form
+                id="adjustmentForm"
+                onsubmit="saveAdjustment(event)"
+            >
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>
+                            Select Medicine
+                        </label>
+
+                        <select
+                            id="medicine"
+                            onchange="updatePreview()"
+                            required
+                        >
+
+                            <option value="">
+                                Choose Medicine
+                            </option>
+
+                            <option value="Paracetamol 500mg">
+                                Paracetamol 500mg
+                            </option>
+
+                            <option value="Azithromycin 250mg">
+                                Azithromycin 250mg
+                            </option>
+
+                            <option value="Amoxicillin 500mg">
+                                Amoxicillin 500mg
+                            </option>
+
+                            <option value="Cetirizine 10mg">
+                                Cetirizine 10mg
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Batch Number
+                        </label>
+
+                        <select
+                            id="batch"
+                            onchange="updatePreview()"
+                            required
+                        >
+
+                            <option value="">
+                                Select Batch
+                            </option>
+
+                            <option value="BTH-2026-001">
+                                BTH-2026-001
+                            </option>
+
+                            <option value="BTH-2026-018">
+                                BTH-2026-018
+                            </option>
+
+                            <option value="BTH-2026-042">
+                                BTH-2026-042
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group full">
+
+                        <label>
+                            Adjustment Type
+                        </label>
+
+                        <div class="adjustment-type">
+
+                            <div class="type-option">
+
+                                <input
+                                    type="radio"
+                                    name="adjustmentType"
+                                    id="addStock"
+                                    value="add"
+                                    checked
+                                    onchange="updatePreview()"
+                                >
+
+                                <label for="addStock">
+                                    ➕ Add Stock
+                                </label>
+
+                            </div>
+
+                            <div class="type-option">
+
+                                <input
+                                    type="radio"
+                                    name="adjustmentType"
+                                    id="removeStock"
+                                    value="remove"
+                                    onchange="updatePreview()"
+                                >
+
+                                <label for="removeStock">
+                                    ➖ Remove Stock
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Quantity
+                        </label>
+
+                        <input
+                            type="number"
+                            id="quantity"
+                            min="1"
+                            placeholder="Enter quantity"
+                            oninput="updatePreview()"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Adjustment Reason
+                        </label>
+
+                        <select
+                            id="reason"
+                            required
+                        >
+
+                            <option value="">
+                                Select Reason
+                            </option>
+
+                            <option>
+                                Stock Count Correction
+                            </option>
+
+                            <option>
+                                Damaged Stock
+                            </option>
+
+                            <option>
+                                Expired Stock
+                            </option>
+
+                            <option>
+                                Missing Stock
+                            </option>
+
+                            <option>
+                                Manual Stock Update
+                            </option>
+
+                            <option>
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group full">
+
+                        <label>
+                            Notes
+                        </label>
+
+                        <textarea
+                            id="notes"
+                            placeholder="Write additional notes..."
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        class="btn btn-cancel"
+                        onclick="resetForm()"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn btn-save"
+                    >
+                        💾 Save Adjustment
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+        <!-- PREVIEW -->
+
+        <div class="card preview-card">
+
+            <h2>
+                👁️ Adjustment Preview
+            </h2>
+
+            <div class="preview-box">
+
+                <div class="preview-medicine">
+
+                    <div class="medicine-icon">
+                        💊
+                    </div>
+
+                    <div>
+
+                        <h3 id="previewMedicine">
+                            Select Medicine
+                        </h3>
+
+                        <small id="previewBatch">
+                            Batch not selected
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <div class="preview-row">
+
+                    <span>
+                        Adjustment Type
+                    </span>
+
+                    <strong id="previewType">
+                        Add Stock
+                    </strong>
+
+                </div>
+
+                <div class="preview-row">
+
+                    <span>
+                        Quantity
+                    </span>
+
+                    <strong id="previewQuantity">
+                        0 Units
+                    </strong>
+
+                </div>
+
+                <div class="preview-row">
+
+                    <span>
+                        Current Stock
+                    </span>
+
+                    <strong>
+                        250 Units
+                    </strong>
+
+                </div>
+
+                <div class="preview-row">
+
+                    <span>
+                        New Stock
+                    </span>
+
+                    <strong id="previewNewStock">
+                        250 Units
+                    </strong>
+
+                </div>
+
+                <div class="stock-result">
+
+                    <small>
+                        Updated Inventory Level
+                    </small>
+
+                    <h2 id="stockResult">
+                        250
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- RECENT ADJUSTMENTS -->
+
+    <div class="card recent-card">
+
+        <h2>
+            🕒 Recent Adjustments
+        </h2>
+
+        <div class="recent-list">
+
+            <div class="recent-item">
+
+                <h3>
+                    Paracetamol 500mg
+                </h3>
+
+                <small>
+                    Stock Count Correction • 18 Jul 2026
+                </small>
+
+                <span class="adjustment-badge added">
+                    +50 Units Added
+                </span>
+
+            </div>
+
+            <div class="recent-item">
+
+                <h3>
+                    Amoxicillin 500mg
+                </h3>
+
+                <small>
+                    Damaged Stock • 17 Jul 2026
+                </small>
+
+                <span class="adjustment-badge removed">
+                    -12 Units Removed
+                </span>
+
+            </div>
+
+            <div class="recent-item">
+
+                <h3>
+                    Cetirizine 10mg
+                </h3>
+
+                <small>
+                    Manual Stock Update • 16 Jul 2026
+                </small>
+
+                <span class="adjustment-badge added">
+                    +25 Units Added
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+<script>
+
+/* THEME */
+
+function toggleTheme(){
+
+    document.body.classList.toggle(
+        "light-mode"
+    );
+
+    const button =
+        document.getElementById(
+            "themeBtn"
+        );
+
+    if(
+        document.body.classList.contains(
+            "light-mode"
+        )
+    ){
+
+        button.innerHTML = "☀️";
+
+        localStorage.setItem(
+            "theme",
+            "light"
+        );
+
+    }else{
+
+        button.innerHTML = "🌙";
+
+        localStorage.setItem(
+            "theme",
+            "dark"
+        );
+
+    }
+
+}
+
+/* LOAD THEME */
+
+window.addEventListener(
+    "load",
+    function(){
+
+        if(
+            localStorage.getItem(
+                "theme"
+            )
+            ===
+            "light"
+        ){
+
+            document.body.classList.add(
+                "light-mode"
+            );
+
+            document.getElementById(
+                "themeBtn"
+            ).innerHTML = "☀️";
+
+        }
+
+    }
+);
+
+/* UPDATE PREVIEW */
+
+function updatePreview(){
+
+    const medicine =
+        document.getElementById(
+            "medicine"
+        ).value;
+
+    const batch =
+        document.getElementById(
+            "batch"
+        ).value;
+
+    const quantity =
+        parseInt(
+            document.getElementById(
+                "quantity"
+            ).value
+        ) || 0;
+
+    const type =
+        document.querySelector(
+            'input[name="adjustmentType"]:checked'
+        ).value;
+
+    const currentStock =
+        250;
+
+    let newStock;
+
+    if(
+        type === "add"
+    ){
+
+        newStock =
+            currentStock
+            +
+            quantity;
+
+        document.getElementById(
+            "previewType"
+        ).innerText =
+            "➕ Add Stock";
+
+    }else{
+
+        newStock =
+            Math.max(
+                0,
+                currentStock
+                -
+                quantity
+            );
+
+        document.getElementById(
+            "previewType"
+        ).innerText =
+            "➖ Remove Stock";
+
+    }
+
+    document.getElementById(
+        "previewMedicine"
+    ).innerText =
+        medicine
+        ||
+        "Select Medicine";
+
+    document.getElementById(
+        "previewBatch"
+    ).innerText =
+        batch
+        ||
+        "Batch not selected";
+
+    document.getElementById(
+        "previewQuantity"
+    ).innerText =
+        quantity
+        +
+        " Units";
+
+    document.getElementById(
+        "previewNewStock"
+    ).innerText =
+        newStock
+        +
+        " Units";
+
+    document.getElementById(
+        "stockResult"
+    ).innerText =
+        newStock;
+
+}
+
+/* SAVE */
+
+function saveAdjustment(
+    event
+){
+
+    event.preventDefault();
+
+    const medicine =
+        document.getElementById(
+            "medicine"
+        ).value;
+
+    const quantity =
+        document.getElementById(
+            "quantity"
+        ).value;
+
+    alert(
+        "Inventory adjustment saved successfully!\n\n"
+        +
+        medicine
+        +
+        "\nQuantity: "
+        +
+        quantity
+        +
+        " Units"
+    );
+
+    document
+    .getElementById(
+        "adjustmentForm"
+    )
+    .reset();
+
+    updatePreview();
+
+}
+
+/* RESET */
+
+function resetForm(){
+
+    document
+    .getElementById(
+        "adjustmentForm"
+    )
+    .reset();
+
+    updatePreview();
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Add New Branch</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#080d1a;
+    color:#e5e7eb;
+    transition:.4s ease;
+}
+
+/* ================= BACKGROUND ================= */
+
+.background{
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    overflow:hidden;
+}
+
+.grid-bg{
+    position:absolute;
+    inset:0;
+    opacity:.06;
+    background-image:
+    linear-gradient(#ffffff 1px,transparent 1px),
+    linear-gradient(90deg,#ffffff 1px,transparent 1px);
+    background-size:45px 45px;
+}
+
+.orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(90px);
+    opacity:.25;
+    animation:float 12s infinite alternate ease-in-out;
+}
+
+.orb1{
+    width:360px;
+    height:360px;
+    background:#06b6d4;
+    top:-120px;
+    left:250px;
+}
+
+.orb2{
+    width:300px;
+    height:300px;
+    background:#7c3aed;
+    right:-80px;
+    top:250px;
+    animation-delay:2s;
+}
+
+.orb3{
+    width:260px;
+    height:260px;
+    background:#2563eb;
+    bottom:-100px;
+    left:40%;
+    animation-delay:4s;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    padding:22px 15px;
+    background:rgba(15,23,42,.88);
+    backdrop-filter:blur(18px);
+    border-right:1px solid #263244;
+    z-index:10;
+    animation:slideIn .7s ease;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 12px 25px;
+    border-bottom:1px solid #263244;
+    margin-bottom:18px;
+}
+
+.logo-icon{
+    width:44px;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:13px;
+    font-size:23px;
+    color:#fff;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    animation:glow 2s infinite alternate;
+}
+
+.logo h2{
+    font-size:17px;
+}
+
+.logo span{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.menu-title{
+    padding:12px;
+    color:#64748b;
+    font-size:11px;
+    text-transform:uppercase;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    margin:5px 0;
+    color:#94a3b8;
+    text-decoration:none;
+    border-radius:9px;
+    transition:.3s;
+}
+
+.menu a:hover,
+.menu a.active{
+    color:#fff;
+    background:linear-gradient(90deg,#06b6d422,#7c3aed22);
+    transform:translateX(5px);
+}
+
+.menu a.active{
+    border-left:3px solid #06b6d4;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    margin-left:260px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:75px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    background:rgba(15,23,42,.7);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid #263244;
+}
+
+.search{
+    width:350px;
+}
+
+.search input{
+    width:100%;
+    padding:12px 18px;
+    background:#0b1120aa;
+    color:#fff;
+    border:1px solid #263244;
+    border-radius:10px;
+    outline:none;
+}
+
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:22px;
+}
+
+.theme-btn{
+    width:42px;
+    height:42px;
+    border:1px solid #263244;
+    border-radius:50%;
+    background:#0b1120;
+    color:#facc15;
+    font-size:19px;
+    cursor:pointer;
+    transition:.4s;
+}
+
+.theme-btn:hover{
+    transform:rotate(25deg) scale(1.1);
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.profile small{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    font-weight:bold;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+}
+
+/* ================= CONTENT ================= */
+
+.content{
+    padding:30px;
+}
+
+.heading{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.heading h1{
+    font-size:28px;
+}
+
+.heading p{
+    color:#94a3b8;
+    margin-top:5px;
+}
+
+.back-btn{
+    padding:11px 18px;
+    border:1px solid #263244;
+    border-radius:9px;
+    background:transparent;
+    color:#cbd5e1;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.back-btn:hover{
+    border-color:#06b6d4;
+    color:#06b6d4;
+}
+
+/* ================= FORM ================= */
+
+.form-panel{
+    max-width:1050px;
+    margin:auto;
+    padding:28px;
+    background:rgba(15,23,42,.78);
+    backdrop-filter:blur(18px);
+    border:1px solid #263244;
+    border-radius:18px;
+    animation:fadeUp .8s ease;
+}
+
+.form-title{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:28px;
+    padding-bottom:20px;
+    border-bottom:1px solid #263244;
+}
+
+.form-icon{
+    width:55px;
+    height:55px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:15px;
+    font-size:25px;
+    background:linear-gradient(135deg,#06b6d422,#7c3aed33);
+}
+
+.form-title h2{
+    font-size:21px;
+}
+
+.form-title p{
+    color:#94a3b8;
+    font-size:13px;
+    margin-top:5px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:22px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.form-group.full{
+    grid-column:1/-1;
+}
+
+.form-group label{
+    color:#cbd5e1;
+    font-size:13px;
+    font-weight:600;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+    width:100%;
+    padding:13px 15px;
+    border:1px solid #263244;
+    border-radius:9px;
+    outline:none;
+    background:#0b1120;
+    color:#fff;
+    transition:.3s;
+}
+
+.form-group textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+    border-color:#06b6d4;
+    box-shadow:0 0 20px #06b6d422;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder{
+    color:#64748b;
+}
+
+/* ================= BUTTONS ================= */
+
+.form-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:12px;
+    margin-top:30px;
+    padding-top:22px;
+    border-top:1px solid #263244;
+}
+
+.cancel-btn,
+.save-btn{
+    padding:12px 23px;
+    border-radius:9px;
+    cursor:pointer;
+    transition:.3s;
+    font-size:14px;
+}
+
+.cancel-btn{
+    border:1px solid #263244;
+    background:transparent;
+    color:#94a3b8;
+}
+
+.cancel-btn:hover{
+    color:#fff;
+    border-color:#94a3b8;
+}
+
+.save-btn{
+    border:0;
+    color:#fff;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+}
+
+.save-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 0 25px #06b6d455;
+}
+
+/* ================= LIGHT MODE ================= */
+
+body.light-mode{
+    background:#f1f5f9;
+    color:#0f172a;
+}
+
+body.light-mode .background{
+    opacity:.12;
+}
+
+body.light-mode .sidebar,
+body.light-mode .topbar,
+body.light-mode .form-panel{
+    background:rgba(255,255,255,.9);
+    border-color:#e2e8f0;
+}
+
+body.light-mode .search input,
+body.light-mode .form-group input,
+body.light-mode .form-group select,
+body.light-mode .form-group textarea{
+    background:#f8fafc;
+    color:#0f172a;
+    border-color:#cbd5e1;
+}
+
+body.light-mode .form-group label{
+    color:#334155;
+}
+
+body.light-mode .menu a{
+    color:#64748b;
+}
+
+body.light-mode .menu a:hover,
+body.light-mode .menu a.active{
+    color:#0f172a;
+    background:#e0f2fe;
+}
+
+body.light-mode .theme-btn{
+    background:#f8fafc;
+    color:#7c3aed;
+}
+
+body.light-mode .back-btn,
+body.light-mode .cancel-btn{
+    color:#475569;
+    border-color:#cbd5e1;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:750px){
+
+    .sidebar{
+        width:70px;
+        padding:15px 8px;
+    }
+
+    .logo h2,
+    .logo span,
+    .menu-title,
+    .menu a span{
+        display:none;
+    }
+
+    .logo{
+        justify-content:center;
+    }
+
+    .menu a{
+        justify-content:center;
+    }
+
+    .main{
+        margin-left:70px;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .search{
+        width:200px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-group.full{
+        grid-column:auto;
+    }
+}
+
+@media(max-width:550px){
+
+    .content{
+        padding:18px;
+    }
+
+    .heading{
+        display:block;
+    }
+
+    .back-btn{
+        margin-top:18px;
+    }
+
+    .form-panel{
+        padding:20px;
+    }
+
+    .form-actions{
+        flex-direction:column;
+    }
+
+    .cancel-btn,
+    .save-btn{
+        width:100%;
+    }
+}
+
+/* ================= ANIMATIONS ================= */
+
+@keyframes float{
+    from{
+        transform:translate(0,0) scale(1);
+    }
+
+    to{
+        transform:translate(80px,50px) scale(1.2);
+    }
+}
+
+@keyframes slideIn{
+    from{
+        transform:translateX(-100%);
+        opacity:0;
+    }
+
+    to{
+        transform:translateX(0);
+        opacity:1;
+    }
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes glow{
+    from{
+        box-shadow:0 0 10px #06b6d455;
+    }
+
+    to{
+        box-shadow:0 0 30px #06b6d488;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="background">
+
+    <div class="grid-bg"></div>
+
+    <div class="orb orb1"></div>
+
+    <div class="orb orb2"></div>
+
+    <div class="orb orb3"></div>
+
+</div>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            ✦
+        </div>
+
+        <div>
+
+            <h2>NEXA HUB AI</h2>
+
+            <span>
+                AI Management System
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="menu-title">
+        Main Menu
+    </div>
+
+    <nav class="menu">
+
+        <a href="dashboard.html">
+            📊 <span>Dashboard</span>
+        </a>
+
+        <a href="inventory_dashboard.html">
+            📦 <span>Inventory</span>
+        </a>
+
+        <a href="medicine_catalog_import.html">
+            💊 <span>Medicines</span>
+        </a>
+
+        <a href="customer_list.html">
+            👥 <span>Customers</span>
+        </a>
+
+        <a href="employee_list.html">
+            👨‍💼 <span>Employees</span>
+        </a>
+
+        <a href="delivery_dashboard.html">
+            🚚 <span>Delivery</span>
+        </a>
+
+    </nav>
+
+    <div class="menu-title">
+        Management
+    </div>
+
+    <nav class="menu">
+
+        <a href="finance_income_form.html">
+            💰 <span>Finance</span>
+        </a>
+
+        <a href="attendance_daily.html">
+            🕒 <span>Attendance</span>
+        </a>
+
+        <a href="branch_list.html" class="active">
+            🏢 <span>Branches</span>
+        </a>
+
+        <a href="batch_list.html">
+            🧾 <span>Batches</span>
+        </a>
+
+    </nav>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+    <header class="topbar">
+
+        <div class="search">
+
+            <input
+                type="text"
+                placeholder="Search..."
+            >
+
+        </div>
+
+        <div class="top-actions">
+
+            <button
+                class="theme-btn"
+                id="themeBtn"
+                onclick="toggleTheme()"
+            >
+                🌙
+            </button>
+
+            <div class="profile">
+
+                <div>
+
+                    <b>
+                        Admin User
+                    </b>
+
+                    <small>
+                        Administrator
+                    </small>
+
+                </div>
+
+                <div class="avatar">
+                    A
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- CONTENT -->
+
+    <section class="content">
+
+        <div class="heading">
+
+            <div>
+
+                <h1>
+                    Add New Branch
+                </h1>
+
+                <p>
+                    Create and register a new NEXA HUB AI branch.
+                </p>
+
+            </div>
+
+            <button
+                class="back-btn"
+                onclick="goBack()"
+            >
+                ← Back to Branches
+            </button>
+
+        </div>
+
+        <!-- FORM -->
+
+        <div class="form-panel">
+
+            <div class="form-title">
+
+                <div class="form-icon">
+                    🏢
+                </div>
+
+                <div>
+
+                    <h2>
+                        Branch Information
+                    </h2>
+
+                    <p>
+                        Enter complete branch details below.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <form
+                id="branchForm"
+                onsubmit="saveBranch(event)"
+            >
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>
+                            Branch Name *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="branchName"
+                            placeholder="Example: Delhi Main Branch"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Branch Code *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="branchCode"
+                            placeholder="Example: NXA-DEL-001"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Branch Manager *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="manager"
+                            placeholder="Enter manager name"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Contact Number *
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="phone"
+                            placeholder="Enter contact number"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="branch@example.com"
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Opening Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="openingDate"
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            City *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="city"
+                            placeholder="Enter city"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            State *
+                        </label>
+
+                        <select
+                            id="state"
+                            required
+                        >
+
+                            <option value="">
+                                Select State
+                            </option>
+
+                            <option>
+                                Delhi
+                            </option>
+
+                            <option>
+                                Uttar Pradesh
+                            </option>
+
+                            <option>
+                                Haryana
+                            </option>
+
+                            <option>
+                                Rajasthan
+                            </option>
+
+                            <option>
+                                Maharashtra
+                            </option>
+
+                            <option>
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group full">
+
+                        <label>
+                            Complete Address *
+                        </label>
+
+                        <textarea
+                            id="address"
+                            placeholder="Enter complete branch address..."
+                            required
+                        ></textarea>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Number of Employees
+                        </label>
+
+                        <input
+                            type="number"
+                            id="employees"
+                            placeholder="Enter employee count"
+                            min="0"
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Branch Status
+                        </label>
+
+                        <select
+                            id="status"
+                        >
+
+                            <option value="active">
+                                Active
+                            </option>
+
+                            <option value="inactive">
+                                Inactive
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group full">
+
+                        <label>
+                            Additional Notes
+                        </label>
+
+                        <textarea
+                            id="notes"
+                            placeholder="Add any additional notes..."
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        class="cancel-btn"
+                        onclick="goBack()"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="save-btn"
+                    >
+                        ✓ Save Branch
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script>
+
+/* THEME */
+
+function toggleTheme(){
+
+    document.body.classList.toggle(
+        "light-mode"
+    );
+
+    const btn =
+        document.getElementById(
+            "themeBtn"
+        );
+
+    if(
+        document.body.classList.contains(
+            "light-mode"
+        )
+    ){
+
+        btn.innerHTML =
+            "☀️";
+
+        localStorage.setItem(
+            "theme",
+            "light"
+        );
+
+    }else{
+
+        btn.innerHTML =
+            "🌙";
+
+        localStorage.setItem(
+            "theme",
+            "dark"
+        );
+
+    }
+
+}
+
+/* LOAD THEME */
+
+window.addEventListener(
+    "load",
+    function(){
+
+        if(
+            localStorage.getItem(
+                "theme"
+            )
+            ===
+            "light"
+        ){
+
+            document.body.classList.add(
+                "light-mode"
+            );
+
+            document.getElementById(
+                "themeBtn"
+            ).innerHTML =
+                "☀️";
+
+        }
+
+    }
+);
+
+/* BACK */
+
+function goBack(){
+
+    window.location.href =
+        "branch_list.html";
+
+}
+
+/* SAVE BRANCH */
+
+function saveBranch(event){
+
+    event.preventDefault();
+
+    const name =
+        document.getElementById(
+            "branchName"
+        ).value;
+
+    const code =
+        document.getElementById(
+            "branchCode"
+        ).value;
+
+    alert(
+        "Branch " +
+        name +
+        " (" +
+        code +
+        ") saved successfully!"
+    );
+
+    document.getElementById(
+        "branchForm"
+    ).reset();
+
+}
+
+</script>
+
+</body>
+</html>

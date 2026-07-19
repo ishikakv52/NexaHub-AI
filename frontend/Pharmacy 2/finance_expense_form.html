@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Expense - NEXA HUB AI</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { animation: fadeInUp 0.5s ease-out forwards; }
+        *, *::before, *::after { transition: background-color 0.3s, border-color 0.3s, color 0.3s; }
+    </style>
+</head>
+<body id="body-theme" class="bg-slate-900 text-slate-100 font-sans min-h-screen flex items-center justify-center p-4">
+
+    <div id="form-card" class="bg-slate-800 border border-slate-700 p-8 rounded-2xl w-full max-w-lg shadow-xl animate-fade-in">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-6">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-rose-500/10 rounded-xl flex items-center justify-center text-rose-400 text-lg">
+                    <i class="fa-solid fa-arrow-trend-down"></i>
+                </div>
+                <div>
+                    <h2 id="title-theme" class="text-xl font-bold text-white">Record Expense</h2>
+                    <p id="subtitle-theme" class="text-xs text-slate-400">Log pharmacy operational costs or stock procurement</p>
+                </div>
+            </div>
+            <button id="theme-toggle" class="w-9 h-9 bg-slate-700/50 border border-slate-600 text-indigo-400 rounded-xl flex items-center justify-center cursor-pointer hover:bg-slate-700">
+                <i class="fa-solid fa-moon" id="theme-icon"></i>
+            </button>
+        </div>
+
+        <!-- Form -->
+        <form action="dashboard.html" method="POST" class="space-y-4">
+            <div>
+                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Expense Category</label>
+                <select class="input-field w-full bg-slate-700/40 border border-slate-600 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500 text-slate-200">
+                    <option class="bg-slate-800 text-slate-200">Medicine Stock Procurement</option>
+                    <option class="bg-slate-800 text-slate-200">Employee Salaries</option>
+                    <option class="bg-slate-800 text-slate-200">Utility Bills & Rent</option>
+                    <option class="bg-slate-800 text-slate-200">Logistics & Delivery Fuel</option>
+                </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Amount Spent ($)</label>
+                    <input type="number" step="0.01" required placeholder="0.00" class="input-field w-full bg-slate-700/40 border border-slate-600 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500 text-slate-200">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Date</label>
+                    <input type="date" required class="input-field w-full bg-slate-700/40 border border-slate-600 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500 text-slate-200">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Vendor / Payee Details</label>
+                <input type="text" placeholder="Wholesale Pharma Ltd." class="input-field w-full bg-slate-700/40 border border-slate-600 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500 text-slate-200">
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Receipt / Reference Reference</label>
+                <input type="text" placeholder="REC-98745" class="input-field w-full bg-slate-700/40 border border-slate-600 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500 text-slate-200">
+            </div>
+
+            <!-- Actions -->
+            <div class="flex gap-3 pt-2">
+                <a href="dashboard.html" id="btn-cancel" class="w-1/2 text-center bg-slate-700/50 hover:bg-slate-700 border border-slate-600 text-slate-300 py-2.5 rounded-xl text-sm font-medium transition-all">Cancel</a>
+                <button type="submit" class="w-1/2 bg-rose-600 hover:bg-rose-500 text-white py-2.5 rounded-xl text-sm font-medium transition-all shadow-lg shadow-rose-900/20">Log Expense</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const toggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const body = document.getElementById('body-theme');
+        const formCard = document.getElementById('form-card');
+        const titleTheme = document.getElementById('title-theme');
+        const subtitleTheme = document.getElementById('subtitle-theme');
+        const btnCancel = document.getElementById('btn-cancel');
+        let isDarkMode = true;
+
+        toggleBtn.addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            if (!isDarkMode) {
+                body.className = "bg-slate-100 text-slate-800 font-sans min-h-screen flex items-center justify-center p-4";
+                formCard.className = "bg-white border border-slate-200 p-8 rounded-2xl w-full max-w-lg shadow-md animate-fade-in";
+                titleTheme.className = "text-xl font-bold text-slate-800";
+                subtitleTheme.className = "text-xs text-slate-500";
+                toggleBtn.className = "w-9 h-9 bg-white border border-slate-200 text-amber-500 rounded-xl flex items-center justify-center cursor-pointer hover:bg-slate-100";
+                themeIcon.className = "fa-solid fa-sun text-lg";
+                btnCancel.className = "w-1/2 text-center bg-white hover:bg-slate-100 border border-slate-200 text-slate-600 py-2.5 rounded-xl text-sm font-medium transition-all";
+                document.querySelectorAll('.input-field').forEach(el => {
+                    el.classList.replace('bg-slate-700/40', 'bg-slate-50');
+                    el.classList.replace('border-slate-600', 'border-slate-200');
+                    el.classList.replace('text-slate-200', 'text-slate-700');
+                });
+            } else {
+                body.className = "bg-slate-900 text-slate-100 font-sans min-h-screen flex items-center justify-center p-4";
+                formCard.className = "bg-slate-800 border border-slate-700 p-8 rounded-2xl w-full max-w-lg shadow-xl animate-fade-in";
+                titleTheme.className = "text-xl font-bold text-white";
+                subtitleTheme.className = "text-xs text-slate-400";
+                toggleBtn.className = "w-9 h-9 bg-slate-700/50 border border-slate-600 text-indigo-400 rounded-xl flex items-center justify-center cursor-pointer hover:bg-slate-700";
+                themeIcon.className = "fa-solid fa-moon text-lg";
+                btnCancel.className = "w-1/2 text-center bg-slate-700/50 hover:bg-slate-700 border border-slate-600 text-slate-300 py-2.5 rounded-xl text-sm font-medium transition-all";
+                document.querySelectorAll('.input-field').forEach(el => {
+                    el.classList.replace('bg-slate-50', 'bg-slate-700/40');
+                    el.classList.replace('border-slate-200', 'border-slate-600');
+                    el.classList.replace('text-slate-700', 'text-slate-200');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

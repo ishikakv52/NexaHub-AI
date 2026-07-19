@@ -1,0 +1,1666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Low Stock Inventory</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#080d1a;
+    color:#e5e7eb;
+    transition:.4s;
+}
+
+/* ANIMATED BACKGROUND */
+
+.background{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:-1;
+}
+
+.grid{
+    position:absolute;
+    inset:0;
+    opacity:.06;
+    background-image:
+    linear-gradient(#fff 1px,transparent 1px),
+    linear-gradient(90deg,#fff 1px,transparent 1px);
+    background-size:45px 45px;
+}
+
+.orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(100px);
+    opacity:.25;
+    animation:float 12s infinite alternate ease-in-out;
+}
+
+.orb1{
+    width:350px;
+    height:350px;
+    background:#06b6d4;
+    top:-100px;
+    left:250px;
+}
+
+.orb2{
+    width:300px;
+    height:300px;
+    background:#7c3aed;
+    right:-80px;
+    top:250px;
+    animation-delay:2s;
+}
+
+.orb3{
+    width:250px;
+    height:250px;
+    background:#2563eb;
+    bottom:-100px;
+    left:40%;
+    animation-delay:4s;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    padding:22px 15px;
+    background:rgba(15,23,42,.88);
+    backdrop-filter:blur(18px);
+    border-right:1px solid #263244;
+    z-index:10;
+    animation:slideIn .7s ease;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 12px 25px;
+    border-bottom:1px solid #263244;
+    margin-bottom:18px;
+}
+
+.logo-icon{
+    width:44px;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:13px;
+    font-size:23px;
+    color:#fff;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    animation:glow 2s infinite alternate;
+}
+
+.logo h2{
+    font-size:17px;
+}
+
+.logo span{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.menu-title{
+    padding:12px;
+    color:#64748b;
+    font-size:11px;
+    text-transform:uppercase;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    margin:5px 0;
+    color:#94a3b8;
+    text-decoration:none;
+    border-radius:9px;
+    transition:.3s;
+}
+
+.menu a:hover,
+.menu a.active{
+    color:#fff;
+    background:linear-gradient(90deg,#06b6d422,#7c3aed22);
+    transform:translateX(5px);
+}
+
+.menu a.active{
+    border-left:3px solid #06b6d4;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:260px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:75px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    background:rgba(15,23,42,.7);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid #263244;
+}
+
+.search{
+    width:350px;
+}
+
+.search input{
+    width:100%;
+    padding:12px 18px;
+    background:#0b1120aa;
+    color:#fff;
+    border:1px solid #263244;
+    border-radius:10px;
+    outline:none;
+}
+
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:22px;
+}
+
+.theme-btn{
+    width:42px;
+    height:42px;
+    border:1px solid #263244;
+    border-radius:50%;
+    background:#0b1120;
+    color:#facc15;
+    font-size:19px;
+    cursor:pointer;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.profile small{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    font-weight:bold;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+}
+
+/* CONTENT */
+
+.content{
+    padding:30px;
+}
+
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.page-header h1{
+    font-size:28px;
+}
+
+.page-header p{
+    color:#94a3b8;
+    margin-top:5px;
+}
+
+.add-btn{
+    padding:12px 20px;
+    border:0;
+    border-radius:9px;
+    color:#fff;
+    cursor:pointer;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    transition:.3s;
+}
+
+.add-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 0 25px #06b6d455;
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:22px;
+}
+
+.stat-card{
+    padding:20px;
+    background:rgba(15,23,42,.78);
+    backdrop-filter:blur(18px);
+    border:1px solid #263244;
+    border-radius:16px;
+    animation:fadeUp .7s ease;
+}
+
+.stat-card small{
+    color:#94a3b8;
+}
+
+.stat-card h2{
+    margin-top:10px;
+    font-size:28px;
+}
+
+.stat-icon{
+    float:right;
+    font-size:25px;
+}
+
+/* TABLE CARD */
+
+.card{
+    padding:22px;
+    background:rgba(15,23,42,.78);
+    backdrop-filter:blur(18px);
+    border:1px solid #263244;
+    border-radius:18px;
+    animation:fadeUp .9s ease;
+}
+
+.table-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.table-header h2{
+    font-size:19px;
+}
+
+.filters{
+    display:flex;
+    gap:10px;
+}
+
+.filters select{
+    padding:10px 13px;
+    border:1px solid #334155;
+    border-radius:8px;
+    color:#fff;
+    background:#0b1120;
+    outline:none;
+}
+
+.table-wrapper{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:850px;
+}
+
+th{
+    padding:15px;
+    text-align:left;
+    color:#94a3b8;
+    font-size:12px;
+    background:#111827;
+}
+
+td{
+    padding:15px;
+    border-top:1px solid #263244;
+}
+
+.medicine{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.medicine-icon{
+    width:42px;
+    height:42px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:11px;
+    font-size:20px;
+    background:#06b6d422;
+}
+
+.medicine small{
+    display:block;
+    color:#94a3b8;
+    margin-top:4px;
+    font-size:11px;
+}
+
+.stock-number{
+    font-weight:bold;
+}
+
+.stock-progress{
+    width:130px;
+    height:7px;
+    margin-top:7px;
+    border-radius:20px;
+    overflow:hidden;
+    background:#1e293b;
+}
+
+.stock-bar{
+    height:100%;
+    border-radius:20px;
+    background:#ef4444;
+}
+
+.stock-bar.medium{
+    background:#facc15;
+}
+
+.stock-bar.good{
+    background:#22c55e;
+}
+
+.status{
+    display:inline-block;
+    padding:6px 11px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.critical{
+    color:#ef4444;
+    background:#ef444422;
+}
+
+.low{
+    color:#facc15;
+    background:#facc1522;
+}
+
+.reorder{
+    padding:8px 13px;
+    border:1px solid #06b6d4;
+    border-radius:7px;
+    color:#06b6d4;
+    background:transparent;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.reorder:hover{
+    color:#fff;
+    background:#06b6d4;
+}
+
+/* SUMMARY */
+
+.summary-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px;
+    margin-top:22px;
+}
+
+.summary-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 0;
+    border-bottom:1px solid #263244;
+}
+
+.summary-item:last-child{
+    border-bottom:0;
+}
+
+.summary-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.summary-icon{
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:10px;
+    background:#06b6d422;
+}
+
+/* LIGHT MODE */
+
+body.light-mode{
+    background:#f1f5f9;
+    color:#0f172a;
+}
+
+body.light-mode .sidebar,
+body.light-mode .topbar,
+body.light-mode .stat-card,
+body.light-mode .card{
+    background:rgba(255,255,255,.92);
+    border-color:#e2e8f0;
+}
+
+body.light-mode .search input,
+body.light-mode .filters select{
+    background:#f8fafc;
+    color:#0f172a;
+    border-color:#cbd5e1;
+}
+
+body.light-mode .menu a{
+    color:#64748b;
+}
+
+body.light-mode .menu a:hover,
+body.light-mode .menu a.active{
+    color:#0f172a;
+    background:#e0f2fe;
+}
+
+body.light-mode .theme-btn{
+    background:#f8fafc;
+    color:#7c3aed;
+}
+
+body.light-mode th{
+    background:#f8fafc;
+}
+
+body.light-mode td,
+body.light-mode .summary-item{
+    border-color:#e2e8f0;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .summary-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:800px){
+
+    .sidebar{
+        width:70px;
+        padding:15px 8px;
+    }
+
+    .logo h2,
+    .logo span,
+    .menu-title,
+    .menu a span{
+        display:none;
+    }
+
+    .logo{
+        justify-content:center;
+    }
+
+    .menu a{
+        justify-content:center;
+    }
+
+    .main{
+        margin-left:70px;
+    }
+
+    .page-header{
+        display:block;
+    }
+
+    .add-btn{
+        margin-top:15px;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .search{
+        width:180px;
+    }
+
+    .content{
+        padding:18px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .table-header{
+        display:block;
+    }
+
+    .filters{
+        margin-top:15px;
+    }
+
+}
+
+/* ANIMATIONS */
+
+@keyframes float{
+
+    from{
+        transform:translate(0,0) scale(1);
+    }
+
+    to{
+        transform:translate(80px,50px) scale(1.2);
+    }
+
+}
+
+@keyframes slideIn{
+
+    from{
+        transform:translateX(-100%);
+        opacity:0;
+    }
+
+    to{
+        transform:translateX(0);
+        opacity:1;
+    }
+
+}
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+@keyframes glow{
+
+    from{
+        box-shadow:0 0 10px #06b6d455;
+    }
+
+    to{
+        box-shadow:0 0 30px #06b6d488;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="background">
+
+    <div class="grid"></div>
+
+    <div class="orb orb1"></div>
+
+    <div class="orb orb2"></div>
+
+    <div class="orb orb3"></div>
+
+</div>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            ✦
+        </div>
+
+        <div>
+
+            <h2>NEXA HUB AI</h2>
+
+            <span>
+                AI Management System
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="menu-title">
+        Main Menu
+    </div>
+
+    <nav class="menu">
+
+        <a href="dashboard.html">
+            📊 <span>Dashboard</span>
+        </a>
+
+        <a href="inventory_dashboard.html">
+            📦 <span>Inventory</span>
+        </a>
+
+        <a href="medicine_catalog_import.html">
+            💊 <span>Medicines</span>
+        </a>
+
+        <a href="inventory_low_stock.html" class="active">
+            ⚠️ <span>Low Stock</span>
+        </a>
+
+        <a href="customer_list.html">
+            👥 <span>Customers</span>
+        </a>
+
+        <a href="employee_list.html">
+            👨‍💼 <span>Employees</span>
+        </a>
+
+        <a href="delivery_dashboard.html">
+            🚚 <span>Delivery</span>
+        </a>
+
+    </nav>
+
+    <div class="menu-title">
+        Management
+    </div>
+
+    <nav class="menu">
+
+        <a href="finance_income_form.html">
+            💰 <span>Finance</span>
+        </a>
+
+        <a href="attendance_daily.html">
+            🕒 <span>Attendance</span>
+        </a>
+
+        <a href="branch_list.html">
+            🏢 <span>Branches</span>
+        </a>
+
+        <a href="batch_list.html">
+            🧾 <span>Batches</span>
+        </a>
+
+    </nav>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+<header class="topbar">
+
+    <div class="search">
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search low stock medicines..."
+        >
+
+    </div>
+
+    <div class="top-actions">
+
+        <button
+            class="theme-btn"
+            id="themeBtn"
+            onclick="toggleTheme()"
+        >
+            🌙
+        </button>
+
+        <div class="profile">
+
+            <div>
+
+                <b>
+                    Admin User
+                </b>
+
+                <small>
+                    Administrator
+                </small>
+
+            </div>
+
+            <div class="avatar">
+                A
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+<section class="content">
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>
+                ⚠️ Low Stock Inventory
+            </h1>
+
+            <p>
+                Monitor medicines that need immediate restocking.
+            </p>
+
+        </div>
+
+        <button
+            class="add-btn"
+            onclick="reorderAll()"
+        >
+            🚚 Reorder All
+        </button>
+
+    </div>
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+        <div class="stat-card">
+
+            <span class="stat-icon">
+                ⚠️
+            </span>
+
+            <small>
+                Low Stock Items
+            </small>
+
+            <h2>
+                48
+            </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+            <span class="stat-icon">
+                🔴
+            </span>
+
+            <small>
+                Critical Items
+            </small>
+
+            <h2>
+                12
+            </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+            <span class="stat-icon">
+                📦
+            </span>
+
+            <small>
+                Pending Orders
+            </small>
+
+            <h2>
+                08
+            </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+            <span class="stat-icon">
+                💰
+            </span>
+
+            <small>
+                Estimated Restock
+            </small>
+
+            <h2>
+                ₹84K
+            </h2>
+
+        </div>
+
+    </div>
+
+    <!-- TABLE -->
+
+    <div class="card">
+
+        <div class="table-header">
+
+            <h2>
+                📋 Medicines Requiring Attention
+            </h2>
+
+            <div class="filters">
+
+                <select
+                    id="stockFilter"
+                    onchange="filterStock()"
+                >
+
+                    <option value="all">
+                        All Items
+                    </option>
+
+                    <option value="critical">
+                        Critical
+                    </option>
+
+                    <option value="low">
+                        Low Stock
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <div class="table-wrapper">
+
+            <table id="stockTable">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Medicine
+                        </th>
+
+                        <th>
+                            Category
+                        </th>
+
+                        <th>
+                            Current Stock
+                        </th>
+
+                        <th>
+                            Reorder Level
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr data-status="critical">
+
+                        <td>
+
+                            <div class="medicine">
+
+                                <div class="medicine-icon">
+                                    💊
+                                </div>
+
+                                <div>
+
+                                    <b>
+                                        Paracetamol 500mg
+                                    </b>
+
+                                    <small>
+                                        SKU: MED-00124
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            Pain Relief
+                        </td>
+
+                        <td>
+
+                            <b class="stock-number">
+                                08 Units
+                            </b>
+
+                            <div class="stock-progress">
+
+                                <div
+                                    class="stock-bar"
+                                    style="width:8%"
+                                ></div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            100 Units
+                        </td>
+
+                        <td>
+
+                            <span class="status critical">
+                                Critical
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="reorder"
+                                onclick="reorderMedicine('Paracetamol 500mg')"
+                            >
+                                Reorder
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    <tr data-status="low">
+
+                        <td>
+
+                            <div class="medicine">
+
+                                <div class="medicine-icon">
+                                    💊
+                                </div>
+
+                                <div>
+
+                                    <b>
+                                        Azithromycin 250mg
+                                    </b>
+
+                                    <small>
+                                        SKU: MED-00318
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            Antibiotic
+                        </td>
+
+                        <td>
+
+                            <b class="stock-number">
+                                42 Units
+                            </b>
+
+                            <div class="stock-progress">
+
+                                <div
+                                    class="stock-bar medium"
+                                    style="width:35%"
+                                ></div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            120 Units
+                        </td>
+
+                        <td>
+
+                            <span class="status low">
+                                Low Stock
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="reorder"
+                                onclick="reorderMedicine('Azithromycin 250mg')"
+                            >
+                                Reorder
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    <tr data-status="critical">
+
+                        <td>
+
+                            <div class="medicine">
+
+                                <div class="medicine-icon">
+                                    💊
+                                </div>
+
+                                <div>
+
+                                    <b>
+                                        Amoxicillin 500mg
+                                    </b>
+
+                                    <small>
+                                        SKU: MED-00546
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            Antibiotic
+                        </td>
+
+                        <td>
+
+                            <b class="stock-number">
+                                15 Units
+                            </b>
+
+                            <div class="stock-progress">
+
+                                <div
+                                    class="stock-bar"
+                                    style="width:15%"
+                                ></div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            100 Units
+                        </td>
+
+                        <td>
+
+                            <span class="status critical">
+                                Critical
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="reorder"
+                                onclick="reorderMedicine('Amoxicillin 500mg')"
+                            >
+                                Reorder
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    <tr data-status="low">
+
+                        <td>
+
+                            <div class="medicine">
+
+                                <div class="medicine-icon">
+                                    💊
+                                </div>
+
+                                <div>
+
+                                    <b>
+                                        Cetirizine 10mg
+                                    </b>
+
+                                    <small>
+                                        SKU: MED-00782
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            Allergy
+                        </td>
+
+                        <td>
+
+                            <b class="stock-number">
+                                55 Units
+                            </b>
+
+                            <div class="stock-progress">
+
+                                <div
+                                    class="stock-bar medium"
+                                    style="width:45%"
+                                ></div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            120 Units
+                        </td>
+
+                        <td>
+
+                            <span class="status low">
+                                Low Stock
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="reorder"
+                                onclick="reorderMedicine('Cetirizine 10mg')"
+                            >
+                                Reorder
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    <tr data-status="critical">
+
+                        <td>
+
+                            <div class="medicine">
+
+                                <div class="medicine-icon">
+                                    💊
+                                </div>
+
+                                <div>
+
+                                    <b>
+                                        Insulin Glargine
+                                    </b>
+
+                                    <small>
+                                        SKU: MED-00991
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            Diabetes
+                        </td>
+
+                        <td>
+
+                            <b class="stock-number">
+                                05 Units
+                            </b>
+
+                            <div class="stock-progress">
+
+                                <div
+                                    class="stock-bar"
+                                    style="width:5%"
+                                ></div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            50 Units
+                        </td>
+
+                        <td>
+
+                            <span class="status critical">
+                                Critical
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="reorder"
+                                onclick="reorderMedicine('Insulin Glargine')"
+                            >
+                                Reorder
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <!-- SUMMARY -->
+
+    <div class="summary-grid">
+
+        <div class="card">
+
+            <h2>
+                📊 Stock Summary
+            </h2>
+
+            <div class="summary-item">
+
+                <div class="summary-left">
+
+                    <div class="summary-icon">
+                        🔴
+                    </div>
+
+                    <span>
+                        Critical Stock
+                    </span>
+
+                </div>
+
+                <b>
+                    12 Items
+                </b>
+
+            </div>
+
+            <div class="summary-item">
+
+                <div class="summary-left">
+
+                    <div class="summary-icon">
+                        🟡
+                    </div>
+
+                    <span>
+                        Low Stock
+                    </span>
+
+                </div>
+
+                <b>
+                    36 Items
+                </b>
+
+            </div>
+
+            <div class="summary-item">
+
+                <div class="summary-left">
+
+                    <div class="summary-icon">
+                        📦
+                    </div>
+
+                    <span>
+                        Total Units Required
+                    </span>
+
+                </div>
+
+                <b>
+                    8,420
+                </b>
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h2>
+                🚚 Reorder Activity
+            </h2>
+
+            <div class="summary-item">
+
+                <div class="summary-left">
+
+                    <div class="summary-icon">
+                        🟢
+                    </div>
+
+                    <span>
+                        Orders Placed
+                    </span>
+
+                </div>
+
+                <b>
+                    24
+                </b>
+
+            </div>
+
+            <div class="summary-item">
+
+                <div class="summary-left">
+
+                    <div class="summary-icon">
+                        🟡
+                    </div>
+
+                    <span>
+                        Pending Approval
+                    </span>
+
+                </div>
+
+                <b>
+                    08
+                </b>
+
+            </div>
+
+            <div class="summary-item">
+
+                <div class="summary-left">
+
+                    <div class="summary-icon">
+                        🚛
+                    </div>
+
+                    <span>
+                        In Transit
+                    </span>
+
+                </div>
+
+                <b>
+                    16
+                </b>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+<script>
+
+/* THEME */
+
+function toggleTheme(){
+
+    document.body.classList.toggle(
+        "light-mode"
+    );
+
+    const button =
+        document.getElementById(
+            "themeBtn"
+        );
+
+    if(
+        document.body.classList.contains(
+            "light-mode"
+        )
+    ){
+
+        button.innerHTML = "☀️";
+
+        localStorage.setItem(
+            "theme",
+            "light"
+        );
+
+    }else{
+
+        button.innerHTML = "🌙";
+
+        localStorage.setItem(
+            "theme",
+            "dark"
+        );
+
+    }
+
+}
+
+/* LOAD THEME */
+
+window.addEventListener(
+    "load",
+    function(){
+
+        if(
+            localStorage.getItem(
+                "theme"
+            )
+            ===
+            "light"
+        ){
+
+            document.body.classList.add(
+                "light-mode"
+            );
+
+            document.getElementById(
+                "themeBtn"
+            ).innerHTML = "☀️";
+
+        }
+
+    }
+);
+
+/* SEARCH */
+
+document
+.getElementById(
+    "searchInput"
+)
+.addEventListener(
+    "keyup",
+    function(){
+
+        const search =
+            this.value.toLowerCase();
+
+        const rows =
+            document
+            .querySelectorAll(
+                "#stockTable tbody tr"
+            );
+
+        rows.forEach(
+            function(row){
+
+                const text =
+                    row.innerText
+                    .toLowerCase();
+
+                row.style.display =
+                    text.includes(
+                        search
+                    )
+                    ? ""
+                    : "none";
+
+            }
+        );
+
+    }
+);
+
+/* FILTER */
+
+function filterStock(){
+
+    const filter =
+        document
+        .getElementById(
+            "stockFilter"
+        )
+        .value;
+
+    const rows =
+        document
+        .querySelectorAll(
+            "#stockTable tbody tr"
+        );
+
+    rows.forEach(
+        function(row){
+
+            const status =
+                row.dataset.status;
+
+            if(
+                filter === "all"
+                ||
+                filter === status
+            ){
+
+                row.style.display =
+                    "";
+
+            }else{
+
+                row.style.display =
+                    "none";
+
+            }
+
+        }
+    );
+
+}
+
+/* REORDER */
+
+function reorderMedicine(
+    medicine
+){
+
+    alert(
+        "Reorder request created for: "
+        + medicine
+    );
+
+}
+
+function reorderAll(){
+
+    alert(
+        "Reorder requests created for all low-stock medicines!"
+    );
+
+}
+
+</script>
+
+</body>
+</html>

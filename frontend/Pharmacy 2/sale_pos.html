@@ -1,0 +1,1702 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Sale POS</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#080d1a;
+    color:#e5e7eb;
+    transition:.4s;
+}
+
+/* BACKGROUND */
+
+.background{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:-1;
+}
+
+.grid{
+    position:absolute;
+    inset:0;
+    opacity:.06;
+    background-image:
+    linear-gradient(#fff 1px,transparent 1px),
+    linear-gradient(90deg,#fff 1px,transparent 1px);
+    background-size:45px 45px;
+}
+
+.orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(100px);
+    opacity:.25;
+    animation:float 12s infinite alternate ease-in-out;
+}
+
+.orb1{
+    width:350px;
+    height:350px;
+    background:#06b6d4;
+    top:-100px;
+    left:250px;
+}
+
+.orb2{
+    width:300px;
+    height:300px;
+    background:#7c3aed;
+    right:-80px;
+    top:250px;
+    animation-delay:2s;
+}
+
+.orb3{
+    width:250px;
+    height:250px;
+    background:#2563eb;
+    bottom:-100px;
+    left:40%;
+    animation-delay:4s;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    padding:22px 15px;
+    background:rgba(15,23,42,.88);
+    backdrop-filter:blur(18px);
+    border-right:1px solid #263244;
+    z-index:10;
+    animation:slideIn .7s ease;
+    overflow-y:auto;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 12px 25px;
+    border-bottom:1px solid #263244;
+    margin-bottom:18px;
+}
+
+.logo-icon{
+    width:44px;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:13px;
+    font-size:23px;
+    color:#fff;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    animation:glow 2s infinite alternate;
+}
+
+.logo h2{
+    font-size:17px;
+}
+
+.logo span{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.menu-title{
+    padding:12px;
+    color:#64748b;
+    font-size:11px;
+    text-transform:uppercase;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    margin:5px 0;
+    color:#94a3b8;
+    text-decoration:none;
+    border-radius:9px;
+    transition:.3s;
+}
+
+.menu a:hover,
+.menu a.active{
+    color:#fff;
+    background:linear-gradient(90deg,#06b6d422,#7c3aed22);
+    transform:translateX(5px);
+}
+
+.menu a.active{
+    border-left:3px solid #06b6d4;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:260px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:75px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    background:rgba(15,23,42,.7);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid #263244;
+}
+
+.search{
+    width:350px;
+}
+
+.search input{
+    width:100%;
+    padding:12px 18px;
+    background:#0b1120aa;
+    color:#fff;
+    border:1px solid #263244;
+    border-radius:10px;
+    outline:none;
+}
+
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:22px;
+}
+
+.theme-btn{
+    width:42px;
+    height:42px;
+    border:1px solid #263244;
+    border-radius:50%;
+    background:#0b1120;
+    color:#facc15;
+    font-size:19px;
+    cursor:pointer;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.profile small{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    font-weight:bold;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+}
+
+/* CONTENT */
+
+.content{
+    padding:30px;
+}
+
+.page-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:25px;
+}
+
+.page-header h1{
+    font-size:28px;
+}
+
+.page-header p{
+    color:#94a3b8;
+    margin-top:5px;
+}
+
+.header-actions{
+    display:flex;
+    gap:10px;
+}
+
+.btn{
+    padding:12px 18px;
+    border:0;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:600;
+    color:#fff;
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:translateY(-3px);
+}
+
+.primary{
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+}
+
+.secondary{
+    background:#1e293b;
+    border:1px solid #334155;
+}
+
+/* POS GRID */
+
+.pos-grid{
+    display:grid;
+    grid-template-columns:1.5fr .9fr;
+    gap:20px;
+}
+
+/* CARD */
+
+.card{
+    padding:22px;
+    background:rgba(15,23,42,.78);
+    backdrop-filter:blur(18px);
+    border:1px solid #263244;
+    border-radius:18px;
+    margin-bottom:20px;
+}
+
+.card h2{
+    font-size:18px;
+    margin-bottom:18px;
+}
+
+/* PRODUCT SEARCH */
+
+.product-search{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.product-search input{
+    flex:1;
+    padding:13px 15px;
+    background:#0b1120;
+    color:#fff;
+    border:1px solid #334155;
+    border-radius:9px;
+    outline:none;
+}
+
+.product-search button{
+    padding:0 18px;
+    border:0;
+    border-radius:9px;
+    color:#fff;
+    cursor:pointer;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+}
+
+/* PRODUCTS */
+
+.products-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+}
+
+.product-card{
+    padding:15px;
+    border:1px solid #263244;
+    border-radius:12px;
+    background:#0b1120aa;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.product-card:hover{
+    border-color:#06b6d4;
+    transform:translateY(-3px);
+}
+
+.product-top{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.product-icon{
+    width:42px;
+    height:42px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:10px;
+    background:#06b6d41c;
+    color:#06b6d4;
+    font-size:20px;
+}
+
+.product-info strong{
+    display:block;
+    font-size:13px;
+}
+
+.product-info small{
+    color:#64748b;
+    font-size:11px;
+}
+
+.product-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:12px;
+}
+
+.product-price{
+    color:#06b6d4;
+    font-weight:bold;
+}
+
+.stock{
+    color:#22c55e;
+    font-size:11px;
+}
+
+/* CUSTOMER FORM */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+}
+
+.form-group label{
+    display:block;
+    color:#94a3b8;
+    font-size:12px;
+    margin-bottom:6px;
+}
+
+.form-group input,
+.form-group select{
+    width:100%;
+    padding:11px 13px;
+    background:#0b1120;
+    color:#fff;
+    border:1px solid #334155;
+    border-radius:8px;
+    outline:none;
+}
+
+/* CART */
+
+.cart-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:14px 0;
+    border-bottom:1px solid #263244;
+}
+
+.cart-product{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.cart-product-icon{
+    width:35px;
+    height:35px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:8px;
+    background:#06b6d41c;
+}
+
+.cart-product strong{
+    display:block;
+    font-size:13px;
+}
+
+.cart-product small{
+    color:#64748b;
+    font-size:11px;
+}
+
+.qty-control{
+    display:flex;
+    align-items:center;
+    gap:7px;
+}
+
+.qty-control button{
+    width:25px;
+    height:25px;
+    border:1px solid #334155;
+    border-radius:5px;
+    background:transparent;
+    color:#fff;
+    cursor:pointer;
+}
+
+.qty-control span{
+    min-width:20px;
+    text-align:center;
+}
+
+.cart-price{
+    font-weight:bold;
+    color:#06b6d4;
+}
+
+/* SUMMARY */
+
+.summary-row{
+    display:flex;
+    justify-content:space-between;
+    padding:12px 0;
+    color:#94a3b8;
+    border-bottom:1px solid #263244;
+}
+
+.summary-row strong{
+    color:#e5e7eb;
+}
+
+.total-row{
+    display:flex;
+    justify-content:space-between;
+    padding:18px 0;
+    font-size:21px;
+    font-weight:bold;
+    color:#06b6d4;
+}
+
+/* PAYMENT */
+
+.payment-options{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
+
+.payment-option{
+    padding:13px;
+    text-align:center;
+    border:1px solid #334155;
+    border-radius:9px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.payment-option:hover,
+.payment-option.selected{
+    border-color:#06b6d4;
+    background:#06b6d41c;
+}
+
+.payment-option input{
+    display:none;
+}
+
+.complete-btn{
+    width:100%;
+    padding:15px;
+    border:0;
+    border-radius:10px;
+    color:#fff;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    transition:.3s;
+}
+
+.complete-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 0 25px #06b6d455;
+}
+
+/* LIGHT MODE */
+
+body.light-mode{
+    background:#f1f5f9;
+    color:#0f172a;
+}
+
+body.light-mode .sidebar,
+body.light-mode .topbar,
+body.light-mode .card{
+    background:rgba(255,255,255,.92);
+    border-color:#e2e8f0;
+}
+
+body.light-mode .search input,
+body.light-mode .product-search input,
+body.light-mode .form-group input,
+body.light-mode .form-group select,
+body.light-mode .product-card{
+    background:#f8fafc;
+    color:#0f172a;
+    border-color:#cbd5e1;
+}
+
+body.light-mode .theme-btn{
+    background:#f8fafc;
+    color:#7c3aed;
+}
+
+body.light-mode .secondary{
+    background:#f8fafc;
+    color:#0f172a;
+    border-color:#cbd5e1;
+}
+
+body.light-mode .cart-item,
+body.light-mode .summary-row{
+    border-color:#e2e8f0;
+}
+
+body.light-mode .summary-row strong{
+    color:#0f172a;
+}
+
+body.light-mode .qty-control button{
+    color:#0f172a;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+
+    .pos-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:800px){
+
+    .sidebar{
+        width:70px;
+        padding:15px 8px;
+    }
+
+    .logo h2,
+    .logo span,
+    .menu-title,
+    .menu a span{
+        display:none;
+    }
+
+    .logo{
+        justify-content:center;
+    }
+
+    .menu a{
+        justify-content:center;
+    }
+
+    .main{
+        margin-left:70px;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .search{
+        width:180px;
+    }
+
+    .content{
+        padding:18px;
+    }
+
+    .page-header{
+        display:block;
+    }
+
+    .header-actions{
+        margin-top:15px;
+    }
+
+    .products-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .card{
+        padding:17px;
+    }
+
+}
+
+/* ANIMATIONS */
+
+@keyframes float{
+
+    from{
+        transform:translate(0,0) scale(1);
+    }
+
+    to{
+        transform:translate(80px,50px) scale(1.2);
+    }
+
+}
+
+@keyframes slideIn{
+
+    from{
+        transform:translateX(-100%);
+        opacity:0;
+    }
+
+    to{
+        transform:translateX(0);
+        opacity:1;
+    }
+
+}
+
+@keyframes glow{
+
+    from{
+        box-shadow:0 0 10px #06b6d455;
+    }
+
+    to{
+        box-shadow:0 0 30px #06b6d488;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="background">
+
+    <div class="grid"></div>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+
+</div>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            ✦
+        </div>
+
+        <div>
+
+            <h2>NEXA HUB AI</h2>
+
+            <span>
+                AI Management System
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="menu-title">
+        Main Menu
+    </div>
+
+    <nav class="menu">
+
+        <a href="dashboard.html">
+            📊 <span>Dashboard</span>
+        </a>
+
+        <a href="inventory_dashboard.html">
+            📦 <span>Inventory</span>
+        </a>
+
+        <a href="medicine_list.html">
+            💊 <span>Medicines</span>
+        </a>
+
+        <a href="prescription_list.html">
+            📄 <span>Prescriptions</span>
+        </a>
+
+        <a href="customer_list.html">
+            👥 <span>Customers</span>
+        </a>
+
+        <a href="employee_list.html">
+            👨‍💼 <span>Employees</span>
+        </a>
+
+        <a href="delivery_dashboard.html">
+            🚚 <span>Delivery</span>
+        </a>
+
+        <a href="reports_insights.html">
+            📈 <span>Reports & Insights</span>
+        </a>
+
+    </nav>
+
+    <div class="menu-title">
+        Management
+    </div>
+
+    <nav class="menu">
+
+        <a href="purchase_order_list.html">
+            🛒 <span>Purchase Orders</span>
+        </a>
+
+        <a href="return_form.html">
+            ↩️ <span>Returns</span>
+        </a>
+
+        <a href="sale_list.html" class="active">
+            🧾 <span>Sales</span>
+        </a>
+
+        <a href="finance_income_form.html">
+            💰 <span>Income</span>
+        </a>
+
+        <a href="finance_expense_list.html">
+            💸 <span>Expenses</span>
+        </a>
+
+        <a href="salary_list.html">
+            📋 <span>Salary List</span>
+        </a>
+
+        <a href="settings_business.html">
+            ⚙️ <span>Settings</span>
+        </a>
+
+    </nav>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+<header class="topbar">
+
+    <div class="search">
+
+        <input
+            type="text"
+            placeholder="Search medicines..."
+            onkeyup="searchProducts()"
+            id="productSearch"
+        >
+
+    </div>
+
+    <div class="top-actions">
+
+        <button
+            class="theme-btn"
+            id="themeBtn"
+            onclick="toggleTheme()"
+        >
+            🌙
+        </button>
+
+        <div class="profile">
+
+            <div>
+
+                <b>
+                    Admin User
+                </b>
+
+                <small>
+                    Administrator
+                </small>
+
+            </div>
+
+            <div class="avatar">
+                A
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+<section class="content">
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>
+                🛒 Point of Sale
+            </h1>
+
+            <p>
+                Create a new sales transaction quickly and efficiently.
+            </p>
+
+        </div>
+
+        <div class="header-actions">
+
+            <button
+                class="btn secondary"
+                onclick="clearCart()"
+            >
+                🗑️ Clear Cart
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="pos-grid">
+
+        <div>
+
+            <!-- PRODUCTS -->
+
+            <div class="card">
+
+                <h2>
+                    💊 Select Medicines
+                </h2>
+
+                <div class="product-search">
+
+                    <input
+                        type="text"
+                        id="medicineSearch"
+                        placeholder="Search medicine by name or SKU..."
+                        onkeyup="searchProducts()"
+                    >
+
+                    <button
+                        onclick="searchProducts()"
+                    >
+                        🔍 Search
+                    </button>
+
+                </div>
+
+                <div
+                    class="products-grid"
+                    id="productsGrid"
+                >
+
+                    <div
+                        class="product-card"
+                        data-name="Paracetamol 500mg"
+                        onclick="addToCart('Paracetamol 500mg',50)"
+                    >
+
+                        <div class="product-top">
+
+                            <div class="product-icon">
+                                💊
+                            </div>
+
+                            <div class="product-info">
+
+                                <strong>
+                                    Paracetamol 500mg
+                                </strong>
+
+                                <small>
+                                    SKU: PCM-500
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                        <div class="product-bottom">
+
+                            <span class="product-price">
+                                ₹50
+                            </span>
+
+                            <span class="stock">
+                                Stock: 120
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="product-card"
+                        data-name="Azithromycin 250mg"
+                        onclick="addToCart('Azithromycin 250mg',120)"
+                    >
+
+                        <div class="product-top">
+
+                            <div class="product-icon">
+                                💊
+                            </div>
+
+                            <div class="product-info">
+
+                                <strong>
+                                    Azithromycin 250mg
+                                </strong>
+
+                                <small>
+                                    SKU: AZM-250
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                        <div class="product-bottom">
+
+                            <span class="product-price">
+                                ₹120
+                            </span>
+
+                            <span class="stock">
+                                Stock: 85
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="product-card"
+                        data-name="Vitamin Syrup"
+                        onclick="addToCart('Vitamin Syrup',150)"
+                    >
+
+                        <div class="product-top">
+
+                            <div class="product-icon">
+                                🧴
+                            </div>
+
+                            <div class="product-info">
+
+                                <strong>
+                                    Vitamin Syrup
+                                </strong>
+
+                                <small>
+                                    SKU: VIT-SYR
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                        <div class="product-bottom">
+
+                            <span class="product-price">
+                                ₹150
+                            </span>
+
+                            <span class="stock">
+                                Stock: 64
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="product-card"
+                        data-name="Cough Syrup"
+                        onclick="addToCart('Cough Syrup',180)"
+                    >
+
+                        <div class="product-top">
+
+                            <div class="product-icon">
+                                🧴
+                            </div>
+
+                            <div class="product-info">
+
+                                <strong>
+                                    Cough Syrup
+                                </strong>
+
+                                <small>
+                                    SKU: COUGH-100
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                        <div class="product-bottom">
+
+                            <span class="product-price">
+                                ₹180
+                            </span>
+
+                            <span class="stock">
+                                Stock: 45
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- CUSTOMER -->
+
+            <div class="card">
+
+                <h2>
+                    👤 Customer Details
+                </h2>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>
+                            Customer Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="customerName"
+                            placeholder="Enter customer name"
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Phone Number
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="customerPhone"
+                            placeholder="+91 XXXXX XXXXX"
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div>
+
+            <!-- CART -->
+
+            <div class="card">
+
+                <h2>
+                    🛒 Shopping Cart
+                </h2>
+
+                <div id="cartItems">
+
+                    <p
+                        id="emptyCart"
+                        style="text-align:center;color:#64748b;padding:25px 0;"
+                    >
+                        Cart is empty.<br>
+                        Select medicines to add items.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- PAYMENT -->
+
+            <div class="card">
+
+                <h2>
+                    💳 Payment Method
+                </h2>
+
+                <div class="payment-options">
+
+                    <label class="payment-option selected">
+
+                        <input
+                            type="radio"
+                            name="payment"
+                            value="cash"
+                            checked
+                        >
+
+                        💵 Cash
+
+                    </label>
+
+                    <label class="payment-option">
+
+                        <input
+                            type="radio"
+                            name="payment"
+                            value="upi"
+                        >
+
+                        📱 UPI
+
+                    </label>
+
+                    <label class="payment-option">
+
+                        <input
+                            type="radio"
+                            name="payment"
+                            value="card"
+                        >
+
+                        💳 Card
+
+                    </label>
+
+                    <label class="payment-option">
+
+                        <input
+                            type="radio"
+                            name="payment"
+                            value="credit"
+                        >
+
+                        🧾 Credit
+
+                    </label>
+
+                </div>
+
+            </div>
+
+            <!-- SUMMARY -->
+
+            <div class="card">
+
+                <h2>
+                    💰 Order Summary
+                </h2>
+
+                <div class="summary-row">
+
+                    <span>
+                        Subtotal
+                    </span>
+
+                    <strong id="subtotal">
+                        ₹0
+                    </strong>
+
+                </div>
+
+                <div class="summary-row">
+
+                    <span>
+                        Discount
+                    </span>
+
+                    <strong>
+                        ₹0
+                    </strong>
+
+                </div>
+
+                <div class="summary-row">
+
+                    <span>
+                        GST
+                    </span>
+
+                    <strong id="gst">
+                        ₹0
+                    </strong>
+
+                </div>
+
+                <div class="total-row">
+
+                    <span>
+                        Total
+                    </span>
+
+                    <span id="total">
+                        ₹0
+                    </span>
+
+                </div>
+
+                <button
+                    class="complete-btn"
+                    onclick="completeSale()"
+                >
+                    ✅ Complete Sale
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+<script>
+
+/* CART */
+
+let cart = [];
+
+/* THEME */
+
+function toggleTheme(){
+
+    document.body.classList.toggle(
+        "light-mode"
+    );
+
+    const button =
+    document.getElementById(
+        "themeBtn"
+    );
+
+    if(
+        document.body.classList.contains(
+            "light-mode"
+        )
+    ){
+
+        button.innerHTML =
+        "☀️";
+
+        localStorage.setItem(
+            "theme",
+            "light"
+        );
+
+    }else{
+
+        button.innerHTML =
+        "🌙";
+
+        localStorage.setItem(
+            "theme",
+            "dark"
+        );
+
+    }
+
+}
+
+/* LOAD THEME */
+
+window.addEventListener(
+    "load",
+    function(){
+
+        if(
+            localStorage.getItem(
+                "theme"
+            )
+            ===
+            "light"
+        ){
+
+            document.body.classList.add(
+                "light-mode"
+            );
+
+            document.getElementById(
+                "themeBtn"
+            ).innerHTML =
+            "☀️";
+
+        }
+
+    }
+);
+
+/* ADD TO CART */
+
+function addToCart(
+    name,
+    price
+){
+
+    const existing =
+    cart.find(
+        item =>
+        item.name === name
+    );
+
+    if(
+        existing
+    ){
+
+        existing.qty++;
+
+    }else{
+
+        cart.push({
+
+            name:name,
+            price:price,
+            qty:1
+
+        });
+
+    }
+
+    renderCart();
+
+}
+
+/* RENDER CART */
+
+function renderCart(){
+
+    const cartItems =
+    document.getElementById(
+        "cartItems"
+    );
+
+    if(
+        cart.length === 0
+    ){
+
+        cartItems.innerHTML = `
+
+            <p
+                style="text-align:center;color:#64748b;padding:25px 0;"
+            >
+                Cart is empty.<br>
+                Select medicines to add items.
+            </p>
+
+        `;
+
+        updateSummary();
+
+        return;
+
+    }
+
+    cartItems.innerHTML =
+    cart.map(
+        function(item,index){
+
+            return `
+
+                <div class="cart-item">
+
+                    <div class="cart-product">
+
+                        <div class="cart-product-icon">
+                            💊
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                ${item.name}
+                            </strong>
+
+                            <small>
+                                ₹${item.price} each
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <div class="qty-control">
+
+                        <button
+                            onclick="changeQty(${index},-1)"
+                        >
+                            −
+                        </button>
+
+                        <span>
+                            ${item.qty}
+                        </span>
+
+                        <button
+                            onclick="changeQty(${index},1)"
+                        >
+                            +
+                        </button>
+
+                    </div>
+
+                    <div class="cart-price">
+
+                        ₹${item.price * item.qty}
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    ).join("");
+
+    updateSummary();
+
+}
+
+/* CHANGE QUANTITY */
+
+function changeQty(
+    index,
+    change
+){
+
+    cart[index].qty += change;
+
+    if(
+        cart[index].qty <= 0
+    ){
+
+        cart.splice(
+            index,
+            1
+        );
+
+    }
+
+    renderCart();
+
+}
+
+/* UPDATE SUMMARY */
+
+function updateSummary(){
+
+    let subtotal = 0;
+
+    cart.forEach(
+        function(item){
+
+            subtotal +=
+            item.price *
+            item.qty;
+
+        }
+    );
+
+    const gst =
+    subtotal * 0.05;
+
+    const total =
+    subtotal + gst;
+
+    document.getElementById(
+        "subtotal"
+    ).innerText =
+    "₹" +
+    subtotal.toFixed(2);
+
+    document.getElementById(
+        "gst"
+    ).innerText =
+    "₹" +
+    gst.toFixed(2);
+
+    document.getElementById(
+        "total"
+    ).innerText =
+    "₹" +
+    total.toFixed(2);
+
+}
+
+/* CLEAR CART */
+
+function clearCart(){
+
+    cart = [];
+
+    renderCart();
+
+}
+
+/* SEARCH PRODUCTS */
+
+function searchProducts(){
+
+    const input =
+    document.getElementById(
+        "medicineSearch"
+    );
+
+    const search =
+    input.value.toLowerCase();
+
+    const products =
+    document.querySelectorAll(
+        ".product-card"
+    );
+
+    products.forEach(
+        function(product){
+
+            const name =
+            product.dataset.name
+            .toLowerCase();
+
+            product.style.display =
+            name.includes(
+                search
+            )
+            ?
+            ""
+            :
+            "none";
+
+        }
+    );
+
+}
+
+/* PAYMENT SELECTION */
+
+document
+.querySelectorAll(
+    ".payment-option"
+)
+.forEach(
+    function(option){
+
+        option.addEventListener(
+            "click",
+            function(){
+
+                document
+                .querySelectorAll(
+                    ".payment-option"
+                )
+                .forEach(
+                    function(item){
+
+                        item.classList.remove(
+                            "selected"
+                        );
+
+                    }
+                );
+
+                option.classList.add(
+                    "selected"
+                );
+
+            }
+        );
+
+    }
+);
+
+/* COMPLETE SALE */
+
+function completeSale(){
+
+    if(
+        cart.length === 0
+    ){
+
+        alert(
+            "Please add at least one medicine to cart."
+        );
+
+        return;
+
+    }
+
+    alert(
+        "Sale completed successfully!"
+    );
+
+    window.location.href =
+    "sale_invoice.html";
+
+}
+
+</script>
+
+</body>
+
+</html>

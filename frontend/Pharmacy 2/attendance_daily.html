@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Daily Attendance</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#080d1a;
+    color:#e5e7eb;
+    overflow-x:hidden;
+    transition:.4s;
+}
+
+/* BACKGROUND */
+
+.background{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:-1;
+    pointer-events:none;
+}
+
+.grid-bg{
+    position:absolute;
+    inset:0;
+    opacity:.06;
+    background-image:
+    linear-gradient(#fff 1px,transparent 1px),
+    linear-gradient(90deg,#fff 1px,transparent 1px);
+    background-size:45px 45px;
+}
+
+.orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(90px);
+    opacity:.25;
+    animation:float 12s infinite alternate ease-in-out;
+}
+
+.orb1{
+    width:350px;
+    height:350px;
+    background:#06b6d4;
+    top:-120px;
+    left:250px;
+}
+
+.orb2{
+    width:300px;
+    height:300px;
+    background:#7c3aed;
+    right:-80px;
+    top:250px;
+    animation-delay:2s;
+}
+
+.orb3{
+    width:250px;
+    height:250px;
+    background:#2563eb;
+    bottom:-100px;
+    left:40%;
+    animation-delay:4s;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    padding:22px 15px;
+    background:rgba(15,23,42,.88);
+    backdrop-filter:blur(18px);
+    border-right:1px solid #263244;
+    z-index:10;
+    animation:slideIn .7s ease;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 12px 25px;
+    border-bottom:1px solid #263244;
+    margin-bottom:18px;
+}
+
+.logo-icon{
+    width:44px;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:13px;
+    font-size:23px;
+    color:#fff;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    box-shadow:0 0 25px #06b6d455;
+    animation:logoGlow 2s infinite alternate;
+}
+
+.logo h2{
+    font-size:17px;
+}
+
+.logo span{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.menu-title{
+    padding:12px;
+    color:#64748b;
+    font-size:11px;
+    text-transform:uppercase;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    margin:5px 0;
+    color:#94a3b8;
+    text-decoration:none;
+    border-radius:9px;
+    transition:.3s;
+}
+
+.menu a:hover,
+.menu a.active{
+    color:#fff;
+    background:linear-gradient(
+        90deg,
+        #06b6d422,
+        #7c3aed22
+    );
+    transform:translateX(5px);
+}
+
+.menu a.active{
+    border-left:3px solid #06b6d4;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:260px;
+    min-height:100vh;
+}
+
+/* TOPBAR */
+
+.topbar{
+    height:75px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    background:rgba(15,23,42,.7);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid #263244;
+}
+
+.search{
+    width:350px;
+}
+
+.search input{
+    width:100%;
+    padding:12px 18px;
+    background:#0b1120aa;
+    color:#fff;
+    border:1px solid #263244;
+    border-radius:10px;
+    outline:none;
+}
+
+.search input:focus{
+    border-color:#06b6d4;
+    box-shadow:0 0 20px #06b6d422;
+}
+
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:22px;
+}
+
+.theme-btn{
+    width:42px;
+    height:42px;
+    border:1px solid #263244;
+    border-radius:50%;
+    background:#0b1120;
+    color:#facc15;
+    font-size:19px;
+    cursor:pointer;
+    transition:.4s;
+}
+
+.theme-btn:hover{
+    transform:rotate(25deg) scale(1.1);
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.profile small{
+    display:block;
+    margin-top:3px;
+    color:#94a3b8;
+    font-size:11px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    font-weight:bold;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+}
+
+/* CONTENT */
+
+.content{
+    padding:30px;
+}
+
+.heading{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.heading h1{
+    font-size:28px;
+}
+
+.heading p{
+    margin-top:5px;
+    color:#94a3b8;
+}
+
+.date-box{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.date-box input{
+    padding:12px 15px;
+    border:1px solid #263244;
+    border-radius:9px;
+    background:#0b1120;
+    color:#fff;
+    outline:none;
+}
+
+.action-btn{
+    padding:12px 20px;
+    border:0;
+    border-radius:9px;
+    color:#fff;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    cursor:pointer;
+    transition:.3s;
+}
+
+.action-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 0 25px #06b6d455;
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.card{
+    padding:22px;
+    background:rgba(15,23,42,.75);
+    backdrop-filter:blur(15px);
+    border:1px solid #263244;
+    border-radius:15px;
+    transition:.3s;
+    animation:fadeUp .7s ease;
+}
+
+.card:hover{
+    transform:translateY(-7px);
+    border-color:#06b6d4;
+}
+
+.card-icon{
+    width:46px;
+    height:46px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+    font-size:22px;
+    background:#06b6d422;
+}
+
+.card h2{
+    margin-top:18px;
+    font-size:28px;
+}
+
+.card p{
+    margin-top:5px;
+    color:#94a3b8;
+}
+
+.card small{
+    display:block;
+    margin-top:12px;
+}
+
+.green{
+    color:#22c55e;
+}
+
+.orange{
+    color:#f97316;
+}
+
+.red{
+    color:#ef4444;
+}
+
+/* PANEL */
+
+.panel{
+    margin-top:25px;
+    padding:22px;
+    background:rgba(15,23,42,.75);
+    backdrop-filter:blur(15px);
+    border:1px solid #263244;
+    border-radius:15px;
+    animation:fadeUp .8s ease;
+}
+
+.panel-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:20px;
+}
+
+.panel-header h2{
+    font-size:18px;
+}
+
+.filter-area{
+    display:flex;
+    gap:10px;
+}
+
+.filter-area select{
+    padding:10px 15px;
+    border:1px solid #263244;
+    border-radius:8px;
+    background:#0b1120;
+    color:#fff;
+    outline:none;
+}
+
+/* TABLE */
+
+.table-container{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:750px;
+}
+
+th,
+td{
+    padding:15px 12px;
+    text-align:left;
+    border-bottom:1px solid #263244;
+}
+
+th{
+    color:#64748b;
+    font-size:13px;
+}
+
+td{
+    color:#cbd5e1;
+}
+
+.employee{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.employee-avatar{
+    width:38px;
+    height:38px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    color:#fff;
+    font-weight:bold;
+}
+
+.employee-info small{
+    display:block;
+    color:#64748b;
+    margin-top:4px;
+    font-size:11px;
+}
+
+.status{
+    display:inline-block;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:12px;
+}
+
+.present{
+    color:#22c55e;
+    background:#22c55e22;
+}
+
+.absent{
+    color:#ef4444;
+    background:#ef444422;
+}
+
+.late{
+    color:#f97316;
+    background:#f9731622;
+}
+
+.action{
+    padding:7px 12px;
+    border:1px solid #263244;
+    border-radius:7px;
+    background:transparent;
+    color:#94a3b8;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.action:hover{
+    color:#06b6d4;
+    border-color:#06b6d4;
+}
+
+/* LIGHT MODE */
+
+body.light-mode{
+    background:#f1f5f9;
+    color:#0f172a;
+}
+
+body.light-mode .background{
+    opacity:.12;
+}
+
+body.light-mode .sidebar,
+body.light-mode .topbar,
+body.light-mode .card,
+body.light-mode .panel{
+    background:rgba(255,255,255,.9);
+    border-color:#e2e8f0;
+}
+
+body.light-mode .search input,
+body.light-mode .date-box input,
+body.light-mode .filter-area select{
+    background:#f8fafc;
+    color:#0f172a;
+    border-color:#cbd5e1;
+}
+
+body.light-mode .menu a{
+    color:#64748b;
+}
+
+body.light-mode .menu a:hover,
+body.light-mode .menu a.active{
+    color:#0f172a;
+    background:#e0f2fe;
+}
+
+body.light-mode td{
+    color:#334155;
+}
+
+body.light-mode th,
+body.light-mode .employee-info small{
+    color:#64748b;
+}
+
+body.light-mode .theme-btn{
+    background:#f8fafc;
+    color:#7c3aed;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:750px){
+
+    .sidebar{
+        width:70px;
+        padding:15px 8px;
+    }
+
+    .logo h2,
+    .logo span,
+    .menu-title,
+    .menu a span{
+        display:none;
+    }
+
+    .logo{
+        justify-content:center;
+    }
+
+    .menu a{
+        justify-content:center;
+    }
+
+    .main{
+        margin-left:70px;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .search{
+        width:200px;
+    }
+
+    .heading{
+        display:block;
+    }
+
+    .date-box{
+        margin-top:18px;
+    }
+
+}
+
+@media(max-width:550px){
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .date-box{
+        display:block;
+    }
+
+    .date-box input,
+    .action-btn{
+        width:100%;
+        margin-top:8px;
+    }
+
+}
+
+/* ANIMATIONS */
+
+@keyframes float{
+
+    from{
+        transform:translate(0,0) scale(1);
+    }
+
+    to{
+        transform:translate(80px,50px) scale(1.2);
+    }
+
+}
+
+@keyframes slideIn{
+
+    from{
+        transform:translateX(-100%);
+        opacity:0;
+    }
+
+    to{
+        transform:translateX(0);
+        opacity:1;
+    }
+
+}
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+@keyframes logoGlow{
+
+    from{
+        box-shadow:0 0 10px #06b6d455;
+    }
+
+    to{
+        box-shadow:
+        0 0 25px #06b6d488,
+        0 0 45px #7c3aed44;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- BACKGROUND -->
+
+<div class="background">
+
+    <div class="grid-bg"></div>
+
+    <div class="orb orb1"></div>
+
+    <div class="orb orb2"></div>
+
+    <div class="orb orb3"></div>
+
+</div>
+
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            ✦
+        </div>
+
+        <div>
+
+            <h2>
+                NEXA HUB AI
+            </h2>
+
+            <span>
+                AI Management System
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="menu-title">
+        Main Menu
+    </div>
+
+
+    <nav class="menu">
+
+        <a href="dashboard.html">
+            📊 <span>Dashboard</span>
+        </a>
+
+        <a href="inventory_dashboard.html">
+            📦 <span>Inventory</span>
+        </a>
+
+        <a href="medicine_catalog_import.html">
+            💊 <span>Medicines</span>
+        </a>
+
+        <a href="customer_list.html">
+            👥 <span>Customers</span>
+        </a>
+
+        <a href="employee_list.html">
+            👨‍💼 <span>Employees</span>
+        </a>
+
+        <a href="delivery_dashboard.html">
+            🚚 <span>Delivery</span>
+        </a>
+
+    </nav>
+
+
+    <div class="menu-title">
+        Management
+    </div>
+
+
+    <nav class="menu">
+
+        <a href="finance_income_form.html">
+            💰 <span>Finance</span>
+        </a>
+
+        <a
+            href="attendance_daily.html"
+            class="active"
+        >
+            🕒 <span>Attendance</span>
+        </a>
+
+        <a href="branch_list.html">
+            🏢 <span>Branches</span>
+        </a>
+
+        <a href="batch_list.html">
+            🧾 <span>Batches</span>
+        </a>
+
+    </nav>
+
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+
+        <div class="search">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search employee..."
+            >
+
+        </div>
+
+
+        <div class="top-actions">
+
+
+            <button
+                class="theme-btn"
+                id="themeBtn"
+                onclick="toggleTheme()"
+            >
+                🌙
+            </button>
+
+
+            <div class="profile">
+
+                <div>
+
+                    <b>
+                        Admin User
+                    </b>
+
+                    <small>
+                        Administrator
+                    </small>
+
+                </div>
+
+
+                <div class="avatar">
+                    A
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </header>
+
+
+    <!-- CONTENT -->
+
+    <section class="content">
+
+
+        <div class="heading">
+
+
+            <div>
+
+                <h1>
+                    Daily Attendance
+                </h1>
+
+                <p>
+                    Manage and monitor employee attendance.
+                </p>
+
+            </div>
+
+
+            <div class="date-box">
+
+                <input
+                    type="date"
+                    id="attendanceDate"
+                >
+
+                <button
+                    class="action-btn"
+                    onclick="saveAttendance()"
+                >
+                    Save Attendance
+                </button>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- STATS -->
+
+        <div class="stats">
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    👥
+                </div>
+
+                <h2>
+                    128
+                </h2>
+
+                <p>
+                    Total Employees
+                </p>
+
+                <small class="green">
+                    Active workforce
+                </small>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    ✅
+                </div>
+
+                <h2>
+                    112
+                </h2>
+
+                <p>
+                    Present Today
+                </p>
+
+                <small class="green">
+                    87.5% attendance
+                </small>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    ⏰
+                </div>
+
+                <h2>
+                    9
+                </h2>
+
+                <p>
+                    Late Today
+                </p>
+
+                <small class="orange">
+                    Needs attention
+                </small>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    ❌
+                </div>
+
+                <h2>
+                    7
+                </h2>
+
+                <p>
+                    Absent Today
+                </p>
+
+                <small class="red">
+                    5.4% absent
+                </small>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- ATTENDANCE TABLE -->
+
+        <div class="panel">
+
+
+            <div class="panel-header">
+
+
+                <h2>
+                    Employee Attendance
+                </h2>
+
+
+                <div class="filter-area">
+
+
+                    <select
+                        id="statusFilter"
+                        onchange="filterStatus()"
+                    >
+
+                        <option value="all">
+                            All Status
+                        </option>
+
+                        <option value="present">
+                            Present
+                        </option>
+
+                        <option value="late">
+                            Late
+                        </option>
+
+                        <option value="absent">
+                            Absent
+                        </option>
+
+                    </select>
+
+
+                </div>
+
+
+            </div>
+
+
+            <div class="table-container">
+
+
+                <table>
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Employee
+                            </th>
+
+                            <th>
+                                Department
+                            </th>
+
+                            <th>
+                                Check In
+                            </th>
+
+                            <th>
+                                Check Out
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="employeeTable">
+
+
+                        <tr data-status="present">
+
+                            <td>
+
+                                <div class="employee">
+
+                                    <div class="employee-avatar">
+                                        RK
+                                    </div>
+
+                                    <div class="employee-info">
+
+                                        <b>
+                                            Rahul Kumar
+                                        </b>
+
+                                        <small>
+                                            EMP-1001
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                Pharmacy
+                            </td>
+
+                            <td>
+                                08:55 AM
+                            </td>
+
+                            <td>
+                                06:10 PM
+                            </td>
+
+                            <td>
+
+                                <span class="status present">
+                                    Present
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="action"
+                                    onclick="editAttendance(this)"
+                                >
+                                    Edit
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr data-status="late">
+
+                            <td>
+
+                                <div class="employee">
+
+                                    <div class="employee-avatar">
+                                        AS
+                                    </div>
+
+                                    <div class="employee-info">
+
+                                        <b>
+                                            Amit Sharma
+                                        </b>
+
+                                        <small>
+                                            EMP-1002
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                Inventory
+                            </td>
+
+                            <td>
+                                09:35 AM
+                            </td>
+
+                            <td>
+                                06:00 PM
+                            </td>
+
+                            <td>
+
+                                <span class="status late">
+                                    Late
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="action"
+                                    onclick="editAttendance(this)"
+                                >
+                                    Edit
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr data-status="present">
+
+                            <td>
+
+                                <div class="employee">
+
+                                    <div class="employee-avatar">
+                                        PS
+                                    </div>
+
+                                    <div class="employee-info">
+
+                                        <b>
+                                            Priya Singh
+                                        </b>
+
+                                        <small>
+                                            EMP-1003
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                Accounts
+                            </td>
+
+                            <td>
+                                08:48 AM
+                            </td>
+
+                            <td>
+                                05:55 PM
+                            </td>
+
+                            <td>
+
+                                <span class="status present">
+                                    Present
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="action"
+                                    onclick="editAttendance(this)"
+                                >
+                                    Edit
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr data-status="absent">
+
+                            <td>
+
+                                <div class="employee">
+
+                                    <div class="employee-avatar">
+                                        VK
+                                    </div>
+
+                                    <div class="employee-info">
+
+                                        <b>
+                                            Vikash Kumar
+                                        </b>
+
+                                        <small>
+                                            EMP-1004
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                Delivery
+                            </td>
+
+                            <td>
+                                —
+                            </td>
+
+                            <td>
+                                —
+                            </td>
+
+                            <td>
+
+                                <span class="status absent">
+                                    Absent
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="action"
+                                    onclick="editAttendance(this)"
+                                >
+                                    Edit
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr data-status="present">
+
+                            <td>
+
+                                <div class="employee">
+
+                                    <div class="employee-avatar">
+                                        NS
+                                    </div>
+
+                                    <div class="employee-info">
+
+                                        <b>
+                                            Neha Sharma
+                                        </b>
+
+                                        <small>
+                                            EMP-1005
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                Management
+                            </td>
+
+                            <td>
+                                08:42 AM
+                            </td>
+
+                            <td>
+                                06:20 PM
+                            </td>
+
+                            <td>
+
+                                <span class="status present">
+                                    Present
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="action"
+                                    onclick="editAttendance(this)"
+                                >
+                                    Edit
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+<script>
+
+
+/* THEME */
+
+function toggleTheme(){
+
+    const body =
+        document.body;
+
+    const button =
+        document.getElementById(
+            "themeBtn"
+        );
+
+
+    body.classList.toggle(
+        "light-mode"
+    );
+
+
+    if(
+        body.classList.contains(
+            "light-mode"
+        )
+    ){
+
+        button.innerHTML =
+            "☀️";
+
+        localStorage.setItem(
+            "theme",
+            "light"
+        );
+
+    }
+
+    else{
+
+        button.innerHTML =
+            "🌙";
+
+        localStorage.setItem(
+            "theme",
+            "dark"
+        );
+
+    }
+
+}
+
+
+/* LOAD THEME */
+
+window.addEventListener(
+    "load",
+    function(){
+
+        const savedTheme =
+            localStorage.getItem(
+                "theme"
+            );
+
+        const button =
+            document.getElementById(
+                "themeBtn"
+            );
+
+
+        if(
+            savedTheme ===
+            "light"
+        ){
+
+            document.body.classList.add(
+                "light-mode"
+            );
+
+            button.innerHTML =
+                "☀️";
+
+        }
+
+
+        document.getElementById(
+            "attendanceDate"
+        ).value =
+            new Date()
+            .toISOString()
+            .split("T")[0];
+
+    }
+);
+
+
+/* SEARCH */
+
+document.getElementById(
+    "searchInput"
+).addEventListener(
+    "input",
+    function(){
+
+        const value =
+            this.value.toLowerCase();
+
+        const rows =
+            document.querySelectorAll(
+                "#employeeTable tr"
+            );
+
+
+        rows.forEach(
+            function(row){
+
+                const text =
+                    row.innerText.toLowerCase();
+
+
+                row.style.display =
+                    text.includes(value)
+                    ? ""
+                    : "none";
+
+            }
+        );
+
+    }
+);
+
+
+/* FILTER */
+
+function filterStatus(){
+
+    const selected =
+        document.getElementById(
+            "statusFilter"
+        ).value;
+
+    const rows =
+        document.querySelectorAll(
+            "#employeeTable tr"
+        );
+
+
+    rows.forEach(
+        function(row){
+
+            const status =
+                row.dataset.status;
+
+
+            if(
+                selected ===
+                "all"
+                ||
+                selected ===
+                status
+            ){
+
+                row.style.display =
+                    "";
+
+            }
+
+            else{
+
+                row.style.display =
+                    "none";
+
+            }
+
+        }
+    );
+
+}
+
+
+/* SAVE */
+
+function saveAttendance(){
+
+    alert(
+        "Attendance saved successfully!"
+    );
+
+}
+
+
+/* EDIT */
+
+function editAttendance(button){
+
+    const row =
+        button.closest("tr");
+
+    const employee =
+        row.querySelector(
+            ".employee-info b"
+        ).innerText;
+
+    alert(
+        "Edit attendance for " +
+        employee
+    );
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

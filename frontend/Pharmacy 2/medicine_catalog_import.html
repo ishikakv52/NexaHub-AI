@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Medicine Catalog Import</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#080d1a;
+    color:#e5e7eb;
+    transition:.4s;
+}
+
+/* ANIMATED BACKGROUND */
+
+.background{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:-1;
+}
+
+.grid{
+    position:absolute;
+    inset:0;
+    opacity:.06;
+    background-image:
+    linear-gradient(#fff 1px,transparent 1px),
+    linear-gradient(90deg,#fff 1px,transparent 1px);
+    background-size:45px 45px;
+}
+
+.orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(100px);
+    opacity:.25;
+    animation:float 12s infinite alternate ease-in-out;
+}
+
+.orb1{
+    width:350px;
+    height:350px;
+    background:#06b6d4;
+    top:-100px;
+    left:250px;
+}
+
+.orb2{
+    width:300px;
+    height:300px;
+    background:#7c3aed;
+    right:-80px;
+    top:250px;
+    animation-delay:2s;
+}
+
+.orb3{
+    width:250px;
+    height:250px;
+    background:#2563eb;
+    bottom:-100px;
+    left:40%;
+    animation-delay:4s;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    padding:22px 15px;
+    background:rgba(15,23,42,.88);
+    backdrop-filter:blur(18px);
+    border-right:1px solid #263244;
+    z-index:10;
+    animation:slideIn .7s ease;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 12px 25px;
+    border-bottom:1px solid #263244;
+    margin-bottom:18px;
+}
+
+.logo-icon{
+    width:44px;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:13px;
+    font-size:23px;
+    color:#fff;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    animation:glow 2s infinite alternate;
+}
+
+.logo h2{
+    font-size:17px;
+}
+
+.logo span{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.menu-title{
+    padding:12px;
+    color:#64748b;
+    font-size:11px;
+    text-transform:uppercase;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    margin:5px 0;
+    color:#94a3b8;
+    text-decoration:none;
+    border-radius:9px;
+    transition:.3s;
+}
+
+.menu a:hover,
+.menu a.active{
+    color:#fff;
+    background:linear-gradient(90deg,#06b6d422,#7c3aed22);
+    transform:translateX(5px);
+}
+
+.menu a.active{
+    border-left:3px solid #06b6d4;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:260px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:75px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    background:rgba(15,23,42,.7);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid #263244;
+}
+
+.search{
+    width:350px;
+}
+
+.search input{
+    width:100%;
+    padding:12px 18px;
+    background:#0b1120aa;
+    color:#fff;
+    border:1px solid #263244;
+    border-radius:10px;
+    outline:none;
+}
+
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:22px;
+}
+
+.theme-btn{
+    width:42px;
+    height:42px;
+    border:1px solid #263244;
+    border-radius:50%;
+    background:#0b1120;
+    color:#facc15;
+    font-size:19px;
+    cursor:pointer;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.profile small{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    font-weight:bold;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+}
+
+/* CONTENT */
+
+.content{
+    padding:30px;
+}
+
+.page-header{
+    margin-bottom:25px;
+}
+
+.page-header h1{
+    font-size:28px;
+}
+
+.page-header p{
+    color:#94a3b8;
+    margin-top:5px;
+}
+
+/* IMPORT LAYOUT */
+
+.import-layout{
+    display:grid;
+    grid-template-columns:1.3fr .7fr;
+    gap:22px;
+}
+
+/* CARD */
+
+.card{
+    padding:25px;
+    background:rgba(15,23,42,.78);
+    backdrop-filter:blur(18px);
+    border:1px solid #263244;
+    border-radius:18px;
+    animation:fadeUp .8s ease;
+}
+
+.card h2{
+    font-size:19px;
+    margin-bottom:22px;
+}
+
+/* UPLOAD AREA */
+
+.upload-area{
+    min-height:260px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:30px;
+    border:2px dashed #334155;
+    border-radius:16px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.upload-area:hover,
+.upload-area.dragover{
+    border-color:#06b6d4;
+    background:#06b6d411;
+    transform:scale(1.01);
+}
+
+.upload-icon{
+    width:75px;
+    height:75px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:22px;
+    font-size:35px;
+    background:linear-gradient(135deg,#06b6d422,#7c3aed22);
+    margin-bottom:18px;
+    animation:floatIcon 3s infinite ease-in-out;
+}
+
+.upload-area h3{
+    margin-bottom:8px;
+}
+
+.upload-area p{
+    color:#94a3b8;
+    font-size:13px;
+}
+
+.upload-btn{
+    margin-top:20px;
+    padding:12px 22px;
+    border:0;
+    border-radius:9px;
+    color:#fff;
+    cursor:pointer;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    transition:.3s;
+}
+
+.upload-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 0 25px #06b6d455;
+}
+
+#fileInput{
+    display:none;
+}
+
+/* FILE INFO */
+
+.file-info{
+    display:none;
+    margin-top:20px;
+    padding:15px;
+    border:1px solid #263244;
+    border-radius:12px;
+    background:#0b1120aa;
+}
+
+.file-info.show{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    animation:fadeUp .4s ease;
+}
+
+.file-name{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.file-icon{
+    width:42px;
+    height:42px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:10px;
+    background:#22c55e22;
+    color:#22c55e;
+    font-size:20px;
+}
+
+.file-name small{
+    display:block;
+    color:#94a3b8;
+    margin-top:4px;
+}
+
+.remove-btn{
+    border:0;
+    background:transparent;
+    color:#ef4444;
+    cursor:pointer;
+    font-size:18px;
+}
+
+/* IMPORT OPTIONS */
+
+.option-group{
+    margin-bottom:20px;
+}
+
+.option-group label{
+    display:block;
+    color:#94a3b8;
+    font-size:13px;
+    margin-bottom:8px;
+}
+
+select,
+input{
+    width:100%;
+    padding:13px 14px;
+    border:1px solid #334155;
+    border-radius:9px;
+    outline:none;
+    color:#fff;
+    background:#0b1120;
+}
+
+select:focus,
+input:focus{
+    border-color:#06b6d4;
+    box-shadow:0 0 15px #06b6d422;
+}
+
+.checkbox-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:15px 0;
+    color:#94a3b8;
+    font-size:13px;
+}
+
+.checkbox-row input{
+    width:auto;
+}
+
+/* BUTTON */
+
+.import-btn{
+    width:100%;
+    padding:14px;
+    border:0;
+    border-radius:10px;
+    color:#fff;
+    font-size:15px;
+    cursor:pointer;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    transition:.3s;
+}
+
+.import-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 0 25px #06b6d455;
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+    margin-top:22px;
+}
+
+.stat-card{
+    padding:20px;
+    background:rgba(15,23,42,.78);
+    backdrop-filter:blur(18px);
+    border:1px solid #263244;
+    border-radius:16px;
+}
+
+.stat-card small{
+    color:#94a3b8;
+}
+
+.stat-card h2{
+    margin-top:10px;
+    font-size:27px;
+}
+
+.stat-icon{
+    float:right;
+    font-size:25px;
+}
+
+/* RECENT IMPORTS */
+
+.recent{
+    margin-top:22px;
+}
+
+.import-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:15px 0;
+    border-bottom:1px solid #263244;
+}
+
+.import-item:last-child{
+    border-bottom:0;
+}
+
+.import-info{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.import-file-icon{
+    width:42px;
+    height:42px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:11px;
+    background:#06b6d422;
+    color:#06b6d4;
+    font-size:20px;
+}
+
+.import-info small{
+    display:block;
+    color:#94a3b8;
+    margin-top:4px;
+}
+
+.import-status{
+    padding:6px 10px;
+    border-radius:20px;
+    color:#22c55e;
+    background:#22c55e22;
+    font-size:11px;
+}
+
+/* PROGRESS */
+
+.progress-box{
+    display:none;
+    margin-top:20px;
+}
+
+.progress-box.show{
+    display:block;
+}
+
+.progress-header{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:8px;
+    color:#94a3b8;
+    font-size:13px;
+}
+
+.progress{
+    height:9px;
+    background:#1e293b;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    border-radius:20px;
+    background:linear-gradient(90deg,#06b6d4,#7c3aed);
+    transition:width .3s;
+}
+
+/* LIGHT MODE */
+
+body.light-mode{
+    background:#f1f5f9;
+    color:#0f172a;
+}
+
+body.light-mode .sidebar,
+body.light-mode .topbar,
+body.light-mode .card,
+body.light-mode .stat-card{
+    background:rgba(255,255,255,.92);
+    border-color:#e2e8f0;
+}
+
+body.light-mode .search input,
+body.light-mode select,
+body.light-mode input{
+    background:#f8fafc;
+    color:#0f172a;
+    border-color:#cbd5e1;
+}
+
+body.light-mode .menu a{
+    color:#64748b;
+}
+
+body.light-mode .menu a:hover,
+body.light-mode .menu a.active{
+    color:#0f172a;
+    background:#e0f2fe;
+}
+
+body.light-mode .theme-btn{
+    background:#f8fafc;
+    color:#7c3aed;
+}
+
+body.light-mode .upload-area{
+    border-color:#cbd5e1;
+}
+
+body.light-mode .file-info{
+    background:#f8fafc;
+    border-color:#e2e8f0;
+}
+
+body.light-mode .import-item{
+    border-color:#e2e8f0;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+
+    .import-layout{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:800px){
+
+    .sidebar{
+        width:70px;
+        padding:15px 8px;
+    }
+
+    .logo h2,
+    .logo span,
+    .menu-title,
+    .menu a span{
+        display:none;
+    }
+
+    .logo{
+        justify-content:center;
+    }
+
+    .menu a{
+        justify-content:center;
+    }
+
+    .main{
+        margin-left:70px;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .search{
+        width:180px;
+    }
+
+    .content{
+        padding:18px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+}
+
+/* ANIMATIONS */
+
+@keyframes float{
+
+    from{
+        transform:translate(0,0) scale(1);
+    }
+
+    to{
+        transform:translate(80px,50px) scale(1.2);
+    }
+
+}
+
+@keyframes floatIcon{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-10px);
+    }
+
+}
+
+@keyframes slideIn{
+
+    from{
+        transform:translateX(-100%);
+        opacity:0;
+    }
+
+    to{
+        transform:translateX(0);
+        opacity:1;
+    }
+
+}
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+@keyframes glow{
+
+    from{
+        box-shadow:0 0 10px #06b6d455;
+    }
+
+    to{
+        box-shadow:0 0 30px #06b6d488;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="background">
+
+    <div class="grid"></div>
+
+    <div class="orb orb1"></div>
+
+    <div class="orb orb2"></div>
+
+    <div class="orb orb3"></div>
+
+</div>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            ✦
+        </div>
+
+        <div>
+
+            <h2>NEXA HUB AI</h2>
+
+            <span>
+                AI Management System
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="menu-title">
+        Main Menu
+    </div>
+
+    <nav class="menu">
+
+        <a href="dashboard.html">
+            📊 <span>Dashboard</span>
+        </a>
+
+        <a href="inventory_dashboard.html">
+            📦 <span>Inventory</span>
+        </a>
+
+        <a href="medicine_catalog_import.html" class="active">
+            💊 <span>Medicines</span>
+        </a>
+
+        <a href="customer_list.html">
+            👥 <span>Customers</span>
+        </a>
+
+        <a href="employee_list.html">
+            👨‍💼 <span>Employees</span>
+        </a>
+
+        <a href="delivery_dashboard.html">
+            🚚 <span>Delivery</span>
+        </a>
+
+    </nav>
+
+    <div class="menu-title">
+        Management
+    </div>
+
+    <nav class="menu">
+
+        <a href="finance_income_form.html">
+            💰 <span>Finance</span>
+        </a>
+
+        <a href="attendance_daily.html">
+            🕒 <span>Attendance</span>
+        </a>
+
+        <a href="branch_list.html">
+            🏢 <span>Branches</span>
+        </a>
+
+        <a href="batch_list.html">
+            🧾 <span>Batches</span>
+        </a>
+
+    </nav>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+<header class="topbar">
+
+    <div class="search">
+
+        <input
+            type="text"
+            placeholder="Search medicine catalog..."
+        >
+
+    </div>
+
+    <div class="top-actions">
+
+        <button
+            class="theme-btn"
+            id="themeBtn"
+            onclick="toggleTheme()"
+        >
+            🌙
+        </button>
+
+        <div class="profile">
+
+            <div>
+
+                <b>
+                    Admin User
+                </b>
+
+                <small>
+                    Administrator
+                </small>
+
+            </div>
+
+            <div class="avatar">
+                A
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+<section class="content">
+
+    <div class="page-header">
+
+        <h1>
+            Medicine Catalog Import
+        </h1>
+
+        <p>
+            Import and manage your medicine catalog with ease.
+        </p>
+
+    </div>
+
+    <div class="import-layout">
+
+        <!-- UPLOAD CARD -->
+
+        <div class="card">
+
+            <h2>
+                📥 Upload Medicine Catalog
+            </h2>
+
+            <div
+                class="upload-area"
+                id="uploadArea"
+            >
+
+                <div class="upload-icon">
+                    📄
+                </div>
+
+                <h3>
+                    Drag & Drop your file here
+                </h3>
+
+                <p>
+                    Supported formats: CSV, XLSX, XLS
+                </p>
+
+                <button
+                    class="upload-btn"
+                    onclick="document.getElementById('fileInput').click()"
+                >
+                    Choose File
+                </button>
+
+                <input
+                    type="file"
+                    id="fileInput"
+                    accept=".csv,.xlsx,.xls"
+                >
+
+            </div>
+
+            <div
+                class="file-info"
+                id="fileInfo"
+            >
+
+                <div class="file-name">
+
+                    <div class="file-icon">
+                        📊
+                    </div>
+
+                    <div>
+
+                        <b id="selectedFile">
+                            No file selected
+                        </b>
+
+                        <small id="fileSize">
+                            0 KB
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <button
+                    class="remove-btn"
+                    onclick="removeFile()"
+                >
+                    ✕
+                </button>
+
+            </div>
+
+            <div
+                class="progress-box"
+                id="progressBox"
+            >
+
+                <div class="progress-header">
+
+                    <span>
+                        Importing medicines...
+                    </span>
+
+                    <span id="progressText">
+                        0%
+                    </span>
+
+                </div>
+
+                <div class="progress">
+
+                    <div
+                        class="progress-bar"
+                        id="progressBar"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- OPTIONS -->
+
+        <div class="card">
+
+            <h2>
+                ⚙️ Import Settings
+            </h2>
+
+            <div class="option-group">
+
+                <label>
+                    Catalog Type
+                </label>
+
+                <select>
+
+                    <option>
+                        Medicine Catalog
+                    </option>
+
+                    <option>
+                        Medical Products
+                    </option>
+
+                    <option>
+                        Pharmacy Inventory
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="option-group">
+
+                <label>
+                    Duplicate Handling
+                </label>
+
+                <select>
+
+                    <option>
+                        Update Existing Records
+                    </option>
+
+                    <option>
+                        Skip Duplicates
+                    </option>
+
+                    <option>
+                        Create New Records
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="option-group">
+
+                <label>
+                    Default Branch
+                </label>
+
+                <select>
+
+                    <option>
+                        Main Branch
+                    </option>
+
+                    <option>
+                        Delhi Branch
+                    </option>
+
+                    <option>
+                        Noida Branch
+                    </option>
+
+                    <option>
+                        Ghaziabad Branch
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="checkbox-row">
+
+                <input
+                    type="checkbox"
+                    id="validateData"
+                    checked
+                >
+
+                <label for="validateData">
+                    Validate data before import
+                </label>
+
+            </div>
+
+            <div class="checkbox-row">
+
+                <input
+                    type="checkbox"
+                    id="autoBatch"
+                >
+
+                <label for="autoBatch">
+                    Automatically create batches
+                </label>
+
+            </div>
+
+            <button
+                class="import-btn"
+                onclick="startImport()"
+            >
+                🚀 Start Import
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+        <div class="stat-card">
+
+            <span class="stat-icon">
+                💊
+            </span>
+
+            <small>
+                Total Medicines
+            </small>
+
+            <h2>
+                12,486
+            </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+            <span class="stat-icon">
+                📥
+            </span>
+
+            <small>
+                Imported This Month
+            </small>
+
+            <h2>
+                1,284
+            </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+            <span class="stat-icon">
+                ✅
+            </span>
+
+            <small>
+                Last Import
+            </small>
+
+            <h2>
+                98.6%
+            </h2>
+
+        </div>
+
+    </div>
+
+    <!-- RECENT IMPORTS -->
+
+    <div class="card recent">
+
+        <h2>
+            📋 Recent Imports
+        </h2>
+
+        <div class="import-item">
+
+            <div class="import-info">
+
+                <div class="import-file-icon">
+                    📊
+                </div>
+
+                <div>
+
+                    <b>
+                        medicine_catalog_july.csv
+                    </b>
+
+                    <small>
+                        1,284 medicines • Today, 11:30 AM
+                    </small>
+
+                </div>
+
+            </div>
+
+            <span class="import-status">
+                Completed
+            </span>
+
+        </div>
+
+        <div class="import-item">
+
+            <div class="import-info">
+
+                <div class="import-file-icon">
+                    📊
+                </div>
+
+                <div>
+
+                    <b>
+                        pharmacy_stock.xlsx
+                    </b>
+
+                    <small>
+                        856 medicines • Yesterday, 04:20 PM
+                    </small>
+
+                </div>
+
+            </div>
+
+            <span class="import-status">
+                Completed
+            </span>
+
+        </div>
+
+        <div class="import-item">
+
+            <div class="import-info">
+
+                <div class="import-file-icon">
+                    📊
+                </div>
+
+                <div>
+
+                    <b>
+                        new_medicines.csv
+                    </b>
+
+                    <small>
+                        420 medicines • 18 Jul 2026
+                    </small>
+
+                </div>
+
+            </div>
+
+            <span class="import-status">
+                Completed
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+<script>
+
+/* THEME */
+
+function toggleTheme(){
+
+    document.body.classList.toggle(
+        "light-mode"
+    );
+
+    const button =
+        document.getElementById(
+            "themeBtn"
+        );
+
+    if(
+        document.body.classList.contains(
+            "light-mode"
+        )
+    ){
+
+        button.innerHTML = "☀️";
+
+        localStorage.setItem(
+            "theme",
+            "light"
+        );
+
+    }else{
+
+        button.innerHTML = "🌙";
+
+        localStorage.setItem(
+            "theme",
+            "dark"
+        );
+
+    }
+
+}
+
+/* LOAD THEME */
+
+window.addEventListener(
+    "load",
+    function(){
+
+        if(
+            localStorage.getItem(
+                "theme"
+            )
+            ===
+            "light"
+        ){
+
+            document.body.classList.add(
+                "light-mode"
+            );
+
+            document.getElementById(
+                "themeBtn"
+            ).innerHTML = "☀️";
+
+        }
+
+    }
+);
+
+/* FILE INPUT */
+
+const fileInput =
+    document.getElementById(
+        "fileInput"
+    );
+
+const uploadArea =
+    document.getElementById(
+        "uploadArea"
+    );
+
+const fileInfo =
+    document.getElementById(
+        "fileInfo"
+    );
+
+const selectedFile =
+    document.getElementById(
+        "selectedFile"
+    );
+
+const fileSize =
+    document.getElementById(
+        "fileSize"
+    );
+
+fileInput.addEventListener(
+    "change",
+    function(){
+
+        if(
+            this.files.length > 0
+        ){
+
+            showFile(
+                this.files[0]
+            );
+
+        }
+
+    }
+);
+
+/* DRAG AND DROP */
+
+uploadArea.addEventListener(
+    "dragover",
+    function(event){
+
+        event.preventDefault();
+
+        uploadArea.classList.add(
+            "dragover"
+        );
+
+    }
+);
+
+uploadArea.addEventListener(
+    "dragleave",
+    function(){
+
+        uploadArea.classList.remove(
+            "dragover"
+        );
+
+    }
+);
+
+uploadArea.addEventListener(
+    "drop",
+    function(event){
+
+        event.preventDefault();
+
+        uploadArea.classList.remove(
+            "dragover"
+        );
+
+        const file =
+            event.dataTransfer.files[0];
+
+        if(file){
+
+            showFile(file);
+
+        }
+
+    }
+);
+
+/* SHOW FILE */
+
+function showFile(file){
+
+    selectedFile.innerText =
+        file.name;
+
+    fileSize.innerText =
+        (
+            file.size / 1024
+        ).toFixed(2)
+        + " KB";
+
+    fileInfo.classList.add(
+        "show"
+    );
+
+}
+
+/* REMOVE FILE */
+
+function removeFile(){
+
+    fileInput.value = "";
+
+    fileInfo.classList.remove(
+        "show"
+    );
+
+}
+
+/* IMPORT */
+
+function startImport(){
+
+    if(
+        !fileInput.files.length
+        &&
+        !fileInfo.classList.contains(
+            "show"
+        )
+    ){
+
+        alert(
+            "Please select a catalog file first."
+        );
+
+        return;
+
+    }
+
+    const progressBox =
+        document.getElementById(
+            "progressBox"
+        );
+
+    const progressBar =
+        document.getElementById(
+            "progressBar"
+        );
+
+    const progressText =
+        document.getElementById(
+            "progressText"
+        );
+
+    progressBox.classList.add(
+        "show"
+    );
+
+    let progress = 0;
+
+    const interval =
+        setInterval(
+            function(){
+
+                progress += 10;
+
+                progressBar.style.width =
+                    progress + "%";
+
+                progressText.innerText =
+                    progress + "%";
+
+                if(
+                    progress >= 100
+                ){
+
+                    clearInterval(
+                        interval
+                    );
+
+                    setTimeout(
+                        function(){
+
+                            alert(
+                                "Medicine catalog imported successfully!"
+                            );
+
+                        },
+                        300
+                    );
+
+                }
+
+            },
+            180
+        );
+
+}
+
+/* CLICK UPLOAD AREA */
+
+uploadArea.addEventListener(
+    "click",
+    function(event){
+
+        if(
+            event.target.tagName
+            !==
+            "BUTTON"
+        ){
+
+            fileInput.click();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>

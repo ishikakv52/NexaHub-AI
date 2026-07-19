@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXA HUB AI | Branch Management</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#080d1a;
+    color:#e5e7eb;
+    transition:.4s;
+}
+
+/* ANIMATED BACKGROUND */
+.background{
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    overflow:hidden;
+}
+
+.grid{
+    position:absolute;
+    inset:0;
+    opacity:.06;
+    background-image:
+    linear-gradient(#fff 1px,transparent 1px),
+    linear-gradient(90deg,#fff 1px,transparent 1px);
+    background-size:45px 45px;
+}
+
+.orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(90px);
+    opacity:.25;
+    animation:float 12s infinite alternate ease-in-out;
+}
+
+.orb1{
+    width:360px;
+    height:360px;
+    background:#06b6d4;
+    top:-120px;
+    left:250px;
+}
+
+.orb2{
+    width:300px;
+    height:300px;
+    background:#7c3aed;
+    right:-80px;
+    top:250px;
+    animation-delay:2s;
+}
+
+.orb3{
+    width:260px;
+    height:260px;
+    background:#2563eb;
+    bottom:-100px;
+    left:40%;
+    animation-delay:4s;
+}
+
+/* SIDEBAR */
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    padding:22px 15px;
+    background:rgba(15,23,42,.88);
+    backdrop-filter:blur(18px);
+    border-right:1px solid #263244;
+    z-index:10;
+    animation:slideIn .7s ease;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 12px 25px;
+    border-bottom:1px solid #263244;
+    margin-bottom:18px;
+}
+
+.logo-icon{
+    width:44px;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:13px;
+    font-size:23px;
+    color:#fff;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    animation:glow 2s infinite alternate;
+}
+
+.logo h2{
+    font-size:17px;
+}
+
+.logo span{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.menu-title{
+    padding:12px;
+    color:#64748b;
+    font-size:11px;
+    text-transform:uppercase;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    margin:5px 0;
+    color:#94a3b8;
+    text-decoration:none;
+    border-radius:9px;
+    transition:.3s;
+}
+
+.menu a:hover,
+.menu a.active{
+    color:#fff;
+    background:linear-gradient(90deg,#06b6d422,#7c3aed22);
+    transform:translateX(5px);
+}
+
+.menu a.active{
+    border-left:3px solid #06b6d4;
+}
+
+/* MAIN */
+.main{
+    margin-left:260px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:75px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    background:rgba(15,23,42,.7);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid #263244;
+}
+
+.search{
+    width:350px;
+}
+
+.search input{
+    width:100%;
+    padding:12px 18px;
+    background:#0b1120aa;
+    color:#fff;
+    border:1px solid #263244;
+    border-radius:10px;
+    outline:none;
+}
+
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:22px;
+}
+
+.theme-btn{
+    width:42px;
+    height:42px;
+    border:1px solid #263244;
+    border-radius:50%;
+    background:#0b1120;
+    color:#facc15;
+    font-size:19px;
+    cursor:pointer;
+    transition:.4s;
+}
+
+.theme-btn:hover{
+    transform:rotate(25deg) scale(1.1);
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.profile small{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    font-weight:bold;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+}
+
+/* CONTENT */
+.content{
+    padding:30px;
+}
+
+.heading{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.heading h1{
+    font-size:28px;
+}
+
+.heading p{
+    color:#94a3b8;
+    margin-top:5px;
+}
+
+.add-btn{
+    padding:12px 20px;
+    border:0;
+    border-radius:9px;
+    color:#fff;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    cursor:pointer;
+    transition:.3s;
+}
+
+.add-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 0 25px #06b6d455;
+}
+
+/* STATS */
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.card{
+    padding:22px;
+    background:rgba(15,23,42,.75);
+    backdrop-filter:blur(15px);
+    border:1px solid #263244;
+    border-radius:15px;
+    transition:.3s;
+    animation:fadeUp .7s ease;
+}
+
+.card:hover{
+    transform:translateY(-7px);
+    border-color:#06b6d4;
+}
+
+.card-icon{
+    width:46px;
+    height:46px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+    font-size:22px;
+    background:#06b6d422;
+}
+
+.card h2{
+    margin-top:18px;
+    font-size:28px;
+}
+
+.card p{
+    color:#94a3b8;
+    margin-top:5px;
+}
+
+.card small{
+    display:block;
+    margin-top:12px;
+}
+
+.green{color:#22c55e;}
+.orange{color:#f97316;}
+.blue{color:#38bdf8;}
+
+/* BRANCH GRID */
+.branch-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:22px;
+    margin-top:25px;
+}
+
+.branch-card{
+    padding:22px;
+    background:rgba(15,23,42,.78);
+    backdrop-filter:blur(15px);
+    border:1px solid #263244;
+    border-radius:16px;
+    transition:.3s;
+    animation:fadeUp .8s ease;
+}
+
+.branch-card:hover{
+    transform:translateY(-8px);
+    border-color:#06b6d4;
+    box-shadow:0 10px 35px #0005;
+}
+
+.branch-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.branch-icon{
+    width:52px;
+    height:52px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:14px;
+    font-size:25px;
+    background:linear-gradient(135deg,#06b6d422,#7c3aed33);
+}
+
+.status{
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:11px;
+}
+
+.active{
+    color:#22c55e;
+    background:#22c55e22;
+}
+
+.branch-card h3{
+    margin-top:20px;
+    font-size:19px;
+}
+
+.location{
+    color:#94a3b8;
+    font-size:13px;
+    margin-top:7px;
+}
+
+.branch-info{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-top:20px;
+    padding-top:18px;
+    border-top:1px solid #263244;
+}
+
+.info-box span{
+    display:block;
+    color:#64748b;
+    font-size:11px;
+}
+
+.info-box b{
+    display:block;
+    margin-top:5px;
+    font-size:16px;
+}
+
+.branch-actions{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+.action{
+    flex:1;
+    padding:9px;
+    border:1px solid #263244;
+    border-radius:8px;
+    background:transparent;
+    color:#94a3b8;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.action:hover{
+    color:#06b6d4;
+    border-color:#06b6d4;
+}
+
+/* LIGHT MODE */
+body.light-mode{
+    background:#f1f5f9;
+    color:#0f172a;
+}
+
+body.light-mode .sidebar,
+body.light-mode .topbar,
+body.light-mode .card,
+body.light-mode .branch-card{
+    background:rgba(255,255,255,.9);
+    border-color:#e2e8f0;
+}
+
+body.light-mode .search input{
+    background:#f8fafc;
+    color:#0f172a;
+    border-color:#cbd5e1;
+}
+
+body.light-mode .menu a{
+    color:#64748b;
+}
+
+body.light-mode .menu a:hover,
+body.light-mode .menu a.active{
+    color:#0f172a;
+    background:#e0f2fe;
+}
+
+body.light-mode .theme-btn{
+    background:#f8fafc;
+    color:#7c3aed;
+}
+
+body.light-mode .branch-info{
+    border-color:#e2e8f0;
+}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .branch-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:750px){
+    .sidebar{
+        width:70px;
+        padding:15px 8px;
+    }
+
+    .logo h2,
+    .logo span,
+    .menu-title,
+    .menu a span{
+        display:none;
+    }
+
+    .logo{
+        justify-content:center;
+    }
+
+    .menu a{
+        justify-content:center;
+    }
+
+    .main{
+        margin-left:70px;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .search{
+        width:200px;
+    }
+}
+
+@media(max-width:550px){
+    .stats,
+    .branch-grid{
+        grid-template-columns:1fr;
+    }
+
+    .heading{
+        display:block;
+    }
+
+    .add-btn{
+        margin-top:18px;
+    }
+
+    .content{
+        padding:18px;
+    }
+}
+
+/* ANIMATIONS */
+@keyframes float{
+    from{
+        transform:translate(0,0) scale(1);
+    }
+    to{
+        transform:translate(80px,50px) scale(1.2);
+    }
+}
+
+@keyframes slideIn{
+    from{
+        transform:translateX(-100%);
+        opacity:0;
+    }
+    to{
+        transform:translateX(0);
+        opacity:1;
+    }
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes glow{
+    from{
+        box-shadow:0 0 10px #06b6d455;
+    }
+    to{
+        box-shadow:0 0 30px #06b6d488;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="background">
+    <div class="grid"></div>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+</div>
+
+<aside class="sidebar">
+
+    <div class="logo">
+        <div class="logo-icon">✦</div>
+
+        <div>
+            <h2>NEXA HUB AI</h2>
+            <span>AI Management System</span>
+        </div>
+    </div>
+
+    <div class="menu-title">Main Menu</div>
+
+    <nav class="menu">
+
+        <a href="dashboard.html">📊 <span>Dashboard</span></a>
+
+        <a href="inventory_dashboard.html">📦 <span>Inventory</span></a>
+
+        <a href="medicine_catalog_import.html">💊 <span>Medicines</span></a>
+
+        <a href="customer_list.html">👥 <span>Customers</span></a>
+
+        <a href="employee_list.html">👨‍💼 <span>Employees</span></a>
+
+        <a href="delivery_dashboard.html">🚚 <span>Delivery</span></a>
+
+    </nav>
+
+    <div class="menu-title">Management</div>
+
+    <nav class="menu">
+
+        <a href="finance_income_form.html">💰 <span>Finance</span></a>
+
+        <a href="attendance_daily.html">🕒 <span>Attendance</span></a>
+
+        <a href="branch_list.html" class="active">🏢 <span>Branches</span></a>
+
+        <a href="batch_list.html">🧾 <span>Batches</span></a>
+
+    </nav>
+
+</aside>
+
+<main class="main">
+
+    <header class="topbar">
+
+        <div class="search">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search branch..."
+            >
+        </div>
+
+        <div class="top-actions">
+
+            <button
+                class="theme-btn"
+                id="themeBtn"
+                onclick="toggleTheme()"
+            >
+                🌙
+            </button>
+
+            <div class="profile">
+
+                <div>
+                    <b>Admin User</b>
+                    <small>Administrator</small>
+                </div>
+
+                <div class="avatar">A</div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <section class="content">
+
+        <div class="heading">
+
+            <div>
+                <h1>Branch Management</h1>
+                <p>Manage all NEXA HUB AI business branches from one place.</p>
+            </div>
+
+            <button
+                class="add-btn"
+                onclick="addBranch()"
+            >
+                + Add New Branch
+            </button>
+
+        </div>
+
+        <div class="stats">
+
+            <div class="card">
+                <div class="card-icon">🏢</div>
+                <h2>12</h2>
+                <p>Total Branches</p>
+                <small class="green">↑ 2 new this year</small>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🟢</div>
+                <h2>10</h2>
+                <p>Active Branches</p>
+                <small class="green">Currently operational</small>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">👥</div>
+                <h2>186</h2>
+                <p>Total Employees</p>
+                <small class="blue">Across all branches</small>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">📈</div>
+                <h2>₹24.8L</h2>
+                <p>Monthly Revenue</p>
+                <small class="green">↑ 12.5% this month</small>
+            </div>
+
+        </div>
+
+        <div class="branch-grid" id="branchGrid">
+
+            <div class="branch-card">
+
+                <div class="branch-top">
+                    <div class="branch-icon">🏢</div>
+                    <span class="status active">Active</span>
+                </div>
+
+                <h3>Delhi Main Branch</h3>
+
+                <p class="location">
+                    📍 New Delhi, India
+                </p>
+
+                <div class="branch-info">
+
+                    <div class="info-box">
+                        <span>Employees</span>
+                        <b>42</b>
+                    </div>
+
+                    <div class="info-box">
+                        <span>Monthly Sales</span>
+                        <b>₹8.4L</b>
+                    </div>
+
+                </div>
+
+                <div class="branch-actions">
+
+                    <button
+                        class="action"
+                        onclick="editBranch('Delhi Main Branch')"
+                    >
+                        Edit
+                    </button>
+
+                    <button
+                        class="action"
+                        onclick="viewBranch('Delhi Main Branch')"
+                    >
+                        View
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="branch-card">
+
+                <div class="branch-top">
+                    <div class="branch-icon">🏢</div>
+                    <span class="status active">Active</span>
+                </div>
+
+                <h3>Noida Branch</h3>
+
+                <p class="location">
+                    📍 Noida, Uttar Pradesh
+                </p>
+
+                <div class="branch-info">
+
+                    <div class="info-box">
+                        <span>Employees</span>
+                        <b>35</b>
+                    </div>
+
+                    <div class="info-box">
+                        <span>Monthly Sales</span>
+                        <b>₹6.8L</b>
+                    </div>
+
+                </div>
+
+                <div class="branch-actions">
+
+                    <button
+                        class="action"
+                        onclick="editBranch('Noida Branch')"
+                    >
+                        Edit
+                    </button>
+
+                    <button
+                        class="action"
+                        onclick="viewBranch('Noida Branch')"
+                    >
+                        View
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="branch-card">
+
+                <div class="branch-top">
+                    <div class="branch-icon">🏢</div>
+                    <span class="status active">Active</span>
+                </div>
+
+                <h3>Gurugram Branch</h3>
+
+                <p class="location">
+                    📍 Gurugram, Haryana
+                </p>
+
+                <div class="branch-info">
+
+                    <div class="info-box">
+                        <span>Employees</span>
+                        <b>28</b>
+                    </div>
+
+                    <div class="info-box">
+                        <span>Monthly Sales</span>
+                        <b>₹5.2L</b>
+                    </div>
+
+                </div>
+
+                <div class="branch-actions">
+
+                    <button
+                        class="action"
+                        onclick="editBranch('Gurugram Branch')"
+                    >
+                        Edit
+                    </button>
+
+                    <button
+                        class="action"
+                        onclick="viewBranch('Gurugram Branch')"
+                    >
+                        View
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="branch-card">
+
+                <div class="branch-top">
+                    <div class="branch-icon">🏢</div>
+                    <span class="status active">Active</span>
+                </div>
+
+                <h3>Meerut Branch</h3>
+
+                <p class="location">
+                    📍 Meerut, Uttar Pradesh
+                </p>
+
+                <div class="branch-info">
+
+                    <div class="info-box">
+                        <span>Employees</span>
+                        <b>24</b>
+                    </div>
+
+                    <div class="info-box">
+                        <span>Monthly Sales</span>
+                        <b>₹3.9L</b>
+                    </div>
+
+                </div>
+
+                <div class="branch-actions">
+
+                    <button
+                        class="action"
+                        onclick="editBranch('Meerut Branch')"
+                    >
+                        Edit
+                    </button>
+
+                    <button
+                        class="action"
+                        onclick="viewBranch('Meerut Branch')"
+                    >
+                        View
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="branch-card">
+
+                <div class="branch-top">
+                    <div class="branch-icon">🏢</div>
+                    <span class="status active">Active</span>
+                </div>
+
+                <h3>Ghaziabad Branch</h3>
+
+                <p class="location">
+                    📍 Ghaziabad, Uttar Pradesh
+                </p>
+
+                <div class="branch-info">
+
+                    <div class="info-box">
+                        <span>Employees</span>
+                        <b>31</b>
+                    </div>
+
+                    <div class="info-box">
+                        <span>Monthly Sales</span>
+                        <b>₹4.7L</b>
+                    </div>
+
+                </div>
+
+                <div class="branch-actions">
+
+                    <button
+                        class="action"
+                        onclick="editBranch('Ghaziabad Branch')"
+                    >
+                        Edit
+                    </button>
+
+                    <button
+                        class="action"
+                        onclick="viewBranch('Ghaziabad Branch')"
+                    >
+                        View
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="branch-card">
+
+                <div class="branch-top">
+                    <div class="branch-icon">🏢</div>
+                    <span class="status active">Active</span>
+                </div>
+
+                <h3>Faridabad Branch</h3>
+
+                <p class="location">
+                    📍 Faridabad, Haryana
+                </p>
+
+                <div class="branch-info">
+
+                    <div class="info-box">
+                        <span>Employees</span>
+                        <b>26</b>
+                    </div>
+
+                    <div class="info-box">
+                        <span>Monthly Sales</span>
+                        <b>₹4.1L</b>
+                    </div>
+
+                </div>
+
+                <div class="branch-actions">
+
+                    <button
+                        class="action"
+                        onclick="editBranch('Faridabad Branch')"
+                    >
+                        Edit
+                    </button>
+
+                    <button
+                        class="action"
+                        onclick="viewBranch('Faridabad Branch')"
+                    >
+                        View
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script>
+
+function toggleTheme(){
+
+    document.body.classList.toggle("light-mode");
+
+    const btn =
+        document.getElementById("themeBtn");
+
+    if(
+        document.body.classList.contains("light-mode")
+    ){
+
+        btn.innerHTML="☀️";
+
+        localStorage.setItem(
+            "theme",
+            "light"
+        );
+
+    }else{
+
+        btn.innerHTML="🌙";
+
+        localStorage.setItem(
+            "theme",
+            "dark"
+        );
+
+    }
+
+}
+
+window.addEventListener("load",function(){
+
+    if(
+        localStorage.getItem("theme")
+        ===
+        "light"
+    ){
+
+        document.body.classList.add(
+            "light-mode"
+        );
+
+        document.getElementById(
+            "themeBtn"
+        ).innerHTML="☀️";
+
+    }
+
+});
+
+function addBranch(){
+
+    alert(
+        "Add New Branch form will open here!"
+    );
+
+}
+
+function editBranch(name){
+
+    alert(
+        "Editing: " + name
+    );
+
+}
+
+function viewBranch(name){
+
+    alert(
+        "Viewing details of: " + name
+    );
+
+}
+
+document
+.getElementById("searchInput")
+.addEventListener(
+    "input",
+    function(){
+
+        const search =
+            this.value.toLowerCase();
+
+        const cards =
+            document.querySelectorAll(
+                ".branch-card"
+            );
+
+        cards.forEach(
+            card => {
+
+                card.style.display =
+                    card.innerText
+                    .toLowerCase()
+                    .includes(search)
+                    ? ""
+                    : "none";
+
+            }
+        );
+
+    }
+);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NEXA HUB AI | Create Account</title>
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            background:
+                radial-gradient(
+                    circle at 15% 20%,
+                    rgba(8, 138, 164, 0.18),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 85% 80%,
+                    rgba(38, 11, 84, 0.25),
+                    transparent 35%
+                ),
+                #020617;
+
+            color: #e5e7eb;
+
+            transition: 0.3s;
+        }
+
+        /* =========================
+           LIGHT MODE
+        ========================= */
+
+        body.light-mode {
+
+            background:
+                radial-gradient(
+                    circle at 15% 20%,
+                    rgba(8, 138, 164, 0.10),
+                    transparent 30%
+                ),
+                #f1f5f9;
+
+            color: #1e293b;
+        }
+
+        /* =========================
+           THEME BUTTON
+        ========================= */
+
+        .theme-btn {
+
+            position: fixed;
+
+            top: 25px;
+            right: 25px;
+
+            width: 44px;
+            height: 44px;
+
+            border-radius: 13px;
+
+            border: 1px solid #263449;
+
+            background: #0b1220;
+
+            color: #cbd5e1;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+
+            font-size: 17px;
+
+            transition: 0.3s;
+
+            z-index: 10;
+        }
+
+        .theme-btn:hover {
+
+            transform: scale(1.08);
+        }
+
+        body.light-mode .theme-btn {
+
+            background: #ffffff;
+
+            border-color: #e2e8f0;
+
+            color: #f59e0b;
+        }
+
+        /* =========================
+           SIGNUP WRAPPER
+        ========================= */
+
+        .signup-wrapper {
+
+            width: 100%;
+
+            max-width: 1050px;
+
+            min-height: 650px;
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            border-radius: 28px;
+
+            overflow: hidden;
+
+            background: rgba(15, 23, 42, 0.78);
+
+            border: 1px solid rgba(148, 163, 184, 0.16);
+
+            box-shadow:
+
+                0 30px 80px rgba(0, 0, 0, 0.35),
+
+                0 0 50px rgba(6, 182, 212, 0.08);
+
+            backdrop-filter: blur(22px);
+        }
+
+        /* =========================
+           LEFT BRAND SECTION
+        ========================= */
+
+        .brand-section {
+
+            position: relative;
+
+            padding: 55px 45px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            overflow: hidden;
+
+            background:
+
+                linear-gradient(
+
+                    145deg,
+
+                    rgba(79, 70, 229, 0.28),
+
+                    rgba(6, 182, 212, 0.08)
+
+                );
+        }
+
+        .brand-section::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 300px;
+            height: 300px;
+
+            border-radius: 50%;
+
+            border: 1px solid rgba(6, 182, 212, 0.25);
+
+            top: -100px;
+            left: -100px;
+
+            box-shadow:
+
+                0 0 60px rgba(6, 182, 212, 0.12);
+        }
+
+        .brand-section::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 240px;
+            height: 240px;
+
+            border-radius: 50%;
+
+            border: 1px solid rgba(124, 58, 237, 0.22);
+
+            bottom: -100px;
+            right: -80px;
+        }
+
+        /* =========================
+           LOGO
+        ========================= */
+
+        .brand-logo {
+
+            position: relative;
+
+            z-index: 2;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            margin-bottom: 35px;
+        }
+
+        .logo-icon {
+
+            width: 58px;
+            height: 58px;
+
+            border-radius: 18px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 26px;
+
+            color: white;
+
+            background:
+
+                linear-gradient(
+
+                    135deg,
+
+                    #4f46e5,
+
+                    #06b6d4
+
+                );
+
+            box-shadow:
+
+                0 0 30px rgba(6, 182, 212, 0.25);
+        }
+
+        .brand-logo h1 {
+
+            font-size: 25px;
+
+            color: #ffffff;
+
+            letter-spacing: 0.5px;
+        }
+
+        .brand-logo span {
+
+            display: block;
+
+            color: #94a3b8;
+
+            font-size: 11px;
+
+            letter-spacing: 1px;
+
+            margin-top: 3px;
+        }
+
+        /* =========================
+           BRAND CONTENT
+        ========================= */
+
+        .brand-content {
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+        .brand-content h2 {
+
+            font-size: 40px;
+
+            line-height: 1.15;
+
+            color: #ffffff;
+
+            margin-bottom: 18px;
+        }
+
+        .brand-content h2 span {
+
+            background:
+
+                linear-gradient(
+
+                    90deg,
+
+                    #22d3ee,
+
+                    #818cf8
+
+                );
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-content p {
+
+            max-width: 430px;
+
+            color: #94a3b8;
+
+            line-height: 1.7;
+
+            font-size: 15px;
+        }
+
+        /* =========================
+           FEATURES
+        ========================= */
+
+        .features {
+
+            position: relative;
+
+            z-index: 2;
+
+            margin-top: 35px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 15px;
+        }
+
+        .feature {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            color: #cbd5e1;
+
+            font-size: 14px;
+        }
+
+        .feature i {
+
+            width: 30px;
+            height: 30px;
+
+            border-radius: 9px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            color: #22d3ee;
+
+            background: rgba(6, 182, 212, 0.12);
+        }
+
+        /* =========================
+           SIGNUP SECTION
+        ========================= */
+
+        .signup-section {
+
+            padding: 45px 50px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            background: rgba(2, 6, 23, 0.25);
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .signup-header {
+
+            margin-bottom: 25px;
+        }
+
+        .signup-header h2 {
+
+            font-size: 30px;
+
+            color: #ffffff;
+
+            margin-bottom: 8px;
+        }
+
+        .signup-header p {
+
+            color: #94a3b8;
+
+            font-size: 14px;
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-group {
+
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+
+            display: block;
+
+            color: #cbd5e1;
+
+            font-size: 13px;
+
+            margin-bottom: 8px;
+        }
+
+        .input-box {
+
+            position: relative;
+        }
+
+        .input-box i {
+
+            position: absolute;
+
+            left: 15px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #64748b;
+        }
+
+        .input-box input {
+
+            width: 100%;
+
+            padding: 13px 45px;
+
+            border-radius: 12px;
+
+            outline: none;
+
+            background: #0b1220;
+
+            border: 1px solid #263449;
+
+            color: #ffffff;
+
+            font-size: 14px;
+
+            transition: 0.3s;
+        }
+
+        .input-box input:focus {
+
+            border-color: #06b6d4;
+
+            box-shadow:
+
+                0 0 0 3px rgba(6, 182, 212, 0.08);
+        }
+
+        .input-box input::placeholder {
+
+            color: #64748b;
+        }
+
+        /* =========================
+           PASSWORD TOGGLE
+        ========================= */
+
+        .password-toggle {
+
+            position: absolute;
+
+            right: 15px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #64748b;
+
+            cursor: pointer;
+        }
+
+        /* =========================
+           TERMS
+        ========================= */
+
+        .terms {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 8px;
+
+            color: #94a3b8;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+
+            margin: 5px 0 20px;
+        }
+
+        .terms input {
+
+            margin-top: 3px;
+
+            accent-color: #06b6d4;
+        }
+
+        .terms a {
+
+            color: #22d3ee;
+
+            text-decoration: none;
+        }
+
+        .terms a:hover {
+
+            text-decoration: underline;
+        }
+
+        /* =========================
+           SIGNUP BUTTON
+        ========================= */
+
+        .signup-btn {
+
+            width: 100%;
+
+            border: none;
+
+            padding: 15px;
+
+            border-radius: 12px;
+
+            color: #ffffff;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            background:
+
+                linear-gradient(
+
+                    135deg,
+
+                    #4f46e5,
+
+                    #06b6d4
+
+                );
+
+            box-shadow:
+
+                0 10px 25px rgba(6, 182, 212, 0.15);
+
+            transition: 0.3s;
+        }
+
+        .signup-btn:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+
+                0 15px 30px rgba(6, 182, 212, 0.22);
+        }
+
+        /* =========================
+           LOGIN TEXT
+        ========================= */
+
+        .login-text {
+
+            text-align: center;
+
+            color: #94a3b8;
+
+            font-size: 13px;
+
+            margin-top: 25px;
+        }
+
+        .login-text a {
+
+            color: #22d3ee;
+
+            text-decoration: none;
+
+            font-weight: 600;
+        }
+
+        .login-text a:hover {
+
+            text-decoration: underline;
+        }
+
+        /* =========================
+           LIGHT MODE
+        ========================= */
+
+        body.light-mode .signup-wrapper {
+
+            background: rgba(255, 255, 255, 0.88);
+
+            border-color: #e2e8f0;
+
+            box-shadow:
+
+                0 25px 60px rgba(15, 23, 42, 0.10);
+        }
+
+        body.light-mode .brand-section {
+
+            background:
+
+                linear-gradient(
+
+                    145deg,
+
+                    rgba(79, 70, 229, 0.12),
+
+                    rgba(6, 182, 212, 0.08)
+
+                );
+        }
+
+        body.light-mode .brand-content h2,
+
+        body.light-mode .brand-logo h1,
+
+        body.light-mode .signup-header h2 {
+
+            color: #0f172a;
+        }
+
+        body.light-mode .feature {
+
+            color: #334155;
+        }
+
+        body.light-mode .signup-section {
+
+            background: #ffffff;
+        }
+
+        body.light-mode .form-group label {
+
+            color: #334155;
+        }
+
+        body.light-mode .input-box input {
+
+            background: #f8fafc;
+
+            border-color: #e2e8f0;
+
+            color: #1e293b;
+        }
+
+        body.light-mode .input-box input::placeholder {
+
+            color: #94a3b8;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 850px) {
+
+            .signup-wrapper {
+
+                grid-template-columns: 1fr;
+
+                max-width: 550px;
+            }
+
+            .brand-section {
+
+                padding: 40px;
+
+                min-height: 350px;
+            }
+
+            .brand-content h2 {
+
+                font-size: 32px;
+            }
+
+            .signup-section {
+
+                padding: 40px;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            body {
+
+                padding: 12px;
+            }
+
+            .theme-btn {
+
+                top: 15px;
+
+                right: 15px;
+            }
+
+            .brand-section,
+
+            .signup-section {
+
+                padding: 30px 22px;
+            }
+
+            .brand-content h2 {
+
+                font-size: 28px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+    <!-- THEME BUTTON -->
+
+    <button
+        class="theme-btn"
+        id="themeBtn"
+        onclick="toggleTheme()">
+
+        <i class="fa-solid fa-moon"></i>
+
+    </button>
+
+
+    <!-- SIGNUP WRAPPER -->
+
+    <div class="signup-wrapper">
+
+
+        <!-- LEFT BRAND SECTION -->
+
+        <section class="brand-section">
+
+
+            <div class="brand-logo">
+
+                <div class="logo-icon">
+
+                    <i class="fa-solid fa-brain"></i>
+
+                </div>
+
+                <div>
+
+                    <h1>
+                        NEXA HUB AI
+                    </h1>
+
+                    <span>
+                        NEXT GENERATION INTELLIGENCE
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="brand-content">
+
+                <h2>
+
+                    Build Your Future.
+
+                    <span>
+                        Start Today.
+                    </span>
+
+                </h2>
+
+                <p>
+
+                    Create your NEXA HUB AI account
+                    and manage your complete business
+                    with intelligent technology.
+
+                </p>
+
+            </div>
+
+
+            <div class="features">
+
+                <div class="feature">
+
+                    <i class="fa-solid fa-user-shield"></i>
+
+                    Secure Account Protection
+
+                </div>
+
+
+                <div class="feature">
+
+                    <i class="fa-solid fa-layer-group"></i>
+
+                    All Business Tools in One Place
+
+                </div>
+
+
+                <div class="feature">
+
+                    <i class="fa-solid fa-rocket"></i>
+
+                    Grow Your Business Faster
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- SIGNUP SECTION -->
+
+        <section class="signup-section">
+
+
+            <div class="signup-header">
+
+                <h2>
+                    Create Account
+                </h2>
+
+                <p>
+                    Join NEXA HUB AI and start your smarter journey
+                </p>
+
+            </div>
+
+
+            <form onsubmit="signupUser(event)">
+
+
+                <!-- FULL NAME -->
+
+                <div class="form-group">
+
+                    <label>
+                        Full Name
+                    </label>
+
+                    <div class="input-box">
+
+                        <i class="fa-solid fa-user"></i>
+
+                        <input
+                            type="text"
+                            id="fullName"
+                            placeholder="Enter your full name"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label>
+                        Email Address
+                    </label>
+
+                    <div class="input-box">
+
+                        <i class="fa-solid fa-envelope"></i>
+
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="Enter your email"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label>
+                        Password
+                    </label>
+
+                    <div class="input-box">
+
+                        <i class="fa-solid fa-lock"></i>
+
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Create a password"
+                            required>
+
+                        <span
+                            class="password-toggle"
+                            onclick="togglePassword('password', 'eyeIcon1')">
+
+                            <i
+                                class="fa-solid fa-eye"
+                                id="eyeIcon1">
+
+                            </i>
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CONFIRM PASSWORD -->
+
+                <div class="form-group">
+
+                    <label>
+                        Confirm Password
+                    </label>
+
+                    <div class="input-box">
+
+                        <i class="fa-solid fa-lock"></i>
+
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            placeholder="Confirm your password"
+                            required>
+
+                        <span
+                            class="password-toggle"
+                            onclick="togglePassword('confirmPassword', 'eyeIcon2')">
+
+                            <i
+                                class="fa-solid fa-eye"
+                                id="eyeIcon2">
+
+                            </i>
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TERMS -->
+
+                <label class="terms">
+
+                    <input
+                        type="checkbox"
+                        required>
+
+                    <span>
+
+                        I agree to the
+
+                        <a href="#">
+                            Terms & Conditions
+                        </a>
+
+                        and
+
+                        <a href="#">
+                            Privacy Policy
+                        </a>
+
+                    </span>
+
+                </label>
+
+
+                <!-- SIGNUP BUTTON -->
+
+                <button
+                    type="submit"
+                    class="signup-btn">
+
+                    <i class="fa-solid fa-user-plus"></i>
+
+                    Create Account
+
+                </button>
+
+            </form>
+
+
+            <!-- LOGIN TEXT -->
+
+            <div class="login-text">
+
+                Already have an account?
+
+                <a href="login.html">
+
+                    Login Now
+
+                </a>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <script>
+
+
+        /* =========================
+           THEME TOGGLE
+        ========================= */
+
+        function toggleTheme() {
+
+            const body =
+                document.body;
+
+            const themeBtn =
+                document.getElementById("themeBtn");
+
+            body.classList.toggle("light-mode");
+
+
+            if (
+                body.classList.contains("light-mode")
+            ) {
+
+                themeBtn.innerHTML =
+                    '<i class="fa-solid fa-sun"></i>';
+
+                localStorage.setItem(
+                    "signupTheme",
+                    "light"
+                );
+
+            }
+
+            else {
+
+                themeBtn.innerHTML =
+                    '<i class="fa-solid fa-moon"></i>';
+
+                localStorage.setItem(
+                    "signupTheme",
+                    "dark"
+                );
+
+            }
+
+        }
+
+
+        /* =========================
+           LOAD THEME
+        ========================= */
+
+        window.onload = function () {
+
+            const savedTheme =
+                localStorage.getItem("signupTheme");
+
+            const themeBtn =
+                document.getElementById("themeBtn");
+
+
+            if (
+                savedTheme === "light"
+            ) {
+
+                document.body.classList.add(
+                    "light-mode"
+                );
+
+                themeBtn.innerHTML =
+                    '<i class="fa-solid fa-sun"></i>';
+
+            }
+
+            else {
+
+                themeBtn.innerHTML =
+                    '<i class="fa-solid fa-moon"></i>';
+
+            }
+
+        };
+
+
+        /* =========================
+           PASSWORD TOGGLE
+        ========================= */
+
+        function togglePassword(
+            inputId,
+            iconId
+        ) {
+
+            const password =
+                document.getElementById(inputId);
+
+            const eyeIcon =
+                document.getElementById(iconId);
+
+
+            if (
+                password.type === "password"
+            ) {
+
+                password.type = "text";
+
+                eyeIcon.className =
+                    "fa-solid fa-eye-slash";
+
+            }
+
+            else {
+
+                password.type = "password";
+
+                eyeIcon.className =
+                    "fa-solid fa-eye";
+
+            }
+
+        }
+
+
+        /* =========================
+           SIGNUP
+        ========================= */
+
+        function signupUser(event) {
+
+            event.preventDefault();
+
+
+            const fullName =
+                document.getElementById(
+                    "fullName"
+                ).value;
+
+
+            const password =
+                document.getElementById(
+                    "password"
+                ).value;
+
+
+            const confirmPassword =
+                document.getElementById(
+                    "confirmPassword"
+                ).value;
+
+
+            if (
+                password !== confirmPassword
+            ) {
+
+                alert(
+                    "Passwords do not match!"
+                );
+
+                return;
+
+            }
+
+
+            alert(
+
+                "Account creation request submitted for "
+                + fullName
+
+            );
+
+        }
+
+    </script>
+
+</body>
+
+</html>

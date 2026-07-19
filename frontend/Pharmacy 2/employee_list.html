@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXA HUB AI | Employee List</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#080d1a;
+    color:#e5e7eb;
+    transition:.4s;
+}
+
+/* ANIMATED BACKGROUND */
+
+.background{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:-1;
+}
+
+.grid{
+    position:absolute;
+    inset:0;
+    opacity:.06;
+    background-image:
+    linear-gradient(#fff 1px,transparent 1px),
+    linear-gradient(90deg,#fff 1px,transparent 1px);
+    background-size:45px 45px;
+}
+
+.orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(100px);
+    opacity:.25;
+    animation:float 12s infinite alternate ease-in-out;
+}
+
+.orb1{
+    width:350px;
+    height:350px;
+    background:#06b6d4;
+    top:-100px;
+    left:250px;
+}
+
+.orb2{
+    width:300px;
+    height:300px;
+    background:#7c3aed;
+    right:-80px;
+    top:250px;
+    animation-delay:2s;
+}
+
+.orb3{
+    width:260px;
+    height:260px;
+    background:#2563eb;
+    bottom:-100px;
+    left:40%;
+    animation-delay:4s;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    padding:22px 15px;
+    background:rgba(15,23,42,.88);
+    backdrop-filter:blur(18px);
+    border-right:1px solid #263244;
+    z-index:10;
+    animation:slideIn .7s ease;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 12px 25px;
+    border-bottom:1px solid #263244;
+    margin-bottom:18px;
+}
+
+.logo-icon{
+    width:44px;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:13px;
+    font-size:23px;
+    color:#fff;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    animation:glow 2s infinite alternate;
+}
+
+.logo h2{
+    font-size:17px;
+}
+
+.logo span{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.menu-title{
+    padding:12px;
+    color:#64748b;
+    font-size:11px;
+    text-transform:uppercase;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    margin:5px 0;
+    color:#94a3b8;
+    text-decoration:none;
+    border-radius:9px;
+    transition:.3s;
+}
+
+.menu a:hover,
+.menu a.active{
+    color:#fff;
+    background:linear-gradient(90deg,#06b6d422,#7c3aed22);
+    transform:translateX(5px);
+}
+
+.menu a.active{
+    border-left:3px solid #06b6d4;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:260px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:75px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    background:rgba(15,23,42,.7);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid #263244;
+}
+
+.search{
+    width:350px;
+}
+
+.search input{
+    width:100%;
+    padding:12px 18px;
+    background:#0b1120aa;
+    color:#fff;
+    border:1px solid #263244;
+    border-radius:10px;
+    outline:none;
+}
+
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:22px;
+}
+
+.theme-btn{
+    width:42px;
+    height:42px;
+    border:1px solid #263244;
+    border-radius:50%;
+    background:#0b1120;
+    color:#facc15;
+    font-size:19px;
+    cursor:pointer;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.profile small{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    font-weight:bold;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+}
+
+/* CONTENT */
+
+.content{
+    padding:30px;
+}
+
+.page-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:25px;
+}
+
+.page-header h1{
+    font-size:28px;
+}
+
+.page-header p{
+    color:#94a3b8;
+    margin-top:5px;
+}
+
+.add-btn{
+    padding:12px 20px;
+    border:0;
+    border-radius:9px;
+    color:#fff;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    cursor:pointer;
+    transition:.3s;
+}
+
+.add-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 0 25px #06b6d455;
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    margin-bottom:25px;
+}
+
+.stat-card{
+    padding:22px;
+    background:rgba(15,23,42,.75);
+    backdrop-filter:blur(15px);
+    border:1px solid #263244;
+    border-radius:15px;
+    transition:.3s;
+    animation:fadeUp .7s ease;
+}
+
+.stat-card:hover{
+    transform:translateY(-6px);
+    border-color:#06b6d4;
+}
+
+.stat-icon{
+    width:46px;
+    height:46px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+    font-size:22px;
+    background:#06b6d422;
+}
+
+.stat-card h2{
+    margin-top:16px;
+    font-size:28px;
+}
+
+.stat-card p{
+    color:#94a3b8;
+    margin-top:5px;
+}
+
+/* EMPLOYEE PANEL */
+
+.employee-panel{
+    padding:25px;
+    background:rgba(15,23,42,.78);
+    backdrop-filter:blur(18px);
+    border:1px solid #263244;
+    border-radius:18px;
+    animation:fadeUp .9s ease;
+}
+
+.panel-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:22px;
+}
+
+.panel-header h2{
+    font-size:20px;
+}
+
+.filters{
+    display:flex;
+    gap:10px;
+}
+
+.filters input,
+.filters select{
+    padding:10px 13px;
+    border:1px solid #263244;
+    border-radius:8px;
+    background:#0b1120;
+    color:#fff;
+    outline:none;
+}
+
+/* TABLE */
+
+.table-wrapper{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:950px;
+}
+
+thead{
+    background:#0b1120;
+}
+
+th{
+    padding:15px;
+    text-align:left;
+    color:#94a3b8;
+    font-size:12px;
+}
+
+td{
+    padding:15px;
+    border-top:1px solid #263244;
+    font-size:14px;
+}
+
+.employee{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.employee-avatar{
+    width:42px;
+    height:42px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+    font-weight:bold;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+}
+
+.employee small{
+    display:block;
+    color:#64748b;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.role{
+    color:#38bdf8;
+    font-size:12px;
+}
+
+.status{
+    display:inline-block;
+    padding:6px 11px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:600;
+}
+
+.status.active{
+    color:#22c55e;
+    background:#22c55e22;
+}
+
+.status.leave{
+    color:#facc15;
+    background:#facc1522;
+}
+
+.action-btn{
+    padding:7px 11px;
+    border:1px solid #263244;
+    border-radius:7px;
+    background:transparent;
+    color:#94a3b8;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.action-btn:hover{
+    color:#06b6d4;
+    border-color:#06b6d4;
+}
+
+/* LIGHT MODE */
+
+body.light-mode{
+    background:#f1f5f9;
+    color:#0f172a;
+}
+
+body.light-mode .sidebar,
+body.light-mode .topbar,
+body.light-mode .stat-card,
+body.light-mode .employee-panel{
+    background:rgba(255,255,255,.9);
+    border-color:#e2e8f0;
+}
+
+body.light-mode .search input,
+body.light-mode .filters input,
+body.light-mode .filters select{
+    background:#f8fafc;
+    color:#0f172a;
+    border-color:#cbd5e1;
+}
+
+body.light-mode thead{
+    background:#f8fafc;
+}
+
+body.light-mode td{
+    border-color:#e2e8f0;
+}
+
+body.light-mode .menu a{
+    color:#64748b;
+}
+
+body.light-mode .menu a:hover,
+body.light-mode .menu a.active{
+    color:#0f172a;
+    background:#e0f2fe;
+}
+
+body.light-mode .theme-btn{
+    background:#f8fafc;
+    color:#7c3aed;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:750px){
+
+    .sidebar{
+        width:70px;
+        padding:15px 8px;
+    }
+
+    .logo h2,
+    .logo span,
+    .menu-title,
+    .menu a span{
+        display:none;
+    }
+
+    .logo{
+        justify-content:center;
+    }
+
+    .menu a{
+        justify-content:center;
+    }
+
+    .main{
+        margin-left:70px;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .search{
+        width:200px;
+    }
+
+    .page-header{
+        display:block;
+    }
+
+    .add-btn{
+        margin-top:18px;
+    }
+
+    .panel-header{
+        display:block;
+    }
+
+    .filters{
+        margin-top:15px;
+        flex-wrap:wrap;
+    }
+
+}
+
+@media(max-width:550px){
+
+    .content{
+        padding:18px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .filters input,
+    .filters select{
+        width:100%;
+    }
+
+}
+
+/* ANIMATIONS */
+
+@keyframes float{
+    from{
+        transform:translate(0,0) scale(1);
+    }
+
+    to{
+        transform:translate(80px,50px) scale(1.2);
+    }
+}
+
+@keyframes slideIn{
+    from{
+        transform:translateX(-100%);
+        opacity:0;
+    }
+
+    to{
+        transform:translateX(0);
+        opacity:1;
+    }
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes glow{
+    from{
+        box-shadow:0 0 10px #06b6d455;
+    }
+
+    to{
+        box-shadow:0 0 30px #06b6d488;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="background">
+
+    <div class="grid"></div>
+
+    <div class="orb orb1"></div>
+
+    <div class="orb orb2"></div>
+
+    <div class="orb orb3"></div>
+
+</div>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            ✦
+        </div>
+
+        <div>
+
+            <h2>
+                NEXA HUB AI
+            </h2>
+
+            <span>
+                AI Management System
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="menu-title">
+        Main Menu
+    </div>
+
+    <nav class="menu">
+
+        <a href="dashboard.html">
+            📊 <span>Dashboard</span>
+        </a>
+
+        <a href="inventory_dashboard.html">
+            📦 <span>Inventory</span>
+        </a>
+
+        <a href="medicine_catalog_import.html">
+            💊 <span>Medicines</span>
+        </a>
+
+        <a href="customer_list.html">
+            👥 <span>Customers</span>
+        </a>
+
+        <a href="employee_list.html" class="active">
+            👨‍💼 <span>Employees</span>
+        </a>
+
+        <a href="delivery_dashboard.html">
+            🚚 <span>Delivery</span>
+        </a>
+
+    </nav>
+
+    <div class="menu-title">
+        Management
+    </div>
+
+    <nav class="menu">
+
+        <a href="finance_income_form.html">
+            💰 <span>Finance</span>
+        </a>
+
+        <a href="attendance_daily.html">
+            🕒 <span>Attendance</span>
+        </a>
+
+        <a href="branch_list.html">
+            🏢 <span>Branches</span>
+        </a>
+
+        <a href="batch_list.html">
+            🧾 <span>Batches</span>
+        </a>
+
+    </nav>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+    <header class="topbar">
+
+        <div class="search">
+
+            <input
+                type="text"
+                id="globalSearch"
+                placeholder="Search employees..."
+            >
+
+        </div>
+
+        <div class="top-actions">
+
+            <button
+                class="theme-btn"
+                id="themeBtn"
+                onclick="toggleTheme()"
+            >
+                🌙
+            </button>
+
+            <div class="profile">
+
+                <div>
+
+                    <b>
+                        Admin User
+                    </b>
+
+                    <small>
+                        Administrator
+                    </small>
+
+                </div>
+
+                <div class="avatar">
+                    A
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <section class="content">
+
+        <div class="page-header">
+
+            <div>
+
+                <h1>
+                    Employee Management
+                </h1>
+
+                <p>
+                    Manage your team, roles, departments and employee status.
+                </p>
+
+            </div>
+
+            <button
+                class="add-btn"
+                onclick="addEmployee()"
+            >
+                + Add Employee
+            </button>
+
+        </div>
+
+        <!-- STATS -->
+
+        <div class="stats">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    👨‍💼
+                </div>
+
+                <h2>
+                    86
+                </h2>
+
+                <p>
+                    Total Employees
+                </p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🟢
+                </div>
+
+                <h2>
+                    78
+                </h2>
+
+                <p>
+                    Active Employees
+                </p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🏥
+                </div>
+
+                <h2>
+                    24
+                </h2>
+
+                <p>
+                    Pharmacy Staff
+                </p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🚚
+                </div>
+
+                <h2>
+                    12
+                </h2>
+
+                <p>
+                    Delivery Staff
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- EMPLOYEE TABLE -->
+
+        <div class="employee-panel">
+
+            <div class="panel-header">
+
+                <h2>
+                    All Employees
+                </h2>
+
+                <div class="filters">
+
+                    <input
+                        type="text"
+                        id="employeeSearch"
+                        placeholder="Search employee..."
+                    >
+
+                    <select
+                        id="departmentFilter"
+                        onchange="filterEmployees()"
+                    >
+
+                        <option value="all">
+                            All Departments
+                        </option>
+
+                        <option value="pharmacy">
+                            Pharmacy
+                        </option>
+
+                        <option value="delivery">
+                            Delivery
+                        </option>
+
+                        <option value="admin">
+                            Administration
+                        </option>
+
+                    </select>
+
+                    <select
+                        id="statusFilter"
+                        onchange="filterEmployees()"
+                    >
+
+                        <option value="all">
+                            All Status
+                        </option>
+
+                        <option value="active">
+                            Active
+                        </option>
+
+                        <option value="leave">
+                            On Leave
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Employee
+                            </th>
+
+                            <th>
+                                Contact
+                            </th>
+
+                            <th>
+                                Department
+                            </th>
+
+                            <th>
+                                Role
+                            </th>
+
+                            <th>
+                                Joining Date
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="employeeTable">
+
+                        <tr
+                            data-department="admin"
+                            data-status="active"
+                        >
+
+                            <td>
+
+                                <div class="employee">
+
+                                    <div class="employee-avatar">
+                                        AS
+                                    </div>
+
+                                    <div>
+
+                                        <b>
+                                            Amit Sharma
+                                        </b>
+
+                                        <small>
+                                            EMP-1001
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                +91 98765 43210
+                            </td>
+
+                            <td>
+                                Administration
+                            </td>
+
+                            <td>
+                                <span class="role">
+                                    Manager
+                                </span>
+                            </td>
+
+                            <td>
+                                12 Jan 2023
+                            </td>
+
+                            <td>
+
+                                <span class="status active">
+                                    Active
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="action-btn"
+                                    onclick="viewEmployee('EMP-1001')"
+                                >
+                                    View
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                        <tr
+                            data-department="pharmacy"
+                            data-status="active"
+                        >
+
+                            <td>
+
+                                <div class="employee">
+
+                                    <div class="employee-avatar">
+                                        RK
+                                    </div>
+
+                                    <div>
+
+                                        <b>
+                                            Rajesh Kumar
+                                        </b>
+
+                                        <small>
+                                            EMP-1002
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                +91 91234 56789
+                            </td>
+
+                            <td>
+                                Pharmacy
+                            </td>
+
+                            <td>
+                                <span class="role">
+                                    Pharmacist
+                                </span>
+                            </td>
+
+                            <td>
+                                05 Mar 2024
+                            </td>
+
+                            <td>
+
+                                <span class="status active">
+                                    Active
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="action-btn"
+                                    onclick="viewEmployee('EMP-1002')"
+                                >
+                                    View
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                        <tr
+                            data-department="delivery"
+                            data-status="active"
+                        >
+
+                            <td>
+
+                                <div class="employee">
+
+                                    <div class="employee-avatar">
+                                        VS
+                                    </div>
+
+                                    <div>
+
+                                        <b>
+                                            Vikash Singh
+                                        </b>
+
+                                        <small>
+                                            EMP-1003
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                +91 99887 66554
+                            </td>
+
+                            <td>
+                                Delivery
+                            </td>
+
+                            <td>
+                                <span class="role">
+                                    Delivery Executive
+                                </span>
+                            </td>
+
+                            <td>
+                                18 Aug 2024
+                            </td>
+
+                            <td>
+
+                                <span class="status active">
+                                    Active
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="action-btn"
+                                    onclick="viewEmployee('EMP-1003')"
+                                >
+                                    View
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                        <tr
+                            data-department="pharmacy"
+                            data-status="leave"
+                        >
+
+                            <td>
+
+                                <div class="employee">
+
+                                    <div class="employee-avatar">
+                                        NG
+                                    </div>
+
+                                    <div>
+
+                                        <b>
+                                            Neha Gupta
+                                        </b>
+
+                                        <small>
+                                            EMP-1004
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                +91 87654 32109
+                            </td>
+
+                            <td>
+                                Pharmacy
+                            </td>
+
+                            <td>
+                                <span class="role">
+                                    Assistant Pharmacist
+                                </span>
+                            </td>
+
+                            <td>
+                                22 Feb 2025
+                            </td>
+
+                            <td>
+
+                                <span class="status leave">
+                                    On Leave
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="action-btn"
+                                    onclick="viewEmployee('EMP-1004')"
+                                >
+                                    View
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                        <tr
+                            data-department="admin"
+                            data-status="active"
+                        >
+
+                            <td>
+
+                                <div class="employee">
+
+                                    <div class="employee-avatar">
+                                        PM
+                                    </div>
+
+                                    <div>
+
+                                        <b>
+                                            Priya Mehta
+                                        </b>
+
+                                        <small>
+                                            EMP-1005
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                +91 90123 45678
+                            </td>
+
+                            <td>
+                                Administration
+                            </td>
+
+                            <td>
+                                <span class="role">
+                                    HR Executive
+                                </span>
+
+                            </td>
+
+                            <td>
+                                10 May 2025
+                            </td>
+
+                            <td>
+
+                                <span class="status active">
+                                    Active
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="action-btn"
+                                    onclick="viewEmployee('EMP-1005')"
+                                >
+                                    View
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script>
+
+/* THEME */
+
+function toggleTheme(){
+
+    document.body.classList.toggle(
+        "light-mode"
+    );
+
+    const button =
+        document.getElementById(
+            "themeBtn"
+        );
+
+    if(
+        document.body.classList.contains(
+            "light-mode"
+        )
+    ){
+
+        button.innerHTML = "☀️";
+
+        localStorage.setItem(
+            "theme",
+            "light"
+        );
+
+    }else{
+
+        button.innerHTML = "🌙";
+
+        localStorage.setItem(
+            "theme",
+            "dark"
+        );
+
+    }
+
+}
+
+/* LOAD THEME */
+
+window.addEventListener(
+    "load",
+    function(){
+
+        if(
+            localStorage.getItem(
+                "theme"
+            )
+            ===
+            "light"
+        ){
+
+            document.body.classList.add(
+                "light-mode"
+            );
+
+            document.getElementById(
+                "themeBtn"
+            ).innerHTML = "☀️";
+
+        }
+
+    }
+);
+
+/* SEARCH */
+
+document
+.getElementById(
+    "employeeSearch"
+)
+.addEventListener(
+    "input",
+    filterEmployees
+);
+
+document
+.getElementById(
+    "globalSearch"
+)
+.addEventListener(
+    "input",
+    filterEmployees
+);
+
+/* FILTER */
+
+function filterEmployees(){
+
+    const search =
+        (
+            document
+            .getElementById(
+                "employeeSearch"
+            )
+            .value
+            .toLowerCase()
+        )
+        ||
+        (
+            document
+            .getElementById(
+                "globalSearch"
+            )
+            .value
+            .toLowerCase()
+        );
+
+    const department =
+        document
+        .getElementById(
+            "departmentFilter"
+        )
+        .value;
+
+    const status =
+        document
+        .getElementById(
+            "statusFilter"
+        )
+        .value;
+
+    const rows =
+        document.querySelectorAll(
+            "#employeeTable tr"
+        );
+
+    rows.forEach(
+        row => {
+
+            const text =
+                row.innerText
+                .toLowerCase();
+
+            const rowDepartment =
+                row.dataset.department;
+
+            const rowStatus =
+                row.dataset.status;
+
+            const searchMatch =
+                text.includes(search);
+
+            const departmentMatch =
+                department === "all" ||
+                rowDepartment === department;
+
+            const statusMatch =
+                status === "all" ||
+                rowStatus === status;
+
+            row.style.display =
+                searchMatch &&
+                departmentMatch &&
+                statusMatch
+                ? ""
+                : "none";
+
+        }
+    );
+
+}
+
+/* ADD EMPLOYEE */
+
+function addEmployee(){
+
+    window.location.href =
+        "employee_form.html";
+
+}
+
+/* VIEW EMPLOYEE */
+
+function viewEmployee(id){
+
+    window.location.href =
+        "employee_detail.html?id=" +
+        id;
+
+}
+
+</script>
+
+</body>
+</html>

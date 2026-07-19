@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In · {{ store_name }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+    <style>
+        /* ===== ROOT VARIABLES - NEW THEME ===== */
+        :root {
+            --slate-950: #0F172A;
+            --slate-800: #1E293B;
+            --slate-600: #475569;
+            --slate-400: #94A3B8;
+            --slate-200: #E2E8F0;
+            --slate-50: #F8FAFC;
+            --cyan-500: #06B6D4;
+            --cyan-600: #0891B2;
+            --cyan-700: #0E7490;
+            --cyan-glow: rgba(6, 182, 212, 0.3);
+            --white-glass: rgba(255, 255, 255, 0.85);
+            --shadow-heavy: 0 25px 60px -15px rgba(15, 23, 42, 0.4);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            font-family: 'Inter', 'Plus Jakarta Sans', sans-serif;
+            background: var(--slate-50);
+            color: var(--slate-950);
+            overflow-x: hidden;
+            animation: fadeIn 0.7s cubic-bezier(0.23, 1, 0.32, 1) both;
+        }
+
+        /* ===== GLOBAL ANIMATIONS ===== */
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: scale(0.98); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes slideUp {
+            0% { opacity: 0; transform: translateY(35px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes floatPulse {
+            0% { transform: translateY(0px) scale(1); opacity: 0.3; }
+            100% { transform: translateY(-40px) scale(1.1); opacity: 0.6; }
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        /* ===== LEFT PANEL - DARK SLATE WITH CYAN ACCENTS ===== */
+        .login-visual {
+            flex: 1.1;
+            background: linear-gradient(145deg, var(--slate-950), var(--slate-800));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px;
+            color: #e2e8f0;
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
+        /* Animated glowing orbs */
+        .orb-1 {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.15), transparent 70%);
+            top: -200px;
+            right: -200px;
+            animation: floatPulse 8s ease-in-out infinite alternate;
+        }
+        .orb-2 {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.08), transparent 70%);
+            bottom: -100px;
+            left: -100px;
+            animation: floatPulse 12s ease-in-out infinite alternate-reverse;
+        }
+        /* Floating medical icons */
+        .float-icon-1 { position: absolute; font-size: 100px; opacity: 0.04; right: 30px; bottom: 80px; animation: floatPulse 9s ease-in-out infinite alternate; }
+        .float-icon-2 { position: absolute; font-size: 70px; opacity: 0.03; left: 20px; top: 120px; animation: floatPulse 11s ease-in-out infinite alternate-reverse; }
+
+        .login-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 2;
+        }
+        .login-badge .mark {
+            width: 50px;
+            height: 50px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--cyan-500), var(--cyan-700));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 800;
+            font-size: 24px;
+            box-shadow: 0 8px 25px var(--cyan-glow);
+            transition: all 0.3s ease;
+        }
+        .login-badge .mark:hover {
+            transform: rotate(-4deg) scale(1.05);
+            box-shadow: 0 12px 35px var(--cyan-glow);
+        }
+        .login-badge strong {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+        .login-badge strong span {
+            color: var(--cyan-500);
+        }
+
+        .login-visual h1 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 40px;
+            max-width: 480px;
+            line-height: 1.2;
+            font-weight: 700;
+            position: relative;
+            z-index: 2;
+            animation: slideUp 0.8s ease-out 0.2s both;
+        }
+        .login-visual h1 span {
+            background: linear-gradient(135deg, var(--cyan-500), #67e8f9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .login-visual p {
+            color: var(--slate-400);
+            max-width: 440px;
+            font-size: 15px;
+            line-height: 1.7;
+            font-weight: 400;
+            position: relative;
+            z-index: 2;
+            animation: slideUp 0.8s ease-out 0.3s both;
+        }
+
+        .stat-strip {
+            display: flex;
+            gap: 35px;
+            margin-top: 45px;
+            position: relative;
+            z-index: 2;
+            animation: slideUp 0.8s ease-out 0.4s both;
+        }
+        .stat-strip div strong {
+            display: block;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 28px;
+            color: #fff;
+            font-weight: 700;
+        }
+        .stat-strip div strong i {
+            color: var(--cyan-500);
+            font-size: 22px;
+            margin-right: 4px;
+        }
+        .stat-strip div span {
+            font-size: 11px;
+            color: var(--slate-400);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-weight: 600;
+        }
+
+        /* ===== RIGHT PANEL - CRISP WHITE WITH GLASS ===== */
+        .login-form-side {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            background: linear-gradient(180deg, #f1f5f9 0%, #f8fafc 100%);
+            position: relative;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            background: var(--white-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 32px;
+            padding: 42px 38px;
+            box-shadow: var(--shadow-heavy);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            animation: slideUp 0.8s ease-out 0.1s both;
+        }
+        .login-card:hover {
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 35px 70px -15px rgba(15, 23, 42, 0.3);
+            border-color: rgba(6, 182, 212, 0.2);
+        }
+
+        .login-card h2 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 30px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--slate-950);
+            letter-spacing: -0.5px;
+        }
+        .login-card .sub {
+            color: var(--slate-600);
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 28px;
+        }
+
+        /* Form groups with icons */
+        .form-group {
+            position: relative;
+            margin-bottom: 24px;
+        }
+        .form-group .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--slate-400);
+            font-size: 16px;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        .form-group .form-control {
+            border-radius: 16px;
+            border: 1.5px solid var(--slate-200);
+            padding: 14px 16px 14px 48px;
+            font-size: 14px;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.6);
+            transition: all 0.3s ease;
+            color: var(--slate-950);
+        }
+        .form-group .form-control::placeholder {
+            color: var(--slate-400);
+            font-weight: 400;
+        }
+        .form-group .form-control:focus {
+            border-color: var(--cyan-500);
+            box-shadow: 0 0 0 5px var(--cyan-glow), 0 4px 15px rgba(6, 182, 212, 0.1);
+            background: #ffffff;
+            outline: none;
+        }
+        .form-group .form-control:focus ~ .input-icon,
+        .form-group .form-control:focus + .input-icon {
+            color: var(--cyan-500);
+            transform: translateY(-50%) scale(1.1);
+        }
+        .form-group .form-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--slate-600);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        /* Custom Error Alert */
+        .alert-cyan {
+            border-radius: 16px;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+            padding: 14px 18px;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 22px;
+            animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+        }
+        @keyframes shake {
+            10%, 90% { transform: translateX(-4px); }
+            20%, 80% { transform: translateX(4px); }
+            30%, 50%, 70% { transform: translateX(-6px); }
+            40%, 60% { transform: translateX(6px); }
+        }
+        .alert-cyan i {
+            font-size: 20px;
+            color: #dc2626;
+        }
+
+        /* Login Button - Cyan Gradient */
+        .btn-login {
+            width: 100%;
+            background: linear-gradient(135deg, var(--cyan-500), var(--cyan-700));
+            color: #fff;
+            border: none;
+            padding: 15px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 15px;
+            margin-top: 6px;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 10px 25px var(--cyan-glow);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.3px;
+        }
+        .btn-login::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s ease;
+        }
+        .btn-login:hover::before {
+            left: 100%;
+        }
+        .btn-login:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 35px var(--cyan-glow);
+        }
+        .btn-login:active {
+            transform: scale(0.97);
+        }
+        .btn-login i {
+            margin-right: 10px;
+            transition: transform 0.3s ease;
+        }
+        .btn-login:hover i {
+            transform: translateX(5px) rotate(-5deg);
+        }
+
+        /* Footer Links */
+        .login-footer {
+            margin-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .login-footer a {
+            color: var(--slate-600);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .login-footer a i {
+            font-size: 12px;
+        }
+        .login-footer a:hover {
+            color: var(--cyan-600);
+            transform: translateX(3px);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            body { flex-direction: column; }
+            .login-visual {
+                min-height: auto;
+                padding: 40px 30px;
+                flex: none;
+            }
+            .login-visual h1 { font-size: 32px; max-width: 100%; }
+            .login-form-side { padding: 30px 20px; }
+            .login-card { padding: 32px 24px; max-width: 100%; }
+        }
+
+        @media (max-width: 576px) {
+            .login-visual { padding: 28px 18px; }
+            .login-visual h1 { font-size: 26px; }
+            .login-card { padding: 26px 18px; border-radius: 24px; }
+            .login-badge .mark { width: 44px; height: 44px; font-size: 20px; }
+            .login-badge strong { font-size: 20px; }
+            .stat-strip { flex-wrap: wrap; gap: 16px; }
+            .stat-strip div strong { font-size: 22px; }
+            .form-group .form-control { padding: 12px 14px 12px 44px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== LEFT: BRANDING WITH NEW THEME ===== -->
+    <div class="login-visual">
+        <div class="orb-1"></div>
+        <div class="orb-2"></div>
+        <div class="float-icon-1">💊</div>
+        <div class="float-icon-2">⚕️</div>
+
+        <div class="login-badge">
+            <div class="mark">Rx</div>
+            <strong>Pharmacy<span>ERP</span></strong>
+        </div>
+
+        <h1>Run your pharmacy with <span>clarity</span>, not chaos.</h1>
+        <p>Inventory, prescriptions, billing, delivery and finance — one control center built for independent and multi-branch pharmacies.</p>
+
+        <div class="stat-strip">
+            <div><strong><i class="fa-regular fa-circle-check"></i>14+</strong><span>Modules</span></div>
+            <div><strong><i class="fa-regular fa-bolt"></i>Live</strong><span>Stock Sync</span></div>
+            <div><strong><i class="fa-regular fa-diagram-project"></i>Multi</strong><span>Branch Ready</span></div>
+        </div>
+    </div>
+
+    <!-- ===== RIGHT: LOGIN FORM ===== -->
+    <div class="login-form-side">
+        <div class="login-card">
+            <h2>Welcome back</h2>
+            <div class="sub">Sign in to your {{ store_name }} control center.</div>
+
+            <!-- Django Error Handling (UNCHANGED) -->
+            {% if form.errors %}
+                <div class="alert-cyan" role="alert">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    Invalid username or password. Please try again.
+                </div>
+            {% endif %}
+
+            <!-- Django Form (ALL TAGS & FIELDS INTACT) -->
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label class="form-label" for="username">Username</label>
+                    <input type="text" name="username" id="username" class="form-control" placeholder="Enter your username" required autofocus>
+                    <i class="fa-regular fa-user input-icon"></i>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <input type="password" name="password" id="password" class="form-control" placeholder="Enter your password" required>
+                    <i class="fa-regular fa-lock input-icon"></i>
+                </div>
+
+                <!-- Next URL redirect hidden input (UNCHANGED) -->
+                <input type="hidden" name="next" value="{{ next }}">
+
+                <button type="submit" class="btn-login">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i> Sign In
+                </button>
+            </form>
+
+            <div class="login-footer">
+                <a href="{% url 'signup' %}"><i class="fa-regular fa-id-badge"></i> New pharmacy owner? Sign up</a>
+                <a href="#"><i class="fa-regular fa-headset"></i> Need help?</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

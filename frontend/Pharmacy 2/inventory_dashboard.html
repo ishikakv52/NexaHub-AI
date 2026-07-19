@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Inventory Dashboard</title>
+
+<style>
+
+/* =========================
+   RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#080d1a;
+    color:#e5e7eb;
+    overflow-x:hidden;
+    transition:.4s ease;
+}
+
+/* =========================
+   ANIMATED BACKGROUND
+========================= */
+
+.background{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    pointer-events:none;
+    z-index:-1;
+}
+
+.orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(80px);
+    opacity:.22;
+    animation:float 12s infinite alternate ease-in-out;
+}
+
+.orb1{
+    width:350px;
+    height:350px;
+    background:#06b6d4;
+    top:-100px;
+    left:250px;
+}
+
+.orb2{
+    width:300px;
+    height:300px;
+    background:#7c3aed;
+    right:-80px;
+    top:250px;
+    animation-delay:2s;
+}
+
+.orb3{
+    width:250px;
+    height:250px;
+    background:#2563eb;
+    bottom:-80px;
+    left:40%;
+    animation-delay:4s;
+}
+
+.grid-bg{
+    position:absolute;
+    inset:0;
+    opacity:.07;
+    background-image:
+    linear-gradient(#ffffff 1px,transparent 1px),
+    linear-gradient(90deg,#ffffff 1px,transparent 1px);
+    background-size:45px 45px;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    padding:22px 15px;
+    background:rgba(15,23,42,.86);
+    backdrop-filter:blur(18px);
+    border-right:1px solid #263244;
+    z-index:10;
+    animation:slideIn .7s ease;
+    transition:.4s ease;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 12px 25px;
+    border-bottom:1px solid #263244;
+    margin-bottom:18px;
+}
+
+.logo-icon{
+    width:44px;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:13px;
+    font-size:23px;
+    font-weight:bold;
+    color:white;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    box-shadow:0 0 25px #06b6d455;
+    animation:logoGlow 2s infinite alternate;
+}
+
+.logo h2{
+    font-size:17px;
+    letter-spacing:.5px;
+}
+
+.logo span{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.menu-title{
+    padding:12px;
+    color:#64748b;
+    font-size:11px;
+    text-transform:uppercase;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    margin:5px 0;
+    color:#94a3b8;
+    text-decoration:none;
+    border-radius:9px;
+    transition:.3s;
+}
+
+.menu a:hover,
+.menu a.active{
+    color:white;
+    background:linear-gradient(
+        90deg,
+        #06b6d422,
+        #7c3aed22
+    );
+    transform:translateX(5px);
+}
+
+.menu a.active{
+    border-left:3px solid #06b6d4;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+    margin-left:260px;
+    min-height:100vh;
+}
+
+/* =========================
+   TOPBAR
+========================= */
+
+.topbar{
+    height:75px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    background:rgba(15,23,42,.7);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid #263244;
+}
+
+.search{
+    width:350px;
+}
+
+.search input{
+    width:100%;
+    padding:12px 18px;
+    background:#0b1120aa;
+    color:white;
+    border:1px solid #263244;
+    border-radius:10px;
+    outline:none;
+    transition:.3s;
+}
+
+.search input:focus{
+    border-color:#06b6d4;
+    box-shadow:0 0 20px #06b6d422;
+}
+
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:22px;
+}
+
+.theme-btn{
+    width:42px;
+    height:42px;
+    border:1px solid #263244;
+    border-radius:50%;
+    background:#0b1120;
+    color:#facc15;
+    font-size:19px;
+    cursor:pointer;
+    transition:.4s;
+}
+
+.theme-btn:hover{
+    transform:rotate(25deg) scale(1.1);
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.profile small{
+    display:block;
+    margin-top:3px;
+    color:#94a3b8;
+    font-size:11px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    font-weight:bold;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.content{
+    padding:30px;
+}
+
+.heading{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.heading h1{
+    font-size:28px;
+}
+
+.heading p{
+    margin-top:5px;
+    color:#94a3b8;
+}
+
+.add-btn{
+    padding:12px 20px;
+    border:0;
+    border-radius:9px;
+    color:white;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    cursor:pointer;
+    transition:.3s;
+    box-shadow:0 0 20px #06b6d433;
+}
+
+.add-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 0 30px #06b6d466;
+}
+
+/* =========================
+   STAT CARDS
+========================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.card{
+    position:relative;
+    overflow:hidden;
+    padding:22px;
+    background:rgba(15,23,42,.75);
+    backdrop-filter:blur(15px);
+    border:1px solid #263244;
+    border-radius:15px;
+    transition:.3s;
+    animation:fadeUp .7s ease backwards;
+}
+
+.card:nth-child(2){
+    animation-delay:.1s;
+}
+
+.card:nth-child(3){
+    animation-delay:.2s;
+}
+
+.card:nth-child(4){
+    animation-delay:.3s;
+}
+
+.card:hover{
+    transform:translateY(-7px);
+    border-color:#06b6d4;
+    box-shadow:0 15px 40px #00000044;
+}
+
+.card::after{
+    content:"";
+    position:absolute;
+    width:120px;
+    height:120px;
+    right:-50px;
+    top:-50px;
+    border-radius:50%;
+    background:#06b6d411;
+}
+
+.card-icon{
+    width:46px;
+    height:46px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+    font-size:22px;
+    background:#06b6d422;
+}
+
+.card h2{
+    margin-top:18px;
+    font-size:28px;
+}
+
+.card p{
+    margin-top:5px;
+    color:#94a3b8;
+}
+
+.card small{
+    display:block;
+    margin-top:12px;
+    color:#22c55e;
+}
+
+.card small.low{
+    color:#f97316;
+}
+
+.card small.expired{
+    color:#ef4444;
+}
+
+/* =========================
+   MAIN GRID
+========================= */
+
+.main-grid{
+    display:grid;
+    grid-template-columns:1.5fr 1fr;
+    gap:20px;
+    margin-top:25px;
+}
+
+.panel{
+    padding:22px;
+    background:rgba(15,23,42,.75);
+    backdrop-filter:blur(15px);
+    border:1px solid #263244;
+    border-radius:15px;
+    animation:fadeUp .8s ease;
+}
+
+.panel-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:20px;
+}
+
+.panel-header h2{
+    font-size:18px;
+}
+
+.view-btn{
+    color:#06b6d4;
+    font-size:13px;
+    cursor:pointer;
+}
+
+/* =========================
+   INVENTORY CHART
+========================= */
+
+.chart{
+    height:260px;
+    display:flex;
+    align-items:end;
+    justify-content:space-around;
+    gap:18px;
+    padding:20px 10px 25px;
+}
+
+.bar{
+    width:38px;
+    position:relative;
+    border-radius:8px 8px 0 0;
+    background:linear-gradient(
+        to top,
+        #06b6d4,
+        #7c3aed
+    );
+    animation:barGrow 1.3s ease;
+}
+
+.bar:hover{
+    filter:brightness(1.4);
+}
+
+.bar span{
+    position:absolute;
+    bottom:-25px;
+    left:50%;
+    transform:translateX(-50%);
+    color:#64748b;
+    font-size:11px;
+}
+
+/* =========================
+   STOCK ALERTS
+========================= */
+
+.stock-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 0;
+    border-bottom:1px solid #263244;
+}
+
+.stock-item:last-child{
+    border-bottom:0;
+}
+
+.medicine{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.medicine-icon{
+    width:38px;
+    height:38px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:10px;
+    background:#7c3aed22;
+}
+
+.stock-info small{
+    display:block;
+    margin-top:4px;
+    color:#64748b;
+    font-size:11px;
+}
+
+.stock-number{
+    color:#f97316;
+    font-size:13px;
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.table-panel{
+    margin-top:25px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,
+td{
+    padding:15px 10px;
+    text-align:left;
+    border-bottom:1px solid #263244;
+}
+
+th{
+    color:#64748b;
+    font-size:13px;
+}
+
+td{
+    color:#cbd5e1;
+}
+
+.status{
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:12px;
+}
+
+.good{
+    color:#22c55e;
+    background:#22c55e22;
+}
+
+.warning{
+    color:#f97316;
+    background:#f9731622;
+}
+
+.danger{
+    color:#ef4444;
+    background:#ef444422;
+}
+
+/* =========================
+   LIGHT MODE
+========================= */
+
+body.light-mode{
+    background:#f1f5f9;
+    color:#0f172a;
+}
+
+body.light-mode .background{
+    opacity:.15;
+}
+
+body.light-mode .sidebar,
+body.light-mode .topbar,
+body.light-mode .card,
+body.light-mode .panel{
+    background:rgba(255,255,255,.9);
+    border-color:#e2e8f0;
+}
+
+body.light-mode .search input{
+    background:#f8fafc;
+    color:#0f172a;
+    border-color:#cbd5e1;
+}
+
+body.light-mode .menu a{
+    color:#64748b;
+}
+
+body.light-mode .menu a:hover,
+body.light-mode .menu a.active{
+    color:#0f172a;
+    background:#e0f2fe;
+}
+
+body.light-mode td{
+    color:#334155;
+}
+
+body.light-mode .theme-btn{
+    background:#f8fafc;
+    color:#7c3aed;
+}
+
+body.light-mode .stock-item{
+    border-color:#e2e8f0;
+}
+
+body.light-mode th,
+body.light-mode .bar span{
+    color:#64748b;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1100px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .main-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:750px){
+
+    .sidebar{
+        width:70px;
+        padding:15px 8px;
+    }
+
+    .logo h2,
+    .logo span,
+    .menu-title,
+    .menu a span{
+        display:none;
+    }
+
+    .logo{
+        justify-content:center;
+    }
+
+    .menu a{
+        justify-content:center;
+    }
+
+    .main{
+        margin-left:70px;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .search{
+        width:200px;
+    }
+
+}
+
+@media(max-width:550px){
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .heading{
+        display:block;
+    }
+
+    .add-btn{
+        margin-top:18px;
+    }
+
+    .table-panel{
+        overflow-x:auto;
+    }
+
+    table{
+        min-width:650px;
+    }
+
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes float{
+
+    from{
+        transform:translate(0,0) scale(1);
+    }
+
+    to{
+        transform:translate(80px,50px) scale(1.2);
+    }
+
+}
+
+@keyframes slideIn{
+
+    from{
+        transform:translateX(-100%);
+        opacity:0;
+    }
+
+    to{
+        transform:translateX(0);
+        opacity:1;
+    }
+
+}
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+@keyframes barGrow{
+
+    from{
+        height:0;
+    }
+
+}
+
+@keyframes logoGlow{
+
+    from{
+        box-shadow:0 0 10px #06b6d455;
+    }
+
+    to{
+        box-shadow:
+        0 0 25px #06b6d488,
+        0 0 45px #7c3aed44;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- =========================
+     ANIMATED BACKGROUND
+========================= -->
+
+<div class="background">
+
+    <div class="grid-bg"></div>
+
+    <div class="orb orb1"></div>
+
+    <div class="orb orb2"></div>
+
+    <div class="orb orb3"></div>
+
+</div>
+
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            ✦
+        </div>
+
+        <div>
+
+            <h2>
+                NEXA HUB AI
+            </h2>
+
+            <span>
+                AI Management System
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="menu-title">
+        Main Menu
+    </div>
+
+
+    <nav class="menu">
+
+        <a href="dashboard.html">
+            📊 <span>Dashboard</span>
+        </a>
+
+        <a
+            href="inventory_dashboard.html"
+            class="active"
+        >
+            📦 <span>Inventory</span>
+        </a>
+
+        <a href="medicine_catalog_import.html">
+            💊 <span>Medicines</span>
+        </a>
+
+        <a href="customer_list.html">
+            👥 <span>Customers</span>
+        </a>
+
+        <a href="employee_list.html">
+            👨‍💼 <span>Employees</span>
+        </a>
+
+        <a href="delivery_dashboard.html">
+            🚚 <span>Delivery</span>
+        </a>
+
+    </nav>
+
+
+    <div class="menu-title">
+        Management
+    </div>
+
+
+    <nav class="menu">
+
+        <a href="finance_income_form.html">
+            💰 <span>Finance</span>
+        </a>
+
+        <a href="attendance_daily.html">
+            🕒 <span>Attendance</span>
+        </a>
+
+        <a href="branch_list.html">
+            🏢 <span>Branches</span>
+        </a>
+
+        <a href="batch_list.html">
+            🧾 <span>Batches</span>
+        </a>
+
+    </nav>
+
+
+</aside>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main">
+
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+
+        <div class="search">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search inventory..."
+            >
+
+        </div>
+
+
+        <div class="top-actions">
+
+
+            <button
+                class="theme-btn"
+                id="themeBtn"
+                onclick="toggleTheme()"
+            >
+                🌙
+            </button>
+
+
+            <div class="profile">
+
+                <div>
+
+                    <b>
+                        Admin User
+                    </b>
+
+                    <small>
+                        Administrator
+                    </small>
+
+                </div>
+
+
+                <div class="avatar">
+                    A
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </header>
+
+
+    <!-- =========================
+         CONTENT
+    ========================= -->
+
+    <section class="content">
+
+
+        <div class="heading">
+
+
+            <div>
+
+                <h1>
+                    Inventory Dashboard
+                </h1>
+
+                <p>
+                    Manage medicines, stock levels and inventory activity.
+                </p>
+
+            </div>
+
+
+            <button
+                class="add-btn"
+                onclick="addMedicine()"
+            >
+                + Add Medicine
+            </button>
+
+
+        </div>
+
+
+        <!-- =========================
+             STATS
+        ========================= -->
+
+        <div class="stats">
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    💊
+                </div>
+
+                <h2>
+                    2,458
+                </h2>
+
+                <p>
+                    Total Medicines
+                </p>
+
+                <small>
+                    ↑ 12.5% this month
+                </small>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    📦
+                </div>
+
+                <h2>
+                    18,642
+                </h2>
+
+                <p>
+                    Total Stock Units
+                </p>
+
+                <small>
+                    ↑ 8.4% this month
+                </small>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    ⚠️
+                </div>
+
+                <h2>
+                    48
+                </h2>
+
+                <p>
+                    Low Stock Items
+                </p>
+
+                <small class="low">
+                    Needs attention
+                </small>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    ⏰
+                </div>
+
+                <h2>
+                    16
+                </h2>
+
+                <p>
+                    Expiring Soon
+                </p>
+
+                <small class="expired">
+                    Within 30 days
+                </small>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =========================
+             CHART + STOCK
+        ========================= -->
+
+        <div class="main-grid">
+
+
+            <!-- INVENTORY CHART -->
+
+            <div class="panel">
+
+
+                <div class="panel-header">
+
+                    <h2>
+                        Inventory Overview
+                    </h2>
+
+                    <span class="view-btn">
+                        This Week ▾
+                    </span>
+
+                </div>
+
+
+                <div class="chart">
+
+
+                    <div
+                        class="bar"
+                        style="height:45%"
+                    >
+                        <span>
+                            Mon
+                        </span>
+                    </div>
+
+
+                    <div
+                        class="bar"
+                        style="height:65%"
+                    >
+                        <span>
+                            Tue
+                        </span>
+                    </div>
+
+
+                    <div
+                        class="bar"
+                        style="height:55%"
+                    >
+                        <span>
+                            Wed
+                        </span>
+                    </div>
+
+
+                    <div
+                        class="bar"
+                        style="height:80%"
+                    >
+                        <span>
+                            Thu
+                        </span>
+                    </div>
+
+
+                    <div
+                        class="bar"
+                        style="height:70%"
+                    >
+                        <span>
+                            Fri
+                        </span>
+                    </div>
+
+
+                    <div
+                        class="bar"
+                        style="height:90%"
+                    >
+                        <span>
+                            Sat
+                        </span>
+                    </div>
+
+
+                    <div
+                        class="bar"
+                        style="height:60%"
+                    >
+                        <span>
+                            Sun
+                        </span>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+            <!-- STOCK ALERTS -->
+
+            <div class="panel">
+
+
+                <div class="panel-header">
+
+                    <h2>
+                        Stock Alerts
+                    </h2>
+
+                    <span class="view-btn">
+                        View All
+                    </span>
+
+                </div>
+
+
+                <div class="stock-item">
+
+
+                    <div class="medicine">
+
+                        <div class="medicine-icon">
+                            💊
+                        </div>
+
+
+                        <div class="stock-info">
+
+                            <b>
+                                Paracetamol
+                            </b>
+
+                            <small>
+                                Tablet 500mg
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <span class="stock-number">
+                        12 left
+                    </span>
+
+
+                </div>
+
+
+                <div class="stock-item">
+
+
+                    <div class="medicine">
+
+                        <div class="medicine-icon">
+                            💊
+                        </div>
+
+
+                        <div class="stock-info">
+
+                            <b>
+                                Amoxicillin
+                            </b>
+
+                            <small>
+                                Capsule 250mg
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <span class="stock-number">
+                        8 left
+                    </span>
+
+
+                </div>
+
+
+                <div class="stock-item">
+
+
+                    <div class="medicine">
+
+                        <div class="medicine-icon">
+                            💊
+                        </div>
+
+
+                        <div class="stock-info">
+
+                            <b>
+                                Azithromycin
+                            </b>
+
+                            <small>
+                                Tablet 500mg
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <span class="stock-number">
+                        5 left
+                    </span>
+
+
+                </div>
+
+
+                <div class="stock-item">
+
+
+                    <div class="medicine">
+
+                        <div class="medicine-icon">
+                            💊
+                        </div>
+
+
+                        <div class="stock-info">
+
+                            <b>
+                                Ibuprofen
+                            </b>
+
+                            <small>
+                                Tablet 400mg
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <span class="stock-number">
+                        3 left
+                    </span>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =========================
+             RECENT INVENTORY ACTIVITY
+        ========================= -->
+
+        <div class="panel table-panel">
+
+
+            <div class="panel-header">
+
+                <h2>
+                    Recent Inventory Activity
+                </h2>
+
+                <span class="view-btn">
+                    View All Activity
+                </span>
+
+            </div>
+
+
+            <table>
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Medicine
+                        </th>
+
+                        <th>
+                            Batch Number
+                        </th>
+
+                        <th>
+                            Quantity
+                        </th>
+
+                        <th>
+                            Activity
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    <tr>
+
+                        <td>
+                            Paracetamol 500mg
+                        </td>
+
+                        <td>
+                            BTH-2026-001
+                        </td>
+
+                        <td>
+                            +500
+                        </td>
+
+                        <td>
+                            Stock Added
+                        </td>
+
+                        <td>
+
+                            <span class="status good">
+                                Completed
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+                            Amoxicillin 250mg
+                        </td>
+
+                        <td>
+                            BTH-2026-002
+                        </td>
+
+                        <td>
+                            -120
+                        </td>
+
+                        <td>
+                            Stock Sold
+                        </td>
+
+                        <td>
+
+                            <span class="status good">
+                                Completed
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+                            Azithromycin 500mg
+                        </td>
+
+                        <td>
+                            BTH-2026-003
+                        </td>
+
+                        <td>
+                            -80
+                        </td>
+
+                        <td>
+                            Stock Sold
+                        </td>
+
+                        <td>
+
+                            <span class="status warning">
+                                Low Stock
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+                            Ibuprofen 400mg
+                        </td>
+
+                        <td>
+                            BTH-2026-004
+                        </td>
+
+                        <td>
+                            -250
+                        </td>
+
+                        <td>
+                            Stock Sold
+                        </td>
+
+                        <td>
+
+                            <span class="status danger">
+                                Critical
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+
+/* =========================
+   DARK / LIGHT MODE
+========================= */
+
+function toggleTheme(){
+
+    const body =
+        document.body;
+
+    const button =
+        document.getElementById("themeBtn");
+
+
+    body.classList.toggle(
+        "light-mode"
+    );
+
+
+    if(
+        body.classList.contains(
+            "light-mode"
+        )
+    ){
+
+        button.innerHTML =
+            "☀️";
+
+        localStorage.setItem(
+            "theme",
+            "light"
+        );
+
+    }
+
+    else{
+
+        button.innerHTML =
+            "🌙";
+
+        localStorage.setItem(
+            "theme",
+            "dark"
+        );
+
+    }
+
+}
+
+
+/* =========================
+   LOAD SAVED THEME
+========================= */
+
+window.addEventListener(
+    "load",
+    function(){
+
+        const savedTheme =
+            localStorage.getItem(
+                "theme"
+            );
+
+        const button =
+            document.getElementById(
+                "themeBtn"
+            );
+
+
+        if(
+            savedTheme ===
+            "light"
+        ){
+
+            document.body.classList.add(
+                "light-mode"
+            );
+
+            button.innerHTML =
+                "☀️";
+
+        }
+
+    }
+);
+
+
+/* =========================
+   ADD MEDICINE
+========================= */
+
+function addMedicine(){
+
+    window.location.href =
+        "medicine_catalog_import.html";
+
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+const searchInput =
+    document.getElementById(
+        "searchInput"
+    );
+
+
+searchInput.addEventListener(
+    "input",
+    function(){
+
+        const value =
+            this.value.toLowerCase();
+
+        const rows =
+            document.querySelectorAll(
+                "tbody tr"
+            );
+
+
+        rows.forEach(
+            function(row){
+
+                const text =
+                    row.innerText.toLowerCase();
+
+
+                if(
+                    text.includes(
+                        value
+                    )
+                ){
+
+                    row.style.display =
+                        "";
+
+                }
+
+                else{
+
+                    row.style.display =
+                        "none";
+
+                }
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================
+   TABLE ROW CLICK ANIMATION
+========================= */
+
+document.querySelectorAll(
+    "tbody tr"
+).forEach(
+    function(row){
+
+        row.addEventListener(
+            "click",
+            function(){
+
+                this.animate(
+                    [
+                        {
+                            transform:
+                            "scale(1)"
+                        },
+
+                        {
+                            transform:
+                            "scale(1.01)"
+                        },
+
+                        {
+                            transform:
+                            "scale(1)"
+                        }
+                    ],
+                    {
+                        duration:300
+                    }
+                );
+
+            }
+        );
+
+    }
+);
+
+
+</script>
+
+
+</body>
+
+</html>

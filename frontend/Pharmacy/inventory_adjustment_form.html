@@ -1,0 +1,305 @@
+{% load humanize %}<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Adjustment · {{ store_name }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    {% load crispy_forms_tags %}
+    <style>
+        :root {
+            --teal-950: #06232a;
+            --teal-900: #0a2e33;
+            --teal-800: #0f3d3e;
+            --teal-700: #14544f;
+            --teal-600: #196b5f;
+            --teal-500: #1f8a72;
+            --gold-500: #c99a3f;
+            --gold-400: #dcb35f;
+            --gold-300: #ecd39a;
+            --parchment: #faf7f0;
+            --parchment-dim: #f1ece0;
+            --ink: #1c211f;
+            --ink-soft: #5c645f;
+            --line: #e7e0d0;
+            --danger: #b5443a;
+            --success: #2f7d5e;
+            --warn: #b8863a;
+            --radius: 14px;
+            --shadow-sm: 0 1px 2px rgba(20,20,10,.06);
+            --shadow-md: 0 10px 30px -12px rgba(10,40,35,.25);
+        }
+        * { box-sizing: border-box; }
+        html, body { height: 100%; }
+        body {
+            margin: 0;
+            font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--parchment);
+            color: var(--ink);
+            display: flex;
+            min-height: 100vh;
+        }
+        h1, h2, h3, .brand-font { font-family: 'Fraunces', Georgia, serif; }
+        a { text-decoration: none; }
+
+        /* ---------- SIDEBAR ---------- */
+        .erp-sidebar {
+            width: 264px;
+            min-width: 264px;
+            background: linear-gradient(190deg, var(--teal-950), var(--teal-800) 80%);
+            color: #e9f3f0;
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 1px solid rgba(255,255,255,.06);
+        }
+        .erp-sidebar::-webkit-scrollbar { width: 6px; }
+        .erp-sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 10px; }
+        .erp-brand {
+            padding: 26px 22px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255,255,255,.08);
+        }
+        .erp-brand-mark {
+            width: 40px; height: 40px; border-radius: 11px;
+            background: linear-gradient(135deg, var(--gold-400), var(--gold-500));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 19px; color: var(--teal-950); font-weight: 800;
+            box-shadow: var(--shadow-sm);
+        }
+        .erp-brand-text { line-height: 1.15; }
+        .erp-brand-text strong { font-family: 'Fraunces', serif; font-size: 18px; display: block; color: #fff; letter-spacing: .2px; }
+        .erp-brand-text span { font-size: 11px; letter-spacing: 1.6px; color: var(--gold-300); text-transform: uppercase; }
+        .erp-nav { padding: 14px 12px; flex: 1; }
+        .erp-nav-label { font-size: 10.5px; letter-spacing: 1.4px; text-transform: uppercase; color: #8fb0a9; padding: 14px 12px 6px; }
+        .erp-nav a {
+            display: flex; align-items: center; gap: 12px;
+            color: #d9e9e4; padding: 10px 12px; border-radius: 10px;
+            font-size: 14.2px; font-weight: 500; margin-bottom: 2px;
+            transition: background .15s ease, color .15s ease;
+        }
+        .erp-nav a i { width: 18px; text-align: center; color: #86b3a7; font-size: 14px; }
+        .erp-nav a:hover { background: rgba(255,255,255,.06); color: #fff; }
+        .erp-nav a.active { background: linear-gradient(90deg, rgba(201,154,63,.22), rgba(201,154,63,.05)); color: #fff; box-shadow: inset 3px 0 0 var(--gold-400); }
+        .erp-nav a.active i { color: var(--gold-400); }
+        .erp-sidebar-footer {
+            padding: 16px 18px 22px; border-top: 1px solid rgba(255,255,255,.08);
+            font-size: 12px; color: #9fc0b8; display: flex; align-items: center; gap: 10px;
+        }
+        .erp-avatar {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: var(--teal-700); display: flex; align-items: center; justify-content: center;
+            color: var(--gold-300); font-weight: 700; font-size: 13px; border: 1px solid rgba(255,255,255,.12);
+        }
+
+        /* ---------- MAIN ---------- */
+        .erp-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+        .erp-topbar {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 18px 30px; background: #fffdf8; border-bottom: 1px solid var(--line);
+            position: sticky; top: 0; z-index: 5;
+        }
+        .erp-topbar h1 { font-size: 21px; margin: 0; font-weight: 600; }
+        .erp-topbar .sub { color: var(--ink-soft); font-size: 12.5px; margin-top: 2px; }
+        .erp-search { position: relative; width: 320px; max-width: 40vw; }
+        .erp-search input {
+            width: 100%; padding: 9px 14px 9px 36px; border-radius: 999px; border: 1px solid var(--line);
+            background: var(--parchment-dim); font-size: 13.5px;
+        }
+        .erp-search i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--ink-soft); font-size: 12px; }
+        .erp-content { padding: 26px 30px 50px; flex: 1; }
+
+        /* ---------- COMPONENTS ---------- */
+        .stat-card {
+            background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+            padding: 18px 20px; box-shadow: var(--shadow-sm); position: relative; overflow: hidden;
+        }
+        .stat-card .icon {
+            width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            font-size: 17px; margin-bottom: 12px;
+        }
+        .stat-card .value { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 600; }
+        .stat-card .label { color: var(--ink-soft); font-size: 12.5px; margin-top: 2px; }
+        .bg-teal-soft { background: #e9f3ef; color: var(--teal-600); }
+        .bg-gold-soft { background: #faf1dd; color: var(--gold-500); }
+        .bg-danger-soft { background: #fbe9e7; color: var(--danger); }
+        .bg-success-soft { background: #e8f5ee; color: var(--success); }
+
+        .panel {
+            background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+            box-shadow: var(--shadow-sm); padding: 22px;
+        }
+        .panel-title { font-family: 'Fraunces', serif; font-size: 16.5px; font-weight: 600; margin-bottom: 4px; }
+        .panel-sub { color: var(--ink-soft); font-size: 12.5px; margin-bottom: 16px; }
+
+        .table-erp { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13.6px; }
+        .table-erp thead th {
+            text-align: left; font-size: 11px; letter-spacing: .8px; text-transform: uppercase;
+            color: var(--ink-soft); font-weight: 600; padding: 10px 14px; border-bottom: 1px solid var(--line);
+        }
+        .table-erp tbody td { padding: 12px 14px; border-bottom: 1px solid #f1ece0; vertical-align: middle; }
+        .table-erp tbody tr:hover { background: #fbf8f1; }
+
+        .badge-soft { padding: 4px 11px; border-radius: 999px; font-size: 11.3px; font-weight: 600; display: inline-block; }
+        .badge-teal { background: #e9f3ef; color: var(--teal-600); }
+        .badge-gold { background: #faf1dd; color: var(--gold-500); }
+        .badge-danger { background: #fbe9e7; color: var(--danger); }
+        .badge-success { background: #e8f5ee; color: var(--success); }
+        .badge-warn { background: #fbf1de; color: var(--warn); }
+
+        .btn-erp-primary {
+            background: linear-gradient(135deg, var(--teal-600), var(--teal-700));
+            color: #fff; border: none; padding: 10px 18px; border-radius: 10px; font-weight: 600; font-size: 13.5px;
+        }
+        .btn-erp-primary:hover { color: #fff; opacity: .92; }
+        .btn-erp-gold {
+            background: linear-gradient(135deg, var(--gold-400), var(--gold-500));
+            color: var(--teal-950); border: none; padding: 10px 18px; border-radius: 10px; font-weight: 700; font-size: 13.5px;
+        }
+        .btn-erp-outline {
+            background: transparent; border: 1px solid var(--line); color: var(--ink); padding: 9px 16px; border-radius: 10px; font-size: 13.5px; font-weight: 600;
+        }
+        .form-control, .form-select { border-radius: 9px; border: 1px solid var(--line); font-size: 13.8px; }
+        .form-control:focus, .form-select:focus { border-color: var(--teal-500); box-shadow: 0 0 0 3px rgba(31,138,114,.12); }
+        label.form-label { font-size: 12.8px; font-weight: 600; color: var(--ink-soft); }
+
+        .chart-box { position: relative; height: 260px; }
+        .alert-erp { border-radius: 10px; border: 1px solid var(--line); padding: 10px 14px; font-size: 13px; }
+
+        @media (max-width: 900px) {
+            .erp-sidebar { position: fixed; z-index: 40; transform: translateX(-100%); transition: transform .2s ease; }
+            .erp-sidebar.open { transform: translateX(0); }
+            .erp-search { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <aside class="erp-sidebar" id="erpSidebar">
+        <div class="erp-brand">
+            <div class="erp-brand-mark">Rx</div>
+            <div class="erp-brand-text">
+                <strong>{{ store_name }}</strong>
+                <span>Control Center</span>
+            </div>
+        </div>
+        <nav class="erp-nav">
+                <a href="{% url 'dashboard' %}" class=""><i class="fa-solid fa-house"></i><span>Dashboard</span></a>
+                <a href="{% url 'employee-list' %}" class=""><i class="fa-solid fa-users"></i><span>Employees</span></a>
+                <a href="{% url 'staff-list' %}" class=""><i class="fa-solid fa-user-doctor"></i><span>Pharmacy Staff</span></a>
+                <a href="{% url 'attendance-daily' %}" class=""><i class="fa-solid fa-clock"></i><span>Attendance</span></a>
+                <a href="{% url 'salary-list' %}" class=""><i class="fa-solid fa-sack-dollar"></i><span>Salary</span></a>
+                <a href="{% url 'medicine-list' %}" class=""><i class="fa-solid fa-pills"></i><span>Medicines</span></a>
+                <a href="{% url 'inventory-dashboard' %}" class="active"><i class="fa-solid fa-boxes-stacked"></i><span>Inventory</span></a>
+                <a href="{% url 'supplier-list' %}" class=""><i class="fa-solid fa-building"></i><span>Suppliers</span></a>
+                <a href="{% url 'sale-list' %}" class=""><i class="fa-solid fa-cart-shopping"></i><span>Sales & Billing</span></a>
+                <a href="{% url 'customer-list' %}" class=""><i class="fa-solid fa-user"></i><span>Customers</span></a>
+                <a href="{% url 'prescription-list' %}" class=""><i class="fa-solid fa-file-medical"></i><span>Prescriptions</span></a>
+                <a href="{% url 'delivery-dashboard' %}" class=""><i class="fa-solid fa-truck-fast"></i><span>Delivery</span></a>
+                <a href="{% url 'finance-expense-list' %}" class=""><i class="fa-solid fa-sack-dollar"></i><span>Finance</span></a>
+                <a href="{% url 'reports-insights' %}" class=""><i class="fa-solid fa-chart-line"></i><span>Reports</span></a>
+                <a href="{% url 'reminder-list' %}" class=""><i class="fa-solid fa-bell"></i><span>Reminders</span></a>
+                <a href="{% url 'settings-business' %}" class=""><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+            <div class="erp-nav-label">Quick Access</div>
+                <a href="{% url 'sale-new' %}"><i class="fa-solid fa-receipt"></i><span>POS</span></a>
+                <a href="{% url 'medicine-list' %}"><i class="fa-solid fa-dna"></i><span>Batches</span></a>
+                <a href="{% url 'branch-list' %}"><i class="fa-solid fa-map-location-dot"></i><span>Branches</span></a>
+        </nav>
+        <div class="erp-sidebar-footer">
+            <div class="erp-avatar">{{ request.user.username|default:"A"|first|upper }}</div>
+            <div>
+                <div style="color:#fff;font-weight:600;">{{ request.user.get_full_name|default:request.user.username }}</div>
+                <a href="{% url 'logout' %}" style="color:#9fc0b8;">Sign out</a>
+            </div>
+        </div>
+    </aside>
+    <div class="erp-main">
+        <header class="erp-topbar">
+            <div>
+                <button class="btn d-md-none" onclick="document.getElementById('erpSidebar').classList.toggle('open')"><i class="fa-solid fa-bars"></i></button>
+                <h1>Inventory Adjustment</h1>
+                <div class="sub">Record a stock addition, damage or expiry write-off.</div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <div class="erp-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search {{ store_name }}...">
+                </div>
+                <button type="button" class="btn-erp-outline" data-bs-toggle="modal" data-bs-target="#helpModal" title="Help &amp; Guide" style="padding:9px 14px;">
+                    <i class="fa-solid fa-circle-question"></i>
+                </button>
+            </div>
+        </header>
+        <main class="erp-content">
+{% if messages %}
+{% for message in messages %}
+            <div class="alert-erp mb-3" style="background:#e8f5ee;border-color:#cfead9;">{{ message }}</div>
+{% endfor %}
+{% endif %}
+
+            <div class="panel" style="max-width:640px;">
+                <div class="panel-title">New Inventory Adjustment</div>
+                <div class="panel-sub">Add stock, deduct for sale-outside-system, or write off damage/expiry.</div>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit" class="btn-erp-primary mt-2">
+                        <i class="fa-solid fa-floppy-disk me-1"></i> Save
+                    </button>
+                </form>
+            </div>
+
+        </main>
+    </div>
+
+    <div class="modal fade" id="helpModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content" style="border-radius:16px;border:1px solid var(--line);">
+                <div class="modal-header" style="border-bottom:1px solid var(--line);">
+                    <h5 class="modal-title" style="font-family:'Fraunces',serif;font-weight:600;">
+                        <i class="fa-solid fa-circle-question me-2" style="color:var(--gold-500);"></i>Inventory Adjustment Guide
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-4">
+                        <div class="col-md-7">
+                            <div style="font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-soft);font-weight:700;margin-bottom:10px;">Step-by-Step Guide</div>
+                            <ol style="padding-left:18px;font-size:13.6px;line-height:1.75;color:var(--ink);">
+                    <li class="mb-2">Choose Addition when new stock arrives outside a formal Purchase Order.</li>
+                    <li class="mb-2">Choose Deduction, Damage or Expiry to write off stock that can no longer be sold.</li>
+                    <li class="mb-2">The batch's quantity updates automatically the moment you save this form.</li>
+                            </ol>
+                        </div>
+                        <div class="col-md-5">
+                            <div style="font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-soft);font-weight:700;margin-bottom:10px;">Video Walkthrough</div>
+                            <div class="d-flex align-items-center justify-content-center flex-column text-center" style="background:#faf7f0;border:1px dashed var(--line);border-radius:12px;height:220px;padding:0 16px;">
+                                <i class="fa-solid fa-circle-play" style="font-size:32px;color:var(--gold-500);margin-bottom:10px;"></i>
+                                <div style="font-size:12.3px;color:var(--ink-soft);">Video guide coming soon for this page.</div>
+                            </div>
+                            <!-- To enable a real video later: replace the placeholder div above with
+                            <video controls style="width:100%;border-radius:12px;">
+                                <source src="/static/help_videos/inventory-adjustment.mp4" type="video/mp4">
+                            </video>
+                            -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+    </script>
+</body>
+</html>

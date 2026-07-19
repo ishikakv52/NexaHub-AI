@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Staff Attendance</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#080d1a;
+    color:#e5e7eb;
+    transition:.4s;
+}
+
+/* BACKGROUND */
+
+.background{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:-1;
+}
+
+.grid{
+    position:absolute;
+    inset:0;
+    opacity:.06;
+    background-image:
+    linear-gradient(#fff 1px,transparent 1px),
+    linear-gradient(90deg,#fff 1px,transparent 1px);
+    background-size:45px 45px;
+}
+
+.orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(100px);
+    opacity:.25;
+    animation:float 12s infinite alternate ease-in-out;
+}
+
+.orb1{
+    width:350px;
+    height:350px;
+    background:#06b6d4;
+    top:-100px;
+    left:250px;
+}
+
+.orb2{
+    width:300px;
+    height:300px;
+    background:#7c3aed;
+    right:-80px;
+    top:250px;
+    animation-delay:2s;
+}
+
+.orb3{
+    width:250px;
+    height:250px;
+    background:#2563eb;
+    bottom:-100px;
+    left:40%;
+    animation-delay:4s;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    padding:22px 15px;
+    background:rgba(15,23,42,.88);
+    backdrop-filter:blur(18px);
+    border-right:1px solid #263244;
+    z-index:10;
+    overflow-y:auto;
+    animation:slideIn .7s ease;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 12px 25px;
+    border-bottom:1px solid #263244;
+    margin-bottom:18px;
+}
+
+.logo-icon{
+    width:44px;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:13px;
+    font-size:23px;
+    color:#fff;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+    animation:glow 2s infinite alternate;
+}
+
+.logo h2{
+    font-size:17px;
+}
+
+.logo span{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.menu-title{
+    padding:12px;
+    color:#64748b;
+    font-size:11px;
+    text-transform:uppercase;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    margin:5px 0;
+    color:#94a3b8;
+    text-decoration:none;
+    border-radius:9px;
+    transition:.3s;
+}
+
+.menu a:hover,
+.menu a.active{
+    color:#fff;
+    background:linear-gradient(90deg,#06b6d422,#7c3aed22);
+    transform:translateX(5px);
+}
+
+.menu a.active{
+    border-left:3px solid #06b6d4;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:260px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:75px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    background:rgba(15,23,42,.7);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid #263244;
+}
+
+.search{
+    width:350px;
+}
+
+.search input{
+    width:100%;
+    padding:12px 18px;
+    background:#0b1120aa;
+    color:#fff;
+    border:1px solid #263244;
+    border-radius:10px;
+    outline:none;
+}
+
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:22px;
+}
+
+.theme-btn{
+    width:42px;
+    height:42px;
+    border:1px solid #263244;
+    border-radius:50%;
+    background:#0b1120;
+    color:#facc15;
+    font-size:19px;
+    cursor:pointer;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.profile small{
+    display:block;
+    color:#94a3b8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    font-weight:bold;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+}
+
+/* CONTENT */
+
+.content{
+    padding:30px;
+}
+
+.page-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:25px;
+}
+
+.page-header h1{
+    font-size:28px;
+}
+
+.page-header p{
+    color:#94a3b8;
+    margin-top:5px;
+}
+
+/* DATE CARD */
+
+.date-card{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    padding:22px;
+    margin-bottom:22px;
+    background:rgba(15,23,42,.78);
+    backdrop-filter:blur(18px);
+    border:1px solid #263244;
+    border-radius:18px;
+}
+
+.date-card h2{
+    font-size:20px;
+}
+
+.date-card p{
+    color:#94a3b8;
+    margin-top:5px;
+}
+
+.date-input{
+    padding:12px 15px;
+    border-radius:9px;
+    border:1px solid #334155;
+    background:#0b1120;
+    color:#fff;
+    outline:none;
+}
+
+/* SUMMARY */
+
+.summary-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:25px;
+}
+
+.summary-card{
+    padding:20px;
+    background:rgba(15,23,42,.78);
+    backdrop-filter:blur(18px);
+    border:1px solid #263244;
+    border-radius:15px;
+    transition:.3s;
+}
+
+.summary-card:hover{
+    transform:translateY(-5px);
+    border-color:#06b6d4;
+}
+
+.summary-card span{
+    display:block;
+    color:#94a3b8;
+    font-size:12px;
+    margin-bottom:10px;
+}
+
+.summary-card strong{
+    font-size:24px;
+    color:#06b6d4;
+}
+
+/* TABLE CARD */
+
+.table-card{
+    padding:24px;
+    background:rgba(15,23,42,.78);
+    backdrop-filter:blur(18px);
+    border:1px solid #263244;
+    border-radius:20px;
+}
+
+.table-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.table-header h2{
+    font-size:19px;
+}
+
+.status-filter{
+    padding:10px 13px;
+    color:#fff;
+    background:#0b1120;
+    border:1px solid #334155;
+    border-radius:8px;
+    outline:none;
+}
+
+.table-wrapper{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    min-width:900px;
+    border-collapse:collapse;
+}
+
+thead{
+    background:#0b1120aa;
+}
+
+th{
+    padding:15px;
+    color:#94a3b8;
+    font-size:12px;
+    text-align:left;
+    white-space:nowrap;
+}
+
+td{
+    padding:16px 15px;
+    border-top:1px solid #263244;
+    font-size:13px;
+    white-space:nowrap;
+}
+
+tbody tr{
+    transition:.3s;
+}
+
+tbody tr:hover{
+    background:#06b6d40d;
+}
+
+/* STAFF */
+
+.staff{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.staff-avatar{
+    width:38px;
+    height:38px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    font-size:12px;
+    font-weight:bold;
+    background:linear-gradient(135deg,#06b6d4,#7c3aed);
+}
+
+.staff-info strong{
+    display:block;
+}
+
+.staff-info small{
+    color:#64748b;
+    font-size:11px;
+}
+
+/* BADGES */
+
+.badge{
+    display:inline-block;
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:600;
+}
+
+.present{
+    color:#22c55e;
+    background:#22c55e1c;
+}
+
+.absent{
+    color:#ef4444;
+    background:#ef44441c;
+}
+
+.late{
+    color:#facc15;
+    background:#facc151c;
+}
+
+.leave{
+    color:#a78bfa;
+    background:#a78bfa1c;
+}
+
+/* ACTION */
+
+.action-btn{
+    padding:7px 12px;
+    border:1px solid #334155;
+    border-radius:7px;
+    background:transparent;
+    color:#cbd5e1;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.action-btn:hover{
+    color:#06b6d4;
+    border-color:#06b6d4;
+}
+
+/* LIGHT MODE */
+
+body.light-mode{
+    background:#f1f5f9;
+    color:#0f172a;
+}
+
+body.light-mode .sidebar,
+body.light-mode .topbar,
+body.light-mode .date-card,
+body.light-mode .summary-card,
+body.light-mode .table-card{
+    background:rgba(255,255,255,.92);
+    border-color:#e2e8f0;
+}
+
+body.light-mode .search input,
+body.light-mode .date-input,
+body.light-mode .status-filter{
+    background:#f8fafc;
+    color:#0f172a;
+    border-color:#cbd5e1;
+}
+
+body.light-mode .theme-btn{
+    background:#f8fafc;
+    color:#7c3aed;
+}
+
+body.light-mode thead{
+    background:#f8fafc;
+}
+
+body.light-mode td{
+    border-color:#e2e8f0;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+
+    .summary-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:800px){
+
+    .sidebar{
+        width:70px;
+        padding:15px 8px;
+    }
+
+    .logo h2,
+    .logo span,
+    .menu-title,
+    .menu a span{
+        display:none;
+    }
+
+    .logo{
+        justify-content:center;
+    }
+
+    .menu a{
+        justify-content:center;
+    }
+
+    .main{
+        margin-left:70px;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .search{
+        width:180px;
+    }
+
+    .content{
+        padding:18px;
+    }
+
+    .date-card{
+        display:block;
+    }
+
+    .date-input{
+        width:100%;
+        margin-top:15px;
+    }
+
+    .summary-grid{
+        grid-template-columns:1fr;
+    }
+
+    .table-card{
+        padding:15px;
+    }
+
+    .table-header{
+        display:block;
+    }
+
+    .status-filter{
+        width:100%;
+        margin-top:15px;
+    }
+
+}
+
+/* ANIMATIONS */
+
+@keyframes float{
+
+    from{
+        transform:translate(0,0) scale(1);
+    }
+
+    to{
+        transform:translate(80px,50px) scale(1.2);
+    }
+
+}
+
+@keyframes slideIn{
+
+    from{
+        transform:translateX(-100%);
+        opacity:0;
+    }
+
+    to{
+        transform:translateX(0);
+        opacity:1;
+    }
+
+}
+
+@keyframes glow{
+
+    from{
+        box-shadow:0 0 10px #06b6d455;
+    }
+
+    to{
+        box-shadow:0 0 30px #06b6d488;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="background">
+
+    <div class="grid"></div>
+
+    <div class="orb orb1"></div>
+
+    <div class="orb orb2"></div>
+
+    <div class="orb orb3"></div>
+
+</div>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            ✦
+        </div>
+
+        <div>
+
+            <h2>NEXA HUB AI</h2>
+
+            <span>
+                AI Management System
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="menu-title">
+        Main Menu
+    </div>
+
+    <nav class="menu">
+
+        <a href="dashboard.html">
+            📊 <span>Dashboard</span>
+        </a>
+
+        <a href="inventory_dashboard.html">
+            📦 <span>Inventory</span>
+        </a>
+
+        <a href="medicine_list.html">
+            💊 <span>Medicines</span>
+        </a>
+
+        <a href="prescription_list.html">
+            📄 <span>Prescriptions</span>
+        </a>
+
+        <a href="customer_list.html">
+            👥 <span>Customers</span>
+        </a>
+
+        <a href="staff_list.html">
+            👨‍💼 <span>Staff</span>
+        </a>
+
+        <a href="staff_portal_attendance.html" class="active">
+            🕒 <span>Attendance</span>
+        </a>
+
+        <a href="staff_portal_dashboard.html">
+            🧑‍💻 <span>Staff Portal</span>
+        </a>
+
+        <a href="delivery_dashboard.html">
+            🚚 <span>Delivery</span>
+        </a>
+
+        <a href="reports_insights.html">
+            📈 <span>Reports & Insights</span>
+        </a>
+
+    </nav>
+
+    <div class="menu-title">
+        Management
+    </div>
+
+    <nav class="menu">
+
+        <a href="purchase_order_list.html">
+            🛒 <span>Purchase Orders</span>
+        </a>
+
+        <a href="return_form.html">
+            ↩️ <span>Returns</span>
+        </a>
+
+        <a href="sale_list.html">
+            🧾 <span>Sales</span>
+        </a>
+
+        <a href="finance_income_form.html">
+            💰 <span>Income</span>
+        </a>
+
+        <a href="finance_expense_list.html">
+            💸 <span>Expenses</span>
+        </a>
+
+        <a href="salary_list.html">
+            📋 <span>Salary List</span>
+        </a>
+
+        <a href="settings_business.html">
+            ⚙️ <span>Settings</span>
+        </a>
+
+    </nav>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+<header class="topbar">
+
+    <div class="search">
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search staff..."
+            onkeyup="filterAttendance()"
+        >
+
+    </div>
+
+    <div class="top-actions">
+
+        <button
+            class="theme-btn"
+            id="themeBtn"
+            onclick="toggleTheme()"
+        >
+            🌙
+        </button>
+
+        <div class="profile">
+
+            <div>
+
+                <b>
+                    Admin User
+                </b>
+
+                <small>
+                    Administrator
+                </small>
+
+            </div>
+
+            <div class="avatar">
+                A
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+<section class="content">
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>
+                🕒 Staff Attendance
+            </h1>
+
+            <p>
+                Track and manage daily staff attendance.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- DATE -->
+
+    <div class="date-card">
+
+        <div>
+
+            <h2>
+                Attendance Overview
+            </h2>
+
+            <p>
+                Manage attendance records for selected date.
+            </p>
+
+        </div>
+
+        <input
+            type="date"
+            class="date-input"
+            id="attendanceDate"
+        >
+
+    </div>
+
+    <!-- SUMMARY -->
+
+    <div class="summary-grid">
+
+        <div class="summary-card">
+
+            <span>
+                Total Staff
+            </span>
+
+            <strong>
+                42
+            </strong>
+
+        </div>
+
+        <div class="summary-card">
+
+            <span>
+                Present
+            </span>
+
+            <strong>
+                35
+            </strong>
+
+        </div>
+
+        <div class="summary-card">
+
+            <span>
+                Late
+            </span>
+
+            <strong>
+                4
+            </strong>
+
+        </div>
+
+        <div class="summary-card">
+
+            <span>
+                Absent / Leave
+            </span>
+
+            <strong>
+                3
+            </strong>
+
+        </div>
+
+    </div>
+
+    <!-- TABLE -->
+
+    <div class="table-card">
+
+        <div class="table-header">
+
+            <h2>
+                Daily Attendance Records
+            </h2>
+
+            <select
+                class="status-filter"
+                id="statusFilter"
+                onchange="filterAttendance()"
+            >
+
+                <option value="all">
+                    All Status
+                </option>
+
+                <option value="present">
+                    Present
+                </option>
+
+                <option value="late">
+                    Late
+                </option>
+
+                <option value="absent">
+                    Absent
+                </option>
+
+                <option value="leave">
+                    Leave
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Staff Member
+                        </th>
+
+                        <th>
+                            Employee ID
+                        </th>
+
+                        <th>
+                            Department
+                        </th>
+
+                        <th>
+                            Check In
+                        </th>
+
+                        <th>
+                            Check Out
+                        </th>
+
+                        <th>
+                            Working Hours
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="attendanceList">
+
+                    <tr>
+
+                        <td>
+
+                            <div class="staff">
+
+                                <div class="staff-avatar">
+                                    RS
+                                </div>
+
+                                <div class="staff-info">
+
+                                    <strong>
+                                        Rahul Sharma
+                                    </strong>
+
+                                    <small>
+                                        Senior Pharmacist
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            EMP-1001
+                        </td>
+
+                        <td>
+                            Pharmacy
+                        </td>
+
+                        <td>
+                            09:05 AM
+                        </td>
+
+                        <td>
+                            06:10 PM
+                        </td>
+
+                        <td>
+                            9h 05m
+                        </td>
+
+                        <td>
+                            <span class="badge present">
+                                Present
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="action-btn"
+                                onclick="viewAttendance('Rahul Sharma')"
+                            >
+                                View
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+
+                            <div class="staff">
+
+                                <div class="staff-avatar">
+                                    PS
+                                </div>
+
+                                <div class="staff-info">
+
+                                    <strong>
+                                        Priya Singh
+                                    </strong>
+
+                                    <small>
+                                        Office Manager
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            EMP-1002
+                        </td>
+
+                        <td>
+                            Administration
+                        </td>
+
+                        <td>
+                            09:32 AM
+                        </td>
+
+                        <td>
+                            06:00 PM
+                        </td>
+
+                        <td>
+                            8h 28m
+                        </td>
+
+                        <td>
+                            <span class="badge late">
+                                Late
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="action-btn"
+                                onclick="viewAttendance('Priya Singh')"
+                            >
+                                View
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+
+                            <div class="staff">
+
+                                <div class="staff-avatar">
+                                    AK
+                                </div>
+
+                                <div class="staff-info">
+
+                                    <strong>
+                                        Amit Kumar
+                                    </strong>
+
+                                    <small>
+                                        Delivery Executive
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            EMP-1003
+                        </td>
+
+                        <td>
+                            Delivery
+                        </td>
+
+                        <td>
+                            —
+                        </td>
+
+                        <td>
+                            —
+                        </td>
+
+                        <td>
+                            0h 00m
+                        </td>
+
+                        <td>
+                            <span class="badge absent">
+                                Absent
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="action-btn"
+                                onclick="viewAttendance('Amit Kumar')"
+                            >
+                                View
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+
+                            <div class="staff">
+
+                                <div class="staff-avatar">
+                                    NV
+                                </div>
+
+                                <div class="staff-info">
+
+                                    <strong>
+                                        Neha Verma
+                                    </strong>
+
+                                    <small>
+                                        Sales Executive
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            EMP-1004
+                        </td>
+
+                        <td>
+                            Sales
+                        </td>
+
+                        <td>
+                            —
+                        </td>
+
+                        <td>
+                            —
+                        </td>
+
+                        <td>
+                            0h 00m
+                        </td>
+
+                        <td>
+                            <span class="badge leave">
+                                Leave
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="action-btn"
+                                onclick="viewAttendance('Neha Verma')"
+                            >
+                                View
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+<script>
+
+/* THEME */
+
+function toggleTheme(){
+
+    document.body.classList.toggle(
+        "light-mode"
+    );
+
+    const button =
+    document.getElementById(
+        "themeBtn"
+    );
+
+    if(
+        document.body.classList.contains(
+            "light-mode"
+        )
+    ){
+
+        button.innerHTML =
+        "☀️";
+
+        localStorage.setItem(
+            "theme",
+            "light"
+        );
+
+    }else{
+
+        button.innerHTML =
+        "🌙";
+
+        localStorage.setItem(
+            "theme",
+            "dark"
+        );
+
+    }
+
+}
+
+/* LOAD THEME */
+
+window.addEventListener(
+    "load",
+    function(){
+
+        if(
+            localStorage.getItem(
+                "theme"
+            )
+            ===
+            "light"
+        ){
+
+            document.body.classList.add(
+                "light-mode"
+            );
+
+            document.getElementById(
+                "themeBtn"
+            ).innerHTML =
+            "☀️";
+
+        }
+
+        const date =
+        new Date()
+        .toISOString()
+        .split("T")[0];
+
+        document.getElementById(
+            "attendanceDate"
+        ).value =
+        date;
+
+    }
+);
+
+/* FILTER */
+
+function filterAttendance(){
+
+    const search =
+    document
+    .getElementById(
+        "searchInput"
+    )
+    .value
+    .toLowerCase();
+
+    const status =
+    document
+    .getElementById(
+        "statusFilter"
+    )
+    .value
+    .toLowerCase();
+
+    const rows =
+    document
+    .querySelectorAll(
+        "#attendanceList tr"
+    );
+
+    rows.forEach(
+        function(row){
+
+            const text =
+            row.innerText
+            .toLowerCase();
+
+            const searchMatch =
+            text.includes(
+                search
+            );
+
+            const statusMatch =
+            status === "all"
+            ||
+            text.includes(
+                status
+            );
+
+            row.style.display =
+            searchMatch
+            &&
+            statusMatch
+            ?
+            ""
+            :
+            "none";
+
+        }
+    );
+
+}
+
+/* VIEW */
+
+function viewAttendance(
+    name
+){
+
+    alert(
+        "Attendance details for "
+        +
+        name
+    );
+
+}
+
+</script>
+
+</body>
+
+</html>

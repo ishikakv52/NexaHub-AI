@@ -1,0 +1,131 @@
+{% load humanize %}<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Attendance · Staff Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+    <style>
+        :root {
+            --teal-950: #06232a; --teal-900: #0a2e33; --teal-800: #0f3d3e; --teal-700: #14544f;
+            --teal-600: #196b5f; --teal-500: #1f8a72; --gold-500: #c99a3f; --gold-400: #dcb35f;
+            --gold-300: #ecd39a; --parchment: #faf7f0; --parchment-dim: #f1ece0; --ink: #1c211f;
+            --ink-soft: #5c645f; --line: #e7e0d0; --danger: #b5443a; --success: #2f7d5e; --warn: #b8863a;
+            --radius: 14px; --shadow-sm: 0 1px 2px rgba(20,20,10,.06); --shadow-md: 0 10px 30px -12px rgba(10,40,35,.25);
+        }
+        * { box-sizing: border-box; }
+        html, body { height: 100%; }
+        body { margin: 0; font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--parchment); color: var(--ink); }
+        h1, h2, h3, .brand-font { font-family: 'Fraunces', Georgia, serif; }
+        a { text-decoration: none; }
+
+        .portal-top {
+            background: linear-gradient(120deg, var(--teal-950), var(--teal-800) 85%);
+            color: #fff; padding: 20px 26px; display: flex; align-items: center; justify-content: space-between;
+            box-shadow: var(--shadow-md); position: sticky; top: 0; z-index: 10;
+        }
+        .portal-brand { display: flex; align-items: center; gap: 12px; }
+        .portal-brand .mark { width: 40px; height: 40px; border-radius: 11px; background: linear-gradient(135deg, var(--gold-400), var(--gold-500)); display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--teal-950); font-weight: 800; }
+        .portal-brand strong { font-family: 'Fraunces', serif; font-size: 16.5px; display: block; }
+        .portal-brand span { font-size: 10.5px; letter-spacing: 1.4px; color: var(--gold-300); text-transform: uppercase; }
+        .portal-nav { display: flex; gap: 4px; }
+        .portal-nav a { color: #cfe4de; padding: 9px 14px; border-radius: 10px; font-size: 13.5px; font-weight: 500; }
+        .portal-nav a:hover { background: rgba(255,255,255,.08); color: #fff; }
+        .portal-nav a.active { background: rgba(201,154,63,.22); color: #fff; }
+        .portal-user { display: flex; align-items: center; gap: 10px; font-size: 12.5px; color: #cfe4de; }
+        .portal-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--teal-700); display: flex; align-items: center; justify-content: center; color: var(--gold-300); font-weight: 700; font-size: 13px; }
+
+        .portal-content { padding: 28px 26px 60px; max-width: 980px; margin: 0 auto; }
+        .stat-card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow-sm); }
+        .stat-card .icon { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 17px; margin-bottom: 12px; }
+        .stat-card .value { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 600; }
+        .stat-card .label { color: var(--ink-soft); font-size: 12.5px; margin-top: 2px; }
+        .bg-teal-soft { background: #e9f3ef; color: var(--teal-600); }
+        .bg-gold-soft { background: #faf1dd; color: var(--gold-500); }
+        .bg-danger-soft { background: #fbe9e7; color: var(--danger); }
+        .bg-success-soft { background: #e8f5ee; color: var(--success); }
+
+        .panel { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 22px; }
+        .panel-title { font-family: 'Fraunces', serif; font-size: 16.5px; font-weight: 600; margin-bottom: 4px; }
+        .panel-sub { color: var(--ink-soft); font-size: 12.5px; margin-bottom: 16px; }
+
+        .table-erp { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13.6px; }
+        .table-erp thead th { text-align: left; padding: 10px 14px; color: var(--ink-soft); font-size: 11px; text-transform: uppercase; letter-spacing: .8px; border-bottom: 2px solid var(--line); }
+        .table-erp tbody td { padding: 12px 14px; border-bottom: 1px solid #f1ece0; vertical-align: middle; }
+        .table-erp tbody tr:hover { background: #fbf8f1; }
+
+        .badge-soft { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 999px; font-size: 11.5px; font-weight: 600; }
+        .badge-success { background: #e8f5ee; color: var(--success); }
+        .badge-danger { background: #fbe9e7; color: var(--danger); }
+        .badge-warn { background: #faf1dd; color: var(--warn); }
+
+        .checkin-hero { background: linear-gradient(135deg, var(--teal-900), var(--teal-700)); border-radius: 20px; padding: 32px; color: #fff; text-align: center; box-shadow: var(--shadow-md); margin-bottom: 22px; }
+        .checkin-hero .clock { font-family: 'Fraunces', serif; font-size: 40px; font-weight: 600; margin: 6px 0 4px; }
+        .checkin-hero .status-pill { display: inline-block; padding: 6px 16px; border-radius: 999px; font-size: 12.5px; margin-bottom: 18px; background: rgba(255,255,255,.12); }
+        .btn-checkin { background: var(--gold-500); color: var(--teal-950); border: none; font-weight: 700; padding: 14px 34px; border-radius: 12px; font-size: 15px; box-shadow: 0 10px 25px rgba(201,154,63,.35); transition: transform .15s ease; }
+        .btn-checkin:hover { transform: translateY(-2px); }
+        .btn-checkin:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+        .btn-checkout { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,.5); font-weight: 600; padding: 13px 30px; border-radius: 12px; font-size: 14.5px; }
+
+        .alert-erp { border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; font-size: 13.5px; }
+    </style>
+</head>
+<body>
+    <header class="portal-top">
+        <div class="portal-brand">
+            <div class="mark">Rx</div>
+            <div>
+                <strong>{{ store_name }}</strong>
+                <span>Staff Portal</span>
+            </div>
+        </div>
+        <nav class="portal-nav">
+            <a href="{% url 'staff-portal' %}" class="">Dashboard</a>
+            <a href="{% url 'staff-portal-attendance' %}" class="active">Attendance</a>
+            <a href="{% url 'staff-portal-earnings' %}" class="">Earnings</a>
+        </nav>
+        <div class="portal-user">
+            <div class="portal-avatar">{{ request.user.username|default:"E"|first|upper }}</div>
+            <div>
+                <div style="color:#fff;font-weight:600;">{{ request.user.get_full_name|default:request.user.username }}</div>
+                <a href="{% url 'logout' %}" style="color:#9fc0b8;">Sign out</a>
+            </div>
+        </div>
+    </header>
+    <main class="portal-content">
+{% if messages %}
+{% for message in messages %}
+        <div class="alert-erp mb-3" style="background:#e8f5ee;border-color:#cfead9;">{{ message }}</div>
+{% endfor %}
+{% endif %}
+
+        <div class="panel">
+            <div class="panel-title">My Attendance History</div>
+            <div class="panel-sub">Last 90 days. A mismatch means your check-in and what the owner marked don't agree — talk to your manager if you see one.</div>
+            <table class="table-erp">
+                <thead><tr><th>Date</th><th>Check-in</th><th>Check-out</th><th>Status</th><th>Mismatch</th></tr></thead>
+                <tbody>
+                {% for r in records %}
+                    <tr>
+                        <td>{{ r.date }}</td>
+                        <td>{{ r.check_in|time:"H:i"|default:"—" }}</td>
+                        <td>{{ r.check_out|time:"H:i"|default:"—" }}</td>
+                        <td>{% if r.is_present %}<span class="badge-soft badge-success">Present</span>{% else %}<span class="badge-soft badge-danger">{{ r.get_status_display }}</span>{% endif %}</td>
+                        <td>{% if r.has_mismatch %}<span class="badge-soft badge-warn"><i class="fa-solid fa-triangle-exclamation"></i> Check with manager</span>{% else %}—{% endif %}</td>
+                    </tr>
+                {% empty %}
+                    <tr><td colspan="5" class="text-muted text-center py-4">No attendance records yet.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+    <script>
+    </script>
+</body>
+</html>
