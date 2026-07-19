@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order {{ order.order_number }} | {{ company_name }}</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background:#f5f1ea; font-family:'Segoe UI',Roboto,Arial,sans-serif; }
+        .top-bar { background:linear-gradient(135deg,#241812,#8a3f14); color:#fff; padding:18px 20px; border-radius:0 0 18px 18px; margin-bottom:16px; }
+        .status-track { display:flex; justify-content:space-between; margin:20px 0; }
+        .status-step { flex:1; text-align:center; font-size:0.8rem; color:#aaa; position:relative; }
+        .status-step.done { color:#2c7a4b; font-weight:700; }
+        .status-step .dot { width:16px; height:16px; border-radius:50%; background:#ddd; margin:0 auto 6px; }
+        .status-step.done .dot { background:#2c7a4b; }
+        .btn-primary { background:#b3541e; border-color:#b3541e; }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <h4 class="mb-0"><i class="fa-solid fa-receipt"></i> Order {{ order.order_number }}</h4>
+        <div class="small">Live status — updates automatically as the kitchen prepares your food.</div>
+    </div>
+
+    <div class="container" style="max-width:520px;">
+        <div class="card p-3 mb-3">
+            <div class="status-track" id="statusTrack">
+                <div class="status-step" data-status="pending"><div class="dot"></div>Pending</div>
+                <div class="status-step" data-status="preparing"><div class="dot"></div>Preparing</div>
+                <div class="status-step" data-status="ready"><div class="dot"></div>Ready</div>
+                <div class="status-step" data-status="served"><div class="dot"></div>Served</div>
+                <div class="status-step" data-status="completed"><div class="dot"></div>Completed</div>
+            </div>
+            <p class="text-center mb-0">Current status: <strong id="statusLabel">{{ order.get_status_display }}</strong></p>
+        </div>
+
+        <div class="card p-3 mb-3">
+            <h6>Items</h6>
+            <table class="table table-sm mb-0" id="itemsTable">
+                <tbody>
+                {% for i in order.items.all %}
+                    <tr><td>{{ i.menu_item.name }}</td><td class="text-end">x{{ i.quantity }}</td><td class="text-end">{{ i.get_status_display }}</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <hr>
+            <div class="d-flex justify-content-between"><span>Grand Total</span><strong>₹{{ order.grand_total }}</strong></div>
+        </div>
+
+        {% if upi_supported %}
+        <div class="card p-3 text-center">
+            <h6 class="mb-2"><i class="fa-solid fa-qrcode"></i> Pay via UPI</h6>
+            {% if not order.is_paid %}
+            <img src="{% url 'order_upi_qr' order.pk %}" class="img-fluid rounded border p-2 bg-white mx-auto" style="max-width:200px;">
+            <p class="small text-muted mt-2">Scan with any UPI app (GPay, PhonePe, Paytm), or tap the button below if you're on your phone.</p>
+            <a href="{{ upi_link }}" id="upiDeepLink" class="btn btn-primary w-100"><i class="fa-solid fa-mobile-screen-button"></i> Pay ₹{{ order.grand_total }} Now</a>
+            {% else %}
+            <span class="badge bg-success py-2 px-3">Payment Received — thank you!</span>
+            {% endif %}
+        </div>
+        {% elif order.payment_method %}
+        <div class="card p-3 text-center">
+            {% if order.is_paid %}
+            <span class="badge bg-success py-2 px-3">Payment Received — thank you!</span>
+            {% else %}
+            <p class="mb-0"><i class="fa-solid fa-money-bill-wave"></i> Pay by <strong>{{ order.get_payment_method_display }}</strong> at your table — a staff member will collect it.</p>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <a href="{% url 'customer_menu' %}" class="btn btn-outline-secondary w-100 mt-3"><i class="fa-solid fa-arrow-left"></i> Back to Menu</a>
+
+        <div class="card p-3 text-center mt-3" id="reviewCard" style="{% if not can_review and not review %}display:none;{% endif %}">
+            {% if review %}
+            <h6 class="mb-2"><i class="fa-solid fa-star text-warning"></i> Thanks for your review!</h6>
+            <div style="font-size:1.6rem;">
+                {% for i in "12345" %}<i class="fa-{% if forloop.counter <= review.rating %}solid{% else %}regular{% endif %} fa-star {% if forloop.counter <= review.rating %}text-warning{% endif %}"></i>{% endfor %}
+            </div>
+            {% if review.comment %}<p class="text-muted small mt-2 mb-0">"{{ review.comment }}"</p>{% endif %}
+            {% else %}
+            <h6 class="mb-2">How was your experience?</h6>
+            <div id="starPicker" style="font-size:2rem; cursor:pointer;">
+                {% for i in "12345" %}<i class="fa-regular fa-star star-pick" data-value="{{ forloop.counter }}"></i>{% endfor %}
+            </div>
+            <textarea id="reviewComment" class="form-control mt-2" rows="2" placeholder="Anything you'd like to share? (optional)"></textarea>
+            <button type="button" id="submitReviewBtn" class="btn btn-primary w-100 mt-2" disabled><i class="fa-solid fa-paper-plane"></i> Submit Review</button>
+            <div class="text-danger small mt-1" id="reviewError"></div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+    
+
+    let selectedRating = 0;
+    document.querySelectorAll('.star-pick').forEach(star => {
+        star.addEventListener('click', function() {
+            selectedRating = parseInt(this.dataset.value, 10);
+            document.querySelectorAll('.star-pick').forEach(s => {
+                const filled = parseInt(s.dataset.value, 10) <= selectedRating;
+                s.classList.toggle('fa-solid', filled);
+                s.classList.toggle('fa-regular', !filled);
+                s.classList.toggle('text-warning', filled);
+            });
+            document.getElementById('submitReviewBtn').disabled = false;
+        });
+    });
+
+    const submitReviewBtn = document.getElementById('submitReviewBtn');
+    if (submitReviewBtn) {
+        submitReviewBtn.addEventListener('click', function() {
+            const errorBox = document.getElementById('reviewError');
+            errorBox.innerText = '';
+            fetch("{% url 'submit_review' order.pk %}", {
+                method: 'POST',
+                headers: { 'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'rating=' + selectedRating + '&comment=' + encodeURIComponent(document.getElementById('reviewComment').value)
+            }).then(r => r.json()).then(d => {
+                if (d.success) { location.reload(); } else { errorBox.innerText = d.error || 'Could not submit review.'; }
+            });
+        });
+    }
+
+    function refreshStatus() {
+        fetch("{% url 'customer_order_status_json' order.pk %}")
+            .then(r => r.json())
+            .then(d => {
+                if (!d.success) return;
+                document.getElementById('statusLabel').innerText = d.status_display;
+                const order = ['pending', 'preparing', 'ready', 'served', 'completed'];
+                const currentIdx = order.indexOf(d.status);
+                document.querySelectorAll('.status-step').forEach(step => {
+                    const idx = order.indexOf(step.dataset.status);
+                    step.classList.toggle('done', idx <= currentIdx && currentIdx !== -1);
+                });
+                if (d.can_review) {
+                    document.getElementById('reviewCard').style.display = '';
+                }
+            });
+    }
+    refreshStatus();
+    setInterval(refreshStatus, 6000);
+    </script>
+</body>
+</html>

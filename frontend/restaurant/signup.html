@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Sign Up | RestaurantERP</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg,#241812,#8a3f14);
+            min-height:100vh; display:flex; align-items:center; justify-content:center;
+            font-family:'Segoe UI',Roboto,Arial,sans-serif; margin:0; padding: 30px 12px;
+        }
+        .signup-card { background:#fff; border-radius:16px; padding:40px; max-width:460px; width:100%; box-shadow:0 10px 30px rgba(0,0,0,0.3); }
+        .signup-card h3 { text-align:center; margin-bottom:6px; color:#2b1d14; }
+        .signup-card p.subtitle { text-align:center; color:#8a7968; margin-bottom:24px; font-size:0.9rem; }
+        .btn-primary { background:#b3541e; border-color:#b3541e; }
+        .btn-primary:hover { background:#8a3f14; border-color:#8a3f14; }
+        .back-link { display:block; text-align:center; margin-top:16px; color:#8a7968; font-size:0.85rem; }
+    </style>
+</head>
+<body>
+    <div class="signup-card">
+        <h3><i class="fa-solid fa-crown text-danger"></i> Owner Sign Up</h3>
+        <p class="subtitle">Ye account sirf restaurant ke Owner ke liye hai. Staff/Employee logins Owner khud "Add Employee" se banayega.</p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% load crispy_forms_tags %}
+        <form method="post">
+            {% csrf_token %}
+            {% crispy form %}
+        </form>
+        <a href="{% url 'login_select' %}" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to login options</a>
+    </div>
+</body>
+</html>

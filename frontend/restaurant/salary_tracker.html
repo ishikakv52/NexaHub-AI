@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Tracker | {{ company_name }}</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        :root {
+            --sidebar-w: 260px;
+            --primary: #b3541e;
+            --primary-dark: #8a3f14;
+            --dark: #2b1d14;
+            --sidebar-bg: #241812;
+        }
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Roboto, Arial, sans-serif; background: #f5f1ea; margin: 0; color: #2b1d14; }
+        .sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: var(--sidebar-w); background: linear-gradient(180deg, var(--sidebar-bg), #180f0a); color: #f0e6d8; overflow-y: auto; z-index: 1000; padding-bottom: 30px; }
+        .sidebar .brand { padding: 20px 18px; font-size: 1.25rem; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; gap: 10px; }
+        .sidebar .brand i { color: var(--primary); }
+        .sidebar a.nav-link { color: #d8c9b8; padding: 10px 18px; display: flex; align-items: center; gap: 10px; font-size: 0.92rem; border-left: 3px solid transparent; text-decoration: none; }
+        .sidebar a.nav-link:hover, .sidebar a.nav-link.active { background: rgba(179,84,30,0.18); border-left-color: var(--primary); color: #fff; }
+        .sidebar .section-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: #a89684; padding: 14px 18px 4px; opacity: 0.6; }
+        .main-content { margin-left: var(--sidebar-w); padding: 24px 28px 60px; min-height: 100vh; }
+        .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; flex-wrap: wrap; gap: 10px; }
+        .topbar h2 { margin: 0; font-weight: 700; color: var(--dark); }
+        .card { border: none; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+        .table thead th { background: #efe6d8; border-bottom: none; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px; color: #6b5a48; }
+        .btn-primary { background: var(--primary); border-color: var(--primary); }
+        .btn-primary:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
+        a { color: var(--primary); }
+        @media (max-width: 900px) {
+            .sidebar { transform: translateX(-100%); transition: 0.3s; }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+<div class="sidebar" id="sidebar">
+<div class="brand"><i class="fa-solid fa-fire-burner"></i> {{ company_name }}</div>
+<a class="nav-link" href="{% url 'dashboard' %}"><i class="fa-solid fa-house"></i> Dashboard</a>
+<a class="nav-link" href="{% url 'employee_list' %}"><i class="fa-solid fa-users"></i> Employees</a>
+<a class="nav-link" href="{% url 'staff_list' %}"><i class="fa-solid fa-user-tie"></i> Staff</a>
+<a class="nav-link active" href="{% url 'salary_tracker' %}"><i class="fa-solid fa-money-check-dollar"></i> Salary Tracker</a>
+<a class="nav-link" href="{% url 'attendance_daily' %}"><i class="fa-solid fa-clock"></i> Attendance</a>
+<a class="nav-link" href="{% url 'finance_overview' %}"><i class="fa-solid fa-sack-dollar"></i> Finance</a>
+<a class="nav-link" href="{% url 'settings_business' %}"><i class="fa-solid fa-gear"></i> Settings</a>
+<a class="nav-link" href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+</div>
+<div class="main-content">
+    <div class="topbar">
+        <div>
+            <h2>Salary Tracker</h2>
+            <span class="text-muted small">Pick a worker and record today's attendance + what was paid.</span>
+        </div>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="row g-3">
+        <div class="col-lg-5">
+            <div class="card p-4">
+                <h5 class="mb-1">Daily Labour Entry</h5>
+                <p class="text-muted small mb-3">One entry = one worker's one day: attendance multiplier × rate = amount due, plus the amount paid that day.</p>
+                {% load crispy_forms_tags %}
+                <form method="post">
+                    {% csrf_token %}
+                    {% crispy form %}
+                </form>
+                {{ worker_salary_info|json_script:"worker-salary-data" }}
+                <div class="mt-2 small">
+                    <a href="{% url 'employee_add' %}">+ Add Employee</a> &nbsp;|&nbsp; <a href="{% url 'staff_add' %}">+ Add Staff</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-7">
+            <div class="card p-3">
+                <h5 class="mb-3">Recent Entries</h5>
+                <div style="overflow-x:auto;">
+                <table class="table table-sm align-middle">
+                    <thead><tr><th>Date</th><th>Worker</th><th>Work</th><th>Multiplier</th><th>Rate</th><th>Amount Due</th><th>Given</th><th>Method</th><th>Balance</th></tr></thead>
+                    <tbody>
+                        {% for e in entries %}
+                        <tr>
+                            <td>{{ e.date|date:"d M Y" }}</td>
+                            <td>{{ e.worker_name }}</td>
+                            <td>{{ e.work_description|default:"—" }}</td>
+                            <td>{{ e.attendance_multiplier }}x</td>
+                            <td>₹{{ e.rate }}</td>
+                            <td>₹{{ e.amount_due }}</td>
+                            <td>₹{{ e.amount_given }}</td>
+                            <td>{{ e.get_payment_method_display }}</td>
+                            <td>{% if e.balance < 0 %}<span class="text-success">₹{{ e.balance }}</span>{% elif e.balance > 0 %}<span class="text-danger fw-bold">₹{{ e.balance }}</span>{% else %}₹0{% endif %}</td>
+                        </tr>
+                        {% empty %}<tr><td colspan="9" class="text-center text-muted py-4">No entries yet.</td></tr>{% endfor %}
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script>
+    (function() {
+        var dataEl = document.getElementById('worker-salary-data');
+        if (!dataEl) return;
+        var salaryInfo = JSON.parse(dataEl.textContent || '{}');
+        var workerSelect = document.getElementById('id_worker');
+        var rateInput = document.getElementById('id_rate');
+        if (!workerSelect || !rateInput) return;
+
+        var hint = document.createElement('small');
+        hint.id = 'salaryTypeHint';
+        hint.className = 'form-text d-block mt-1';
+        hint.style.color = '#b3541e';
+        rateInput.closest('.mb-3, .form-group') ? rateInput.closest('.mb-3, .form-group').appendChild(hint) : rateInput.insertAdjacentElement('afterend', hint);
+
+        function applySalaryInfo() {
+            var info = salaryInfo[workerSelect.value];
+            if (!info) { hint.textContent = ''; return; }
+            rateInput.value = info.rate;
+            hint.textContent = info.type + ' — ₹' + info.base + (info.type !== 'Daily Wage' ? ' /month (≈ ₹' + info.rate + ' per day)' : ' /day') + ', auto-fetched. Adjust rate if needed.';
+        }
+
+        workerSelect.addEventListener('change', applySalaryInfo);
+        if (workerSelect.value) applySalaryInfo();
+
+        var multiplierSelect = document.getElementById('id_attendance_multiplier');
+        var customInput = document.getElementById('id_custom_multiplier');
+        var customWrap = customInput ? customInput.closest('.mb-3, .form-group') : null;
+        function toggleCustomMultiplier() {
+            if (!customWrap) return;
+            customWrap.style.display = (multiplierSelect.value === 'custom') ? '' : 'none';
+        }
+        if (multiplierSelect) {
+            multiplierSelect.addEventListener('change', toggleCustomMultiplier);
+            toggleCustomMultiplier();
+        }
+    })();
+    </script>
+</body>
+</html>

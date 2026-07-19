@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Profile | {{ company_name }}</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        :root {
+            --sidebar-w: 260px;
+            --primary: #b3541e;
+            --primary-dark: #8a3f14;
+            --dark: #2b1d14;
+            --sidebar-bg: #241812;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #f5f1ea;
+            margin: 0;
+            color: #2b1d14;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0; left: 0; bottom: 0;
+            width: var(--sidebar-w);
+            background: linear-gradient(180deg, var(--sidebar-bg), #180f0a);
+            color: #f0e6d8;
+            overflow-y: auto;
+            z-index: 1000;
+            padding-bottom: 30px;
+        }
+        .sidebar .brand {
+            padding: 20px 18px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .sidebar .brand i { color: var(--primary); }
+        .sidebar a.nav-link {
+            color: #d8c9b8;
+            padding: 10px 18px;
+            display: flex; align-items: center; gap: 10px;
+            font-size: 0.92rem;
+            border-left: 3px solid transparent;
+            text-decoration: none;
+        }
+        .sidebar a.nav-link:hover, .sidebar a.nav-link.active {
+            background: rgba(179,84,30,0.18);
+            border-left-color: var(--primary);
+            color: #fff;
+        }
+        .sidebar .section-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #a89684;
+            padding: 14px 18px 4px;
+            opacity: 0.6;
+        }
+        .main-content {
+            margin-left: var(--sidebar-w);
+            padding: 24px 28px 60px;
+            min-height: 100vh;
+        }
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .topbar h2 { margin: 0; font-weight: 700; color: var(--dark); }
+        .card {
+            border: none;
+            border-radius: 14px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+        }
+        .kpi-card {
+            border-radius: 16px;
+            padding: 18px 20px;
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+        }
+        .kpi-card .kpi-value { font-size: 1.7rem; font-weight: 700; }
+        .kpi-card .kpi-label { font-size: 0.82rem; opacity: 0.9; }
+        .kpi-1 { background: linear-gradient(135deg,#b3541e,#8a3f14); }
+        .kpi-2 { background: linear-gradient(135deg,#2c7a4b,#1e5c37); }
+        .kpi-3 { background: linear-gradient(135deg,#1f6f8b,#154d61); }
+        .kpi-4 { background: linear-gradient(135deg,#a13a3a,#7c2a2a); }
+        .badge-status { padding: 5px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; }
+        .table thead th {
+            background: #efe6d8;
+            border-bottom: none;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #6b5a48;
+        }
+        .btn-primary { background: var(--primary); border-color: var(--primary); }
+        .btn-primary:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
+        a { color: var(--primary); }
+        .low-stock-row { background: #fdecec !important; }
+        .table-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 14px;
+        }
+        .table-tile {
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .status-available { background: #2c7a4b; }
+        .status-occupied { background: #a13a3a; }
+        .status-reserved { background: #b3941e; }
+        .status-maintenance { background: #6b6b6b; }
+        @media (max-width: 900px) {
+            .sidebar { transform: translateX(-100%); transition: 0.3s; }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; }
+        }
+    </style>
+
+</head>
+<body>
+<div class="sidebar" id="sidebar">
+<div class="brand"><i class="fa-solid fa-fire-burner"></i> {{ company_name }}</div>
+{% if is_owner_user %}
+<a class="nav-link" href="{% url 'dashboard' %}"><i class="fa-solid fa-house"></i> Dashboard</a>
+{% else %}
+<a class="nav-link" href="{% url 'staff_portal' %}"><i class="fa-solid fa-user-tie"></i> My Portal</a>
+{% endif %}
+{% if is_owner_user %}<a class="nav-link active" href="{% url 'employee_list' %}"><i class="fa-solid fa-users"></i> Employees</a>{% endif %}
+{% if is_owner_user %}<a class="nav-link" href="{% url 'staff_list' %}"><i class="fa-solid fa-user-tie"></i> Staff</a>{% endif %}
+{% if is_owner_user %}<a class="nav-link" href="{% url 'salary_tracker' %}"><i class="fa-solid fa-money-check-dollar"></i> Salary Tracker</a>{% endif %}
+<a class="nav-link" href="{% url 'attendance_daily' %}"><i class="fa-solid fa-clock"></i> Attendance</a>
+<a class="nav-link" href="{% url 'table_list' %}"><i class="fa-solid fa-utensils"></i> Tables</a>
+<a class="nav-link" href="{% url 'order_list' %}"><i class="fa-solid fa-receipt"></i> Orders</a>
+<a class="nav-link" href="{% url 'kitchen_display' %}"><i class="fa-solid fa-kitchen-set"></i> Kitchen</a>
+<a class="nav-link" href="{% url 'menu_list' %}"><i class="fa-solid fa-book-open"></i> Menu</a>
+{% if is_owner_user %}<a class="nav-link" href="{% url 'inventory_list' %}"><i class="fa-solid fa-boxes-stacked"></i> Inventory</a>{% endif %}
+{% if is_owner_user %}<a class="nav-link" href="{% url 'supplier_list' %}"><i class="fa-solid fa-truck-field"></i> Suppliers</a>{% endif %}
+{% if is_owner_user %}<a class="nav-link" href="{% url 'customer_list' %}"><i class="fa-solid fa-address-book"></i> Customers</a>{% endif %}
+<a class="nav-link" href="{% url 'reservation_calendar' %}"><i class="fa-solid fa-calendar-days"></i> Reservations</a>
+{% if is_owner_user %}<a class="nav-link" href="{% url 'delivery_dashboard' %}"><i class="fa-solid fa-truck"></i> Delivery</a>{% endif %}
+{% if is_owner_user %}<a class="nav-link" href="{% url 'finance_overview' %}"><i class="fa-solid fa-sack-dollar"></i> Finance</a>{% endif %}
+{% if is_owner_user %}<a class="nav-link" href="{% url 'reports_insights' %}"><i class="fa-solid fa-chart-line"></i> Reports</a>{% endif %}
+{% if is_owner_user %}<a class="nav-link" href="{% url 'reminder_list' %}"><i class="fa-solid fa-bell"></i> Reminders</a>{% endif %}
+{% if is_owner_user %}<a class="nav-link" href="{% url 'settings_business' %}"><i class="fa-solid fa-gear"></i> Settings</a>{% endif %}
+{% if is_owner_user %}
+<div class="section-label">Bonus</div>
+<a class="nav-link" href="{% url 'pos_billing' %}"><i class="fa-solid fa-cash-register"></i> POS</a>
+<a class="nav-link" href="{% url 'recipe_list' %}"><i class="fa-solid fa-blender"></i> Recipes</a>
+<a class="nav-link" href="{% url 'loyalty_dashboard' %}"><i class="fa-solid fa-gift"></i> Loyalty</a>
+{% endif %}
+<a class="nav-link" href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+</div><div class="main-content">
+    <div class="topbar">
+        <div>
+            <h2>Employee Profile</h2>
+            
+        </div>
+        <div></div>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="card p-3 text-center">
+                {% if employee.profile_pic %}<img src="{{ employee.profile_pic.url }}" class="rounded-circle mb-3" width="120" height="120" style="object-fit:cover;">{% else %}<i class="fa-solid fa-circle-user fa-6x text-secondary mb-3"></i>{% endif %}
+                <h5>{{ employee.user.get_full_name|default:employee.user.username }}</h5>
+                <p class="text-muted mb-1">{{ employee.designation }}</p>
+                <p class="text-muted">{{ employee.employee_id }}</p>
+                <hr>
+                <p><i class="fa-solid fa-phone"></i> {{ employee.phone }}</p>
+                <p><i class="fa-solid fa-building"></i> {{ employee.department }}</p>
+                <p><i class="fa-solid fa-calendar"></i> Joined {{ employee.date_joined }}</p>
+                <p><i class="fa-solid fa-sack-dollar"></i> ₹{{ employee.salary }} {% if employee.salary_payment_frequency == 'half_month' %}/ month (₹{{ current_period_amount }} per 15 days){% elif employee.salary_payment_frequency == 'daily' %}/ day{% else %}/ month{% endif %}</p>
+                {% if paid_this_period %}
+                <span class="badge bg-success py-2 px-3 w-100">Paid for {{ current_period_label }}</span>
+                {% else %}
+                <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#paySalaryModal">
+                    <i class="fa-solid fa-money-bill-wave"></i> Pay Salary
+                </button>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card p-3 mb-3">
+                <h6>Attendance Timeline</h6>
+                <ul class="list-group list-group-flush">
+                    {% for a in attendances %}
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>{{ a.date }}</span>
+                        <span>{% if a.is_present %}<span class="badge bg-success">Present</span>{% else %}<span class="badge bg-danger">Absent</span>{% endif %} {{ a.check_in|default:"-" }} - {{ a.check_out|default:"-" }}</span>
+                    </li>
+                    {% empty %}<li class="list-group-item text-muted">No attendance records yet.</li>{% endfor %}
+                </ul>
+            </div>
+            <div class="card p-3">
+                <h6>Salary Payment History</h6>
+                <table class="table table-sm mb-0">
+                    <thead><tr><th>Period</th><th>Amount</th><th>Paid On</th></tr></thead>
+                    <tbody>
+                        {% for p in salary_payments %}
+                        <tr><td>{{ p.period_label|default:p.period_start }}</td><td>₹{{ p.amount }}</td><td>{{ p.paid_on }}</td></tr>
+                        {% empty %}<tr><td colspan="3" class="text-center text-muted py-3">No salary payments recorded yet.</td></tr>{% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Pay Salary modal -->
+    <div class="modal fade" id="paySalaryModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title">Pay Salary — {{ current_period_label }}</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <label class="form-label">Amount</label>
+                    <input type="number" step="0.01" min="0" id="salaryAmount" class="form-control" value="{{ current_period_amount }}">
+                    <label class="form-label mt-2">Notes (optional)</label>
+                    <input type="text" id="salaryNotes" class="form-control" placeholder="e.g. paid via bank transfer">
+                    <p class="small text-muted mt-2 mb-0">This will automatically add a "Staff Salary" expense entry in Finance.</p>
+                    <div class="text-danger small mt-1" id="salaryError"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success btn-sm" id="confirmPaySalaryBtn">Confirm Payment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    
+    const confirmBtn = document.getElementById('confirmPaySalaryBtn');
+    if (confirmBtn) {
+        confirmBtn.addEventListener('click', function() {
+            const amount = document.getElementById('salaryAmount').value;
+            const notes = document.getElementById('salaryNotes').value;
+            const errorBox = document.getElementById('salaryError');
+            errorBox.innerText = '';
+            fetch("{% url 'pay_salary' 'employee' employee.pk %}", {
+                method: 'POST',
+                headers: { 'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'amount=' + encodeURIComponent(amount) + '&notes=' + encodeURIComponent(notes)
+            }).then(r => r.json()).then(d => {
+                if (d.success) { location.reload(); } else { errorBox.innerText = d.error || 'Could not record payment.'; }
+            });
+        });
+    }
+    </script>
+</body>
+</html>

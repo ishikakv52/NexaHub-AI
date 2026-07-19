@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Portal | {{ company_name }}</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        :root {
+            --sidebar-w: 260px;
+            --primary: #b3541e;
+            --primary-dark: #8a3f14;
+            --dark: #2b1d14;
+            --sidebar-bg: #241812;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #f5f1ea;
+            margin: 0;
+            color: #2b1d14;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0; left: 0; bottom: 0;
+            width: var(--sidebar-w);
+            background: linear-gradient(180deg, var(--sidebar-bg), #180f0a);
+            color: #f0e6d8;
+            overflow-y: auto;
+            z-index: 1000;
+            padding-bottom: 30px;
+        }
+        .sidebar .brand {
+            padding: 20px 18px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .sidebar .brand i { color: var(--primary); }
+        .sidebar a.nav-link {
+            color: #d8c9b8;
+            padding: 10px 18px;
+            display: flex; align-items: center; gap: 10px;
+            font-size: 0.92rem;
+            border-left: 3px solid transparent;
+            text-decoration: none;
+        }
+        .sidebar a.nav-link:hover, .sidebar a.nav-link.active {
+            background: rgba(179,84,30,0.18);
+            border-left-color: var(--primary);
+            color: #fff;
+        }
+        .main-content { margin-left: var(--sidebar-w); padding: 24px 28px 60px; min-height: 100vh; }
+        .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; flex-wrap: wrap; gap: 10px; }
+        .topbar h2 { margin: 0; font-weight: 700; color: var(--dark); }
+        .card { border: none; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+        .kpi-card { border-radius: 16px; padding: 18px 20px; color: #fff; box-shadow: 0 4px 14px rgba(0,0,0,0.12); }
+        .kpi-card .kpi-value { font-size: 1.6rem; font-weight: 700; }
+        .kpi-card .kpi-label { font-size: 0.82rem; opacity: 0.9; }
+        .kpi-card .kpi-sublabel { font-size: 0.72rem; opacity: 0.75; margin-top: 2px; }
+        .kpi-1 { background: linear-gradient(135deg,#b3541e,#8a3f14); }
+        .kpi-2 { background: linear-gradient(135deg,#2c7a4b,#1e5c37); }
+        .kpi-3 { background: linear-gradient(135deg,#1f6f8b,#154d61); }
+        .kpi-4 { background: linear-gradient(135deg,#a13a3a,#7c2a2a); }
+        .table thead th { background: #efe6d8; border-bottom: none; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px; color: #6b5a48; }
+        .btn-primary { background: var(--primary); border-color: var(--primary); }
+        .btn-primary:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
+        a { color: var(--primary); }
+        .table-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
+        .table-tile { border-radius: 14px; padding: 16px; text-align: center; color: #fff; font-weight: 600; cursor: pointer; }
+        .status-available { background: #2c7a4b; }
+        .status-occupied { background: #a13a3a; }
+        .status-reserved { background: #b3941e; }
+        .status-maintenance { background: #6b6b6b; }
+        .nav-tabs .nav-link { color: #6b5a48; font-weight: 600; }
+        .nav-tabs .nav-link.active { color: var(--primary); border-bottom: 3px solid var(--primary); }
+        .avail-switch:checked { background-color: #2c7a4b; border-color: #2c7a4b; }
+        @media (max-width: 900px) {
+            .sidebar { transform: translateX(-100%); transition: 0.3s; }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+<div class="sidebar" id="sidebar">
+<div class="brand"><i class="fa-solid fa-fire-burner"></i> {{ company_name }}</div>
+<a class="nav-link active" href="{% url 'staff_portal' %}"><i class="fa-solid fa-user-tie"></i> My Portal</a>
+<a class="nav-link" href="{% url 'order_create' %}"><i class="fa-solid fa-plus"></i> New Order</a>
+<a class="nav-link" href="{% url 'order_list' %}"><i class="fa-solid fa-receipt"></i> All Orders</a>
+<a class="nav-link" href="{% url 'kitchen_display' %}"><i class="fa-solid fa-kitchen-set"></i> Kitchen Display</a>
+<a class="nav-link" href="{% url 'table_list' %}"><i class="fa-solid fa-utensils"></i> Tables (full view)</a>
+<a class="nav-link" href="{% url 'reservation_calendar' %}"><i class="fa-solid fa-calendar-days"></i> Reservation Calendar</a>
+<a class="nav-link" href="{% url 'attendance_daily' %}"><i class="fa-solid fa-clock"></i> Attendance Register</a>
+<a class="nav-link" href="{% url 'reminder_list' %}"><i class="fa-solid fa-bell"></i> Reminders {% if my_unread_reminders %}<span class="badge bg-danger rounded-pill">{{ my_unread_reminders }}</span>{% endif %}</a>
+<a class="nav-link" href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+</div>
+<div class="main-content">
+    <div class="topbar">
+        <div>
+            <h2>Welcome, {{ employee.user.get_full_name|default:employee.user.username }}</h2>
+            <span class="text-muted small">{{ employee.get_role_display }}{% if employee.designation %} · {{ employee.designation }}{% endif %}</span>
+        </div>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <ul class="nav nav-tabs mb-3" id="portalTabs">
+        <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-overview" type="button">Overview</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-order" type="button">Take Order</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-tables" type="button">Tables &amp; Customers</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-menu" type="button">Menu Status</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-reservations" type="button">Reservations</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-salary" type="button">My Salary</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-orders" type="button">Order Status</button></li>
+    </ul>
+
+    <div class="tab-content">
+        <!-- OVERVIEW: attendance + balance -->
+        <div class="tab-pane fade show active" id="tab-overview">
+            <div class="row g-3 mb-3">
+                <div class="col-md-4"><div class="kpi-card kpi-1"><div class="kpi-value">{{ employee.salary|default:0 }}</div><div class="kpi-label">Salary (₹)</div><div class="kpi-sublabel">{{ employee.get_salary_payment_frequency_display }}</div></div></div>
+                <div class="col-md-4"><div class="kpi-card kpi-2"><div class="kpi-value">{{ days_present }}</div><div class="kpi-label">Days Present (this month)</div></div></div>
+                <div class="col-md-4"><div class="kpi-card kpi-4"><div class="kpi-value">{{ days_absent }}</div><div class="kpi-label">Days Absent (this month)</div></div></div>
+            </div>
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <div class="card p-3 h-100">
+                        <div class="d-flex align-items-center gap-3">
+                            <div style="font-size:2rem; color:#b3541e;"><i class="fa-solid fa-receipt"></i></div>
+                            <div>
+                                <div class="text-muted small">Orders Today</div>
+                                <div style="font-size:1.8rem; font-weight:700;">{{ today_order_count }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card p-3 h-100">
+                        <div class="d-flex align-items-center gap-3 mb-2">
+                            <div style="font-size:2rem; color:#e0a30d;"><i class="fa-solid fa-star"></i></div>
+                            <div>
+                                <div class="text-muted small">Customer Reviews (Overall)</div>
+                                {% if review_summary.average %}
+                                <div style="font-size:1.8rem; font-weight:700;">{{ review_summary.average }} <span class="fs-6 text-muted">/ 5 ({{ review_summary.count }} review{{ review_summary.count|pluralize }})</span></div>
+                                {% else %}
+                                <div class="text-muted">No reviews yet</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card p-3 mb-3">
+                <h6>Today's Attendance</h6>
+                <p class="mb-2 small text-muted">
+                    Check-in: <strong>{{ todays_attendance.check_in|default:"—" }}</strong> &nbsp;|&nbsp;
+                    Check-out: <strong>{{ todays_attendance.check_out|default:"—" }}</strong>
+                </p>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-success btn-sm" id="checkInBtn"><i class="fa-solid fa-right-to-bracket"></i> Check In</button>
+                    <button class="btn btn-outline-danger btn-sm" id="checkOutBtn"><i class="fa-solid fa-right-from-bracket"></i> Check Out</button>
+                </div>
+            </div>
+            <div class="card p-3">
+                <h6>Attendance — This Month</h6>
+                <p class="small text-muted mb-2"><span class="badge" style="background:#fdecec; color:#a13a3a; border:1px solid #f3c8c8;">Red row</span> = your self-marked attendance doesn't match what the Owner set — please check with them.</p>
+                <table class="table table-sm">
+                    <thead><tr><th>Date</th><th>Check-in</th><th>Check-out</th><th>Present</th></tr></thead>
+                    <tbody>
+                        {% for a in attendance_qs %}
+                        <tr {% if a.has_mismatch %}style="background:#fdecec;"{% endif %}>
+                            <td>{{ a.date }} {% if a.has_mismatch %}<i class="fa-solid fa-triangle-exclamation text-danger"></i>{% endif %}</td>
+                            <td>{{ a.check_in|default:"—" }}</td><td>{{ a.check_out|default:"—" }}</td>
+                        <td>{% if a.is_present %}<span class="badge bg-success">Present</span>{% else %}<span class="badge bg-danger">Absent</span>{% endif %}</td></tr>
+                        {% empty %}<tr><td colspan="4" class="text-center text-muted py-3">No attendance recorded yet.</td></tr>{% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAKE ORDER -->
+        <div class="tab-pane fade" id="tab-order">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="mb-0">Tap a table to start an order, or take a walk-in / takeaway order</h6>
+                <a href="{% url 'order_create' %}" class="btn btn-primary btn-sm"><i class="fa-solid fa-plus"></i> Walk-in / Takeaway Order</a>
+            </div>
+            <div class="table-card-grid">
+                {% for t in tables %}
+                <a href="{% url 'order_create' %}?table={{ t.id }}" class="table-tile status-{{ t.status }}" style="text-decoration:none;">
+                    <div style="font-size:1.3rem;"><i class="fa-solid fa-utensils"></i></div>
+                    <div>Table {{ t.table_number }}</div>
+                    <div class="small">{{ t.get_status_display }}</div>
+                    <div class="small">{{ t.capacity }} seats</div>
+                </a>
+                {% empty %}<p class="text-muted">No tables configured yet.</p>{% endfor %}
+            </div>
+        </div>
+
+        <!-- TABLES & CUSTOMERS -->
+        <div class="tab-pane fade" id="tab-tables">
+            <div class="card p-3">
+                <table class="table table-sm align-middle">
+                    <thead><tr><th>Table</th><th>Status</th><th>Waiter</th><th>Current Order</th><th>Customer</th><th>Order Status</th><th>Customer QR</th></tr></thead>
+                    <tbody>
+                        {% for t in tables %}
+                        <tr>
+                            <td>Table {{ t.table_number }}</td>
+                            <td>
+                                <select class="form-select form-select-sm status-select" data-id="{{ t.id }}" style="min-width:130px;">
+                                    <option value="available" {% if t.status == 'available' %}selected{% endif %}>Available</option>
+                                    <option value="occupied" {% if t.status == 'occupied' %}selected{% endif %}>Occupied</option>
+                                    <option value="reserved" {% if t.status == 'reserved' %}selected{% endif %}>Reserved</option>
+                                    <option value="maintenance" {% if t.status == 'maintenance' %}selected{% endif %}>Maintenance</option>
+                                </select>
+                            </td>
+                            <td>{{ t.assigned_waiter|default:"—" }}</td>
+                            <td>{% if t.active_order %}<a href="{% url 'order_detail' t.active_order.pk %}">{{ t.active_order.order_number }}</a>{% else %}—{% endif %}</td>
+                            <td>{% if t.active_order.customer %}{{ t.active_order.customer.name }}{% elif t.active_order %}Walk-in{% else %}—{% endif %}</td>
+                            <td>{% if t.active_order %}<span class="badge bg-secondary">{{ t.active_order.get_status_display }}</span>{% else %}—{% endif %}</td>
+                            <td>
+                                {% if t.qr_code %}<img src="{{ t.qr_code.url }}" class="rounded border p-1 bg-white me-1" style="width:40px;height:40px;">{% endif %}
+                                <button type="button" class="btn btn-sm btn-outline-primary qr-gen-btn" data-id="{{ t.id }}">
+                                    <i class="fa-solid fa-qrcode"></i> {% if t.qr_code %}Regenerate{% else %}Generate{% endif %}
+                                </button>
+                            </td>
+                        </tr>
+                        {% empty %}<tr><td colspan="7" class="text-center text-muted py-3">No tables configured yet.</td></tr>{% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <form id="qrForm" method="post" style="display:none;">{% csrf_token %}</form>
+
+        <!-- MENU STATUS -->
+        <div class="tab-pane fade" id="tab-menu">
+            <div class="card p-3">
+                <table class="table table-sm align-middle">
+                    <thead><tr><th>Item</th><th>Category</th><th>Price</th><th>Active</th></tr></thead>
+                    <tbody>
+                        {% for item in menu_items %}
+                        <tr>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.category.name }}</td>
+                            <td>₹{{ item.price }}</td>
+                            <td><div class="form-check form-switch">
+                                <input class="form-check-input avail-toggle" type="checkbox" data-id="{{ item.id }}" {% if item.is_available %}checked{% endif %}>
+                            </div></td>
+                        </tr>
+                        {% empty %}<tr><td colspan="4" class="text-center text-muted py-3">No menu items yet.</td></tr>{% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- RESERVATIONS -->
+        <div class="tab-pane fade" id="tab-reservations">
+            <div class="card p-3">
+                <table class="table table-sm">
+                    <thead><tr><th>Customer</th><th>Table</th><th>Date/Time</th><th>Guests</th><th>Status</th></tr></thead>
+                    <tbody>
+                        {% for r in reservations_upcoming %}
+                        <tr><td>{{ r.customer.name }}</td><td>{{ r.table|default:"—" }}</td><td>{{ r.reservation_date_time }}</td><td>{{ r.number_of_guests }}</td>
+                        <td><span class="badge bg-info text-dark">{{ r.get_status_display }}</span></td></tr>
+                        {% empty %}<tr><td colspan="5" class="text-center text-muted py-3">No upcoming reservations.</td></tr>{% endfor %}
+                    </tbody>
+                </table>
+                <a href="{% url 'reservation_calendar' %}" class="btn btn-sm btn-outline-primary mt-2">Open Full Calendar</a>
+            </div>
+        </div>
+
+        <!-- MY SALARY -->
+        <div class="tab-pane fade" id="tab-salary">
+            <div class="card p-4 mb-3 text-center">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="text-muted small">Total Earned</div>
+                        <div style="font-size:1.8rem; font-weight:700;">₹{{ my_total_earned }}</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="text-muted small">Total Received</div>
+                        <div style="font-size:1.8rem; font-weight:700;">₹{{ my_total_received }}</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="text-muted small">{% if my_balance > 0 %}Advance{% elif my_balance < 0 %}Owed to You{% else %}Balance{% endif %}</div>
+                        <div style="font-size:1.8rem; font-weight:700;" class="{% if my_balance > 0 %}text-primary{% elif my_balance < 0 %}text-danger{% endif %}">₹{{ my_balance|floatformat:0|cut:"-" }}</div>
+                    </div>
+                </div>
+                {% if my_balance > 0 %}
+                <p class="text-muted small mb-0 mt-2">You've received an advance (more than you've earned so far).</p>
+                {% elif my_balance < 0 %}
+                <p class="text-muted small mb-0 mt-2">The restaurant still owes you for some completed work.</p>
+                {% endif %}
+            </div>
+            <div class="card p-3">
+                <h6>My Attendance &amp; Work Log</h6>
+                <div style="overflow-x:auto;">
+                <table class="table table-sm mb-0">
+                    <thead><tr><th>Date</th><th>Work Done</th><th>Attendance</th><th>Rate</th><th>Amount Due</th><th>Received</th><th>Method</th><th>Balance</th></tr></thead>
+                    <tbody>
+                        {% for e in my_salary_entries %}
+                        <tr>
+                            <td>{{ e.date|date:"d M Y" }}</td>
+                            <td>{{ e.work_description|default:"—" }}</td>
+                            <td>{{ e.attendance_multiplier }}x</td>
+                            <td>₹{{ e.rate }}</td>
+                            <td>₹{{ e.amount_due }}</td>
+                            <td>₹{{ e.amount_given }}</td>
+                            <td>{{ e.get_payment_method_display }}</td>
+                            <td>{% if e.balance < 0 %}<span class="text-success">₹{{ e.balance }}</span>{% elif e.balance > 0 %}<span class="text-danger fw-bold">₹{{ e.balance }}</span>{% else %}₹0{% endif %}</td>
+                        </tr>
+                        {% empty %}<tr><td colspan="8" class="text-center text-muted py-3">No entries recorded yet.</td></tr>{% endfor %}
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ACTIVE ORDER STATUS -->
+        <div class="tab-pane fade" id="tab-orders">
+            <div class="card p-3">
+                <table class="table table-sm">
+                    <thead><tr><th>Order #</th><th>Table</th><th>Customer</th><th>Total</th><th>Status</th><th>Payment</th></tr></thead>
+                    <tbody>
+                        {% for o in active_orders %}
+                        <tr>
+                            <td><a href="{% url 'order_detail' o.pk %}">{{ o.order_number }}</a></td>
+                            <td>{{ o.table|default:"—" }}</td>
+                            <td>{{ o.customer.name|default:"Walk-in" }}</td>
+                            <td>₹{{ o.grand_total }}</td>
+                            <td><span class="badge bg-secondary">{{ o.get_status_display }}</span></td>
+                            <td>{{ o.get_payment_method_display|default:"—" }} {% if o.payment_method and not o.is_paid %}<span class="badge bg-warning text-dark">Unpaid</span>{% elif o.is_paid %}<span class="badge bg-success">Paid</span>{% endif %}</td>
+                        </tr>
+                        {% empty %}<tr><td colspan="6" class="text-center text-muted py-3">No active orders right now.</td></tr>{% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+    <script>
+    function csrf() { return '{{ csrf_token }}'; }
+
+    document.getElementById('checkInBtn').addEventListener('click', () => {
+        fetch("{% url 'attendance_self_mark' %}", {
+            method: 'POST',
+            headers: { 'X-CSRFToken': csrf(), 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'action=check_in'
+        }).then(r => r.json()).then(d => { if (d.success) location.reload(); });
+    });
+    document.getElementById('checkOutBtn').addEventListener('click', () => {
+        fetch("{% url 'attendance_self_mark' %}", {
+            method: 'POST',
+            headers: { 'X-CSRFToken': csrf(), 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'action=check_out'
+        }).then(r => r.json()).then(d => { if (d.success) location.reload(); });
+    });
+
+    document.querySelectorAll('.status-select').forEach(sel => {
+        sel.addEventListener('change', function() {
+            fetch("/tables/status/" + this.dataset.id + "/", {
+                method: 'POST',
+                headers: { 'X-CSRFToken': csrf(), 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'status=' + this.value
+            }).then(r => r.json()).then(d => { if (!d.success) alert('Could not update table status.'); });
+        });
+    });
+
+    document.querySelectorAll('.qr-gen-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const form = document.getElementById('qrForm');
+            form.action = "/tables/" + btn.dataset.id + "/qr/";
+            form.submit();
+        });
+    });
+
+    document.querySelectorAll('.avail-toggle').forEach(chk => {
+        chk.addEventListener('change', function() {
+            fetch(`/menu/${this.dataset.id}/toggle/`, {
+                method: 'POST',
+                headers: { 'X-CSRFToken': csrf() },
+            }).then(r => r.json()).then(d => { if (!d.success) alert('Could not update menu item.'); });
+        });
+    });
+    </script>
+</body>
+</html>

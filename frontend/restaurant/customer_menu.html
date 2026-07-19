@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu | Table {{ table.table_number }} | {{ company_name }}</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body { background:#f5f1ea; font-family:'Segoe UI',Roboto,Arial,sans-serif; padding-bottom:100px; }
+        .top-bar { background:linear-gradient(135deg,#241812,#8a3f14); color:#fff; padding:18px 20px; border-radius:0 0 18px 18px; margin-bottom:16px; }
+        .cat-heading { font-weight:700; color:#8a3f14; margin:18px 0 8px; }
+        .item-card { border:none; border-radius:14px; box-shadow:0 2px 8px rgba(0,0,0,0.06); margin-bottom:12px; }
+        .qty-box { width:60px; }
+        .btn-primary { background:#b3541e; border-color:#b3541e; }
+        .btn-primary:hover { background:#8a3f14; border-color:#8a3f14; }
+        .cart-bar {
+            position:fixed; bottom:0; left:0; right:0; background:#241812; color:#fff;
+            padding:14px 20px; display:flex; justify-content:space-between; align-items:center;
+        }
+        .active-order-banner { background:#fff3cd; border-radius:12px; padding:12px 16px; margin-bottom:16px; }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <h4 class="mb-0"><i class="fa-solid fa-utensils"></i> Table {{ table.table_number }}</h4>
+        <div class="small">Browse the menu and place your order — no login needed.</div>
+    </div>
+
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if active_order %}
+        <div class="active-order-banner">
+            <i class="fa-solid fa-circle-info"></i> You already have an order placed —
+            <a href="{% url 'customer_order_status' active_order.pk %}">track order {{ active_order.order_number }}</a>
+            ({{ active_order.get_status_display }}). You can still add another order below if you'd like more items.
+        </div>
+        {% endif %}
+
+        <form method="post" id="orderForm">
+            {% csrf_token %}
+            {% regroup menu_items by category as category_list %}
+            {% for cat in category_list %}
+                <div class="cat-heading">{{ cat.grouper.name }}</div>
+                {% for item in cat.list %}
+                <div class="card item-card p-3">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <div>
+                            <div class="fw-bold">{{ item.name }} {% if item.is_veg %}<span class="badge bg-success">Veg</span>{% else %}<span class="badge bg-danger">Non-Veg</span>{% endif %}</div>
+                            <div class="text-muted small">₹{{ item.price }}</div>
+                        </div>
+                        <input type="number" min="0" value="0" class="form-control qty-box qty-input" data-id="{{ item.id }}">
+                    </div>
+                </div>
+                {% endfor %}
+            {% empty %}<p class="text-muted">Menu is being updated, please check back shortly.</p>{% endfor %}
+
+            <div class="card p-3 mt-3">
+                <h6>Your Details (optional, for order updates)</h6>
+                <div class="row g-2">
+                    <div class="col-6"><input type="text" name="customer_name" class="form-control" placeholder="Your name"></div>
+                    <div class="col-6"><input type="text" name="customer_phone" class="form-control" placeholder="Phone number"></div>
+                </div>
+                <h6 class="mt-3">Payment Method</h6>
+                <select name="payment_method" class="form-select" required>
+                    <option value="cash">Cash (pay at table)</option>
+                    <option value="upi" selected>UPI / Online (pay now via QR)</option>
+                    <option value="card">Card (pay at table)</option>
+                </select>
+            </div>
+
+            <div class="cart-bar">
+                <div>Items selected: <strong id="itemCount">0</strong></div>
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Place Order</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+    
+
+    document.querySelectorAll('.qty-input').forEach(inp => {
+        inp.addEventListener('change', updateHiddenInputs);
+    });
+
+    function updateHiddenInputs() {
+        // Remove previously injected quantity fields
+        document.querySelectorAll('.qty-field-injected').forEach(el => el.remove());
+        const form = document.getElementById('orderForm');
+        let count = 0;
+        document.querySelectorAll('.qty-input').forEach(inp => {
+            const qty = parseInt(inp.value || '0', 10);
+            if (qty > 0) {
+                count++;
+                const idField = document.createElement('input');
+                idField.type = 'hidden'; idField.name = 'menu_item_id'; idField.value = inp.dataset.id;
+                idField.className = 'qty-field-injected';
+                const qField = document.createElement('input');
+                qField.type = 'hidden'; qField.name = 'quantity'; qField.value = qty;
+                qField.className = 'qty-field-injected';
+                form.appendChild(idField);
+                form.appendChild(qField);
+            }
+        });
+        document.getElementById('itemCount').innerText = count;
+    }
+
+    document.getElementById('orderForm').addEventListener('submit', function(e) {
+        updateHiddenInputs();
+        const count = document.querySelectorAll('.qty-field-injected').length / 2;
+        if (count === 0) {
+            e.preventDefault();
+            alert('Please select at least one item before placing your order.');
+        }
+    });
+    </script>
+</body>
+</html>
