@@ -16,75 +16,75 @@
             box-sizing: border-box;
         }
 
-        /* ----- base (light mode by default) ----- */
+        /* ----- base (light mode) UPDATED BACKGROUND ----- */
         :root {
-            /* light mode */
-            --bg-body: radial-gradient(circle at 0% 0%, #fff5e6, #ffe8d0 30%, #fddbb5 60%, #f5cba0 90%);
-            --bg-card: rgba(255, 248, 240, 0.92);
-            --card-border: rgba(255, 200, 150, 0.2);
-            --card-shadow: 0 30px 50px -10px rgba(180, 120, 80, 0.25), 0 0 0 1px rgba(255, 200, 150, 0.1);
-            --text-primary: #2a1a0e;
-            --text-secondary: #4a3520;
-            --text-muted: #8a705a;
-            --input-bg: rgba(255, 248, 240, 0.8);
-            --input-border: rgba(200, 160, 120, 0.2);
-            --input-focus: #d48c5a;
-            --select-bg: rgba(255, 248, 240, 0.7);
-            --section-badge: linear-gradient(145deg, #c47a3a, #e8a05a);
-            --badge-text: #fff8f0;
-            --goal-activity-bg: rgba(255, 240, 220, 0.3);
-            --goal-activity-border: rgba(255, 200, 150, 0.15);
-            --btn-bg: linear-gradient(145deg, #b86a2a, #d48a4a);
-            --btn-hover: linear-gradient(145deg, #a05a20, #c47a3a);
-            --btn-shadow: 0 8px 20px rgba(180, 120, 80, 0.3);
-            --toast-bg: rgba(200, 140, 80, 0.12);
-            --toast-border: #d48c5a;
-            --toast-text: #4a3520;
-            --brand-nexa: #2a1a0e;
-            --brand-hub: #c47a3a;
-            --brand-tag-bg: rgba(200, 140, 80, 0.15);
-            --brand-tag-text: #8a5a3a;
-            --brand-tag-border: rgba(200, 140, 80, 0.2);
-            --divider: rgba(180, 140, 100, 0.12);
-            --headline-shadow: 0 0 30px rgba(200, 140, 80, 0.05);
-            --toggle-bg: #e0d6cc;
-            --toggle-dot: #f5ede4;
-            --toggle-active: #d48c5a;
+            /* light mode - cool blue-gray theme */
+            --bg-body: radial-gradient(circle at 0% 0%, #e8edf5, #d5e0ec 30%, #c8d6e5 60%, #b8c8d8 90%);
+            --bg-card: rgba(245, 248, 252, 0.92);
+            --card-border: rgba(120, 160, 190, 0.2);
+            --card-shadow: 0 30px 50px -10px rgba(80, 120, 160, 0.2), 0 0 0 1px rgba(120, 160, 190, 0.1);
+            --text-primary: #1a2a3a;
+            --text-secondary: #2d4a5a;
+            --text-muted: #6a8a9a;
+            --input-bg: rgba(245, 248, 252, 0.8);
+            --input-border: rgba(140, 180, 200, 0.25);
+            --input-focus: #5b8aa8;
+            --select-bg: rgba(245, 248, 252, 0.7);
+            --section-badge: linear-gradient(145deg, #4a7a92, #5b8aa8);
+            --badge-text: #f0f7fc;
+            --goal-activity-bg: rgba(220, 235, 245, 0.3);
+            --goal-activity-border: rgba(140, 180, 200, 0.15);
+            --btn-bg: linear-gradient(145deg, #4a7a92, #5b8aa8);
+            --btn-hover: linear-gradient(145deg, #3a6a82, #4a7a92);
+            --btn-shadow: 0 8px 20px rgba(80, 130, 170, 0.25);
+            --toast-bg: rgba(80, 140, 180, 0.10);
+            --toast-border: #5b8aa8;
+            --toast-text: #1a2a3a;
+            --brand-nexa: #1a2a3a;
+            --brand-hub: #4a7a92;
+            --brand-tag-bg: rgba(80, 140, 180, 0.12);
+            --brand-tag-text: #3a6a82;
+            --brand-tag-border: rgba(80, 140, 180, 0.15);
+            --divider: rgba(120, 160, 190, 0.15);
+            --headline-shadow: 0 0 30px rgba(80, 140, 180, 0.05);
+            --toggle-bg: #d0dce8;
+            --toggle-dot: #f0f5fa;
+            --toggle-active: #5b8aa8;
         }
 
-        /* ----- dark mode variables ----- */
+        /* ----- dark mode UPDATED BACKGROUND ----- */
         body.dark-mode {
-            --bg-body: radial-gradient(circle at 0% 0%, #1a1a1a, #2a241e 40%, #1f1a16 70%, #12100e 100%);
-            --bg-card: rgba(30, 26, 22, 0.94);
-            --card-border: rgba(200, 160, 120, 0.15);
-            --card-shadow: 0 30px 50px -10px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(200, 160, 120, 0.08);
-            --text-primary: #f0e4d8;
-            --text-secondary: #d4c4b4;
-            --text-muted: #a8907a;
-            --input-bg: rgba(40, 34, 28, 0.8);
-            --input-border: rgba(200, 160, 120, 0.15);
-            --input-focus: #d48c5a;
-            --select-bg: rgba(40, 34, 28, 0.7);
-            --section-badge: linear-gradient(145deg, #a05a20, #c47a3a);
-            --badge-text: #f5ede4;
-            --goal-activity-bg: rgba(60, 50, 40, 0.25);
-            --goal-activity-border: rgba(200, 160, 120, 0.1);
-            --btn-bg: linear-gradient(145deg, #a05a20, #c47a3a);
-            --btn-hover: linear-gradient(145deg, #8a4a18, #b06a2a);
+            --bg-body: radial-gradient(circle at 0% 0%, #0d1624, #15202e 40%, #1a2636 70%, #0f1a26 100%);
+            --bg-card: rgba(22, 32, 46, 0.94);
+            --card-border: rgba(100, 150, 190, 0.12);
+            --card-shadow: 0 30px 50px -10px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(100, 150, 190, 0.06);
+            --text-primary: #e8edf5;
+            --text-secondary: #c8d4e5;
+            --text-muted: #8aa0b5;
+            --input-bg: rgba(30, 42, 58, 0.8);
+            --input-border: rgba(100, 150, 190, 0.12);
+            --input-focus: #5b8aa8;
+            --select-bg: rgba(30, 42, 58, 0.7);
+            --section-badge: linear-gradient(145deg, #3a6a82, #5b8aa8);
+            --badge-text: #f0f7fc;
+            --goal-activity-bg: rgba(40, 58, 78, 0.2);
+            --goal-activity-border: rgba(100, 150, 190, 0.08);
+            --btn-bg: linear-gradient(145deg, #3a6a82, #5b8aa8);
+            --btn-hover: linear-gradient(145deg, #2a5a72, #4a7a92);
             --btn-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-            --toast-bg: rgba(200, 140, 80, 0.08);
-            --toast-border: #b06a2a;
-            --toast-text: #d4c4b4;
-            --brand-nexa: #f0e4d8;
-            --brand-hub: #d48a4a;
-            --brand-tag-bg: rgba(200, 140, 80, 0.12);
-            --brand-tag-text: #d4b49a;
-            --brand-tag-border: rgba(200, 140, 80, 0.15);
-            --divider: rgba(200, 160, 120, 0.08);
-            --headline-shadow: 0 0 30px rgba(200, 140, 80, 0.03);
-            --toggle-bg: #3a322c;
-            --toggle-dot: #5a4a3a;
-            --toggle-active: #d48c5a;
+            --toast-bg: rgba(80, 140, 180, 0.06);
+            --toast-border: #4a7a92;
+            --toast-text: #c8d4e5;
+            --brand-nexa: #e8edf5;
+            --brand-hub: #5b8aa8;
+            --brand-tag-bg: rgba(80, 140, 180, 0.10);
+            --brand-tag-text: #8aaec5;
+            --brand-tag-border: rgba(80, 140, 180, 0.10);
+            --divider: rgba(100, 150, 190, 0.08);
+            --headline-shadow: 0 0 30px rgba(80, 140, 180, 0.03);
+            --toggle-bg: #2a3a4a;
+            --toggle-dot: #4a5a6a;
+            --toggle-active: #5b8aa8;
         }
 
         body {
@@ -104,8 +104,8 @@
             content: '';
             position: fixed;
             inset: 0;
-            background: radial-gradient(circle at 80% 20%, rgba(255, 200, 150, 0.12), transparent 50%),
-                radial-gradient(circle at 20% 80%, rgba(255, 180, 100, 0.06), transparent 50%);
+            background: radial-gradient(circle at 80% 20%, rgba(80, 140, 180, 0.10), transparent 50%),
+                radial-gradient(circle at 20% 80%, rgba(60, 130, 170, 0.05), transparent 50%);
             pointer-events: none;
             z-index: 0;
             transition: opacity 0.4s ease;
@@ -144,7 +144,7 @@
         .brand-icon {
             font-size: 1.6rem;
             line-height: 1;
-            filter: drop-shadow(0 0 12px rgba(200, 140, 80, 0.15));
+            filter: drop-shadow(0 0 12px rgba(80, 140, 180, 0.15));
             transition: filter 0.3s;
         }
 
@@ -159,12 +159,12 @@
 
         .brand-name .nexa {
             color: var(--brand-nexa);
-            text-shadow: 0 0 20px rgba(42, 26, 14, 0.08);
+            text-shadow: 0 0 20px rgba(26, 42, 58, 0.08);
             transition: color 0.3s, text-shadow 0.3s;
         }
         .brand-name .hub-ai {
             color: var(--brand-hub);
-            text-shadow: 0 0 20px rgba(196, 122, 58, 0.15);
+            text-shadow: 0 0 20px rgba(75, 130, 170, 0.15);
             transition: color 0.3s, text-shadow 0.3s;
         }
 
@@ -214,7 +214,7 @@
         }
         body.dark-mode .theme-toggle .dot {
             transform: translateX(18px);
-            background: #f5ede4;
+            background: #e8edf5;
         }
         .theme-toggle.active {
             background: var(--toggle-active);
@@ -315,7 +315,7 @@
         input:focus,
         select:focus {
             border-color: var(--input-focus);
-            box-shadow: 0 0 0 4px rgba(200, 140, 80, 0.12), 0 4px 12px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 0 0 4px rgba(80, 140, 180, 0.12), 0 4px 12px rgba(0, 0, 0, 0.03);
             background: var(--input-bg);
         }
 
@@ -328,14 +328,14 @@
 
         select {
             appearance: none;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%238a705a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%236a8a9a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
             background-repeat: no-repeat;
             background-position: right 1rem center;
             background-size: 0.9rem;
             cursor: pointer;
         }
         body.dark-mode select {
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%23a8907a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%238aa0b5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
         }
 
         .goal-activity-wrap {
@@ -401,7 +401,7 @@
         .btn-continue:hover {
             background: var(--btn-hover);
             transform: translateY(-2px);
-            box-shadow: 0 14px 28px rgba(180, 120, 80, 0.25);
+            box-shadow: 0 14px 28px rgba(80, 130, 170, 0.25);
         }
         body.dark-mode .btn-continue:hover {
             box-shadow: 0 14px 28px rgba(0, 0, 0, 0.5);
@@ -448,7 +448,7 @@
             position: absolute;
             inset: -2px;
             border-radius: 42px;
-            background: linear-gradient(135deg, rgba(200, 140, 80, 0.06), rgba(255, 200, 150, 0.02));
+            background: linear-gradient(135deg, rgba(80, 140, 180, 0.06), rgba(120, 180, 210, 0.02));
             z-index: -1;
             filter: blur(24px);
             opacity: 0.4;

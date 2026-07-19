@@ -3,75 +3,82 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NexaHub AI – Food Preferences</title>
+  <title>NEXA HUB AI – Food Preferences</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* ===== LIGHT MODE (Skin Color Background) ===== */
+    /* ===== LIGHT MODE ===== */
     :root {
-      --bg-page: #F5D0C5;        /* 👈 Skin Color Background */
+      --bg-page: #eef2f7;
       --card-bg: #ffffff;
-      --card-shadow: 0 8px 40px rgba(0,0,0,0.12);
-      --text-primary: #111827;
-      --text-secondary: #374151;
-      --text-muted: #9CA3AF;
-      --text-footer: #D1D5DB;
-      --input-bg: #F9FAFB;
-      --input-border: #E5E7EB;
-      --input-focus: #D4957A;
-      --placeholder-color: #6B7280;
-      --icon-bg: #FCE8E0;
-      --icon-stroke: #D4957A;
-      --btn-bg: #D4957A;
-      --btn-hover: #C4846A;
-      --btn-active: #B5745A;
-      --pill-green-bg: #E1F5EE;
-      --pill-green-text: #0F6E56;
-      --pill-blue-bg: #E6F1FB;
-      --pill-blue-text: #185FA5;
-      --error-color: #DC2626;
-      --brand-badge-bg: #FCE8E0;
-      --brand-badge-text: #B5745A;
-      --check-bg: #E1F5EE;
-      --check-stroke: #0F6E56;
-      --back-border: #D4957A;
-      --back-hover: #FCE8E0;
-      --dot-opacity: 0.12;
+      --card-shadow: 0 20px 60px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.04);
+      --text-primary: #0f1a2e;
+      --text-secondary: #1e2d45;
+      --text-muted: #6b7f94;
+      --text-footer: #b0c4d8;
+      --input-bg: #f5f8fc;
+      --input-border: #dce5ef;
+      --input-focus: #5b8aa8;
+      --placeholder-color: #7a8fa4;
+      --icon-bg: #e8f0f8;
+      --icon-stroke: #5b8aa8;
+      --btn-bg: linear-gradient(135deg, #5b8aa8, #3d6b89);
+      --btn-hover: linear-gradient(135deg, #4a7a98, #2d5b79);
+      --btn-active: linear-gradient(135deg, #3a6a88, #1d4b69);
+      --pill-green-bg: #e1f5ee;
+      --pill-green-text: #0f6e56;
+      --pill-blue-bg: #e6f1fb;
+      --pill-blue-text: #185fa5;
+      --error-color: #dc2626;
+      --brand-badge-bg: linear-gradient(135deg, #e8f0f8, #d5e3ef);
+      --brand-badge-text: #3d6b89;
+      --check-bg: #e1f5ee;
+      --check-stroke: #0f6e56;
+      --back-border: #5b8aa8;
+      --back-hover: #e8f0f8;
+      --dot-opacity: 0.06;
+      --brand-gradient: linear-gradient(135deg, #5b8aa8, #3d6b89, #2a5a78);
+      --shadow-hover: 0 12px 40px rgba(91, 138, 168, 0.15);
+      --success-bg: linear-gradient(135deg, #e1f5ee, #c8eee2);
     }
 
-    /* ===== DARK MODE (Skin Color Dark) ===== */
+    /* ===== DARK MODE ===== */
     body.dark {
-      --bg-page: #3D2C25;        /* 👈 Dark Skin Color Background */
-      --card-bg: #2A1F1A;
-      --card-shadow: 0 8px 40px rgba(0,0,0,0.7);
-      --text-primary: #F5E6DF;
-      --text-secondary: #D4C5BE;
-      --text-muted: #A8948C;
-      --text-footer: #5D4A42;
-      --input-bg: #1F1511;
-      --input-border: #3D2C25;
-      --input-focus: #D4957A;
-      --placeholder-color: #A8948C;
-      --icon-bg: #3D2C25;
-      --icon-stroke: #D4957A;
-      --btn-bg: #D4957A;
-      --btn-hover: #C4846A;
-      --btn-active: #B5745A;
+      --bg-page: #0d1624;
+      --card-bg: #16202e;
+      --card-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 8px 24px rgba(0,0,0,0.3);
+      --text-primary: #e8edf5;
+      --text-secondary: #c8d4e5;
+      --text-muted: #7a8fa8;
+      --text-footer: #3a4a5e;
+      --input-bg: #0d1624;
+      --input-border: #2a3a50;
+      --input-focus: #5b8aa8;
+      --placeholder-color: #7a8fa8;
+      --icon-bg: #1a2638;
+      --icon-stroke: #5b8aa8;
+      --btn-bg: linear-gradient(135deg, #5b8aa8, #3d6b89);
+      --btn-hover: linear-gradient(135deg, #4a7a98, #2d5b79);
+      --btn-active: linear-gradient(135deg, #3a6a88, #1d4b69);
       --pill-green-bg: #064e3b;
       --pill-green-text: #6ee7b7;
       --pill-blue-bg: #1e3a5f;
       --pill-blue-text: #7dd3fc;
       --error-color: #f87171;
-      --brand-badge-bg: #3D2C25;
-      --brand-badge-text: #D4957A;
+      --brand-badge-bg: linear-gradient(135deg, #1a2638, #24344a);
+      --brand-badge-text: #5b8aa8;
       --check-bg: #064e3b;
       --check-stroke: #6ee7b7;
-      --back-border: #D4957A;
-      --back-hover: #3D2C25;
-      --dot-opacity: 0.06;
+      --back-border: #5b8aa8;
+      --back-hover: #1a2638;
+      --dot-opacity: 0.04;
+      --brand-gradient: linear-gradient(135deg, #6b9ab8, #4b7a98, #3a6a88);
+      --shadow-hover: 0 12px 40px rgba(91, 138, 168, 0.08);
+      --success-bg: linear-gradient(135deg, #064e3b, #0a5a45);
     }
 
     body {
@@ -83,108 +90,170 @@
       align-items: center;
       justify-content: center;
       padding: 24px 16px;
-      transition: background 0.3s ease, color 0.3s ease;
+      transition: background 0.4s ease, color 0.4s ease;
+      position: relative;
     }
 
-    /* Dot pattern background */
+    /* Animated background dots */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
-      background-image: radial-gradient(circle, rgba(255,255,255,var(--dot-opacity)) 1px, transparent 1px);
-      background-size: 28px 28px;
+      background-image: radial-gradient(circle, rgba(91, 138, 168, var(--dot-opacity)) 1.5px, transparent 1.5px);
+      background-size: 32px 32px;
       pointer-events: none;
       z-index: 0;
-      transition: opacity 0.3s;
+      transition: opacity 0.4s;
+      animation: floatDots 20s linear infinite;
+    }
+
+    @keyframes floatDots {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(32px, 32px); }
     }
 
     .card {
       position: relative;
       z-index: 1;
       background: var(--card-bg);
-      border-radius: 24px;
-      padding: 40px 36px 32px;
+      border-radius: 32px;
+      padding: 44px 40px 36px;
       width: 100%;
-      max-width: 440px;
+      max-width: 460px;
       box-shadow: var(--card-shadow);
-      transition: background 0.3s, box-shadow 0.3s;
+      transition: all 0.4s ease;
+      border: 1px solid rgba(91, 138, 168, 0.05);
     }
 
-    /* ===== THEME TOGGLE BUTTON ===== */
-    .theme-toggle-wrap {
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: 18px;
+    .card:hover {
+      box-shadow: var(--shadow-hover);
     }
 
-    .theme-btn {
-      background: var(--input-bg);
-      border: 1.5px solid var(--input-border);
-      border-radius: 40px;
-      padding: 6px 14px 6px 12px;
+    /* ===== WEBSITE NAME AT TOP ===== */
+    .website-header {
       display: flex;
       align-items: center;
-      gap: 8px;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 18px;
+      border-bottom: 2px solid var(--input-border);
+      transition: border-color 0.4s;
+    }
+
+    .brand-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon-box {
+      width: 44px;
+      height: 44px;
+      background: var(--brand-gradient);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 20px;
+      box-shadow: 0 4px 12px rgba(91, 138, 168, 0.3);
+      transition: transform 0.3s;
+    }
+
+    .brand-icon-box:hover {
+      transform: rotate(-8deg) scale(1.05);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-text .main-name {
+      font-size: 20px;
+      font-weight: 900;
+      background: var(--brand-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+    }
+
+    .brand-text .sub-name {
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      -webkit-text-fill-color: var(--text-muted);
+    }
+
+    /* Theme Toggle - Modern */
+    .theme-toggle-modern {
+      background: var(--input-bg);
+      border: 1.5px solid var(--input-border);
+      border-radius: 30px;
+      padding: 6px 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.3s;
       font-size: 13px;
       font-weight: 600;
       color: var(--text-secondary);
-      cursor: pointer;
-      transition: all 0.3s;
       font-family: 'Inter', sans-serif;
     }
 
-    .theme-btn:hover {
+    .theme-toggle-modern:hover {
       background: var(--back-hover);
       border-color: var(--input-focus);
-      transform: scale(1.02);
+      transform: scale(1.03);
     }
 
-    .theme-btn .icon-moon { display: inline; }
-    .theme-btn .icon-sun { display: none; }
+    .theme-toggle-modern .icon-moon { display: inline; color: #fbbf24; }
+    .theme-toggle-modern .icon-sun { display: none; color: #fbbf24; }
 
-    body.dark .theme-btn .icon-moon { display: none; }
-    body.dark .theme-btn .icon-sun { display: inline; }
+    body.dark .theme-toggle-modern .icon-moon { display: none; }
+    body.dark .theme-toggle-modern .icon-sun { display: inline; }
 
-    body.dark .theme-btn {
-      background: #1F1511;
-      border-color: #3D2C25;
-      color: #D4C5BE;
+    body.dark .theme-toggle-modern {
+      background: #0d1624;
+      border-color: #2a3a50;
+      color: #c8d4e5;
     }
 
     /* ===== HEADER ===== */
     .header {
       text-align: center;
-      margin-bottom: 32px;
+      margin-bottom: 34px;
     }
 
-    .header-icon {
+    .header-icon-wrapper {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 52px;
-      height: 52px;
+      width: 64px;
+      height: 64px;
       background: var(--icon-bg);
-      border-radius: 14px;
-      margin-bottom: 14px;
-      transition: background 0.3s;
+      border-radius: 20px;
+      margin-bottom: 16px;
+      transition: all 0.3s;
+      box-shadow: 0 4px 16px rgba(91, 138, 168, 0.08);
     }
 
-    .header-icon svg {
-      width: 26px;
-      height: 26px;
-      stroke: var(--icon-stroke);
-      fill: none;
-      stroke-width: 1.8;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      transition: stroke 0.3s;
+    .header-icon-wrapper i {
+      font-size: 28px;
+      color: var(--icon-stroke);
+      transition: color 0.3s;
     }
 
     .header h1 {
-      font-size: 22px;
-      font-weight: 700;
+      font-size: 26px;
+      font-weight: 800;
       color: var(--text-primary);
-      letter-spacing: -0.4px;
+      letter-spacing: -0.6px;
       margin-bottom: 6px;
       transition: color 0.3s;
     }
@@ -193,24 +262,31 @@
       font-size: 14px;
       color: var(--text-muted);
       transition: color 0.3s;
+      font-weight: 400;
     }
 
     .brand-badge {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       background: var(--brand-badge-bg);
-      padding: 2px 12px;
+      padding: 4px 16px;
       border-radius: 30px;
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--brand-badge-text);
-      letter-spacing: 0.3px;
-      margin-top: 4px;
+      letter-spacing: 0.5px;
+      margin-top: 8px;
       transition: all 0.3s;
+    }
+
+    .brand-badge i {
+      font-size: 12px;
     }
 
     /* ===== FORM FIELDS ===== */
     .field {
-      margin-bottom: 20px;
+      margin-bottom: 22px;
     }
 
     .field label {
@@ -219,8 +295,14 @@
       font-weight: 600;
       color: var(--text-secondary);
       margin-bottom: 8px;
-      letter-spacing: 0.1px;
+      letter-spacing: 0.2px;
       transition: color 0.3s;
+    }
+
+    .field label i {
+      margin-right: 6px;
+      color: var(--icon-stroke);
+      font-size: 14px;
     }
 
     .select-wrapper {
@@ -232,48 +314,41 @@
       appearance: none;
       -webkit-appearance: none;
       background: var(--input-bg);
-      border: 1.5px solid var(--input-border);
-      border-radius: 10px;
-      padding: 12px 40px 12px 14px;
+      border: 2px solid var(--input-border);
+      border-radius: 14px;
+      padding: 14px 48px 14px 18px;
       font-size: 14px;
       font-family: 'Inter', sans-serif;
       color: var(--placeholder-color);
       cursor: pointer;
       outline: none;
       transition: all 0.3s;
+      font-weight: 500;
     }
 
     .select-wrapper select:focus {
       border-color: var(--input-focus);
       background: var(--card-bg);
       color: var(--text-primary);
+      box-shadow: 0 0 0 4px rgba(91, 138, 168, 0.1);
     }
 
     .select-wrapper select.selected {
       color: var(--text-primary);
       background: var(--card-bg);
-      border-color: var(--input-border);
+      border-color: var(--input-focus);
     }
 
     .select-wrapper .chevron {
       position: absolute;
-      right: 13px;
+      right: 16px;
       top: 50%;
       transform: translateY(-50%);
       pointer-events: none;
       color: var(--text-muted);
       display: flex;
       transition: color 0.3s;
-    }
-
-    .select-wrapper .chevron svg {
-      width: 16px;
-      height: 16px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+      font-size: 14px;
     }
 
     .error-msg {
@@ -281,68 +356,83 @@
       font-size: 12px;
       color: var(--error-color);
       margin-top: 6px;
+      font-weight: 500;
       transition: color 0.3s;
     }
 
     .error-msg.show { display: block; }
 
     /* ===== BUTTONS ===== */
-    .btn {
+    .btn-primary {
       width: 100%;
       background: var(--btn-bg);
       color: #fff;
       border: none;
-      border-radius: 12px;
-      padding: 14px 20px;
-      font-size: 15px;
-      font-weight: 600;
+      border-radius: 16px;
+      padding: 16px 24px;
+      font-size: 16px;
+      font-weight: 700;
       font-family: 'Inter', sans-serif;
       cursor: pointer;
-      margin-top: 8px;
+      margin-top: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      transition: background 0.3s, transform 0.1s;
-      letter-spacing: 0.1px;
+      gap: 10px;
+      transition: all 0.3s;
+      letter-spacing: 0.3px;
+      box-shadow: 0 4px 16px rgba(91, 138, 168, 0.25);
     }
 
-    .btn:hover { background: var(--btn-hover); }
-    .btn:active { transform: scale(0.97); background: var(--btn-active); }
+    .btn-primary:hover {
+      background: var(--btn-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(91, 138, 168, 0.35);
+    }
 
-    .btn svg {
-      width: 18px;
-      height: 18px;
-      stroke: #fff;
-      fill: none;
-      stroke-width: 2.2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+    .btn-primary:active {
+      transform: scale(0.97);
+      background: var(--btn-active);
+    }
+
+    .btn-primary i {
+      font-size: 18px;
     }
 
     .back-btn {
       width: 100%;
       background: transparent;
       color: var(--back-border);
-      border: 1.5px solid var(--back-border);
-      border-radius: 12px;
-      padding: 12px 20px;
+      border: 2px solid var(--back-border);
+      border-radius: 16px;
+      padding: 14px 20px;
       font-size: 14px;
       font-weight: 600;
       font-family: 'Inter', sans-serif;
       cursor: pointer;
       transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
-    .back-btn:hover { background: var(--back-hover); }
+    .back-btn:hover {
+      background: var(--back-hover);
+      transform: translateY(-2px);
+    }
+
+    .back-btn i {
+      font-size: 14px;
+    }
 
     /* ===== FOOTER ===== */
     .footer {
       text-align: center;
-      margin-top: 20px;
+      margin-top: 22px;
       font-size: 12px;
       color: var(--text-footer);
-      letter-spacing: 0.2px;
+      letter-spacing: 0.3px;
       transition: color 0.3s;
     }
 
@@ -357,39 +447,40 @@
     .result-screen {
       display: none;
       text-align: center;
-      padding: 8px 0;
+      padding: 10px 0;
+      animation: fadeInUp 0.6s ease;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .result-screen.show { display: block; }
-
     .form-section.hide { display: none; }
 
     .check-circle {
-      width: 60px;
-      height: 60px;
-      background: var(--check-bg);
+      width: 72px;
+      height: 72px;
+      background: var(--success-bg);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 16px;
-      transition: background 0.3s;
+      margin: 0 auto 18px;
+      transition: all 0.4s;
+      box-shadow: 0 4px 20px rgba(15, 110, 86, 0.15);
     }
 
-    .check-circle svg {
-      width: 28px;
-      height: 28px;
-      stroke: var(--check-stroke);
-      fill: none;
-      stroke-width: 2.5;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      transition: stroke 0.3s;
+    .check-circle i {
+      font-size: 32px;
+      color: var(--check-stroke);
+      transition: color 0.3s;
     }
 
     .result-screen h2 {
-      font-size: 18px;
-      font-weight: 700;
+      font-size: 22px;
+      font-weight: 800;
       color: var(--text-primary);
       margin-bottom: 8px;
       transition: color 0.3s;
@@ -398,24 +489,27 @@
     .result-screen p {
       font-size: 14px;
       color: var(--text-muted);
-      margin-bottom: 20px;
-      line-height: 1.6;
+      margin-bottom: 24px;
+      line-height: 1.7;
       transition: color 0.3s;
     }
 
     .tags-row {
       display: flex;
-      gap: 8px;
+      gap: 10px;
       justify-content: center;
       flex-wrap: wrap;
-      margin-bottom: 24px;
+      margin-bottom: 28px;
     }
 
     .pill {
       font-size: 13px;
-      padding: 5px 14px;
-      border-radius: 20px;
-      font-weight: 500;
+      padding: 6px 18px;
+      border-radius: 30px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .pill-green { 
@@ -429,9 +523,14 @@
       transition: all 0.3s;
     }
 
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 480px) {
-      .card { padding: 32px 20px 28px; }
-      .header h1 { font-size: 20px; }
+      .card { padding: 28px 20px 24px; border-radius: 24px; }
+      .header h1 { font-size: 22px; }
+      .website-header { flex-wrap: wrap; gap: 12px; }
+      .brand-text .main-name { font-size: 17px; }
+      .brand-icon-box { width: 38px; height: 38px; font-size: 16px; }
+      .theme-toggle-modern { font-size: 12px; padding: 5px 10px; }
     }
   </style>
 </head>
@@ -439,29 +538,20 @@
 
   <div class="card">
 
-    <!-- ===== THEME TOGGLE ===== -->
-    <div class="theme-toggle-wrap">
-      <button class="theme-btn" id="themeToggle">
-        <!-- Moon Icon (Light mode me dikhega) -->
-        <span class="icon-moon">
-          <svg viewBox="0 0 24 24" width="16" height="16">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-          </svg>
-        </span>
-        <!-- Sun Icon (Dark mode me dikhega) -->
-        <span class="icon-sun">
-          <svg viewBox="0 0 24 24" width="16" height="16">
-            <circle cx="12" cy="12" r="5"/>
-            <line x1="12" y1="1" x2="12" y2="3"/>
-            <line x1="12" y1="21" x2="12" y2="23"/>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-            <line x1="1" y1="12" x2="3" y2="12"/>
-            <line x1="21" y1="12" x2="23" y2="12"/>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-          </svg>
-        </span>
+    <!-- ===== WEBSITE HEADER ===== -->
+    <div class="website-header">
+      <div class="brand-left">
+        <div class="brand-icon-box">
+          <i class="fas fa-brain"></i>
+        </div>
+        <div class="brand-text">
+          <span class="main-name">NEXA HUB AI</span>
+          <span class="sub-name">Intelligent Nutrition</span>
+        </div>
+      </div>
+      <button class="theme-toggle-modern" id="themeToggle">
+        <span class="icon-moon"><i class="fas fa-moon"></i></span>
+        <span class="icon-sun"><i class="fas fa-sun"></i></span>
         <span id="themeLabel">Light</span>
       </button>
     </div>
@@ -470,77 +560,73 @@
     <div class="form-section" id="formSection">
 
       <div class="header">
-        <div class="header-icon">
-          <svg viewBox="0 0 24 24">
-            <path d="M3 11l19-9-9 19-2-8-8-2z"/>
-          </svg>
+        <div class="header-icon-wrapper">
+          <i class="fas fa-utensils"></i>
         </div>
         <h1>Food Preferences</h1>
-        <p>Select your food preference and cooking style.</p>
-        <div class="brand-badge">NEXA HUB AI</div>
+        <p>Select your food preference and cooking style to get personalized meal plans.</p>
+        <div class="brand-badge">
+          <i class="fas fa-robot"></i> NEXA HUB AI
+        </div>
       </div>
 
       <div class="field">
-        <label for="foodPref">Food Preference</label>
+        <label for="foodPref"><i class="fas fa-seedling"></i> Food Preference</label>
         <div class="select-wrapper">
           <select id="foodPref" onchange="onSelectChange(this)">
             <option value="" disabled selected>Select Food Preference</option>
             <option value="vegetarian">🥗 Vegetarian</option>
             <option value="non-vegetarian">🍗 Non-Vegetarian</option>
             <option value="vegan">🌱 Vegan</option>
+            <option value="eggetarian">🥚 Eggetarian</option>
           </select>
-          <span class="chevron">
-            <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-          </span>
+          <span class="chevron"><i class="fas fa-chevron-down"></i></span>
         </div>
-        <div class="error-msg" id="foodError">Please select a food preference.</div>
+        <div class="error-msg" id="foodError"><i class="fas fa-exclamation-circle"></i> Please select a food preference.</div>
       </div>
 
       <div class="field">
-        <label for="cookStyle">Cooking Style</label>
+        <label for="cookStyle"><i class="fas fa-fire"></i> Cooking Style</label>
         <div class="select-wrapper">
           <select id="cookStyle" onchange="onSelectChange(this)">
             <option value="" disabled selected>Select Cooking Style</option>
-            <option value="simple">🍳 Simple</option>
-            <option value="simple-non-oily">🥦 Simple &amp; Non-Oily</option>
-            <option value="spicy">🌶️ Spicy</option>
-            <option value="grilled">🔥 Grilled</option>
-            <option value="raw-salads">🥗 Raw &amp; Salads</option>
+            <option value="simple">🍳 Simple & Quick</option>
+            <option value="simple-non-oily">🥦 Simple & Non-Oily</option>
+            <option value="spicy">🌶️ Spicy & Flavorful</option>
+            <option value="grilled">🔥 Grilled & Roasted</option>
+            <option value="raw-salads">🥗 Raw & Salads</option>
+            <option value="traditional">🍛 Traditional Indian</option>
           </select>
-          <span class="chevron">
-            <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-          </span>
+          <span class="chevron"><i class="fas fa-chevron-down"></i></span>
         </div>
-        <div class="error-msg" id="cookError">Please select a cooking style.</div>
+        <div class="error-msg" id="cookError"><i class="fas fa-exclamation-circle"></i> Please select a cooking style.</div>
       </div>
 
-      <button class="btn" onclick="handleContinue()">
-        Continue
-        <svg viewBox="0 0 24 24">
-          <line x1="5" y1="12" x2="19" y2="12"/>
-          <polyline points="12 5 19 12 12 19"/>
-        </svg>
+      <button class="btn-primary" onclick="handleContinue()">
+        <i class="fas fa-arrow-right"></i> Continue
       </button>
 
       <p class="footer">
-        <span class="brand-highlight">© 2026 NEXA HUB AI</span> &bull;
+        <span class="brand-highlight"><i class="fas fa-copyright"></i> 2026 NEXA HUB AI</span> &bull; All Rights Reserved
       </p>
     </div>
 
     <!-- ===== RESULT SECTION ===== -->
     <div class="result-screen" id="resultScreen">
       <div class="check-circle">
-        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        <i class="fas fa-check"></i>
       </div>
       <h2>Preferences Saved!</h2>
-      <p>Great choice! Your personalized meal plan is being prepared based on your preferences.</p>
+      <p>Your personalized meal plan is being prepared by our AI. Get ready for a delicious and healthy journey!</p>
       <div class="tags-row">
-        <span class="pill pill-green" id="pillFood"></span>
-        <span class="pill pill-blue" id="pillCook"></span>
+        <span class="pill pill-green" id="pillFood"><i class="fas fa-check-circle"></i> </span>
+        <span class="pill pill-blue" id="pillCook"><i class="fas fa-check-circle"></i> </span>
       </div>
-      <button class="back-btn" onclick="goBack()">← Change Preferences</button>
+      <button class="back-btn" onclick="goBack()">
+        <i class="fas fa-arrow-left"></i> Change Preferences
+      </button>
       <p class="footer" style="margin-top:20px">
-        <span class="brand-highlight">NEXA HUB AI</span> &bull; Healthy Eating Starts Here
+        <span class="brand-highlight"><i class="fas fa-robot"></i> NEXA HUB AI</span> &bull; Healthy Eating Starts Here
       </p>
     </div>
 
@@ -561,15 +647,12 @@
         document.body.classList.remove('dark');
         themeLabel.textContent = 'Light';
       }
-      // User ki choice localStorage me save karo
       localStorage.setItem('nexahub-theme', theme);
     }
 
-    // Page load pe saved theme apply karo
     const savedTheme = localStorage.getItem('nexahub-theme') || 'light';
     setTheme(savedTheme);
 
-    // Button click pe theme toggle karo
     themeToggle.addEventListener('click', function() {
       const isDark = document.body.classList.contains('dark');
       setTheme(isDark ? 'light' : 'dark');
@@ -581,15 +664,17 @@
     const foodLabels = {
       'vegetarian': '🥗 Vegetarian',
       'non-vegetarian': '🍗 Non-Vegetarian',
-      'vegan': '🌱 Vegan'
+      'vegan': '🌱 Vegan',
+      'eggetarian': '🥚 Eggetarian'
     };
 
     const cookLabels = {
-      'simple': '🍳 Simple',
+      'simple': '🍳 Simple & Quick',
       'simple-non-oily': '🥦 Simple & Non-Oily',
-      'spicy': '🌶️ Spicy',
-      'grilled': '🔥 Grilled',
-      'raw-salads': '🥗 Raw & Salads'
+      'spicy': '🌶️ Spicy & Flavorful',
+      'grilled': '🔥 Grilled & Roasted',
+      'raw-salads': '🥗 Raw & Salads',
+      'traditional': '🍛 Traditional Indian'
     };
 
     function onSelectChange(el) {
@@ -622,8 +707,8 @@
 
       if (!valid) return;
 
-      document.getElementById('pillFood').textContent = foodLabels[food];
-      document.getElementById('pillCook').textContent = cookLabels[cook];
+      document.getElementById('pillFood').innerHTML = '<i class="fas fa-check-circle"></i> ' + foodLabels[food];
+      document.getElementById('pillCook').innerHTML = '<i class="fas fa-check-circle"></i> ' + cookLabels[cook];
 
       document.getElementById('formSection').classList.add('hide');
       document.getElementById('resultScreen').classList.add('show');
