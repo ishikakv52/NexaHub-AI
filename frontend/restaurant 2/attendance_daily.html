@@ -1,0 +1,1829 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Daily Attendance</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+
+:root{
+
+    --sidebar:#241812;
+    --sidebar-dark:#180f0a;
+    --orange:#b3541e;
+    --orange-dark:#8a3f14;
+
+    --page:#f5f1ea;
+    --text:#2b1d14;
+    --card:#ffffff;
+    --border:#eeeeee;
+    --table-head:#efe6d8;
+    --muted:#777777;
+
+}
+
+body{
+
+    background:var(--page);
+    color:var(--text);
+    overflow-x:hidden;
+
+    transition:
+        background .35s ease,
+        color .35s ease;
+
+    animation:pageFade .6s ease;
+
+}
+
+/* DARK MODE */
+
+body.dark-mode{
+
+    --page:#111827;
+    --text:#f1f5f9;
+    --card:#1f2937;
+    --border:#374151;
+    --table-head:#374151;
+    --muted:#aab4c2;
+
+}
+
+/* ANIMATIONS */
+
+@keyframes pageFade{
+
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+@keyframes slideLeft{
+
+    from{
+        opacity:0;
+        transform:translateX(-30px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+
+}
+
+@keyframes slideUp{
+
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+/* SIDEBAR */
+
+.sidebar{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:290px;
+    height:100vh;
+
+    background:linear-gradient(
+        180deg,
+        var(--sidebar),
+        var(--sidebar-dark)
+    );
+
+    color:#fff;
+
+    overflow-y:auto;
+
+    z-index:1000;
+
+    animation:slideLeft .6s ease;
+
+    transition:.3s ease;
+
+}
+
+.sidebar::-webkit-scrollbar{
+
+    width:5px;
+
+}
+
+.sidebar::-webkit-scrollbar-thumb{
+
+    background:var(--orange);
+
+    border-radius:20px;
+
+}
+
+/* LOGO */
+
+.logo{
+
+    min-height:115px;
+
+    padding:22px 20px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.08);
+
+}
+
+.logo-icon{
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:12px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:var(--orange);
+
+    color:#fff;
+
+    font-size:20px;
+
+    flex-shrink:0;
+
+}
+
+.logo-text{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:3px;
+
+}
+
+.logo-text h2{
+
+    font-size:20px;
+
+    font-weight:700;
+
+    color:#fff;
+
+}
+
+.logo-text span{
+
+    font-size:12px;
+
+    color:#c9b8a8;
+
+    letter-spacing:1px;
+
+}
+
+/* NAVIGATION */
+
+.nav-section{
+
+    padding:16px 18px 7px;
+
+    color:#a89684;
+
+    font-size:11px;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+
+}
+
+.nav-link{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:13px;
+
+    padding:12px 20px;
+
+    color:#d8c9b8;
+
+    text-decoration:none;
+
+    border-left:3px solid transparent;
+
+    transition:.3s ease;
+
+}
+
+.nav-link i{
+
+    width:20px;
+
+    text-align:center;
+
+}
+
+.nav-link:hover{
+
+    color:#fff;
+
+    background:
+        rgba(179,84,30,.18);
+
+    padding-left:28px;
+
+}
+
+.nav-link.active{
+
+    color:#fff;
+
+    background:
+        rgba(179,84,30,.25);
+
+    border-left-color:
+        var(--orange);
+
+}
+
+/* MAIN */
+
+.main{
+
+    margin-left:290px;
+
+    min-height:100vh;
+
+    padding:32px 38px;
+
+}
+
+/* HEADER */
+
+.header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+    margin-bottom:28px;
+
+    animation:slideUp .6s ease;
+
+}
+
+.header h1{
+
+    font-size:40px;
+
+    line-height:1.1;
+
+    color:var(--text);
+
+}
+
+.header p{
+
+    margin-top:8px;
+
+    font-size:18px;
+
+    color:var(--muted);
+
+}
+
+/* HEADER ACTIONS */
+
+.header-actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+/* THEME ICON */
+
+.theme-icon{
+
+    width:46px;
+
+    height:46px;
+
+    border:1px solid var(--border);
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:var(--card);
+
+    color:var(--text);
+
+    font-size:19px;
+
+    cursor:pointer;
+
+    transition:.35s ease;
+
+    box-shadow:
+        0 4px 12px
+        rgba(0,0,0,.08);
+
+}
+
+.theme-icon:hover{
+
+    transform:
+        rotate(25deg)
+        scale(1.08);
+
+    background:var(--orange);
+
+    color:#fff;
+
+}
+
+/* DATE */
+
+.date-box{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    background:var(--card);
+
+    padding:13px 16px;
+
+    border-radius:9px;
+
+    border:1px solid var(--border);
+
+    box-shadow:
+        0 3px 10px
+        rgba(0,0,0,.05);
+
+}
+
+.date-box input{
+
+    border:0;
+
+    outline:0;
+
+    font-size:16px;
+
+    color:var(--text);
+
+    background:transparent;
+
+}
+
+/* STATS */
+
+.stats{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:18px;
+
+    margin-bottom:30px;
+
+}
+
+.stat-card{
+
+    min-height:140px;
+
+    padding:24px;
+
+    border-radius:18px;
+
+    color:#fff;
+
+    animation:
+        slideUp .7s ease
+        backwards;
+
+    transition:.3s ease;
+
+    box-shadow:
+        0 5px 15px
+        rgba(0,0,0,.12);
+
+}
+
+.stat-card:nth-child(1){
+
+    animation-delay:.1s;
+
+}
+
+.stat-card:nth-child(2){
+
+    animation-delay:.2s;
+
+}
+
+.stat-card:nth-child(3){
+
+    animation-delay:.3s;
+
+}
+
+.stat-card:nth-child(4){
+
+    animation-delay:.4s;
+
+}
+
+.stat-card:hover{
+
+    transform:
+        translateY(-7px)
+        scale(1.02);
+
+    box-shadow:
+        0 12px 25px
+        rgba(0,0,0,.18);
+
+}
+
+.stat-title{
+
+    font-size:16px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+}
+
+.stat-number{
+
+    margin-top:20px;
+
+    font-size:38px;
+
+    font-weight:700;
+
+}
+
+.total{
+
+    background:
+        linear-gradient(
+            135deg,
+            #24758d,
+            #15596e
+        );
+
+}
+
+.present{
+
+    background:
+        linear-gradient(
+            135deg,
+            #2c7a4b,
+            #1e5c37
+        );
+
+}
+
+.late{
+
+    background:
+        linear-gradient(
+            135deg,
+            #b3541e,
+            #8a3f14
+        );
+
+}
+
+.absent{
+
+    background:
+        linear-gradient(
+            135deg,
+            #a13a3a,
+            #7c2a2a
+        );
+
+}
+
+/* CARD */
+
+.attendance-card{
+
+    background:var(--card);
+
+    color:var(--text);
+
+    border-radius:18px;
+
+    padding:22px;
+
+    box-shadow:
+        0 4px 18px
+        rgba(0,0,0,.07);
+
+    animation:
+        slideUp .8s ease;
+
+    transition:.35s ease;
+
+}
+
+.card-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:22px;
+
+    gap:15px;
+
+}
+
+.card-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+.card-title i{
+
+    color:var(--orange);
+
+    font-size:23px;
+
+}
+
+.card-title h2{
+
+    font-size:24px;
+
+}
+
+.card-title p{
+
+    margin-top:5px;
+
+    color:var(--muted);
+
+}
+
+/* BUTTON */
+
+.btn{
+
+    border:0;
+
+    background:var(--orange);
+
+    color:#fff;
+
+    padding:13px 20px;
+
+    border-radius:8px;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+    transition:.3s ease;
+
+}
+
+.btn:hover{
+
+    background:var(--orange-dark);
+
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 6px 15px
+        rgba(179,84,30,.3);
+
+}
+
+/* TABLE */
+
+.table-wrapper{
+
+    width:100%;
+
+    overflow-x:auto;
+
+}
+
+table{
+
+    width:100%;
+
+    min-width:900px;
+
+    border-collapse:collapse;
+
+}
+
+thead{
+
+    background:var(--table-head);
+
+}
+
+th{
+
+    padding:15px;
+
+    text-align:left;
+
+    color:var(--text);
+
+    font-size:13px;
+
+    text-transform:uppercase;
+
+    white-space:nowrap;
+
+}
+
+td{
+
+    padding:16px 15px;
+
+    border-bottom:
+        1px solid
+        var(--border);
+
+    white-space:nowrap;
+
+}
+
+tbody tr{
+
+    transition:.25s ease;
+
+}
+
+tbody tr:hover{
+
+    background:
+        rgba(179,84,30,.08);
+
+    transform:scale(1.005);
+
+}
+
+/* EMPLOYEE */
+
+.employee{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.avatar{
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:50%;
+
+    background:var(--orange);
+
+    color:#fff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-weight:bold;
+
+    font-size:17px;
+
+}
+
+.employee-name{
+
+    font-weight:600;
+
+}
+
+.employee-id{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    margin-top:3px;
+
+}
+
+/* BADGES */
+
+.badge{
+
+    padding:7px 13px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+}
+
+.badge-present{
+
+    background:#d9f2df;
+
+    color:#23733d;
+
+}
+
+.badge-late{
+
+    background:#fff0c2;
+
+    color:#856404;
+
+}
+
+.badge-absent{
+
+    background:#f8d7da;
+
+    color:#842029;
+
+}
+
+.badge-half{
+
+    background:#dcecff;
+
+    color:#245b8a;
+
+}
+
+/* MOBILE */
+
+.mobile-btn{
+
+    display:none;
+
+    border:0;
+
+    background:var(--orange);
+
+    color:#fff;
+
+    padding:10px 13px;
+
+    border-radius:8px;
+
+    font-size:18px;
+
+}
+
+.overlay{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.5);
+
+    z-index:999;
+
+}
+
+.overlay.show{
+
+    display:block;
+
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+
+    .stats{
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+    }
+
+}
+
+@media(max-width:850px){
+
+    .sidebar{
+
+        transform:translateX(-100%);
+
+    }
+
+    .sidebar.open{
+
+        transform:translateX(0);
+
+    }
+
+    .main{
+
+        margin-left:0;
+
+        padding:22px 16px;
+
+    }
+
+    .mobile-btn{
+
+        display:inline-block;
+
+        margin-right:10px;
+
+    }
+
+    .header{
+
+        align-items:flex-start;
+
+        flex-direction:column;
+
+    }
+
+    .header-actions{
+
+        width:100%;
+
+        justify-content:flex-end;
+
+    }
+
+    .header h1{
+
+        font-size:32px;
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    .stats{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .card-header{
+
+        align-items:flex-start;
+
+        flex-direction:column;
+
+    }
+
+    .btn{
+
+        width:100%;
+
+    }
+
+    .header-actions{
+
+        width:100%;
+
+        justify-content:space-between;
+
+    }
+
+    .date-box{
+
+        flex:1;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+
+            <i class="fa-solid fa-fire-burner"></i>
+
+        </div>
+
+        <div class="logo-text">
+
+            <h2>NEXA HUB AI</h2>
+
+            <span>Restaurant</span>
+
+        </div>
+
+    </div>
+
+    <a href="dashboard.html" class="nav-link">
+
+        <i class="fa-solid fa-house"></i>
+
+        Dashboard
+
+    </a>
+
+    <div class="nav-section">
+
+        Management
+
+    </div>
+
+    <a href="employee_list.html" class="nav-link">
+
+        <i class="fa-solid fa-users"></i>
+
+        Employees
+
+    </a>
+
+    <a href="employee_list.html" class="nav-link">
+
+        <i class="fa-solid fa-user-tie"></i>
+
+        Staff
+
+    </a>
+
+    <a href="attendance_daily.html"
+
+       class="nav-link active">
+
+        <i class="fa-solid fa-clock"></i>
+
+        Attendance
+
+    </a>
+
+    <a href="department_list.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-building"></i>
+
+        Departments
+
+    </a>
+
+    <div class="nav-section">
+
+        Restaurant
+
+    </div>
+
+    <a href="customer_list.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-address-book"></i>
+
+        Customers
+
+    </a>
+
+    <a href="customer_menu.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-book-open"></i>
+
+        Menu
+
+    </a>
+
+    <a href="inventory_list.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-boxes-stacked"></i>
+
+        Inventory
+
+    </a>
+
+    <a href="kitchen_display.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-kitchen-set"></i>
+
+        Kitchen
+
+    </a>
+
+    <a href="delivery_dashboard.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-truck"></i>
+
+        Delivery
+
+    </a>
+
+    <div class="nav-section">
+
+        Finance
+
+    </div>
+
+    <a href="finance_overview.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-chart-line"></i>
+
+        Finance Overview
+
+    </a>
+
+    <a href="finance_income_list.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-arrow-trend-up"></i>
+
+        Income
+
+    </a>
+
+    <a href="finance_expense_list.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-arrow-trend-down"></i>
+
+        Expenses
+
+    </a>
+
+    <a href="finance_asset_list.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-building-columns"></i>
+
+        Assets
+
+    </a>
+
+    <a href="login_select.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-right-from-bracket"></i>
+
+        Logout
+
+    </a>
+
+</aside>
+
+<div
+
+    class="overlay"
+
+    id="overlay"
+
+    onclick="closeSidebar()">
+
+</div>
+
+<!-- MAIN -->
+
+<main class="main">
+
+    <div class="header">
+
+        <div>
+
+            <div>
+
+                <button
+
+                    class="mobile-btn"
+
+                    onclick="openSidebar()">
+
+                    <i class="fa-solid fa-bars"></i>
+
+                </button>
+
+                <h1 style="display:inline-block;">
+
+                    Daily Attendance
+
+                </h1>
+
+            </div>
+
+            <p>
+
+                Manage and monitor daily employee attendance.
+
+            </p>
+
+        </div>
+
+        <div class="header-actions">
+
+            <button
+
+                class="theme-icon"
+
+                id="themeToggle"
+
+                onclick="toggleTheme()">
+
+                <i class="fa-solid fa-sun"></i>
+
+            </button>
+
+            <div class="date-box">
+
+                <i class="fa-regular fa-calendar"></i>
+
+                <input
+
+                    type="date"
+
+                    id="attendanceDate">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- STATS -->
+
+    <section class="stats">
+
+        <div class="stat-card total">
+
+            <div class="stat-title">
+
+                <i class="fa-solid fa-users"></i>
+
+                Total Employees
+
+            </div>
+
+            <div class="stat-number">
+
+                24
+
+            </div>
+
+        </div>
+
+        <div class="stat-card present">
+
+            <div class="stat-title">
+
+                <i class="fa-solid fa-user-check"></i>
+
+                Present
+
+            </div>
+
+            <div class="stat-number">
+
+                18
+
+            </div>
+
+        </div>
+
+        <div class="stat-card late">
+
+            <div class="stat-title">
+
+                <i class="fa-solid fa-clock"></i>
+
+                Late
+
+            </div>
+
+            <div class="stat-number">
+
+                3
+
+            </div>
+
+        </div>
+
+        <div class="stat-card absent">
+
+            <div class="stat-title">
+
+                <i class="fa-solid fa-user-xmark"></i>
+
+                Absent
+
+            </div>
+
+            <div class="stat-number">
+
+                3
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ATTENDANCE -->
+
+    <section class="attendance-card">
+
+        <div class="card-header">
+
+            <div class="card-title">
+
+                <i class="fa-solid fa-calendar-check"></i>
+
+                <div>
+
+                    <h2>
+
+                        Attendance Records
+
+                    </h2>
+
+                    <p>
+
+                        Daily employee attendance details
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <button
+
+                class="btn"
+
+                onclick="markAttendance()">
+
+                <i class="fa-solid fa-plus"></i>
+
+                Mark Attendance
+
+            </button>
+
+        </div>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Employee</th>
+
+                        <th>Department</th>
+
+                        <th>Check In</th>
+
+                        <th>Check Out</th>
+
+                        <th>Working Hours</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+
+                            <div class="employee">
+
+                                <div class="avatar">
+
+                                    RK
+
+                                </div>
+
+                                <div>
+
+                                    <div class="employee-name">
+
+                                        Rahul Kumar
+
+                                    </div>
+
+                                    <div class="employee-id">
+
+                                        EMP-001
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>Kitchen</td>
+
+                        <td>09:00 AM</td>
+
+                        <td>06:00 PM</td>
+
+                        <td>9 Hours</td>
+
+                        <td>
+
+                            <span
+
+                                class="badge badge-present">
+
+                                Present
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+
+                            <div class="employee">
+
+                                <div class="avatar">
+
+                                    AS
+
+                                </div>
+
+                                <div>
+
+                                    <div class="employee-name">
+
+                                        Anjali Sharma
+
+                                    </div>
+
+                                    <div class="employee-id">
+
+                                        EMP-002
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>Service</td>
+
+                        <td>09:25 AM</td>
+
+                        <td>06:00 PM</td>
+
+                        <td>8.5 Hours</td>
+
+                        <td>
+
+                            <span
+
+                                class="badge badge-late">
+
+                                Late
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+
+                            <div class="employee">
+
+                                <div class="avatar">
+
+                                    AM
+
+                                </div>
+
+                                <div>
+
+                                    <div class="employee-name">
+
+                                        Amit Mishra
+
+                                    </div>
+
+                                    <div class="employee-id">
+
+                                        EMP-003
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>Management</td>
+
+                        <td>—</td>
+
+                        <td>—</td>
+
+                        <td>—</td>
+
+                        <td>
+
+                            <span
+
+                                class="badge badge-absent">
+
+                                Absent
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+
+                            <div class="employee">
+
+                                <div class="avatar">
+
+                                    PN
+
+                                </div>
+
+                                <div>
+
+                                    <div class="employee-name">
+
+                                        Priya Nair
+
+                                    </div>
+
+                                    <div class="employee-id">
+
+                                        EMP-004
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>Accounts</td>
+
+                        <td>09:10 AM</td>
+
+                        <td>01:00 PM</td>
+
+                        <td>4 Hours</td>
+
+                        <td>
+
+                            <span
+
+                                class="badge badge-half">
+
+                                Half Day
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script>
+
+/* SIDEBAR */
+
+function openSidebar(){
+
+    document
+
+    .getElementById("sidebar")
+
+    .classList
+
+    .add("open");
+
+    document
+
+    .getElementById("overlay")
+
+    .classList
+
+    .add("show");
+
+}
+
+function closeSidebar(){
+
+    document
+
+    .getElementById("sidebar")
+
+    .classList
+
+    .remove("open");
+
+    document
+
+    .getElementById("overlay")
+
+    .classList
+
+    .remove("show");
+
+}
+
+
+/* THEME ICON LOGIC */
+
+/*
+   LIGHT MODE = SUN ICON
+   DARK MODE  = MOON ICON
+*/
+
+const themeToggle =
+
+document.getElementById(
+
+    "themeToggle"
+
+);
+
+const savedTheme =
+
+localStorage.getItem(
+
+    "nexaTheme"
+
+);
+
+
+/* SAVED DARK MODE */
+
+if(savedTheme === "dark"){
+
+    document.body
+
+    .classList
+
+    .add("dark-mode");
+
+    /* DARK MODE = MOON */
+
+    themeToggle.innerHTML =
+
+        '<i class="fa-solid fa-moon"></i>';
+
+}
+
+
+/* DEFAULT LIGHT MODE */
+
+else{
+
+    document.body
+
+    .classList
+
+    .remove("dark-mode");
+
+    /* LIGHT MODE = SUN */
+
+    themeToggle.innerHTML =
+
+        '<i class="fa-solid fa-sun"></i>';
+
+}
+
+
+/* TOGGLE */
+
+function toggleTheme(){
+
+    document.body
+
+    .classList
+
+    .toggle("dark-mode");
+
+    const isDark =
+
+        document.body
+
+        .classList
+
+        .contains("dark-mode");
+
+
+    if(isDark){
+
+        /* DARK MODE = MOON */
+
+        themeToggle.innerHTML =
+
+            '<i class="fa-solid fa-moon"></i>';
+
+        localStorage.setItem(
+
+            "nexaTheme",
+
+            "dark"
+
+        );
+
+    }
+
+    else{
+
+        /* LIGHT MODE = SUN */
+
+        themeToggle.innerHTML =
+
+            '<i class="fa-solid fa-sun"></i>';
+
+        localStorage.setItem(
+
+            "nexaTheme",
+
+            "light"
+
+        );
+
+    }
+
+}
+
+
+/* DATE */
+
+document
+
+.getElementById(
+
+    "attendanceDate"
+
+)
+
+.valueAsDate = new Date();
+
+
+/* BUTTON */
+
+function markAttendance(){
+
+    alert(
+
+        "Attendance marking feature is ready."
+
+    );
+
+}
+
+</script>
+
+</body>
+
+</html>

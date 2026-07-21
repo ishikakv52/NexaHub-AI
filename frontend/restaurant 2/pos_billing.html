@@ -1,0 +1,2082 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | POS Billing</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+
+:root{
+
+    --sidebar:#241812;
+    --sidebar-dark:#180f0a;
+
+    --orange:#b3541e;
+    --orange-dark:#8a3f14;
+
+    --page:#f5f1ea;
+    --text:#2b1d14;
+
+    --card:#ffffff;
+    --border:#eeeeee;
+    --muted:#777777;
+
+}
+
+body{
+
+    background:var(--page);
+    color:var(--text);
+
+    min-height:100vh;
+
+    transition:.35s ease;
+
+    animation:pageFade .6s ease;
+
+}
+
+body.dark-mode{
+
+    --page:#111827;
+    --text:#f1f5f9;
+
+    --card:#1f2937;
+    --border:#374151;
+    --muted:#aab4c2;
+
+}
+
+@keyframes pageFade{
+
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+@keyframes slideLeft{
+
+    from{
+        opacity:0;
+        transform:translateX(-30px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+
+}
+
+@keyframes slideUp{
+
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+/* SIDEBAR */
+
+.sidebar{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:290px;
+    height:100vh;
+
+    background:linear-gradient(
+        180deg,
+        var(--sidebar),
+        var(--sidebar-dark)
+    );
+
+    color:#fff;
+
+    overflow-y:auto;
+
+    z-index:1000;
+
+    animation:slideLeft .6s ease;
+
+}
+
+.sidebar::-webkit-scrollbar{
+
+    width:5px;
+
+}
+
+.sidebar::-webkit-scrollbar-thumb{
+
+    background:var(--orange);
+
+    border-radius:20px;
+
+}
+
+.logo{
+
+    min-height:115px;
+
+    padding:22px 20px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    border-bottom:
+    1px solid
+    rgba(255,255,255,.08);
+
+}
+
+.logo-icon{
+
+    width:42px;
+    height:42px;
+
+    border-radius:12px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    background:var(--orange);
+
+    color:#fff;
+
+    font-size:20px;
+
+}
+
+.logo-text h2{
+
+    font-size:20px;
+
+    color:#fff;
+
+}
+
+.logo-text span{
+
+    font-size:12px;
+
+    color:#c9b8a8;
+
+    letter-spacing:1px;
+
+}
+
+.nav-section{
+
+    padding:16px 18px 7px;
+
+    color:#a89684;
+
+    font-size:11px;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+
+}
+
+.nav-link{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:13px;
+
+    padding:12px 20px;
+
+    color:#d8c9b8;
+
+    text-decoration:none;
+
+    border-left:3px solid transparent;
+
+    transition:.3s ease;
+
+}
+
+.nav-link i{
+
+    width:20px;
+
+    text-align:center;
+
+}
+
+.nav-link:hover{
+
+    color:#fff;
+
+    background:rgba(179,84,30,.18);
+
+    padding-left:28px;
+
+}
+
+.nav-link.active{
+
+    color:#fff;
+
+    background:rgba(179,84,30,.25);
+
+    border-left-color:var(--orange);
+
+}
+
+/* MAIN */
+
+.main{
+
+    margin-left:290px;
+
+    min-height:100vh;
+
+    padding:32px 38px;
+
+}
+
+/* HEADER */
+
+.page-header{
+
+    display:flex;
+
+    align-items:flex-end;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+    margin-bottom:28px;
+
+    animation:slideUp .6s ease;
+
+}
+
+.page-header h1{
+
+    font-size:38px;
+
+}
+
+.page-header p{
+
+    margin-top:8px;
+
+    color:var(--muted);
+
+    font-size:17px;
+
+}
+
+.header-actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.theme-icon{
+
+    width:46px;
+
+    height:46px;
+
+    border:1px solid var(--border);
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:var(--card);
+
+    color:var(--text);
+
+    font-size:19px;
+
+    cursor:pointer;
+
+    transition:.35s ease;
+
+}
+
+.theme-icon:hover{
+
+    transform:
+    rotate(25deg)
+    scale(1.08);
+
+    background:var(--orange);
+
+    color:#fff;
+
+}
+
+/* POS LAYOUT */
+
+.pos-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    1.5fr 1fr;
+
+    gap:22px;
+
+}
+
+/* MENU CARD */
+
+.menu-card{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:24px;
+
+    animation:slideUp .7s ease;
+
+}
+
+.card-header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    margin-bottom:20px;
+
+}
+
+.card-header h2{
+
+    font-size:21px;
+
+}
+
+.card-header p{
+
+    color:var(--muted);
+
+    font-size:13px;
+
+    margin-top:5px;
+
+}
+
+.search-box{
+
+    position:relative;
+
+    width:250px;
+
+}
+
+.search-box i{
+
+    position:absolute;
+
+    left:14px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:var(--muted);
+
+}
+
+.search-box input{
+
+    width:100%;
+
+    padding:12px 14px 12px 40px;
+
+    border:1px solid var(--border);
+
+    border-radius:9px;
+
+    outline:none;
+
+    background:var(--card);
+
+    color:var(--text);
+
+}
+
+.category-list{
+
+    display:flex;
+
+    gap:10px;
+
+    overflow-x:auto;
+
+    padding-bottom:15px;
+
+    margin-bottom:18px;
+
+}
+
+.category-btn{
+
+    white-space:nowrap;
+
+    padding:9px 15px;
+
+    border:1px solid var(--border);
+
+    border-radius:20px;
+
+    background:transparent;
+
+    color:var(--text);
+
+    cursor:pointer;
+
+    transition:.3s ease;
+
+}
+
+.category-btn:hover,
+
+.category-btn.active{
+
+    background:var(--orange);
+
+    color:#fff;
+
+    border-color:var(--orange);
+
+}
+
+.menu-grid{
+
+    display:grid;
+
+    grid-template-columns:
+
+    repeat(3,1fr);
+
+    gap:15px;
+
+}
+
+.menu-item{
+
+    padding:18px;
+
+    border:1px solid var(--border);
+
+    border-radius:13px;
+
+    cursor:pointer;
+
+    transition:.3s ease;
+
+}
+
+.menu-item:hover{
+
+    transform:translateY(-4px);
+
+    border-color:var(--orange);
+
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+}
+
+.food-icon{
+
+    width:48px;
+
+    height:48px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:12px;
+
+    background:rgba(179,84,30,.12);
+
+    color:var(--orange);
+
+    font-size:22px;
+
+    margin-bottom:12px;
+
+}
+
+.menu-item h3{
+
+    font-size:14px;
+
+}
+
+.menu-item p{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    margin-top:5px;
+
+}
+
+.menu-price{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-top:13px;
+
+    font-weight:700;
+
+}
+
+.add-item{
+
+    width:30px;
+
+    height:30px;
+
+    border:0;
+
+    border-radius:8px;
+
+    background:var(--orange);
+
+    color:#fff;
+
+    cursor:pointer;
+
+}
+
+/* BILL */
+
+.bill-card{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:24px;
+
+    animation:slideUp .85s ease;
+
+}
+
+.bill-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding-bottom:18px;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.bill-header h2{
+
+    font-size:21px;
+
+}
+
+.bill-number{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+}
+
+.customer-input{
+
+    margin:18px 0;
+
+}
+
+.customer-input label{
+
+    display:block;
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    margin-bottom:7px;
+
+}
+
+.customer-input input{
+
+    width:100%;
+
+    padding:12px;
+
+    border:1px solid var(--border);
+
+    border-radius:9px;
+
+    outline:none;
+
+    background:var(--card);
+
+    color:var(--text);
+
+}
+
+.cart-items{
+
+    min-height:220px;
+
+    max-height:300px;
+
+    overflow-y:auto;
+
+}
+
+.cart-empty{
+
+    text-align:center;
+
+    padding:70px 20px;
+
+    color:var(--muted);
+
+}
+
+.cart-empty i{
+
+    font-size:40px;
+
+    margin-bottom:12px;
+
+}
+
+.cart-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:13px 0;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.cart-info{
+
+    flex:1;
+
+}
+
+.cart-info h4{
+
+    font-size:14px;
+
+}
+
+.cart-info p{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    margin-top:4px;
+
+}
+
+.qty-controls{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+}
+
+.qty-btn{
+
+    width:25px;
+
+    height:25px;
+
+    border:1px solid var(--border);
+
+    border-radius:6px;
+
+    background:transparent;
+
+    color:var(--text);
+
+    cursor:pointer;
+
+}
+
+.remove-btn{
+
+    border:0;
+
+    background:transparent;
+
+    color:#c0392b;
+
+    cursor:pointer;
+
+    margin-left:5px;
+
+}
+
+.bill-summary{
+
+    margin-top:20px;
+
+    padding-top:15px;
+
+    border-top:1px solid var(--border);
+
+}
+
+.summary-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    padding:8px 0;
+
+    color:var(--muted);
+
+    font-size:14px;
+
+}
+
+.summary-row.total{
+
+    color:var(--text);
+
+    font-size:20px;
+
+    font-weight:700;
+
+    padding-top:15px;
+
+    margin-top:8px;
+
+    border-top:1px solid var(--border);
+
+}
+
+.payment-title{
+
+    margin-top:20px;
+
+    margin-bottom:10px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+}
+
+.payment-methods{
+
+    display:grid;
+
+    grid-template-columns:
+
+    repeat(3,1fr);
+
+    gap:8px;
+
+}
+
+.payment-btn{
+
+    padding:11px 5px;
+
+    border:1px solid var(--border);
+
+    border-radius:8px;
+
+    background:transparent;
+
+    color:var(--text);
+
+    cursor:pointer;
+
+    font-size:12px;
+
+}
+
+.payment-btn.active,
+
+.payment-btn:hover{
+
+    background:var(--orange);
+
+    color:#fff;
+
+    border-color:var(--orange);
+
+}
+
+.complete-btn{
+
+    width:100%;
+
+    margin-top:20px;
+
+    padding:15px;
+
+    border:0;
+
+    border-radius:10px;
+
+    background:var(--orange);
+
+    color:#fff;
+
+    font-size:15px;
+
+    cursor:pointer;
+
+    transition:.3s ease;
+
+}
+
+.complete-btn:hover{
+
+    background:var(--orange-dark);
+
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+
+    .pos-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+@media(max-width:850px){
+
+    .sidebar{
+
+        transform:translateX(-100%);
+
+    }
+
+    .main{
+
+        margin-left:0;
+
+        padding:22px 16px;
+
+    }
+
+}
+
+@media(max-width:700px){
+
+    .card-header{
+
+        align-items:flex-start;
+
+        flex-direction:column;
+
+    }
+
+    .search-box{
+
+        width:100%;
+
+    }
+
+    .menu-grid{
+
+        grid-template-columns:
+
+        repeat(2,1fr);
+
+    }
+
+}
+
+@media(max-width:450px){
+
+    .menu-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+
+            <i class="fa-solid fa-fire-burner"></i>
+
+        </div>
+
+        <div class="logo-text">
+
+            <h2>NEXA HUB AI</h2>
+
+            <span>Restaurant</span>
+
+        </div>
+
+    </div>
+
+    <a href="dashboard.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-house"></i>
+
+        Dashboard
+
+    </a>
+
+    <div class="nav-section">
+        Management
+    </div>
+
+    <a href="employee_list.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-users"></i>
+
+        Employees
+
+    </a>
+
+    <a href="attendance_daily.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-clock"></i>
+
+        Attendance
+
+    </a>
+
+    <a href="department_list.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-building"></i>
+
+        Departments
+
+    </a>
+
+    <div class="nav-section">
+        Restaurant
+    </div>
+
+    <a href="customer_list.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-address-book"></i>
+
+        Customers
+
+    </a>
+
+    <a href="menu_list.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-utensils"></i>
+
+        Menu Items
+
+    </a>
+
+    <a href="menu_category_list.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-layer-group"></i>
+
+        Menu Categories
+
+    </a>
+
+    <a href="order_create.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-cart-plus"></i>
+
+        Create Order
+
+    </a>
+
+    <a href="order_list.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-receipt"></i>
+
+        Orders
+
+    </a>
+
+    <a href="pos_billing.html"
+       class="nav-link active">
+
+        <i class="fa-solid fa-cash-register"></i>
+
+        POS Billing
+
+    </a>
+
+    <a href="delivery_dashboard.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-truck"></i>
+
+        Delivery
+
+    </a>
+
+    <a href="delivery_tracking.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-location-dot"></i>
+
+        Delivery Tracking
+
+    </a>
+
+    <a href="loyalty_dashboard.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-crown"></i>
+
+        Loyalty
+
+    </a>
+
+    <div class="nav-section">
+        Finance
+    </div>
+
+    <a href="finance_overview.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-chart-line"></i>
+
+        Finance Overview
+
+    </a>
+
+    <a href="finance_income_list.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-arrow-trend-up"></i>
+
+        Income
+
+    </a>
+
+    <a href="finance_expense_list.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-arrow-trend-down"></i>
+
+        Expenses
+
+    </a>
+
+    <a href="finance_asset_list.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-building-columns"></i>
+
+        Assets
+
+    </a>
+
+    <div class="nav-section">
+        Inventory
+    </div>
+
+    <a href="inventory_list.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-boxes-stacked"></i>
+
+        Inventory
+
+    </a>
+
+    <a href="kitchen_display.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-kitchen-set"></i>
+
+        Kitchen Display
+
+    </a>
+
+    <a href="login.html"
+       class="nav-link">
+
+        <i class="fa-solid fa-right-from-bracket"></i>
+
+        Logout
+
+    </a>
+
+</aside>
+
+<main class="main">
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>
+                POS Billing
+            </h1>
+
+            <p>
+                Create bills and process customer payments.
+            </p>
+
+        </div>
+
+        <div class="header-actions">
+
+            <button
+
+                class="theme-icon"
+
+                id="themeToggle"
+
+                onclick="toggleTheme()">
+
+                <i class="fa-solid fa-sun"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="pos-grid">
+
+        <div class="menu-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <h2>
+                        Menu Items
+                    </h2>
+
+                    <p>
+                        Select items to add them to the bill.
+                    </p>
+
+                </div>
+
+                <div class="search-box">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+
+                        type="text"
+
+                        id="menuSearch"
+
+                        placeholder="Search menu..."
+
+                        onkeyup="searchMenu()">
+
+                </div>
+
+            </div>
+
+            <div class="category-list">
+
+                <button
+                    class="category-btn active"
+                    onclick="filterCategory('all',this)">
+
+                    All
+
+                </button>
+
+                <button
+                    class="category-btn"
+                    onclick="filterCategory('burger',this)">
+
+                    Burgers
+
+                </button>
+
+                <button
+                    class="category-btn"
+                    onclick="filterCategory('pizza',this)">
+
+                    Pizza
+
+                </button>
+
+                <button
+                    class="category-btn"
+                    onclick="filterCategory('drink',this)">
+
+                    Drinks
+
+                </button>
+
+                <button
+                    class="category-btn"
+                    onclick="filterCategory('dessert',this)">
+
+                    Desserts
+
+                </button>
+
+            </div>
+
+            <div class="menu-grid" id="menuGrid">
+
+                <div class="menu-item"
+                     data-category="burger"
+                     data-name="Classic Burger"
+                     data-price="249">
+
+                    <div class="food-icon">
+
+                        <i class="fa-solid fa-burger"></i>
+
+                    </div>
+
+                    <h3>
+                        Classic Burger
+                    </h3>
+
+                    <p>
+                        Fresh grilled burger
+                    </p>
+
+                    <div class="menu-price">
+
+                        ₹249
+
+                        <button
+                            class="add-item"
+                            onclick="addToCart('Classic Burger',249)">
+
+                            <i class="fa-solid fa-plus"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="menu-item"
+                     data-category="pizza"
+                     data-name="Margherita Pizza"
+                     data-price="399">
+
+                    <div class="food-icon">
+
+                        <i class="fa-solid fa-pizza-slice"></i>
+
+                    </div>
+
+                    <h3>
+                        Margherita Pizza
+                    </h3>
+
+                    <p>
+                        Cheese and tomato
+                    </p>
+
+                    <div class="menu-price">
+
+                        ₹399
+
+                        <button
+                            class="add-item"
+                            onclick="addToCart('Margherita Pizza',399)">
+
+                            <i class="fa-solid fa-plus"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="menu-item"
+                     data-category="drink"
+                     data-name="Cold Coffee"
+                     data-price="149">
+
+                    <div class="food-icon">
+
+                        <i class="fa-solid fa-mug-hot"></i>
+
+                    </div>
+
+                    <h3>
+                        Cold Coffee
+                    </h3>
+
+                    <p>
+                        Creamy chilled coffee
+                    </p>
+
+                    <div class="menu-price">
+
+                        ₹149
+
+                        <button
+                            class="add-item"
+                            onclick="addToCart('Cold Coffee',149)">
+
+                            <i class="fa-solid fa-plus"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="menu-item"
+                     data-category="burger"
+                     data-name="Cheese Burger"
+                     data-price="299">
+
+                    <div class="food-icon">
+
+                        <i class="fa-solid fa-burger"></i>
+
+                    </div>
+
+                    <h3>
+                        Cheese Burger
+                    </h3>
+
+                    <p>
+                        Extra cheese burger
+                    </p>
+
+                    <div class="menu-price">
+
+                        ₹299
+
+                        <button
+                            class="add-item"
+                            onclick="addToCart('Cheese Burger',299)">
+
+                            <i class="fa-solid fa-plus"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="menu-item"
+                     data-category="dessert"
+                     data-name="Chocolate Cake"
+                     data-price="199">
+
+                    <div class="food-icon">
+
+                        <i class="fa-solid fa-cake-candles"></i>
+
+                    </div>
+
+                    <h3>
+                        Chocolate Cake
+                    </h3>
+
+                    <p>
+                        Soft chocolate cake
+                    </p>
+
+                    <div class="menu-price">
+
+                        ₹199
+
+                        <button
+                            class="add-item"
+                            onclick="addToCart('Chocolate Cake',199)">
+
+                            <i class="fa-solid fa-plus"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="menu-item"
+                     data-category="drink"
+                     data-name="Fresh Juice"
+                     data-price="129">
+
+                    <div class="food-icon">
+
+                        <i class="fa-solid fa-glass-water"></i>
+
+                    </div>
+
+                    <h3>
+                        Fresh Juice
+                    </h3>
+
+                    <p>
+                        Fresh seasonal juice
+                    </p>
+
+                    <div class="menu-price">
+
+                        ₹129
+
+                        <button
+                            class="add-item"
+                            onclick="addToCart('Fresh Juice',129)">
+
+                            <i class="fa-solid fa-plus"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="bill-card">
+
+            <div class="bill-header">
+
+                <h2>
+                    Current Bill
+                </h2>
+
+                <span class="bill-number">
+                    #POS-2026
+                </span>
+
+            </div>
+
+            <div class="customer-input">
+
+                <label>
+                    Customer Name
+                </label>
+
+                <input
+
+                    type="text"
+
+                    id="customerName"
+
+                    placeholder="Enter customer name">
+
+            </div>
+
+            <div class="cart-items" id="cartItems">
+
+                <div class="cart-empty">
+
+                    <i class="fa-solid fa-cart-shopping"></i>
+
+                    <p>
+                        No items added yet
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="bill-summary">
+
+                <div class="summary-row">
+
+                    <span>
+                        Subtotal
+                    </span>
+
+                    <span id="subtotal">
+                        ₹0
+                    </span>
+
+                </div>
+
+                <div class="summary-row">
+
+                    <span>
+                        Tax (5%)
+                    </span>
+
+                    <span id="tax">
+                        ₹0
+                    </span>
+
+                </div>
+
+                <div class="summary-row total">
+
+                    <span>
+                        Total
+                    </span>
+
+                    <span id="total">
+                        ₹0
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="payment-title">
+                Payment Method
+            </div>
+
+            <div class="payment-methods">
+
+                <button
+                    class="payment-btn active"
+                    onclick="selectPayment(this)">
+
+                    <i class="fa-solid fa-money-bill"></i>
+
+                    Cash
+
+                </button>
+
+                <button
+                    class="payment-btn"
+                    onclick="selectPayment(this)">
+
+                    <i class="fa-solid fa-mobile-screen-button"></i>
+
+                    UPI
+
+                </button>
+
+                <button
+                    class="payment-btn"
+                    onclick="selectPayment(this)">
+
+                    <i class="fa-solid fa-credit-card"></i>
+
+                    Card
+
+                </button>
+
+            </div>
+
+            <button
+
+                class="complete-btn"
+
+                onclick="completePayment()">
+
+                <i class="fa-solid fa-check"></i>
+
+                Complete Payment
+
+            </button>
+
+        </div>
+
+    </div>
+
+</main>
+
+<script>
+
+let cart = [];
+
+const themeToggle =
+
+document.getElementById(
+    "themeToggle"
+);
+
+const savedTheme =
+
+localStorage.getItem(
+    "nexaTheme"
+);
+
+if(savedTheme === "dark"){
+
+    document.body.classList.add(
+        "dark-mode"
+    );
+
+    themeToggle.innerHTML =
+        '<i class="fa-solid fa-moon"></i>';
+
+}
+
+else{
+
+    themeToggle.innerHTML =
+        '<i class="fa-solid fa-sun"></i>';
+
+}
+
+function toggleTheme(){
+
+    document.body.classList.toggle(
+        "dark-mode"
+    );
+
+    const isDark =
+
+        document.body.classList.contains(
+            "dark-mode"
+        );
+
+    if(isDark){
+
+        themeToggle.innerHTML =
+            '<i class="fa-solid fa-moon"></i>';
+
+        localStorage.setItem(
+            "nexaTheme",
+            "dark"
+        );
+
+    }
+
+    else{
+
+        themeToggle.innerHTML =
+            '<i class="fa-solid fa-sun"></i>';
+
+        localStorage.setItem(
+            "nexaTheme",
+            "light"
+        );
+
+    }
+
+}
+
+function addToCart(name,price){
+
+    const existingItem =
+
+        cart.find(
+            item => item.name === name
+        );
+
+    if(existingItem){
+
+        existingItem.qty++;
+
+    }
+
+    else{
+
+        cart.push({
+
+            name:name,
+
+            price:price,
+
+            qty:1
+
+        });
+
+    }
+
+    renderCart();
+
+}
+
+function renderCart(){
+
+    const cartItems =
+
+        document.getElementById(
+            "cartItems"
+        );
+
+    if(cart.length === 0){
+
+        cartItems.innerHTML = `
+
+            <div class="cart-empty">
+
+                <i class="fa-solid fa-cart-shopping"></i>
+
+                <p>
+                    No items added yet
+                </p>
+
+            </div>
+
+        `;
+
+        updateBill();
+
+        return;
+
+    }
+
+    cartItems.innerHTML = "";
+
+    cart.forEach(function(item,index){
+
+        const itemTotal =
+            item.price * item.qty;
+
+        cartItems.innerHTML += `
+
+            <div class="cart-item">
+
+                <div class="cart-info">
+
+                    <h4>
+                        ${item.name}
+                    </h4>
+
+                    <p>
+                        ₹${item.price} each
+                    </p>
+
+                </div>
+
+                <div class="qty-controls">
+
+                    <button
+                        class="qty-btn"
+                        onclick="changeQty(${index},-1)">
+
+                        −
+
+                    </button>
+
+                    <span>
+                        ${item.qty}
+                    </span>
+
+                    <button
+                        class="qty-btn"
+                        onclick="changeQty(${index},1)">
+
+                        +
+
+                    </button>
+
+                </div>
+
+                <strong>
+                    ₹${itemTotal}
+                </strong>
+
+                <button
+
+                    class="remove-btn"
+
+                    onclick="removeItem(${index})">
+
+                    <i class="fa-solid fa-trash"></i>
+
+                </button>
+
+            </div>
+
+        `;
+
+    });
+
+    updateBill();
+
+}
+
+function changeQty(index,change){
+
+    cart[index].qty += change;
+
+    if(cart[index].qty <= 0){
+
+        cart.splice(index,1);
+
+    }
+
+    renderCart();
+
+}
+
+function removeItem(index){
+
+    cart.splice(index,1);
+
+    renderCart();
+
+}
+
+function updateBill(){
+
+    let subtotal = 0;
+
+    cart.forEach(function(item){
+
+        subtotal +=
+            item.price * item.qty;
+
+    });
+
+    const tax =
+        subtotal * 0.05;
+
+    const total =
+        subtotal + tax;
+
+    document.getElementById(
+        "subtotal"
+    ).innerText =
+        "₹" + subtotal.toFixed(0);
+
+    document.getElementById(
+        "tax"
+    ).innerText =
+        "₹" + tax.toFixed(0);
+
+    document.getElementById(
+        "total"
+    ).innerText =
+        "₹" + total.toFixed(0);
+
+}
+
+function selectPayment(button){
+
+    document.querySelectorAll(
+        ".payment-btn"
+    ).forEach(function(btn){
+
+        btn.classList.remove(
+            "active"
+        );
+
+    });
+
+    button.classList.add(
+        "active"
+    );
+
+}
+
+function completePayment(){
+
+    if(cart.length === 0){
+
+        alert(
+            "Please add at least one item."
+        );
+
+        return;
+
+    }
+
+    const customerName =
+
+        document.getElementById(
+            "customerName"
+        ).value.trim();
+
+    if(customerName === ""){
+
+        alert(
+            "Please enter customer name."
+        );
+
+        return;
+
+    }
+
+    alert(
+        "Payment completed successfully!"
+    );
+
+    cart = [];
+
+    document.getElementById(
+        "customerName"
+    ).value = "";
+
+    renderCart();
+
+}
+
+function searchMenu(){
+
+    const searchValue =
+
+        document.getElementById(
+            "menuSearch"
+        ).value.toLowerCase();
+
+    document.querySelectorAll(
+        ".menu-item"
+    ).forEach(function(item){
+
+        const name =
+
+            item.dataset.name.toLowerCase();
+
+        item.style.display =
+
+            name.includes(searchValue)
+
+            ? "block"
+
+            : "none";
+
+    });
+
+}
+
+function filterCategory(category,button){
+
+    document.querySelectorAll(
+        ".category-btn"
+    ).forEach(function(btn){
+
+        btn.classList.remove(
+            "active"
+        );
+
+    });
+
+    button.classList.add(
+        "active"
+    );
+
+    document.querySelectorAll(
+        ".menu-item"
+    ).forEach(function(item){
+
+        if(
+
+            category === "all" ||
+
+            item.dataset.category === category
+
+        ){
+
+            item.style.display =
+                "block";
+
+        }
+
+        else{
+
+            item.style.display =
+                "none";
+
+        }
+
+    });
+
+}
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,1685 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Menu Category List</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+
+:root{
+
+    --sidebar:#241812;
+    --sidebar-dark:#180f0a;
+
+    --orange:#b3541e;
+    --orange-dark:#8a3f14;
+
+    --page:#f5f1ea;
+    --text:#2b1d14;
+
+    --card:#ffffff;
+    --border:#eeeeee;
+    --muted:#777777;
+
+}
+
+body{
+
+    background:var(--page);
+    color:var(--text);
+
+    min-height:100vh;
+
+    transition:.35s ease;
+
+    animation:pageFade .6s ease;
+
+}
+
+body.dark-mode{
+
+    --page:#111827;
+    --text:#f1f5f9;
+
+    --card:#1f2937;
+    --border:#374151;
+    --muted:#aab4c2;
+
+}
+
+@keyframes pageFade{
+
+    from{
+
+        opacity:0;
+        transform:translateY(15px);
+
+    }
+
+    to{
+
+        opacity:1;
+        transform:translateY(0);
+
+    }
+
+}
+
+@keyframes slideLeft{
+
+    from{
+
+        opacity:0;
+        transform:translateX(-30px);
+
+    }
+
+    to{
+
+        opacity:1;
+        transform:translateX(0);
+
+    }
+
+}
+
+@keyframes slideUp{
+
+    from{
+
+        opacity:0;
+        transform:translateY(25px);
+
+    }
+
+    to{
+
+        opacity:1;
+        transform:translateY(0);
+
+    }
+
+}
+
+/* SIDEBAR */
+
+.sidebar{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:290px;
+    height:100vh;
+
+    background:linear-gradient(
+
+        180deg,
+
+        var(--sidebar),
+
+        var(--sidebar-dark)
+
+    );
+
+    color:#fff;
+
+    overflow-y:auto;
+
+    z-index:1000;
+
+    animation:slideLeft .6s ease;
+
+}
+
+.sidebar::-webkit-scrollbar{
+
+    width:5px;
+
+}
+
+.sidebar::-webkit-scrollbar-thumb{
+
+    background:var(--orange);
+
+    border-radius:20px;
+
+}
+
+.logo{
+
+    min-height:115px;
+
+    padding:22px 20px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    border-bottom:
+
+    1px solid
+
+    rgba(255,255,255,.08);
+
+}
+
+.logo-icon{
+
+    width:42px;
+    height:42px;
+
+    border-radius:12px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    background:var(--orange);
+
+    color:#fff;
+
+    font-size:20px;
+
+}
+
+.logo-text h2{
+
+    font-size:20px;
+
+    color:#fff;
+
+}
+
+.logo-text span{
+
+    font-size:12px;
+
+    color:#c9b8a8;
+
+    letter-spacing:1px;
+
+}
+
+.nav-section{
+
+    padding:16px 18px 7px;
+
+    color:#a89684;
+
+    font-size:11px;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+
+}
+
+.nav-link{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:13px;
+
+    padding:12px 20px;
+
+    color:#d8c9b8;
+
+    text-decoration:none;
+
+    border-left:3px solid transparent;
+
+    transition:.3s ease;
+
+}
+
+.nav-link i{
+
+    width:20px;
+
+    text-align:center;
+
+}
+
+.nav-link:hover{
+
+    color:#fff;
+
+    background:rgba(179,84,30,.18);
+
+    padding-left:28px;
+
+}
+
+.nav-link.active{
+
+    color:#fff;
+
+    background:rgba(179,84,30,.25);
+
+    border-left-color:var(--orange);
+
+}
+
+/* MAIN */
+
+.main{
+
+    margin-left:290px;
+
+    min-height:100vh;
+
+    padding:32px 38px;
+
+}
+
+/* HEADER */
+
+.page-header{
+
+    display:flex;
+
+    align-items:flex-end;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+    margin-bottom:28px;
+
+    animation:slideUp .6s ease;
+
+}
+
+.page-header h1{
+
+    font-size:38px;
+
+}
+
+.page-header p{
+
+    margin-top:8px;
+
+    color:var(--muted);
+
+    font-size:17px;
+
+}
+
+.header-actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.theme-icon{
+
+    width:46px;
+    height:46px;
+
+    border:1px solid var(--border);
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    background:var(--card);
+
+    color:var(--text);
+
+    font-size:19px;
+
+    cursor:pointer;
+
+    transition:.35s ease;
+
+}
+
+.theme-icon:hover{
+
+    transform:
+
+    rotate(25deg)
+
+    scale(1.08);
+
+    background:var(--orange);
+
+    color:#fff;
+
+}
+
+/* TOP BAR */
+
+.top-bar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-bottom:22px;
+
+    animation:slideUp .7s ease;
+
+}
+
+.search-box{
+
+    flex:1;
+
+    max-width:500px;
+
+    position:relative;
+
+}
+
+.search-box i{
+
+    position:absolute;
+
+    left:15px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:var(--muted);
+
+}
+
+.search-box input{
+
+    width:100%;
+
+    padding:14px 15px 14px 45px;
+
+    border:1px solid var(--border);
+
+    border-radius:10px;
+
+    outline:none;
+
+    background:var(--card);
+
+    color:var(--text);
+
+    font-size:14px;
+
+}
+
+.search-box input:focus{
+
+    border-color:var(--orange);
+
+}
+
+.add-btn{
+
+    padding:13px 20px;
+
+    border:0;
+
+    border-radius:10px;
+
+    background:var(--orange);
+
+    color:#fff;
+
+    cursor:pointer;
+
+    font-size:14px;
+
+    transition:.3s ease;
+
+}
+
+.add-btn:hover{
+
+    background:var(--orange-dark);
+
+}
+
+/* TABLE CARD */
+
+.table-card{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:24px;
+
+    animation:slideUp .8s ease;
+
+}
+
+.table-wrapper{
+
+    overflow-x:auto;
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+th,td{
+
+    padding:16px 14px;
+
+    text-align:left;
+
+    border-bottom:1px solid var(--border);
+
+    white-space:nowrap;
+
+}
+
+th{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.5px;
+
+}
+
+td{
+
+    font-size:14px;
+
+}
+
+.category-name{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.category-icon{
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:11px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    background:rgba(179,84,30,.12);
+
+    color:var(--orange);
+
+    font-size:18px;
+
+}
+
+.category-name strong{
+
+    font-size:14px;
+
+}
+
+.category-name span{
+
+    display:block;
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    margin-top:4px;
+
+}
+
+.status{
+
+    display:inline-block;
+
+    padding:7px 12px;
+
+    border-radius:20px;
+
+    font-size:11px;
+
+    font-weight:600;
+
+}
+
+.status.active{
+
+    background:rgba(34,197,94,.12);
+
+    color:#16a34a;
+
+}
+
+.status.inactive{
+
+    background:rgba(239,68,68,.12);
+
+    color:#dc2626;
+
+}
+
+.action-buttons{
+
+    display:flex;
+
+    gap:8px;
+
+}
+
+.action-btn{
+
+    width:36px;
+
+    height:36px;
+
+    border:0;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    transition:.3s ease;
+
+}
+
+.edit-btn{
+
+    background:rgba(179,84,30,.12);
+
+    color:var(--orange);
+
+}
+
+.delete-btn{
+
+    background:rgba(220,38,38,.10);
+
+    color:#dc2626;
+
+}
+
+.action-btn:hover{
+
+    transform:scale(1.08);
+
+}
+
+.empty-message{
+
+    text-align:center;
+
+    padding:40px;
+
+    color:var(--muted);
+
+    display:none;
+
+}
+
+/* RESPONSIVE */
+
+@media(max-width:850px){
+
+    .sidebar{
+
+        transform:translateX(-100%);
+
+    }
+
+    .main{
+
+        margin-left:0;
+
+        padding:22px 16px;
+
+    }
+
+}
+
+@media(max-width:650px){
+
+    .page-header{
+
+        align-items:flex-start;
+
+        flex-direction:column;
+
+    }
+
+    .page-header h1{
+
+        font-size:30px;
+
+    }
+
+    .top-bar{
+
+        align-items:stretch;
+
+        flex-direction:column;
+
+    }
+
+    .search-box{
+
+        max-width:none;
+
+    }
+
+    .add-btn{
+
+        width:100%;
+
+    }
+
+    .table-card{
+
+        padding:15px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+
+            <i class="fa-solid fa-fire-burner"></i>
+
+        </div>
+
+        <div class="logo-text">
+
+            <h2>NEXA HUB AI</h2>
+
+            <span>Restaurant</span>
+
+        </div>
+
+    </div>
+
+    <a href="dashboard.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-house"></i>
+
+        Dashboard
+
+    </a>
+
+    <div class="nav-section">
+
+        Management
+
+    </div>
+
+    <a href="employee_list.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-users"></i>
+
+        Employees
+
+    </a>
+
+    <a href="attendance_daily.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-clock"></i>
+
+        Attendance
+
+    </a>
+
+    <a href="department_list.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-building"></i>
+
+        Departments
+
+    </a>
+
+    <div class="nav-section">
+
+        Restaurant
+
+    </div>
+
+    <a href="customer_list.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-address-book"></i>
+
+        Customers
+
+    </a>
+
+    <a href="customer_menu.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-book-open"></i>
+
+        Menu
+
+    </a>
+
+    <a href="menu_category_list.html"
+
+       class="nav-link active">
+
+        <i class="fa-solid fa-layer-group"></i>
+
+        Menu Categories
+
+    </a>
+
+    <a href="menu_list.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-utensils"></i>
+
+        Menu Items
+
+    </a>
+
+    <a href="customer_order_status.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-receipt"></i>
+
+        Order Status
+
+    </a>
+
+    <a href="delivery_dashboard.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-truck"></i>
+
+        Delivery
+
+    </a>
+
+    <a href="delivery_tracking.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-location-dot"></i>
+
+        Delivery Tracking
+
+    </a>
+
+    <a href="loyalty_dashboard.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-crown"></i>
+
+        Loyalty
+
+    </a>
+
+    <div class="nav-section">
+
+        Finance
+
+    </div>
+
+    <a href="finance_overview.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-chart-line"></i>
+
+        Finance Overview
+
+    </a>
+
+    <a href="finance_income_list.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-arrow-trend-up"></i>
+
+        Income
+
+    </a>
+
+    <a href="finance_expense_list.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-arrow-trend-down"></i>
+
+        Expenses
+
+    </a>
+
+    <a href="finance_asset_list.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-building-columns"></i>
+
+        Assets
+
+    </a>
+
+    <div class="nav-section">
+
+        Inventory
+
+    </div>
+
+    <a href="inventory_list.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-boxes-stacked"></i>
+
+        Inventory
+
+    </a>
+
+    <a href="kitchen_display.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-kitchen-set"></i>
+
+        Kitchen Display
+
+    </a>
+
+    <a href="login.html"
+
+       class="nav-link">
+
+        <i class="fa-solid fa-right-from-bracket"></i>
+
+        Logout
+
+    </a>
+
+</aside>
+
+<main class="main">
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>
+
+                Menu Categories
+
+            </h1>
+
+            <p>
+
+                Organize and manage your restaurant menu categories.
+
+            </p>
+
+        </div>
+
+        <div class="header-actions">
+
+            <button
+
+                class="theme-icon"
+
+                id="themeToggle"
+
+                onclick="toggleTheme()">
+
+                <i class="fa-solid fa-sun"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="top-bar">
+
+        <div class="search-box">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+
+                type="text"
+
+                id="searchInput"
+
+                placeholder="Search categories..."
+
+                onkeyup="searchCategories()">
+
+        </div>
+
+        <button
+
+            class="add-btn"
+
+            onclick="addCategory()">
+
+            <i class="fa-solid fa-plus"></i>
+
+            Add Category
+
+        </button>
+
+    </div>
+
+    <div class="table-card">
+
+        <div class="table-wrapper">
+
+            <table id="categoryTable">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+
+                            Category
+
+                        </th>
+
+                        <th>
+
+                            Display Order
+
+                        </th>
+
+                        <th>
+
+                            Menu Items
+
+                        </th>
+
+                        <th>
+
+                            Status
+
+                        </th>
+
+                        <th>
+
+                            Created Date
+
+                        </th>
+
+                        <th>
+
+                            Actions
+
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+
+                            <div class="category-name">
+
+                                <div class="category-icon">
+
+                                    <i class="fa-solid fa-burger"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <strong>
+
+                                        Main Course
+
+                                    </strong>
+
+                                    <span>
+
+                                        Main restaurant dishes
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            1
+
+                        </td>
+
+                        <td>
+
+                            24 Items
+
+                        </td>
+
+                        <td>
+
+                            <span class="status active">
+
+                                Active
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            21 Jul 2026
+
+                        </td>
+
+                        <td>
+
+                            <div class="action-buttons">
+
+                                <button
+
+                                    class="action-btn edit-btn"
+
+                                    onclick="editCategory('Main Course')">
+
+                                    <i class="fa-solid fa-pen"></i>
+
+                                </button>
+
+                                <button
+
+                                    class="action-btn delete-btn"
+
+                                    onclick="deleteCategory('Main Course')">
+
+                                    <i class="fa-solid fa-trash"></i>
+
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+
+                            <div class="category-name">
+
+                                <div class="category-icon">
+
+                                    <i class="fa-solid fa-pizza-slice"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <strong>
+
+                                        Pizza
+
+                                    </strong>
+
+                                    <span>
+
+                                        Freshly baked pizzas
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            2
+
+                        </td>
+
+                        <td>
+
+                            18 Items
+
+                        </td>
+
+                        <td>
+
+                            <span class="status active">
+
+                                Active
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            20 Jul 2026
+
+                        </td>
+
+                        <td>
+
+                            <div class="action-buttons">
+
+                                <button
+
+                                    class="action-btn edit-btn"
+
+                                    onclick="editCategory('Pizza')">
+
+                                    <i class="fa-solid fa-pen"></i>
+
+                                </button>
+
+                                <button
+
+                                    class="action-btn delete-btn"
+
+                                    onclick="deleteCategory('Pizza')">
+
+                                    <i class="fa-solid fa-trash"></i>
+
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+
+                            <div class="category-name">
+
+                                <div class="category-icon">
+
+                                    <i class="fa-solid fa-mug-hot"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <strong>
+
+                                        Beverages
+
+                                    </strong>
+
+                                    <span>
+
+                                        Hot and cold beverages
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            3
+
+                        </td>
+
+                        <td>
+
+                            12 Items
+
+                        </td>
+
+                        <td>
+
+                            <span class="status active">
+
+                                Active
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            19 Jul 2026
+
+                        </td>
+
+                        <td>
+
+                            <div class="action-buttons">
+
+                                <button
+
+                                    class="action-btn edit-btn"
+
+                                    onclick="editCategory('Beverages')">
+
+                                    <i class="fa-solid fa-pen"></i>
+
+                                </button>
+
+                                <button
+
+                                    class="action-btn delete-btn"
+
+                                    onclick="deleteCategory('Beverages')">
+
+                                    <i class="fa-solid fa-trash"></i>
+
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+
+                            <div class="category-name">
+
+                                <div class="category-icon">
+
+                                    <i class="fa-solid fa-cake-candles"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <strong>
+
+                                        Desserts
+
+                                    </strong>
+
+                                    <span>
+
+                                        Sweet dishes and desserts
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            4
+
+                        </td>
+
+                        <td>
+
+                            8 Items
+
+                        </td>
+
+                        <td>
+
+                            <span class="status inactive">
+
+                                Inactive
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            18 Jul 2026
+
+                        </td>
+
+                        <td>
+
+                            <div class="action-buttons">
+
+                                <button
+
+                                    class="action-btn edit-btn"
+
+                                    onclick="editCategory('Desserts')">
+
+                                    <i class="fa-solid fa-pen"></i>
+
+                                </button>
+
+                                <button
+
+                                    class="action-btn delete-btn"
+
+                                    onclick="deleteCategory('Desserts')">
+
+                                    <i class="fa-solid fa-trash"></i>
+
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+            <div
+
+                class="empty-message"
+
+                id="emptyMessage">
+
+                No categories found.
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<script>
+
+const themeToggle =
+
+document.getElementById(
+
+    "themeToggle"
+
+);
+
+const savedTheme =
+
+localStorage.getItem(
+
+    "nexaTheme"
+
+);
+
+if(savedTheme === "dark"){
+
+    document.body.classList.add(
+
+        "dark-mode"
+
+    );
+
+    themeToggle.innerHTML =
+
+        '<i class="fa-solid fa-moon"></i>';
+
+}
+
+else{
+
+    themeToggle.innerHTML =
+
+        '<i class="fa-solid fa-sun"></i>';
+
+}
+
+function toggleTheme(){
+
+    document.body.classList.toggle(
+
+        "dark-mode"
+
+    );
+
+    const isDark =
+
+        document.body.classList.contains(
+
+            "dark-mode"
+
+        );
+
+    if(isDark){
+
+        themeToggle.innerHTML =
+
+            '<i class="fa-solid fa-moon"></i>';
+
+        localStorage.setItem(
+
+            "nexaTheme",
+
+            "dark"
+
+        );
+
+    }
+
+    else{
+
+        themeToggle.innerHTML =
+
+            '<i class="fa-solid fa-sun"></i>';
+
+        localStorage.setItem(
+
+            "nexaTheme",
+
+            "light"
+
+        );
+
+    }
+
+}
+
+function addCategory(){
+
+    window.location.href =
+
+        "menu_category_form.html";
+
+}
+
+function editCategory(category){
+
+    alert(
+
+        "Edit category: " +
+
+        category
+
+    );
+
+}
+
+function deleteCategory(category){
+
+    const confirmDelete =
+
+        confirm(
+
+            "Are you sure you want to delete " +
+
+            category +
+
+            "?"
+
+        );
+
+    if(confirmDelete){
+
+        alert(
+
+            category +
+
+            " deleted successfully."
+
+        );
+
+    }
+
+}
+
+function searchCategories(){
+
+    const input =
+
+        document.getElementById(
+
+            "searchInput"
+
+        ).value.toLowerCase();
+
+    const rows =
+
+        document.querySelectorAll(
+
+            "#categoryTable tbody tr"
+
+        );
+
+    let visibleRows = 0;
+
+    rows.forEach(function(row){
+
+        const text =
+
+            row.textContent.toLowerCase();
+
+        if(text.includes(input)){
+
+            row.style.display = "";
+
+            visibleRows++;
+
+        }
+
+        else{
+
+            row.style.display = "none";
+
+        }
+
+    });
+
+    const emptyMessage =
+
+        document.getElementById(
+
+            "emptyMessage"
+
+        );
+
+    if(visibleRows === 0){
+
+        emptyMessage.style.display = "block";
+
+    }
+
+    else{
+
+        emptyMessage.style.display = "none";
+
+    }
+
+}
+
+</script>
+
+</body>
+
+</html>

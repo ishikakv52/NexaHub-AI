@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Customer Menu</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+
+:root{
+
+    --sidebar:#241812;
+    --sidebar-dark:#180f0a;
+    --orange:#b3541e;
+    --orange-dark:#8a3f14;
+
+    --page:#f5f1ea;
+    --text:#2b1d14;
+    --card:#ffffff;
+    --border:#eeeeee;
+    --muted:#777777;
+    --input:#ffffff;
+
+}
+
+body{
+
+    background:var(--page);
+    color:var(--text);
+    min-height:100vh;
+    transition:.35s ease;
+    animation:pageFade .6s ease;
+
+}
+
+body.dark-mode{
+
+    --page:#111827;
+    --text:#f1f5f9;
+    --card:#1f2937;
+    --border:#374151;
+    --muted:#aab4c2;
+    --input:#111827;
+
+}
+
+/* ANIMATIONS */
+
+@keyframes pageFade{
+
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+@keyframes slideLeft{
+
+    from{
+        opacity:0;
+        transform:translateX(-30px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+
+}
+
+@keyframes slideUp{
+
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+/* SIDEBAR */
+
+.sidebar{
+
+    position:fixed;
+    top:0;
+    left:0;
+
+    width:290px;
+    height:100vh;
+
+    background:linear-gradient(
+        180deg,
+        var(--sidebar),
+        var(--sidebar-dark)
+    );
+
+    color:#fff;
+    overflow-y:auto;
+    z-index:1000;
+
+    animation:slideLeft .6s ease;
+
+}
+
+.sidebar::-webkit-scrollbar{
+
+    width:5px;
+
+}
+
+.sidebar::-webkit-scrollbar-thumb{
+
+    background:var(--orange);
+    border-radius:20px;
+
+}
+
+/* LOGO */
+
+.logo{
+
+    min-height:115px;
+    padding:22px 20px;
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    border-bottom:
+    1px solid
+    rgba(255,255,255,.08);
+
+}
+
+.logo-icon{
+
+    width:42px;
+    height:42px;
+
+    border-radius:12px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:var(--orange);
+    color:#fff;
+
+    font-size:20px;
+
+}
+
+.logo-text h2{
+
+    font-size:20px;
+    color:#fff;
+
+}
+
+.logo-text span{
+
+    font-size:12px;
+    color:#c9b8a8;
+    letter-spacing:1px;
+
+}
+
+/* NAVIGATION */
+
+.nav-section{
+
+    padding:16px 18px 7px;
+
+    color:#a89684;
+
+    font-size:11px;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+
+}
+
+.nav-link{
+
+    display:flex;
+    align-items:center;
+    gap:13px;
+
+    padding:12px 20px;
+
+    color:#d8c9b8;
+
+    text-decoration:none;
+
+    border-left:3px solid transparent;
+
+    transition:.3s ease;
+
+}
+
+.nav-link i{
+
+    width:20px;
+    text-align:center;
+
+}
+
+.nav-link:hover{
+
+    color:#fff;
+
+    background:rgba(179,84,30,.18);
+
+    padding-left:28px;
+
+}
+
+.nav-link.active{
+
+    color:#fff;
+
+    background:rgba(179,84,30,.25);
+
+    border-left-color:var(--orange);
+
+}
+
+/* MAIN */
+
+.main{
+
+    margin-left:290px;
+
+    min-height:100vh;
+
+    padding:32px 38px;
+
+}
+
+/* HEADER */
+
+.page-header{
+
+    display:flex;
+
+    align-items:flex-end;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+    margin-bottom:28px;
+
+    animation:slideUp .6s ease;
+
+}
+
+.page-header h1{
+
+    font-size:38px;
+
+}
+
+.page-header p{
+
+    margin-top:8px;
+
+    color:var(--muted);
+
+    font-size:17px;
+
+}
+
+.header-actions{
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+}
+
+/* THEME ICON */
+
+.theme-icon{
+
+    width:46px;
+    height:46px;
+
+    border:1px solid var(--border);
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:var(--card);
+
+    color:var(--text);
+
+    font-size:19px;
+
+    cursor:pointer;
+
+    transition:.35s ease;
+
+}
+
+.theme-icon:hover{
+
+    transform:
+    rotate(25deg)
+    scale(1.08);
+
+    background:var(--orange);
+
+    color:#fff;
+
+}
+
+/* MENU FILTER */
+
+.menu-filter{
+
+    display:flex;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+
+    margin-bottom:25px;
+
+    animation:slideUp .7s ease;
+
+}
+
+.filter-btn{
+
+    border:1px solid var(--border);
+
+    background:var(--card);
+
+    color:var(--text);
+
+    padding:11px 18px;
+
+    border-radius:25px;
+
+    cursor:pointer;
+
+    transition:.3s ease;
+
+}
+
+.filter-btn:hover,
+
+.filter-btn.active{
+
+    background:var(--orange);
+
+    color:#fff;
+
+    border-color:var(--orange);
+
+}
+
+/* MENU GRID */
+
+.menu-grid{
+
+    display:grid;
+
+    grid-template-columns:
+
+    repeat(4,1fr);
+
+    gap:22px;
+
+}
+
+/* MENU CARD */
+
+.menu-card{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:16px;
+
+    overflow:hidden;
+
+    transition:.35s ease;
+
+    animation:slideUp .8s ease;
+
+}
+
+.menu-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:
+
+    0 12px 30px
+
+    rgba(0,0,0,.1);
+
+}
+
+.food-image{
+
+    height:155px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        rgba(179,84,30,.16),
+
+        rgba(179,84,30,.04)
+
+    );
+
+    font-size:65px;
+
+    color:var(--orange);
+
+}
+
+.menu-content{
+
+    padding:18px;
+
+}
+
+.menu-content h3{
+
+    font-size:18px;
+
+    margin-bottom:7px;
+
+}
+
+.menu-content p{
+
+    color:var(--muted);
+
+    font-size:13px;
+
+    line-height:1.5;
+
+    min-height:40px;
+
+}
+
+.menu-bottom{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-top:16px;
+
+}
+
+.price{
+
+    color:var(--orange);
+
+    font-size:19px;
+
+    font-weight:700;
+
+}
+
+.order-btn{
+
+    border:0;
+
+    padding:9px 13px;
+
+    border-radius:7px;
+
+    background:var(--orange);
+
+    color:#fff;
+
+    cursor:pointer;
+
+    transition:.3s ease;
+
+}
+
+.order-btn:hover{
+
+    background:var(--orange-dark);
+
+    transform:translateY(-2px);
+
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1200px){
+
+    .menu-grid{
+
+        grid-template-columns:
+
+        repeat(3,1fr);
+
+    }
+
+}
+
+@media(max-width:950px){
+
+    .menu-grid{
+
+        grid-template-columns:
+
+        repeat(2,1fr);
+
+    }
+
+}
+
+@media(max-width:850px){
+
+    .sidebar{
+
+        transform:translateX(-100%);
+
+    }
+
+    .sidebar.open{
+
+        transform:translateX(0);
+
+    }
+
+    .main{
+
+        margin-left:0;
+
+        padding:22px 16px;
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    .page-header{
+
+        align-items:flex-start;
+
+        flex-direction:column;
+
+    }
+
+    .page-header h1{
+
+        font-size:30px;
+
+    }
+
+    .menu-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+
+            <i class="fa-solid fa-fire-burner"></i>
+
+        </div>
+
+        <div class="logo-text">
+
+            <h2>NEXA HUB AI</h2>
+
+            <span>Restaurant</span>
+
+        </div>
+
+    </div>
+
+    <a href="dashboard.html" class="nav-link">
+
+        <i class="fa-solid fa-house"></i>
+
+        Dashboard
+
+    </a>
+
+    <div class="nav-section">
+
+        Management
+
+    </div>
+
+    <a href="employee_list.html" class="nav-link">
+
+        <i class="fa-solid fa-users"></i>
+
+        Employees
+
+    </a>
+
+    <a href="attendance_daily.html" class="nav-link">
+
+        <i class="fa-solid fa-clock"></i>
+
+        Attendance
+
+    </a>
+
+    <a href="department_list.html" class="nav-link">
+
+        <i class="fa-solid fa-building"></i>
+
+        Departments
+
+    </a>
+
+    <div class="nav-section">
+
+        Restaurant
+
+    </div>
+
+    <a href="customer_list.html" class="nav-link">
+
+        <i class="fa-solid fa-address-book"></i>
+
+        Customers
+
+    </a>
+
+    <a href="customer_menu.html"
+
+       class="nav-link active">
+
+        <i class="fa-solid fa-book-open"></i>
+
+        Menu
+
+    </a>
+
+    <a href="inventory_list.html" class="nav-link">
+
+        <i class="fa-solid fa-boxes-stacked"></i>
+
+        Inventory
+
+    </a>
+
+    <a href="kitchen_display.html" class="nav-link">
+
+        <i class="fa-solid fa-kitchen-set"></i>
+
+        Kitchen
+
+    </a>
+
+    <a href="delivery_dashboard.html" class="nav-link">
+
+        <i class="fa-solid fa-truck"></i>
+
+        Delivery
+
+    </a>
+
+    <div class="nav-section">
+
+        Finance
+
+    </div>
+
+    <a href="finance_overview.html" class="nav-link">
+
+        <i class="fa-solid fa-chart-line"></i>
+
+        Finance Overview
+
+    </a>
+
+    <a href="finance_income_list.html" class="nav-link">
+
+        <i class="fa-solid fa-arrow-trend-up"></i>
+
+        Income
+
+    </a>
+
+    <a href="finance_expense_list.html" class="nav-link">
+
+        <i class="fa-solid fa-arrow-trend-down"></i>
+
+        Expenses
+
+    </a>
+
+    <a href="finance_asset_list.html" class="nav-link">
+
+        <i class="fa-solid fa-building-columns"></i>
+
+        Assets
+
+    </a>
+
+    <a href="login_select.html" class="nav-link">
+
+        <i class="fa-solid fa-right-from-bracket"></i>
+
+        Logout
+
+    </a>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>
+
+                Restaurant Menu
+
+            </h1>
+
+            <p>
+
+                Browse and manage your restaurant menu items.
+
+            </p>
+
+        </div>
+
+        <div class="header-actions">
+
+            <button
+
+                class="theme-icon"
+
+                id="themeToggle"
+
+                onclick="toggleTheme()">
+
+                <i class="fa-solid fa-sun"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="menu-filter">
+
+        <button
+
+            class="filter-btn active"
+
+            onclick="filterMenu('all',this)">
+
+            All Items
+
+        </button>
+
+        <button
+
+            class="filter-btn"
+
+            onclick="filterMenu('starter',this)">
+
+            Starters
+
+        </button>
+
+        <button
+
+            class="filter-btn"
+
+            onclick="filterMenu('main',this)">
+
+            Main Course
+
+        </button>
+
+        <button
+
+            class="filter-btn"
+
+            onclick="filterMenu('drink',this)">
+
+            Drinks
+
+        </button>
+
+        <button
+
+            class="filter-btn"
+
+            onclick="filterMenu('dessert',this)">
+
+            Desserts
+
+        </button>
+
+    </div>
+
+    <div class="menu-grid">
+
+        <div class="menu-card" data-category="starter">
+
+            <div class="food-image">
+
+                <i class="fa-solid fa-bowl-food"></i>
+
+            </div>
+
+            <div class="menu-content">
+
+                <h3>Veg Spring Rolls</h3>
+
+                <p>
+
+                    Crispy vegetable spring rolls with special sauce.
+
+                </p>
+
+                <div class="menu-bottom">
+
+                    <span class="price">₹180</span>
+
+                    <button class="order-btn"
+
+                    onclick="orderItem('Veg Spring Rolls')">
+
+                        Order
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="menu-card" data-category="main">
+
+            <div class="food-image">
+
+                <i class="fa-solid fa-bowl-rice"></i>
+
+            </div>
+
+            <div class="menu-content">
+
+                <h3>Special Biryani</h3>
+
+                <p>
+
+                    Aromatic rice prepared with special restaurant spices.
+
+                </p>
+
+                <div class="menu-bottom">
+
+                    <span class="price">₹320</span>
+
+                    <button class="order-btn"
+
+                    onclick="orderItem('Special Biryani')">
+
+                        Order
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="menu-card" data-category="main">
+
+            <div class="food-image">
+
+                <i class="fa-solid fa-pizza-slice"></i>
+
+            </div>
+
+            <div class="menu-content">
+
+                <h3>Cheese Pizza</h3>
+
+                <p>
+
+                    Freshly baked pizza with extra cheese and herbs.
+
+                </p>
+
+                <div class="menu-bottom">
+
+                    <span class="price">₹280</span>
+
+                    <button class="order-btn"
+
+                    onclick="orderItem('Cheese Pizza')">
+
+                        Order
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="menu-card" data-category="drink">
+
+            <div class="food-image">
+
+                <i class="fa-solid fa-mug-hot"></i>
+
+            </div>
+
+            <div class="menu-content">
+
+                <h3>Cold Coffee</h3>
+
+                <p>
+
+                    Creamy chilled coffee prepared with premium beans.
+
+                </p>
+
+                <div class="menu-bottom">
+
+                    <span class="price">₹140</span>
+
+                    <button class="order-btn"
+
+                    onclick="orderItem('Cold Coffee')">
+
+                        Order
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="menu-card" data-category="dessert">
+
+            <div class="food-image">
+
+                <i class="fa-solid fa-ice-cream"></i>
+
+            </div>
+
+            <div class="menu-content">
+
+                <h3>Special Ice Cream</h3>
+
+                <p>
+
+                    Delicious creamy ice cream with special toppings.
+
+                </p>
+
+                <div class="menu-bottom">
+
+                    <span class="price">₹120</span>
+
+                    <button class="order-btn"
+
+                    onclick="orderItem('Special Ice Cream')">
+
+                        Order
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="menu-card" data-category="starter">
+
+            <div class="food-image">
+
+                <i class="fa-solid fa-drumstick-bite"></i>
+
+            </div>
+
+            <div class="menu-content">
+
+                <h3>Chicken Wings</h3>
+
+                <p>
+
+                    Crispy spicy wings served with signature dip.
+
+                </p>
+
+                <div class="menu-bottom">
+
+                    <span class="price">₹260</span>
+
+                    <button class="order-btn"
+
+                    onclick="orderItem('Chicken Wings')">
+
+                        Order
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="menu-card" data-category="drink">
+
+            <div class="food-image">
+
+                <i class="fa-solid fa-glass-water"></i>
+
+            </div>
+
+            <div class="menu-content">
+
+                <h3>Fresh Lemonade</h3>
+
+                <p>
+
+                    Fresh chilled lemonade with mint and lemon.
+
+                </p>
+
+                <div class="menu-bottom">
+
+                    <span class="price">₹90</span>
+
+                    <button class="order-btn"
+
+                    onclick="orderItem('Fresh Lemonade')">
+
+                        Order
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="menu-card" data-category="dessert">
+
+            <div class="food-image">
+
+                <i class="fa-solid fa-cake-candles"></i>
+
+            </div>
+
+            <div class="menu-content">
+
+                <h3>Chocolate Cake</h3>
+
+                <p>
+
+                    Soft chocolate cake with rich chocolate cream.
+
+                </p>
+
+                <div class="menu-bottom">
+
+                    <span class="price">₹160</span>
+
+                    <button class="order-btn"
+
+                    onclick="orderItem('Chocolate Cake')">
+
+                        Order
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<script>
+
+/* THEME */
+
+const themeToggle =
+
+document.getElementById(
+
+    "themeToggle"
+
+);
+
+const savedTheme =
+
+localStorage.getItem(
+
+    "nexaTheme"
+
+);
+
+if(savedTheme === "dark"){
+
+    document.body.classList.add(
+
+        "dark-mode"
+
+    );
+
+    themeToggle.innerHTML =
+
+        '<i class="fa-solid fa-moon"></i>';
+
+}
+
+else{
+
+    themeToggle.innerHTML =
+
+        '<i class="fa-solid fa-sun"></i>';
+
+}
+
+function toggleTheme(){
+
+    document.body.classList.toggle(
+
+        "dark-mode"
+
+    );
+
+    const isDark =
+
+        document.body.classList.contains(
+
+            "dark-mode"
+
+        );
+
+    if(isDark){
+
+        themeToggle.innerHTML =
+
+            '<i class="fa-solid fa-moon"></i>';
+
+        localStorage.setItem(
+
+            "nexaTheme",
+
+            "dark"
+
+        );
+
+    }
+
+    else{
+
+        themeToggle.innerHTML =
+
+            '<i class="fa-solid fa-sun"></i>';
+
+        localStorage.setItem(
+
+            "nexaTheme",
+
+            "light"
+
+        );
+
+    }
+
+}
+
+
+/* FILTER MENU */
+
+function filterMenu(
+
+    category,
+
+    button
+
+){
+
+    const cards =
+
+        document.querySelectorAll(
+
+            ".menu-card"
+
+        );
+
+    const buttons =
+
+        document.querySelectorAll(
+
+            ".filter-btn"
+
+        );
+
+    buttons.forEach(btn => {
+
+        btn.classList.remove(
+
+            "active"
+
+        );
+
+    });
+
+    button.classList.add(
+
+        "active"
+
+    );
+
+    cards.forEach(card => {
+
+        if(
+
+            category === "all" ||
+
+            card.dataset.category ===
+
+            category
+
+        ){
+
+            card.style.display =
+
+                "block";
+
+        }
+
+        else{
+
+            card.style.display =
+
+                "none";
+
+        }
+
+    });
+
+}
+
+
+/* ORDER */
+
+function orderItem(item){
+
+    alert(
+
+        item +
+
+        " added to order."
+
+    );
+
+}
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Add Supplier</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",Arial,sans-serif;
+}
+
+:root{
+
+    --bg:#f5f1ea;
+    --card:#ffffff;
+    --text:#241812;
+    --muted:#777;
+    --border:#e8e0d8;
+    --accent:#b3541e;
+
+}
+
+body.dark{
+
+    --bg:#111827;
+    --card:#1f2937;
+    --text:#f3f4f6;
+    --muted:#aab4c2;
+    --border:#374151;
+
+}
+
+body{
+
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    transition:.3s;
+
+}
+
+
+/* SIDEBAR */
+
+.sidebar{
+
+    position:fixed;
+    left:0;
+    top:0;
+    width:270px;
+    height:100vh;
+    background:linear-gradient(180deg,#241812,#180f0a);
+    color:#fff;
+    overflow-y:auto;
+
+}
+
+.brand{
+
+    height:82px;
+    padding:18px 20px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    border-bottom:1px solid #ffffff18;
+
+}
+
+.brand-icon{
+
+    width:44px;
+    height:44px;
+    border-radius:13px;
+    background:var(--accent);
+    display:grid;
+    place-items:center;
+    font-size:20px;
+
+}
+
+.brand h2{
+
+    font-size:18px;
+
+}
+
+.brand small{
+
+    color:#cbbbad;
+
+}
+
+.nav-title{
+
+    font-size:10px;
+    letter-spacing:1px;
+    color:#a89584;
+    padding:20px 20px 8px;
+    text-transform:uppercase;
+
+}
+
+.nav a{
+
+    display:flex;
+    align-items:center;
+    gap:13px;
+    padding:12px 20px;
+    color:#d9cbbd;
+    text-decoration:none;
+    border-left:3px solid transparent;
+    transition:.3s;
+
+}
+
+.nav a:hover,
+.nav a.active{
+
+    background:#b3541e35;
+    color:#fff;
+    border-left-color:var(--accent);
+
+}
+
+.nav i{
+
+    width:20px;
+    text-align:center;
+
+}
+
+
+/* MAIN */
+
+.main{
+
+    margin-left:270px;
+    padding:32px 38px;
+
+}
+
+.topbar{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:26px;
+
+}
+
+.topbar h1{
+
+    font-size:34px;
+
+}
+
+.topbar p{
+
+    color:var(--muted);
+    margin-top:6px;
+
+}
+
+.actions{
+
+    display:flex;
+    gap:10px;
+    align-items:center;
+
+}
+
+.icon-btn{
+
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    cursor:pointer;
+
+}
+
+
+/* FORM */
+
+.card{
+
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+
+}
+
+.form-card{
+
+    padding:28px;
+
+}
+
+.form-grid{
+
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+
+}
+
+.form-group{
+
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+
+}
+
+.form-group.full{
+
+    grid-column:1/-1;
+
+}
+
+.form-group label{
+
+    font-size:13px;
+    font-weight:600;
+
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+
+    width:100%;
+    padding:13px 14px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:var(--bg);
+    color:var(--text);
+    outline:none;
+
+}
+
+.form-group textarea{
+
+    min-height:120px;
+    resize:vertical;
+
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+
+    border-color:var(--accent);
+
+}
+
+.form-actions{
+
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:25px;
+    padding-top:20px;
+    border-top:1px solid var(--border);
+
+}
+
+.btn{
+
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:12px 18px;
+    border:0;
+    border-radius:9px;
+    background:var(--accent);
+    color:#fff;
+    text-decoration:none;
+    cursor:pointer;
+
+}
+
+.btn.secondary{
+
+    background:transparent;
+    color:var(--text);
+    border:1px solid var(--border);
+
+}
+
+
+/* RESPONSIVE */
+
+@media(max-width:800px){
+
+    .sidebar{
+
+        display:none;
+
+    }
+
+    .main{
+
+        margin-left:0;
+        padding:22px 15px;
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    .topbar{
+
+        flex-direction:column;
+        align-items:flex-start;
+        gap:15px;
+
+    }
+
+    .form-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .form-group.full{
+
+        grid-column:auto;
+
+    }
+
+    .form-card{
+
+        padding:20px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+
+<div class="brand">
+
+<div class="brand-icon">
+
+<i class="fa-solid fa-fire-burner"></i>
+
+</div>
+
+
+<div>
+
+<h2>NEXA HUB AI</h2>
+
+<small>
+
+Restaurant Management
+
+</small>
+
+</div>
+
+</div>
+
+
+<nav class="nav">
+
+
+<a href="dashboard.html">
+
+<i class="fa-solid fa-house"></i>
+
+Dashboard
+
+</a>
+
+
+<div class="nav-title">
+
+Management
+
+</div>
+
+
+<a href="staff_list.html">
+
+<i class="fa-solid fa-users"></i>
+
+Staff
+
+</a>
+
+
+<a href="salary_tracker.html">
+
+<i class="fa-solid fa-money-check-dollar"></i>
+
+Salary Tracker
+
+</a>
+
+
+<a href="department_list.html">
+
+<i class="fa-solid fa-building"></i>
+
+Departments
+
+</a>
+
+
+<div class="nav-title">
+
+Restaurant
+
+</div>
+
+
+<a href="menu_list.html">
+
+<i class="fa-solid fa-utensils"></i>
+
+Menu
+
+</a>
+
+
+<a href="order_list.html">
+
+<i class="fa-solid fa-receipt"></i>
+
+Orders
+
+</a>
+
+
+<a href="reservation_list.html">
+
+<i class="fa-solid fa-calendar-days"></i>
+
+Reservations
+
+</a>
+
+
+<div class="nav-title">
+
+Suppliers & Tables
+
+</div>
+
+
+<a href="supplier_list.html" class="active">
+
+<i class="fa-solid fa-truck"></i>
+
+Suppliers
+
+</a>
+
+
+<a href="tables_dashboard.html">
+
+<i class="fa-solid fa-table"></i>
+
+Tables
+
+</a>
+
+
+<div class="nav-title">
+
+Finance
+
+</div>
+
+
+<a href="finance_overview.html">
+
+<i class="fa-solid fa-chart-line"></i>
+
+Finance Overview
+
+</a>
+
+
+<a href="finance_expense_list.html">
+
+<i class="fa-solid fa-arrow-trend-down"></i>
+
+Expenses
+
+</a>
+
+
+<div class="nav-title">
+
+System
+
+</div>
+
+
+<a href="settings_business_list.html">
+
+<i class="fa-solid fa-gear"></i>
+
+Business Settings
+
+</a>
+
+
+<a href="login.html">
+
+<i class="fa-solid fa-right-from-bracket"></i>
+
+Logout
+
+</a>
+
+
+</nav>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+
+<div class="topbar">
+
+
+<div>
+
+<h1>
+
+Add Supplier
+
+</h1>
+
+<p>
+
+Add a new supplier to your restaurant management system.
+
+</p>
+
+</div>
+
+
+<div class="actions">
+
+
+<button
+class="icon-btn"
+id="themeBtn"
+onclick="toggleTheme()">
+
+<i class="fa-solid fa-sun"></i>
+
+</button>
+
+
+</div>
+
+</div>
+
+
+<div class="card form-card">
+
+
+<form>
+
+
+<div class="form-grid">
+
+
+<div class="form-group">
+
+<label>
+
+Supplier Name
+
+</label>
+
+<input
+type="text"
+placeholder="Enter supplier name">
+
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+
+Company Name
+
+</label>
+
+<input
+type="text"
+placeholder="Enter company name">
+
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+
+Phone Number
+
+</label>
+
+<input
+type="tel"
+placeholder="Enter phone number">
+
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+
+Email Address
+
+</label>
+
+<input
+type="email"
+placeholder="Enter email address">
+
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+
+Supplier Category
+
+</label>
+
+<select>
+
+<option>
+
+Select Category
+
+</option>
+
+<option>
+
+Food & Beverage
+
+</option>
+
+<option>
+
+Kitchen Equipment
+
+</option>
+
+<option>
+
+Raw Material
+
+</option>
+
+<option>
+
+Cleaning Supplies
+
+</option>
+
+<option>
+
+Other
+
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+
+Payment Terms
+
+</label>
+
+<select>
+
+<option>
+
+Select Payment Terms
+
+</option>
+
+<option>
+
+Cash
+
+</option>
+
+<option>
+
+15 Days
+
+</option>
+
+<option>
+
+30 Days
+
+</option>
+
+<option>
+
+60 Days
+
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+
+GST / Tax ID
+
+</label>
+
+<input
+type="text"
+placeholder="Enter GST or Tax ID">
+
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+
+Supplier Status
+
+</label>
+
+<select>
+
+<option>
+
+Active
+
+</option>
+
+<option>
+
+Inactive
+
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group full">
+
+<label>
+
+Address
+
+</label>
+
+<textarea
+placeholder="Enter supplier address"></textarea>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+
+City
+
+</label>
+
+<input
+type="text"
+placeholder="Enter city">
+
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+
+Pincode
+
+</label>
+
+<input
+type="text"
+placeholder="Enter pincode">
+
+
+</div>
+
+
+</div>
+
+
+<div class="form-actions">
+
+
+<a
+href="supplier_list.html"
+class="btn secondary">
+
+<i class="fa-solid fa-arrow-left"></i>
+
+Cancel
+
+</a>
+
+
+<button
+type="submit"
+class="btn">
+
+<i class="fa-solid fa-save"></i>
+
+Save Supplier
+
+</button>
+
+
+</div>
+
+
+</form>
+
+</div>
+
+
+</main>
+
+
+<script>
+
+
+function toggleTheme(){
+
+
+    document.body.classList.toggle("dark");
+
+
+    localStorage.setItem(
+
+        "nexaTheme",
+
+        document.body.classList.contains("dark")
+
+        ?
+
+        "dark"
+
+        :
+
+        "light"
+
+    );
+
+
+    document.getElementById("themeBtn").innerHTML =
+
+
+    document.body.classList.contains("dark")
+
+
+    ?
+
+
+    '<i class="fa-solid fa-moon"></i>'
+
+
+    :
+
+
+    '<i class="fa-solid fa-sun"></i>';
+
+
+}
+
+
+if(
+
+    localStorage.getItem("nexaTheme")
+
+    ===
+
+    "dark"
+
+){
+
+
+    document.body.classList.add("dark");
+
+
+    document.getElementById("themeBtn").innerHTML =
+
+
+    '<i class="fa-solid fa-moon"></i>';
+
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

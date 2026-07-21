@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Sign Up</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+
+/* RESET */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",Arial,sans-serif;
+}
+
+
+/* THEME VARIABLES */
+
+:root{
+
+    --bg1:#f5f1ea;
+    --bg2:#eadfd3;
+
+    --card:#ffffffcc;
+    --border:#ffffff;
+
+    --text:#241812;
+    --muted:#777;
+
+    --input:#ffffffaa;
+    --input-border:#d9cfc5;
+
+    --accent:#b3541e;
+
+    --link:#b3541e;
+
+    --shadow:#0003;
+
+}
+
+
+/* DARK MODE */
+
+body.dark{
+
+    --bg1:#180f0a;
+    --bg2:#241812;
+
+    --card:#ffffff0d;
+    --border:#ffffff20;
+
+    --text:#ffffff;
+    --muted:#aaa;
+
+    --input:#ffffff0d;
+    --input-border:#ffffff25;
+
+    --accent:#b3541e;
+
+    --link:#e58a52;
+
+    --shadow:#0008;
+
+}
+
+
+/* BODY */
+
+body{
+
+    min-height:100vh;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+
+    background:
+
+    radial-gradient(
+        circle at top left,
+        #b3541e66,
+        transparent 35%
+    ),
+
+    linear-gradient(
+        135deg,
+        var(--bg1),
+        var(--bg2),
+        var(--bg1)
+    );
+
+    color:var(--text);
+
+    transition:.3s ease;
+
+}
+
+
+/* THEME BUTTON */
+
+.theme-btn{
+
+    position:fixed;
+
+    top:22px;
+    right:25px;
+
+    width:44px;
+    height:44px;
+
+    border-radius:50%;
+
+    border:1px solid var(--input-border);
+
+    background:var(--card);
+
+    color:var(--text);
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    backdrop-filter:blur(12px);
+
+    transition:.3s ease;
+
+}
+
+.theme-btn:hover{
+
+    background:var(--accent);
+
+    color:#fff;
+
+    transform:rotate(20deg);
+
+}
+
+
+/* SIGNUP BOX - MEDIUM SIZE */
+
+.signup-box{
+
+    width:100%;
+
+    max-width:420px;
+
+    padding:28px 30px;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:20px;
+
+    backdrop-filter:blur(18px);
+
+    box-shadow:
+
+    0 25px 80px var(--shadow);
+
+    transition:.3s ease;
+
+}
+
+
+/* LOGO */
+
+.logo{
+
+    text-align:center;
+
+    margin-bottom:18px;
+
+}
+
+.logo-icon{
+
+    width:52px;
+    height:52px;
+
+    margin:auto;
+
+    display:grid;
+
+    place-items:center;
+
+    border-radius:15px;
+
+    background:var(--accent);
+
+    color:#fff;
+
+    font-size:21px;
+
+    box-shadow:
+
+    0 8px 25px #b3541e55;
+
+}
+
+.logo h1{
+
+    font-size:24px;
+
+    margin:10px 0 4px;
+
+}
+
+.subtitle{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+}
+
+
+/* FORM */
+
+.form-group{
+
+    margin:12px 0;
+
+}
+
+.form-group label{
+
+    display:block;
+
+    font-size:12px;
+
+    margin-bottom:6px;
+
+    color:var(--text);
+
+    font-weight:600;
+
+}
+
+.form-group input{
+
+    width:100%;
+
+    padding:11px 13px;
+
+    border-radius:8px;
+
+    border:1px solid var(--input-border);
+
+    background:var(--input);
+
+    color:var(--text);
+
+    outline:none;
+
+    transition:.3s ease;
+
+}
+
+.form-group input::placeholder{
+
+    color:var(--muted);
+
+}
+
+.form-group input:focus{
+
+    border-color:var(--accent);
+
+    box-shadow:
+
+    0 0 0 3px #b3541e20;
+
+}
+
+
+/* SIGNUP BUTTON */
+
+.signup-btn{
+
+    width:100%;
+
+    padding:12px;
+
+    border:0;
+
+    border-radius:8px;
+
+    background:var(--accent);
+
+    color:#fff;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    margin-top:5px;
+
+    transition:.3s ease;
+
+}
+
+.signup-btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+
+    0 8px 20px #b3541e55;
+
+}
+
+
+/* LOGIN */
+
+.login-text{
+
+    text-align:center;
+
+    color:var(--muted);
+
+    font-size:13px;
+
+    margin-top:16px;
+
+}
+
+.login-text a{
+
+    color:var(--link);
+
+    text-decoration:none;
+
+    font-weight:600;
+
+}
+
+.login-text a:hover{
+
+    text-decoration:underline;
+
+}
+
+
+/* TERMS */
+
+.terms{
+
+    text-align:center;
+
+    color:var(--muted);
+
+    font-size:10px;
+
+    margin-top:12px;
+
+    line-height:1.5;
+
+}
+
+
+/* RESPONSIVE */
+
+@media(max-width:500px){
+
+    body{
+
+        padding:15px;
+
+    }
+
+    .signup-box{
+
+        max-width:100%;
+
+        padding:24px 20px;
+
+    }
+
+    .theme-btn{
+
+        top:15px;
+
+        right:15px;
+
+        width:40px;
+
+        height:40px;
+
+    }
+
+    .logo h1{
+
+        font-size:22px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- THEME BUTTON -->
+
+<button
+
+class="theme-btn"
+
+id="themeBtn"
+
+onclick="toggleTheme()"
+
+title="Toggle Theme">
+
+<i class="fa-solid fa-sun"></i>
+
+</button>
+
+
+<!-- SIGNUP BOX -->
+
+<div class="signup-box">
+
+
+    <!-- LOGO -->
+
+    <div class="logo">
+
+        <div class="logo-icon">
+
+            <i class="fa-solid fa-fire-burner"></i>
+
+        </div>
+
+        <h1>
+
+            NEXA HUB AI
+
+        </h1>
+
+        <div class="subtitle">
+
+            Create your restaurant management account
+
+        </div>
+
+    </div>
+
+
+    <!-- FORM -->
+
+    <form onsubmit="createAccount(event)">
+
+
+        <div class="form-group">
+
+            <label>
+
+                Full Name
+
+            </label>
+
+            <input
+
+                type="text"
+
+                placeholder="Enter your full name"
+
+                required>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+
+                Email Address
+
+            </label>
+
+            <input
+
+                type="email"
+
+                placeholder="Enter your email"
+
+                required>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+
+                Username
+
+            </label>
+
+            <input
+
+                type="text"
+
+                placeholder="Create a username"
+
+                required>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+
+                Password
+
+            </label>
+
+            <input
+
+                type="password"
+
+                placeholder="Create a password"
+
+                required>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+
+                Confirm Password
+
+            </label>
+
+            <input
+
+                type="password"
+
+                placeholder="Confirm password"
+
+                required>
+
+        </div>
+
+
+        <button
+
+            class="signup-btn"
+
+            type="submit">
+
+            <i class="fa-solid fa-user-plus"></i>
+
+            Create Account
+
+        </button>
+
+
+    </form>
+
+
+    <!-- LOGIN -->
+
+    <div class="login-text">
+
+        Already have an account?
+
+        <a href="login.html">
+
+            Login
+
+        </a>
+
+    </div>
+
+
+    <!-- TERMS -->
+
+    <div class="terms">
+
+        By creating an account, you agree to our
+
+        Terms & Privacy Policy.
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+/* THEME TOGGLE */
+
+function toggleTheme(){
+
+    document.body.classList.toggle("dark");
+
+    const isDark =
+
+        document.body.classList.contains("dark");
+
+    localStorage.setItem(
+
+        "nexaTheme",
+
+        isDark ? "dark" : "light"
+
+    );
+
+    updateThemeIcon();
+
+}
+
+
+/* UPDATE THEME ICON */
+
+function updateThemeIcon(){
+
+    const themeBtn =
+
+        document.getElementById("themeBtn");
+
+    if(
+
+        document.body.classList.contains("dark")
+
+    ){
+
+        themeBtn.innerHTML =
+
+        '<i class="fa-solid fa-moon"></i>';
+
+    }
+
+    else{
+
+        themeBtn.innerHTML =
+
+        '<i class="fa-solid fa-sun"></i>';
+
+    }
+
+}
+
+
+/* LOAD SAVED THEME */
+
+if(
+
+    localStorage.getItem("nexaTheme")
+
+    ===
+
+    "dark"
+
+){
+
+    document.body.classList.add("dark");
+
+}
+
+
+updateThemeIcon();
+
+
+/* CREATE ACCOUNT */
+
+function createAccount(event){
+
+    event.preventDefault();
+
+    alert(
+
+        "Account created successfully!"
+
+    );
+
+    window.location.href =
+
+        "login.html";
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

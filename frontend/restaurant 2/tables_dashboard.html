@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Tables Dashboard</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",Arial,sans-serif;
+}
+
+:root{
+
+    --bg:#f5f1ea;
+    --card:#ffffff;
+    --text:#241812;
+    --muted:#777;
+    --border:#e8e0d8;
+    --accent:#b3541e;
+
+}
+
+body.dark{
+
+    --bg:#111827;
+    --card:#1f2937;
+    --text:#f3f4f6;
+    --muted:#aab4c2;
+    --border:#374151;
+
+}
+
+body{
+
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    transition:.3s;
+
+}
+
+
+/* SIDEBAR */
+
+.sidebar{
+
+    position:fixed;
+    left:0;
+    top:0;
+    width:270px;
+    height:100vh;
+    background:linear-gradient(180deg,#241812,#180f0a);
+    color:#fff;
+    overflow-y:auto;
+
+}
+
+.brand{
+
+    height:82px;
+    padding:18px 20px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    border-bottom:1px solid #ffffff18;
+
+}
+
+.brand-icon{
+
+    width:44px;
+    height:44px;
+    border-radius:13px;
+    background:var(--accent);
+    display:grid;
+    place-items:center;
+    font-size:20px;
+
+}
+
+.brand h2{
+
+    font-size:18px;
+
+}
+
+.brand small{
+
+    color:#cbbbad;
+
+}
+
+.nav-title{
+
+    font-size:10px;
+    letter-spacing:1px;
+    color:#a89584;
+    padding:20px 20px 8px;
+    text-transform:uppercase;
+
+}
+
+.nav a{
+
+    display:flex;
+    align-items:center;
+    gap:13px;
+    padding:12px 20px;
+    color:#d9cbbd;
+    text-decoration:none;
+    border-left:3px solid transparent;
+    transition:.3s;
+
+}
+
+.nav a:hover,
+.nav a.active{
+
+    background:#b3541e35;
+    color:#fff;
+    border-left-color:var(--accent);
+
+}
+
+.nav i{
+
+    width:20px;
+    text-align:center;
+
+}
+
+
+/* MAIN */
+
+.main{
+
+    margin-left:270px;
+    padding:32px 38px;
+
+}
+
+.topbar{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:26px;
+
+}
+
+.topbar h1{
+
+    font-size:34px;
+
+}
+
+.topbar p{
+
+    color:var(--muted);
+    margin-top:6px;
+
+}
+
+.actions{
+
+    display:flex;
+    gap:10px;
+    align-items:center;
+
+}
+
+.btn{
+
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:12px 16px;
+    border:0;
+    border-radius:9px;
+    background:var(--accent);
+    color:#fff;
+    text-decoration:none;
+    cursor:pointer;
+
+}
+
+.icon-btn{
+
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    cursor:pointer;
+
+}
+
+
+/* STATS */
+
+.stats{
+
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+    margin-bottom:20px;
+
+}
+
+.card{
+
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+
+}
+
+.stat{
+
+    padding:20px;
+
+}
+
+.stat i{
+
+    font-size:22px;
+    color:var(--accent);
+
+}
+
+.stat h2{
+
+    font-size:27px;
+    margin-top:13px;
+
+}
+
+.stat p{
+
+    color:var(--muted);
+    font-size:13px;
+    margin-top:4px;
+
+}
+
+
+/* TABLE GRID */
+
+.table-grid{
+
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+
+}
+
+.table-card{
+
+    padding:20px;
+    transition:.3s;
+
+}
+
+.table-card:hover{
+
+    transform:translateY(-4px);
+
+}
+
+.table-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+
+}
+
+.table-icon{
+
+    width:48px;
+    height:48px;
+    border-radius:12px;
+    display:grid;
+    place-items:center;
+    background:#b3541e20;
+    color:var(--accent);
+    font-size:21px;
+
+}
+
+.table-number{
+
+    font-size:20px;
+    font-weight:700;
+
+}
+
+.table-info{
+
+    color:var(--muted);
+    font-size:13px;
+    line-height:2;
+
+}
+
+.badge{
+
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:11px;
+    margin-top:12px;
+
+}
+
+.available{
+
+    background:#18804420;
+    color:#188044;
+
+}
+
+.occupied{
+
+    background:#b3261e20;
+    color:#b3261e;
+
+}
+
+.reserved{
+
+    background:#b3541e20;
+    color:#b3541e;
+
+}
+
+.maintenance{
+
+    background:#77777720;
+    color:#777;
+
+}
+
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+
+    .stats{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+    .table-grid{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+}
+
+@media(max-width:800px){
+
+    .sidebar{
+
+        display:none;
+
+    }
+
+    .main{
+
+        margin-left:0;
+        padding:22px 15px;
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    .stats{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .table-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .topbar{
+
+        flex-direction:column;
+        align-items:flex-start;
+        gap:15px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+
+<div class="brand">
+
+<div class="brand-icon">
+
+<i class="fa-solid fa-fire-burner"></i>
+
+</div>
+
+
+<div>
+
+<h2>NEXA HUB AI</h2>
+
+<small>
+
+Restaurant Management
+
+</small>
+
+</div>
+
+</div>
+
+
+<nav class="nav">
+
+
+<a href="dashboard.html">
+
+<i class="fa-solid fa-house"></i>
+
+Dashboard
+
+</a>
+
+
+<div class="nav-title">
+
+Management
+
+</div>
+
+
+<a href="staff_list.html">
+
+<i class="fa-solid fa-users"></i>
+
+Staff
+
+</a>
+
+
+<a href="salary_tracker.html">
+
+<i class="fa-solid fa-money-check-dollar"></i>
+
+Salary Tracker
+
+</a>
+
+
+<a href="department_list.html">
+
+<i class="fa-solid fa-building"></i>
+
+Departments
+
+</a>
+
+
+<div class="nav-title">
+
+Restaurant
+
+</div>
+
+
+<a href="menu_list.html">
+
+<i class="fa-solid fa-utensils"></i>
+
+Menu
+
+</a>
+
+
+<a href="order_list.html">
+
+<i class="fa-solid fa-receipt"></i>
+
+Orders
+
+</a>
+
+
+<a href="reservation_list.html">
+
+<i class="fa-solid fa-calendar-days"></i>
+
+Reservations
+
+</a>
+
+
+<div class="nav-title">
+
+Suppliers & Tables
+
+</div>
+
+
+<a href="supplier_list.html">
+
+<i class="fa-solid fa-truck"></i>
+
+Suppliers
+
+</a>
+
+
+<a href="tables_dashboard.html" class="active">
+
+<i class="fa-solid fa-table"></i>
+
+Tables
+
+</a>
+
+
+<div class="nav-title">
+
+Finance
+
+</div>
+
+
+<a href="finance_overview.html">
+
+<i class="fa-solid fa-chart-line"></i>
+
+Finance Overview
+
+</a>
+
+
+<a href="finance_expense_list.html">
+
+<i class="fa-solid fa-arrow-trend-down"></i>
+
+Expenses
+
+</a>
+
+
+<div class="nav-title">
+
+System
+
+</div>
+
+
+<a href="settings_business_list.html">
+
+<i class="fa-solid fa-gear"></i>
+
+Business Settings
+
+</a>
+
+
+<a href="login.html">
+
+<i class="fa-solid fa-right-from-bracket"></i>
+
+Logout
+
+</a>
+
+
+</nav>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+
+<div class="topbar">
+
+
+<div>
+
+<h1>
+
+Tables Dashboard
+
+</h1>
+
+<p>
+
+Manage restaurant tables, seating and availability.
+
+</p>
+
+</div>
+
+
+<div class="actions">
+
+
+<a
+class="btn"
+href="table_form.html">
+
+<i class="fa-solid fa-plus"></i>
+
+Add Table
+
+</a>
+
+
+<button
+class="icon-btn"
+id="themeBtn"
+onclick="toggleTheme()">
+
+<i class="fa-solid fa-sun"></i>
+
+</button>
+
+
+</div>
+
+</div>
+
+
+<!-- STATS -->
+
+
+<div class="stats">
+
+
+<div class="card stat">
+
+<i class="fa-solid fa-table"></i>
+
+<h2>
+
+24
+
+</h2>
+
+<p>
+
+Total Tables
+
+</p>
+
+</div>
+
+
+<div class="card stat">
+
+<i class="fa-solid fa-circle-check"></i>
+
+<h2>
+
+12
+
+</h2>
+
+<p>
+
+Available
+
+</p>
+
+</div>
+
+
+<div class="card stat">
+
+<i class="fa-solid fa-users"></i>
+
+<h2>
+
+08
+
+</h2>
+
+<p>
+
+Occupied
+
+</p>
+
+</div>
+
+
+<div class="card stat">
+
+<i class="fa-solid fa-calendar-check"></i>
+
+<h2>
+
+04
+
+</h2>
+
+<p>
+
+Reserved
+
+</p>
+
+</div>
+
+
+</div>
+
+
+<!-- TABLE CARDS -->
+
+
+<div class="table-grid">
+
+
+<div class="card table-card">
+
+
+<div class="table-header">
+
+
+<div class="table-icon">
+
+<i class="fa-solid fa-table"></i>
+
+</div>
+
+
+<div class="table-number">
+
+T-01
+
+</div>
+
+
+</div>
+
+
+<div class="table-info">
+
+<i class="fa-solid fa-users"></i>
+
+Capacity: 4 Seats
+
+<br>
+
+
+<i class="fa-solid fa-location-dot"></i>
+
+Ground Floor
+
+<br>
+
+
+<i class="fa-solid fa-shapes"></i>
+
+Round Table
+
+</div>
+
+
+<span class="badge available">
+
+Available
+
+</span>
+
+
+</div>
+
+
+<div class="card table-card">
+
+
+<div class="table-header">
+
+
+<div class="table-icon">
+
+<i class="fa-solid fa-table"></i>
+
+</div>
+
+
+<div class="table-number">
+
+T-02
+
+</div>
+
+
+</div>
+
+
+<div class="table-info">
+
+<i class="fa-solid fa-users"></i>
+
+Capacity: 6 Seats
+
+<br>
+
+
+<i class="fa-solid fa-location-dot"></i>
+
+Ground Floor
+
+<br>
+
+
+<i class="fa-solid fa-shapes"></i>
+
+Rectangle Table
+
+</div>
+
+
+<span class="badge occupied">
+
+Occupied
+
+</span>
+
+
+</div>
+
+
+<div class="card table-card">
+
+
+<div class="table-header">
+
+
+<div class="table-icon">
+
+<i class="fa-solid fa-table"></i>
+
+</div>
+
+
+<div class="table-number">
+
+T-03
+
+</div>
+
+
+</div>
+
+
+<div class="table-info">
+
+<i class="fa-solid fa-users"></i>
+
+Capacity: 2 Seats
+
+<br>
+
+
+<i class="fa-solid fa-location-dot"></i>
+
+First Floor
+
+<br>
+
+
+<i class="fa-solid fa-shapes"></i>
+
+Round Table
+
+</div>
+
+
+<span class="badge reserved">
+
+Reserved
+
+</span>
+
+
+</div>
+
+
+<div class="card table-card">
+
+
+<div class="table-header">
+
+
+<div class="table-icon">
+
+<i class="fa-solid fa-table"></i>
+
+</div>
+
+
+<div class="table-number">
+
+T-04
+
+</div>
+
+
+</div>
+
+
+<div class="table-info">
+
+<i class="fa-solid fa-users"></i>
+
+Capacity: 8 Seats
+
+<br>
+
+
+<i class="fa-solid fa-location-dot"></i>
+
+VIP Area
+
+<br>
+
+
+<i class="fa-solid fa-shapes"></i>
+
+Rectangle Table
+
+</div>
+
+
+<span class="badge available">
+
+Available
+
+</span>
+
+
+</div>
+
+
+<div class="card table-card">
+
+
+<div class="table-header">
+
+
+<div class="table-icon">
+
+<i class="fa-solid fa-table"></i>
+
+</div>
+
+
+<div class="table-number">
+
+T-05
+
+</div>
+
+
+</div>
+
+
+<div class="table-info">
+
+<i class="fa-solid fa-users"></i>
+
+Capacity: 4 Seats
+
+<br>
+
+
+<i class="fa-solid fa-location-dot"></i>
+
+Outdoor Area
+
+<br>
+
+
+<i class="fa-solid fa-shapes"></i>
+
+Square Table
+
+</div>
+
+
+<span class="badge maintenance">
+
+Maintenance
+
+</span>
+
+
+</div>
+
+
+<div class="card table-card">
+
+
+<div class="table-header">
+
+
+<div class="table-icon">
+
+<i class="fa-solid fa-table"></i>
+
+</div>
+
+
+<div class="table-number">
+
+T-06
+
+</div>
+
+
+</div>
+
+
+<div class="table-info">
+
+<i class="fa-solid fa-users"></i>
+
+Capacity: 6 Seats
+
+<br>
+
+
+<i class="fa-solid fa-location-dot"></i>
+
+First Floor
+
+<br>
+
+
+<i class="fa-solid fa-shapes"></i>
+
+Round Table
+
+</div>
+
+
+<span class="badge available">
+
+Available
+
+</span>
+
+
+</div>
+
+
+</div>
+
+
+</main>
+
+
+<script>
+
+
+function toggleTheme(){
+
+
+    document.body.classList.toggle("dark");
+
+
+    localStorage.setItem(
+
+        "nexaTheme",
+
+        document.body.classList.contains("dark")
+
+        ?
+
+        "dark"
+
+        :
+
+        "light"
+
+    );
+
+
+    document.getElementById("themeBtn").innerHTML =
+
+
+    document.body.classList.contains("dark")
+
+
+    ?
+
+
+    '<i class="fa-solid fa-moon"></i>'
+
+
+    :
+
+
+    '<i class="fa-solid fa-sun"></i>';
+
+
+}
+
+
+if(
+
+    localStorage.getItem("nexaTheme")
+
+    ===
+
+    "dark"
+
+){
+
+
+    document.body.classList.add("dark");
+
+
+    document.getElementById("themeBtn").innerHTML =
+
+
+    '<i class="fa-solid fa-moon"></i>';
+
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

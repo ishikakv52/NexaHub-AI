@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Menu Import</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",Arial,sans-serif;
+}
+
+:root{
+
+    --sidebar:#241812;
+    --sidebar-dark:#180f0a;
+
+    --orange:#b3541e;
+    --orange-dark:#8a3f14;
+
+    --page:#f5f1ea;
+    --text:#2b1d14;
+
+    --card:#ffffff;
+    --border:#e8e0d8;
+    --muted:#777;
+
+}
+
+body{
+
+    background:var(--page);
+    color:var(--text);
+
+    min-height:100vh;
+
+    transition:.35s ease;
+
+    animation:pageFade .6s ease;
+
+}
+
+body.dark-mode{
+
+    --page:#111827;
+    --text:#f1f5f9;
+
+    --card:#1f2937;
+    --border:#374151;
+    --muted:#aab4c2;
+
+}
+
+
+/* ANIMATIONS */
+
+@keyframes pageFade{
+
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+@keyframes slideLeft{
+
+    from{
+        opacity:0;
+        transform:translateX(-30px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+
+}
+
+@keyframes slideUp{
+
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+
+/* SIDEBAR */
+
+.sidebar{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:290px;
+    height:100vh;
+
+    background:linear-gradient(
+        180deg,
+        var(--sidebar),
+        var(--sidebar-dark)
+    );
+
+    color:#fff;
+
+    overflow-y:auto;
+
+    z-index:1000;
+
+    animation:slideLeft .6s ease;
+
+}
+
+.sidebar::-webkit-scrollbar{
+
+    width:5px;
+
+}
+
+.sidebar::-webkit-scrollbar-thumb{
+
+    background:var(--orange);
+
+    border-radius:20px;
+
+}
+
+
+/* LOGO */
+
+.logo{
+
+    min-height:115px;
+
+    padding:22px 20px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+.logo-icon{
+
+    width:42px;
+    height:42px;
+
+    border-radius:12px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    background:var(--orange);
+
+    color:#fff;
+
+    font-size:20px;
+
+}
+
+.logo-text h2{
+
+    font-size:20px;
+
+    color:#fff;
+
+}
+
+.logo-text span{
+
+    font-size:12px;
+
+    color:#c9b8a8;
+
+    letter-spacing:1px;
+
+}
+
+
+/* NAVIGATION */
+
+.nav-section{
+
+    padding:16px 18px 7px;
+
+    color:#a89684;
+
+    font-size:11px;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+
+}
+
+.nav-link{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:13px;
+
+    padding:12px 20px;
+
+    color:#d8c9b8;
+
+    text-decoration:none;
+
+    border-left:3px solid transparent;
+
+    transition:.3s ease;
+
+}
+
+.nav-link i{
+
+    width:20px;
+
+    text-align:center;
+
+}
+
+.nav-link:hover{
+
+    color:#fff;
+
+    background:rgba(179,84,30,.18);
+
+    padding-left:28px;
+
+}
+
+.nav-link.active{
+
+    color:#fff;
+
+    background:rgba(179,84,30,.25);
+
+    border-left-color:var(--orange);
+
+}
+
+
+/* MAIN */
+
+.main{
+
+    margin-left:290px;
+
+    min-height:100vh;
+
+    padding:32px 38px;
+
+}
+
+
+/* HEADER */
+
+.page-header{
+
+    display:flex;
+
+    align-items:flex-end;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+    margin-bottom:28px;
+
+    animation:slideUp .6s ease;
+
+}
+
+.page-header h1{
+
+    font-size:38px;
+
+}
+
+.page-header p{
+
+    margin-top:8px;
+
+    color:var(--muted);
+
+    font-size:17px;
+
+}
+
+.theme-icon{
+
+    width:46px;
+    height:46px;
+
+    border:1px solid var(--border);
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    background:var(--card);
+
+    color:var(--text);
+
+    font-size:19px;
+
+    cursor:pointer;
+
+    transition:.35s ease;
+
+}
+
+.theme-icon:hover{
+
+    transform:rotate(25deg) scale(1.08);
+
+    background:var(--orange);
+
+    color:#fff;
+
+}
+
+
+/* CONTENT */
+
+.content-wrapper{
+
+    max-width:950px;
+
+    margin:0 auto;
+
+    animation:slideUp .8s ease;
+
+}
+
+.import-card{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:30px;
+
+    box-shadow:
+
+    0 10px 30px rgba(0,0,0,.06);
+
+}
+
+.import-header{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:16px;
+
+    padding-bottom:22px;
+
+    margin-bottom:25px;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.import-icon{
+
+    width:58px;
+    height:58px;
+
+    flex-shrink:0;
+
+    border-radius:15px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    background:rgba(179,84,30,.12);
+
+    color:var(--orange);
+
+    font-size:25px;
+
+}
+
+.import-header h2{
+
+    font-size:23px;
+
+}
+
+.import-header p{
+
+    color:var(--muted);
+
+    font-size:13px;
+
+    margin-top:5px;
+
+}
+
+
+/* UPLOAD AREA - FIXED */
+
+.upload-area{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    min-height:260px;
+
+    width:100%;
+
+    border:2px dashed var(--border);
+
+    border-radius:15px;
+
+    padding:35px 25px;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    transition:.3s ease;
+
+}
+
+.upload-area:hover,
+
+.upload-area.dragover{
+
+    border-color:var(--orange);
+
+    background:rgba(179,84,30,.05);
+
+}
+
+.upload-area i{
+
+    display:block;
+
+    font-size:48px;
+
+    color:var(--orange);
+
+    margin-bottom:15px;
+
+}
+
+.upload-area h3{
+
+    font-size:18px;
+
+    margin-bottom:8px;
+
+}
+
+.upload-area p{
+
+    color:var(--muted);
+
+    font-size:13px;
+
+    margin:3px 0;
+
+}
+
+.upload-area input{
+
+    display:none;
+
+}
+
+.file-name{
+
+    width:100%;
+
+    margin-top:15px;
+
+    color:var(--orange);
+
+    font-size:14px;
+
+    font-weight:600;
+
+    text-align:center;
+
+    word-break:break-word;
+
+}
+
+
+/* INFO BOX */
+
+.info-box{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:15px;
+
+    margin-top:25px;
+
+}
+
+.info-item{
+
+    padding:18px;
+
+    border:1px solid var(--border);
+
+    border-radius:12px;
+
+    text-align:center;
+
+}
+
+.info-item i{
+
+    font-size:22px;
+
+    color:var(--orange);
+
+    margin-bottom:8px;
+
+}
+
+.info-item h4{
+
+    font-size:14px;
+
+}
+
+.info-item p{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    margin-top:5px;
+
+}
+
+
+/* PREVIEW */
+
+.preview-section{
+
+    display:none;
+
+    margin-top:25px;
+
+}
+
+.preview-section h3{
+
+    margin-bottom:15px;
+
+}
+
+.preview-table{
+
+    overflow-x:auto;
+
+    border:1px solid var(--border);
+
+    border-radius:10px;
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+th,
+td{
+
+    padding:13px;
+
+    text-align:left;
+
+    border-bottom:1px solid var(--border);
+
+    white-space:nowrap;
+
+    font-size:13px;
+
+}
+
+th{
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    text-transform:uppercase;
+
+}
+
+
+/* ACTIONS */
+
+.form-actions{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:12px;
+
+    padding-top:25px;
+
+    margin-top:25px;
+
+    border-top:1px solid var(--border);
+
+}
+
+.btn{
+
+    padding:12px 22px;
+
+    border-radius:10px;
+
+    font-size:14px;
+
+    cursor:pointer;
+
+    transition:.3s ease;
+
+}
+
+.btn-cancel{
+
+    border:1px solid var(--border);
+
+    background:transparent;
+
+    color:var(--text);
+
+}
+
+.btn-cancel:hover{
+
+    background:var(--border);
+
+}
+
+.btn-import{
+
+    border:0;
+
+    background:var(--orange);
+
+    color:#fff;
+
+}
+
+.btn-import:hover{
+
+    background:var(--orange-dark);
+
+}
+
+
+/* RESPONSIVE */
+
+@media(max-width:850px){
+
+    .sidebar{
+
+        display:none;
+
+    }
+
+    .main{
+
+        margin-left:0;
+
+        padding:22px 16px;
+
+    }
+
+}
+
+@media(max-width:650px){
+
+    .page-header{
+
+        align-items:flex-start;
+
+        flex-direction:column;
+
+    }
+
+    .page-header h1{
+
+        font-size:30px;
+
+    }
+
+    .import-card{
+
+        padding:22px 18px;
+
+    }
+
+    .info-box{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .form-actions{
+
+        flex-direction:column;
+
+    }
+
+    .btn{
+
+        width:100%;
+
+    }
+
+    .upload-area{
+
+        min-height:220px;
+
+        padding:28px 15px;
+
+    }
+
+    .upload-area i{
+
+        font-size:40px;
+
+    }
+
+}
+
+
+/* SMALL MOBILE */
+
+@media(max-width:400px){
+
+    .main{
+
+        padding:18px 10px;
+
+    }
+
+    .import-card{
+
+        padding:18px 14px;
+
+    }
+
+    .upload-area{
+
+        min-height:200px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+
+<div class="logo">
+
+<div class="logo-icon">
+
+<i class="fa-solid fa-fire-burner"></i>
+
+</div>
+
+<div class="logo-text">
+
+<h2>NEXA HUB AI</h2>
+
+<span>Restaurant</span>
+
+</div>
+
+</div>
+
+
+<a href="dashboard.html" class="nav-link">
+
+<i class="fa-solid fa-house"></i>
+
+Dashboard
+
+</a>
+
+
+<div class="nav-section">
+
+Management
+
+</div>
+
+
+<a href="employee_list.html" class="nav-link">
+
+<i class="fa-solid fa-users"></i>
+
+Employees
+
+</a>
+
+
+<a href="attendance_daily.html" class="nav-link">
+
+<i class="fa-solid fa-clock"></i>
+
+Attendance
+
+</a>
+
+
+<a href="department_list.html" class="nav-link">
+
+<i class="fa-solid fa-building"></i>
+
+Departments
+
+</a>
+
+
+<div class="nav-section">
+
+Restaurant
+
+</div>
+
+
+<a href="customer_list.html" class="nav-link">
+
+<i class="fa-solid fa-address-book"></i>
+
+Customers
+
+</a>
+
+
+<a href="customer_menu.html" class="nav-link">
+
+<i class="fa-solid fa-book-open"></i>
+
+Menu
+
+</a>
+
+
+<a href="menu_category_list.html" class="nav-link">
+
+<i class="fa-solid fa-layer-group"></i>
+
+Menu Categories
+
+</a>
+
+
+<a href="menu_list.html" class="nav-link">
+
+<i class="fa-solid fa-utensils"></i>
+
+Menu Items
+
+</a>
+
+
+<a href="menu_import.html" class="nav-link active">
+
+<i class="fa-solid fa-file-import"></i>
+
+Menu Import
+
+</a>
+
+
+<a href="customer_order_status.html" class="nav-link">
+
+<i class="fa-solid fa-receipt"></i>
+
+Order Status
+
+</a>
+
+
+<a href="delivery_dashboard.html" class="nav-link">
+
+<i class="fa-solid fa-truck"></i>
+
+Delivery
+
+</a>
+
+
+<a href="delivery_tracking.html" class="nav-link">
+
+<i class="fa-solid fa-location-dot"></i>
+
+Delivery Tracking
+
+</a>
+
+
+<a href="loyalty_dashboard.html" class="nav-link">
+
+<i class="fa-solid fa-crown"></i>
+
+Loyalty
+
+</a>
+
+
+<div class="nav-section">
+
+Finance
+
+</div>
+
+
+<a href="finance_overview.html" class="nav-link">
+
+<i class="fa-solid fa-chart-line"></i>
+
+Finance Overview
+
+</a>
+
+
+<a href="finance_income_list.html" class="nav-link">
+
+<i class="fa-solid fa-arrow-trend-up"></i>
+
+Income
+
+</a>
+
+
+<a href="finance_expense_list.html" class="nav-link">
+
+<i class="fa-solid fa-arrow-trend-down"></i>
+
+Expenses
+
+</a>
+
+
+<a href="finance_asset_list.html" class="nav-link">
+
+<i class="fa-solid fa-building-columns"></i>
+
+Assets
+
+</a>
+
+
+<div class="nav-section">
+
+Inventory
+
+</div>
+
+
+<a href="inventory_list.html" class="nav-link">
+
+<i class="fa-solid fa-boxes-stacked"></i>
+
+Inventory
+
+</a>
+
+
+<a href="kitchen_display.html" class="nav-link">
+
+<i class="fa-solid fa-kitchen-set"></i>
+
+Kitchen Display
+
+</a>
+
+
+<a href="login.html" class="nav-link">
+
+<i class="fa-solid fa-right-from-bracket"></i>
+
+Logout
+
+</a>
+
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+
+<div class="page-header">
+
+
+<div>
+
+<h1>
+
+Menu Import
+
+</h1>
+
+
+<p>
+
+Import multiple menu items quickly using a CSV file.
+
+</p>
+
+</div>
+
+
+<button
+
+class="theme-icon"
+
+id="themeToggle"
+
+onclick="toggleTheme()">
+
+<i class="fa-solid fa-sun"></i>
+
+</button>
+
+
+</div>
+
+
+<div class="content-wrapper">
+
+
+<div class="import-card">
+
+
+<div class="import-header">
+
+
+<div class="import-icon">
+
+<i class="fa-solid fa-file-import"></i>
+
+</div>
+
+
+<div>
+
+<h2>
+
+Import Menu Items
+
+</h2>
+
+
+<p>
+
+Upload your CSV file to import menu items.
+
+</p>
+
+</div>
+
+
+</div>
+
+
+<label
+
+class="upload-area"
+
+id="uploadArea">
+
+
+<i class="fa-solid fa-cloud-arrow-up"></i>
+
+
+<h3>
+
+Upload CSV File
+
+</h3>
+
+
+<p>
+
+Click here or drag and drop your CSV file
+
+</p>
+
+
+<p>
+
+Supported format: .csv
+
+</p>
+
+
+<input
+
+type="file"
+
+id="csvFile"
+
+accept=".csv"
+
+onchange="handleFile(event)">
+
+
+<div
+
+class="file-name"
+
+id="fileName">
+
+</div>
+
+
+</label>
+
+
+<div class="info-box">
+
+
+<div class="info-item">
+
+<i class="fa-solid fa-file-csv"></i>
+
+<h4>
+
+CSV Format
+
+</h4>
+
+<p>
+
+Upload CSV file only
+
+</p>
+
+</div>
+
+
+<div class="info-item">
+
+<i class="fa-solid fa-list-check"></i>
+
+<h4>
+
+Easy Import
+
+</h4>
+
+<p>
+
+Import multiple items
+
+</p>
+
+</div>
+
+
+<div class="info-item">
+
+<i class="fa-solid fa-shield-halved"></i>
+
+<h4>
+
+Secure
+
+</h4>
+
+<p>
+
+Your data is protected
+
+</p>
+
+</div>
+
+
+</div>
+
+
+<div
+
+class="preview-section"
+
+id="previewSection">
+
+
+<h3>
+
+File Preview
+
+</h3>
+
+
+<div class="preview-table">
+
+
+<table>
+
+
+<thead>
+
+<tr>
+
+<th>
+
+Item Name
+
+</th>
+
+<th>
+
+Category
+
+</th>
+
+<th>
+
+Price
+
+</th>
+
+<th>
+
+Status
+
+</th>
+
+</tr>
+
+</thead>
+
+
+<tbody
+
+id="previewBody">
+
+</tbody>
+
+
+</table>
+
+</div>
+
+
+</div>
+
+
+<div class="form-actions">
+
+
+<button
+
+type="button"
+
+class="btn btn-cancel"
+
+onclick="cancelImport()">
+
+Cancel
+
+</button>
+
+
+<button
+
+type="button"
+
+class="btn btn-import"
+
+onclick="importMenu()">
+
+<i class="fa-solid fa-upload"></i>
+
+Import Menu
+
+</button>
+
+
+</div>
+
+
+</div>
+
+</div>
+
+
+</main>
+
+
+<script>
+
+
+/* THEME */
+
+const themeToggle =
+
+document.getElementById("themeToggle");
+
+
+const savedTheme =
+
+localStorage.getItem("nexaTheme");
+
+
+if(savedTheme === "dark"){
+
+    document.body.classList.add("dark-mode");
+
+    themeToggle.innerHTML =
+
+    '<i class="fa-solid fa-moon"></i>';
+
+}
+
+else{
+
+    themeToggle.innerHTML =
+
+    '<i class="fa-solid fa-sun"></i>';
+
+}
+
+
+function toggleTheme(){
+
+    document.body.classList.toggle("dark-mode");
+
+
+    const isDark =
+
+    document.body.classList.contains("dark-mode");
+
+
+    localStorage.setItem(
+
+        "nexaTheme",
+
+        isDark ? "dark" : "light"
+
+    );
+
+
+    themeToggle.innerHTML =
+
+    isDark
+
+    ?
+
+    '<i class="fa-solid fa-moon"></i>'
+
+    :
+
+    '<i class="fa-solid fa-sun"></i>';
+
+}
+
+
+/* FILE UPLOAD */
+
+function handleFile(event){
+
+    const file = event.target.files[0];
+
+
+    if(!file){
+
+        return;
+
+    }
+
+
+    if(
+
+        !file.name.toLowerCase().endsWith(".csv")
+
+    ){
+
+        alert("Please select a valid CSV file.");
+
+        event.target.value = "";
+
+        return;
+
+    }
+
+
+    document.getElementById("fileName").textContent =
+
+    "Selected file: " + file.name;
+
+
+    const reader = new FileReader();
+
+
+    reader.onload = function(e){
+
+        const rows =
+
+        e.target.result
+
+        .split(/\r?\n/)
+
+        .filter(row => row.trim() !== "");
+
+
+        const previewBody =
+
+        document.getElementById("previewBody");
+
+
+        previewBody.innerHTML = "";
+
+
+        rows.slice(1,6).forEach(function(row){
+
+            const columns = row.split(",");
+
+
+            const tr = document.createElement("tr");
+
+
+            tr.innerHTML = `
+
+                <td>${columns[0] || "-"}</td>
+
+                <td>${columns[1] || "-"}</td>
+
+                <td>${columns[2] || "-"}</td>
+
+                <td>${columns[3] || "-"}</td>
+
+            `;
+
+
+            previewBody.appendChild(tr);
+
+        });
+
+
+        if(rows.length > 1){
+
+            document.getElementById(
+
+                "previewSection"
+
+            ).style.display = "block";
+
+        }
+
+    };
+
+
+    reader.readAsText(file);
+
+}
+
+
+/* IMPORT */
+
+function importMenu(){
+
+    const file =
+
+    document.getElementById("csvFile").files[0];
+
+
+    if(!file){
+
+        alert("Please select a CSV file first.");
+
+        return;
+
+    }
+
+
+    alert("Menu imported successfully!");
+
+}
+
+
+/* CANCEL */
+
+function cancelImport(){
+
+    const confirmCancel = confirm(
+
+        "Are you sure you want to cancel?"
+
+    );
+
+
+    if(confirmCancel){
+
+        document.getElementById("csvFile").value = "";
+
+        document.getElementById("fileName").textContent = "";
+
+        document.getElementById("previewSection").style.display = "none";
+
+        document.getElementById("previewBody").innerHTML = "";
+
+    }
+
+}
+
+
+/* DRAG & DROP */
+
+const uploadArea =
+
+document.getElementById("uploadArea");
+
+
+uploadArea.addEventListener(
+
+    "dragover",
+
+    function(event){
+
+        event.preventDefault();
+
+        uploadArea.classList.add("dragover");
+
+    }
+
+);
+
+
+uploadArea.addEventListener(
+
+    "dragleave",
+
+    function(){
+
+        uploadArea.classList.remove("dragover");
+
+    }
+
+);
+
+
+uploadArea.addEventListener(
+
+    "drop",
+
+    function(event){
+
+        event.preventDefault();
+
+
+        uploadArea.classList.remove("dragover");
+
+
+        const files = event.dataTransfer.files;
+
+
+        if(files.length > 0){
+
+            const fileInput =
+
+            document.getElementById("csvFile");
+
+
+            fileInput.files = files;
+
+
+            handleFile({
+
+                target:{
+
+                    files:files
+
+                }
+
+            });
+
+        }
+
+    }
+
+);
+
+</script>
+
+</body>
+
+</html>
