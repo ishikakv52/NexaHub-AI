@@ -1,0 +1,455 @@
+{% load crispy_forms_tags %}{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard | {{ business_name|default:"RetailStoreERP" }}</title>
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'vendor/fontawesome/css/all.min.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="{% static 'vendor/chartjs/chart.umd.min.js' %}"></script>
+
+    <style>
+
+        :root {
+            --bg: #F3F5F7;
+            --panel: #FFFFFF;
+            --panel-2: #F7F9FA;
+            --border-col: #E2E7EB;
+            --text-main: #16212C;
+            --text-muted: #66707C;
+            --accent: #0E7C66;
+            --accent-dark: #0B6353;
+            --accent-soft: #E3F1EC;
+            --accent-grad: #0E7C66;
+            --amber: #C2760C;
+            --amber-soft: #FBF0DE;
+            --success: #0E7C66;
+            --success-soft: #E3F1EC;
+            --warning: #C2760C;
+            --warning-soft: #FBF0DE;
+            --danger: #C2361F;
+            --danger-soft: #FBE7E3;
+            --info: #235FA8;
+            --info-soft: #E7EEF9;
+            --muted-soft: #EEF1F3;
+            --font-ui: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+        }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--bg);
+            color: var(--text-main);
+            font-family: var(--font-ui);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { text-decoration: none; }
+        h1, h2, h3, h4, h5, h6 { font-weight: 700; letter-spacing: -0.01em; color: var(--text-main); }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-thumb { background: #cfd6dc; border-radius: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+
+        /* Sidebar */
+        .erp-sidebar {
+            position: fixed; top: 0; left: 0; bottom: 0; width: 264px;
+            background: var(--panel); border-right: 1px solid var(--border-col);
+            overflow-y: auto; z-index: 1030; padding-bottom: 24px;
+        }
+        .erp-sidebar .brand {
+            padding: 20px 20px 16px; font-size: 1.05rem; font-weight: 800;
+            color: var(--text-main); display: flex; align-items: center; gap: 11px;
+            letter-spacing: -0.01em;
+        }
+        .erp-sidebar .brand .barcode-mark {
+            width: 34px; height: 34px; border-radius: 9px;
+            background: var(--accent);
+            display: flex; align-items: center; justify-content: center;
+            gap: 2px; padding: 0 6px; flex-shrink: 0;
+        }
+        .erp-sidebar .brand .barcode-mark span {
+            display: inline-block; width: 2px; height: 16px; background: #fff; opacity: .95;
+        }
+        .erp-sidebar .brand .barcode-mark span:nth-child(2) { width: 3px; }
+        .erp-sidebar .brand .barcode-mark span:nth-child(4) { width: 1px; }
+        .erp-sidebar .brand .barcode-mark span:nth-child(6) { width: 3px; }
+        .erp-sidebar .tear-line {
+            border-bottom: 1px dashed var(--border-col); margin: 0 20px 14px; position: relative;
+        }
+        .erp-sidebar .nav-section-title {
+            font-family: var(--font-mono);
+            font-size: 0.66rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.09em;
+            color: var(--text-muted); padding: 16px 20px 8px;
+        }
+        .erp-sidebar .nav-link {
+            color: var(--text-muted); padding: 8px 16px; margin: 1px 10px; border-radius: 9px;
+            font-size: 0.885rem; font-weight: 500;
+            display: flex; align-items: center; gap: 11px;
+            transition: background .12s ease, color .12s ease;
+            cursor: pointer;
+        }
+        .erp-sidebar .nav-link i {
+            width: 28px; height: 28px; border-radius: 7px; background: var(--muted-soft);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem; color: var(--text-muted);
+            transition: background .12s ease, color .12s ease;
+        }
+        .erp-sidebar .nav-link:hover { background: var(--panel-2); color: var(--text-main); }
+        .erp-sidebar .nav-link.active {
+            background: var(--accent-soft); color: var(--accent-dark); font-weight: 600;
+        }
+        .erp-sidebar .nav-link.active i { background: var(--accent); color: #fff; }
+
+        /* Main content wrapper */
+        .erp-main { margin-left: 264px; min-height: 100vh; }
+        .erp-topbar {
+            background: var(--panel); border-bottom: 1px dashed var(--border-col);
+            padding: 16px 30px; display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 1020;
+        }
+        .erp-topbar h4 { margin: 0; font-weight: 800; font-size: 1.15rem; color: var(--text-main); }
+        .erp-topbar .user-chip {
+            background: var(--panel-2); border: 1px solid var(--border-col);
+            padding: 6px 14px; border-radius: 20px; font-size: 0.83rem; color: var(--text-main);
+            font-weight: 500;
+        }
+        .erp-content { padding: 28px 30px; }
+        [id] { scroll-margin-top: 90px; }
+
+        /* Cards */
+        .erp-card {
+            background: var(--panel); border: 1px solid var(--border-col);
+            border-radius: 14px; padding: 20px;
+            box-shadow: 0 1px 2px rgba(20, 30, 40, 0.03);
+        }
+        .erp-card h6 { font-weight: 700; font-size: 0.92rem; }
+        .erp-card .kpi-icon {
+            width: 44px; height: 44px; border-radius: 12px; display: flex;
+            align-items: center; justify-content: center; font-size: 1.05rem; color: #fff;
+        }
+        .erp-card .kpi-value { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--text-main); letter-spacing: -0.01em; }
+        .erp-card .kpi-label { color: var(--text-muted); font-size: 0.82rem; font-weight: 500; }
+
+        .section-title {
+            font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em;
+            color: var(--text-muted); font-family: var(--font-mono); margin: 30px 0 10px;
+        }
+        .section-title:first-of-type { margin-top: 0; }
+
+        .table-dark-erp {
+            background: var(--panel); color: var(--text-main); border-radius: 12px; overflow: hidden;
+        }
+        .table-dark-erp thead { background: var(--panel-2); }
+        .table-dark-erp th {
+            color: var(--text-muted); font-size: 0.72rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.06em; border: none;
+            font-family: var(--font-mono);
+        }
+        .table-dark-erp td, .table-dark-erp th { border-color: var(--border-col); vertical-align: middle; }
+        .table-dark-erp tbody tr:hover { background: var(--panel-2); }
+
+        .btn-accent { background: var(--accent); border: 1px solid var(--accent-dark); color: #fff; font-weight: 600; }
+        .btn-accent:hover { background: var(--accent-dark); color: #fff; }
+        .form-control, .form-select {
+            background: var(--panel); border: 1px solid var(--border-col); color: var(--text-main);
+        }
+        .form-control:focus, .form-select:focus {
+            background: var(--panel); color: var(--text-main); border-color: var(--accent);
+            box-shadow: 0 0 0 0.2rem rgba(14,124,102,.15);
+        }
+        .form-label { font-size: 0.83rem; font-weight: 600; color: var(--text-main); }
+        .badge-status {
+            padding: 4px 11px; border-radius: 20px; font-size: 0.7rem; font-weight: 700;
+            font-family: var(--font-mono); letter-spacing: 0.02em;
+        }
+        .status-success { background: var(--success-soft); color: var(--success); }
+        .status-warning { background: var(--warning-soft); color: var(--warning); }
+        .status-danger { background: var(--danger-soft); color: var(--danger); }
+        .status-info { background: var(--info-soft); color: var(--info); }
+        .status-muted { background: var(--muted-soft); color: var(--text-muted); }
+
+        .erp-modal-card { background: var(--panel); border: 1px solid var(--border-col); border-radius: 14px; }
+        .text-muted { color: var(--text-muted) !important; }
+        @media (max-width: 991px) {
+            .erp-sidebar { transform: translateX(-100%); transition: transform .2s ease; }
+            .erp-sidebar.show { transform: translateX(0); }
+            .erp-main { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="erp-sidebar" id="portalSidebar">
+        <div class="brand">
+            <span class="barcode-mark"><span></span><span></span><span></span><span></span><span></span><span></span></span>
+            {{ business_name|default:"RetailStoreERP" }}
+        </div>
+        <div class="tear-line"></div>
+        <div class="nav-section-title">My Portal</div>
+        <a href="#overview" class="nav-link active"><i class="fa-solid fa-house"></i> Overview</a>
+        <a href="#attendance" class="nav-link"><i class="fa-solid fa-clock"></i> Attendance</a>
+        <a href="#stock-requests" class="nav-link"><i class="fa-solid fa-boxes-stacked"></i> Stock Requests</a>
+        <a href="#payments" class="nav-link"><i class="fa-solid fa-money-check-dollar"></i> Payment History</a>
+        <a href="#products" class="nav-link"><i class="fa-solid fa-cart-shopping"></i> Products &amp; Stock</a>
+        {% if request.user.staff_profile.staff_category == 'delivery_boy' or request.user.employee_profile.staff_category == 'delivery_boy' %}<a href="#deliveries" class="nav-link"><i class="fa-solid fa-truck-fast"></i> My Deliveries</a>{% endif %}
+        <div class="nav-section-title">More</div>
+        <a href="{% url 'inventory_dashboard' %}" class="nav-link"><i class="fa-solid fa-warehouse"></i> Stock Management</a>
+        {% if request.user.staff_profile.staff_category == 'delivery_boy' or request.user.employee_profile.staff_category == 'delivery_boy' %}<a href="{% url 'order_list' %}" class="nav-link"><i class="fa-solid fa-list"></i> All Orders (Full List)</a>{% endif %}
+        <a href="{% url 'logout' %}" class="nav-link"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+    </div>
+    <div class="erp-main">
+        <div class="erp-topbar">
+            <button class="btn d-lg-none" type="button" onclick="document.getElementById('portalSidebar').classList.toggle('show')"><i class="fa-solid fa-bars"></i></button>
+            <h4>My Dashboard</h4>
+            <div class="d-flex align-items-center gap-3">
+                {% if request.user.employee_profile or request.user.staff_profile %}<span class="user-chip"><i class="fa-solid fa-circle-user"></i> {{ request.user.get_full_name|default:request.user.username }}</span>{% else %}<a href="{% url 'settings_business' %}" class="user-chip" title="View store profile & QR code"><i class="fa-solid fa-circle-user"></i> {{ request.user.get_full_name|default:request.user.username }}</a>{% endif %}
+                <a href="{% url 'logout' %}" class="user-chip"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            </div>
+        </div>
+        <div class="erp-content">
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                {% endfor %}
+            {% endif %}
+
+            <div id="overview">
+            <div class="erp-card mb-3">
+                <span class="badge-status status-warning">Worker Portal</span>
+                <h3 class="mt-2 mb-0">{% if payee_type == 'employee' %}{{ payee.user.get_full_name|default:payee.user.username }}{% else %}{{ payee.name }}{% endif %}</h3>
+                <p class="text-muted mb-0">
+                    {{ payee.get_staff_category_display|default:"Store Staff" }}
+                    <!-- &middot; {{ payee.assigned_store.name|default:"No site assigned" }} -->
+                </p>
+            </div>
+
+            <div class="erp-card">
+                <h6 class="mb-3">My Overall Balance</h6>
+                <div class="row text-center">
+                    <div class="col-4">
+                        <p class="kpi-label mb-1">Total Earned</p>
+                        <h5 class="mb-0">₹{{ payee.total_earned }}</h5>
+                    </div>
+                    <div class="col-4">
+                        <p class="kpi-label mb-1">Total Received</p>
+                        <h5 class="mb-0">₹{{ payee.total_received }}</h5>
+                    </div>
+                    <div class="col-4">
+                        <p class="kpi-label mb-1">{% if payee.advance_outstanding > 0 %}Advance{% else %}Balance Due{% endif %}</p>
+                        <h5 class="mb-0 {% if payee.advance_outstanding > 0 %}text-info{% else %}text-success{% endif %}">₹{% if payee.advance_outstanding > 0 %}{{ payee.advance_outstanding }}{% else %}{{ payee.salary_balance }}{% endif %}</h5>
+                    </div>
+                </div>
+                <p class="text-muted small mt-3 mb-0">
+                    {% if payee.advance_outstanding > 0 %}You've received an advance (more than you've earned so far).{% else %}This is what's still due to be paid to you, based on your marked attendance so far.{% endif %}
+                </p>
+            </div>
+            </div>
+
+            <div id="attendance">
+            <div class="section-title">Attendance</div>
+            <div class="erp-card">
+                <h6 class="mb-3">Mark Today's Attendance</h6>
+                {% if todays_attendance %}
+                    <div class="alert alert-success mb-0">Marked as <strong>{{ todays_attendance.get_status_display }}</strong> for {{ today }}.</div>
+                {% else %}
+                    <form method="post" action="{% url 'portal_mark_attendance' %}">
+                        {% csrf_token %}
+                        <div class="d-flex gap-2 flex-wrap">
+                            <button type="submit" name="status" value="present" class="btn btn-accent flex-fill">Present</button>
+                            <button type="submit" name="status" value="half_day" class="btn btn-outline-secondary flex-fill">Half Day</button>
+                            <button type="submit" name="status" value="absent" class="btn btn-outline-danger flex-fill">Absent</button>
+                        </div>
+                    </form>
+                {% endif %}
+            </div>
+
+            <div class="erp-card mt-3">
+                <h6 class="mb-3">My Attendance History</h6>
+                <div class="table-responsive">
+                <table class="table table-dark-erp table-sm">
+                    <thead><tr><th>Date</th><th>Status</th></tr></thead>
+                    <tbody>
+                    {% for a in recent_attendance %}
+                        <tr>
+                            <td>{{ a.date }}</td>
+                            <td><span class="badge-status status-{% if a.status == 'present' %}success{% elif a.status == 'absent' %}danger{% else %}warning{% endif %}">{{ a.get_status_display }}</span></td>
+                        </tr>
+                    {% empty %}
+                        <tr><td colspan="2" class="text-muted text-center">No attendance marked yet.</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+            </div>
+            </div>
+
+            <div id="stock-requests">
+            <div class="section-title">Stock Requests</div>
+            <div class="erp-card">
+                <h6 class="mb-2"><i class="fa-solid fa-boxes-stacked"></i> Log New Stock Received</h6>
+                <p class="text-muted small mb-3">Pick the product and enter how much new stock has arrived. It'll be added to inventory once the owner approves it.</p>
+                <form method="post" action="{% url 'portal_stock_request_add' %}" class="row g-2 align-items-end">
+                    {% csrf_token %}
+                    <div class="col-md-4">
+                        <label class="form-label">Product</label>
+                        {{ stock_request_form.product }}
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Store (optional)</label>
+                        {{ stock_request_form.store }}
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Quantity Received</label>
+                        {{ stock_request_form.requested_quantity }}
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Note (optional)</label>
+                        {{ stock_request_form.note }}
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-accent">Submit for Approval</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="erp-card mt-3">
+                <h6 class="mb-3">My Stock Requests</h6>
+                <div class="table-responsive">
+                <table class="table table-dark-erp table-sm">
+                    <thead><tr><th>Product</th><th>Qty</th><th>Requested On</th><th>Status</th></tr></thead>
+                    <tbody>
+                    {% for sr in my_stock_requests %}
+                        <tr>
+                            <td>{{ sr.product.name }}</td>
+                            <td>+{{ sr.requested_quantity }}</td>
+                            <td>{{ sr.created_at|date:"d M, h:i A" }}</td>
+                            <td>
+                                {% if sr.status == 'approved' %}<span class="badge-status status-success">Approved</span>
+                                {% elif sr.status == 'rejected' %}<span class="badge-status status-danger">Rejected</span>
+                                {% else %}<span class="badge-status status-warning">Pending Approval</span>{% endif %}
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr><td colspan="4" class="text-muted text-center">No stock requests submitted yet.</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+            </div>
+            </div>
+
+            <div id="payments">
+            <div class="section-title">Payments</div>
+            <div class="erp-card">
+                <h6 class="mb-3">My Payment History</h6>
+                <div class="table-responsive">
+                <table class="table table-dark-erp table-sm">
+                    <thead><tr><th>Date</th><th>Type</th><th>Amount</th><th>Method</th><th>Note</th></tr></thead>
+                    <tbody>
+                    {% for p in payments %}
+                        <tr>
+                            <td>{{ p.date }}</td>
+                            <td>{{ p.get_payment_type_display }}</td>
+                            <td>₹{{ p.amount }}</td>
+                            <td>{{ p.get_payment_method_display }}</td>
+                            <td class="text-muted">{{ p.note|default:"—" }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr><td colspan="5" class="text-muted text-center">No payments recorded yet.</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+            </div>
+            </div>
+
+            {% if request.user.staff_profile.staff_category == 'delivery_boy' or request.user.employee_profile.staff_category == 'delivery_boy' %}
+            <div id="deliveries">
+            <div class="section-title">My Deliveries</div>
+            <div class="erp-card">
+                <h6 class="mb-3">Orders Assigned to Me</h6>
+                <div class="table-responsive">
+                <table class="table table-dark-erp table-sm">
+                    <thead><tr><th>Order #</th><th>Customer</th><th>Address</th><th>Amount</th><th>Payment</th><th>Status</th><th></th></tr></thead>
+                    <tbody>
+                    {% for order in my_deliveries %}
+                        <tr>
+                            <td>{{ order.order_number }}</td>
+                            <td>{{ order.display_customer_name }}</td>
+                            <td class="text-muted">{{ order.delivery_address|truncatechars:30 }}</td>
+                            <td>₹{{ order.total_amount }}</td>
+                            <td>
+                                <span class="badge-status {% if order.payment_status == 'paid' %}status-success{% else %}status-warning{% endif %}">
+                                    {{ order.get_payment_method_display }} &middot; {{ order.get_payment_status_display }}
+                                </span>
+                            </td>
+                            <td><span class="badge-status status-info">{{ order.get_status_display }}</span></td>
+                            <td class="d-flex gap-1">
+                                <a href="{% url 'order_detail' order.pk %}" class="btn btn-sm btn-outline-info">Open</a>
+                                {% if order.payment_method == 'cod' and order.payment_status != 'paid' %}
+                                <form method="post" action="{% url 'order_mark_paid' order.pk %}" class="d-inline">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="next" value="{% url 'portal_dashboard' %}#deliveries">
+                                    <button type="submit" class="btn btn-sm btn-accent">Paid</button>
+                                </form>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr><td colspan="7" class="text-muted text-center">No deliveries assigned to you right now.</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+            </div>
+            </div>
+            {% endif %}
+
+            <div id="products">
+            <div class="section-title">Products &amp; Stock</div>
+            <div class="erp-card mb-4">
+                <h6 class="mb-3">All Products &amp; Current Stock</h6>
+                <div class="table-responsive">
+                <table class="table table-dark-erp table-sm">
+                    <thead><tr><th>Product</th><th>Category</th><th>Current Stock</th></tr></thead>
+                    <tbody>
+                    {% for p in products %}
+                        <tr>
+                            <td>{{ p.name }}</td>
+                            <td class="text-muted">{{ p.category.name|default:"—" }}</td>
+                            <td>{{ p.current_stock }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr><td colspan="3" class="text-muted text-center">No products found.</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+            </div>
+            </div>
+
+        </div>
+    </div>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script>
+        // Highlight the sidebar link matching the section currently in view
+        const navLinks = document.querySelectorAll('#portalSidebar .nav-link[href^="#"]');
+        const sections = Array.from(navLinks).map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+        function onScroll() {
+            let current = sections[0];
+            for (const sec of sections) {
+                if (sec.getBoundingClientRect().top - 100 <= 0) current = sec;
+            }
+            navLinks.forEach(l => l.classList.remove('active'));
+            const match = Array.from(navLinks).find(l => l.getAttribute('href') === '#' + current.id);
+            if (match) match.classList.add('active');
+        }
+        window.addEventListener('scroll', onScroll);
+        onScroll();
+    </script>
+</body>
+</html>

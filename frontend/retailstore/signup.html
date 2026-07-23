@@ -1,0 +1,73 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | RetailStoreERP</title>
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'vendor/fontawesome/css/all.min.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F3F5F7; --panel: #FFFFFF; --border-col: #E2E7EB;
+            --text-main: #16212C; --text-muted: #66707C;
+            --accent: #0E7C66; --accent-dark: #0B6353;
+        }
+        body {
+            background: var(--bg); color: var(--text-main); min-height: 100vh;
+            display:flex; align-items:center; justify-content:center;
+            font-family: 'Inter', system-ui, sans-serif; padding: 24px 0;
+        }
+        .signup-card {
+            background: var(--panel); border: 1px solid var(--border-col);
+            border-radius: 16px; padding: 40px; width: 420px;
+            box-shadow: 0 1px 3px rgba(20,30,40,.05);
+        }
+        .signup-card .barcode-mark {
+            width: 56px; height: 56px; border-radius: 14px; background: var(--accent);
+            display:flex; align-items:center; justify-content:center; gap: 3px;
+            margin: 0 auto 18px; padding: 0 10px;
+        }
+        .signup-card .barcode-mark span { display:inline-block; width: 3px; height: 24px; background: #fff; opacity: .95; }
+        .signup-card .barcode-mark span:nth-child(2) { width: 4px; }
+        .signup-card .barcode-mark span:nth-child(4) { width: 2px; }
+        .signup-card h4 { font-weight: 800; letter-spacing: -0.01em; }
+        .signup-card .tear-line { border-bottom: 1px dashed var(--border-col); margin: 20px 0; }
+        .form-label { font-size: 0.83rem; font-weight: 600; }
+        .form-control { background: var(--panel); border:1px solid var(--border-col); color: var(--text-main); }
+        .form-control:focus { background: var(--panel); color: var(--text-main); border-color: var(--accent); box-shadow:0 0 0 .2rem rgba(14,124,102,.15); }
+        .btn-accent { background: var(--accent); border:1px solid var(--accent-dark); color:#fff; font-weight:600; }
+        .btn-accent:hover { background: var(--accent-dark); color:#fff; }
+        .text-muted { color: var(--text-muted) !important; }
+    </style>
+</head>
+<body>
+    <div class="signup-card text-center">
+        <div class="barcode-mark"><span></span><span></span><span></span><span></span><span></span></div>
+        <h4 class="mb-1">Create your account</h4>
+        <p class="text-muted mb-0">Set up your own RetailStoreERP workspace</p>
+        <div class="tear-line"></div>
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        <form method="post" class="text-start">
+            {% csrf_token %}
+            <label class="form-label text-muted">Business / Store Name</label>
+            <input type="text" name="business_name" class="form-control mb-3" value="{{ business_name|default:'' }}" placeholder="e.g. Sharma General Store">
+            <label class="form-label text-muted">Username</label>
+            <input type="text" name="username" class="form-control mb-3" value="{{ username|default:'' }}" required autofocus>
+            <label class="form-label text-muted">Email (optional)</label>
+            <input type="email" name="email" class="form-control mb-3" value="{{ email|default:'' }}">
+            <label class="form-label text-muted">Password</label>
+            <input type="password" name="password" class="form-control mb-3" required minlength="8">
+            <label class="form-label text-muted">Confirm Password</label>
+            <input type="password" name="password_confirm" class="form-control mb-4" required minlength="8">
+            <button type="submit" class="btn btn-accent w-100">Create Account</button>
+        </form>
+        <p class="text-muted mt-3 mb-0" style="font-size:0.85rem;">Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders | {{ store.name }}</title>
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'vendor/fontawesome/css/all.min.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F3F5F7; --panel: #FFFFFF; --border-col: #E2E7EB;
+            --text-main: #16212C; --text-muted: #66707C; --accent: #0E7C66; --accent-dark: #0B6353;
+            --font-ui: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        * { box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text-main); font-family: var(--font-ui); padding-bottom: 40px; }
+        a { text-decoration: none; }
+        .shop-topbar {
+            background: var(--panel); border-bottom: 1px solid var(--border-col);
+            padding: 14px 16px; position: sticky; top: 0; z-index: 1020;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .shop-topbar h5 { margin: 0; font-weight: 800; }
+        .erp-card { background: var(--panel); border: 1px solid var(--border-col); border-radius: 14px; padding: 20px; }
+        .btn-accent { background: var(--accent); border: 1px solid var(--accent-dark); color: #fff; font-weight: 600; }
+        .btn-accent:hover { background: var(--accent-dark); color: #fff; }
+        .form-control:focus { border-color: var(--accent); box-shadow: 0 0 0 0.2rem rgba(14,124,102,.15); }
+        .badge-status { display: inline-block; padding: 4px 11px; border-radius: 20px; font-size: 0.72rem; font-weight: 700; }
+        .status-success { background: #E3F1EC; color: var(--accent-dark); }
+        .status-warning { background: #FBF0DE; color: #C2760C; }
+        .status-danger { background: #FDEDEC; color: #922B21; }
+        .order-row {
+            background: var(--panel); border: 1px solid var(--border-col); border-radius: 12px;
+            padding: 14px 16px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; gap: 10px;
+        }
+        .order-row .num { font-weight: 700; }
+        .order-row .meta { font-size: 0.8rem; color: var(--text-muted); }
+    </style>
+</head>
+<body>
+    <div class="shop-topbar">
+        <div>
+            <h5>{{ store.name }}</h5>
+            <p class="mb-0" style="font-size:0.78rem;color:var(--text-muted);">My Orders</p>
+        </div>
+        <a href="{% url 'storefront' store.public_slug %}" class="btn btn-sm btn-outline-secondary">
+            <i class="fa-solid fa-arrow-left"></i> Back to Shop
+        </a>
+    </div>
+
+    <div class="container py-4" style="max-width:560px;">
+        {% if not phone %}
+        <div class="erp-card">
+            <h6 class="mb-1"><i class="fa-solid fa-magnifying-glass"></i> Track Your Orders</h6>
+            <p class="text-muted" style="font-size:0.85rem;">Enter the phone number you used while ordering to see your own order history.</p>
+            <form method="post">
+                {% csrf_token %}
+                {% if form.phone.errors %}<div class="text-danger small mb-2">{{ form.phone.errors.0 }}</div>{% endif %}
+                <div class="d-flex gap-2">
+                    {{ form.phone }}
+                    <button type="submit" class="btn btn-accent">View</button>
+                </div>
+            </form>
+        </div>
+        {% else %}
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <p class="mb-0 text-muted" style="font-size:0.85rem;">Showing orders for <strong>{{ phone }}</strong></p>
+            <a href="?switch=1" class="text-muted" style="font-size:0.8rem;"><i class="fa-solid fa-rotate"></i> Not you? Switch number</a>
+        </div>
+
+        {% for order in orders %}
+        <a href="{% url 'storefront_order_confirmation' store.public_slug order.pk %}" class="order-row">
+            <div>
+                <div class="num">{{ order.order_number }}</div>
+                <div class="meta">{{ order.created_at|date:"d M Y, h:i A" }} &middot; ₹{{ order.total_amount }}</div>
+            </div>
+            <span class="badge-status {% if order.status == 'cancelled' %}status-danger{% elif order.status == 'delivered' or order.status == 'completed' %}status-success{% else %}status-warning{% endif %}">
+                {{ order.get_status_display }}
+            </span>
+        </a>
+        {% empty %}
+        <div class="erp-card text-center text-muted">
+            No orders found for this phone number.
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+</body>
+</html>
