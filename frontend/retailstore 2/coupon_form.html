@@ -13,11 +13,9 @@
 <style>
 
 *{
-
     margin:0;
     padding:0;
     box-sizing:border-box;
-
 }
 
 :root{
@@ -38,9 +36,12 @@ body{
     background:var(--bg);
     color:var(--text);
     min-height:100vh;
+    overflow-x:hidden;
     transition:.3s ease;
 
 }
+
+/* ANIMATED BACKGROUND */
 
 body::before,
 body::after{
@@ -53,6 +54,7 @@ body::after{
     filter:blur(110px);
     opacity:.20;
     z-index:-1;
+    pointer-events:none;
 
 }
 
@@ -61,7 +63,7 @@ body::before{
     background:#00d4ff;
     top:-150px;
     left:-100px;
-    animation:moveOne 12s infinite alternate;
+    animation:moveOne 12s infinite alternate ease-in-out;
 
 }
 
@@ -70,29 +72,35 @@ body::after{
     background:#7c3aed;
     right:-150px;
     bottom:-150px;
-    animation:moveTwo 15s infinite alternate;
+    animation:moveTwo 15s infinite alternate ease-in-out;
 
 }
 
 @keyframes moveOne{
 
+    from{
+        transform:translate(0,0);
+    }
+
     to{
-
         transform:translate(180px,180px);
-
     }
 
 }
 
 @keyframes moveTwo{
 
+    from{
+        transform:translate(0,0);
+    }
+
     to{
-
         transform:translate(-180px,-150px);
-
     }
 
 }
+
+/* LAYOUT */
 
 .app{
 
@@ -100,6 +108,8 @@ body::after{
     min-height:100vh;
 
 }
+
+/* SIDEBAR */
 
 .sidebar{
 
@@ -130,7 +140,7 @@ body::after{
 .nav-title{
 
     color:#748096;
-    font-size:11px;
+    font-size:13px;
     text-transform:uppercase;
     margin:15px;
 
@@ -141,12 +151,13 @@ body::after{
     display:flex;
     gap:12px;
     align-items:center;
-    padding:12px 15px;
+    padding:13px 15px;
     margin:5px 0;
     border-radius:10px;
     text-decoration:none;
     color:#9ca8ba;
-    font-size:13px;
+    font-size:15px;
+    transition:.3s;
 
 }
 
@@ -164,6 +175,8 @@ body::after{
 
 }
 
+/* MAIN */
+
 .main{
 
     margin-left:250px;
@@ -171,6 +184,8 @@ body::after{
     padding:30px;
 
 }
+
+/* TOPBAR */
 
 .topbar{
 
@@ -186,7 +201,7 @@ body::after{
 .breadcrumb{
 
     color:var(--muted);
-    font-size:12px;
+    font-size:14px;
     margin-bottom:8px;
 
 }
@@ -199,14 +214,14 @@ body::after{
 
 h1{
 
-    font-size:28px;
+    font-size:30px;
 
 }
 
 .subtitle{
 
     color:var(--muted);
-    font-size:13px;
+    font-size:15px;
     margin-top:5px;
 
 }
@@ -227,7 +242,7 @@ h1{
     padding:10px 14px;
     border-radius:9px;
     cursor:pointer;
-    font-size:17px;
+    font-size:18px;
 
 }
 
@@ -240,24 +255,31 @@ h1{
     border:1px solid var(--border);
     padding:7px 12px;
     border-radius:10px;
+    font-size:15px;
 
 }
 
 .avatar{
 
-    width:32px;
-    height:32px;
+    width:34px;
+    height:34px;
     border-radius:50%;
     display:grid;
     place-items:center;
-    background:linear-gradient(135deg,#00d4ff,#7c3aed);
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
     font-weight:bold;
 
 }
 
+/* FORM */
+
 .form-card{
 
-    max-width:950px;
+    max-width:1000px;
     background:var(--card);
     border:1px solid var(--border);
     border-radius:15px;
@@ -267,7 +289,7 @@ h1{
 
 .form-card h2{
 
-    font-size:18px;
+    font-size:21px;
     margin-bottom:25px;
 
 }
@@ -288,7 +310,7 @@ h1{
 
 }
 
-.full{
+.form-group.full{
 
     grid-column:1/-1;
 
@@ -297,29 +319,42 @@ h1{
 label{
 
     color:var(--muted);
-    font-size:12px;
+    font-size:14px;
 
 }
 
 input,
-select{
+select,
+textarea{
 
-    padding:13px 14px;
-    background:var(--input);
-    border:1px solid var(--border);
+    width:100%;
+    padding:14px 15px;
     border-radius:9px;
+    border:1px solid var(--border);
+    background:var(--input);
     color:var(--text);
     font-family:Poppins,sans-serif;
+    font-size:15px;
     outline:none;
 
 }
 
 input:focus,
-select:focus{
+select:focus,
+textarea:focus{
 
     border-color:#00d4ff;
 
 }
+
+textarea{
+
+    min-height:110px;
+    resize:vertical;
+
+}
+
+/* BUTTONS */
 
 .form-actions{
 
@@ -332,31 +367,37 @@ select:focus{
 
 }
 
-.cancel-btn,
-.save-btn{
-
-    padding:12px 25px;
-    border-radius:9px;
-    cursor:pointer;
-    font-family:Poppins,sans-serif;
-
-}
-
 .cancel-btn{
 
-    background:transparent;
+    padding:13px 22px;
     border:1px solid var(--border);
+    border-radius:9px;
+    background:transparent;
     color:var(--text);
+    cursor:pointer;
+    font-family:Poppins,sans-serif;
+    font-size:15px;
 
 }
 
 .save-btn{
 
+    padding:13px 25px;
     border:none;
-    background:linear-gradient(135deg,#00d4ff,#7c3aed);
+    border-radius:9px;
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
     color:white;
+    cursor:pointer;
+    font-family:Poppins,sans-serif;
+    font-size:15px;
 
 }
+
+/* LIGHT MODE */
 
 body.light-mode{
 
@@ -365,14 +406,14 @@ body.light-mode{
     --sidebar:#ffffff;
     --border:#dce3ec;
     --text:#172033;
-    --muted:#64748b;
+    --muted:#334155;
     --input:#ffffff;
 
 }
 
 body.light-mode .sidebar a{
 
-    color:#64748b;
+    color:#1e293b;
 
 }
 
@@ -380,7 +421,31 @@ body.light-mode .sidebar a:hover,
 body.light-mode .sidebar a.active{
 
     background:#e8f5ff;
-    color:#172033;
+    color:#0f172a;
+
+}
+
+body.light-mode .nav-title{
+
+    color:#334155;
+
+}
+
+body.light-mode .breadcrumb{
+
+    color:#475569;
+
+}
+
+body.light-mode .subtitle{
+
+    color:#475569;
+
+}
+
+body.light-mode label{
+
+    color:#334155;
 
 }
 
@@ -392,15 +457,11 @@ body.light-mode .user{
 
 }
 
-body.light-mode .form-card{
-
-    box-shadow:0 8px 25px rgba(30,50,80,.08);
-
-}
-
 body.light-mode input,
-body.light-mode select{
+body.light-mode select,
+body.light-mode textarea{
 
+    background:#ffffff;
     color:#172033;
 
 }
@@ -411,6 +472,8 @@ body.light-mode .cancel-btn{
 
 }
 
+/* RESPONSIVE */
+
 @media(max-width:800px){
 
     .form-grid{
@@ -419,7 +482,7 @@ body.light-mode .cancel-btn{
 
     }
 
-    .full{
+    .form-group.full{
 
         grid-column:auto;
 
@@ -496,35 +559,19 @@ Dashboard
 
 </a>
 
-<a href="product_list.html">
+<a href="coupon_form.html" class="active">
 
-<span>▣</span>
-
-Products
-
-</a>
-
-<a href="coupon_list.html" class="active">
-
-<span>★</span>
+<span>🎟</span>
 
 Coupons
 
 </a>
 
-<a href="promotion_dashboard.html">
+<a href="inventory_dashboard.html">
 
-<span>◈</span>
+<span>▣</span>
 
-Promotions
-
-</a>
-
-<a href="sale_list.html">
-
-<span>▤</span>
-
-Sales
+Inventory
 
 </a>
 
@@ -533,6 +580,14 @@ Sales
 <span>♙</span>
 
 Customers
+
+</a>
+
+<a href="order_list.html">
+
+<span>▱</span>
+
+Orders
 
 </a>
 
@@ -576,7 +631,7 @@ Create Coupon
 
 <p class="subtitle">
 
-Create a discount coupon for your customers.
+Create and manage discount coupons for your business.
 
 </p>
 
@@ -584,13 +639,25 @@ Create a discount coupon for your customers.
 
 <div class="actions">
 
-<button class="icon-btn" id="themeToggle">☾</button>
+<button class="icon-btn" id="themeToggle">
+
+☾
+
+</button>
 
 <div class="user">
 
-<div class="avatar">A</div>
+<div class="avatar">
 
-<span>Admin</span>
+A
+
+</div>
+
+<span>
+
+Admin
+
+</span>
 
 </div>
 
@@ -612,13 +679,17 @@ Coupon Information
 
 <div class="form-group">
 
-<label>Coupon Code</label>
+<label>
+
+Coupon Code
+
+</label>
 
 <input
 
 type="text"
 
-placeholder="SAVE20"
+placeholder="e.g. SAVE20"
 
 required
 
@@ -628,15 +699,31 @@ required
 
 <div class="form-group">
 
-<label>Discount Type</label>
+<label>
+
+Discount Type
+
+</label>
 
 <select required>
 
-<option value="">Select type</option>
+<option value="">
 
-<option>Percentage</option>
+Select discount type
 
-<option>Fixed Amount</option>
+</option>
+
+<option>
+
+Percentage
+
+</option>
+
+<option>
+
+Fixed Amount
+
+</option>
 
 </select>
 
@@ -644,13 +731,19 @@ required
 
 <div class="form-group">
 
-<label>Discount Value</label>
+<label>
+
+Discount Value
+
+</label>
 
 <input
 
 type="number"
 
-placeholder="20"
+placeholder="Enter discount value"
+
+step="0.01"
 
 required
 
@@ -660,13 +753,19 @@ required
 
 <div class="form-group">
 
-<label>Minimum Order Amount</label>
+<label>
+
+Minimum Order Amount
+
+</label>
 
 <input
 
 type="number"
 
-placeholder="100"
+placeholder="Enter minimum amount"
+
+step="0.01"
 
 >
 
@@ -674,7 +773,11 @@ placeholder="100"
 
 <div class="form-group">
 
-<label>Start Date</label>
+<label>
+
+Start Date
+
+</label>
 
 <input
 
@@ -688,7 +791,11 @@ required
 
 <div class="form-group">
 
-<label>Expiry Date</label>
+<label>
+
+Expiry Date
+
+</label>
 
 <input
 
@@ -702,13 +809,17 @@ required
 
 <div class="form-group">
 
-<label>Usage Limit</label>
+<label>
+
+Usage Limit
+
+</label>
 
 <input
 
 type="number"
 
-placeholder="100"
+placeholder="Enter usage limit"
 
 >
 
@@ -716,13 +827,25 @@ placeholder="100"
 
 <div class="form-group">
 
-<label>Status</label>
+<label>
+
+Status
+
+</label>
 
 <select>
 
-<option>Active</option>
+<option>
 
-<option>Inactive</option>
+Active
+
+</option>
+
+<option>
+
+Inactive
+
+</option>
 
 </select>
 
@@ -730,19 +853,17 @@ placeholder="100"
 
 <div class="form-group full">
 
-<label>Applicable Category</label>
+<label>
 
-<select>
+Description
 
-<option>All Products</option>
+</label>
 
-<option>Electronics</option>
+<textarea
 
-<option>Fashion</option>
+placeholder="Enter coupon details"
 
-<option>Home & Lifestyle</option>
-
-</select>
+></textarea>
 
 </div>
 
@@ -810,7 +931,9 @@ themeToggle.addEventListener("click",function(){
 
         localStorage.setItem("theme","light");
 
-    }else{
+    }
+
+    else{
 
         themeToggle.textContent = "☾";
 

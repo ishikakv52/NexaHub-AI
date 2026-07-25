@@ -33,15 +33,10 @@
 body{
 
     font-family:Poppins,sans-serif;
-
     background:var(--bg);
-
     color:var(--text);
-
     min-height:100vh;
-
     overflow-x:hidden;
-
     transition:.3s ease;
 
 }
@@ -52,21 +47,13 @@ body::before,
 body::after{
 
     content:"";
-
     position:fixed;
-
     width:400px;
-
     height:400px;
-
     border-radius:50%;
-
     filter:blur(110px);
-
     opacity:.20;
-
     z-index:-1;
-
     pointer-events:none;
 
 }
@@ -74,11 +61,8 @@ body::after{
 body::before{
 
     background:#00d4ff;
-
     top:-150px;
-
     left:-100px;
-
     animation:moveOne 12s infinite alternate ease-in-out;
 
 }
@@ -86,11 +70,8 @@ body::before{
 body::after{
 
     background:#7c3aed;
-
     right:-150px;
-
     bottom:-150px;
-
     animation:moveTwo 15s infinite alternate ease-in-out;
 
 }
@@ -124,7 +105,6 @@ body::after{
 .app{
 
     display:flex;
-
     min-height:100vh;
 
 }
@@ -134,17 +114,11 @@ body::after{
 .sidebar{
 
     width:250px;
-
     background:var(--sidebar);
-
     border-right:1px solid var(--border);
-
     padding:25px 15px;
-
     position:fixed;
-
     top:0;
-
     bottom:0;
 
 }
@@ -152,9 +126,7 @@ body::after{
 .logo{
 
     font-size:22px;
-
     font-weight:700;
-
     padding:10px 15px 30px;
 
 }
@@ -168,11 +140,8 @@ body::after{
 .nav-title{
 
     color:#748096;
-
-    font-size:11px;
-
+    font-size:13px;
     text-transform:uppercase;
-
     margin:15px;
 
 }
@@ -180,23 +149,14 @@ body::after{
 .sidebar a{
 
     display:flex;
-
     gap:12px;
-
     align-items:center;
-
-    padding:12px 15px;
-
+    padding:13px 15px;
     margin:5px 0;
-
     border-radius:10px;
-
     text-decoration:none;
-
     color:#9ca8ba;
-
-    font-size:13px;
-
+    font-size:15px;
     transition:.3s;
 
 }
@@ -205,7 +165,6 @@ body::after{
 .sidebar a.active{
 
     background:#18263a;
-
     color:var(--text);
 
 }
@@ -221,9 +180,7 @@ body::after{
 .main{
 
     margin-left:250px;
-
     width:calc(100% - 250px);
-
     padding:30px;
 
 }
@@ -233,15 +190,10 @@ body::after{
 .topbar{
 
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     border-bottom:1px solid var(--border);
-
     padding-bottom:22px;
-
     margin-bottom:30px;
 
 }
@@ -249,9 +201,7 @@ body::after{
 .breadcrumb{
 
     color:var(--muted);
-
-    font-size:12px;
-
+    font-size:14px;
     margin-bottom:8px;
 
 }
@@ -264,16 +214,14 @@ body::after{
 
 h1{
 
-    font-size:28px;
+    font-size:30px;
 
 }
 
 .subtitle{
 
     color:var(--muted);
-
-    font-size:13px;
-
+    font-size:15px;
     margin-top:5px;
 
 }
@@ -281,9 +229,7 @@ h1{
 .actions{
 
     display:flex;
-
     align-items:center;
-
     gap:12px;
 
 }
@@ -291,187 +237,72 @@ h1{
 .icon-btn{
 
     background:var(--card);
-
     border:1px solid var(--border);
-
     color:var(--text);
-
     padding:10px 14px;
-
     border-radius:9px;
-
     cursor:pointer;
-
-    font-size:17px;
+    font-size:18px;
 
 }
 
 .user{
 
     display:flex;
-
     align-items:center;
-
     gap:10px;
-
     background:var(--card);
-
     border:1px solid var(--border);
-
     padding:7px 12px;
-
     border-radius:10px;
+    font-size:15px;
 
 }
 
 .avatar{
 
-    width:32px;
-
-    height:32px;
-
+    width:34px;
+    height:34px;
     border-radius:50%;
-
     display:grid;
-
     place-items:center;
-
     background:linear-gradient(
-
         135deg,
-
         #00d4ff,
-
         #7c3aed
-
     );
-
     font-weight:bold;
 
 }
 
-/* STATS */
+/* ACTION BAR */
 
-.stats{
-
-    display:grid;
-
-    grid-template-columns:repeat(4,1fr);
-
-    gap:18px;
-
-    margin-bottom:25px;
-
-}
-
-.stat{
-
-    background:var(--card);
-
-    border:1px solid var(--border);
-
-    border-radius:15px;
-
-    padding:22px;
+.action-bar{
 
     display:flex;
-
-    align-items:center;
-
-    gap:15px;
-
-    transition:.3s;
-
-}
-
-.stat:hover{
-
-    transform:translateY(-5px);
-
-    border-color:#00d4ff;
-
-}
-
-.stat-icon{
-
-    width:48px;
-
-    height:48px;
-
-    display:grid;
-
-    place-items:center;
-
-    border-radius:12px;
-
-    background:rgba(0,212,255,.12);
-
-    color:#00d4ff;
-
-    font-size:22px;
-
-}
-
-.stat span{
-
-    color:var(--muted);
-
-    display:block;
-
-    font-size:12px;
-
-}
-
-.stat strong{
-
-    display:block;
-
-    font-size:23px;
-
-    margin-top:4px;
-
-}
-
-/* TOOLBAR */
-
-.toolbar{
-
-    display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
-    gap:15px;
-
     margin-bottom:22px;
 
 }
 
 .search-box{
 
-    flex:1;
-
-    max-width:450px;
+    display:flex;
+    gap:10px;
 
 }
 
 .search-box input{
 
-    width:100%;
-
-    padding:13px 16px;
-
+    width:300px;
+    padding:13px 15px;
     border-radius:9px;
-
     border:1px solid var(--border);
-
     background:var(--input);
-
     color:var(--text);
-
     font-family:Poppins,sans-serif;
-
+    font-size:14px;
     outline:none;
 
 }
@@ -482,168 +313,191 @@ h1{
 
 }
 
+.filter-select{
+
+    padding:13px 15px;
+    border-radius:9px;
+    border:1px solid var(--border);
+    background:var(--input);
+    color:var(--text);
+    font-family:Poppins,sans-serif;
+    font-size:14px;
+    outline:none;
+
+}
+
 .add-btn{
 
     padding:13px 20px;
-
     border:none;
-
     border-radius:9px;
-
-    cursor:pointer;
-
-    color:white;
-
-    font-family:Poppins,sans-serif;
-
-    font-weight:500;
-
     background:linear-gradient(
-
         135deg,
-
         #00d4ff,
-
         #7c3aed
-
     );
-
-}
-
-/* CARD */
-
-.card{
-
-    background:var(--card);
-
-    border:1px solid var(--border);
-
-    border-radius:15px;
-
-    padding:24px;
-
-    overflow-x:auto;
-
-}
-
-.card h2{
-
-    font-size:18px;
-
-    margin-bottom:20px;
+    color:white;
+    cursor:pointer;
+    font-family:Poppins,sans-serif;
+    font-size:14px;
 
 }
 
 /* TABLE */
 
-table{
+.table-card{
 
-    width:100%;
-
-    min-width:900px;
-
-    border-collapse:collapse;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:15px;
+    overflow:hidden;
 
 }
 
-th,
-td{
+.table-wrapper{
 
-    text-align:left;
+    overflow-x:auto;
 
-    padding:15px;
+}
 
-    border-bottom:1px solid var(--border);
+table{
 
-    font-size:13px;
+    width:100%;
+    border-collapse:collapse;
+    min-width:950px;
 
 }
 
 th{
 
+    text-align:left;
+    padding:18px 20px;
     color:var(--muted);
-
+    font-size:13px;
     font-weight:500;
+    border-bottom:1px solid var(--border);
 
 }
 
 td{
 
-    color:var(--text);
+    padding:18px 20px;
+    font-size:14px;
+    border-bottom:1px solid var(--border);
 
 }
 
-/* STATUS */
+tr:last-child td{
+
+    border-bottom:none;
+
+}
+
+.order-id{
+
+    color:#00d4ff;
+    font-weight:600;
+
+}
+
+.supplier{
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+}
+
+.supplier-icon{
+
+    width:38px;
+    height:38px;
+    border-radius:9px;
+    display:grid;
+    place-items:center;
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
+    font-size:18px;
+
+}
+
+.supplier strong{
+
+    display:block;
+    font-size:14px;
+
+}
+
+.supplier small{
+
+    color:var(--muted);
+    font-size:12px;
+
+}
 
 .status{
 
-    padding:5px 11px;
-
+    display:inline-block;
+    padding:6px 12px;
     border-radius:20px;
-
-    font-size:11px;
-
-}
-
-.pending{
-
-    background:#3b2d16;
-
-    color:#ffbf5a;
+    font-size:12px;
 
 }
 
-.approved{
+.status.draft{
 
-    background:#16352d;
-
-    color:#4de2a5;
-
-}
-
-.delivered{
-
-    background:#162e42;
-
-    color:#5cc8ff;
+    background:rgba(148,163,184,.15);
+    color:#94a3b8;
 
 }
 
-.cancelled{
+.status.pending{
 
-    background:#3b1c24;
-
-    color:#ff7186;
+    background:rgba(245,158,11,.15);
+    color:#f59e0b;
 
 }
 
-/* ACTION BUTTON */
+.status.approved{
+
+    background:rgba(34,197,94,.15);
+    color:#22c55e;
+
+}
+
+.status.received{
+
+    background:rgba(0,212,255,.15);
+    color:#00d4ff;
+
+}
+
+.actions-cell{
+
+    display:flex;
+    gap:8px;
+
+}
 
 .action-btn{
 
-    border:1px solid var(--border);
-
-    background:transparent;
-
-    color:var(--text);
-
-    padding:7px 10px;
-
+    padding:8px 12px;
     border-radius:7px;
-
+    border:1px solid var(--border);
+    background:transparent;
+    color:var(--text);
     cursor:pointer;
-
-    margin-right:5px;
-
-    transition:.3s;
+    font-family:Poppins,sans-serif;
+    font-size:12px;
 
 }
 
 .action-btn:hover{
 
     border-color:#00d4ff;
-
-    color:#00d4ff;
 
 }
 
@@ -652,30 +506,18 @@ td{
 body.light-mode{
 
     --bg:#f4f7fb;
-
     --card:#ffffff;
-
     --sidebar:#ffffff;
-
     --border:#dce3ec;
-
     --text:#172033;
-
-    --muted:#64748b;
-
+    --muted:#334155;
     --input:#ffffff;
-
-}
-
-body.light-mode .sidebar{
-
-    background:var(--sidebar);
 
 }
 
 body.light-mode .sidebar a{
 
-    color:#64748b;
+    color:#1e293b;
 
 }
 
@@ -683,8 +525,25 @@ body.light-mode .sidebar a:hover,
 body.light-mode .sidebar a.active{
 
     background:#e8f5ff;
+    color:#0f172a;
 
-    color:#172033;
+}
+
+body.light-mode .nav-title{
+
+    color:#334155;
+
+}
+
+body.light-mode .breadcrumb{
+
+    color:#475569;
+
+}
+
+body.light-mode .subtitle{
+
+    color:#475569;
 
 }
 
@@ -692,23 +551,19 @@ body.light-mode .icon-btn,
 body.light-mode .user{
 
     background:#ffffff;
-
     color:#172033;
 
-    border-color:var(--border);
-
 }
 
-body.light-mode .stat,
-body.light-mode .card{
-
-    box-shadow:0 8px 25px rgba(30,50,80,.08);
-
-}
-
-body.light-mode .search-box input{
+body.light-mode .search-box input,
+body.light-mode .filter-select{
 
     background:#ffffff;
+    color:#172033;
+
+}
+
+body.light-mode .action-btn{
 
     color:#172033;
 
@@ -716,11 +571,24 @@ body.light-mode .search-box input{
 
 /* RESPONSIVE */
 
-@media(max-width:1000px){
+@media(max-width:800px){
 
-    .stats{
+    .action-bar{
 
-        grid-template-columns:repeat(2,1fr);
+        flex-wrap:wrap;
+        gap:12px;
+
+    }
+
+    .search-box{
+
+        width:100%;
+
+    }
+
+    .search-box input{
+
+        width:100%;
 
     }
 
@@ -737,9 +605,7 @@ body.light-mode .search-box input{
     .main{
 
         margin-left:0;
-
         width:100%;
-
         padding:20px;
 
     }
@@ -747,33 +613,19 @@ body.light-mode .search-box input{
     .topbar{
 
         flex-direction:column;
-
         align-items:flex-start;
-
         gap:18px;
 
     }
 
-    .stats{
-
-        grid-template-columns:1fr;
-
-    }
-
-    .toolbar{
+    .action-bar{
 
         flex-direction:column;
-
         align-items:stretch;
 
     }
 
-    .search-box{
-
-        max-width:none;
-
-    }
-
+    .filter-select,
     .add-btn{
 
         width:100%;
@@ -790,8 +642,6 @@ body.light-mode .search-box input{
 
 <div class="app">
 
-<!-- SIDEBAR -->
-
 <aside class="sidebar">
 
 <div class="logo">
@@ -802,11 +652,11 @@ NEXA <span>HUB</span> AI
 
 <div class="nav-title">
 
-Retail Store
+Business Management
 
 </div>
 
-<a href="portal_dashboard.html">
+<a href="dashboard.html">
 
 <span>⌂</span>
 
@@ -814,33 +664,81 @@ Dashboard
 
 </a>
 
-<a href="product_list.html">
+<a href="customer_list.html">
+
+<span>♙</span>
+
+Customers
+
+</a>
+
+<a href="employee_list.html">
+
+<span>♟</span>
+
+Employees
+
+</a>
+
+<a href="attendance_daily.html">
+
+<span>◷</span>
+
+Attendance
+
+</a>
+
+<a href="inventory_dashboard.html">
 
 <span>▣</span>
+
+Inventory
+
+</a>
+
+<a href="finance_asset_list.html">
+
+<span>▤</span>
+
+Assets
+
+</a>
+
+<a href="finance_expense_list.html">
+
+<span>▥</span>
+
+Expenses
+
+</a>
+
+<a href="order_list.html">
+
+<span>▱</span>
+
+Orders
+
+</a>
+
+<a href="portal_dashboard.html">
+
+<span>◈</span>
+
+Portal
+
+</a>
+
+<a href="product_list.html">
+
+<span>▦</span>
 
 Products
 
 </a>
 
-<a href="sale_list.html">
-
-<span>▤</span>
-
-Sales
-
-</a>
-
-<a href="sale_pos.html">
-
-<span>▥</span>
-
-POS
-
-</a>
-
 <a href="promotion_dashboard.html">
 
-<span>★</span>
+<span>％</span>
 
 Promotions
 
@@ -848,25 +746,9 @@ Promotions
 
 <a href="purchase_order_list.html" class="active">
 
-<span>◈</span>
+<span>▤</span>
 
 Purchase Orders
-
-</a>
-
-<a href="supplier_list.html">
-
-<span>♙</span>
-
-Suppliers
-
-</a>
-
-<a href="staff_list.html">
-
-<span>♧</span>
-
-Staff
 
 </a>
 
@@ -888,8 +770,6 @@ Settings
 
 </aside>
 
-<!-- MAIN -->
-
 <main class="main">
 
 <div class="topbar">
@@ -898,7 +778,7 @@ Settings
 
 <div class="breadcrumb">
 
-Retail Store /
+Business Management /
 
 <span>Purchase Order List</span>
 
@@ -912,7 +792,7 @@ Purchase Orders
 
 <p class="subtitle">
 
-Track and manage all supplier purchase orders.
+Manage all supplier purchase orders.
 
 </p>
 
@@ -946,93 +826,13 @@ Admin
 
 </div>
 
-<!-- STATS -->
-
-<div class="stats">
-
-<div class="stat">
-
-<div class="stat-icon">
-
-◈
-
-</div>
-
-<div>
-
-<span>Total Orders</span>
-
-<strong>248</strong>
-
-</div>
-
-</div>
-
-<div class="stat">
-
-<div class="stat-icon">
-
-₹
-
-</div>
-
-<div>
-
-<span>Total Purchase Value</span>
-
-<strong>₹12.8L</strong>
-
-</div>
-
-</div>
-
-<div class="stat">
-
-<div class="stat-icon">
-
-!
-
-</div>
-
-<div>
-
-<span>Pending Orders</span>
-
-<strong>18</strong>
-
-</div>
-
-</div>
-
-<div class="stat">
-
-<div class="stat-icon">
-
-✓
-
-</div>
-
-<div>
-
-<span>Delivered Orders</span>
-
-<strong>186</strong>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- TOOLBAR -->
-
-<div class="toolbar">
+<div class="action-bar">
 
 <div class="search-box">
 
 <input
 
-type="search"
+type="text"
 
 id="searchInput"
 
@@ -1040,31 +840,65 @@ placeholder="Search purchase orders..."
 
 >
 
+<select
+
+class="filter-select"
+
+id="statusFilter"
+
+>
+
+<option value="all">
+
+All Status
+
+</option>
+
+<option value="draft">
+
+Draft
+
+</option>
+
+<option value="pending">
+
+Pending
+
+</option>
+
+<option value="approved">
+
+Approved
+
+</option>
+
+<option value="received">
+
+Received
+
+</option>
+
+</select>
+
 </div>
 
 <button
 
 class="add-btn"
 
-onclick="location.href='purchase_order_form.html'"
+onclick="window.location.href='purchase_order_form.html'"
 
 >
 
-+ Create Order
+＋ Create Purchase Order
 
 </button>
 
 </div>
 
-<!-- TABLE -->
+<div class="table-card">
 
-<div class="card">
-
-<h2>
-
-All Purchase Orders
-
-</h2>
+<div class="table-wrapper">
 
 <table>
 
@@ -1072,19 +906,47 @@ All Purchase Orders
 
 <tr>
 
-<th>Order ID</th>
+<th>
 
-<th>Supplier</th>
+PO Number
 
-<th>Order Date</th>
+</th>
 
-<th>Delivery Date</th>
+<th>
 
-<th>Total</th>
+Supplier
 
-<th>Status</th>
+</th>
 
-<th>Actions</th>
+<th>
+
+Order Date
+
+</th>
+
+<th>
+
+Delivery Date
+
+</th>
+
+<th>
+
+Total Amount
+
+</th>
+
+<th>
+
+Status
+
+</th>
+
+<th>
+
+Actions
+
+</th>
 
 </tr>
 
@@ -1092,23 +954,13 @@ All Purchase Orders
 
 <tbody id="orderTable">
 
-<tr>
-
-<td>#PO-1001</td>
-
-<td>Tech Supplier India</td>
-
-<td>25 July 2026</td>
-
-<td>28 July 2026</td>
-
-<td>₹85,400</td>
+<tr data-status="approved">
 
 <td>
 
-<span class="status pending">
+<span class="order-id">
 
-Pending
+PO-1001
 
 </span>
 
@@ -1116,33 +968,51 @@ Pending
 
 <td>
 
-<button class="action-btn">
+<div class="supplier">
 
-View
+<div class="supplier-icon">
 
-</button>
+🏢
 
-<button class="action-btn">
+</div>
 
-Edit
+<div>
 
-</button>
+<strong>
+
+ABC Suppliers
+
+</strong>
+
+<small>
+
+Main Supplier
+
+</small>
+
+</div>
+
+</div>
 
 </td>
 
-</tr>
+<td>
 
-<tr>
+Jul 20, 2026
 
-<td>#PO-1002</td>
+</td>
 
-<td>Global Traders</td>
+<td>
 
-<td>24 July 2026</td>
+Jul 27, 2026
 
-<td>27 July 2026</td>
+</td>
 
-<td>₹1,24,800</td>
+<td>
+
+$2,450.00
+
+</td>
 
 <td>
 
@@ -1156,39 +1026,39 @@ Approved
 
 <td>
 
+<div class="actions-cell">
+
+<button
+
+class="action-btn"
+
+onclick="window.location.href='purchase_order_form.html'"
+
+>
+
+Edit
+
+</button>
+
 <button class="action-btn">
 
 View
 
 </button>
 
-<button class="action-btn">
-
-Edit
-
-</button>
+</div>
 
 </td>
 
 </tr>
 
-<tr>
-
-<td>#PO-1003</td>
-
-<td>Smart Distributors</td>
-
-<td>22 July 2026</td>
-
-<td>25 July 2026</td>
-
-<td>₹56,200</td>
+<tr data-status="pending">
 
 <td>
 
-<span class="status delivered">
+<span class="order-id">
 
-Delivered
+PO-1002
 
 </span>
 
@@ -1196,39 +1066,57 @@ Delivered
 
 <td>
 
-<button class="action-btn">
+<div class="supplier">
 
-View
+<div class="supplier-icon">
 
-</button>
+🏭
 
-<button class="action-btn">
+</div>
 
-Edit
+<div>
 
-</button>
+<strong>
+
+Global Traders
+
+</strong>
+
+<small>
+
+Regular Supplier
+
+</small>
+
+</div>
+
+</div>
 
 </td>
 
-</tr>
+<td>
 
-<tr>
+Jul 22, 2026
 
-<td>#PO-1004</td>
-
-<td>Metro Wholesale</td>
-
-<td>20 July 2026</td>
-
-<td>23 July 2026</td>
-
-<td>₹42,750</td>
+</td>
 
 <td>
 
-<span class="status cancelled">
+Jul 30, 2026
 
-Cancelled
+</td>
+
+<td>
+
+$1,875.50
+
+</td>
+
+<td>
+
+<span class="status pending">
+
+Pending
 
 </span>
 
@@ -1236,17 +1124,205 @@ Cancelled
 
 <td>
 
-<button class="action-btn">
-
-View
-
-</button>
+<div class="actions-cell">
 
 <button class="action-btn">
 
 Edit
 
 </button>
+
+<button class="action-btn">
+
+View
+
+</button>
+
+</div>
+
+</td>
+
+</tr>
+
+<tr data-status="received">
+
+<td>
+
+<span class="order-id">
+
+PO-1003
+
+</span>
+
+</td>
+
+<td>
+
+<div class="supplier">
+
+<div class="supplier-icon">
+
+📦
+
+</div>
+
+<div>
+
+<strong>
+
+Prime Distributors
+
+</strong>
+
+<small>
+
+Wholesale Supplier
+
+</small>
+
+</div>
+
+</div>
+
+</td>
+
+<td>
+
+Jul 15, 2026
+
+</td>
+
+<td>
+
+Jul 22, 2026
+
+</td>
+
+<td>
+
+$3,280.00
+
+</td>
+
+<td>
+
+<span class="status received">
+
+Received
+
+</span>
+
+</td>
+
+<td>
+
+<div class="actions-cell">
+
+<button class="action-btn">
+
+Edit
+
+</button>
+
+<button class="action-btn">
+
+View
+
+</button>
+
+</div>
+
+</td>
+
+</tr>
+
+<tr data-status="draft">
+
+<td>
+
+<span class="order-id">
+
+PO-1004
+
+</span>
+
+</td>
+
+<td>
+
+<div class="supplier">
+
+<div class="supplier-icon">
+
+🚚
+
+</div>
+
+<div>
+
+<strong>
+
+Fast Supply Co.
+
+</strong>
+
+<small>
+
+New Supplier
+
+</small>
+
+</div>
+
+</div>
+
+</td>
+
+<td>
+
+Jul 24, 2026
+
+</td>
+
+<td>
+
+Aug 02, 2026
+
+</td>
+
+<td>
+
+$980.00
+
+</td>
+
+<td>
+
+<span class="status draft">
+
+Draft
+
+</span>
+
+</td>
+
+<td>
+
+<div class="actions-cell">
+
+<button class="action-btn">
+
+Edit
+
+</button>
+
+<button class="action-btn">
+
+View
+
+</button>
+
+</div>
 
 </td>
 
@@ -1258,21 +1334,17 @@ Edit
 
 </div>
 
+</div>
+
 </main>
 
 </div>
 
-<!-- THEME SCRIPT -->
-
 <script>
 
-const themeToggle =
+const themeToggle = document.getElementById("themeToggle");
 
-document.getElementById("themeToggle");
-
-const savedTheme =
-
-localStorage.getItem("theme");
+const savedTheme = localStorage.getItem("theme");
 
 if(savedTheme === "light"){
 
@@ -1292,7 +1364,9 @@ themeToggle.addEventListener("click",function(){
 
         localStorage.setItem("theme","light");
 
-    }else{
+    }
+
+    else{
 
         themeToggle.textContent = "☾";
 
@@ -1304,15 +1378,19 @@ themeToggle.addEventListener("click",function(){
 
 /* SEARCH */
 
-const searchInput =
+const searchInput = document.getElementById("searchInput");
 
-document.getElementById("searchInput");
+const statusFilter = document.getElementById("statusFilter");
 
-searchInput.addEventListener("keyup",function(){
+function filterOrders(){
 
     const searchValue =
 
     searchInput.value.toLowerCase();
+
+    const statusValue =
+
+    statusFilter.value;
 
     const rows =
 
@@ -1324,9 +1402,23 @@ searchInput.addEventListener("keyup",function(){
 
         row.textContent.toLowerCase();
 
+        const status =
+
+        row.getAttribute("data-status");
+
+        const matchesSearch =
+
+        text.includes(searchValue);
+
+        const matchesStatus =
+
+        statusValue === "all" ||
+
+        status === statusValue;
+
         row.style.display =
 
-        text.includes(searchValue)
+        matchesSearch && matchesStatus
 
         ? ""
 
@@ -1334,7 +1426,23 @@ searchInput.addEventListener("keyup",function(){
 
     });
 
-});
+}
+
+searchInput.addEventListener(
+
+"keyup",
+
+filterOrders
+
+);
+
+statusFilter.addEventListener(
+
+"change",
+
+filterOrders
+
+);
 
 </script>
 

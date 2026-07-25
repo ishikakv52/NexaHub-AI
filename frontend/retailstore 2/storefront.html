@@ -21,8 +21,8 @@
 :root{
 
     --bg:#080b14;
-    --card:#101621;
     --sidebar:#0d111c;
+    --card:#101621;
     --border:#222d3e;
     --text:#ffffff;
     --muted:#8995a8;
@@ -33,15 +33,10 @@
 body{
 
     font-family:Poppins,sans-serif;
-
     background:var(--bg);
-
     color:var(--text);
-
     min-height:100vh;
-
     overflow-x:hidden;
-
     transition:.3s ease;
 
 }
@@ -52,21 +47,13 @@ body::before,
 body::after{
 
     content:"";
-
     position:fixed;
-
-    width:400px;
-
-    height:400px;
-
+    width:430px;
+    height:430px;
     border-radius:50%;
-
-    filter:blur(110px);
-
+    filter:blur(120px);
     opacity:.20;
-
     z-index:-1;
-
     pointer-events:none;
 
 }
@@ -74,11 +61,8 @@ body::after{
 body::before{
 
     background:#00d4ff;
-
-    top:-150px;
-
-    left:-100px;
-
+    top:-160px;
+    left:-120px;
     animation:moveOne 12s infinite alternate ease-in-out;
 
 }
@@ -86,11 +70,8 @@ body::before{
 body::after{
 
     background:#7c3aed;
-
-    right:-150px;
-
-    bottom:-150px;
-
+    right:-160px;
+    bottom:-160px;
     animation:moveTwo 15s infinite alternate ease-in-out;
 
 }
@@ -98,15 +79,11 @@ body::after{
 @keyframes moveOne{
 
     from{
-
         transform:translate(0,0);
-
     }
 
     to{
-
         transform:translate(180px,180px);
-
     }
 
 }
@@ -114,25 +91,20 @@ body::after{
 @keyframes moveTwo{
 
     from{
-
         transform:translate(0,0);
-
     }
 
     to{
-
         transform:translate(-180px,-150px);
-
     }
 
 }
 
-/* LAYOUT */
+/* APP */
 
 .app{
 
     display:flex;
-
     min-height:100vh;
 
 }
@@ -142,27 +114,21 @@ body::after{
 .sidebar{
 
     width:250px;
-
     background:var(--sidebar);
-
     border-right:1px solid var(--border);
-
     padding:25px 15px;
-
     position:fixed;
-
     top:0;
-
     bottom:0;
+    overflow-y:auto;
+    z-index:20;
 
 }
 
 .logo{
 
     font-size:22px;
-
     font-weight:700;
-
     padding:10px 15px 30px;
 
 }
@@ -176,11 +142,8 @@ body::after{
 .nav-title{
 
     color:#748096;
-
-    font-size:11px;
-
+    font-size:12px;
     text-transform:uppercase;
-
     margin:15px;
 
 }
@@ -188,23 +151,14 @@ body::after{
 .sidebar a{
 
     display:flex;
-
-    gap:12px;
-
     align-items:center;
-
-    padding:12px 15px;
-
+    gap:12px;
+    padding:13px 15px;
     margin:5px 0;
-
     border-radius:10px;
-
     text-decoration:none;
-
     color:#9ca8ba;
-
-    font-size:13px;
-
+    font-size:14px;
     transition:.3s;
 
 }
@@ -213,13 +167,13 @@ body::after{
 .sidebar a.active{
 
     background:#18263a;
-
     color:var(--text);
 
 }
 
 .sidebar a span{
 
+    width:22px;
     color:#00d4ff;
 
 }
@@ -229,9 +183,7 @@ body::after{
 .main{
 
     margin-left:250px;
-
     width:calc(100% - 250px);
-
     padding:30px;
 
 }
@@ -241,15 +193,10 @@ body::after{
 .topbar{
 
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     border-bottom:1px solid var(--border);
-
     padding-bottom:22px;
-
     margin-bottom:30px;
 
 }
@@ -257,9 +204,7 @@ body::after{
 .breadcrumb{
 
     color:var(--muted);
-
-    font-size:12px;
-
+    font-size:14px;
     margin-bottom:8px;
 
 }
@@ -272,16 +217,14 @@ body::after{
 
 h1{
 
-    font-size:28px;
+    font-size:30px;
 
 }
 
 .subtitle{
 
     color:var(--muted);
-
-    font-size:13px;
-
+    font-size:14px;
     margin-top:5px;
 
 }
@@ -289,181 +232,154 @@ h1{
 .actions{
 
     display:flex;
-
     align-items:center;
-
     gap:12px;
 
 }
 
-.icon-btn{
+.theme-btn{
 
-    background:var(--card);
-
-    border:1px solid var(--border);
-
-    color:var(--text);
-
-    padding:10px 14px;
-
+    width:42px;
+    height:42px;
     border-radius:9px;
-
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
     cursor:pointer;
+    font-size:18px;
 
-    font-size:17px;
+}
+
+.cart-btn{
+
+    padding:11px 16px;
+    border-radius:9px;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    cursor:pointer;
+    font-family:Poppins,sans-serif;
+    font-size:13px;
 
 }
 
 .user{
 
     display:flex;
-
     align-items:center;
-
     gap:10px;
-
     background:var(--card);
-
     border:1px solid var(--border);
-
     padding:7px 12px;
-
     border-radius:10px;
+    font-size:14px;
 
 }
 
 .avatar{
 
-    width:32px;
-
-    height:32px;
-
+    width:34px;
+    height:34px;
     border-radius:50%;
-
     display:grid;
-
     place-items:center;
-
     background:linear-gradient(
-
         135deg,
-
         #00d4ff,
-
         #7c3aed
-
     );
-
-    font-weight:bold;
+    font-weight:600;
 
 }
 
-/* STORE TOOLBAR */
+/* HERO */
 
-.store-toolbar{
+.hero{
+
+    padding:35px;
+    border:1px solid var(--border);
+    border-radius:18px;
+    background:linear-gradient(
+        135deg,
+        rgba(0,212,255,.10),
+        rgba(124,58,237,.10)
+    );
+    margin-bottom:30px;
+
+}
+
+.hero h2{
+
+    font-size:26px;
+    margin-bottom:10px;
+
+}
+
+.hero p{
+
+    color:var(--muted);
+    max-width:650px;
+    font-size:14px;
+
+}
+
+/* TOOLBAR */
+
+.toolbar{
 
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     gap:15px;
-
     margin-bottom:25px;
 
 }
 
-.search-box{
+.search{
 
     flex:1;
 
-    max-width:500px;
-
 }
 
-.search-box input{
+.search input{
 
     width:100%;
-
+    max-width:500px;
     padding:13px 16px;
-
     border-radius:9px;
-
     border:1px solid var(--border);
-
     background:var(--input);
-
     color:var(--text);
-
     outline:none;
-
     font-family:Poppins,sans-serif;
+    font-size:14px;
 
 }
 
-.search-box input:focus{
+.search input:focus{
 
     border-color:#00d4ff;
 
 }
 
-.category-select{
+.category{
 
-    padding:13px 15px;
-
+    padding:12px 15px;
     border-radius:9px;
-
     border:1px solid var(--border);
-
     background:var(--input);
-
     color:var(--text);
-
     font-family:Poppins,sans-serif;
-
     outline:none;
 
 }
 
-.cart-btn{
+/* PRODUCTS */
 
-    padding:13px 20px;
-
-    border:none;
-
-    border-radius:9px;
-
-    background:linear-gradient(
-
-        135deg,
-
-        #00d4ff,
-
-        #7c3aed
-
-    );
-
-    color:white;
-
-    font-family:Poppins,sans-serif;
-
-    cursor:pointer;
-
-    font-weight:500;
-
-}
-
-/* PRODUCT GRID */
-
-.product-grid{
+.products{
 
     display:grid;
-
-    grid-template-columns:
-
-    repeat(4,1fr);
-
+    grid-template-columns:repeat(4,1fr);
     gap:20px;
 
 }
@@ -471,13 +387,9 @@ h1{
 .product-card{
 
     background:var(--card);
-
     border:1px solid var(--border);
-
     border-radius:15px;
-
-    padding:15px;
-
+    overflow:hidden;
     transition:.3s;
 
 }
@@ -485,280 +397,86 @@ h1{
 .product-card:hover{
 
     transform:translateY(-6px);
-
     border-color:#00d4ff;
 
 }
 
 .product-image{
 
-    height:180px;
-
-    border-radius:12px;
-
+    height:190px;
     display:grid;
-
     place-items:center;
-
-    background:
-
-    linear-gradient(
-
+    font-size:65px;
+    background:linear-gradient(
         135deg,
-
-        rgba(0,212,255,.12),
-
-        rgba(124,58,237,.15)
-
+        #172b40,
+        #251947
     );
 
-    font-size:55px;
+}
 
-    color:#00d4ff;
+.product-content{
 
-    margin-bottom:15px;
+    padding:18px;
 
 }
 
 .product-category{
 
     color:#00d4ff;
-
-    font-size:10px;
-
-    text-transform:uppercase;
-
-    margin-bottom:6px;
+    font-size:11px;
+    margin-bottom:7px;
 
 }
 
 .product-name{
 
-    font-size:15px;
-
+    font-size:16px;
     font-weight:600;
+    margin-bottom:8px;
 
 }
 
 .product-description{
 
     color:var(--muted);
-
-    font-size:11px;
-
-    margin-top:5px;
-
-    min-height:34px;
+    font-size:12px;
+    line-height:1.6;
+    min-height:40px;
 
 }
 
 .product-bottom{
 
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
-    margin-top:15px;
+    margin-top:18px;
 
 }
 
 .price{
 
-    font-size:17px;
-
-    font-weight:600;
+    color:#22c55e;
+    font-size:18px;
+    font-weight:700;
 
 }
 
 .add-btn{
 
-    padding:8px 12px;
-
-    border:1px solid #00d4ff;
-
-    background:transparent;
-
-    color:#00d4ff;
-
-    border-radius:7px;
-
-    cursor:pointer;
-
-    font-family:Poppins,sans-serif;
-
-    transition:.3s;
-
-}
-
-.add-btn:hover{
-
-    background:#00d4ff;
-
-    color:#080b14;
-
-}
-
-/* CART PANEL */
-
-.cart-panel{
-
-    position:fixed;
-
-    right:-380px;
-
-    top:0;
-
-    bottom:0;
-
-    width:360px;
-
-    background:var(--card);
-
-    border-left:1px solid var(--border);
-
-    padding:25px;
-
-    z-index:10;
-
-    transition:.4s;
-
-    box-shadow:-10px 0 30px rgba(0,0,0,.3);
-
-}
-
-.cart-panel.open{
-
-    right:0;
-
-}
-
-.cart-header{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    border-bottom:1px solid var(--border);
-
-    padding-bottom:18px;
-
-    margin-bottom:20px;
-
-}
-
-.close-cart{
-
+    padding:9px 13px;
     border:none;
-
-    background:transparent;
-
-    color:var(--text);
-
-    font-size:22px;
-
-    cursor:pointer;
-
-}
-
-.cart-item{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:12px;
-
-    padding:14px 0;
-
-    border-bottom:1px solid var(--border);
-
-}
-
-.cart-icon{
-
-    width:42px;
-
-    height:42px;
-
-    display:grid;
-
-    place-items:center;
-
-    border-radius:9px;
-
-    background:rgba(0,212,255,.12);
-
-    color:#00d4ff;
-
-}
-
-.cart-info{
-
-    flex:1;
-
-}
-
-.cart-name{
-
-    font-size:13px;
-
-    font-weight:500;
-
-}
-
-.cart-price{
-
-    color:var(--muted);
-
-    font-size:11px;
-
-}
-
-.cart-total{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    font-size:18px;
-
-    font-weight:600;
-
-    margin-top:25px;
-
-}
-
-.checkout-btn{
-
-    width:100%;
-
-    padding:13px;
-
-    margin-top:20px;
-
-    border:none;
-
-    border-radius:9px;
-
+    border-radius:8px;
     background:linear-gradient(
-
         135deg,
-
         #00d4ff,
-
         #7c3aed
-
     );
-
     color:white;
-
     cursor:pointer;
-
     font-family:Poppins,sans-serif;
+    font-size:12px;
 
 }
 
@@ -767,24 +485,18 @@ h1{
 body.light-mode{
 
     --bg:#f4f7fb;
-
-    --card:#ffffff;
-
     --sidebar:#ffffff;
-
+    --card:#ffffff;
     --border:#dce3ec;
-
     --text:#172033;
-
-    --muted:#64748b;
-
+    --muted:#334155;
     --input:#ffffff;
 
 }
 
 body.light-mode .sidebar a{
 
-    color:#64748b;
+    color:#334155;
 
 }
 
@@ -792,32 +504,30 @@ body.light-mode .sidebar a:hover,
 body.light-mode .sidebar a.active{
 
     background:#e8f5ff;
-
     color:#172033;
 
 }
 
-body.light-mode .icon-btn,
+body.light-mode .nav-title{
+
+    color:#475569;
+
+}
+
+body.light-mode .theme-btn,
+body.light-mode .cart-btn,
 body.light-mode .user{
 
     background:#ffffff;
-
     color:#172033;
 
 }
 
-body.light-mode .search-box input,
-body.light-mode .category-select{
+body.light-mode .search input,
+body.light-mode .category{
 
     background:#ffffff;
-
     color:#172033;
-
-}
-
-body.light-mode .cart-panel{
-
-    box-shadow:-10px 0 30px rgba(30,50,80,.15);
 
 }
 
@@ -825,11 +535,9 @@ body.light-mode .cart-panel{
 
 @media(max-width:1100px){
 
-    .product-grid{
+    .products{
 
-        grid-template-columns:
-
-        repeat(3,1fr);
+        grid-template-columns:repeat(3,1fr);
 
     }
 
@@ -837,11 +545,22 @@ body.light-mode .cart-panel{
 
 @media(max-width:850px){
 
-    .product-grid{
+    .sidebar{
 
-        grid-template-columns:
+        width:220px;
 
-        repeat(2,1fr);
+    }
+
+    .main{
+
+        margin-left:220px;
+        width:calc(100% - 220px);
+
+    }
+
+    .products{
+
+        grid-template-columns:repeat(2,1fr);
 
     }
 
@@ -858,41 +577,29 @@ body.light-mode .cart-panel{
     .main{
 
         margin-left:0;
-
         width:100%;
-
         padding:20px;
 
     }
 
     .topbar{
 
-        flex-direction:column;
-
         align-items:flex-start;
-
+        flex-direction:column;
         gap:18px;
 
     }
 
-    .store-toolbar{
+    .toolbar{
 
         flex-direction:column;
-
         align-items:stretch;
 
     }
 
-    .search-box{
+    .search input{
 
         max-width:none;
-
-    }
-
-    .category-select,
-    .cart-btn{
-
-        width:100%;
 
     }
 
@@ -900,15 +607,21 @@ body.light-mode .cart-panel{
 
 @media(max-width:500px){
 
-    .product-grid{
+    .products{
 
         grid-template-columns:1fr;
 
     }
 
-    .cart-panel{
+    .hero{
 
-        width:100%;
+        padding:25px;
+
+    }
+
+    h1{
+
+        font-size:26px;
 
     }
 
@@ -922,8 +635,6 @@ body.light-mode .cart-panel{
 
 <div class="app">
 
-<!-- SIDEBAR -->
-
 <aside class="sidebar">
 
 <div class="logo">
@@ -934,11 +645,11 @@ NEXA <span>HUB</span> AI
 
 <div class="nav-title">
 
-Retail Store
+Business Management
 
 </div>
 
-<a href="portal_dashboard.html">
+<a href="dashboard.html">
 
 <span>⌂</span>
 
@@ -946,67 +657,75 @@ Dashboard
 
 </a>
 
-<a href="product_list.html">
+<a href="employee_list.html">
+
+<span>♟</span>
+
+Employees
+
+</a>
+
+<a href="inventory_dashboard.html">
 
 <span>▣</span>
+
+Inventory
+
+</a>
+
+<a href="product_list.html">
+
+<span>▦</span>
 
 Products
 
 </a>
 
-<a href="sale_list.html">
+<a href="variant_form.html">
 
-<span>▤</span>
+<span>◇</span>
 
-Sales
-
-</a>
-
-<a href="sale_pos.html">
-
-<span>▥</span>
-
-POS
-
-</a>
-
-<a href="promotion_dashboard.html">
-
-<span>★</span>
-
-Promotions
-
-</a>
-
-<a href="purchase_order_list.html">
-
-<span>◈</span>
-
-Purchase Orders
+Variants
 
 </a>
 
 <a href="supplier_list.html">
 
-<span>♙</span>
+<span>♜</span>
 
 Suppliers
 
 </a>
 
-<a href="staff_list.html">
+<a href="purchase_order_list.html">
 
-<span>♧</span>
+<span>▤</span>
 
-Staff
+Purchase Orders
 
 </a>
 
 <a href="stock_request_list.html">
 
-<span>▱</span>
+<span>▥</span>
 
 Stock Requests
+
+</a>
+
+<a href="sale_list.html">
+
+<span>▱</span>
+
+Sales
+
+</a>
+
+<a href="salary_management_list.html">
+
+<span>💰</span>
+
+Salary Management
 
 </a>
 
@@ -1014,7 +733,23 @@ Stock Requests
 
 <span>◉</span>
 
-Reports
+Reports & Insights
+
+</a>
+
+<a href="storefront.html" class="active">
+
+<span>🛍</span>
+
+Storefront
+
+</a>
+
+<a href="storefront_my_orders.html">
+
+<span>📦</span>
+
+My Orders
 
 </a>
 
@@ -1028,8 +763,6 @@ Settings
 
 </aside>
 
-<!-- MAIN -->
-
 <main class="main">
 
 <div class="topbar">
@@ -1038,21 +771,21 @@ Settings
 
 <div class="breadcrumb">
 
-Retail Store /
+Storefront /
 
-<span>Storefront</span>
+<span>Products</span>
 
 </div>
 
 <h1>
 
-Online Store
+Explore Products
 
 </h1>
 
 <p class="subtitle">
 
-Browse products and shop from your retail store.
+Discover premium products designed for modern businesses and everyday life.
 
 </p>
 
@@ -1060,7 +793,25 @@ Browse products and shop from your retail store.
 
 <div class="actions">
 
-<button class="icon-btn" id="themeToggle">
+<button
+
+class="cart-btn"
+
+onclick="viewCart()"
+
+>
+
+🛒 Cart
+
+</button>
+
+<button
+
+class="theme-btn"
+
+id="themeToggle"
+
+>
 
 ☾
 
@@ -1086,15 +837,29 @@ Admin
 
 </div>
 
-<!-- TOOLBAR -->
+<section class="hero">
 
-<div class="store-toolbar">
+<h2>
 
-<div class="search-box">
+Shop Smart. Live Better.
+
+</h2>
+
+<p>
+
+Explore our carefully selected collection of premium technology, accessories and business essentials.
+
+</p>
+
+</section>
+
+<div class="toolbar">
+
+<div class="search">
 
 <input
 
-type="search"
+type="text"
 
 id="searchInput"
 
@@ -1106,7 +871,7 @@ placeholder="Search products..."
 
 <select
 
-class="category-select"
+class="category"
 
 id="categoryFilter"
 
@@ -1118,9 +883,9 @@ All Categories
 
 </option>
 
-<option value="electronics">
+<option value="technology">
 
-Electronics
+Technology
 
 </option>
 
@@ -1138,67 +903,35 @@ Office
 
 </select>
 
-<button
-
-class="cart-btn"
-
-id="cartBtn"
-
->
-
-🛒 Cart
-
-<span id="cartCount">
-
-0
-
-</span>
-
-</button>
-
 </div>
 
-<!-- PRODUCTS -->
+<div class="products" id="productGrid">
 
-<div
-
-class="product-grid"
-
-id="productGrid"
-
->
-
-<div
-
-class="product-card"
-
-data-category="electronics"
-
-data-name="wireless mouse"
-
->
+<div class="product-card" data-category="technology">
 
 <div class="product-image">
 
-🖱️
+💻
 
 </div>
 
+<div class="product-content">
+
 <div class="product-category">
 
-Electronics
+TECHNOLOGY
 
 </div>
 
 <div class="product-name">
 
-Wireless Mouse
+Premium Laptop Pro
 
 </div>
 
 <div class="product-description">
 
-Smooth wireless mouse for everyday work.
+Powerful laptop for work, coding and creative tasks.
 
 </div>
 
@@ -1206,17 +939,11 @@ Smooth wireless mouse for everyday work.
 
 <div class="price">
 
-$22.99
+$899
 
 </div>
 
-<button
-
-class="add-btn"
-
-onclick="addToCart('Wireless Mouse',22.99,'🖱️')"
-
->
+<button class="add-btn" onclick="addToCart('Premium Laptop Pro')">
 
 Add
 
@@ -1226,37 +953,33 @@ Add
 
 </div>
 
-<div
+</div>
 
-class="product-card"
-
-data-category="accessories"
-
-data-name="usb keyboard"
-
->
+<div class="product-card" data-category="technology">
 
 <div class="product-image">
 
-⌨️
+📱
 
 </div>
 
+<div class="product-content">
+
 <div class="product-category">
 
-Accessories
+TECHNOLOGY
 
 </div>
 
 <div class="product-name">
 
-USB Keyboard
+Smart Device Pro
 
 </div>
 
 <div class="product-description">
 
-Comfortable keyboard for daily productivity.
+A modern smart device with powerful performance.
 
 </div>
 
@@ -1264,17 +987,11 @@ Comfortable keyboard for daily productivity.
 
 <div class="price">
 
-$29.99
+$299
 
 </div>
 
-<button
-
-class="add-btn"
-
-onclick="addToCart('USB Keyboard',29.99,'⌨️')"
-
->
+<button class="add-btn" onclick="addToCart('Smart Device Pro')">
 
 Add
 
@@ -1284,131 +1001,9 @@ Add
 
 </div>
 
-<div
-
-class="product-card"
-
-data-category="electronics"
-
-data-name="led monitor"
-
->
-
-<div class="product-image">
-
-🖥️
-
 </div>
 
-<div class="product-category">
-
-Electronics
-
-</div>
-
-<div class="product-name">
-
-LED Monitor
-
-</div>
-
-<div class="product-description">
-
-High-quality display for work and entertainment.
-
-</div>
-
-<div class="product-bottom">
-
-<div class="price">
-
-$249.99
-
-</div>
-
-<button
-
-class="add-btn"
-
-onclick="addToCart('LED Monitor',249.99,'🖥️')"
-
->
-
-Add
-
-</button>
-
-</div>
-
-</div>
-
-<div
-
-class="product-card"
-
-data-category="office"
-
-data-name="printer ink"
-
->
-
-<div class="product-image">
-
-🖨️
-
-</div>
-
-<div class="product-category">
-
-Office
-
-</div>
-
-<div class="product-name">
-
-Printer Ink
-
-</div>
-
-<div class="product-description">
-
-High-quality ink for everyday printing.
-
-</div>
-
-<div class="product-bottom">
-
-<div class="price">
-
-$39.99
-
-</div>
-
-<button
-
-class="add-btn"
-
-onclick="addToCart('Printer Ink',39.99,'🖨️')"
-
->
-
-Add
-
-</button>
-
-</div>
-
-</div>
-
-<div
-
-class="product-card"
-
-data-category="electronics"
-
-data-name="headphones"
-
->
+<div class="product-card" data-category="accessories">
 
 <div class="product-image">
 
@@ -1416,9 +1011,11 @@ data-name="headphones"
 
 </div>
 
+<div class="product-content">
+
 <div class="product-category">
 
-Electronics
+ACCESSORIES
 
 </div>
 
@@ -1430,7 +1027,7 @@ Wireless Headphones
 
 <div class="product-description">
 
-Enjoy clear sound with wireless connectivity.
+Immersive sound with a comfortable wireless design.
 
 </div>
 
@@ -1438,17 +1035,11 @@ Enjoy clear sound with wireless connectivity.
 
 <div class="price">
 
-$79.99
+$89
 
 </div>
 
-<button
-
-class="add-btn"
-
-onclick="addToCart('Wireless Headphones',79.99,'🎧')"
-
->
+<button class="add-btn" onclick="addToCart('Wireless Headphones')">
 
 Add
 
@@ -1458,37 +1049,33 @@ Add
 
 </div>
 
-<div
+</div>
 
-class="product-card"
-
-data-category="accessories"
-
-data-name="usb cable"
-
->
+<div class="product-card" data-category="office">
 
 <div class="product-image">
 
-🔌
+🪑
 
 </div>
 
+<div class="product-content">
+
 <div class="product-category">
 
-Accessories
+OFFICE
 
 </div>
 
 <div class="product-name">
 
-USB Cable
+Ergonomic Office Chair
 
 </div>
 
 <div class="product-description">
 
-Fast charging and data transfer cable.
+Comfortable seating designed for long working hours.
 
 </div>
 
@@ -1496,21 +1083,113 @@ Fast charging and data transfer cable.
 
 <div class="price">
 
-$12.99
+$199
 
 </div>
 
-<button
-
-class="add-btn"
-
-onclick="addToCart('USB Cable',12.99,'🔌')"
-
->
+<button class="add-btn" onclick="addToCart('Ergonomic Office Chair')">
 
 Add
 
 </button>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="product-card" data-category="accessories">
+
+<div class="product-image">
+
+⌨️
+
+</div>
+
+<div class="product-content">
+
+<div class="product-category">
+
+ACCESSORIES
+
+</div>
+
+<div class="product-name">
+
+Mechanical Keyboard
+
+</div>
+
+<div class="product-description">
+
+Fast and comfortable keyboard for everyday productivity.
+
+</div>
+
+<div class="product-bottom">
+
+<div class="price">
+
+$79
+
+</div>
+
+<button class="add-btn" onclick="addToCart('Mechanical Keyboard')">
+
+Add
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="product-card" data-category="office">
+
+<div class="product-image">
+
+🖥️
+
+</div>
+
+<div class="product-content">
+
+<div class="product-category">
+
+OFFICE
+
+</div>
+
+<div class="product-name">
+
+Ultra HD Monitor
+
+</div>
+
+<div class="product-description">
+
+Crystal-clear display for work and entertainment.
+
+</div>
+
+<div class="product-bottom">
+
+<div class="price">
+
+$349
+
+</div>
+
+<button class="add-btn" onclick="addToCart('Ultra HD Monitor')">
+
+Add
+
+</button>
+
+</div>
 
 </div>
 
@@ -1522,84 +1201,11 @@ Add
 
 </div>
 
-<!-- CART PANEL -->
-
-<div
-
-class="cart-panel"
-
-id="cartPanel"
-
->
-
-<div class="cart-header">
-
-<h2>
-
-Shopping Cart
-
-</h2>
-
-<button
-
-class="close-cart"
-
-id="closeCart"
-
->
-
-×
-</button>
-
-</div>
-
-<div id="cartItems">
-
-<p style="color:var(--muted);font-size:13px;">
-
-Your cart is empty.
-
-</p>
-
-</div>
-
-<div class="cart-total">
-
-<span>Total</span>
-
-<span id="cartTotal">
-
-$0.00
-
-</span>
-
-</div>
-
-<button
-
-class="checkout-btn"
-
-onclick="checkout()"
-
->
-
-Proceed to Checkout
-
-</button>
-
-</div>
-
 <script>
 
-/* THEME */
+const themeToggle = document.getElementById("themeToggle");
 
-const themeToggle =
-
-document.getElementById("themeToggle");
-
-const savedTheme =
-
-localStorage.getItem("theme");
+const savedTheme = localStorage.getItem("theme");
 
 if(savedTheme === "light"){
 
@@ -1619,7 +1225,9 @@ themeToggle.addEventListener("click",function(){
 
         localStorage.setItem("theme","light");
 
-    }else{
+    }
+
+    else{
 
         themeToggle.textContent = "☾";
 
@@ -1629,53 +1237,33 @@ themeToggle.addEventListener("click",function(){
 
 });
 
-/* SEARCH */
+const searchInput = document.getElementById("searchInput");
 
-const searchInput =
-
-document.getElementById("searchInput");
-
-const categoryFilter =
-
-document.getElementById("categoryFilter");
-
-const products =
-
-document.querySelectorAll(".product-card");
+const categoryFilter = document.getElementById("categoryFilter");
 
 function filterProducts(){
 
-    const search =
+    const search = searchInput.value.toLowerCase();
 
-    searchInput.value.toLowerCase();
+    const category = categoryFilter.value;
 
-    const category =
+    document.querySelectorAll(".product-card").forEach(function(card){
 
-    categoryFilter.value;
+        const text = card.textContent.toLowerCase();
 
-    products.forEach(function(product){
+        const cardCategory = card.dataset.category;
 
-        const name =
+        const searchMatch = text.includes(search);
 
-        product.dataset.name;
-
-        const productCategory =
-
-        product.dataset.category;
-
-        const matchSearch =
-
-        name.includes(search);
-
-        const matchCategory =
+        const categoryMatch =
 
         category === "all" ||
 
-        productCategory === category;
+        cardCategory === category;
 
-        product.style.display =
+        card.style.display =
 
-        matchSearch && matchCategory
+        searchMatch && categoryMatch
 
         ? ""
 
@@ -1685,183 +1273,19 @@ function filterProducts(){
 
 }
 
-searchInput.addEventListener(
+searchInput.addEventListener("keyup",filterProducts);
 
-"keyup",
+categoryFilter.addEventListener("change",filterProducts);
 
-filterProducts
+function addToCart(product){
 
-);
-
-categoryFilter.addEventListener(
-
-"change",
-
-filterProducts
-
-);
-
-/* CART */
-
-let cart = [];
-
-function addToCart(name,price,icon){
-
-    cart.push({
-
-        name:name,
-
-        price:price,
-
-        icon:icon
-
-    });
-
-    updateCart();
-
-    document.getElementById(
-
-        "cartPanel"
-
-    ).classList.add("open");
+    alert(product + " added to cart!");
 
 }
 
-function updateCart(){
+function viewCart(){
 
-    const cartItems =
-
-    document.getElementById("cartItems");
-
-    const cartCount =
-
-    document.getElementById("cartCount");
-
-    const cartTotal =
-
-    document.getElementById("cartTotal");
-
-    cartCount.textContent = cart.length;
-
-    if(cart.length === 0){
-
-        cartItems.innerHTML =
-
-        `<p style="color:var(--muted);font-size:13px;">
-
-        Your cart is empty.
-
-        </p>`;
-
-        cartTotal.textContent = "$0.00";
-
-        return;
-
-    }
-
-    let total = 0;
-
-    cartItems.innerHTML = "";
-
-    cart.forEach(function(item,index){
-
-        total += item.price;
-
-        cartItems.innerHTML += `
-
-        <div class="cart-item">
-
-            <div class="cart-icon">
-
-                ${item.icon}
-
-            </div>
-
-            <div class="cart-info">
-
-                <div class="cart-name">
-
-                    ${item.name}
-
-                </div>
-
-                <div class="cart-price">
-
-                    $${item.price.toFixed(2)}
-
-                </div>
-
-            </div>
-
-            <button
-
-            onclick="removeFromCart(${index})"
-
-            style="background:none;border:none;color:#ff7186;cursor:pointer;font-size:18px;"
-
-            >
-
-            ×
-
-            </button>
-
-        </div>
-
-        `;
-
-    });
-
-    cartTotal.textContent =
-
-    "$" + total.toFixed(2);
-
-}
-
-function removeFromCart(index){
-
-    cart.splice(index,1);
-
-    updateCart();
-
-}
-
-document.getElementById("cartBtn")
-
-.addEventListener("click",function(){
-
-    document.getElementById(
-
-        "cartPanel"
-
-    ).classList.add("open");
-
-});
-
-document.getElementById("closeCart")
-
-.addEventListener("click",function(){
-
-    document.getElementById(
-
-        "cartPanel"
-
-    ).classList.remove("open");
-
-});
-
-function checkout(){
-
-    if(cart.length === 0){
-
-        alert("Your cart is empty!");
-
-        return;
-
-    }
-
-    window.location.href =
-
-    "storefront_order_confirmation.html";
+    alert("Your cart is currently empty.");
 
 }
 

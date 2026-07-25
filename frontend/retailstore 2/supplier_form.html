@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>NEXA HUB AI | Supplier Form</title>
+<title>NEXA HUB AI | Add Supplier</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -21,8 +21,8 @@
 :root{
 
     --bg:#080b14;
-    --card:#101621;
     --sidebar:#0d111c;
+    --card:#101621;
     --border:#222d3e;
     --text:#ffffff;
     --muted:#8995a8;
@@ -33,16 +33,11 @@
 body{
 
     font-family:Poppins,sans-serif;
-
     background:var(--bg);
-
     color:var(--text);
-
     min-height:100vh;
-
-    overflow-x:hidden;
-
     transition:.3s ease;
+    overflow-x:hidden;
 
 }
 
@@ -52,21 +47,13 @@ body::before,
 body::after{
 
     content:"";
-
     position:fixed;
-
-    width:400px;
-
-    height:400px;
-
+    width:430px;
+    height:430px;
     border-radius:50%;
-
-    filter:blur(110px);
-
+    filter:blur(120px);
     opacity:.20;
-
     z-index:-1;
-
     pointer-events:none;
 
 }
@@ -74,11 +61,8 @@ body::after{
 body::before{
 
     background:#00d4ff;
-
-    top:-150px;
-
-    left:-100px;
-
+    top:-160px;
+    left:-120px;
     animation:moveOne 12s infinite alternate ease-in-out;
 
 }
@@ -86,11 +70,8 @@ body::before{
 body::after{
 
     background:#7c3aed;
-
-    right:-150px;
-
-    bottom:-150px;
-
+    right:-160px;
+    bottom:-160px;
     animation:moveTwo 15s infinite alternate ease-in-out;
 
 }
@@ -98,15 +79,11 @@ body::after{
 @keyframes moveOne{
 
     from{
-
         transform:translate(0,0);
-
     }
 
     to{
-
         transform:translate(180px,180px);
-
     }
 
 }
@@ -114,25 +91,20 @@ body::after{
 @keyframes moveTwo{
 
     from{
-
         transform:translate(0,0);
-
     }
 
     to{
-
         transform:translate(-180px,-150px);
-
     }
 
 }
 
-/* LAYOUT */
+/* APP */
 
 .app{
 
     display:flex;
-
     min-height:100vh;
 
 }
@@ -142,27 +114,21 @@ body::after{
 .sidebar{
 
     width:250px;
-
     background:var(--sidebar);
-
     border-right:1px solid var(--border);
-
     padding:25px 15px;
-
     position:fixed;
-
     top:0;
-
     bottom:0;
+    overflow-y:auto;
+    z-index:20;
 
 }
 
 .logo{
 
     font-size:22px;
-
     font-weight:700;
-
     padding:10px 15px 30px;
 
 }
@@ -176,11 +142,8 @@ body::after{
 .nav-title{
 
     color:#748096;
-
-    font-size:11px;
-
+    font-size:12px;
     text-transform:uppercase;
-
     margin:15px;
 
 }
@@ -188,23 +151,14 @@ body::after{
 .sidebar a{
 
     display:flex;
-
-    gap:12px;
-
     align-items:center;
-
-    padding:12px 15px;
-
+    gap:12px;
+    padding:13px 15px;
     margin:5px 0;
-
     border-radius:10px;
-
     text-decoration:none;
-
     color:#9ca8ba;
-
-    font-size:13px;
-
+    font-size:14px;
     transition:.3s;
 
 }
@@ -213,13 +167,13 @@ body::after{
 .sidebar a.active{
 
     background:#18263a;
-
     color:var(--text);
 
 }
 
 .sidebar a span{
 
+    width:22px;
     color:#00d4ff;
 
 }
@@ -229,9 +183,7 @@ body::after{
 .main{
 
     margin-left:250px;
-
     width:calc(100% - 250px);
-
     padding:30px;
 
 }
@@ -241,15 +193,10 @@ body::after{
 .topbar{
 
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     border-bottom:1px solid var(--border);
-
     padding-bottom:22px;
-
     margin-bottom:30px;
 
 }
@@ -257,9 +204,7 @@ body::after{
 .breadcrumb{
 
     color:var(--muted);
-
-    font-size:12px;
-
+    font-size:14px;
     margin-bottom:8px;
 
 }
@@ -272,16 +217,14 @@ body::after{
 
 h1{
 
-    font-size:28px;
+    font-size:30px;
 
 }
 
 .subtitle{
 
     color:var(--muted);
-
-    font-size:13px;
-
+    font-size:14px;
     margin-top:5px;
 
 }
@@ -289,105 +232,84 @@ h1{
 .actions{
 
     display:flex;
-
     align-items:center;
-
     gap:12px;
 
 }
 
-.icon-btn{
+.theme-btn{
 
-    background:var(--card);
-
-    border:1px solid var(--border);
-
-    color:var(--text);
-
-    padding:10px 14px;
-
+    width:42px;
+    height:42px;
     border-radius:9px;
-
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
     cursor:pointer;
-
-    font-size:17px;
+    font-size:18px;
 
 }
 
 .user{
 
     display:flex;
-
     align-items:center;
-
     gap:10px;
-
     background:var(--card);
-
     border:1px solid var(--border);
-
     padding:7px 12px;
-
     border-radius:10px;
+    font-size:14px;
 
 }
 
 .avatar{
 
-    width:32px;
-
-    height:32px;
-
+    width:34px;
+    height:34px;
     border-radius:50%;
-
     display:grid;
-
     place-items:center;
-
     background:linear-gradient(
-
         135deg,
-
         #00d4ff,
-
         #7c3aed
-
     );
-
-    font-weight:bold;
+    font-weight:600;
 
 }
 
-/* FORM CARD */
+/* FORM */
+
+.form-container{
+
+    max-width:900px;
+    margin:auto;
+
+}
 
 .form-card{
 
-    max-width:950px;
-
     background:var(--card);
-
     border:1px solid var(--border);
-
-    border-radius:15px;
-
+    border-radius:16px;
     padding:28px;
 
 }
 
-.form-card h2{
+.section-title{
 
     font-size:18px;
-
-    margin-bottom:25px;
+    margin-bottom:20px;
+    padding-bottom:15px;
+    border-bottom:1px solid var(--border);
 
 }
 
 .form-grid{
 
     display:grid;
-
     grid-template-columns:repeat(2,1fr);
-
     gap:20px;
 
 }
@@ -395,24 +317,21 @@ h1{
 .form-group{
 
     display:flex;
-
     flex-direction:column;
-
     gap:8px;
 
 }
 
 .form-group.full{
 
-    grid-column:1 / -1;
+    grid-column:1/-1;
 
 }
 
 label{
 
+    font-size:13px;
     color:var(--muted);
-
-    font-size:12px;
 
 }
 
@@ -421,22 +340,21 @@ select,
 textarea{
 
     width:100%;
-
     padding:13px 14px;
-
     border-radius:9px;
-
     border:1px solid var(--border);
-
     background:var(--input);
-
     color:var(--text);
-
-    font-family:Poppins,sans-serif;
-
     outline:none;
+    font-family:Poppins,sans-serif;
+    font-size:13px;
 
-    transition:.3s;
+}
+
+textarea{
+
+    min-height:110px;
+    resize:vertical;
 
 }
 
@@ -446,79 +364,48 @@ textarea:focus{
 
     border-color:#00d4ff;
 
-    box-shadow:0 0 0 3px rgba(0,212,255,.08);
-
 }
 
-textarea{
+select option{
 
-    min-height:110px;
-
-    resize:vertical;
+    background:#101621;
+    color:white;
 
 }
-
-/* FORM ACTIONS */
 
 .form-actions{
 
     display:flex;
-
     justify-content:flex-end;
-
     gap:12px;
-
     margin-top:28px;
-
     padding-top:22px;
-
     border-top:1px solid var(--border);
 
 }
 
-.cancel-btn{
+.btn{
 
-    padding:12px 22px;
-
-    border:1px solid var(--border);
-
+    padding:12px 20px;
     border-radius:9px;
-
+    border:1px solid var(--border);
     background:transparent;
-
     color:var(--text);
-
     cursor:pointer;
-
     font-family:Poppins,sans-serif;
+    font-size:13px;
 
 }
 
-.save-btn{
-
-    padding:12px 25px;
+.btn.primary{
 
     border:none;
-
-    border-radius:9px;
-
     background:linear-gradient(
-
         135deg,
-
         #00d4ff,
-
         #7c3aed
-
     );
-
     color:white;
-
-    cursor:pointer;
-
-    font-family:Poppins,sans-serif;
-
-    font-weight:500;
 
 }
 
@@ -527,24 +414,18 @@ textarea{
 body.light-mode{
 
     --bg:#f4f7fb;
-
-    --card:#ffffff;
-
     --sidebar:#ffffff;
-
+    --card:#ffffff;
     --border:#dce3ec;
-
     --text:#172033;
-
-    --muted:#64748b;
-
+    --muted:#334155;
     --input:#ffffff;
 
 }
 
 body.light-mode .sidebar a{
 
-    color:#64748b;
+    color:#334155;
 
 }
 
@@ -552,55 +433,51 @@ body.light-mode .sidebar a:hover,
 body.light-mode .sidebar a.active{
 
     background:#e8f5ff;
-
     color:#172033;
 
 }
 
-body.light-mode .icon-btn,
+body.light-mode .nav-title{
+
+    color:#475569;
+
+}
+
+body.light-mode .theme-btn,
 body.light-mode .user{
 
     background:#ffffff;
+    color:#172033;
+
+}
+
+body.light-mode .btn{
 
     color:#172033;
 
 }
 
-body.light-mode .form-card{
-
-    box-shadow:0 8px 25px rgba(30,50,80,.08);
-
-}
-
-body.light-mode input,
-body.light-mode select,
-body.light-mode textarea{
+body.light-mode select option{
 
     background:#ffffff;
-
-    color:#172033;
-
-}
-
-body.light-mode .cancel-btn{
-
     color:#172033;
 
 }
 
 /* RESPONSIVE */
 
-@media(max-width:800px){
+@media(max-width:850px){
 
-    .form-grid{
+    .sidebar{
 
-        grid-template-columns:1fr;
+        width:220px;
 
     }
 
-    .form-group.full{
+    .main{
 
-        grid-column:auto;
+        margin-left:220px;
+        width:calc(100% - 220px);
 
     }
 
@@ -617,26 +494,28 @@ body.light-mode .cancel-btn{
     .main{
 
         margin-left:0;
-
         width:100%;
-
         padding:20px;
 
     }
 
     .topbar{
 
-        flex-direction:column;
-
         align-items:flex-start;
-
+        flex-direction:column;
         gap:18px;
 
     }
 
-    .form-card{
+    .form-grid{
 
-        padding:20px;
+        grid-template-columns:1fr;
+
+    }
+
+    .form-group.full{
+
+        grid-column:auto;
 
     }
 
@@ -646,8 +525,7 @@ body.light-mode .cancel-btn{
 
     }
 
-    .cancel-btn,
-    .save-btn{
+    .btn{
 
         width:100%;
 
@@ -663,8 +541,6 @@ body.light-mode .cancel-btn{
 
 <div class="app">
 
-<!-- SIDEBAR -->
-
 <aside class="sidebar">
 
 <div class="logo">
@@ -675,11 +551,11 @@ NEXA <span>HUB</span> AI
 
 <div class="nav-title">
 
-Retail Store
+Business Management
 
 </div>
 
-<a href="portal_dashboard.html">
+<a href="dashboard.html">
 
 <span>⌂</span>
 
@@ -687,67 +563,75 @@ Dashboard
 
 </a>
 
-<a href="product_list.html">
+<a href="employee_list.html">
+
+<span>♟</span>
+
+Employees
+
+</a>
+
+<a href="inventory_dashboard.html">
 
 <span>▣</span>
+
+Inventory
+
+</a>
+
+<a href="product_list.html">
+
+<span>▦</span>
 
 Products
 
 </a>
 
-<a href="sale_list.html">
+<a href="variant_form.html">
 
-<span>▤</span>
+<span>◇</span>
 
-Sales
-
-</a>
-
-<a href="sale_pos.html">
-
-<span>▥</span>
-
-POS
-
-</a>
-
-<a href="promotion_dashboard.html">
-
-<span>★</span>
-
-Promotions
-
-</a>
-
-<a href="purchase_order_list.html">
-
-<span>◈</span>
-
-Purchase Orders
+Variants
 
 </a>
 
 <a href="supplier_list.html" class="active">
 
-<span>♙</span>
+<span>♜</span>
 
 Suppliers
 
 </a>
 
-<a href="staff_list.html">
+<a href="purchase_order_list.html">
 
-<span>♧</span>
+<span>▤</span>
 
-Staff
+Purchase Orders
 
 </a>
 
 <a href="stock_request_list.html">
 
-<span>▱</span>
+<span>▥</span>
 
 Stock Requests
+
+</a>
+
+<a href="sale_list.html">
+
+<span>▱</span>
+
+Sales
+
+</a>
+
+<a href="salary_management_list.html">
+
+<span>💰</span>
+
+Salary Management
 
 </a>
 
@@ -755,7 +639,23 @@ Stock Requests
 
 <span>◉</span>
 
-Reports
+Reports & Insights
+
+</a>
+
+<a href="storefront.html">
+
+<span>🛍</span>
+
+Storefront
+
+</a>
+
+<a href="storefront_my_orders.html">
+
+<span>📦</span>
+
+My Orders
 
 </a>
 
@@ -769,8 +669,6 @@ Settings
 
 </aside>
 
-<!-- MAIN -->
-
 <main class="main">
 
 <div class="topbar">
@@ -779,9 +677,9 @@ Settings
 
 <div class="breadcrumb">
 
-Retail Store /
+Suppliers /
 
-<span>Supplier Form</span>
+<span>Add Supplier</span>
 
 </div>
 
@@ -793,7 +691,7 @@ Add Supplier
 
 <p class="subtitle">
 
-Create and manage supplier information.
+Create and manage your supplier information.
 
 </p>
 
@@ -801,7 +699,13 @@ Create and manage supplier information.
 
 <div class="actions">
 
-<button class="icon-btn" id="themeToggle">
+<button
+
+class="theme-btn"
+
+id="themeToggle"
+
+>
 
 ☾
 
@@ -827,11 +731,11 @@ Admin
 
 </div>
 
-<!-- FORM -->
+<div class="form-container">
 
 <div class="form-card">
 
-<h2>
+<h2 class="section-title">
 
 Supplier Information
 
@@ -865,7 +769,7 @@ required
 
 <label>
 
-Company Name
+Contact Person
 
 </label>
 
@@ -873,7 +777,7 @@ Company Name
 
 type="text"
 
-placeholder="Enter company name"
+placeholder="Enter contact person"
 
 >
 
@@ -893,8 +797,6 @@ type="email"
 
 placeholder="supplier@example.com"
 
-required
-
 >
 
 </div>
@@ -911,9 +813,7 @@ Phone Number
 
 type="tel"
 
-placeholder="+91 98765 43210"
-
-required
+placeholder="+1 000 000 0000"
 
 >
 
@@ -927,33 +827,27 @@ Supplier Type
 
 </label>
 
-<select required>
+<select>
 
-<option value="">
-
-Select supplier type
-
-</option>
-
-<option>
+<option value="manufacturer">
 
 Manufacturer
 
 </option>
 
-<option>
+<option value="wholesaler">
 
 Wholesaler
 
 </option>
 
-<option>
+<option value="distributor">
 
 Distributor
 
 </option>
 
-<option>
+<option value="retailer">
 
 Retailer
 
@@ -1001,11 +895,11 @@ Net 60 Days
 
 </div>
 
-<div class="form-group">
+<div class="form-group full">
 
 <label>
 
-GST / Tax ID
+Business Address
 
 </label>
 
@@ -1013,25 +907,7 @@ GST / Tax ID
 
 type="text"
 
-placeholder="Enter GST or tax ID"
-
->
-
-</div>
-
-<div class="form-group">
-
-<label>
-
-Bank Account Number
-
-</label>
-
-<input
-
-type="text"
-
-placeholder="Enter account number"
+placeholder="Enter complete business address"
 
 >
 
@@ -1063,49 +939,13 @@ Country
 
 </label>
 
-<select>
+<input
 
-<option>
+type="text"
 
-India
+placeholder="Enter country"
 
-</option>
-
-<option>
-
-United States
-
-</option>
-
-<option>
-
-United Kingdom
-
-</option>
-
-<option>
-
-Other
-
-</option>
-
-</select>
-
-</div>
-
-<div class="form-group full">
-
-<label>
-
-Address
-
-</label>
-
-<textarea
-
-placeholder="Enter complete supplier address"
-
-></textarea>
+>
 
 </div>
 
@@ -1119,7 +959,7 @@ Additional Notes
 
 <textarea
 
-placeholder="Add any additional notes about this supplier"
+placeholder="Enter additional supplier notes..."
 
 ></textarea>
 
@@ -1133,9 +973,9 @@ placeholder="Add any additional notes about this supplier"
 
 type="button"
 
-class="cancel-btn"
+class="btn"
 
-onclick="location.href='supplier_list.html'"
+onclick="window.location.href='supplier_list.html'"
 
 >
 
@@ -1147,7 +987,7 @@ Cancel
 
 type="submit"
 
-class="save-btn"
+class="btn primary"
 
 >
 
@@ -1161,21 +1001,17 @@ Save Supplier
 
 </div>
 
+</div>
+
 </main>
 
 </div>
 
 <script>
 
-/* THEME */
+const themeToggle = document.getElementById("themeToggle");
 
-const themeToggle =
-
-document.getElementById("themeToggle");
-
-const savedTheme =
-
-localStorage.getItem("theme");
+const savedTheme = localStorage.getItem("theme");
 
 if(savedTheme === "light"){
 
@@ -1195,7 +1031,9 @@ themeToggle.addEventListener("click",function(){
 
         localStorage.setItem("theme","light");
 
-    }else{
+    }
+
+    else{
 
         themeToggle.textContent = "☾";
 
@@ -1205,19 +1043,11 @@ themeToggle.addEventListener("click",function(){
 
 });
 
-/* FORM SUBMIT */
-
-document.getElementById("supplierForm")
-
-.addEventListener("submit",function(event){
+document.getElementById("supplierForm").addEventListener("submit",function(event){
 
     event.preventDefault();
 
     alert("Supplier saved successfully!");
-
-    window.location.href =
-
-    "supplier_list.html";
 
 });
 

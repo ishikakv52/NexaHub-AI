@@ -33,15 +33,10 @@
 body{
 
     font-family:Poppins,sans-serif;
-
     background:var(--bg);
-
     color:var(--text);
-
     min-height:100vh;
-
     overflow-x:hidden;
-
     transition:.3s ease;
 
 }
@@ -52,21 +47,13 @@ body::before,
 body::after{
 
     content:"";
-
     position:fixed;
-
     width:400px;
-
     height:400px;
-
     border-radius:50%;
-
     filter:blur(110px);
-
     opacity:.20;
-
     z-index:-1;
-
     pointer-events:none;
 
 }
@@ -74,11 +61,8 @@ body::after{
 body::before{
 
     background:#00d4ff;
-
     top:-150px;
-
     left:-100px;
-
     animation:moveOne 12s infinite alternate ease-in-out;
 
 }
@@ -86,11 +70,8 @@ body::before{
 body::after{
 
     background:#7c3aed;
-
     right:-150px;
-
     bottom:-150px;
-
     animation:moveTwo 15s infinite alternate ease-in-out;
 
 }
@@ -98,15 +79,11 @@ body::after{
 @keyframes moveOne{
 
     from{
-
         transform:translate(0,0);
-
     }
 
     to{
-
         transform:translate(180px,180px);
-
     }
 
 }
@@ -114,15 +91,11 @@ body::after{
 @keyframes moveTwo{
 
     from{
-
         transform:translate(0,0);
-
     }
 
     to{
-
         transform:translate(-180px,-150px);
-
     }
 
 }
@@ -132,7 +105,6 @@ body::after{
 .app{
 
     display:flex;
-
     min-height:100vh;
 
 }
@@ -142,27 +114,20 @@ body::after{
 .sidebar{
 
     width:250px;
-
     background:var(--sidebar);
-
     border-right:1px solid var(--border);
-
     padding:25px 15px;
-
     position:fixed;
-
     top:0;
-
     bottom:0;
+    overflow-y:auto;
 
 }
 
 .logo{
 
     font-size:22px;
-
     font-weight:700;
-
     padding:10px 15px 30px;
 
 }
@@ -176,11 +141,8 @@ body::after{
 .nav-title{
 
     color:#748096;
-
-    font-size:11px;
-
+    font-size:13px;
     text-transform:uppercase;
-
     margin:15px;
 
 }
@@ -188,23 +150,14 @@ body::after{
 .sidebar a{
 
     display:flex;
-
     gap:12px;
-
     align-items:center;
-
-    padding:12px 15px;
-
+    padding:13px 15px;
     margin:5px 0;
-
     border-radius:10px;
-
     text-decoration:none;
-
     color:#9ca8ba;
-
-    font-size:13px;
-
+    font-size:15px;
     transition:.3s;
 
 }
@@ -213,7 +166,6 @@ body::after{
 .sidebar a.active{
 
     background:#18263a;
-
     color:var(--text);
 
 }
@@ -229,9 +181,7 @@ body::after{
 .main{
 
     margin-left:250px;
-
     width:calc(100% - 250px);
-
     padding:30px;
 
 }
@@ -241,15 +191,10 @@ body::after{
 .topbar{
 
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     border-bottom:1px solid var(--border);
-
     padding-bottom:22px;
-
     margin-bottom:30px;
 
 }
@@ -257,9 +202,7 @@ body::after{
 .breadcrumb{
 
     color:var(--muted);
-
-    font-size:12px;
-
+    font-size:14px;
     margin-bottom:8px;
 
 }
@@ -272,16 +215,14 @@ body::after{
 
 h1{
 
-    font-size:28px;
+    font-size:30px;
 
 }
 
 .subtitle{
 
     color:var(--muted);
-
-    font-size:13px;
-
+    font-size:15px;
     margin-top:5px;
 
 }
@@ -289,9 +230,7 @@ h1{
 .actions{
 
     display:flex;
-
     align-items:center;
-
     gap:12px;
 
 }
@@ -299,61 +238,40 @@ h1{
 .icon-btn{
 
     background:var(--card);
-
     border:1px solid var(--border);
-
     color:var(--text);
-
     padding:10px 14px;
-
     border-radius:9px;
-
     cursor:pointer;
-
-    font-size:17px;
+    font-size:18px;
 
 }
 
 .user{
 
     display:flex;
-
     align-items:center;
-
     gap:10px;
-
     background:var(--card);
-
     border:1px solid var(--border);
-
     padding:7px 12px;
-
     border-radius:10px;
+    font-size:15px;
 
 }
 
 .avatar{
 
-    width:32px;
-
-    height:32px;
-
+    width:34px;
+    height:34px;
     border-radius:50%;
-
     display:grid;
-
     place-items:center;
-
     background:linear-gradient(
-
         135deg,
-
         #00d4ff,
-
         #7c3aed
-
     );
-
     font-weight:bold;
 
 }
@@ -362,110 +280,33 @@ h1{
 
 .form-card{
 
-    max-width:1000px;
-
+    max-width:1050px;
     background:var(--card);
-
     border:1px solid var(--border);
-
     border-radius:15px;
-
     padding:28px;
 
 }
 
 .form-card h2{
 
-    font-size:18px;
-
-    margin-bottom:8px;
+    font-size:20px;
+    margin-bottom:6px;
 
 }
 
-.form-description{
+.form-card > p{
 
     color:var(--muted);
-
-    font-size:12px;
-
-    margin-bottom:28px;
-
-}
-
-/* PROFILE */
-
-.profile-section{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:20px;
-
-    padding-bottom:25px;
-
+    font-size:14px;
     margin-bottom:25px;
 
-    border-bottom:1px solid var(--border);
-
 }
-
-.profile-avatar{
-
-    width:85px;
-
-    height:85px;
-
-    border-radius:50%;
-
-    display:grid;
-
-    place-items:center;
-
-    background:linear-gradient(
-
-        135deg,
-
-        #00d4ff,
-
-        #7c3aed
-
-    );
-
-    font-size:30px;
-
-    font-weight:700;
-
-}
-
-.upload-btn{
-
-    padding:10px 16px;
-
-    border:1px solid var(--border);
-
-    background:transparent;
-
-    color:var(--text);
-
-    border-radius:8px;
-
-    cursor:pointer;
-
-    font-family:Poppins,sans-serif;
-
-    margin-top:8px;
-
-}
-
-/* FORM GRID */
 
 .form-grid{
 
     display:grid;
-
     grid-template-columns:repeat(2,1fr);
-
     gap:20px;
 
 }
@@ -473,124 +314,135 @@ h1{
 .form-group{
 
     display:flex;
-
     flex-direction:column;
-
     gap:8px;
 
 }
 
 .form-group.full{
 
-    grid-column:1 / -1;
+    grid-column:1/-1;
 
 }
 
-.form-group label{
+label{
 
     color:var(--muted);
-
-    font-size:12px;
+    font-size:14px;
 
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea{
+input,
+select,
+textarea{
 
     width:100%;
-
-    padding:12px 14px;
-
+    padding:14px 15px;
     border-radius:9px;
-
     border:1px solid var(--border);
-
     background:var(--input);
-
     color:var(--text);
-
     font-family:Poppins,sans-serif;
-
+    font-size:14px;
     outline:none;
 
 }
 
-.form-group textarea{
-
-    min-height:100px;
-
-    resize:vertical;
-
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus{
+input:focus,
+select:focus,
+textarea:focus{
 
     border-color:#00d4ff;
 
 }
 
-/* BUTTONS */
+textarea{
+
+    min-height:100px;
+    resize:vertical;
+
+}
+
+/* STAFF PHOTO */
+
+.photo-upload{
+
+    display:flex;
+    align-items:center;
+    gap:18px;
+
+}
+
+.staff-photo{
+
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
+    font-size:25px;
+    font-weight:700;
+
+}
+
+.upload-btn{
+
+    padding:10px 16px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    background:transparent;
+    color:var(--text);
+    cursor:pointer;
+    font-family:Poppins,sans-serif;
+    font-size:13px;
+
+}
+
+/* ACTIONS */
 
 .form-actions{
 
     display:flex;
-
+    justify-content:flex-end;
     gap:12px;
-
     margin-top:28px;
-
     padding-top:22px;
-
     border-top:1px solid var(--border);
+
+}
+
+.cancel-btn{
+
+    padding:13px 22px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:transparent;
+    color:var(--text);
+    cursor:pointer;
+    font-family:Poppins,sans-serif;
+    font-size:14px;
 
 }
 
 .save-btn{
 
     padding:13px 25px;
-
     border:none;
-
     border-radius:9px;
-
-    color:white;
-
-    cursor:pointer;
-
-    font-family:Poppins,sans-serif;
-
-    font-weight:500;
-
     background:linear-gradient(
-
         135deg,
-
         #00d4ff,
-
         #7c3aed
-
     );
-
-}
-
-.cancel-btn{
-
-    padding:13px 25px;
-
-    border:1px solid var(--border);
-
-    border-radius:9px;
-
-    background:transparent;
-
-    color:var(--text);
-
+    color:white;
     cursor:pointer;
-
     font-family:Poppins,sans-serif;
+    font-size:14px;
 
 }
 
@@ -599,24 +451,18 @@ h1{
 body.light-mode{
 
     --bg:#f4f7fb;
-
     --card:#ffffff;
-
     --sidebar:#ffffff;
-
     --border:#dce3ec;
-
     --text:#172033;
-
-    --muted:#64748b;
-
+    --muted:#334155;
     --input:#ffffff;
 
 }
 
 body.light-mode .sidebar a{
 
-    color:#64748b;
+    color:#1e293b;
 
 }
 
@@ -624,8 +470,25 @@ body.light-mode .sidebar a:hover,
 body.light-mode .sidebar a.active{
 
     background:#e8f5ff;
+    color:#0f172a;
 
-    color:#172033;
+}
+
+body.light-mode .nav-title{
+
+    color:#334155;
+
+}
+
+body.light-mode .breadcrumb{
+
+    color:#475569;
+
+}
+
+body.light-mode .subtitle{
+
+    color:#475569;
 
 }
 
@@ -633,23 +496,15 @@ body.light-mode .icon-btn,
 body.light-mode .user{
 
     background:#ffffff;
-
     color:#172033;
 
 }
 
-body.light-mode .form-card{
-
-    box-shadow:0 8px 25px rgba(30,50,80,.08);
-
-}
-
-body.light-mode .form-group input,
-body.light-mode .form-group select,
-body.light-mode .form-group textarea{
+body.light-mode input,
+body.light-mode select,
+body.light-mode textarea{
 
     background:#ffffff;
-
     color:#172033;
 
 }
@@ -674,9 +529,7 @@ body.light-mode .upload-btn{
     .main{
 
         margin-left:0;
-
         width:100%;
-
         padding:20px;
 
     }
@@ -684,9 +537,7 @@ body.light-mode .upload-btn{
     .topbar{
 
         flex-direction:column;
-
         align-items:flex-start;
-
         gap:18px;
 
     }
@@ -703,22 +554,14 @@ body.light-mode .upload-btn{
 
     }
 
-    .profile-section{
-
-        align-items:flex-start;
-
-        flex-direction:column;
-
-    }
-
     .form-actions{
 
         flex-direction:column;
 
     }
 
-    .save-btn,
-    .cancel-btn{
+    .cancel-btn,
+    .save-btn{
 
         width:100%;
 
@@ -734,8 +577,6 @@ body.light-mode .upload-btn{
 
 <div class="app">
 
-<!-- SIDEBAR -->
-
 <aside class="sidebar">
 
 <div class="logo">
@@ -746,11 +587,11 @@ NEXA <span>HUB</span> AI
 
 <div class="nav-title">
 
-Retail Store
+Business Management
 
 </div>
 
-<a href="portal_dashboard.html">
+<a href="dashboard.html">
 
 <span>⌂</span>
 
@@ -758,17 +599,65 @@ Dashboard
 
 </a>
 
-<a href="product_list.html">
+<a href="customer_list.html">
+
+<span>♙</span>
+
+Customers
+
+</a>
+
+<a href="employee_list.html">
+
+<span>♟</span>
+
+Employees
+
+</a>
+
+<a href="attendance_daily.html">
+
+<span>◷</span>
+
+Attendance
+
+</a>
+
+<a href="inventory_dashboard.html">
 
 <span>▣</span>
 
-Products
+Inventory
+
+</a>
+
+<a href="finance_asset_list.html">
+
+<span>▤</span>
+
+Assets
+
+</a>
+
+<a href="finance_expense_list.html">
+
+<span>▥</span>
+
+Expenses
+
+</a>
+
+<a href="salary_management_list.html">
+
+<span>💰</span>
+
+Salary Management
 
 </a>
 
 <a href="sale_list.html">
 
-<span>▤</span>
+<span>▱</span>
 
 Sales
 
@@ -776,49 +665,25 @@ Sales
 
 <a href="sale_pos.html">
 
-<span>▥</span>
+<span>🛒</span>
 
 POS
 
 </a>
 
-<a href="promotion_dashboard.html">
-
-<span>★</span>
-
-Promotions
-
-</a>
-
-<a href="purchase_order_list.html">
+<a href="portal_dashboard.html">
 
 <span>◈</span>
 
-Purchase Orders
+Portal
 
 </a>
 
-<a href="supplier_list.html">
+<a href="product_list.html">
 
-<span>♙</span>
+<span>▦</span>
 
-Suppliers
-
-</a>
-
-<a href="staff_list.html" class="active">
-
-<span>♧</span>
-
-Staff
-
-</a>
-
-<a href="stock_request_list.html">
-
-<span>▱</span>
-
-Stock Requests
+Products
 
 </a>
 
@@ -840,8 +705,6 @@ Settings
 
 </aside>
 
-<!-- MAIN -->
-
 <main class="main">
 
 <div class="topbar">
@@ -850,7 +713,7 @@ Settings
 
 <div class="breadcrumb">
 
-Retail Store /
+Business Management /
 
 <span>Staff Form</span>
 
@@ -858,13 +721,13 @@ Retail Store /
 
 <h1>
 
-Add New Staff
+Add Staff Member
 
 </h1>
 
 <p class="subtitle">
 
-Create and manage employee information.
+Create and manage staff member information.
 
 </p>
 
@@ -906,31 +769,39 @@ Staff Information
 
 </h2>
 
-<p class="form-description">
+<p>
 
 Enter the staff member's personal and employment details.
 
 </p>
 
-<div class="profile-section">
+<form id="staffForm">
 
-<div class="profile-avatar">
+<div class="form-grid">
+
+<div class="form-group full">
+
+<label>
+
+Staff Photo
+
+</label>
+
+<div class="photo-upload">
+
+<div class="staff-photo">
 
 S
 
 </div>
 
-<div>
+<button
 
-<strong>
+type="button"
 
-Staff Profile Photo
+class="upload-btn"
 
-</strong>
-
-<br>
-
-<button class="upload-btn">
+>
 
 Upload Photo
 
@@ -939,10 +810,6 @@ Upload Photo
 </div>
 
 </div>
-
-<form id="staffForm">
-
-<div class="form-grid">
 
 <div class="form-group">
 
@@ -996,7 +863,7 @@ Email Address
 
 type="email"
 
-placeholder="staff@example.com"
+placeholder="Enter email address"
 
 required
 
@@ -1016,7 +883,7 @@ Phone Number
 
 type="tel"
 
-placeholder="+91 98765 43210"
+placeholder="Enter phone number"
 
 required
 
@@ -1036,7 +903,13 @@ Department
 
 <option value="">
 
-Select Department
+Select department
+
+</option>
+
+<option>
+
+Management
 
 </option>
 
@@ -1060,7 +933,7 @@ Finance
 
 <option>
 
-Management
+Human Resources
 
 </option>
 
@@ -1072,43 +945,19 @@ Management
 
 <label>
 
-Job Role
+Job Position
 
 </label>
 
-<select required>
+<input
 
-<option value="">
+type="text"
 
-Select Job Role
+placeholder="Enter job position"
 
-</option>
+required
 
-<option>
-
-Sales Executive
-
-</option>
-
-<option>
-
-Store Manager
-
-</option>
-
-<option>
-
-Cashier
-
-</option>
-
-<option>
-
-Inventory Manager
-
-</option>
-
-</select>
+>
 
 </div>
 
@@ -1134,7 +983,7 @@ required
 
 <label>
 
-Employment Status
+Employment Type
 
 </label>
 
@@ -1142,19 +991,25 @@ Employment Status
 
 <option>
 
-Active
+Full Time
 
 </option>
 
 <option>
 
-Inactive
+Part Time
 
 </option>
 
 <option>
 
-On Leave
+Contract
+
+</option>
+
+<option>
+
+Internship
 
 </option>
 
@@ -1184,17 +1039,25 @@ placeholder="Enter salary"
 
 <label>
 
-Employee ID
+Status
 
 </label>
 
-<input
+<select>
 
-type="text"
+<option>
 
-placeholder="EMP-1001"
+Active
 
->
+</option>
+
+<option>
+
+Inactive
+
+</option>
+
+</select>
 
 </div>
 
@@ -1208,7 +1071,7 @@ Address
 
 <textarea
 
-placeholder="Enter staff address"
+placeholder="Enter complete address"
 
 ></textarea>
 
@@ -1220,6 +1083,20 @@ placeholder="Enter staff address"
 
 <button
 
+type="button"
+
+class="cancel-btn"
+
+onclick="window.location.href='staff_list.html'"
+
+>
+
+Cancel
+
+</button>
+
+<button
+
 type="submit"
 
 class="save-btn"
@@ -1227,20 +1104,6 @@ class="save-btn"
 >
 
 Save Staff
-
-</button>
-
-<button
-
-type="button"
-
-class="cancel-btn"
-
-onclick="location.href='staff_list.html'"
-
->
-
-Cancel
 
 </button>
 
@@ -1256,15 +1119,9 @@ Cancel
 
 <script>
 
-/* THEME */
+const themeToggle = document.getElementById("themeToggle");
 
-const themeToggle =
-
-document.getElementById("themeToggle");
-
-const savedTheme =
-
-localStorage.getItem("theme");
+const savedTheme = localStorage.getItem("theme");
 
 if(savedTheme === "light"){
 
@@ -1284,7 +1141,9 @@ themeToggle.addEventListener("click",function(){
 
         localStorage.setItem("theme","light");
 
-    }else{
+    }
+
+    else{
 
         themeToggle.textContent = "☾";
 
@@ -1294,17 +1153,13 @@ themeToggle.addEventListener("click",function(){
 
 });
 
-/* FORM */
-
 document.getElementById("staffForm")
 
-.addEventListener("submit",function(event){
+.addEventListener("submit",function(e){
 
-    event.preventDefault();
+    e.preventDefault();
 
     alert("Staff member saved successfully!");
-
-    window.location.href = "staff_list.html";
 
 });
 

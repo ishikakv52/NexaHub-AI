@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -18,6 +19,7 @@
 }
 
 :root{
+
     --bg:#080b14;
     --card:#101621;
     --sidebar:#0d111c;
@@ -25,19 +27,25 @@
     --text:#ffffff;
     --muted:#8995a8;
     --input:#0a0f18;
+
 }
 
 body{
+
     font-family:Poppins,sans-serif;
     background:var(--bg);
     color:var(--text);
     min-height:100vh;
     overflow-x:hidden;
     transition:.3s ease;
+
 }
+
+/* ANIMATED BACKGROUND */
 
 body::before,
 body::after{
+
     content:"";
     position:fixed;
     width:400px;
@@ -47,40 +55,64 @@ body::after{
     opacity:.20;
     z-index:-1;
     pointer-events:none;
+
 }
 
 body::before{
+
     background:#00d4ff;
     top:-150px;
     left:-100px;
     animation:moveOne 12s infinite alternate ease-in-out;
+
 }
 
 body::after{
+
     background:#7c3aed;
     right:-150px;
     bottom:-150px;
     animation:moveTwo 15s infinite alternate ease-in-out;
+
 }
 
 @keyframes moveOne{
+
+    from{
+        transform:translate(0,0);
+    }
+
     to{
         transform:translate(180px,180px);
     }
+
 }
 
 @keyframes moveTwo{
+
+    from{
+        transform:translate(0,0);
+    }
+
     to{
         transform:translate(-180px,-150px);
     }
+
 }
+
+/* LAYOUT */
 
 .app{
+
     display:flex;
     min-height:100vh;
+
 }
 
+/* SIDEBAR */
+
 .sidebar{
+
     width:250px;
     background:var(--sidebar);
     border-right:1px solid var(--border);
@@ -88,100 +120,134 @@ body::after{
     position:fixed;
     top:0;
     bottom:0;
+
 }
 
 .logo{
+
     font-size:22px;
     font-weight:700;
     padding:10px 15px 30px;
+
 }
 
 .logo span{
+
     color:#00d4ff;
+
 }
 
 .nav-title{
+
     color:#748096;
-    font-size:11px;
+    font-size:13px;
     text-transform:uppercase;
     margin:15px;
+
 }
 
 .sidebar a{
+
     display:flex;
     gap:12px;
     align-items:center;
-    padding:12px 15px;
+    padding:13px 15px;
     margin:5px 0;
     border-radius:10px;
     text-decoration:none;
     color:#9ca8ba;
-    font-size:13px;
+    font-size:15px;
     transition:.3s;
+
 }
 
 .sidebar a:hover,
 .sidebar a.active{
+
     background:#18263a;
     color:var(--text);
+
 }
 
 .sidebar a span{
+
     color:#00d4ff;
+
 }
 
+/* MAIN */
+
 .main{
+
     margin-left:250px;
     width:calc(100% - 250px);
     padding:30px;
+
 }
 
+/* TOPBAR */
+
 .topbar{
+
     display:flex;
     justify-content:space-between;
     align-items:center;
     border-bottom:1px solid var(--border);
     padding-bottom:22px;
     margin-bottom:30px;
+
 }
 
 .breadcrumb{
+
     color:var(--muted);
-    font-size:12px;
+    font-size:14px;
     margin-bottom:8px;
+
 }
 
 .breadcrumb span{
+
     color:#00d4ff;
+
 }
 
 h1{
-    font-size:28px;
+
+    font-size:30px;
+
 }
 
 .subtitle{
+
     color:var(--muted);
-    font-size:13px;
+    font-size:15px;
     margin-top:5px;
+
 }
 
 .actions{
+
     display:flex;
     align-items:center;
     gap:12px;
+
 }
 
 .icon-btn{
+
     background:var(--card);
     border:1px solid var(--border);
     color:var(--text);
     padding:10px 14px;
     border-radius:9px;
     cursor:pointer;
-    font-size:17px;
+    font-size:18px;
+
 }
 
 .user{
+
     display:flex;
     align-items:center;
     gap:10px;
@@ -189,161 +255,274 @@ h1{
     border:1px solid var(--border);
     padding:7px 12px;
     border-radius:10px;
+    font-size:15px;
+
 }
 
 .avatar{
-    width:32px;
-    height:32px;
+
+    width:34px;
+    height:34px;
     border-radius:50%;
     display:grid;
     place-items:center;
-    background:linear-gradient(135deg,#00d4ff,#7c3aed);
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
     font-weight:bold;
+
 }
 
-.profile-grid{
+/* CONTENT */
+
+.content-grid{
+
     display:grid;
-    grid-template-columns:280px 1fr;
+    grid-template-columns:1fr 1.5fr;
     gap:25px;
+
 }
 
 .card{
+
     background:var(--card);
     border:1px solid var(--border);
     border-radius:15px;
     padding:25px;
+
 }
 
-.profile-card{
-    text-align:center;
+.card h2{
+
+    font-size:21px;
+    margin-bottom:25px;
+
 }
 
-.profile-avatar{
-    width:100px;
-    height:100px;
-    margin:0 auto 15px;
+/* EMPLOYEE PROFILE */
+
+.profile-header{
+
+    display:flex;
+    align-items:center;
+    gap:18px;
+    padding-bottom:22px;
+    border-bottom:1px solid var(--border);
+    margin-bottom:22px;
+
+}
+
+.employee-avatar{
+
+    width:75px;
+    height:75px;
     border-radius:50%;
     display:grid;
     place-items:center;
-    background:linear-gradient(135deg,#00d4ff,#7c3aed);
-    font-size:38px;
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
+    font-size:26px;
     font-weight:700;
+
 }
 
-.profile-card h2{
+.profile-header h3{
+
     font-size:20px;
+    margin-bottom:5px;
+
 }
 
-.profile-card p{
+.profile-header p{
+
     color:var(--muted);
-    font-size:12px;
-    margin-top:5px;
+    font-size:14px;
+
+}
+
+.info-row{
+
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding:14px 0;
+    border-bottom:1px solid var(--border);
+    font-size:15px;
+
+}
+
+.info-row:last-child{
+
+    border-bottom:none;
+
+}
+
+.info-row span:first-child{
+
+    color:var(--muted);
+
+}
+
+/* ATTENDANCE */
+
+.table-wrapper{
+
+    overflow-x:auto;
+
+}
+
+table{
+
+    width:100%;
+    border-collapse:collapse;
+    min-width:600px;
+
+}
+
+th{
+
+    text-align:left;
+    color:#00d4ff;
+    font-size:14px;
+    padding:15px;
+    border-bottom:1px solid var(--border);
+
+}
+
+td{
+
+    padding:16px 15px;
+    font-size:15px;
+    border-bottom:1px solid var(--border);
+
 }
 
 .status{
+
     display:inline-block;
-    margin-top:15px;
-    padding:6px 14px;
+    padding:6px 12px;
     border-radius:20px;
-    background:#16352d;
-    color:#4de2a5;
-    font-size:11px;
-}
-
-.info-title{
-    font-size:18px;
-    margin-bottom:20px;
-}
-
-.info-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:20px;
-}
-
-.info-item{
-    padding:15px;
-    border:1px solid var(--border);
-    border-radius:10px;
-}
-
-.info-item span{
-    display:block;
-    color:var(--muted);
-    font-size:11px;
-    margin-bottom:5px;
-}
-
-.info-item strong{
     font-size:13px;
+
 }
 
-.activity{
+.present{
+
+    background:rgba(34,197,94,.15);
+    color:#22c55e;
+
+}
+
+.absent{
+
+    background:rgba(239,68,68,.15);
+    color:#ef4444;
+
+}
+
+.leave{
+
+    background:rgba(245,158,11,.15);
+    color:#f59e0b;
+
+}
+
+/* BUTTON */
+
+.back-btn{
+
+    display:inline-block;
     margin-top:25px;
+    padding:12px 22px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:transparent;
+    color:var(--text);
+    text-decoration:none;
+    font-size:15px;
+
 }
 
-.activity-item{
-    display:flex;
-    gap:12px;
-    padding:14px 0;
-    border-bottom:1px solid var(--border);
-}
+.back-btn:hover{
 
-.activity-icon{
-    width:35px;
-    height:35px;
-    display:grid;
-    place-items:center;
-    border-radius:10px;
-    background:rgba(0,212,255,.12);
+    border-color:#00d4ff;
     color:#00d4ff;
+
 }
 
-.activity-item p{
-    font-size:12px;
-}
-
-.activity-item span{
-    display:block;
-    color:var(--muted);
-    font-size:10px;
-    margin-top:3px;
-}
+/* LIGHT MODE */
 
 body.light-mode{
+
     --bg:#f4f7fb;
     --card:#ffffff;
     --sidebar:#ffffff;
     --border:#dce3ec;
     --text:#172033;
-    --muted:#64748b;
+    --muted:#334155;
     --input:#ffffff;
+
 }
 
 body.light-mode .sidebar a{
-    color:#64748b;
+
+    color:#1e293b;
+
 }
 
 body.light-mode .sidebar a:hover,
 body.light-mode .sidebar a.active{
+
     background:#e8f5ff;
-    color:#172033;
+    color:#0f172a;
+
+}
+
+body.light-mode .nav-title{
+
+    color:#334155;
+
+}
+
+body.light-mode .breadcrumb{
+
+    color:#475569;
+
+}
+
+body.light-mode .subtitle{
+
+    color:#475569;
+
 }
 
 body.light-mode .icon-btn,
 body.light-mode .user{
+
     background:#ffffff;
     color:#172033;
+
 }
 
-body.light-mode .card{
-    box-shadow:0 8px 25px rgba(30,50,80,.08);
+body.light-mode .back-btn{
+
+    color:#172033;
+
 }
+
+/* RESPONSIVE */
 
 @media(max-width:900px){
 
-    .profile-grid{
+    .content-grid{
+
         grid-template-columns:1fr;
+
     }
 
 }
@@ -351,23 +530,25 @@ body.light-mode .card{
 @media(max-width:700px){
 
     .sidebar{
+
         display:none;
+
     }
 
     .main{
+
         margin-left:0;
         width:100%;
         padding:20px;
+
     }
 
     .topbar{
+
         flex-direction:column;
         align-items:flex-start;
         gap:18px;
-    }
 
-    .info-grid{
-        grid-template-columns:1fr;
     }
 
 }
@@ -402,9 +583,17 @@ Dashboard
 
 </a>
 
-<a href="employee_list.html" class="active">
+<a href="customer_list.html">
 
 <span>♙</span>
+
+Customers
+
+</a>
+
+<a href="employee_list.html" class="active">
+
+<span>♟</span>
 
 Employees
 
@@ -412,25 +601,25 @@ Employees
 
 <a href="attendance_daily.html">
 
-<span>✓</span>
+<span>◷</span>
 
 Attendance
 
 </a>
 
-<a href="salary_management_list.html">
+<a href="inventory_dashboard.html">
 
-<span>₹</span>
+<span>▣</span>
 
-Salary
+Inventory
 
 </a>
 
-<a href="customer_list.html">
+<a href="order_list.html">
 
-<span>♧</span>
+<span>▱</span>
 
-Customers
+Orders
 
 </a>
 
@@ -468,13 +657,13 @@ Business Management /
 
 <h1>
 
-Employee Detail
+Employee Details
 
 </h1>
 
 <p class="subtitle">
 
-View complete employee information and activity.
+View employee information and attendance history.
 
 </p>
 
@@ -482,13 +671,25 @@ View complete employee information and activity.
 
 <div class="actions">
 
-<button class="icon-btn" id="themeToggle">☾</button>
+<button class="icon-btn" id="themeToggle">
+
+☾
+
+</button>
 
 <div class="user">
 
-<div class="avatar">A</div>
+<div class="avatar">
 
-<span>Admin</span>
+A
+
+</div>
+
+<span>
+
+Admin
+
+</span>
 
 </div>
 
@@ -496,35 +697,87 @@ View complete employee information and activity.
 
 </div>
 
-<div class="profile-grid">
+<div class="content-grid">
 
-<div class="card profile-card">
-
-<div class="profile-avatar">
-
-RK
-
-</div>
+<div class="card">
 
 <h2>
 
-Rahul Kumar
+Employee Profile
 
 </h2>
 
+<div class="profile-header">
+
+<div class="employee-avatar">
+
+A
+
+</div>
+
+<div>
+
+<h3>
+
+Amit Verma
+
+</h3>
+
 <p>
 
-Senior Sales Executive
+Employee ID: EMP-1001
 
 </p>
 
-<p>
+</div>
 
-EMP-1001
+</div>
 
-</p>
+<div class="info-row">
 
-<span class="status">
+<span>Email</span>
+
+<span>amit@example.com</span>
+
+</div>
+
+<div class="info-row">
+
+<span>Phone</span>
+
+<span>+91 98765 67890</span>
+
+</div>
+
+<div class="info-row">
+
+<span>Department</span>
+
+<span>Technology</span>
+
+</div>
+
+<div class="info-row">
+
+<span>Position</span>
+
+<span>Web Developer</span>
+
+</div>
+
+<div class="info-row">
+
+<span>Joining Date</span>
+
+<span>January 10, 2026</span>
+
+</div>
+
+<div class="info-row">
+
+<span>Employee Status</span>
+
+<span class="status present">
 
 Active
 
@@ -532,115 +785,107 @@ Active
 
 </div>
 
+<a href="employee_list.html" class="back-btn">
+
+← Back to Employees
+
+</a>
+
+</div>
+
 <div class="card">
 
-<h2 class="info-title">
+<h2>
 
-Employee Information
-
-</h2>
-
-<div class="info-grid">
-
-<div class="info-item">
-
-<span>Full Name</span>
-
-<strong>Rahul Kumar</strong>
-
-</div>
-
-<div class="info-item">
-
-<span>Email</span>
-
-<strong>rahul.kumar@email.com</strong>
-
-</div>
-
-<div class="info-item">
-
-<span>Phone</span>
-
-<strong>+91 98765 43210</strong>
-
-</div>
-
-<div class="info-item">
-
-<span>Department</span>
-
-<strong>Sales</strong>
-
-</div>
-
-<div class="info-item">
-
-<span>Joining Date</span>
-
-<strong>15 January 2024</strong>
-
-</div>
-
-<div class="info-item">
-
-<span>Monthly Salary</span>
-
-<strong>$2,850</strong>
-
-</div>
-
-</div>
-
-<div class="activity">
-
-<h2 class="info-title">
-
-Recent Activity
+Attendance History
 
 </h2>
 
-<div class="activity-item">
+<div class="table-wrapper">
 
-<div class="activity-icon">✓</div>
+<table>
 
-<div>
+<thead>
 
-<p>Attendance marked for today</p>
+<tr>
 
-<span>Today, 9:05 AM</span>
+<th>Date</th>
 
-</div>
+<th>Check In</th>
 
-</div>
+<th>Check Out</th>
 
-<div class="activity-item">
+<th>Status</th>
 
-<div class="activity-icon">₹</div>
+</tr>
 
-<div>
+</thead>
 
-<p>Salary processed successfully</p>
+<tbody>
 
-<span>5 days ago</span>
+<tr>
 
-</div>
+<td>July 25, 2026</td>
 
-</div>
+<td>09:05 AM</td>
 
-<div class="activity-item">
+<td>06:10 PM</td>
 
-<div class="activity-icon">★</div>
+<td>
 
-<div>
+<span class="status present">
 
-<p>Performance review completed</p>
+Present
 
-<span>12 days ago</span>
+</span>
 
-</div>
+</td>
 
-</div>
+</tr>
+
+<tr>
+
+<td>July 24, 2026</td>
+
+<td>09:15 AM</td>
+
+<td>06:00 PM</td>
+
+<td>
+
+<span class="status present">
+
+Present
+
+</span>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>July 23, 2026</td>
+
+<td>—</td>
+
+<td>—</td>
+
+<td>
+
+<span class="status leave">
+
+Leave
+
+</span>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 </div>
 
@@ -676,7 +921,9 @@ themeToggle.addEventListener("click",function(){
 
         localStorage.setItem("theme","light");
 
-    }else{
+    }
+
+    else{
 
         themeToggle.textContent = "☾";
 

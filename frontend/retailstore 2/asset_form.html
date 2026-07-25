@@ -140,7 +140,7 @@ body::after{
 .nav-title{
 
     color:#748096;
-    font-size:11px;
+    font-size:13px;
     text-transform:uppercase;
     margin:15px;
 
@@ -151,12 +151,12 @@ body::after{
     display:flex;
     gap:12px;
     align-items:center;
-    padding:12px 15px;
+    padding:13px 15px;
     margin:5px 0;
     border-radius:10px;
     text-decoration:none;
     color:#9ca8ba;
-    font-size:13px;
+    font-size:15px;
     transition:.3s;
 
 }
@@ -201,7 +201,7 @@ body::after{
 .breadcrumb{
 
     color:var(--muted);
-    font-size:12px;
+    font-size:14px;
     margin-bottom:8px;
 
 }
@@ -214,14 +214,14 @@ body::after{
 
 h1{
 
-    font-size:28px;
+    font-size:30px;
 
 }
 
 .subtitle{
 
     color:var(--muted);
-    font-size:13px;
+    font-size:15px;
     margin-top:5px;
 
 }
@@ -242,7 +242,7 @@ h1{
     padding:10px 14px;
     border-radius:9px;
     cursor:pointer;
-    font-size:17px;
+    font-size:18px;
 
 }
 
@@ -255,13 +255,14 @@ h1{
     border:1px solid var(--border);
     padding:7px 12px;
     border-radius:10px;
+    font-size:15px;
 
 }
 
 .avatar{
 
-    width:32px;
-    height:32px;
+    width:34px;
+    height:34px;
     border-radius:50%;
     display:grid;
     place-items:center;
@@ -288,7 +289,7 @@ h1{
 
 .form-card h2{
 
-    font-size:18px;
+    font-size:21px;
     margin-bottom:25px;
 
 }
@@ -318,7 +319,7 @@ h1{
 label{
 
     color:var(--muted);
-    font-size:12px;
+    font-size:14px;
 
 }
 
@@ -327,12 +328,13 @@ select,
 textarea{
 
     width:100%;
-    padding:13px 14px;
+    padding:14px 15px;
     border-radius:9px;
     border:1px solid var(--border);
     background:var(--input);
     color:var(--text);
     font-family:Poppins,sans-serif;
+    font-size:15px;
     outline:none;
 
 }
@@ -367,19 +369,20 @@ textarea{
 
 .cancel-btn{
 
-    padding:12px 22px;
+    padding:13px 23px;
     border:1px solid var(--border);
     border-radius:9px;
     background:transparent;
     color:var(--text);
     cursor:pointer;
     font-family:Poppins,sans-serif;
+    font-size:15px;
 
 }
 
 .save-btn{
 
-    padding:12px 25px;
+    padding:13px 26px;
     border:none;
     border-radius:9px;
     background:linear-gradient(
@@ -390,10 +393,13 @@ textarea{
     color:white;
     cursor:pointer;
     font-family:Poppins,sans-serif;
+    font-size:15px;
 
 }
 
-/* LIGHT MODE */
+/* =========================
+   LIGHT MODE
+========================= */
 
 body.light-mode{
 
@@ -402,14 +408,14 @@ body.light-mode{
     --sidebar:#ffffff;
     --border:#dce3ec;
     --text:#172033;
-    --muted:#64748b;
+    --muted:#334155;
     --input:#ffffff;
 
 }
 
 body.light-mode .sidebar a{
 
-    color:#64748b;
+    color:#1e293b;
 
 }
 
@@ -417,7 +423,31 @@ body.light-mode .sidebar a:hover,
 body.light-mode .sidebar a.active{
 
     background:#e8f5ff;
-    color:#172033;
+    color:#0f172a;
+
+}
+
+body.light-mode .nav-title{
+
+    color:#334155;
+
+}
+
+body.light-mode .breadcrumb{
+
+    color:#475569;
+
+}
+
+body.light-mode .subtitle{
+
+    color:#475569;
+
+}
+
+body.light-mode label{
+
+    color:#334155;
 
 }
 
@@ -441,6 +471,13 @@ body.light-mode textarea{
 
     background:#ffffff;
     color:#172033;
+
+}
+
+body.light-mode input::placeholder,
+body.light-mode textarea::placeholder{
+
+    color:#64748b;
 
 }
 
@@ -515,6 +552,8 @@ body.light-mode .cancel-btn{
 
 <div class="app">
 
+<!-- SIDEBAR -->
+
 <aside class="sidebar">
 
 <div class="logo">
@@ -587,6 +626,9 @@ Settings
 
 </aside>
 
+
+<!-- MAIN -->
+
 <main class="main">
 
 <div class="topbar">
@@ -643,6 +685,9 @@ Admin
 
 </div>
 
+
+<!-- FORM CARD -->
+
 <div class="form-card">
 
 <h2>
@@ -674,6 +719,7 @@ required
 >
 
 </div>
+
 
 <div class="form-group">
 
@@ -725,6 +771,7 @@ Property
 
 </div>
 
+
 <div class="form-group">
 
 <label>
@@ -745,6 +792,7 @@ required
 
 </div>
 
+
 <div class="form-group">
 
 <label>
@@ -763,11 +811,14 @@ required
 
 </div>
 
+
 <div class="form-group">
 
 <label>
 
-Purchase Cost</label>
+Purchase Cost
+
+</label>
 
 <input
 
@@ -780,6 +831,7 @@ step="0.01"
 >
 
 </div>
+
 
 <div class="form-group">
 
@@ -801,6 +853,7 @@ step="0.01"
 
 </div>
 
+
 <div class="form-group">
 
 <label>
@@ -818,6 +871,7 @@ placeholder="Employee or department"
 >
 
 </div>
+
 
 <div class="form-group">
 
@@ -851,6 +905,7 @@ Disposed
 
 </div>
 
+
 <div class="form-group full">
 
 <label>
@@ -868,6 +923,7 @@ placeholder="Enter asset location"
 >
 
 </div>
+
 
 <div class="form-group full">
 
@@ -887,6 +943,9 @@ placeholder="Enter asset details"
 
 </div>
 
+
+<!-- ACTION BUTTONS -->
+
 <div class="form-actions">
 
 <button
@@ -902,6 +961,7 @@ onclick="history.back()"
 Cancel
 
 </button>
+
 
 <button
 
@@ -925,15 +985,15 @@ Save Asset
 
 </div>
 
+
 <script>
 
-const themeToggle =
+/* THEME TOGGLE */
 
-document.getElementById("themeToggle");
+const themeToggle = document.getElementById("themeToggle");
 
-const savedTheme =
+const savedTheme = localStorage.getItem("theme");
 
-localStorage.getItem("theme");
 
 if(savedTheme === "light"){
 
@@ -942,6 +1002,7 @@ if(savedTheme === "light"){
     themeToggle.textContent = "☀";
 
 }
+
 
 themeToggle.addEventListener("click",function(){
 
@@ -953,7 +1014,9 @@ themeToggle.addEventListener("click",function(){
 
         localStorage.setItem("theme","light");
 
-    }else{
+    }
+
+    else{
 
         themeToggle.textContent = "☾";
 
@@ -962,6 +1025,9 @@ themeToggle.addEventListener("click",function(){
     }
 
 });
+
+
+/* FORM SUBMIT */
 
 document.getElementById("assetForm")
 

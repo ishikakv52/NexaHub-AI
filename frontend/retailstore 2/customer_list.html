@@ -19,24 +19,33 @@
 }
 
 :root{
+
     --bg:#080b14;
     --card:#101621;
     --sidebar:#0d111c;
     --border:#222d3e;
     --text:#ffffff;
     --muted:#8995a8;
+    --input:#0a0f18;
+
 }
 
 body{
+
     font-family:Poppins,sans-serif;
     background:var(--bg);
     color:var(--text);
     min-height:100vh;
+    overflow-x:hidden;
     transition:.3s ease;
+
 }
+
+/* ANIMATED BACKGROUND */
 
 body::before,
 body::after{
+
     content:"";
     position:fixed;
     width:400px;
@@ -46,40 +55,64 @@ body::after{
     opacity:.20;
     z-index:-1;
     pointer-events:none;
+
 }
 
 body::before{
+
     background:#00d4ff;
     top:-150px;
     left:-100px;
     animation:moveOne 12s infinite alternate ease-in-out;
+
 }
 
 body::after{
+
     background:#7c3aed;
     right:-150px;
     bottom:-150px;
     animation:moveTwo 15s infinite alternate ease-in-out;
+
 }
 
 @keyframes moveOne{
+
+    from{
+        transform:translate(0,0);
+    }
+
     to{
         transform:translate(180px,180px);
     }
+
 }
 
 @keyframes moveTwo{
+
+    from{
+        transform:translate(0,0);
+    }
+
     to{
         transform:translate(-180px,-150px);
     }
+
 }
+
+/* LAYOUT */
 
 .app{
+
     display:flex;
     min-height:100vh;
+
 }
 
+/* SIDEBAR */
+
 .sidebar{
+
     width:250px;
     background:var(--sidebar);
     border-right:1px solid var(--border);
@@ -87,100 +120,134 @@ body::after{
     position:fixed;
     top:0;
     bottom:0;
+
 }
 
 .logo{
+
     font-size:22px;
     font-weight:700;
     padding:10px 15px 30px;
+
 }
 
 .logo span{
+
     color:#00d4ff;
+
 }
 
 .nav-title{
+
     color:#748096;
-    font-size:11px;
+    font-size:13px;
     text-transform:uppercase;
     margin:15px;
+
 }
 
 .sidebar a{
+
     display:flex;
     gap:12px;
     align-items:center;
-    padding:12px 15px;
+    padding:13px 15px;
     margin:5px 0;
     border-radius:10px;
     text-decoration:none;
     color:#9ca8ba;
-    font-size:13px;
+    font-size:15px;
     transition:.3s;
+
 }
 
 .sidebar a:hover,
 .sidebar a.active{
+
     background:#18263a;
     color:var(--text);
+
 }
 
 .sidebar a span{
+
     color:#00d4ff;
+
 }
 
+/* MAIN */
+
 .main{
+
     margin-left:250px;
     width:calc(100% - 250px);
     padding:30px;
+
 }
 
+/* TOPBAR */
+
 .topbar{
+
     display:flex;
     justify-content:space-between;
     align-items:center;
     border-bottom:1px solid var(--border);
     padding-bottom:22px;
     margin-bottom:30px;
+
 }
 
 .breadcrumb{
+
     color:var(--muted);
-    font-size:12px;
+    font-size:14px;
     margin-bottom:8px;
+
 }
 
 .breadcrumb span{
+
     color:#00d4ff;
+
 }
 
 h1{
-    font-size:28px;
+
+    font-size:30px;
+
 }
 
 .subtitle{
+
     color:var(--muted);
-    font-size:13px;
+    font-size:15px;
     margin-top:5px;
+
 }
 
 .actions{
+
     display:flex;
     align-items:center;
     gap:12px;
+
 }
 
 .icon-btn{
+
     background:var(--card);
     border:1px solid var(--border);
     color:var(--text);
     padding:10px 14px;
     border-radius:9px;
     cursor:pointer;
-    font-size:17px;
+    font-size:18px;
+
 }
 
 .user{
+
     display:flex;
     align-items:center;
     gap:10px;
@@ -188,172 +255,306 @@ h1{
     border:1px solid var(--border);
     padding:7px 12px;
     border-radius:10px;
+    font-size:15px;
+
 }
 
 .avatar{
-    width:32px;
-    height:32px;
+
+    width:34px;
+    height:34px;
     border-radius:50%;
     display:grid;
     place-items:center;
-    background:linear-gradient(135deg,#00d4ff,#7c3aed);
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
     font-weight:bold;
+
 }
 
-.toolbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-    margin-bottom:20px;
-}
-
-.search-box{
-    flex:1;
-    max-width:400px;
-}
-
-.search-box input{
-    width:100%;
-    padding:12px 15px;
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:9px;
-    color:var(--text);
-    outline:none;
-    font-family:Poppins,sans-serif;
-}
-
-.add-btn{
-    padding:12px 20px;
-    border:none;
-    border-radius:9px;
-    background:linear-gradient(135deg,#00d4ff,#7c3aed);
-    color:white;
-    cursor:pointer;
-    font-family:Poppins,sans-serif;
-}
+/* CARD */
 
 .card{
+
     background:var(--card);
     border:1px solid var(--border);
     border-radius:15px;
-    padding:24px;
-    overflow:auto;
+    padding:25px;
+
+}
+
+.card-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+
+}
+
+.card-header h2{
+
+    font-size:21px;
+
+}
+
+.add-btn{
+
+    padding:12px 20px;
+    border:none;
+    border-radius:9px;
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
+    color:white;
+    cursor:pointer;
+    font-family:Poppins,sans-serif;
+    font-size:15px;
+
+}
+
+/* SEARCH */
+
+.search-box{
+
+    margin-bottom:22px;
+
+}
+
+.search-box input{
+
+    width:100%;
+    padding:14px 15px;
+    border-radius:9px;
+    border:1px solid var(--border);
+    background:var(--input);
+    color:var(--text);
+    font-family:Poppins,sans-serif;
+    font-size:15px;
+    outline:none;
+
+}
+
+.search-box input:focus{
+
+    border-color:#00d4ff;
+
+}
+
+/* TABLE */
+
+.table-wrapper{
+
+    overflow-x:auto;
+
 }
 
 table{
+
     width:100%;
     border-collapse:collapse;
-    min-width:850px;
-}
+    min-width:900px;
 
-th,
-td{
-    text-align:left;
-    padding:14px;
-    border-bottom:1px solid var(--border);
-    font-size:13px;
 }
 
 th{
-    color:var(--muted);
-    font-weight:500;
+
+    text-align:left;
+    color:#00d4ff;
+    font-size:14px;
+    padding:15px;
+    border-bottom:1px solid var(--border);
+
+}
+
+td{
+
+    padding:17px 15px;
+    font-size:15px;
+    border-bottom:1px solid var(--border);
+
 }
 
 .customer-name{
+
     font-weight:600;
+
 }
 
-.customer-email{
-    color:var(--muted);
-    font-size:11px;
+.customer-id{
+
+    color:#00d4ff;
+    font-size:14px;
+
 }
 
 .status{
-    padding:5px 10px;
+
+    display:inline-block;
+    padding:6px 12px;
     border-radius:20px;
-    font-size:11px;
+    font-size:13px;
+
 }
 
 .active-status{
-    background:#16352d;
-    color:#4de2a5;
+
+    background:rgba(34,197,94,.15);
+    color:#22c55e;
+
 }
 
 .inactive-status{
-    background:#3a2028;
-    color:#ff7186;
+
+    background:rgba(239,68,68,.15);
+    color:#ef4444;
+
 }
 
 .action-btn{
-    padding:7px 10px;
-    border-radius:7px;
+
     border:1px solid var(--border);
     background:transparent;
     color:var(--text);
+    padding:7px 10px;
+    border-radius:7px;
     cursor:pointer;
+    font-family:Poppins,sans-serif;
+    font-size:13px;
+    margin-right:5px;
+
 }
 
+.view-btn:hover{
+
+    border-color:#00d4ff;
+    color:#00d4ff;
+
+}
+
+.edit-btn:hover{
+
+    border-color:#7c3aed;
+    color:#7c3aed;
+
+}
+
+/* LIGHT MODE */
+
 body.light-mode{
+
     --bg:#f4f7fb;
     --card:#ffffff;
     --sidebar:#ffffff;
     --border:#dce3ec;
     --text:#172033;
-    --muted:#64748b;
+    --muted:#334155;
+    --input:#ffffff;
+
 }
 
 body.light-mode .sidebar a{
-    color:#64748b;
+
+    color:#1e293b;
+
 }
 
 body.light-mode .sidebar a:hover,
 body.light-mode .sidebar a.active{
+
     background:#e8f5ff;
-    color:#172033;
+    color:#0f172a;
+
+}
+
+body.light-mode .nav-title{
+
+    color:#334155;
+
+}
+
+body.light-mode .breadcrumb{
+
+    color:#475569;
+
+}
+
+body.light-mode .subtitle{
+
+    color:#475569;
+
 }
 
 body.light-mode .icon-btn,
-body.light-mode .user,
-body.light-mode .search-box input{
+body.light-mode .user{
+
     background:#ffffff;
     color:#172033;
+
 }
 
-body.light-mode .card{
-    box-shadow:0 8px 25px rgba(30,50,80,.08);
+body.light-mode .search-box input{
+
+    background:#ffffff;
+    color:#172033;
+
 }
 
 body.light-mode .action-btn{
+
     color:#172033;
+
 }
+
+/* RESPONSIVE */
 
 @media(max-width:700px){
 
     .sidebar{
+
         display:none;
+
     }
 
     .main{
+
         margin-left:0;
         width:100%;
         padding:20px;
+
     }
 
     .topbar{
+
         flex-direction:column;
         align-items:flex-start;
         gap:18px;
+
     }
 
-    .toolbar{
+    .card{
+
+        padding:20px;
+
+    }
+
+    .card-header{
+
         flex-direction:column;
-        align-items:stretch;
+        align-items:flex-start;
+        gap:15px;
+
     }
 
-    .search-box{
-        max-width:none;
+    .add-btn{
+
+        width:100%;
+
     }
 
 }
@@ -388,22 +589,6 @@ Dashboard
 
 </a>
 
-<a href="product_list.html">
-
-<span>▣</span>
-
-Products
-
-</a>
-
-<a href="sale_list.html">
-
-<span>▤</span>
-
-Sales
-
-</a>
-
 <a href="customer_list.html" class="active">
 
 <span>♙</span>
@@ -412,11 +597,27 @@ Customers
 
 </a>
 
-<a href="delivery_dashboard.html">
+<a href="attendance_daily.html">
+
+<span>◷</span>
+
+Attendance
+
+</a>
+
+<a href="inventory_dashboard.html">
+
+<span>▣</span>
+
+Inventory
+
+</a>
+
+<a href="order_list.html">
 
 <span>▱</span>
 
-Delivery
+Orders
 
 </a>
 
@@ -454,13 +655,13 @@ Business Management /
 
 <h1>
 
-Customer List
+Customers
 
 </h1>
 
 <p class="subtitle">
 
-Manage and view all registered customers.
+Manage your business customers and their information.
 
 </p>
 
@@ -468,13 +669,25 @@ Manage and view all registered customers.
 
 <div class="actions">
 
-<button class="icon-btn" id="themeToggle">☾</button>
+<button class="icon-btn" id="themeToggle">
+
+☾
+
+</button>
 
 <div class="user">
 
-<div class="avatar">A</div>
+<div class="avatar">
 
-<span>Admin</span>
+A
+
+</div>
+
+<span>
+
+Admin
+
+</span>
 
 </div>
 
@@ -482,23 +695,15 @@ Manage and view all registered customers.
 
 </div>
 
-<div class="toolbar">
+<div class="card">
 
-<div class="search-box">
+<div class="card-header">
 
-<input
+<h2>
 
-type="text"
+All Customers
 
-id="searchInput"
-
-placeholder="Search customers..."
-
-onkeyup="searchCustomers()"
-
->
-
-</div>
+</h2>
 
 <button
 
@@ -514,7 +719,21 @@ onclick="location.href='customer_form.html'"
 
 </div>
 
-<div class="card">
+<div class="search-box">
+
+<input
+
+type="text"
+
+placeholder="Search customer name, email or phone..."
+
+id="searchInput"
+
+>
+
+</div>
+
+<div class="table-wrapper">
 
 <table>
 
@@ -524,13 +743,13 @@ onclick="location.href='customer_form.html'"
 
 <th>Customer</th>
 
+<th>Customer ID</th>
+
+<th>Email</th>
+
 <th>Phone</th>
 
-<th>City</th>
-
 <th>Total Orders</th>
-
-<th>Total Spent</th>
 
 <th>Status</th>
 
@@ -544,29 +763,35 @@ onclick="location.href='customer_form.html'"
 
 <tr>
 
-<td>
+<td class="customer-name">
 
-<div class="customer-name">
-
-Rahul Kumar
-
-</div>
-
-<div class="customer-email">
-
-rahul.kumar@email.com
-
-</div>
+Rahul Sharma
 
 </td>
 
-<td>+91 98765 43210</td>
+<td class="customer-id">
 
-<td>New Delhi</td>
+CUS-1001
 
-<td>24</td>
+</td>
 
-<td>$4,850</td>
+<td>
+
+rahul@example.com
+
+</td>
+
+<td>
+
++91 98765 43210
+
+</td>
+
+<td>
+
+24
+
+</td>
 
 <td>
 
@@ -582,7 +807,7 @@ Active
 
 <button
 
-class="action-btn"
+class="action-btn view-btn"
 
 onclick="location.href='customer_detail.html'"
 
@@ -592,35 +817,47 @@ View
 
 </button>
 
+<button class="action-btn edit-btn">
+
+Edit
+
+</button>
+
 </td>
 
 </tr>
 
 <tr>
 
-<td>
+<td class="customer-name">
 
-<div class="customer-name">
-
-Aman Sharma
-
-</div>
-
-<div class="customer-email">
-
-aman.sharma@email.com
-
-</div>
+Priya Singh
 
 </td>
 
-<td>+91 98765 12345</td>
+<td class="customer-id">
 
-<td>Gurgaon</td>
+CUS-1002
 
-<td>18</td>
+</td>
 
-<td>$3,250</td>
+<td>
+
+priya@example.com
+
+</td>
+
+<td>
+
++91 98765 12345
+
+</td>
+
+<td>
+
+18
+
+</td>
 
 <td>
 
@@ -634,9 +871,15 @@ Active
 
 <td>
 
-<button class="action-btn">
+<button class="action-btn view-btn">
 
 View
+
+</button>
+
+<button class="action-btn edit-btn">
+
+Edit
 
 </button>
 
@@ -646,29 +889,35 @@ View
 
 <tr>
 
-<td>
+<td class="customer-name">
 
-<div class="customer-name">
-
-Priya Singh
-
-</div>
-
-<div class="customer-email">
-
-priya.singh@email.com
-
-</div>
+Amit Verma
 
 </td>
 
-<td>+91 98765 67890</td>
+<td class="customer-id">
 
-<td>Noida</td>
+CUS-1003
 
-<td>8</td>
+</td>
 
-<td>$1,420</td>
+<td>
+
+amit@example.com
+
+</td>
+
+<td>
+
++91 98765 67890
+
+</td>
+
+<td>
+
+7
+
+</td>
 
 <td>
 
@@ -682,9 +931,15 @@ Inactive
 
 <td>
 
-<button class="action-btn">
+<button class="action-btn view-btn">
 
 View
+
+</button>
+
+<button class="action-btn edit-btn">
+
+Edit
 
 </button>
 
@@ -695,6 +950,8 @@ View
 </tbody>
 
 </table>
+
+</div>
 
 </div>
 
@@ -726,7 +983,9 @@ themeToggle.addEventListener("click",function(){
 
         localStorage.setItem("theme","light");
 
-    }else{
+    }
+
+    else{
 
         themeToggle.textContent = "☾";
 
@@ -736,27 +995,19 @@ themeToggle.addEventListener("click",function(){
 
 });
 
-function searchCustomers(){
+/* SEARCH */
 
-    let input = document
+document.getElementById("searchInput")
 
-    .getElementById("searchInput")
+.addEventListener("keyup",function(){
 
-    .value
+    const searchValue = this.value.toLowerCase();
 
-    .toLowerCase();
+    const rows = document.querySelectorAll("#customerTable tr");
 
-    let rows = document
+    rows.forEach(function(row){
 
-    .querySelectorAll("#customerTable tr");
-
-    rows.forEach(row=>{
-
-        row.style.display = row.innerText
-
-        .toLowerCase()
-
-        .includes(input)
+        row.style.display = row.textContent.toLowerCase().includes(searchValue)
 
         ? ""
 
@@ -764,7 +1015,7 @@ function searchCustomers(){
 
     });
 
-}
+});
 
 </script>
 

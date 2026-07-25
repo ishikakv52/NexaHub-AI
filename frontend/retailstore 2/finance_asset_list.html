@@ -33,38 +33,27 @@
 body{
 
     font-family:Poppins,sans-serif;
-
     background:var(--bg);
-
     color:var(--text);
-
     min-height:100vh;
-
     overflow-x:hidden;
-
     transition:.3s ease;
 
 }
+
+/* ANIMATED BACKGROUND */
 
 body::before,
 body::after{
 
     content:"";
-
     position:fixed;
-
     width:400px;
-
     height:400px;
-
     border-radius:50%;
-
     filter:blur(110px);
-
     opacity:.20;
-
     z-index:-1;
-
     pointer-events:none;
 
 }
@@ -72,11 +61,8 @@ body::after{
 body::before{
 
     background:#00d4ff;
-
     top:-150px;
-
     left:-100px;
-
     animation:moveOne 12s infinite alternate ease-in-out;
 
 }
@@ -84,11 +70,8 @@ body::before{
 body::after{
 
     background:#7c3aed;
-
     right:-150px;
-
     bottom:-150px;
-
     animation:moveTwo 15s infinite alternate ease-in-out;
 
 }
@@ -96,15 +79,11 @@ body::after{
 @keyframes moveOne{
 
     from{
-
         transform:translate(0,0);
-
     }
 
     to{
-
         transform:translate(180px,180px);
-
     }
 
 }
@@ -112,41 +91,34 @@ body::after{
 @keyframes moveTwo{
 
     from{
-
         transform:translate(0,0);
-
     }
 
     to{
-
         transform:translate(-180px,-150px);
-
     }
 
 }
+
+/* LAYOUT */
 
 .app{
 
     display:flex;
-
     min-height:100vh;
 
 }
 
+/* SIDEBAR */
+
 .sidebar{
 
     width:250px;
-
     background:var(--sidebar);
-
     border-right:1px solid var(--border);
-
     padding:25px 15px;
-
     position:fixed;
-
     top:0;
-
     bottom:0;
 
 }
@@ -154,9 +126,7 @@ body::after{
 .logo{
 
     font-size:22px;
-
     font-weight:700;
-
     padding:10px 15px 30px;
 
 }
@@ -170,11 +140,8 @@ body::after{
 .nav-title{
 
     color:#748096;
-
-    font-size:11px;
-
+    font-size:13px;
     text-transform:uppercase;
-
     margin:15px;
 
 }
@@ -182,23 +149,14 @@ body::after{
 .sidebar a{
 
     display:flex;
-
     gap:12px;
-
     align-items:center;
-
-    padding:12px 15px;
-
+    padding:13px 15px;
     margin:5px 0;
-
     border-radius:10px;
-
     text-decoration:none;
-
     color:#9ca8ba;
-
-    font-size:13px;
-
+    font-size:15px;
     transition:.3s;
 
 }
@@ -207,7 +165,6 @@ body::after{
 .sidebar a.active{
 
     background:#18263a;
-
     color:var(--text);
 
 }
@@ -218,28 +175,25 @@ body::after{
 
 }
 
+/* MAIN */
+
 .main{
 
     margin-left:250px;
-
     width:calc(100% - 250px);
-
     padding:30px;
 
 }
 
+/* TOPBAR */
+
 .topbar{
 
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     border-bottom:1px solid var(--border);
-
     padding-bottom:22px;
-
     margin-bottom:30px;
 
 }
@@ -247,9 +201,7 @@ body::after{
 .breadcrumb{
 
     color:var(--muted);
-
-    font-size:12px;
-
+    font-size:14px;
     margin-bottom:8px;
 
 }
@@ -262,16 +214,14 @@ body::after{
 
 h1{
 
-    font-size:28px;
+    font-size:30px;
 
 }
 
 .subtitle{
 
     color:var(--muted);
-
-    font-size:13px;
-
+    font-size:15px;
     margin-top:5px;
 
 }
@@ -279,9 +229,7 @@ h1{
 .actions{
 
     display:flex;
-
     align-items:center;
-
     gap:12px;
 
 }
@@ -289,313 +237,187 @@ h1{
 .icon-btn{
 
     background:var(--card);
-
     border:1px solid var(--border);
-
     color:var(--text);
-
     padding:10px 14px;
-
     border-radius:9px;
-
     cursor:pointer;
-
-    font-size:17px;
+    font-size:18px;
 
 }
 
 .user{
 
     display:flex;
-
     align-items:center;
-
     gap:10px;
-
     background:var(--card);
-
     border:1px solid var(--border);
-
     padding:7px 12px;
-
     border-radius:10px;
+    font-size:15px;
 
 }
 
 .avatar{
 
-    width:32px;
-
-    height:32px;
-
+    width:34px;
+    height:34px;
     border-radius:50%;
-
     display:grid;
-
     place-items:center;
-
-    background:linear-gradient(135deg,#00d4ff,#7c3aed);
-
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
     font-weight:bold;
 
 }
 
-.toolbar{
+/* PAGE HEADER */
+
+.page-header{
 
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
-    gap:15px;
-
-    margin-bottom:20px;
+    margin-bottom:22px;
 
 }
 
-.search-box{
+.add-btn{
 
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-
-    background:var(--card);
-
-    border:1px solid var(--border);
-
-    border-radius:10px;
-
-    padding:0 14px;
-
-    flex:1;
-
-    max-width:400px;
-
-}
-
-.search-box span{
-
-    color:#00d4ff;
-
-}
-
-.search-box input{
-
-    width:100%;
-
-    padding:12px 0;
-
-    background:transparent;
-
+    padding:13px 20px;
     border:none;
-
-    outline:none;
-
-    color:var(--text);
-
-    font-family:Poppins,sans-serif;
-
-}
-
-.btn{
-
-    padding:12px 18px;
-
-    border:none;
-
     border-radius:9px;
-
-    cursor:pointer;
-
-    font-family:Poppins,sans-serif;
-
-    font-size:12px;
-
-}
-
-.btn-primary{
-
-    background:linear-gradient(135deg,#00d4ff,#7c3aed);
-
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
     color:white;
+    cursor:pointer;
+    font-family:Poppins,sans-serif;
+    font-size:15px;
 
 }
+
+/* CARD */
 
 .card{
 
     background:var(--card);
-
     border:1px solid var(--border);
-
     border-radius:15px;
+    padding:25px;
 
-    padding:24px;
+}
+
+/* TABLE */
+
+.table-wrapper{
+
+    overflow-x:auto;
 
 }
 
 table{
 
     width:100%;
-
     border-collapse:collapse;
-
-}
-
-th,
-td{
-
-    text-align:left;
-
-    padding:15px 12px;
-
-    border-bottom:1px solid var(--border);
-
-    font-size:13px;
+    min-width:900px;
 
 }
 
 th{
 
-    color:var(--muted);
-
-    font-weight:500;
-
-}
-
-.asset{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-
-}
-
-.asset-icon{
-
-    width:38px;
-
-    height:38px;
-
-    display:grid;
-
-    place-items:center;
-
-    border-radius:10px;
-
-    background:rgba(0,212,255,.12);
-
+    text-align:left;
     color:#00d4ff;
-
-    font-size:18px;
-
-}
-
-.asset-info strong{
-
-    display:block;
-
-    font-size:12px;
+    font-size:14px;
+    padding:15px;
+    border-bottom:1px solid var(--border);
 
 }
 
-.asset-info span{
+td{
 
-    display:block;
-
-    color:var(--muted);
-
-    font-size:10px;
-
-    margin-top:2px;
+    padding:16px 15px;
+    font-size:15px;
+    border-bottom:1px solid var(--border);
 
 }
 
 .status{
 
-    padding:5px 10px;
-
+    display:inline-block;
+    padding:6px 12px;
     border-radius:20px;
-
-    font-size:10px;
+    font-size:13px;
 
 }
 
 .active-status{
 
-    background:#16352d;
-
-    color:#4de2a5;
+    background:rgba(34,197,94,.15);
+    color:#22c55e;
 
 }
 
 .maintenance-status{
 
-    background:#3b321c;
-
-    color:#f5c451;
+    background:rgba(245,158,11,.15);
+    color:#f59e0b;
 
 }
 
 .disposed-status{
 
-    background:#3a2027;
-
-    color:#ff879b;
+    background:rgba(239,68,68,.15);
+    color:#ef4444;
 
 }
 
+/* ACTION BUTTONS */
+
 .action-btn{
 
+    padding:8px 12px;
     border:1px solid var(--border);
-
-    background:transparent;
-
-    color:var(--text);
-
-    padding:7px 10px;
-
     border-radius:7px;
-
+    background:transparent;
+    color:var(--text);
     cursor:pointer;
-
-    margin-right:4px;
+    font-family:Poppins,sans-serif;
+    font-size:13px;
+    margin-right:5px;
 
 }
 
 .action-btn:hover{
 
     border-color:#00d4ff;
-
     color:#00d4ff;
 
 }
 
+/* LIGHT MODE */
+
 body.light-mode{
 
     --bg:#f4f7fb;
-
     --card:#ffffff;
-
     --sidebar:#ffffff;
-
     --border:#dce3ec;
-
     --text:#172033;
-
-    --muted:#64748b;
-
+    --muted:#334155;
     --input:#ffffff;
 
 }
 
 body.light-mode .sidebar a{
 
-    color:#64748b;
+    color:#1e293b;
 
 }
 
@@ -603,8 +425,25 @@ body.light-mode .sidebar a:hover,
 body.light-mode .sidebar a.active{
 
     background:#e8f5ff;
+    color:#0f172a;
 
-    color:#172033;
+}
+
+body.light-mode .nav-title{
+
+    color:#334155;
+
+}
+
+body.light-mode .breadcrumb{
+
+    color:#475569;
+
+}
+
+body.light-mode .subtitle{
+
+    color:#475569;
 
 }
 
@@ -612,35 +451,17 @@ body.light-mode .icon-btn,
 body.light-mode .user{
 
     background:#ffffff;
+    color:#172033;
+
+}
+
+body.light-mode .action-btn{
 
     color:#172033;
 
 }
 
-body.light-mode .card,
-body.light-mode .search-box{
-
-    box-shadow:0 8px 25px rgba(30,50,80,.08);
-
-}
-
-@media(max-width:900px){
-
-    .toolbar{
-
-        flex-direction:column;
-
-        align-items:stretch;
-
-    }
-
-    .search-box{
-
-        max-width:none;
-
-    }
-
-}
+/* RESPONSIVE */
 
 @media(max-width:700px){
 
@@ -653,9 +474,7 @@ body.light-mode .search-box{
     .main{
 
         margin-left:0;
-
         width:100%;
-
         padding:20px;
 
     }
@@ -663,22 +482,22 @@ body.light-mode .search-box{
     .topbar{
 
         flex-direction:column;
-
         align-items:flex-start;
-
         gap:18px;
 
     }
 
-    .card{
+    .page-header{
 
-        overflow:auto;
+        flex-direction:column;
+        align-items:flex-start;
+        gap:15px;
 
     }
 
-    table{
+    .add-btn{
 
-        min-width:900px;
+        width:100%;
 
     }
 
@@ -702,7 +521,7 @@ NEXA <span>HUB</span> AI
 
 <div class="nav-title">
 
-Finance Management
+Business Management
 
 </div>
 
@@ -714,41 +533,65 @@ Dashboard
 
 </a>
 
-<a href="finance_overview.html">
+<a href="customer_list.html">
 
-<span>◉</span>
+<span>♙</span>
 
-Finance Overview
-
-</a>
-
-<a href="income_form.html">
-
-<span>↑</span>
-
-Income
+Customers
 
 </a>
 
-<a href="finance_expense_list.html">
+<a href="employee_list.html">
 
-<span>↓</span>
+<span>♟</span>
 
-Expenses
+Employees
+
+</a>
+
+<a href="attendance_daily.html">
+
+<span>◷</span>
+
+Attendance
+
+</a>
+
+<a href="inventory_dashboard.html">
+
+<span>▣</span>
+
+Inventory
 
 </a>
 
 <a href="finance_asset_list.html" class="active">
 
-<span>◆</span>
+<span>▤</span>
 
 Assets
 
 </a>
 
+<a href="order_list.html">
+
+<span>▱</span>
+
+Orders
+
+</a>
+
+<a href="expense_form.html">
+
+<span>▥</span>
+
+Expenses
+
+</a>
+
 <a href="reports_insights.html">
 
-<span>◈</span>
+<span>◉</span>
 
 Reports
 
@@ -772,7 +615,7 @@ Settings
 
 <div class="breadcrumb">
 
-Finance Management /
+Business Management /
 
 <span>Asset List</span>
 
@@ -786,7 +629,7 @@ Assets
 
 <p class="subtitle">
 
-Track and manage all business assets.
+Manage and track all business assets.
 
 </p>
 
@@ -820,29 +663,27 @@ Admin
 
 </div>
 
-<div class="toolbar">
+<div class="page-header">
 
-<div class="search-box">
+<div></div>
 
-<span>⌕</span>
+<button
 
-<input type="text" placeholder="Search assets...">
+class="add-btn"
 
-</div>
+onclick="location.href='finance_asset_form.html'"
 
-<a href="asset_form.html">
+>
 
-<button class="btn btn-primary">
-
-+ Add Asset
+＋ Add Asset
 
 </button>
-
-</a>
 
 </div>
 
 <div class="card">
+
+<div class="table-wrapper">
 
 <table>
 
@@ -850,19 +691,21 @@ Admin
 
 <tr>
 
-<th>Asset</th>
+<th>Asset Code</th>
+
+<th>Asset Name</th>
 
 <th>Category</th>
 
 <th>Purchase Date</th>
 
-<th>Purchase Value</th>
+<th>Purchase Cost</th>
 
 <th>Current Value</th>
 
 <th>Status</th>
 
-<th>Action</th>
+<th>Actions</th>
 
 </tr>
 
@@ -872,35 +715,17 @@ Admin
 
 <tr>
 
-<td>
+<td>AST-1001</td>
 
-<div class="asset">
-
-<div class="asset-icon">
-
-▣
-
-</div>
-
-<div class="asset-info">
-
-<strong>Office Laptop</strong>
-
-<span>AST-1001</span>
-
-</div>
-
-</div>
-
-</td>
+<td>MacBook Pro</td>
 
 <td>Electronics</td>
 
-<td>15 Jan 2025</td>
+<td>January 15, 2026</td>
 
-<td>$1,200</td>
+<td>$2,499.00</td>
 
-<td>$950</td>
+<td>$2,200.00</td>
 
 <td>
 
@@ -914,13 +739,13 @@ Active
 
 <td>
 
-<button class="action-btn">
+<button
 
-View
+class="action-btn"
 
-</button>
+onclick="location.href='finance_asset_form.html'"
 
-<button class="action-btn">
+>
 
 Edit
 
@@ -932,35 +757,17 @@ Edit
 
 <tr>
 
-<td>
+<td>AST-1002</td>
 
-<div class="asset">
-
-<div class="asset-icon">
-
-▤
-
-</div>
-
-<div class="asset-info">
-
-<strong>Office Furniture</strong>
-
-<span>AST-1002</span>
-
-</div>
-
-</div>
-
-</td>
+<td>Office Furniture</td>
 
 <td>Furniture</td>
 
-<td>20 Mar 2024</td>
+<td>February 10, 2026</td>
 
-<td>$3,500</td>
+<td>$1,250.00</td>
 
-<td>$2,800</td>
+<td>$1,100.00</td>
 
 <td>
 
@@ -974,13 +781,13 @@ Active
 
 <td>
 
-<button class="action-btn">
+<button
 
-View
+class="action-btn"
 
-</button>
+onclick="location.href='finance_asset_form.html'"
 
-<button class="action-btn">
+>
 
 Edit
 
@@ -992,41 +799,23 @@ Edit
 
 <tr>
 
-<td>
+<td>AST-1003</td>
 
-<div class="asset">
-
-<div class="asset-icon">
-
-◆
-
-</div>
-
-<div class="asset-info">
-
-<strong>Delivery Vehicle</strong>
-
-<span>AST-1003</span>
-
-</div>
-
-</div>
-
-</td>
+<td>Delivery Vehicle</td>
 
 <td>Vehicle</td>
 
-<td>10 Aug 2023</td>
+<td>March 05, 2026</td>
 
-<td>$24,000</td>
+<td>$18,500.00</td>
 
-<td>$16,500</td>
+<td>$16,800.00</td>
 
 <td>
 
 <span class="status maintenance-status">
 
-Maintenance
+Under Maintenance
 
 </span>
 
@@ -1034,13 +823,13 @@ Maintenance
 
 <td>
 
-<button class="action-btn">
+<button
 
-View
+class="action-btn"
 
-</button>
+onclick="location.href='finance_asset_form.html'"
 
-<button class="action-btn">
+>
 
 Edit
 
@@ -1052,35 +841,17 @@ Edit
 
 <tr>
 
-<td>
+<td>AST-1004</td>
 
-<div class="asset">
+<td>Old Printer</td>
 
-<div class="asset-icon">
+<td>Equipment</td>
 
-▦
+<td>June 12, 2024</td>
 
-</div>
+<td>$850.00</td>
 
-<div class="asset-info">
-
-<strong>Old Printer</strong>
-
-<span>AST-1004</span>
-
-</div>
-
-</div>
-
-</td>
-
-<td>Electronics</td>
-
-<td>05 Feb 2021</td>
-
-<td>$850</td>
-
-<td>$100</td>
+<td>$0.00</td>
 
 <td>
 
@@ -1094,13 +865,13 @@ Disposed
 
 <td>
 
-<button class="action-btn">
+<button
 
-View
+class="action-btn"
 
-</button>
+onclick="location.href='finance_asset_form.html'"
 
-<button class="action-btn">
+>
 
 Edit
 
@@ -1113,6 +884,8 @@ Edit
 </tbody>
 
 </table>
+
+</div>
 
 </div>
 
@@ -1144,7 +917,9 @@ themeToggle.addEventListener("click",function(){
 
         localStorage.setItem("theme","light");
 
-    }else{
+    }
+
+    else{
 
         themeToggle.textContent = "☾";
 

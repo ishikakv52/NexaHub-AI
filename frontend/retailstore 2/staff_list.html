@@ -33,15 +33,10 @@
 body{
 
     font-family:Poppins,sans-serif;
-
     background:var(--bg);
-
     color:var(--text);
-
     min-height:100vh;
-
     overflow-x:hidden;
-
     transition:.3s ease;
 
 }
@@ -52,21 +47,13 @@ body::before,
 body::after{
 
     content:"";
-
     position:fixed;
-
     width:400px;
-
     height:400px;
-
     border-radius:50%;
-
     filter:blur(110px);
-
     opacity:.20;
-
     z-index:-1;
-
     pointer-events:none;
 
 }
@@ -74,11 +61,8 @@ body::after{
 body::before{
 
     background:#00d4ff;
-
     top:-150px;
-
     left:-100px;
-
     animation:moveOne 12s infinite alternate ease-in-out;
 
 }
@@ -86,11 +70,8 @@ body::before{
 body::after{
 
     background:#7c3aed;
-
     right:-150px;
-
     bottom:-150px;
-
     animation:moveTwo 15s infinite alternate ease-in-out;
 
 }
@@ -98,15 +79,11 @@ body::after{
 @keyframes moveOne{
 
     from{
-
         transform:translate(0,0);
-
     }
 
     to{
-
         transform:translate(180px,180px);
-
     }
 
 }
@@ -114,15 +91,11 @@ body::after{
 @keyframes moveTwo{
 
     from{
-
         transform:translate(0,0);
-
     }
 
     to{
-
         transform:translate(-180px,-150px);
-
     }
 
 }
@@ -132,7 +105,6 @@ body::after{
 .app{
 
     display:flex;
-
     min-height:100vh;
 
 }
@@ -142,27 +114,20 @@ body::after{
 .sidebar{
 
     width:250px;
-
     background:var(--sidebar);
-
     border-right:1px solid var(--border);
-
     padding:25px 15px;
-
     position:fixed;
-
     top:0;
-
     bottom:0;
+    overflow-y:auto;
 
 }
 
 .logo{
 
     font-size:22px;
-
     font-weight:700;
-
     padding:10px 15px 30px;
 
 }
@@ -176,11 +141,8 @@ body::after{
 .nav-title{
 
     color:#748096;
-
-    font-size:11px;
-
+    font-size:13px;
     text-transform:uppercase;
-
     margin:15px;
 
 }
@@ -188,23 +150,14 @@ body::after{
 .sidebar a{
 
     display:flex;
-
     gap:12px;
-
     align-items:center;
-
-    padding:12px 15px;
-
+    padding:13px 15px;
     margin:5px 0;
-
     border-radius:10px;
-
     text-decoration:none;
-
     color:#9ca8ba;
-
-    font-size:13px;
-
+    font-size:15px;
     transition:.3s;
 
 }
@@ -213,7 +166,6 @@ body::after{
 .sidebar a.active{
 
     background:#18263a;
-
     color:var(--text);
 
 }
@@ -229,9 +181,7 @@ body::after{
 .main{
 
     margin-left:250px;
-
     width:calc(100% - 250px);
-
     padding:30px;
 
 }
@@ -241,15 +191,10 @@ body::after{
 .topbar{
 
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     border-bottom:1px solid var(--border);
-
     padding-bottom:22px;
-
     margin-bottom:30px;
 
 }
@@ -257,9 +202,7 @@ body::after{
 .breadcrumb{
 
     color:var(--muted);
-
-    font-size:12px;
-
+    font-size:14px;
     margin-bottom:8px;
 
 }
@@ -272,16 +215,14 @@ body::after{
 
 h1{
 
-    font-size:28px;
+    font-size:30px;
 
 }
 
 .subtitle{
 
     color:var(--muted);
-
-    font-size:13px;
-
+    font-size:15px;
     margin-top:5px;
 
 }
@@ -289,9 +230,7 @@ h1{
 .actions{
 
     display:flex;
-
     align-items:center;
-
     gap:12px;
 
 }
@@ -299,159 +238,52 @@ h1{
 .icon-btn{
 
     background:var(--card);
-
     border:1px solid var(--border);
-
     color:var(--text);
-
     padding:10px 14px;
-
     border-radius:9px;
-
     cursor:pointer;
-
-    font-size:17px;
+    font-size:18px;
 
 }
 
 .user{
 
     display:flex;
-
     align-items:center;
-
     gap:10px;
-
     background:var(--card);
-
     border:1px solid var(--border);
-
     padding:7px 12px;
-
     border-radius:10px;
+    font-size:15px;
 
 }
 
 .avatar{
 
-    width:32px;
-
-    height:32px;
-
+    width:34px;
+    height:34px;
     border-radius:50%;
-
     display:grid;
-
     place-items:center;
-
     background:linear-gradient(
-
         135deg,
-
         #00d4ff,
-
         #7c3aed
-
     );
-
     font-weight:bold;
 
 }
 
-/* STATS */
+/* ACTION BAR */
 
-.stats{
-
-    display:grid;
-
-    grid-template-columns:repeat(4,1fr);
-
-    gap:18px;
-
-    margin-bottom:25px;
-
-}
-
-.stat{
-
-    background:var(--card);
-
-    border:1px solid var(--border);
-
-    border-radius:15px;
-
-    padding:22px;
+.action-bar{
 
     display:flex;
-
-    align-items:center;
-
-    gap:15px;
-
-    transition:.3s;
-
-}
-
-.stat:hover{
-
-    transform:translateY(-5px);
-
-    border-color:#00d4ff;
-
-}
-
-.stat-icon{
-
-    width:48px;
-
-    height:48px;
-
-    display:grid;
-
-    place-items:center;
-
-    border-radius:12px;
-
-    background:rgba(0,212,255,.12);
-
-    color:#00d4ff;
-
-    font-size:22px;
-
-}
-
-.stat span{
-
-    color:var(--muted);
-
-    display:block;
-
-    font-size:12px;
-
-}
-
-.stat strong{
-
-    display:block;
-
-    font-size:23px;
-
-    margin-top:4px;
-
-}
-
-/* TOOLBAR */
-
-.toolbar{
-
-    display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     gap:15px;
-
     margin-bottom:22px;
 
 }
@@ -460,26 +292,19 @@ h1{
 
     flex:1;
 
-    max-width:450px;
-
 }
 
 .search-box input{
 
     width:100%;
-
-    padding:13px 16px;
-
+    max-width:400px;
+    padding:13px 15px;
     border-radius:9px;
-
     border:1px solid var(--border);
-
     background:var(--input);
-
     color:var(--text);
-
     font-family:Poppins,sans-serif;
-
+    font-size:14px;
     outline:none;
 
 }
@@ -490,226 +315,181 @@ h1{
 
 }
 
-.filter-select{
-
-    padding:13px 15px;
-
-    border-radius:9px;
-
-    border:1px solid var(--border);
-
-    background:var(--input);
-
-    color:var(--text);
-
-    font-family:Poppins,sans-serif;
-
-    outline:none;
-
-}
-
 .add-btn{
 
     padding:13px 20px;
-
     border:none;
-
     border-radius:9px;
-
-    cursor:pointer;
-
-    color:white;
-
-    font-family:Poppins,sans-serif;
-
-    font-weight:500;
-
     background:linear-gradient(
-
         135deg,
-
         #00d4ff,
-
         #7c3aed
-
     );
-
-}
-
-/* CARD */
-
-.card{
-
-    background:var(--card);
-
-    border:1px solid var(--border);
-
-    border-radius:15px;
-
-    padding:24px;
-
-    overflow-x:auto;
-
-}
-
-.card h2{
-
-    font-size:18px;
-
-    margin-bottom:20px;
+    color:white;
+    cursor:pointer;
+    font-family:Poppins,sans-serif;
+    font-size:14px;
 
 }
 
 /* TABLE */
 
-table{
+.table-card{
 
-    width:100%;
-
-    min-width:1000px;
-
-    border-collapse:collapse;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:15px;
+    overflow:hidden;
 
 }
 
-th,
-td{
+.table-wrapper{
 
-    text-align:left;
+    overflow-x:auto;
 
-    padding:15px;
+}
 
-    border-bottom:1px solid var(--border);
+table{
 
-    font-size:13px;
+    width:100%;
+    border-collapse:collapse;
+    min-width:950px;
 
 }
 
 th{
 
+    text-align:left;
+    padding:17px 20px;
     color:var(--muted);
-
+    font-size:14px;
     font-weight:500;
+    border-bottom:1px solid var(--border);
 
 }
 
 td{
 
-    color:var(--text);
+    padding:17px 20px;
+    font-size:14px;
+    border-bottom:1px solid var(--border);
 
 }
 
-.staff-info{
+tr:last-child td{
+
+    border-bottom:none;
+
+}
+
+tr:hover{
+
+    background:rgba(0,212,255,.03);
+
+}
+
+/* STAFF */
+
+.staff{
 
     display:flex;
-
     align-items:center;
-
-    gap:10px;
+    gap:12px;
 
 }
 
 .staff-avatar{
 
-    width:36px;
-
-    height:36px;
-
+    width:42px;
+    height:42px;
     border-radius:50%;
-
     display:grid;
-
     place-items:center;
-
     background:linear-gradient(
-
         135deg,
-
         #00d4ff,
-
         #7c3aed
-
     );
-
-    font-size:12px;
-
     font-weight:600;
+    font-size:13px;
 
 }
 
-.staff-name{
+.staff-info strong{
 
+    display:block;
+    font-size:14px;
+
+}
+
+.staff-info span{
+
+    display:block;
+    color:var(--muted);
+    font-size:11px;
+
+}
+
+.department{
+
+    color:#00d4ff;
     font-weight:500;
 
 }
 
-.staff-email{
+.salary{
 
-    color:var(--muted);
-
-    font-size:11px;
+    color:#22c55e;
+    font-weight:600;
 
 }
 
 .status{
 
-    padding:5px 11px;
-
+    display:inline-block;
+    padding:6px 11px;
     border-radius:20px;
-
     font-size:11px;
 
 }
 
-.active-status{
+.status.active{
 
-    background:#16352d;
-
-    color:#4de2a5;
-
-}
-
-.inactive-status{
-
-    background:#3b1c24;
-
-    color:#ff7186;
+    background:rgba(34,197,94,.15);
+    color:#22c55e;
 
 }
 
-.leave-status{
+.status.inactive{
 
-    background:#3b2d16;
+    background:rgba(239,68,68,.15);
+    color:#ef4444;
 
-    color:#ffbf5a;
+}
+
+.action-buttons{
+
+    display:flex;
+    gap:8px;
 
 }
 
 .action-btn{
 
+    padding:8px 12px;
+    border-radius:8px;
     border:1px solid var(--border);
-
     background:transparent;
-
     color:var(--text);
-
-    padding:7px 10px;
-
-    border-radius:7px;
-
     cursor:pointer;
-
-    margin-right:5px;
-
-    transition:.3s;
+    font-family:Poppins,sans-serif;
+    font-size:12px;
 
 }
 
 .action-btn:hover{
 
     border-color:#00d4ff;
-
-    color:#00d4ff;
 
 }
 
@@ -718,24 +498,18 @@ td{
 body.light-mode{
 
     --bg:#f4f7fb;
-
     --card:#ffffff;
-
     --sidebar:#ffffff;
-
     --border:#dce3ec;
-
     --text:#172033;
-
-    --muted:#64748b;
-
+    --muted:#334155;
     --input:#ffffff;
 
 }
 
 body.light-mode .sidebar a{
 
-    color:#64748b;
+    color:#1e293b;
 
 }
 
@@ -743,8 +517,25 @@ body.light-mode .sidebar a:hover,
 body.light-mode .sidebar a.active{
 
     background:#e8f5ff;
+    color:#0f172a;
 
-    color:#172033;
+}
+
+body.light-mode .nav-title{
+
+    color:#334155;
+
+}
+
+body.light-mode .breadcrumb{
+
+    color:#475569;
+
+}
+
+body.light-mode .subtitle{
+
+    color:#475569;
 
 }
 
@@ -752,23 +543,13 @@ body.light-mode .icon-btn,
 body.light-mode .user{
 
     background:#ffffff;
-
     color:#172033;
 
 }
 
-body.light-mode .stat,
-body.light-mode .card{
-
-    box-shadow:0 8px 25px rgba(30,50,80,.08);
-
-}
-
-body.light-mode .search-box input,
-body.light-mode .filter-select{
+body.light-mode .search-box input{
 
     background:#ffffff;
-
     color:#172033;
 
 }
@@ -781,17 +562,30 @@ body.light-mode .action-btn{
 
 /* RESPONSIVE */
 
-@media(max-width:1000px){
+@media(max-width:800px){
 
-    .stats{
+    .action-bar{
 
-        grid-template-columns:repeat(2,1fr);
+        flex-direction:column;
+        align-items:stretch;
+
+    }
+
+    .search-box input{
+
+        max-width:none;
+
+    }
+
+    .add-btn{
+
+        width:100%;
 
     }
 
 }
 
-@media(max-width:750px){
+@media(max-width:700px){
 
     .sidebar{
 
@@ -802,9 +596,7 @@ body.light-mode .action-btn{
     .main{
 
         margin-left:0;
-
         width:100%;
-
         padding:20px;
 
     }
@@ -812,42 +604,8 @@ body.light-mode .action-btn{
     .topbar{
 
         flex-direction:column;
-
         align-items:flex-start;
-
         gap:18px;
-
-    }
-
-    .stats{
-
-        grid-template-columns:1fr;
-
-    }
-
-    .toolbar{
-
-        flex-direction:column;
-
-        align-items:stretch;
-
-    }
-
-    .search-box{
-
-        max-width:none;
-
-    }
-
-    .filter-select{
-
-        width:100%;
-
-    }
-
-    .add-btn{
-
-        width:100%;
 
     }
 
@@ -861,8 +619,6 @@ body.light-mode .action-btn{
 
 <div class="app">
 
-<!-- SIDEBAR -->
-
 <aside class="sidebar">
 
 <div class="logo">
@@ -873,11 +629,11 @@ NEXA <span>HUB</span> AI
 
 <div class="nav-title">
 
-Retail Store
+Business Management
 
 </div>
 
-<a href="portal_dashboard.html">
+<a href="dashboard.html">
 
 <span>⌂</span>
 
@@ -885,17 +641,65 @@ Dashboard
 
 </a>
 
-<a href="product_list.html">
+<a href="customer_list.html">
+
+<span>♙</span>
+
+Customers
+
+</a>
+
+<a href="employee_list.html">
+
+<span>♟</span>
+
+Employees
+
+</a>
+
+<a href="attendance_daily.html">
+
+<span>◷</span>
+
+Attendance
+
+</a>
+
+<a href="inventory_dashboard.html">
 
 <span>▣</span>
 
-Products
+Inventory
+
+</a>
+
+<a href="finance_asset_list.html">
+
+<span>▤</span>
+
+Assets
+
+</a>
+
+<a href="finance_expense_list.html">
+
+<span>▥</span>
+
+Expenses
+
+</a>
+
+<a href="salary_management_list.html">
+
+<span>💰</span>
+
+Salary Management
 
 </a>
 
 <a href="sale_list.html">
 
-<span>▤</span>
+<span>▱</span>
 
 Sales
 
@@ -903,49 +707,25 @@ Sales
 
 <a href="sale_pos.html">
 
-<span>▥</span>
+<span>🛒</span>
 
 POS
 
 </a>
 
-<a href="promotion_dashboard.html">
-
-<span>★</span>
-
-Promotions
-
-</a>
-
-<a href="purchase_order_list.html">
+<a href="portal_dashboard.html">
 
 <span>◈</span>
 
-Purchase Orders
+Portal
 
 </a>
 
-<a href="supplier_list.html">
+<a href="product_list.html">
 
-<span>♙</span>
+<span>▦</span>
 
-Suppliers
-
-</a>
-
-<a href="staff_list.html" class="active">
-
-<span>♧</span>
-
-Staff
-
-</a>
-
-<a href="stock_request_list.html">
-
-<span>▱</span>
-
-Stock Requests
+Products
 
 </a>
 
@@ -967,8 +747,6 @@ Settings
 
 </aside>
 
-<!-- MAIN -->
-
 <main class="main">
 
 <div class="topbar">
@@ -977,7 +755,7 @@ Settings
 
 <div class="breadcrumb">
 
-Retail Store /
+Business Management /
 
 <span>Staff List</span>
 
@@ -985,13 +763,13 @@ Retail Store /
 
 <h1>
 
-Staff Management
+Staff Members
 
 </h1>
 
 <p class="subtitle">
 
-Manage your retail store employees and staff members.
+Manage all staff members and employee records.
 
 </p>
 
@@ -1025,159 +803,39 @@ Admin
 
 </div>
 
-<!-- STATS -->
-
-<div class="stats">
-
-<div class="stat">
-
-<div class="stat-icon">
-
-♧
-
-</div>
-
-<div>
-
-<span>Total Staff</span>
-
-<strong>48</strong>
-
-</div>
-
-</div>
-
-<div class="stat">
-
-<div class="stat-icon">
-
-✓
-
-</div>
-
-<div>
-
-<span>Active Staff</span>
-
-<strong>42</strong>
-
-</div>
-
-</div>
-
-<div class="stat">
-
-<div class="stat-icon">
-
-◷
-
-</div>
-
-<div>
-
-<span>On Leave</span>
-
-<strong>4</strong>
-
-</div>
-
-</div>
-
-<div class="stat">
-
-<div class="stat-icon">
-
-!
-
-</div>
-
-<div>
-
-<span>Inactive</span>
-
-<strong>2</strong>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- TOOLBAR -->
-
-<div class="toolbar">
+<div class="action-bar">
 
 <div class="search-box">
 
 <input
 
-type="search"
+type="text"
 
 id="searchInput"
 
-placeholder="Search staff by name, email or role..."
+placeholder="Search staff members..."
 
 >
 
 </div>
-
-<select
-
-class="filter-select"
-
-id="statusFilter"
-
->
-
-<option value="all">
-
-All Status
-
-</option>
-
-<option value="active">
-
-Active
-
-</option>
-
-<option value="leave">
-
-On Leave
-
-</option>
-
-<option value="inactive">
-
-Inactive
-
-</option>
-
-</select>
 
 <button
 
 class="add-btn"
 
-onclick="location.href='staff_form.html'"
+onclick="window.location.href='staff_form.html'"
 
 >
 
-+ Add Staff
+＋ Add Staff
 
 </button>
 
 </div>
 
-<!-- TABLE -->
+<div class="table-card">
 
-<div class="card">
-
-<h2>
-
-All Staff Members
-
-</h2>
+<div class="table-wrapper">
 
 <table>
 
@@ -1185,19 +843,47 @@ All Staff Members
 
 <tr>
 
-<th>Staff Member</th>
+<th>
 
-<th>Employee ID</th>
+Staff Member
 
-<th>Department</th>
+</th>
 
-<th>Role</th>
+<th>
 
-<th>Joining Date</th>
+Department
 
-<th>Status</th>
+</th>
 
-<th>Actions</th>
+<th>
+
+Position
+
+</th>
+
+<th>
+
+Joining Date
+
+</th>
+
+<th>
+
+Salary
+
+</th>
+
+<th>
+
+Status
+
+</th>
+
+<th>
+
+Actions
+
+</th>
 
 </tr>
 
@@ -1205,31 +891,31 @@ All Staff Members
 
 <tbody id="staffTable">
 
-<tr data-status="active">
+<tr>
 
 <td>
 
-<div class="staff-info">
+<div class="staff">
 
 <div class="staff-avatar">
 
-RK
+RS
 
 </div>
 
-<div>
+<div class="staff-info">
 
-<div class="staff-name">
+<strong>
 
-Rahul Kumar
+Rahul Sharma
 
-</div>
+</strong>
 
-<div class="staff-email">
+<span>
 
-rahul@nexahubai.com
+rahul@example.com
 
-</div>
+</span>
 
 </div>
 
@@ -1237,13 +923,7 @@ rahul@nexahubai.com
 
 </td>
 
-<td>
-
-EMP-1001
-
-</td>
-
-<td>
+<td class="department">
 
 Sales
 
@@ -1251,19 +931,25 @@ Sales
 
 <td>
 
-Sales Executive
+Sales Manager
 
 </td>
 
 <td>
 
-12 Jan 2025
+Jan 15, 2025
+
+</td>
+
+<td class="salary">
+
+$2,500
 
 </td>
 
 <td>
 
-<span class="status active-status">
+<span class="status active">
 
 Active
 
@@ -1272,6 +958,8 @@ Active
 </td>
 
 <td>
+
+<div class="action-buttons">
 
 <button class="action-btn">
 
@@ -1285,35 +973,37 @@ Edit
 
 </button>
 
+</div>
+
 </td>
 
 </tr>
 
-<tr data-status="active">
+<tr>
 
 <td>
 
-<div class="staff-info">
+<div class="staff">
 
 <div class="staff-avatar">
 
-AS
+PV
 
 </div>
 
-<div>
+<div class="staff-info">
 
-<div class="staff-name">
+<strong>
 
-Aman Sharma
+Priya Verma
 
-</div>
+</strong>
 
-<div class="staff-email">
+<span>
 
-aman@nexahubai.com
+priya@example.com
 
-</div>
+</span>
 
 </div>
 
@@ -1321,13 +1011,95 @@ aman@nexahubai.com
 
 </td>
 
-<td>
+<td class="department">
 
-EMP-1002
+Finance
 
 </td>
 
 <td>
+
+Accountant
+
+</td>
+
+<td>
+
+Mar 20, 2025
+
+</td>
+
+<td class="salary">
+
+$2,200
+
+</td>
+
+<td>
+
+<span class="status active">
+
+Active
+
+</span>
+
+</td>
+
+<td>
+
+<div class="action-buttons">
+
+<button class="action-btn">
+
+View
+
+</button>
+
+<button class="action-btn">
+
+Edit
+
+</button>
+
+</div>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+<div class="staff">
+
+<div class="staff-avatar">
+
+AK
+
+</div>
+
+<div class="staff-info">
+
+<strong>
+
+Amit Kumar
+
+</strong>
+
+<span>
+
+amit@example.com
+
+</span>
+
+</div>
+
+</div>
+
+</td>
+
+<td class="department">
 
 Inventory
 
@@ -1341,13 +1113,19 @@ Inventory Manager
 
 <td>
 
-05 Mar 2025
+Jun 10, 2024
+
+</td>
+
+<td class="salary">
+
+$2,000
 
 </td>
 
 <td>
 
-<span class="status active-status">
+<span class="status active">
 
 Active
 
@@ -1357,6 +1135,8 @@ Active
 
 <td>
 
+<div class="action-buttons">
+
 <button class="action-btn">
 
 View
@@ -1369,153 +1149,71 @@ Edit
 
 </button>
 
+</div>
+
 </td>
 
 </tr>
 
-<tr data-status="leave">
+<tr>
 
 <td>
 
-<div class="staff-info">
+<div class="staff">
 
 <div class="staff-avatar">
 
-PS
+NS
 
 </div>
 
-<div>
+<div class="staff-info">
 
-<div class="staff-name">
+<strong>
 
-Priya Singh
+Neha Singh
 
-</div>
+</strong>
 
-<div class="staff-email">
+<span>
 
-priya@nexahubai.com
-
-</div>
-
-</div>
-
-</div>
-
-</td>
-
-<td>
-
-EMP-1003
-
-</td>
-
-<td>
-
-Finance
-
-</td>
-
-<td>
-
-Cashier
-
-</td>
-
-<td>
-
-20 Aug 2024
-
-</td>
-
-<td>
-
-<span class="status leave-status">
-
-On Leave
+neha@example.com
 
 </span>
 
-</td>
-
-<td>
-
-<button class="action-btn">
-
-View
-
-</button>
-
-<button class="action-btn">
-
-Edit
-
-</button>
-
-</td>
-
-</tr>
-
-<tr data-status="inactive">
-
-<td>
-
-<div class="staff-info">
-
-<div class="staff-avatar">
-
-VG
-
-</div>
-
-<div>
-
-<div class="staff-name">
-
-Vikas Gupta
-
-</div>
-
-<div class="staff-email">
-
-vikas@nexahubai.com
-
-</div>
-
 </div>
 
 </div>
 
 </td>
 
-<td>
+<td class="department">
 
-EMP-1004
-
-</td>
-
-<td>
-
-Management
+Human Resources
 
 </td>
 
 <td>
 
-Store Manager
+HR Executive
 
 </td>
 
 <td>
 
-15 May 2023
+Aug 05, 2023
+
+</td>
+
+<td class="salary">
+
+$2,300
 
 </td>
 
 <td>
 
-<span class="status inactive-status">
+<span class="status inactive">
 
 Inactive
 
@@ -1525,6 +1223,8 @@ Inactive
 
 <td>
 
+<div class="action-buttons">
+
 <button class="action-btn">
 
 View
@@ -1536,6 +1236,8 @@ View
 Edit
 
 </button>
+
+</div>
 
 </td>
 
@@ -1547,21 +1249,17 @@ Edit
 
 </div>
 
+</div>
+
 </main>
 
 </div>
 
 <script>
 
-/* THEME */
+const themeToggle = document.getElementById("themeToggle");
 
-const themeToggle =
-
-document.getElementById("themeToggle");
-
-const savedTheme =
-
-localStorage.getItem("theme");
+const savedTheme = localStorage.getItem("theme");
 
 if(savedTheme === "light"){
 
@@ -1581,7 +1279,9 @@ themeToggle.addEventListener("click",function(){
 
         localStorage.setItem("theme","light");
 
-    }else{
+    }
+
+    else{
 
         themeToggle.textContent = "☾";
 
@@ -1591,53 +1291,19 @@ themeToggle.addEventListener("click",function(){
 
 });
 
-/* SEARCH + FILTER */
+document.getElementById("searchInput")
 
-const searchInput =
+.addEventListener("keyup",function(){
 
-document.getElementById("searchInput");
+    const value = this.value.toLowerCase();
 
-const statusFilter =
+    document.querySelectorAll("#staffTable tr")
 
-document.getElementById("statusFilter");
-
-function filterStaff(){
-
-    const searchValue =
-
-    searchInput.value.toLowerCase();
-
-    const statusValue =
-
-    statusFilter.value;
-
-    const rows =
-
-    document.querySelectorAll("#staffTable tr");
-
-    rows.forEach(function(row){
-
-        const text =
-
-        row.textContent.toLowerCase();
-
-        const status =
-
-        row.dataset.status;
-
-        const matchesSearch =
-
-        text.includes(searchValue);
-
-        const matchesStatus =
-
-        statusValue === "all" ||
-
-        status === statusValue;
+    .forEach(function(row){
 
         row.style.display =
 
-        matchesSearch && matchesStatus
+        row.textContent.toLowerCase().includes(value)
 
         ? ""
 
@@ -1645,23 +1311,7 @@ function filterStaff(){
 
     });
 
-}
-
-searchInput.addEventListener(
-
-"keyup",
-
-filterStaff
-
-);
-
-statusFilter.addEventListener(
-
-"change",
-
-filterStaff
-
-);
+});
 
 </script>
 

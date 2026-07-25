@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>NEXA HUB AI | Shopping Cart</title>
+<title>NEXA HUB AI | Cart</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -36,9 +36,12 @@ body{
     background:var(--bg);
     color:var(--text);
     min-height:100vh;
+    overflow-x:hidden;
     transition:.3s ease;
 
 }
+
+/* ANIMATED BACKGROUND */
 
 body::before,
 body::after{
@@ -75,6 +78,10 @@ body::after{
 
 @keyframes moveOne{
 
+    from{
+        transform:translate(0,0);
+    }
+
     to{
         transform:translate(180px,180px);
     }
@@ -83,11 +90,17 @@ body::after{
 
 @keyframes moveTwo{
 
+    from{
+        transform:translate(0,0);
+    }
+
     to{
         transform:translate(-180px,-150px);
     }
 
 }
+
+/* LAYOUT */
 
 .app{
 
@@ -95,6 +108,8 @@ body::after{
     min-height:100vh;
 
 }
+
+/* SIDEBAR */
 
 .sidebar{
 
@@ -125,7 +140,7 @@ body::after{
 .nav-title{
 
     color:#748096;
-    font-size:11px;
+    font-size:13px;
     text-transform:uppercase;
     margin:15px;
 
@@ -136,12 +151,12 @@ body::after{
     display:flex;
     gap:12px;
     align-items:center;
-    padding:12px 15px;
+    padding:13px 15px;
     margin:5px 0;
     border-radius:10px;
     text-decoration:none;
     color:#9ca8ba;
-    font-size:13px;
+    font-size:15px;
     transition:.3s;
 
 }
@@ -160,6 +175,8 @@ body::after{
 
 }
 
+/* MAIN */
+
 .main{
 
     margin-left:250px;
@@ -167,6 +184,8 @@ body::after{
     padding:30px;
 
 }
+
+/* TOPBAR */
 
 .topbar{
 
@@ -182,7 +201,7 @@ body::after{
 .breadcrumb{
 
     color:var(--muted);
-    font-size:12px;
+    font-size:14px;
     margin-bottom:8px;
 
 }
@@ -195,14 +214,14 @@ body::after{
 
 h1{
 
-    font-size:28px;
+    font-size:30px;
 
 }
 
 .subtitle{
 
     color:var(--muted);
-    font-size:13px;
+    font-size:15px;
     margin-top:5px;
 
 }
@@ -223,7 +242,7 @@ h1{
     padding:10px 14px;
     border-radius:9px;
     cursor:pointer;
-    font-size:17px;
+    font-size:18px;
 
 }
 
@@ -236,20 +255,27 @@ h1{
     border:1px solid var(--border);
     padding:7px 12px;
     border-radius:10px;
+    font-size:15px;
 
 }
 
 .avatar{
 
-    width:32px;
-    height:32px;
+    width:34px;
+    height:34px;
     border-radius:50%;
     display:grid;
     place-items:center;
-    background:linear-gradient(135deg,#00d4ff,#7c3aed);
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
     font-weight:bold;
 
 }
+
+/* CART LAYOUT */
 
 .cart-layout{
 
@@ -264,16 +290,18 @@ h1{
     background:var(--card);
     border:1px solid var(--border);
     border-radius:15px;
-    padding:24px;
+    padding:25px;
 
 }
 
 .card h2{
 
-    font-size:18px;
-    margin-bottom:20px;
+    font-size:21px;
+    margin-bottom:22px;
 
 }
+
+/* CART ITEM */
 
 .cart-item{
 
@@ -287,14 +315,17 @@ h1{
 
 .product-image{
 
-    width:70px;
-    height:70px;
+    width:80px;
+    height:80px;
     border-radius:12px;
     display:grid;
     place-items:center;
-    background:linear-gradient(135deg,#18263a,#202d4a);
-    color:#00d4ff;
-    font-size:28px;
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
+    font-size:30px;
 
 }
 
@@ -306,7 +337,7 @@ h1{
 
 .product-info h3{
 
-    font-size:14px;
+    font-size:16px;
     margin-bottom:5px;
 
 }
@@ -314,13 +345,6 @@ h1{
 .product-info p{
 
     color:var(--muted);
-    font-size:11px;
-
-}
-
-.price{
-
-    font-weight:600;
     font-size:14px;
 
 }
@@ -335,31 +359,45 @@ h1{
 
 .quantity button{
 
-    width:28px;
-    height:28px;
+    width:32px;
+    height:32px;
     border:1px solid var(--border);
-    border-radius:6px;
+    border-radius:7px;
     background:transparent;
     color:var(--text);
     cursor:pointer;
+    font-size:17px;
 
 }
 
 .quantity span{
 
-    font-size:13px;
+    font-size:15px;
+    min-width:20px;
+    text-align:center;
 
 }
 
-.remove-btn{
+.price{
+
+    font-size:16px;
+    font-weight:600;
+    min-width:90px;
+    text-align:right;
+
+}
+
+.remove{
 
     border:none;
     background:transparent;
-    color:#ff7186;
+    color:#ef4444;
     cursor:pointer;
     font-size:18px;
 
 }
+
+/* SUMMARY */
 
 .summary-row{
 
@@ -367,17 +405,17 @@ h1{
     justify-content:space-between;
     padding:12px 0;
     color:var(--muted);
-    font-size:13px;
+    font-size:15px;
 
 }
 
 .summary-row.total{
 
     border-top:1px solid var(--border);
-    margin-top:10px;
-    padding-top:18px;
+    margin-top:15px;
+    padding-top:20px;
     color:var(--text);
-    font-size:17px;
+    font-size:19px;
     font-weight:600;
 
 }
@@ -385,16 +423,23 @@ h1{
 .checkout-btn{
 
     width:100%;
-    margin-top:20px;
-    padding:13px;
+    margin-top:25px;
+    padding:14px;
     border:none;
     border-radius:9px;
-    background:linear-gradient(135deg,#00d4ff,#7c3aed);
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
     color:white;
     font-family:Poppins,sans-serif;
+    font-size:15px;
     cursor:pointer;
 
 }
+
+/* LIGHT MODE */
 
 body.light-mode{
 
@@ -403,14 +448,14 @@ body.light-mode{
     --sidebar:#ffffff;
     --border:#dce3ec;
     --text:#172033;
-    --muted:#64748b;
+    --muted:#334155;
     --input:#ffffff;
 
 }
 
 body.light-mode .sidebar a{
 
-    color:#64748b;
+    color:#1e293b;
 
 }
 
@@ -418,7 +463,25 @@ body.light-mode .sidebar a:hover,
 body.light-mode .sidebar a.active{
 
     background:#e8f5ff;
-    color:#172033;
+    color:#0f172a;
+
+}
+
+body.light-mode .nav-title{
+
+    color:#334155;
+
+}
+
+body.light-mode .breadcrumb{
+
+    color:#475569;
+
+}
+
+body.light-mode .subtitle{
+
+    color:#475569;
 
 }
 
@@ -430,17 +493,13 @@ body.light-mode .user{
 
 }
 
-body.light-mode .card{
-
-    box-shadow:0 8px 25px rgba(30,50,80,.08);
-
-}
-
 body.light-mode .quantity button{
 
     color:#172033;
 
 }
+
+/* RESPONSIVE */
 
 @media(max-width:900px){
 
@@ -482,6 +541,12 @@ body.light-mode .quantity button{
 
     }
 
+    .price{
+
+        margin-left:auto;
+
+    }
+
 }
 
 </style>
@@ -491,6 +556,8 @@ body.light-mode .quantity button{
 <body>
 
 <div class="app">
+
+<!-- SIDEBAR -->
 
 <aside class="sidebar">
 
@@ -514,19 +581,19 @@ Dashboard
 
 </a>
 
-<a href="product_list.html">
+<a href="inventory_dashboard.html">
 
 <span>▣</span>
 
-Products
+Inventory
 
 </a>
 
-<a href="sale_list.html">
+<a href="order_list.html">
 
-<span>▤</span>
+<span>▱</span>
 
-Sales
+Orders
 
 </a>
 
@@ -543,14 +610,6 @@ Cart
 <span>♙</span>
 
 Customers
-
-</a>
-
-<a href="delivery_dashboard.html">
-
-<span>▱</span>
-
-Delivery
 
 </a>
 
@@ -572,6 +631,8 @@ Settings
 
 </aside>
 
+<!-- MAIN -->
+
 <main class="main">
 
 <div class="topbar">
@@ -582,7 +643,7 @@ Settings
 
 Business Management /
 
-<span>Shopping Cart</span>
+<span>Cart</span>
 
 </div>
 
@@ -594,7 +655,7 @@ Shopping Cart
 
 <p class="subtitle">
 
-Review products and complete your order.
+Review items and complete your order.
 
 </p>
 
@@ -602,149 +663,241 @@ Review products and complete your order.
 
 <div class="actions">
 
-<button class="icon-btn" id="themeToggle">☾</button>
+<button class="icon-btn" id="themeToggle">
+
+☾
+
+</button>
 
 <div class="user">
 
-<div class="avatar">A</div>
+<div class="avatar">
 
-<span>Admin</span>
+A
+
+</div>
+
+<span>
+
+Admin
+
+</span>
 
 </div>
 
 </div>
 
 </div>
+
+<!-- CART CONTENT -->
 
 <div class="cart-layout">
 
 <div class="card">
 
-<h2>Cart Items</h2>
+<h2>
+
+Cart Items
+
+</h2>
 
 <div class="cart-item">
 
-<div class="product-image">▣</div>
+<div class="product-image">
+
+📦
+
+</div>
 
 <div class="product-info">
 
-<h3>Premium Wireless Headphones</h3>
+<h3>
 
-<p>SKU: WH-1001</p>
+Premium Product
+
+</h3>
+
+<p>
+
+Product Code: PRD-1001
+
+</p>
 
 </div>
 
 <div class="quantity">
 
-<button onclick="changeQty(this,-1)">−</button>
+<button onclick="changeQty(this,-1)">
 
-<span>1</span>
+−
 
-<button onclick="changeQty(this,1)">+</button>
+</button>
 
-</div>
+<span>
 
-<div class="price">$129.00</div>
+1
 
-<button class="remove-btn" onclick="removeItem(this)">×</button>
+</span>
 
-</div>
+<button onclick="changeQty(this,1)">
 
-<div class="cart-item">
++
 
-<div class="product-image">▤</div>
-
-<div class="product-info">
-
-<h3>Smart Watch Pro</h3>
-
-<p>SKU: SW-2001</p>
+</button>
 
 </div>
 
-<div class="quantity">
+<div class="price">
 
-<button onclick="changeQty(this,-1)">−</button>
-
-<span>2</span>
-
-<button onclick="changeQty(this,1)">+</button>
+$49.99
 
 </div>
 
-<div class="price">$198.00</div>
+<button class="remove">
 
-<button class="remove-btn" onclick="removeItem(this)">×</button>
+✕
+
+</button>
 
 </div>
 
 <div class="cart-item">
 
-<div class="product-image">◈</div>
+<div class="product-image">
+
+🛍️
+
+</div>
 
 <div class="product-info">
 
-<h3>Bluetooth Speaker</h3>
+<h3>
 
-<p>SKU: BS-3001</p>
+Business Package
+
+</h3>
+
+<p>
+
+Product Code: PRD-1002
+
+</p>
 
 </div>
 
 <div class="quantity">
 
-<button onclick="changeQty(this,-1)">−</button>
+<button onclick="changeQty(this,-1)">
 
-<span>1</span>
+−
 
-<button onclick="changeQty(this,1)">+</button>
+</button>
+
+<span>
+
+2
+
+</span>
+
+<button onclick="changeQty(this,1)">
+
++
+
+</button>
 
 </div>
 
-<div class="price">$79.00</div>
+<div class="price">
 
-<button class="remove-btn" onclick="removeItem(this)">×</button>
+$99.99
+
+</div>
+
+<button class="remove">
+
+✕
+
+</button>
 
 </div>
 
 </div>
+
+<!-- SUMMARY -->
 
 <div class="card">
 
-<h2>Order Summary</h2>
+<h2>
+
+Order Summary
+
+</h2>
 
 <div class="summary-row">
 
-<span>Subtotal</span>
+<span>
 
-<span>$406.00</span>
+Subtotal
+
+</span>
+
+<span>
+
+$249.97
+
+</span>
 
 </div>
 
 <div class="summary-row">
 
-<span>Shipping</span>
+<span>
 
-<span>$15.00</span>
+Discount
+
+</span>
+
+<span>
+
+-$20.00
+
+</span>
 
 </div>
 
 <div class="summary-row">
 
-<span>Tax</span>
+<span>
 
-<span>$32.48</span>
+Tax
+
+</span>
+
+<span>
+
+$18.40
+
+</span>
 
 </div>
 
 <div class="summary-row total">
 
-<span>Total</span>
+<span>
 
-<span>$453.48</span>
+Total
+
+</span>
+
+<span>
+
+$248.37
+
+</span>
 
 </div>
 
-<button class="checkout-btn" onclick="checkout()">
+<button class="checkout-btn">
 
 Proceed to Checkout
 
@@ -759,6 +912,8 @@ Proceed to Checkout
 </div>
 
 <script>
+
+/* THEME TOGGLE */
 
 const themeToggle = document.getElementById("themeToggle");
 
@@ -782,7 +937,9 @@ themeToggle.addEventListener("click",function(){
 
         localStorage.setItem("theme","light");
 
-    }else{
+    }
+
+    else{
 
         themeToggle.textContent = "☾";
 
@@ -791,6 +948,8 @@ themeToggle.addEventListener("click",function(){
     }
 
 });
+
+/* QUANTITY */
 
 function changeQty(button,change){
 
@@ -807,18 +966,6 @@ function changeQty(button,change){
     }
 
     quantity.textContent = value;
-
-}
-
-function removeItem(button){
-
-    button.closest(".cart-item").remove();
-
-}
-
-function checkout(){
-
-    alert("Proceeding to checkout!");
 
 }
 

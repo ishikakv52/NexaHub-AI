@@ -13,11 +13,9 @@
 <style>
 
 *{
-
     margin:0;
     padding:0;
     box-sizing:border-box;
-
 }
 
 :root{
@@ -28,6 +26,7 @@
     --border:#222d3e;
     --text:#ffffff;
     --muted:#8995a8;
+    --input:#0a0f18;
 
 }
 
@@ -37,9 +36,12 @@ body{
     background:var(--bg);
     color:var(--text);
     min-height:100vh;
+    overflow-x:hidden;
     transition:.3s ease;
 
 }
+
+/* ANIMATED BACKGROUND */
 
 body::before,
 body::after{
@@ -52,6 +54,7 @@ body::after{
     filter:blur(110px);
     opacity:.20;
     z-index:-1;
+    pointer-events:none;
 
 }
 
@@ -60,7 +63,7 @@ body::before{
     background:#00d4ff;
     top:-150px;
     left:-100px;
-    animation:moveOne 12s infinite alternate;
+    animation:moveOne 12s infinite alternate ease-in-out;
 
 }
 
@@ -69,29 +72,35 @@ body::after{
     background:#7c3aed;
     right:-150px;
     bottom:-150px;
-    animation:moveTwo 15s infinite alternate;
+    animation:moveTwo 15s infinite alternate ease-in-out;
 
 }
 
 @keyframes moveOne{
 
+    from{
+        transform:translate(0,0);
+    }
+
     to{
-
         transform:translate(180px,180px);
-
     }
 
 }
 
 @keyframes moveTwo{
 
+    from{
+        transform:translate(0,0);
+    }
+
     to{
-
         transform:translate(-180px,-150px);
-
     }
 
 }
+
+/* LAYOUT */
 
 .app{
 
@@ -99,6 +108,8 @@ body::after{
     min-height:100vh;
 
 }
+
+/* SIDEBAR */
 
 .sidebar{
 
@@ -129,7 +140,7 @@ body::after{
 .nav-title{
 
     color:#748096;
-    font-size:11px;
+    font-size:13px;
     text-transform:uppercase;
     margin:15px;
 
@@ -140,12 +151,13 @@ body::after{
     display:flex;
     gap:12px;
     align-items:center;
-    padding:12px 15px;
+    padding:13px 15px;
     margin:5px 0;
     border-radius:10px;
     text-decoration:none;
     color:#9ca8ba;
-    font-size:13px;
+    font-size:15px;
+    transition:.3s;
 
 }
 
@@ -163,6 +175,8 @@ body::after{
 
 }
 
+/* MAIN */
+
 .main{
 
     margin-left:250px;
@@ -170,6 +184,8 @@ body::after{
     padding:30px;
 
 }
+
+/* TOPBAR */
 
 .topbar{
 
@@ -185,7 +201,7 @@ body::after{
 .breadcrumb{
 
     color:var(--muted);
-    font-size:12px;
+    font-size:14px;
     margin-bottom:8px;
 
 }
@@ -198,14 +214,14 @@ body::after{
 
 h1{
 
-    font-size:28px;
+    font-size:30px;
 
 }
 
 .subtitle{
 
     color:var(--muted);
-    font-size:13px;
+    font-size:15px;
     margin-top:5px;
 
 }
@@ -226,7 +242,7 @@ h1{
     padding:10px 14px;
     border-radius:9px;
     cursor:pointer;
-    font-size:17px;
+    font-size:18px;
 
 }
 
@@ -239,60 +255,83 @@ h1{
     border:1px solid var(--border);
     padding:7px 12px;
     border-radius:10px;
+    font-size:15px;
 
 }
 
 .avatar{
 
-    width:32px;
-    height:32px;
+    width:34px;
+    height:34px;
     border-radius:50%;
     display:grid;
     place-items:center;
-    background:linear-gradient(135deg,#00d4ff,#7c3aed);
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
     font-weight:bold;
 
 }
 
-.delete-box{
+/* DELETE CARD */
 
+.delete-wrapper{
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:65vh;
+
+}
+
+.delete-card{
+
+    width:100%;
     max-width:550px;
-    margin:80px auto;
     background:var(--card);
     border:1px solid var(--border);
-    border-radius:18px;
-    padding:40px;
+    border-radius:16px;
+    padding:35px;
     text-align:center;
 
 }
 
 .delete-icon{
 
-    width:75px;
-    height:75px;
-    margin:0 auto 20px;
+    width:80px;
+    height:80px;
+    margin:0 auto 22px;
+    border-radius:50%;
     display:grid;
     place-items:center;
-    border-radius:50%;
-    background:#3a2028;
-    color:#ff7186;
-    font-size:34px;
+    background:rgba(239,68,68,.15);
+    color:#ef4444;
+    font-size:36px;
 
 }
 
-.delete-box h2{
+.delete-card h2{
 
-    font-size:22px;
+    font-size:24px;
     margin-bottom:12px;
 
 }
 
-.delete-box p{
+.delete-card p{
 
     color:var(--muted);
-    font-size:13px;
+    font-size:15px;
     line-height:1.7;
     margin-bottom:28px;
+
+}
+
+.item-name{
+
+    color:var(--text);
+    font-weight:600;
 
 }
 
@@ -300,35 +339,43 @@ h1{
 
     display:flex;
     justify-content:center;
-    gap:12px;
-
-}
-
-.cancel-btn,
-.delete-btn{
-
-    padding:12px 25px;
-    border-radius:9px;
-    cursor:pointer;
-    font-family:Poppins,sans-serif;
+    gap:14px;
 
 }
 
 .cancel-btn{
 
-    background:transparent;
+    padding:13px 25px;
     border:1px solid var(--border);
+    border-radius:9px;
+    background:transparent;
     color:var(--text);
+    cursor:pointer;
+    font-family:Poppins,sans-serif;
+    font-size:15px;
 
 }
 
 .delete-btn{
 
+    padding:13px 25px;
     border:none;
-    background:#e63956;
+    border-radius:9px;
+    background:#ef4444;
     color:white;
+    cursor:pointer;
+    font-family:Poppins,sans-serif;
+    font-size:15px;
 
 }
+
+.delete-btn:hover{
+
+    background:#dc2626;
+
+}
+
+/* LIGHT MODE */
 
 body.light-mode{
 
@@ -337,13 +384,14 @@ body.light-mode{
     --sidebar:#ffffff;
     --border:#dce3ec;
     --text:#172033;
-    --muted:#64748b;
+    --muted:#334155;
+    --input:#ffffff;
 
 }
 
 body.light-mode .sidebar a{
 
-    color:#64748b;
+    color:#1e293b;
 
 }
 
@@ -351,7 +399,25 @@ body.light-mode .sidebar a:hover,
 body.light-mode .sidebar a.active{
 
     background:#e8f5ff;
-    color:#172033;
+    color:#0f172a;
+
+}
+
+body.light-mode .nav-title{
+
+    color:#334155;
+
+}
+
+body.light-mode .breadcrumb{
+
+    color:#475569;
+
+}
+
+body.light-mode .subtitle{
+
+    color:#475569;
 
 }
 
@@ -363,17 +429,19 @@ body.light-mode .user{
 
 }
 
-body.light-mode .delete-box{
-
-    box-shadow:0 8px 25px rgba(30,50,80,.08);
-
-}
-
 body.light-mode .cancel-btn{
 
     color:#172033;
 
 }
+
+body.light-mode .item-name{
+
+    color:#172033;
+
+}
+
+/* RESPONSIVE */
 
 @media(max-width:700px){
 
@@ -399,10 +467,9 @@ body.light-mode .cancel-btn{
 
     }
 
-    .delete-box{
+    .delete-card{
 
-        margin:40px auto;
-        padding:30px 20px;
+        padding:25px 20px;
 
     }
 
@@ -429,6 +496,8 @@ body.light-mode .cancel-btn{
 
 <div class="app">
 
+<!-- SIDEBAR -->
+
 <aside class="sidebar">
 
 <div class="logo">
@@ -451,11 +520,19 @@ Dashboard
 
 </a>
 
-<a href="product_list.html">
+<a href="inventory_dashboard.html">
 
 <span>▣</span>
 
-Products
+Inventory
+
+</a>
+
+<a href="order_list.html">
+
+<span>▱</span>
+
+Orders
 
 </a>
 
@@ -467,11 +544,11 @@ Customers
 
 </a>
 
-<a href="sale_list.html">
+<a href="delivery_dashboard.html">
 
-<span>▤</span>
+<span>▰</span>
 
-Sales
+Delivery
 
 </a>
 
@@ -492,6 +569,8 @@ Settings
 </a>
 
 </aside>
+
+<!-- MAIN -->
 
 <main class="main">
 
@@ -515,7 +594,7 @@ Confirm Delete
 
 <p class="subtitle">
 
-Please confirm this action before continuing.
+Review this action before permanently deleting the item.
 
 </p>
 
@@ -523,13 +602,25 @@ Please confirm this action before continuing.
 
 <div class="actions">
 
-<button class="icon-btn" id="themeToggle">☾</button>
+<button class="icon-btn" id="themeToggle">
+
+☾
+
+</button>
 
 <div class="user">
 
-<div class="avatar">A</div>
+<div class="avatar">
 
-<span>Admin</span>
+A
+
+</div>
+
+<span>
+
+Admin
+
+</span>
 
 </div>
 
@@ -537,23 +628,35 @@ Please confirm this action before continuing.
 
 </div>
 
-<div class="delete-box">
+<!-- DELETE CONTENT -->
+
+<div class="delete-wrapper">
+
+<div class="delete-card">
 
 <div class="delete-icon">
 
-!
+🗑
 
 </div>
 
 <h2>
 
-Delete This Item?
+Delete Item?
 
 </h2>
 
 <p>
 
-Are you sure you want to delete this item?
+Are you sure you want to delete
+
+<span class="item-name">
+
+this item
+
+</span>
+
+?
 
 This action cannot be undone.
 
@@ -569,9 +672,11 @@ Cancel
 
 <button class="delete-btn" onclick="confirmDelete()">
 
-Yes, Delete
+Delete
 
 </button>
+
+</div>
 
 </div>
 
@@ -582,6 +687,8 @@ Yes, Delete
 </div>
 
 <script>
+
+/* THEME TOGGLE */
 
 const themeToggle = document.getElementById("themeToggle");
 
@@ -605,7 +712,9 @@ themeToggle.addEventListener("click",function(){
 
         localStorage.setItem("theme","light");
 
-    }else{
+    }
+
+    else{
 
         themeToggle.textContent = "☾";
 
@@ -614,6 +723,8 @@ themeToggle.addEventListener("click",function(){
     }
 
 });
+
+/* DELETE ACTION */
 
 function confirmDelete(){
 

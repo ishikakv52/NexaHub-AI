@@ -19,6 +19,7 @@
 }
 
 :root{
+
     --bg:#080b14;
     --card:#101621;
     --sidebar:#0d111c;
@@ -26,18 +27,25 @@
     --text:#ffffff;
     --muted:#8995a8;
     --input:#0a0f18;
+
 }
 
 body{
+
     font-family:Poppins,sans-serif;
     background:var(--bg);
     color:var(--text);
     min-height:100vh;
+    overflow-x:hidden;
     transition:.3s ease;
+
 }
+
+/* ANIMATED BACKGROUND */
 
 body::before,
 body::after{
+
     content:"";
     position:fixed;
     width:400px;
@@ -47,40 +55,64 @@ body::after{
     opacity:.20;
     z-index:-1;
     pointer-events:none;
+
 }
 
 body::before{
+
     background:#00d4ff;
     top:-150px;
     left:-100px;
     animation:moveOne 12s infinite alternate ease-in-out;
+
 }
 
 body::after{
+
     background:#7c3aed;
     right:-150px;
     bottom:-150px;
     animation:moveTwo 15s infinite alternate ease-in-out;
+
 }
 
 @keyframes moveOne{
+
+    from{
+        transform:translate(0,0);
+    }
+
     to{
         transform:translate(180px,180px);
     }
+
 }
 
 @keyframes moveTwo{
+
+    from{
+        transform:translate(0,0);
+    }
+
     to{
         transform:translate(-180px,-150px);
     }
+
 }
+
+/* LAYOUT */
 
 .app{
+
     display:flex;
     min-height:100vh;
+
 }
 
+/* SIDEBAR */
+
 .sidebar{
+
     width:250px;
     background:var(--sidebar);
     border-right:1px solid var(--border);
@@ -88,100 +120,134 @@ body::after{
     position:fixed;
     top:0;
     bottom:0;
+
 }
 
 .logo{
+
     font-size:22px;
     font-weight:700;
     padding:10px 15px 30px;
+
 }
 
 .logo span{
+
     color:#00d4ff;
+
 }
 
 .nav-title{
+
     color:#748096;
-    font-size:11px;
+    font-size:13px;
     text-transform:uppercase;
     margin:15px;
+
 }
 
 .sidebar a{
+
     display:flex;
     gap:12px;
     align-items:center;
-    padding:12px 15px;
+    padding:13px 15px;
     margin:5px 0;
     border-radius:10px;
     text-decoration:none;
     color:#9ca8ba;
-    font-size:13px;
+    font-size:15px;
     transition:.3s;
+
 }
 
 .sidebar a:hover,
 .sidebar a.active{
+
     background:#18263a;
     color:var(--text);
+
 }
 
 .sidebar a span{
+
     color:#00d4ff;
+
 }
 
+/* MAIN */
+
 .main{
+
     margin-left:250px;
     width:calc(100% - 250px);
     padding:30px;
+
 }
 
+/* TOPBAR */
+
 .topbar{
+
     display:flex;
     justify-content:space-between;
     align-items:center;
     border-bottom:1px solid var(--border);
     padding-bottom:22px;
     margin-bottom:30px;
+
 }
 
 .breadcrumb{
+
     color:var(--muted);
-    font-size:12px;
+    font-size:14px;
     margin-bottom:8px;
+
 }
 
 .breadcrumb span{
+
     color:#00d4ff;
+
 }
 
 h1{
-    font-size:28px;
+
+    font-size:30px;
+
 }
 
 .subtitle{
+
     color:var(--muted);
-    font-size:13px;
+    font-size:15px;
     margin-top:5px;
+
 }
 
 .actions{
+
     display:flex;
     align-items:center;
     gap:12px;
+
 }
 
 .icon-btn{
+
     background:var(--card);
     border:1px solid var(--border);
     color:var(--text);
     padding:10px 14px;
     border-radius:9px;
     cursor:pointer;
-    font-size:17px;
+    font-size:18px;
+
 }
 
 .user{
+
     display:flex;
     align-items:center;
     gap:10px;
@@ -189,176 +255,276 @@ h1{
     border:1px solid var(--border);
     padding:7px 12px;
     border-radius:10px;
+    font-size:15px;
+
 }
 
 .avatar{
-    width:32px;
-    height:32px;
+
+    width:34px;
+    height:34px;
     border-radius:50%;
     display:grid;
     place-items:center;
-    background:linear-gradient(135deg,#00d4ff,#7c3aed);
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
     font-weight:bold;
+
 }
 
-.card{
+/* FORM */
+
+.form-card{
+
+    max-width:1000px;
     background:var(--card);
     border:1px solid var(--border);
     border-radius:15px;
-    padding:25px;
-    max-width:1000px;
+    padding:28px;
+
 }
 
-.form-title{
-    font-size:19px;
+.form-card h2{
+
+    font-size:21px;
     margin-bottom:25px;
+
 }
 
 .form-grid{
+
     display:grid;
     grid-template-columns:repeat(2,1fr);
     gap:20px;
+
 }
 
 .form-group{
+
     display:flex;
     flex-direction:column;
     gap:8px;
+
 }
 
 .form-group.full{
-    grid-column:1 / -1;
+
+    grid-column:1/-1;
+
 }
 
 label{
+
     color:var(--muted);
-    font-size:12px;
+    font-size:14px;
+
 }
 
 input,
 select,
 textarea{
-    width:100%;
-    padding:12px 14px;
-    background:var(--input);
-    border:1px solid var(--border);
-    border-radius:9px;
-    color:var(--text);
-    outline:none;
-    font-family:Poppins,sans-serif;
-}
 
-textarea{
-    resize:vertical;
-    min-height:100px;
+    width:100%;
+    padding:14px 15px;
+    border-radius:9px;
+    border:1px solid var(--border);
+    background:var(--input);
+    color:var(--text);
+    font-family:Poppins,sans-serif;
+    font-size:15px;
+    outline:none;
+
 }
 
 input:focus,
 select:focus,
 textarea:focus{
+
     border-color:#00d4ff;
+
 }
 
+textarea{
+
+    min-height:110px;
+    resize:vertical;
+
+}
+
+/* BUTTONS */
+
 .form-actions{
+
     display:flex;
     justify-content:flex-end;
     gap:12px;
-    margin-top:25px;
-}
+    margin-top:28px;
+    padding-top:22px;
+    border-top:1px solid var(--border);
 
-.btn{
-    padding:11px 22px;
-    border-radius:9px;
-    cursor:pointer;
-    font-family:Poppins,sans-serif;
-    font-size:13px;
 }
 
 .cancel-btn{
+
+    padding:13px 22px;
+    border:1px solid var(--border);
+    border-radius:9px;
     background:transparent;
     color:var(--text);
-    border:1px solid var(--border);
+    cursor:pointer;
+    font-family:Poppins,sans-serif;
+    font-size:15px;
+
 }
 
 .save-btn{
-    background:linear-gradient(135deg,#00d4ff,#7c3aed);
-    color:white;
+
+    padding:13px 25px;
     border:none;
+    border-radius:9px;
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
+    color:white;
+    cursor:pointer;
+    font-family:Poppins,sans-serif;
+    font-size:15px;
+
 }
 
+/* LIGHT MODE */
+
 body.light-mode{
+
     --bg:#f4f7fb;
     --card:#ffffff;
     --sidebar:#ffffff;
     --border:#dce3ec;
     --text:#172033;
-    --muted:#64748b;
+    --muted:#334155;
     --input:#ffffff;
+
 }
 
 body.light-mode .sidebar a{
-    color:#64748b;
+
+    color:#1e293b;
+
 }
 
 body.light-mode .sidebar a:hover,
 body.light-mode .sidebar a.active{
+
     background:#e8f5ff;
-    color:#172033;
+    color:#0f172a;
+
+}
+
+body.light-mode .nav-title{
+
+    color:#334155;
+
+}
+
+body.light-mode .breadcrumb{
+
+    color:#475569;
+
+}
+
+body.light-mode .subtitle{
+
+    color:#475569;
+
+}
+
+body.light-mode label{
+
+    color:#334155;
+
 }
 
 body.light-mode .icon-btn,
 body.light-mode .user{
+
     background:#ffffff;
     color:#172033;
-}
 
-body.light-mode .card{
-    box-shadow:0 8px 25px rgba(30,50,80,.08);
 }
 
 body.light-mode input,
 body.light-mode select,
 body.light-mode textarea{
-    color:#172033;
+
     background:#ffffff;
+    color:#172033;
+
 }
 
 body.light-mode .cancel-btn{
+
     color:#172033;
+
+}
+
+/* RESPONSIVE */
+
+@media(max-width:800px){
+
+    .form-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .form-group.full{
+
+        grid-column:auto;
+
+    }
+
 }
 
 @media(max-width:700px){
 
     .sidebar{
+
         display:none;
+
     }
 
     .main{
+
         margin-left:0;
         width:100%;
         padding:20px;
+
     }
 
     .topbar{
+
         flex-direction:column;
         align-items:flex-start;
         gap:18px;
-    }
 
-    .form-grid{
-        grid-template-columns:1fr;
-    }
-
-    .form-group.full{
-        grid-column:auto;
     }
 
     .form-actions{
+
         flex-direction:column;
+
     }
 
-    .btn{
+    .cancel-btn,
+    .save-btn{
+
         width:100%;
+
     }
 
 }
@@ -393,22 +559,6 @@ Dashboard
 
 </a>
 
-<a href="product_list.html">
-
-<span>▣</span>
-
-Products
-
-</a>
-
-<a href="sale_list.html">
-
-<span>▤</span>
-
-Sales
-
-</a>
-
 <a href="customer_list.html" class="active">
 
 <span>♙</span>
@@ -417,11 +567,27 @@ Customers
 
 </a>
 
-<a href="delivery_dashboard.html">
+<a href="attendance_daily.html">
+
+<span>◷</span>
+
+Attendance
+
+</a>
+
+<a href="inventory_dashboard.html">
+
+<span>▣</span>
+
+Inventory
+
+</a>
+
+<a href="order_list.html">
 
 <span>▱</span>
 
-Delivery
+Orders
 
 </a>
 
@@ -465,7 +631,7 @@ Add Customer
 
 <p class="subtitle">
 
-Create a new customer profile.
+Create and manage customer information.
 
 </p>
 
@@ -473,13 +639,25 @@ Create a new customer profile.
 
 <div class="actions">
 
-<button class="icon-btn" id="themeToggle">☾</button>
+<button class="icon-btn" id="themeToggle">
+
+☾
+
+</button>
 
 <div class="user">
 
-<div class="avatar">A</div>
+<div class="avatar">
 
-<span>Admin</span>
+A
+
+</div>
+
+<span>
+
+Admin
+
+</span>
 
 </div>
 
@@ -487,61 +665,131 @@ Create a new customer profile.
 
 </div>
 
-<div class="card">
+<div class="form-card">
 
-<h2 class="form-title">
+<h2>
 
 Customer Information
 
 </h2>
 
-<form>
+<form id="customerForm">
 
 <div class="form-grid">
 
 <div class="form-group">
 
-<label>First Name</label>
+<label>
 
-<input type="text" placeholder="Enter first name">
+First Name
 
-</div>
+</label>
 
-<div class="form-group">
+<input
 
-<label>Last Name</label>
+type="text"
 
-<input type="text" placeholder="Enter last name">
+placeholder="Enter first name"
 
-</div>
+required
 
-<div class="form-group">
-
-<label>Email Address</label>
-
-<input type="email" placeholder="Enter email address">
+>
 
 </div>
 
 <div class="form-group">
 
-<label>Phone Number</label>
+<label>
 
-<input type="tel" placeholder="Enter phone number">
+Last Name
+
+</label>
+
+<input
+
+type="text"
+
+placeholder="Enter last name"
+
+required
+
+>
 
 </div>
 
 <div class="form-group">
 
-<label>Customer Type</label>
+<label>
 
-<select>
+Email Address
 
-<option>Regular</option>
+</label>
 
-<option>Premium</option>
+<input
 
-<option>VIP</option>
+type="email"
+
+placeholder="Enter email address"
+
+required
+
+>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Phone Number
+
+</label>
+
+<input
+
+type="tel"
+
+placeholder="Enter phone number"
+
+required
+
+>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Customer Type
+
+</label>
+
+<select required>
+
+<option value="">
+
+Select customer type
+
+</option>
+
+<option>
+
+Regular
+
+</option>
+
+<option>
+
+VIP
+
+</option>
+
+<option>
+
+Business
+
+</option>
 
 </select>
 
@@ -549,13 +797,25 @@ Customer Information
 
 <div class="form-group">
 
-<label>Status</label>
+<label>
+
+Status
+
+</label>
 
 <select>
 
-<option>Active</option>
+<option>
 
-<option>Inactive</option>
+Active
+
+</option>
+
+<option>
+
+Inactive
+
+</option>
 
 </select>
 
@@ -563,25 +823,71 @@ Customer Information
 
 <div class="form-group full">
 
-<label>Address</label>
+<label>
 
-<textarea placeholder="Enter complete address"></textarea>
+Address
+
+</label>
+
+<input
+
+type="text"
+
+placeholder="Enter customer address"
+
+>
 
 </div>
 
 <div class="form-group">
 
-<label>City</label>
+<label>
 
-<input type="text" placeholder="Enter city">
+City
+
+</label>
+
+<input
+
+type="text"
+
+placeholder="Enter city"
+
+>
 
 </div>
 
 <div class="form-group">
 
-<label>Postal Code</label>
+<label>
 
-<input type="text" placeholder="Enter postal code">
+Postal Code
+
+</label>
+
+<input
+
+type="text"
+
+placeholder="Enter postal code"
+
+>
+
+</div>
+
+<div class="form-group full">
+
+<label>
+
+Notes
+
+</label>
+
+<textarea
+
+placeholder="Enter additional customer details"
+
+></textarea>
 
 </div>
 
@@ -589,13 +895,27 @@ Customer Information
 
 <div class="form-actions">
 
-<button type="button" class="btn cancel-btn">
+<button
+
+type="button"
+
+class="cancel-btn"
+
+onclick="history.back()"
+
+>
 
 Cancel
 
 </button>
 
-<button type="submit" class="btn save-btn">
+<button
+
+type="submit"
+
+class="save-btn"
+
+>
 
 Save Customer
 
@@ -635,13 +955,25 @@ themeToggle.addEventListener("click",function(){
 
         localStorage.setItem("theme","light");
 
-    }else{
+    }
+
+    else{
 
         themeToggle.textContent = "☾";
 
         localStorage.setItem("theme","dark");
 
     }
+
+});
+
+document.getElementById("customerForm")
+
+.addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    alert("Customer saved successfully!");
 
 });
 

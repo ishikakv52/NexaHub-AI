@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>NEXA HUB AI | Create Order</title>
+<title>NEXA HUB AI | Order Form</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -33,38 +33,27 @@
 body{
 
     font-family:Poppins,sans-serif;
-
     background:var(--bg);
-
     color:var(--text);
-
     min-height:100vh;
-
     overflow-x:hidden;
-
     transition:.3s ease;
 
 }
+
+/* ANIMATED BACKGROUND */
 
 body::before,
 body::after{
 
     content:"";
-
     position:fixed;
-
     width:400px;
-
     height:400px;
-
     border-radius:50%;
-
     filter:blur(110px);
-
     opacity:.20;
-
     z-index:-1;
-
     pointer-events:none;
 
 }
@@ -72,11 +61,8 @@ body::after{
 body::before{
 
     background:#00d4ff;
-
     top:-150px;
-
     left:-100px;
-
     animation:moveOne 12s infinite alternate ease-in-out;
 
 }
@@ -84,11 +70,8 @@ body::before{
 body::after{
 
     background:#7c3aed;
-
     right:-150px;
-
     bottom:-150px;
-
     animation:moveTwo 15s infinite alternate ease-in-out;
 
 }
@@ -117,28 +100,25 @@ body::after{
 
 }
 
+/* LAYOUT */
+
 .app{
 
     display:flex;
-
     min-height:100vh;
 
 }
 
+/* SIDEBAR */
+
 .sidebar{
 
     width:250px;
-
     background:var(--sidebar);
-
     border-right:1px solid var(--border);
-
     padding:25px 15px;
-
     position:fixed;
-
     top:0;
-
     bottom:0;
 
 }
@@ -146,9 +126,7 @@ body::after{
 .logo{
 
     font-size:22px;
-
     font-weight:700;
-
     padding:10px 15px 30px;
 
 }
@@ -162,11 +140,8 @@ body::after{
 .nav-title{
 
     color:#748096;
-
-    font-size:11px;
-
+    font-size:13px;
     text-transform:uppercase;
-
     margin:15px;
 
 }
@@ -174,23 +149,14 @@ body::after{
 .sidebar a{
 
     display:flex;
-
     gap:12px;
-
     align-items:center;
-
-    padding:12px 15px;
-
+    padding:13px 15px;
     margin:5px 0;
-
     border-radius:10px;
-
     text-decoration:none;
-
     color:#9ca8ba;
-
-    font-size:13px;
-
+    font-size:15px;
     transition:.3s;
 
 }
@@ -199,7 +165,6 @@ body::after{
 .sidebar a.active{
 
     background:#18263a;
-
     color:var(--text);
 
 }
@@ -210,28 +175,25 @@ body::after{
 
 }
 
+/* MAIN */
+
 .main{
 
     margin-left:250px;
-
     width:calc(100% - 250px);
-
     padding:30px;
 
 }
 
+/* TOPBAR */
+
 .topbar{
 
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     border-bottom:1px solid var(--border);
-
     padding-bottom:22px;
-
     margin-bottom:30px;
 
 }
@@ -239,9 +201,7 @@ body::after{
 .breadcrumb{
 
     color:var(--muted);
-
-    font-size:12px;
-
+    font-size:14px;
     margin-bottom:8px;
 
 }
@@ -254,16 +214,14 @@ body::after{
 
 h1{
 
-    font-size:28px;
+    font-size:30px;
 
 }
 
 .subtitle{
 
     color:var(--muted);
-
-    font-size:13px;
-
+    font-size:15px;
     margin-top:5px;
 
 }
@@ -271,9 +229,7 @@ h1{
 .actions{
 
     display:flex;
-
     align-items:center;
-
     gap:12px;
 
 }
@@ -281,116 +237,89 @@ h1{
 .icon-btn{
 
     background:var(--card);
-
     border:1px solid var(--border);
-
     color:var(--text);
-
     padding:10px 14px;
-
     border-radius:9px;
-
     cursor:pointer;
-
-    font-size:17px;
+    font-size:18px;
 
 }
 
 .user{
 
     display:flex;
-
     align-items:center;
-
     gap:10px;
-
     background:var(--card);
-
     border:1px solid var(--border);
-
     padding:7px 12px;
-
     border-radius:10px;
+    font-size:15px;
 
 }
 
 .avatar{
 
-    width:32px;
-
-    height:32px;
-
+    width:34px;
+    height:34px;
     border-radius:50%;
-
     display:grid;
-
     place-items:center;
-
-    background:linear-gradient(135deg,#00d4ff,#7c3aed);
-
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
     font-weight:bold;
+
+}
+
+/* FORM CARD */
+
+.form-card{
+
+    max-width:1100px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:28px;
+
+}
+
+.form-card h2{
+
+    font-size:21px;
+    margin-bottom:25px;
 
 }
 
 .form-grid{
 
     display:grid;
-
-    grid-template-columns:1.5fr 1fr;
-
-    gap:22px;
-
-}
-
-.card{
-
-    background:var(--card);
-
-    border:1px solid var(--border);
-
-    border-radius:15px;
-
-    padding:24px;
-
-    margin-bottom:22px;
-
-}
-
-.card h2{
-
-    font-size:17px;
-
-    margin-bottom:20px;
-
-}
-
-.form-row{
-
-    display:grid;
-
     grid-template-columns:repeat(2,1fr);
-
-    gap:18px;
-
-    margin-bottom:18px;
+    gap:20px;
 
 }
 
 .form-group{
 
     display:flex;
-
     flex-direction:column;
-
     gap:8px;
+
+}
+
+.form-group.full{
+
+    grid-column:1/-1;
 
 }
 
 label{
 
     color:var(--muted);
-
-    font-size:11px;
+    font-size:14px;
 
 }
 
@@ -399,30 +328,14 @@ select,
 textarea{
 
     width:100%;
-
-    padding:12px 14px;
-
+    padding:14px 15px;
     border-radius:9px;
-
     border:1px solid var(--border);
-
-    outline:none;
-
     background:var(--input);
-
     color:var(--text);
-
     font-family:Poppins,sans-serif;
-
-    font-size:12px;
-
-}
-
-textarea{
-
-    resize:vertical;
-
-    min-height:90px;
+    font-size:15px;
+    outline:none;
 
 }
 
@@ -434,187 +347,174 @@ textarea:focus{
 
 }
 
-.full{
+textarea{
 
-    grid-column:1 / -1;
+    min-height:100px;
+    resize:vertical;
 
 }
 
-.product-row{
+/* ORDER ITEMS */
+
+.items-section{
+
+    grid-column:1/-1;
+    margin-top:10px;
+
+}
+
+.items-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+
+}
+
+.items-header h3{
+
+    font-size:17px;
+
+}
+
+.add-item-btn{
+
+    padding:9px 15px;
+    border:1px solid #00d4ff;
+    border-radius:8px;
+    background:transparent;
+    color:#00d4ff;
+    cursor:pointer;
+    font-family:Poppins,sans-serif;
+    font-size:13px;
+
+}
+
+.item-row{
 
     display:grid;
-
-    grid-template-columns:2fr 1fr 1fr 40px;
-
+    grid-template-columns:2fr 1fr 1fr 1fr auto;
     gap:12px;
-
-    align-items:end;
-
-    padding:15px;
-
-    border:1px solid var(--border);
-
-    border-radius:10px;
-
+    align-items:center;
     margin-bottom:12px;
+
+}
+
+.item-row input,
+.item-row select{
+
+    padding:12px;
 
 }
 
 .remove-btn{
 
-    width:36px;
-
-    height:36px;
-
-    border:1px solid #4a2932;
-
-    background:#321c24;
-
-    color:#ff879b;
-
+    width:38px;
+    height:38px;
+    border:none;
     border-radius:8px;
-
+    background:rgba(239,68,68,.15);
+    color:#ef4444;
     cursor:pointer;
-
-}
-
-.add-btn{
-
-    padding:10px 15px;
-
-    border:1px dashed #00d4ff;
-
-    background:transparent;
-
-    color:#00d4ff;
-
-    border-radius:8px;
-
-    cursor:pointer;
-
-    font-family:Poppins,sans-serif;
-
-    font-size:11px;
-
-}
-
-.summary{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:14px;
-
-}
-
-.summary-row{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    color:var(--muted);
-
-    font-size:12px;
-
-}
-
-.summary-row strong{
-
-    color:var(--text);
-
-}
-
-.total{
-
-    border-top:1px solid var(--border);
-
-    padding-top:15px;
-
-    margin-top:5px;
-
-    font-size:15px;
-
-}
-
-.total strong{
-
-    color:#00d4ff;
-
     font-size:18px;
 
 }
 
-.submit-btn{
+/* TOTAL */
 
-    width:100%;
+.total-box{
 
-    padding:13px;
+    grid-column:1/-1;
+    max-width:400px;
+    margin-left:auto;
+    padding:20px;
+    border:1px solid var(--border);
+    border-radius:10px;
 
-    border:none;
+}
 
-    border-radius:9px;
+.total-row{
 
-    background:linear-gradient(135deg,#00d4ff,#7c3aed);
+    display:flex;
+    justify-content:space-between;
+    padding:9px 0;
+    color:var(--muted);
+    font-size:14px;
 
-    color:white;
+}
 
-    cursor:pointer;
+.total-row.final{
 
-    font-family:Poppins,sans-serif;
+    border-top:1px solid var(--border);
+    margin-top:8px;
+    padding-top:15px;
+    color:var(--text);
+    font-size:19px;
+    font-weight:600;
 
-    font-size:12px;
+}
 
-    margin-top:20px;
+/* BUTTONS */
+
+.form-actions{
+
+    display:flex;
+    justify-content:flex-end;
+    gap:12px;
+    margin-top:28px;
+    padding-top:22px;
+    border-top:1px solid var(--border);
 
 }
 
 .cancel-btn{
 
-    width:100%;
-
-    padding:12px;
-
+    padding:13px 22px;
     border:1px solid var(--border);
-
     border-radius:9px;
-
     background:transparent;
-
     color:var(--text);
-
     cursor:pointer;
-
     font-family:Poppins,sans-serif;
-
-    font-size:12px;
-
-    margin-top:10px;
+    font-size:15px;
 
 }
+
+.save-btn{
+
+    padding:13px 25px;
+    border:none;
+    border-radius:9px;
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
+    color:white;
+    cursor:pointer;
+    font-family:Poppins,sans-serif;
+    font-size:15px;
+
+}
+
+/* LIGHT MODE */
 
 body.light-mode{
 
     --bg:#f4f7fb;
-
     --card:#ffffff;
-
     --sidebar:#ffffff;
-
     --border:#dce3ec;
-
     --text:#172033;
-
-    --muted:#64748b;
-
+    --muted:#334155;
     --input:#ffffff;
 
 }
 
 body.light-mode .sidebar a{
 
-    color:#64748b;
+    color:#1e293b;
 
 }
 
@@ -622,8 +522,25 @@ body.light-mode .sidebar a:hover,
 body.light-mode .sidebar a.active{
 
     background:#e8f5ff;
+    color:#0f172a;
 
-    color:#172033;
+}
+
+body.light-mode .nav-title{
+
+    color:#334155;
+
+}
+
+body.light-mode .breadcrumb{
+
+    color:#475569;
+
+}
+
+body.light-mode .subtitle{
+
+    color:#475569;
 
 }
 
@@ -631,22 +548,38 @@ body.light-mode .icon-btn,
 body.light-mode .user{
 
     background:#ffffff;
+    color:#172033;
+
+}
+
+body.light-mode input,
+body.light-mode select,
+body.light-mode textarea{
+
+    background:#ffffff;
+    color:#172033;
+
+}
+
+body.light-mode .cancel-btn{
 
     color:#172033;
 
 }
 
-body.light-mode .card{
+/* RESPONSIVE */
 
-    box-shadow:0 8px 25px rgba(30,50,80,.08);
+@media(max-width:900px){
 
-}
+    .item-row{
 
-@media(max-width:1000px){
+        grid-template-columns:1fr 1fr;
 
-    .form-grid{
+    }
 
-        grid-template-columns:1fr;
+    .remove-btn{
+
+        width:100%;
 
     }
 
@@ -663,9 +596,7 @@ body.light-mode .card{
     .main{
 
         margin-left:0;
-
         width:100%;
-
         padding:20px;
 
     }
@@ -673,22 +604,48 @@ body.light-mode .card{
     .topbar{
 
         flex-direction:column;
-
         align-items:flex-start;
-
         gap:18px;
 
     }
 
-    .form-row{
+    .form-grid{
 
         grid-template-columns:1fr;
 
     }
 
-    .product-row{
+    .form-group.full,
+    .items-section,
+    .total-box{
+
+        grid-column:auto;
+
+    }
+
+    .item-row{
 
         grid-template-columns:1fr;
+
+    }
+
+    .total-box{
+
+        max-width:100%;
+        margin-left:0;
+
+    }
+
+    .form-actions{
+
+        flex-direction:column;
+
+    }
+
+    .cancel-btn,
+    .save-btn{
+
+        width:100%;
 
     }
 
@@ -712,7 +669,7 @@ NEXA <span>HUB</span> AI
 
 <div class="nav-title">
 
-Order Management
+Business Management
 
 </div>
 
@@ -724,38 +681,6 @@ Dashboard
 
 </a>
 
-<a href="order_list.html">
-
-<span>▤</span>
-
-Orders
-
-</a>
-
-<a href="order_form.html" class="active">
-
-<span>＋</span>
-
-Create Order
-
-</a>
-
-<a href="order_detail.html">
-
-<span>◉</span>
-
-Order Detail
-
-</a>
-
-<a href="manage_inventory.html">
-
-<span>▣</span>
-
-Inventory
-
-</a>
-
 <a href="customer_list.html">
 
 <span>♙</span>
@@ -764,9 +689,57 @@ Customers
 
 </a>
 
+<a href="employee_list.html">
+
+<span>♟</span>
+
+Employees
+
+</a>
+
+<a href="attendance_daily.html">
+
+<span>◷</span>
+
+Attendance
+
+</a>
+
+<a href="inventory_dashboard.html">
+
+<span>▣</span>
+
+Inventory
+
+</a>
+
+<a href="finance_asset_list.html">
+
+<span>▤</span>
+
+Assets
+
+</a>
+
+<a href="finance_expense_list.html">
+
+<span>▥</span>
+
+Expenses
+
+</a>
+
+<a href="order_list.html" class="active">
+
+<span>▱</span>
+
+Orders
+
+</a>
+
 <a href="reports_insights.html">
 
-<span>◈</span>
+<span>◉</span>
 
 Reports
 
@@ -790,21 +763,21 @@ Settings
 
 <div class="breadcrumb">
 
-Order Management /
+Business Management /
 
-<span>Create Order</span>
+<span>Order Form</span>
 
 </div>
 
 <h1>
 
-Create New Order
+Create Order
 
 </h1>
 
 <p class="subtitle">
 
-Create and manage a new customer order.
+Create a new customer order and manage order items.
 
 </p>
 
@@ -838,279 +811,374 @@ Admin
 
 </div>
 
-<div class="form-grid">
-
-<div>
-
-<div class="card">
+<div class="form-card">
 
 <h2>
 
-Customer Information
+Order Information
 
 </h2>
 
-<div class="form-row">
+<form id="orderForm">
+
+<div class="form-grid">
 
 <div class="form-group">
 
-<label>Customer Name</label>
+<label>
 
-<input type="text" placeholder="Enter customer name">
+Customer Name
+
+</label>
+
+<input
+
+type="text"
+
+placeholder="Enter customer name"
+
+required
+
+>
 
 </div>
 
 <div class="form-group">
 
-<label>Phone Number</label>
+<label>
 
-<input type="tel" placeholder="+91 XXXXX XXXXX">
+Customer Phone
+
+</label>
+
+<input
+
+type="tel"
+
+placeholder="Enter phone number"
+
+required
+
+>
 
 </div>
-
-</div>
-
-<div class="form-row">
 
 <div class="form-group">
 
-<label>Email Address</label>
+<label>
 
-<input type="email" placeholder="customer@example.com">
+Order Type
 
-</div>
+</label>
 
-<div class="form-group">
+<select required>
 
-<label>Order Type</label>
+<option value="">
 
-<select>
+Select order type
 
-<option>Standard Order</option>
+</option>
 
-<option>Pickup Order</option>
+<option>
 
-<option>Delivery Order</option>
+Dine In
+
+</option>
+
+<option>
+
+Takeaway
+
+</option>
+
+<option>
+
+Delivery
+
+</option>
 
 </select>
 
 </div>
 
-</div>
-
 <div class="form-group">
 
-<label>Delivery Address</label>
+<label>
 
-<textarea placeholder="Enter delivery address"></textarea>
+Payment Method
+
+</label>
+
+<select required>
+
+<option value="">
+
+Select payment method
+
+</option>
+
+<option>
+
+Cash
+
+</option>
+
+<option>
+
+Card
+
+</option>
+
+<option>
+
+UPI
+
+</option>
+
+</select>
 
 </div>
 
+<div class="form-group full">
+
+<label>
+
+Delivery Address
+
+</label>
+
+<textarea
+
+placeholder="Enter delivery address"
+
+></textarea>
+
 </div>
 
-<div class="card">
+<div class="items-section">
 
-<h2>
+<div class="items-header">
+
+<h3>
 
 Order Items
 
-</h2>
+</h3>
 
-<div class="product-row">
+<button
 
-<div class="form-group">
+type="button"
 
-<label>Product</label>
+class="add-item-btn"
 
-<select>
+id="addItemBtn"
 
-<option>Select Product</option>
+>
 
-<option>Wireless Mouse</option>
+＋ Add Item
 
-<option>USB Cable</option>
+</button>
 
-<option>Keyboard</option>
+</div>
 
-<option>Office Laptop</option>
+<div id="itemsContainer">
+
+<div class="item-row">
+
+<select class="product" required>
+
+<option value="">
+
+Select product
+
+</option>
+
+<option value="8">
+
+Classic Burger
+
+</option>
+
+<option value="4">
+
+Fresh Juice
+
+</option>
+
+<option value="5">
+
+French Fries
+
+</option>
+
+<option value="12">
+
+Veg Pizza
+
+</option>
 
 </select>
 
-</div>
+<input
 
-<div class="form-group">
+type="number"
 
-<label>Quantity</label>
+class="quantity"
 
-<input type="number" value="1" min="1">
+placeholder="Quantity"
 
-</div>
+min="1"
 
-<div class="form-group">
+value="1"
 
-<label>Price</label>
+required
 
-<input type="number" placeholder="0.00">
+>
 
-</div>
+<input
 
-<button class="remove-btn">
+type="number"
+
+class="price"
+
+placeholder="Price"
+
+step="0.01"
+
+required
+
+>
+
+<input
+
+type="number"
+
+class="item-total"
+
+placeholder="Total"
+
+readonly
+
+>
+
+<button
+
+type="button"
+
+class="remove-btn"
+
+>
 
 ×
-
-</button>
-
-</div>
-
-<div class="product-row">
-
-<div class="form-group">
-
-<label>Product</label>
-
-<select>
-
-<option>Select Product</option>
-
-<option>Wireless Mouse</option>
-
-<option>USB Cable</option>
-
-<option>Keyboard</option>
-
-<option>Office Laptop</option>
-
-</select>
-
-</div>
-
-<div class="form-group">
-
-<label>Quantity</label>
-
-<input type="number" value="1" min="1">
-
-</div>
-
-<div class="form-group">
-
-<label>Price</label>
-
-<input type="number" placeholder="0.00">
-
-</div>
-
-<button class="remove-btn">
-
-×
-
-</button>
-
-</div>
-
-<button class="add-btn">
-
-+ Add Another Product
-
 </button>
 
 </div>
 
 </div>
 
-<div>
+</div>
 
-<div class="card">
+<div class="total-box">
 
-<h2>
+<div class="total-row">
 
-Payment & Order Summary
+<span>
 
-</h2>
+Subtotal
 
-<div class="form-group">
+</span>
 
-<label>Payment Method</label>
+<span id="subtotal">
 
-<select>
+$0.00
 
-<option>Cash</option>
-
-<option>UPI</option>
-
-<option>Card</option>
-
-<option>Bank Transfer</option>
-
-</select>
+</span>
 
 </div>
 
-<br>
+<div class="total-row">
 
-<div class="summary">
+<span>
 
-<div class="summary-row">
+Delivery Fee
 
-<span>Subtotal</span>
+</span>
 
-<strong>₹2,450</strong>
+<span id="deliveryFee">
 
-</div>
+$3.00
 
-<div class="summary-row">
-
-<span>Discount</span>
-
-<strong>₹0</strong>
+</span>
 
 </div>
 
-<div class="summary-row">
+<div class="total-row">
 
-<span>Delivery Fee</span>
+<span>
 
-<strong>₹50</strong>
+Discount
 
-</div>
+</span>
 
-<div class="summary-row total">
+<span>
 
-<span>Total Amount</span>
+$0.00
 
-<strong>₹2,500</strong>
-
-</div>
+</span>
 
 </div>
 
-<button class="submit-btn">
+<div class="total-row final">
 
-Create Order
+<span>
 
-</button>
+Grand Total
 
-<button class="cancel-btn">
+</span>
+
+<span id="grandTotal">
+
+$0.00
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="form-actions">
+
+<button
+
+type="button"
+
+class="cancel-btn"
+
+onclick="history.back()"
+
+>
 
 Cancel
 
 </button>
 
-</div>
+<button
 
-<div class="card">
+type="submit"
 
-<h2>
+class="save-btn"
 
-Additional Notes
+>
 
-</h2>
+Create Order
 
-<textarea placeholder="Add any special instructions or notes..."></textarea>
-
-</div>
+</button>
 
 </div>
+
+</form>
 
 </div>
 
@@ -1142,13 +1210,200 @@ themeToggle.addEventListener("click",function(){
 
         localStorage.setItem("theme","light");
 
-    }else{
+    }
+
+    else{
 
         themeToggle.textContent = "☾";
 
         localStorage.setItem("theme","dark");
 
     }
+
+});
+
+/* PRODUCT PRICE */
+
+const itemsContainer = document.getElementById("itemsContainer");
+
+const addItemBtn = document.getElementById("addItemBtn");
+
+function updateTotal(){
+
+    let subtotal = 0;
+
+    const rows = document.querySelectorAll(".item-row");
+
+    rows.forEach(row => {
+
+        const quantity =
+
+            Number(row.querySelector(".quantity").value) || 0;
+
+        const price =
+
+            Number(row.querySelector(".price").value) || 0;
+
+        const total = quantity * price;
+
+        row.querySelector(".item-total").value =
+
+            total.toFixed(2);
+
+        subtotal += total;
+
+    });
+
+    document.getElementById("subtotal").textContent =
+
+        "$" + subtotal.toFixed(2);
+
+    const deliveryFee = 3;
+
+    document.getElementById("grandTotal").textContent =
+
+        "$" + (subtotal + deliveryFee).toFixed(2);
+
+}
+
+function addEvents(row){
+
+    row.querySelector(".quantity")
+
+    .addEventListener("input",updateTotal);
+
+    row.querySelector(".price")
+
+    .addEventListener("input",updateTotal);
+
+    row.querySelector(".remove-btn")
+
+    .addEventListener("click",function(){
+
+        if(document.querySelectorAll(".item-row").length > 1){
+
+            row.remove();
+
+            updateTotal();
+
+        }
+
+    });
+
+}
+
+addEvents(document.querySelector(".item-row"));
+
+addItemBtn.addEventListener("click",function(){
+
+    const newRow = document.createElement("div");
+
+    newRow.className = "item-row";
+
+    newRow.innerHTML = `
+
+<select class="product" required>
+
+<option value="">
+
+Select product
+
+</option>
+
+<option>
+
+Classic Burger
+
+</option>
+
+<option>
+
+Fresh Juice
+
+</option>
+
+<option>
+
+French Fries
+
+</option>
+
+<option>
+
+Veg Pizza
+
+</option>
+
+</select>
+
+<input
+
+type="number"
+
+class="quantity"
+
+placeholder="Quantity"
+
+min="1"
+
+value="1"
+
+required
+
+>
+
+<input
+
+type="number"
+
+class="price"
+
+placeholder="Price"
+
+step="0.01"
+
+required
+
+>
+
+<input
+
+type="number"
+
+class="item-total"
+
+placeholder="Total"
+
+readonly
+
+>
+
+<button
+
+type="button"
+
+class="remove-btn"
+
+>
+
+×
+</button>
+
+`;
+
+    itemsContainer.appendChild(newRow);
+
+    addEvents(newRow);
+
+});
+
+document.getElementById("orderForm")
+
+.addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    alert("Order created successfully!");
 
 });
 

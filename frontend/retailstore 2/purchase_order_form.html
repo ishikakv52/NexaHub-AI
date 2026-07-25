@@ -33,15 +33,10 @@
 body{
 
     font-family:Poppins,sans-serif;
-
     background:var(--bg);
-
     color:var(--text);
-
     min-height:100vh;
-
     overflow-x:hidden;
-
     transition:.3s ease;
 
 }
@@ -52,21 +47,13 @@ body::before,
 body::after{
 
     content:"";
-
     position:fixed;
-
     width:400px;
-
     height:400px;
-
     border-radius:50%;
-
     filter:blur(110px);
-
     opacity:.20;
-
     z-index:-1;
-
     pointer-events:none;
 
 }
@@ -74,11 +61,8 @@ body::after{
 body::before{
 
     background:#00d4ff;
-
     top:-150px;
-
     left:-100px;
-
     animation:moveOne 12s infinite alternate ease-in-out;
 
 }
@@ -86,11 +70,8 @@ body::before{
 body::after{
 
     background:#7c3aed;
-
     right:-150px;
-
     bottom:-150px;
-
     animation:moveTwo 15s infinite alternate ease-in-out;
 
 }
@@ -124,7 +105,6 @@ body::after{
 .app{
 
     display:flex;
-
     min-height:100vh;
 
 }
@@ -134,17 +114,11 @@ body::after{
 .sidebar{
 
     width:250px;
-
     background:var(--sidebar);
-
     border-right:1px solid var(--border);
-
     padding:25px 15px;
-
     position:fixed;
-
     top:0;
-
     bottom:0;
 
 }
@@ -152,9 +126,7 @@ body::after{
 .logo{
 
     font-size:22px;
-
     font-weight:700;
-
     padding:10px 15px 30px;
 
 }
@@ -168,11 +140,8 @@ body::after{
 .nav-title{
 
     color:#748096;
-
-    font-size:11px;
-
+    font-size:13px;
     text-transform:uppercase;
-
     margin:15px;
 
 }
@@ -180,23 +149,14 @@ body::after{
 .sidebar a{
 
     display:flex;
-
     gap:12px;
-
     align-items:center;
-
-    padding:12px 15px;
-
+    padding:13px 15px;
     margin:5px 0;
-
     border-radius:10px;
-
     text-decoration:none;
-
     color:#9ca8ba;
-
-    font-size:13px;
-
+    font-size:15px;
     transition:.3s;
 
 }
@@ -205,7 +165,6 @@ body::after{
 .sidebar a.active{
 
     background:#18263a;
-
     color:var(--text);
 
 }
@@ -221,9 +180,7 @@ body::after{
 .main{
 
     margin-left:250px;
-
     width:calc(100% - 250px);
-
     padding:30px;
 
 }
@@ -233,15 +190,10 @@ body::after{
 .topbar{
 
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     border-bottom:1px solid var(--border);
-
     padding-bottom:22px;
-
     margin-bottom:30px;
 
 }
@@ -249,9 +201,7 @@ body::after{
 .breadcrumb{
 
     color:var(--muted);
-
-    font-size:12px;
-
+    font-size:14px;
     margin-bottom:8px;
 
 }
@@ -264,16 +214,14 @@ body::after{
 
 h1{
 
-    font-size:28px;
+    font-size:30px;
 
 }
 
 .subtitle{
 
     color:var(--muted);
-
-    font-size:13px;
-
+    font-size:15px;
     margin-top:5px;
 
 }
@@ -281,9 +229,7 @@ h1{
 .actions{
 
     display:flex;
-
     align-items:center;
-
     gap:12px;
 
 }
@@ -291,101 +237,75 @@ h1{
 .icon-btn{
 
     background:var(--card);
-
     border:1px solid var(--border);
-
     color:var(--text);
-
     padding:10px 14px;
-
     border-radius:9px;
-
     cursor:pointer;
-
-    font-size:17px;
+    font-size:18px;
 
 }
 
 .user{
 
     display:flex;
-
     align-items:center;
-
     gap:10px;
-
     background:var(--card);
-
     border:1px solid var(--border);
-
     padding:7px 12px;
-
     border-radius:10px;
+    font-size:15px;
 
 }
 
 .avatar{
 
-    width:32px;
-
-    height:32px;
-
+    width:34px;
+    height:34px;
     border-radius:50%;
-
     display:grid;
-
     place-items:center;
-
     background:linear-gradient(
-
         135deg,
-
         #00d4ff,
-
         #7c3aed
-
     );
-
     font-weight:bold;
 
 }
 
-/* FORM CARD */
+/* FORM */
 
 .form-card{
 
-    max-width:1050px;
-
-    margin:auto;
-
+    max-width:1100px;
     background:var(--card);
-
     border:1px solid var(--border);
-
     border-radius:15px;
-
-    padding:30px;
+    padding:28px;
 
 }
 
-/* FORM GRID */
+.form-card h2{
+
+    font-size:21px;
+    margin-bottom:25px;
+
+}
 
 .form-grid{
 
     display:grid;
-
     grid-template-columns:repeat(2,1fr);
-
-    gap:22px;
+    gap:20px;
 
 }
 
 .form-group{
 
     display:flex;
-
     flex-direction:column;
-
     gap:8px;
 
 }
@@ -398,9 +318,8 @@ h1{
 
 label{
 
-    font-size:13px;
-
     color:var(--muted);
+    font-size:14px;
 
 }
 
@@ -409,22 +328,14 @@ select,
 textarea{
 
     width:100%;
-
-    padding:13px 15px;
-
+    padding:14px 15px;
     border-radius:9px;
-
     border:1px solid var(--border);
-
     background:var(--input);
-
     color:var(--text);
-
     font-family:Poppins,sans-serif;
-
+    font-size:15px;
     outline:none;
-
-    transition:.3s;
 
 }
 
@@ -434,14 +345,11 @@ textarea:focus{
 
     border-color:#00d4ff;
 
-    box-shadow:0 0 0 3px rgba(0,212,255,.10);
-
 }
 
 textarea{
 
-    min-height:110px;
-
+    min-height:120px;
     resize:vertical;
 
 }
@@ -451,86 +359,80 @@ textarea{
 .items-section{
 
     grid-column:1/-1;
-
-    border-top:1px solid var(--border);
-
-    padding-top:22px;
+    margin-top:10px;
 
 }
 
-.items-section h2{
+.items-title{
 
-    font-size:18px;
-
-    margin-bottom:18px;
+    font-size:17px;
+    margin-bottom:15px;
 
 }
 
 .item-row{
 
     display:grid;
-
     grid-template-columns:2fr 1fr 1fr 1fr auto;
-
     gap:12px;
-
+    align-items:end;
     margin-bottom:12px;
 
 }
 
 .remove-btn{
 
-    border:1px solid #5b2631;
-
-    background:#321820;
-
-    color:#ff7186;
-
-    padding:10px 13px;
-
-    border-radius:8px;
-
-    cursor:pointer;
-
-}
-
-.add-item{
-
-    border:1px dashed #34445a;
-
+    padding:12px 14px;
+    border:1px solid #ef4444;
     background:transparent;
-
-    color:#00d4ff;
-
-    padding:10px 15px;
-
+    color:#ef4444;
     border-radius:8px;
-
     cursor:pointer;
-
-    font-family:Poppins,sans-serif;
+    font-size:16px;
 
 }
 
-/* TOTAL */
+.add-item-btn{
 
-.total-box{
+    padding:11px 18px;
+    border:1px dashed #00d4ff;
+    background:transparent;
+    color:#00d4ff;
+    border-radius:8px;
+    cursor:pointer;
+    font-family:Poppins,sans-serif;
+    font-size:13px;
+
+}
+
+/* SUMMARY */
+
+.summary{
+
+    grid-column:1/-1;
+    margin-top:10px;
+    padding:20px;
+    border:1px solid var(--border);
+    border-radius:12px;
+
+}
+
+.summary-row{
 
     display:flex;
-
-    justify-content:flex-end;
-
-    margin-top:22px;
-
-    padding-top:18px;
-
-    border-top:1px solid var(--border);
+    justify-content:space-between;
+    margin-bottom:10px;
+    font-size:14px;
 
 }
 
-.total-box strong{
+.summary-row.total{
 
-    font-size:22px;
+    border-top:1px solid var(--border);
+    padding-top:14px;
+    margin-top:14px;
+    font-size:18px;
+    font-weight:600;
 
 }
 
@@ -539,58 +441,41 @@ textarea{
 .form-actions{
 
     display:flex;
-
     justify-content:flex-end;
-
     gap:12px;
-
-    margin-top:30px;
-
+    margin-top:28px;
     padding-top:22px;
-
     border-top:1px solid var(--border);
 
 }
 
-.btn{
+.cancel-btn{
 
-    padding:12px 22px;
-
-    border-radius:9px;
-
-    cursor:pointer;
-
-    font-family:Poppins,sans-serif;
-
-    font-weight:500;
-
-    border:none;
-
-}
-
-.btn-primary{
-
-    background:linear-gradient(
-
-        135deg,
-
-        #00d4ff,
-
-        #7c3aed
-
-    );
-
-    color:white;
-
-}
-
-.btn-secondary{
-
-    background:transparent;
-
+    padding:13px 22px;
     border:1px solid var(--border);
-
+    border-radius:9px;
+    background:transparent;
     color:var(--text);
+    cursor:pointer;
+    font-family:Poppins,sans-serif;
+    font-size:15px;
+
+}
+
+.save-btn{
+
+    padding:13px 25px;
+    border:none;
+    border-radius:9px;
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
+    color:white;
+    cursor:pointer;
+    font-family:Poppins,sans-serif;
+    font-size:15px;
 
 }
 
@@ -599,30 +484,18 @@ textarea{
 body.light-mode{
 
     --bg:#f4f7fb;
-
     --card:#ffffff;
-
     --sidebar:#ffffff;
-
     --border:#dce3ec;
-
     --text:#172033;
-
-    --muted:#64748b;
-
+    --muted:#334155;
     --input:#ffffff;
-
-}
-
-body.light-mode .sidebar{
-
-    background:var(--sidebar);
 
 }
 
 body.light-mode .sidebar a{
 
-    color:#64748b;
+    color:#1e293b;
 
 }
 
@@ -630,8 +503,25 @@ body.light-mode .sidebar a:hover,
 body.light-mode .sidebar a.active{
 
     background:#e8f5ff;
+    color:#0f172a;
 
-    color:#172033;
+}
+
+body.light-mode .nav-title{
+
+    color:#334155;
+
+}
+
+body.light-mode .breadcrumb{
+
+    color:#475569;
+
+}
+
+body.light-mode .subtitle{
+
+    color:#475569;
 
 }
 
@@ -639,16 +529,7 @@ body.light-mode .icon-btn,
 body.light-mode .user{
 
     background:#ffffff;
-
     color:#172033;
-
-    border-color:var(--border);
-
-}
-
-body.light-mode .form-card{
-
-    box-shadow:0 8px 25px rgba(30,50,80,.08);
 
 }
 
@@ -657,6 +538,11 @@ body.light-mode select,
 body.light-mode textarea{
 
     background:#ffffff;
+    color:#172033;
+
+}
+
+body.light-mode .cancel-btn{
 
     color:#172033;
 
@@ -683,7 +569,8 @@ body.light-mode textarea{
     }
 
     .form-group.full,
-    .items-section{
+    .items-section,
+    .summary{
 
         grid-column:auto;
 
@@ -691,7 +578,7 @@ body.light-mode textarea{
 
 }
 
-@media(max-width:600px){
+@media(max-width:700px){
 
     .sidebar{
 
@@ -702,9 +589,7 @@ body.light-mode textarea{
     .main{
 
         margin-left:0;
-
         width:100%;
-
         padding:20px;
 
     }
@@ -712,16 +597,8 @@ body.light-mode textarea{
     .topbar{
 
         flex-direction:column;
-
         align-items:flex-start;
-
         gap:18px;
-
-    }
-
-    .form-card{
-
-        padding:20px;
 
     }
 
@@ -737,7 +614,8 @@ body.light-mode textarea{
 
     }
 
-    .btn{
+    .cancel-btn,
+    .save-btn{
 
         width:100%;
 
@@ -753,8 +631,6 @@ body.light-mode textarea{
 
 <div class="app">
 
-<!-- SIDEBAR -->
-
 <aside class="sidebar">
 
 <div class="logo">
@@ -765,11 +641,11 @@ NEXA <span>HUB</span> AI
 
 <div class="nav-title">
 
-Retail Store
+Business Management
 
 </div>
 
-<a href="portal_dashboard.html">
+<a href="dashboard.html">
 
 <span>⌂</span>
 
@@ -777,33 +653,81 @@ Dashboard
 
 </a>
 
-<a href="product_list.html">
+<a href="customer_list.html">
+
+<span>♙</span>
+
+Customers
+
+</a>
+
+<a href="employee_list.html">
+
+<span>♟</span>
+
+Employees
+
+</a>
+
+<a href="attendance_daily.html">
+
+<span>◷</span>
+
+Attendance
+
+</a>
+
+<a href="inventory_dashboard.html">
 
 <span>▣</span>
+
+Inventory
+
+</a>
+
+<a href="finance_asset_list.html">
+
+<span>▤</span>
+
+Assets
+
+</a>
+
+<a href="finance_expense_list.html">
+
+<span>▥</span>
+
+Expenses
+
+</a>
+
+<a href="order_list.html">
+
+<span>▱</span>
+
+Orders
+
+</a>
+
+<a href="portal_dashboard.html">
+
+<span>◈</span>
+
+Portal
+
+</a>
+
+<a href="product_list.html">
+
+<span>▦</span>
 
 Products
 
 </a>
 
-<a href="sale_list.html">
-
-<span>▤</span>
-
-Sales
-
-</a>
-
-<a href="sale_pos.html">
-
-<span>▥</span>
-
-POS
-
-</a>
-
 <a href="promotion_dashboard.html">
 
-<span>★</span>
+<span>％</span>
 
 Promotions
 
@@ -811,25 +735,9 @@ Promotions
 
 <a href="purchase_order_list.html" class="active">
 
-<span>◈</span>
+<span>▤</span>
 
 Purchase Orders
-
-</a>
-
-<a href="supplier_list.html">
-
-<span>♙</span>
-
-Suppliers
-
-</a>
-
-<a href="staff_list.html">
-
-<span>♧</span>
-
-Staff
 
 </a>
 
@@ -851,8 +759,6 @@ Settings
 
 </aside>
 
-<!-- MAIN -->
-
 <main class="main">
 
 <div class="topbar">
@@ -861,7 +767,7 @@ Settings
 
 <div class="breadcrumb">
 
-Retail Store /
+Business Management /
 
 <span>Purchase Order Form</span>
 
@@ -875,7 +781,7 @@ Create Purchase Order
 
 <p class="subtitle">
 
-Create a new purchase order for your retail inventory.
+Create and manage supplier purchase orders.
 
 </p>
 
@@ -909,11 +815,15 @@ Admin
 
 </div>
 
-<!-- FORM -->
-
 <div class="form-card">
 
-<form>
+<h2>
+
+Purchase Order Information
+
+</h2>
+
+<form id="purchaseOrderForm">
 
 <div class="form-grid">
 
@@ -921,21 +831,39 @@ Admin
 
 <label>
 
-Supplier
+Supplier Name
 
 </label>
 
-<select>
+<input
 
-<option>Select Supplier</option>
+type="text"
 
-<option>Tech Supplier India</option>
+placeholder="Enter supplier name"
 
-<option>Global Traders</option>
+required
 
-<option>Smart Distributors</option>
+>
 
-</select>
+</div>
+
+<div class="form-group">
+
+<label>
+
+Purchase Order Number
+
+</label>
+
+<input
+
+type="text"
+
+placeholder="PO-1001"
+
+required
+
+>
 
 </div>
 
@@ -951,7 +879,7 @@ Order Date
 
 type="date"
 
-value="2026-07-25"
+required
 
 >
 
@@ -983,15 +911,67 @@ Payment Terms
 
 <select>
 
-<option>Select Payment Terms</option>
+<option>
 
-<option>Cash</option>
+Cash
 
-<option>Credit - 15 Days</option>
+</option>
 
-<option>Credit - 30 Days</option>
+<option>
 
-<option>Credit - 60 Days</option>
+Net 15 Days
+
+</option>
+
+<option>
+
+Net 30 Days
+
+</option>
+
+<option>
+
+Net 60 Days
+
+</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Status
+
+</label>
+
+<select>
+
+<option>
+
+Draft
+
+</option>
+
+<option>
+
+Pending
+
+</option>
+
+<option>
+
+Approved
+
+</option>
+
+<option>
+
+Received
+
+</option>
 
 </select>
 
@@ -1001,7 +981,7 @@ Payment Terms
 
 <label>
 
-Shipping Address
+Delivery Address
 
 </label>
 
@@ -1015,59 +995,99 @@ placeholder="Enter delivery address"
 
 <div class="items-section">
 
-<h2>
+<div class="items-title">
 
 Order Items
 
-</h2>
+</div>
 
 <div id="itemsContainer">
 
 <div class="item-row">
 
-<select>
+<div class="form-group">
 
-<option>Select Product</option>
+<label>
 
-<option>Samsung Galaxy S24</option>
+Product
 
-<option>Dell Inspiron Laptop</option>
+</label>
 
-<option>Wireless Headphones</option>
+<input
 
-<option>Smart Watch Pro</option>
+type="text"
 
-</select>
+placeholder="Product name"
+
+>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Quantity
+
+</label>
 
 <input
 
 type="number"
 
-placeholder="Quantity"
+class="quantity"
 
 value="1"
 
+min="1"
+
 >
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Unit Price
+
+</label>
 
 <input
 
 type="number"
 
-placeholder="Unit Price"
+class="price"
 
-value="0"
+placeholder="0.00"
+
+step="0.01"
 
 >
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Total
+
+</label>
 
 <input
 
 type="number"
 
-placeholder="Total"
+class="total"
 
-value="0"
+placeholder="0.00"
+
+readonly
 
 >
+
+</div>
 
 <button
 
@@ -1079,8 +1099,7 @@ onclick="removeItem(this)"
 
 >
 
-× Remove
-
+×
 </button>
 
 </div>
@@ -1091,15 +1110,67 @@ onclick="removeItem(this)"
 
 type="button"
 
-class="add-item"
+class="add-item-btn"
 
 onclick="addItem()"
 
 >
 
-+ Add Item
+＋ Add Item
 
 </button>
+
+</div>
+
+<div class="summary">
+
+<div class="summary-row">
+
+<span>
+
+Subtotal
+
+</span>
+
+<strong id="subtotal">
+
+$0.00
+
+</strong>
+
+</div>
+
+<div class="summary-row">
+
+<span>
+
+Tax
+
+</span>
+
+<strong id="tax">
+
+$0.00
+
+</strong>
+
+</div>
+
+<div class="summary-row total">
+
+<span>
+
+Grand Total
+
+</span>
+
+<strong id="grandTotal">
+
+$0.00
+
+</strong>
+
+</div>
 
 </div>
 
@@ -1113,21 +1184,11 @@ Notes
 
 <textarea
 
-placeholder="Add any additional notes..."
+placeholder="Enter additional notes"
 
 ></textarea>
 
 </div>
-
-</div>
-
-<div class="total-box">
-
-<strong>
-
-Total: ₹0
-
-</strong>
 
 </div>
 
@@ -1137,9 +1198,9 @@ Total: ₹0
 
 type="button"
 
-class="btn btn-secondary"
+class="cancel-btn"
 
-onclick="location.href='purchase_order_list.html'"
+onclick="history.back()"
 
 >
 
@@ -1151,11 +1212,11 @@ Cancel
 
 type="submit"
 
-class="btn btn-primary"
+class="save-btn"
 
 >
 
-Create Purchase Order
+Save Purchase Order
 
 </button>
 
@@ -1171,13 +1232,9 @@ Create Purchase Order
 
 <script>
 
-const themeToggle =
+const themeToggle = document.getElementById("themeToggle");
 
-document.getElementById("themeToggle");
-
-const savedTheme =
-
-localStorage.getItem("theme");
+const savedTheme = localStorage.getItem("theme");
 
 if(savedTheme === "light"){
 
@@ -1197,7 +1254,9 @@ themeToggle.addEventListener("click",function(){
 
         localStorage.setItem("theme","light");
 
-    }else{
+    }
+
+    else{
 
         themeToggle.textContent = "☾";
 
@@ -1207,11 +1266,11 @@ themeToggle.addEventListener("click",function(){
 
 });
 
+/* ADD ITEM */
+
 function addItem(){
 
-    const container =
-
-    document.getElementById("itemsContainer");
+    const container = document.getElementById("itemsContainer");
 
     const row = document.createElement("div");
 
@@ -1219,37 +1278,41 @@ function addItem(){
 
     row.innerHTML = `
 
-        <select>
+        <div class="form-group">
 
-            <option>Select Product</option>
+            <label>Product</label>
 
-            <option>Samsung Galaxy S24</option>
+            <input type="text" placeholder="Product name">
 
-            <option>Dell Inspiron Laptop</option>
+        </div>
 
-            <option>Wireless Headphones</option>
+        <div class="form-group">
 
-            <option>Smart Watch Pro</option>
+            <label>Quantity</label>
 
-        </select>
+            <input type="number" class="quantity" value="1" min="1">
 
-        <input type="number" placeholder="Quantity">
+        </div>
 
-        <input type="number" placeholder="Unit Price">
+        <div class="form-group">
 
-        <input type="number" placeholder="Total">
+            <label>Unit Price</label>
 
-        <button
+            <input type="number" class="price" placeholder="0.00" step="0.01">
 
-            type="button"
+        </div>
 
-            class="remove-btn"
+        <div class="form-group">
 
-            onclick="removeItem(this)"
+            <label>Total</label>
 
-        >
+            <input type="number" class="total" placeholder="0.00" readonly>
 
-            × Remove
+        </div>
+
+        <button type="button" class="remove-btn" onclick="removeItem(this)">
+
+            ×
 
         </button>
 
@@ -1257,21 +1320,83 @@ function addItem(){
 
     container.appendChild(row);
 
+    calculateTotal();
+
 }
 
 function removeItem(button){
 
-    const rows =
+    button.parentElement.remove();
 
-    document.querySelectorAll(".item-row");
+    calculateTotal();
 
-    if(rows.length > 1){
+}
 
-        button.parentElement.remove();
+document.addEventListener("input",function(e){
+
+    if(
+
+        e.target.classList.contains("quantity") ||
+
+        e.target.classList.contains("price")
+
+    ){
+
+        calculateTotal();
 
     }
 
+});
+
+function calculateTotal(){
+
+    let subtotal = 0;
+
+    document.querySelectorAll(".item-row").forEach(function(row){
+
+        const quantity =
+
+        parseFloat(row.querySelector(".quantity").value) || 0;
+
+        const price =
+
+        parseFloat(row.querySelector(".price").value) || 0;
+
+        const total = quantity * price;
+
+        row.querySelector(".total").value = total.toFixed(2);
+
+        subtotal += total;
+
+    });
+
+    const tax = subtotal * 0.05;
+
+    const grandTotal = subtotal + tax;
+
+    document.getElementById("subtotal").textContent =
+
+        "$" + subtotal.toFixed(2);
+
+    document.getElementById("tax").textContent =
+
+        "$" + tax.toFixed(2);
+
+    document.getElementById("grandTotal").textContent =
+
+        "$" + grandTotal.toFixed(2);
+
 }
+
+document.getElementById("purchaseOrderForm")
+
+.addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    alert("Purchase order saved successfully!");
+
+});
 
 </script>
 

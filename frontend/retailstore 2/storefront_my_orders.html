@@ -21,8 +21,8 @@
 :root{
 
     --bg:#080b14;
-    --card:#101621;
     --sidebar:#0d111c;
+    --card:#101621;
     --border:#222d3e;
     --text:#ffffff;
     --muted:#8995a8;
@@ -33,15 +33,10 @@
 body{
 
     font-family:Poppins,sans-serif;
-
     background:var(--bg);
-
     color:var(--text);
-
     min-height:100vh;
-
     overflow-x:hidden;
-
     transition:.3s ease;
 
 }
@@ -52,21 +47,13 @@ body::before,
 body::after{
 
     content:"";
-
     position:fixed;
-
-    width:400px;
-
-    height:400px;
-
+    width:430px;
+    height:430px;
     border-radius:50%;
-
-    filter:blur(110px);
-
+    filter:blur(120px);
     opacity:.20;
-
     z-index:-1;
-
     pointer-events:none;
 
 }
@@ -74,11 +61,8 @@ body::after{
 body::before{
 
     background:#00d4ff;
-
-    top:-150px;
-
-    left:-100px;
-
+    top:-160px;
+    left:-120px;
     animation:moveOne 12s infinite alternate ease-in-out;
 
 }
@@ -86,11 +70,8 @@ body::before{
 body::after{
 
     background:#7c3aed;
-
-    right:-150px;
-
-    bottom:-150px;
-
+    right:-160px;
+    bottom:-160px;
     animation:moveTwo 15s infinite alternate ease-in-out;
 
 }
@@ -98,15 +79,11 @@ body::after{
 @keyframes moveOne{
 
     from{
-
         transform:translate(0,0);
-
     }
 
     to{
-
         transform:translate(180px,180px);
-
     }
 
 }
@@ -114,25 +91,20 @@ body::after{
 @keyframes moveTwo{
 
     from{
-
         transform:translate(0,0);
-
     }
 
     to{
-
         transform:translate(-180px,-150px);
-
     }
 
 }
 
-/* LAYOUT */
+/* APP */
 
 .app{
 
     display:flex;
-
     min-height:100vh;
 
 }
@@ -142,27 +114,21 @@ body::after{
 .sidebar{
 
     width:250px;
-
     background:var(--sidebar);
-
     border-right:1px solid var(--border);
-
     padding:25px 15px;
-
     position:fixed;
-
     top:0;
-
     bottom:0;
+    overflow-y:auto;
+    z-index:20;
 
 }
 
 .logo{
 
     font-size:22px;
-
     font-weight:700;
-
     padding:10px 15px 30px;
 
 }
@@ -176,11 +142,8 @@ body::after{
 .nav-title{
 
     color:#748096;
-
-    font-size:11px;
-
+    font-size:12px;
     text-transform:uppercase;
-
     margin:15px;
 
 }
@@ -188,23 +151,14 @@ body::after{
 .sidebar a{
 
     display:flex;
-
-    gap:12px;
-
     align-items:center;
-
-    padding:12px 15px;
-
+    gap:12px;
+    padding:13px 15px;
     margin:5px 0;
-
     border-radius:10px;
-
     text-decoration:none;
-
     color:#9ca8ba;
-
-    font-size:13px;
-
+    font-size:14px;
     transition:.3s;
 
 }
@@ -213,13 +167,13 @@ body::after{
 .sidebar a.active{
 
     background:#18263a;
-
     color:var(--text);
 
 }
 
 .sidebar a span{
 
+    width:22px;
     color:#00d4ff;
 
 }
@@ -229,9 +183,7 @@ body::after{
 .main{
 
     margin-left:250px;
-
     width:calc(100% - 250px);
-
     padding:30px;
 
 }
@@ -241,15 +193,10 @@ body::after{
 .topbar{
 
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     border-bottom:1px solid var(--border);
-
     padding-bottom:22px;
-
     margin-bottom:30px;
 
 }
@@ -257,9 +204,7 @@ body::after{
 .breadcrumb{
 
     color:var(--muted);
-
-    font-size:12px;
-
+    font-size:14px;
     margin-bottom:8px;
 
 }
@@ -272,16 +217,14 @@ body::after{
 
 h1{
 
-    font-size:28px;
+    font-size:30px;
 
 }
 
 .subtitle{
 
     color:var(--muted);
-
-    font-size:13px;
-
+    font-size:14px;
     margin-top:5px;
 
 }
@@ -289,323 +232,237 @@ h1{
 .actions{
 
     display:flex;
-
     align-items:center;
-
     gap:12px;
 
 }
 
-.icon-btn{
+.theme-btn{
 
-    background:var(--card);
-
-    border:1px solid var(--border);
-
-    color:var(--text);
-
-    padding:10px 14px;
-
+    width:42px;
+    height:42px;
     border-radius:9px;
-
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
     cursor:pointer;
-
-    font-size:17px;
+    font-size:18px;
 
 }
 
 .user{
 
     display:flex;
-
     align-items:center;
-
     gap:10px;
-
     background:var(--card);
-
     border:1px solid var(--border);
-
     padding:7px 12px;
-
     border-radius:10px;
+    font-size:14px;
 
 }
 
 .avatar{
 
-    width:32px;
-
-    height:32px;
-
+    width:34px;
+    height:34px;
     border-radius:50%;
-
     display:grid;
-
     place-items:center;
-
     background:linear-gradient(
-
         135deg,
-
         #00d4ff,
-
         #7c3aed
-
     );
-
-    font-weight:bold;
+    font-weight:600;
 
 }
 
-/* TOOLBAR */
+/* ORDERS */
 
-.toolbar{
+.orders{
 
     display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    gap:15px;
-
-    margin-bottom:22px;
+    flex-direction:column;
+    gap:18px;
 
 }
 
-.search-box{
-
-    flex:1;
-
-    max-width:450px;
-
-}
-
-.search-box input{
-
-    width:100%;
-
-    padding:13px 16px;
-
-    border-radius:9px;
-
-    border:1px solid var(--border);
-
-    background:var(--input);
-
-    color:var(--text);
-
-    font-family:Poppins,sans-serif;
-
-    outline:none;
-
-}
-
-.search-box input:focus{
-
-    border-color:#00d4ff;
-
-}
-
-.filter-select{
-
-    padding:13px 15px;
-
-    border-radius:9px;
-
-    border:1px solid var(--border);
-
-    background:var(--input);
-
-    color:var(--text);
-
-    font-family:Poppins,sans-serif;
-
-    outline:none;
-
-}
-
-/* CARD */
-
-.card{
+.order-card{
 
     background:var(--card);
-
     border:1px solid var(--border);
-
     border-radius:15px;
-
-    padding:24px;
-
-    margin-bottom:25px;
-
-    overflow-x:auto;
+    padding:22px;
 
 }
 
-.card h2{
+.order-top{
 
-    font-size:18px;
-
-    margin-bottom:20px;
-
-}
-
-/* ORDER TABLE */
-
-table{
-
-    width:100%;
-
-    min-width:900px;
-
-    border-collapse:collapse;
-
-}
-
-th,
-td{
-
-    text-align:left;
-
-    padding:15px;
-
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding-bottom:18px;
     border-bottom:1px solid var(--border);
-
-    font-size:13px;
-
-}
-
-th{
-
-    color:var(--muted);
-
-    font-weight:500;
-
-}
-
-td{
-
-    color:var(--text);
 
 }
 
 .order-id{
 
     color:#00d4ff;
-
     font-weight:600;
+    font-size:15px;
+
+}
+
+.order-date{
+
+    color:var(--muted);
+    font-size:12px;
+    margin-top:4px;
+
+}
+
+.status{
+
+    padding:7px 13px;
+    border-radius:20px;
+    font-size:11px;
+
+}
+
+.status.delivered{
+
+    color:#22c55e;
+    background:rgba(34,197,94,.15);
+
+}
+
+.status.processing{
+
+    color:#00d4ff;
+    background:rgba(0,212,255,.15);
+
+}
+
+.status.cancelled{
+
+    color:#ef4444;
+    background:rgba(239,68,68,.15);
+
+}
+
+/* PRODUCT */
+
+.product-row{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 0;
 
 }
 
 .product-info{
 
     display:flex;
-
     align-items:center;
-
-    gap:10px;
+    gap:15px;
 
 }
 
-.product-icon{
+.product-image{
 
-    width:38px;
-
-    height:38px;
-
-    border-radius:10px;
-
+    width:62px;
+    height:62px;
+    border-radius:12px;
     display:grid;
-
     place-items:center;
-
-    background:rgba(0,212,255,.12);
-
-    color:#00d4ff;
+    font-size:25px;
+    background:linear-gradient(
+        135deg,
+        #172b40,
+        #251947
+    );
 
 }
 
 .product-name{
 
-    font-weight:500;
+    font-size:15px;
+    font-weight:600;
 
 }
 
-.product-count{
+.product-meta{
 
     color:var(--muted);
-
-    font-size:11px;
-
-}
-
-.status{
-
-    padding:5px 11px;
-
-    border-radius:20px;
-
-    font-size:11px;
+    font-size:12px;
+    margin-top:4px;
 
 }
 
-.delivered{
+.product-price{
 
-    background:#16352d;
-
-    color:#4de2a5;
+    font-weight:600;
 
 }
 
-.processing{
+/* FOOTER */
 
-    background:#172b45;
+.order-footer{
 
-    color:#63b8ff;
-
-}
-
-.shipped{
-
-    background:#2d2145;
-
-    color:#c29aff;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-top:1px solid var(--border);
+    padding-top:18px;
 
 }
 
-.cancelled{
+.total{
 
-    background:#3b1c24;
-
-    color:#ff7186;
+    font-size:16px;
+    font-weight:600;
 
 }
 
-.action-btn{
+.total span{
 
+    color:#22c55e;
+
+}
+
+.order-actions{
+
+    display:flex;
+    gap:10px;
+
+}
+
+.btn{
+
+    padding:10px 15px;
+    border-radius:8px;
     border:1px solid var(--border);
-
     background:transparent;
-
     color:var(--text);
-
-    padding:7px 11px;
-
-    border-radius:7px;
-
     cursor:pointer;
-
-    transition:.3s;
+    font-family:Poppins,sans-serif;
+    font-size:12px;
 
 }
 
-.action-btn:hover{
+.btn.primary{
 
-    border-color:#00d4ff;
-
-    color:#00d4ff;
+    border:none;
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
+    color:white;
 
 }
 
@@ -614,24 +471,18 @@ td{
 body.light-mode{
 
     --bg:#f4f7fb;
-
-    --card:#ffffff;
-
     --sidebar:#ffffff;
-
+    --card:#ffffff;
     --border:#dce3ec;
-
     --text:#172033;
-
-    --muted:#64748b;
-
+    --muted:#334155;
     --input:#ffffff;
 
 }
 
 body.light-mode .sidebar a{
 
-    color:#64748b;
+    color:#334155;
 
 }
 
@@ -639,36 +490,25 @@ body.light-mode .sidebar a:hover,
 body.light-mode .sidebar a.active{
 
     background:#e8f5ff;
-
     color:#172033;
 
 }
 
-body.light-mode .icon-btn,
+body.light-mode .nav-title{
+
+    color:#475569;
+
+}
+
+body.light-mode .theme-btn,
 body.light-mode .user{
 
     background:#ffffff;
-
     color:#172033;
 
 }
 
-body.light-mode .card{
-
-    box-shadow:0 8px 25px rgba(30,50,80,.08);
-
-}
-
-body.light-mode .search-box input,
-body.light-mode .filter-select{
-
-    background:#ffffff;
-
-    color:#172033;
-
-}
-
-body.light-mode .action-btn{
+body.light-mode .btn{
 
     color:#172033;
 
@@ -676,7 +516,24 @@ body.light-mode .action-btn{
 
 /* RESPONSIVE */
 
-@media(max-width:750px){
+@media(max-width:850px){
+
+    .sidebar{
+
+        width:220px;
+
+    }
+
+    .main{
+
+        margin-left:220px;
+        width:calc(100% - 220px);
+
+    }
+
+}
+
+@media(max-width:700px){
 
     .sidebar{
 
@@ -687,40 +544,44 @@ body.light-mode .action-btn{
     .main{
 
         margin-left:0;
-
         width:100%;
-
         padding:20px;
 
     }
 
     .topbar{
 
-        flex-direction:column;
-
         align-items:flex-start;
-
+        flex-direction:column;
         gap:18px;
 
     }
 
-    .toolbar{
+    .order-top,
+    .order-footer{
 
+        align-items:flex-start;
         flex-direction:column;
-
-        align-items:stretch;
-
-    }
-
-    .search-box{
-
-        max-width:none;
+        gap:13px;
 
     }
 
-    .filter-select{
+    .product-row{
+
+        align-items:flex-start;
+        gap:15px;
+
+    }
+
+    .order-actions{
 
         width:100%;
+
+    }
+
+    .btn{
+
+        flex:1;
 
     }
 
@@ -734,8 +595,6 @@ body.light-mode .action-btn{
 
 <div class="app">
 
-<!-- SIDEBAR -->
-
 <aside class="sidebar">
 
 <div class="logo">
@@ -746,11 +605,11 @@ NEXA <span>HUB</span> AI
 
 <div class="nav-title">
 
-Retail Store
+Business Management
 
 </div>
 
-<a href="portal_dashboard.html">
+<a href="dashboard.html">
 
 <span>⌂</span>
 
@@ -758,67 +617,75 @@ Dashboard
 
 </a>
 
-<a href="product_list.html">
+<a href="employee_list.html">
+
+<span>♟</span>
+
+Employees
+
+</a>
+
+<a href="inventory_dashboard.html">
 
 <span>▣</span>
+
+Inventory
+
+</a>
+
+<a href="product_list.html">
+
+<span>▦</span>
 
 Products
 
 </a>
 
-<a href="sale_list.html">
+<a href="variant_form.html">
 
-<span>▤</span>
+<span>◇</span>
 
-Sales
-
-</a>
-
-<a href="sale_pos.html">
-
-<span>▥</span>
-
-POS
-
-</a>
-
-<a href="promotion_dashboard.html">
-
-<span>★</span>
-
-Promotions
-
-</a>
-
-<a href="purchase_order_list.html">
-
-<span>◈</span>
-
-Purchase Orders
+Variants
 
 </a>
 
 <a href="supplier_list.html">
 
-<span>♙</span>
+<span>♜</span>
 
 Suppliers
 
 </a>
 
-<a href="staff_list.html">
+<a href="purchase_order_list.html">
 
-<span>♧</span>
+<span>▤</span>
 
-Staff
+Purchase Orders
 
 </a>
 
 <a href="stock_request_list.html">
 
-<span>▱</span>
+<span>▥</span>
 
 Stock Requests
+
+</a>
+
+<a href="sale_list.html">
+
+<span>▱</span>
+
+Sales
+
+</a>
+
+<a href="salary_management_list.html">
+
+<span>💰</span>
+
+Salary Management
 
 </a>
 
@@ -826,7 +693,23 @@ Stock Requests
 
 <span>◉</span>
 
-Reports
+Reports & Insights
+
+</a>
+
+<a href="storefront.html">
+
+<span>🛍</span>
+
+Storefront
+
+</a>
+
+<a href="storefront_my_orders.html" class="active">
+
+<span>📦</span>
+
+My Orders
 
 </a>
 
@@ -840,8 +723,6 @@ Settings
 
 </aside>
 
-<!-- MAIN -->
-
 <main class="main">
 
 <div class="topbar">
@@ -850,7 +731,7 @@ Settings
 
 <div class="breadcrumb">
 
-Retail Store /
+Storefront /
 
 <span>My Orders</span>
 
@@ -864,7 +745,7 @@ My Orders
 
 <p class="subtitle">
 
-View and track all your recent orders.
+View and manage all your recent orders.
 
 </p>
 
@@ -872,7 +753,13 @@ View and track all your recent orders.
 
 <div class="actions">
 
-<button class="icon-btn" id="themeToggle">
+<button
+
+class="theme-btn"
+
+id="themeToggle"
+
+>
 
 ☾
 
@@ -898,163 +785,27 @@ Admin
 
 </div>
 
-<!-- TOOLBAR -->
+<div class="orders">
 
-<div class="toolbar">
+<div class="order-card">
 
-<div class="search-box">
-
-<input
-
-type="search"
-
-id="searchInput"
-
-placeholder="Search order ID or product..."
-
->
-
-</div>
-
-<select
-
-class="filter-select"
-
-id="statusFilter"
-
->
-
-<option value="all">
-
-All Orders
-
-</option>
-
-<option value="processing">
-
-Processing
-
-</option>
-
-<option value="shipped">
-
-Shipped
-
-</option>
-
-<option value="delivered">
-
-Delivered
-
-</option>
-
-<option value="cancelled">
-
-Cancelled
-
-</option>
-
-</select>
-
-</div>
-
-<!-- ORDERS -->
-
-<div class="card">
-
-<h2>
-
-Order History
-
-</h2>
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>Order ID</th>
-
-<th>Products</th>
-
-<th>Order Date</th>
-
-<th>Total</th>
-
-<th>Payment</th>
-
-<th>Status</th>
-
-<th>Action</th>
-
-</tr>
-
-</thead>
-
-<tbody id="orderTable">
-
-<tr data-status="delivered">
-
-<td>
-
-<span class="order-id">
-
-#ORD-1001
-
-</span>
-
-</td>
-
-<td>
-
-<div class="product-info">
-
-<div class="product-icon">
-
-▣
-
-</div>
+<div class="order-top">
 
 <div>
 
-<div class="product-name">
+<div class="order-id">
 
-Wireless Mouse
-
-</div>
-
-<div class="product-count">
-
-2 Items
+Order #NX-1001
 
 </div>
+
+<div class="order-date">
+
+July 24, 2026
 
 </div>
 
 </div>
-
-</td>
-
-<td>
-
-25 July 2026
-
-</td>
-
-<td>
-
-$45.99
-
-</td>
-
-<td>
-
-UPI
-
-</td>
-
-<td>
 
 <span class="status delivered">
 
@@ -1062,45 +813,15 @@ Delivered
 
 </span>
 
-</td>
+</div>
 
-<td>
-
-<button
-
-class="action-btn"
-
-onclick="location.href='storefront_order_confirmation.html'"
-
->
-
-View
-
-</button>
-
-</td>
-
-</tr>
-
-<tr data-status="shipped">
-
-<td>
-
-<span class="order-id">
-
-#ORD-1002
-
-</span>
-
-</td>
-
-<td>
+<div class="product-row">
 
 <div class="product-info">
 
-<div class="product-icon">
+<div class="product-image">
 
-▣
+📱
 
 </div>
 
@@ -1108,129 +829,81 @@ View
 
 <div class="product-name">
 
-USB Keyboard
+Smart Device Pro
 
 </div>
 
-<div class="product-count">
+<div class="product-meta">
 
-1 Item
-
-</div>
+Quantity: 1
 
 </div>
 
 </div>
 
-</td>
+</div>
 
-<td>
+<div class="product-price">
 
-24 July 2026
+$299.00
 
-</td>
+</div>
 
-<td>
+</div>
 
-$29.99
+<div class="order-footer">
 
-</td>
+<div class="total">
 
-<td>
+Total:
 
-Card
+<span>
 
-</td>
-
-<td>
-
-<span class="status shipped">
-
-Shipped
+$299.00
 
 </span>
 
-</td>
+</div>
 
-<td>
+<div class="order-actions">
 
-<button
+<button class="btn">
 
-class="action-btn"
-
-onclick="location.href='storefront_order_confirmation.html'"
-
->
-
-View
+View Details
 
 </button>
 
-</td>
+<button class="btn primary">
 
-</tr>
+Buy Again
 
-<tr data-status="processing">
-
-<td>
-
-<span class="order-id">
-
-#ORD-1003
-
-</span>
-
-</td>
-
-<td>
-
-<div class="product-info">
-
-<div class="product-icon">
-
-▣
+</button>
 
 </div>
+
+</div>
+
+</div>
+
+<div class="order-card">
+
+<div class="order-top">
 
 <div>
 
-<div class="product-name">
+<div class="order-id">
 
-LED Monitor
-
-</div>
-
-<div class="product-count">
-
-1 Item
+Order #NX-1002
 
 </div>
+
+<div class="order-date">
+
+July 25, 2026
 
 </div>
 
 </div>
-
-</td>
-
-<td>
-
-23 July 2026
-
-</td>
-
-<td>
-
-$249.99
-
-</td>
-
-<td>
-
-UPI
-
-</td>
-
-<td>
 
 <span class="status processing">
 
@@ -1238,45 +911,15 @@ Processing
 
 </span>
 
-</td>
+</div>
 
-<td>
-
-<button
-
-class="action-btn"
-
-onclick="location.href='storefront_order_confirmation.html'"
-
->
-
-View
-
-</button>
-
-</td>
-
-</tr>
-
-<tr data-status="cancelled">
-
-<td>
-
-<span class="order-id">
-
-#ORD-1004
-
-</span>
-
-</td>
-
-<td>
+<div class="product-row">
 
 <div class="product-info">
 
-<div class="product-icon">
+<div class="product-image">
 
-▣
+🎧
 
 </div>
 
@@ -1284,71 +927,61 @@ View
 
 <div class="product-name">
 
-Printer Ink
+Wireless Headphones
 
 </div>
 
-<div class="product-count">
+<div class="product-meta">
 
-3 Items
-
-</div>
+Quantity: 1
 
 </div>
 
 </div>
 
-</td>
+</div>
 
-<td>
+<div class="product-price">
 
-20 July 2026
+$89.00
 
-</td>
+</div>
 
-<td>
+</div>
 
-$39.99
+<div class="order-footer">
 
-</td>
+<div class="total">
 
-<td>
+Total:
 
-Cash
+<span>
 
-</td>
-
-<td>
-
-<span class="status cancelled">
-
-Cancelled
+$89.00
 
 </span>
 
-</td>
+</div>
 
-<td>
+<div class="order-actions">
 
-<button
+<button class="btn">
 
-class="action-btn"
-
-onclick="location.href='storefront_order_confirmation.html'"
-
->
-
-View
+View Details
 
 </button>
 
-</td>
+<button class="btn primary">
 
-</tr>
+Track Order
 
-</tbody>
+</button>
 
-</table>
+</div>
+
+</div>
+
+</div>
 
 </div>
 
@@ -1358,15 +991,9 @@ View
 
 <script>
 
-/* THEME */
+const themeToggle = document.getElementById("themeToggle");
 
-const themeToggle =
-
-document.getElementById("themeToggle");
-
-const savedTheme =
-
-localStorage.getItem("theme");
+const savedTheme = localStorage.getItem("theme");
 
 if(savedTheme === "light"){
 
@@ -1386,7 +1013,9 @@ themeToggle.addEventListener("click",function(){
 
         localStorage.setItem("theme","light");
 
-    }else{
+    }
+
+    else{
 
         themeToggle.textContent = "☾";
 
@@ -1395,78 +1024,6 @@ themeToggle.addEventListener("click",function(){
     }
 
 });
-
-/* SEARCH + FILTER */
-
-const searchInput =
-
-document.getElementById("searchInput");
-
-const statusFilter =
-
-document.getElementById("statusFilter");
-
-function filterOrders(){
-
-    const searchValue =
-
-    searchInput.value.toLowerCase();
-
-    const statusValue =
-
-    statusFilter.value;
-
-    const rows =
-
-    document.querySelectorAll("#orderTable tr");
-
-    rows.forEach(function(row){
-
-        const text =
-
-        row.textContent.toLowerCase();
-
-        const status =
-
-        row.dataset.status;
-
-        const matchesSearch =
-
-        text.includes(searchValue);
-
-        const matchesStatus =
-
-        statusValue === "all" ||
-
-        status === statusValue;
-
-        row.style.display =
-
-        matchesSearch && matchesStatus
-
-        ? ""
-
-        : "none";
-
-    });
-
-}
-
-searchInput.addEventListener(
-
-"keyup",
-
-filterOrders
-
-);
-
-statusFilter.addEventListener(
-
-"change",
-
-filterOrders
-
-);
 
 </script>
 

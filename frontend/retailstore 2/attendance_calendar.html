@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>NEXA HUB AI | Attendance Calendar</title>
@@ -14,11 +12,9 @@
 <style>
 
 *{
-
     margin:0;
     padding:0;
     box-sizing:border-box;
-
 }
 
 :root{
@@ -29,6 +25,7 @@
     --border:#222d3e;
     --text:#ffffff;
     --muted:#8995a8;
+    --input:#0a0f18;
 
 }
 
@@ -38,7 +35,8 @@ body{
     background:var(--bg);
     color:var(--text);
     min-height:100vh;
-    transition:.3s;
+    overflow-x:hidden;
+    transition:.3s ease;
 
 }
 
@@ -53,6 +51,7 @@ body::after{
     filter:blur(110px);
     opacity:.20;
     z-index:-1;
+    pointer-events:none;
 
 }
 
@@ -61,7 +60,7 @@ body::before{
     background:#00d4ff;
     top:-150px;
     left:-100px;
-    animation:moveOne 12s infinite alternate;
+    animation:moveOne 12s infinite alternate ease-in-out;
 
 }
 
@@ -70,26 +69,30 @@ body::after{
     background:#7c3aed;
     right:-150px;
     bottom:-150px;
-    animation:moveTwo 15s infinite alternate;
+    animation:moveTwo 15s infinite alternate ease-in-out;
 
 }
 
 @keyframes moveOne{
 
+    from{
+        transform:translate(0,0);
+    }
+
     to{
-
         transform:translate(180px,180px);
-
     }
 
 }
 
 @keyframes moveTwo{
 
+    from{
+        transform:translate(0,0);
+    }
+
     to{
-
         transform:translate(-180px,-150px);
-
     }
 
 }
@@ -130,7 +133,7 @@ body::after{
 .nav-title{
 
     color:#748096;
-    font-size:11px;
+    font-size:13px;
     text-transform:uppercase;
     margin:15px;
 
@@ -141,12 +144,13 @@ body::after{
     display:flex;
     gap:12px;
     align-items:center;
-    padding:12px 15px;
+    padding:13px 15px;
     margin:5px 0;
     border-radius:10px;
     text-decoration:none;
     color:#9ca8ba;
-    font-size:13px;
+    font-size:15px;
+    transition:.3s;
 
 }
 
@@ -186,7 +190,7 @@ body::after{
 .breadcrumb{
 
     color:var(--muted);
-    font-size:12px;
+    font-size:14px;
     margin-bottom:8px;
 
 }
@@ -199,14 +203,14 @@ body::after{
 
 h1{
 
-    font-size:28px;
+    font-size:30px;
 
 }
 
 .subtitle{
 
     color:var(--muted);
-    font-size:13px;
+    font-size:15px;
     margin-top:5px;
 
 }
@@ -214,8 +218,8 @@ h1{
 .actions{
 
     display:flex;
-    gap:12px;
     align-items:center;
+    gap:12px;
 
 }
 
@@ -227,7 +231,7 @@ h1{
     padding:10px 14px;
     border-radius:9px;
     cursor:pointer;
-    font-size:17px;
+    font-size:18px;
 
 }
 
@@ -240,13 +244,14 @@ h1{
     border:1px solid var(--border);
     padding:7px 12px;
     border-radius:10px;
+    font-size:15px;
 
 }
 
 .avatar{
 
-    width:32px;
-    height:32px;
+    width:34px;
+    height:34px;
     border-radius:50%;
     display:grid;
     place-items:center;
@@ -255,13 +260,13 @@ h1{
 
 }
 
-.calendar-card{
+.card{
 
     background:var(--card);
     border:1px solid var(--border);
     border-radius:15px;
     padding:25px;
-    overflow:auto;
+    max-width:1100px;
 
 }
 
@@ -274,28 +279,29 @@ h1{
 
 }
 
-.month-title{
+.calendar-header h2{
 
-    font-size:20px;
-    font-weight:600;
+    font-size:21px;
 
 }
 
 .month-buttons{
 
     display:flex;
-    gap:8px;
+    gap:10px;
 
 }
 
 .month-buttons button{
 
-    padding:9px 14px;
+    padding:9px 15px;
     border:1px solid var(--border);
+    border-radius:8px;
     background:transparent;
     color:var(--text);
-    border-radius:8px;
     cursor:pointer;
+    font-family:Poppins;
+    font-size:14px;
 
 }
 
@@ -304,25 +310,27 @@ h1{
     display:grid;
     grid-template-columns:repeat(7,1fr);
     gap:10px;
-    min-width:700px;
 
 }
 
 .day-name{
 
-    color:var(--muted);
     text-align:center;
-    font-size:12px;
+    color:#00d4ff;
+    font-size:14px;
+    font-weight:600;
     padding:10px;
 
 }
 
 .day{
 
-    min-height:95px;
+    min-height:100px;
+    padding:12px;
     border:1px solid var(--border);
     border-radius:10px;
-    padding:10px;
+    background:rgba(255,255,255,.02);
+    cursor:pointer;
     transition:.3s;
 
 }
@@ -330,55 +338,36 @@ h1{
 .day:hover{
 
     border-color:#00d4ff;
+    transform:translateY(-2px);
 
 }
 
-.date{
+.day-number{
 
-    font-size:13px;
+    font-size:15px;
     font-weight:600;
 
 }
 
-.attendance{
+.status{
 
-    display:block;
-    margin-top:10px;
-    padding:4px 6px;
-    border-radius:5px;
-    text-align:center;
-    font-size:10px;
-
-}
-
-.present{
-
-    background:#16352d;
-    color:#4de2a5;
+    font-size:12px;
+    margin-top:12px;
+    color:#22c55e;
 
 }
 
 .absent{
 
-    background:#3a2028;
-    color:#ff7186;
+    color:#ef4444;
 
 }
 
-.holiday{
+.leave{
 
-    background:#3b3218;
-    color:#f5c451;
-
-}
-
-.today{
-
-    border-color:#00d4ff;
+    color:#f59e0b;
 
 }
-
-/* LIGHT */
 
 body.light-mode{
 
@@ -387,13 +376,14 @@ body.light-mode{
     --sidebar:#ffffff;
     --border:#dce3ec;
     --text:#172033;
-    --muted:#64748b;
+    --muted:#334155;
+    --input:#ffffff;
 
 }
 
 body.light-mode .sidebar a{
 
-    color:#64748b;
+    color:#1e293b;
 
 }
 
@@ -401,7 +391,25 @@ body.light-mode .sidebar a:hover,
 body.light-mode .sidebar a.active{
 
     background:#e8f5ff;
-    color:#172033;
+    color:#0f172a;
+
+}
+
+body.light-mode .nav-title{
+
+    color:#334155;
+
+}
+
+body.light-mode .breadcrumb{
+
+    color:#475569;
+
+}
+
+body.light-mode .subtitle{
+
+    color:#475569;
 
 }
 
@@ -410,12 +418,6 @@ body.light-mode .user{
 
     background:#ffffff;
     color:#172033;
-
-}
-
-body.light-mode .calendar-card{
-
-    box-shadow:0 8px 25px rgba(30,50,80,.08);
 
 }
 
@@ -449,11 +451,22 @@ body.light-mode .month-buttons button{
 
     }
 
-    .calendar-header{
+    .calendar{
 
-        flex-direction:column;
-        align-items:flex-start;
-        gap:15px;
+        gap:5px;
+
+    }
+
+    .day{
+
+        min-height:70px;
+        padding:7px;
+
+    }
+
+    .status{
+
+        font-size:10px;
 
     }
 
@@ -486,14 +499,6 @@ Business Management
 <span>⌂</span>
 
 Dashboard
-
-</a>
-
-<a href="asset_form.html">
-
-<span>▣</span>
-
-Assets
 
 </a>
 
@@ -561,7 +566,7 @@ Attendance Calendar
 
 <p class="subtitle">
 
-View employee attendance by date.
+View and manage employee attendance.
 
 </p>
 
@@ -569,25 +574,13 @@ View employee attendance by date.
 
 <div class="actions">
 
-<button class="icon-btn" id="themeToggle">
-
-☾
-
-</button>
+<button class="icon-btn" id="themeToggle">☾</button>
 
 <div class="user">
 
-<div class="avatar">
+<div class="avatar">A</div>
 
-A
-
-</div>
-
-<span>
-
-Admin
-
-</span>
+<span>Admin</span>
 
 </div>
 
@@ -595,29 +588,19 @@ Admin
 
 </div>
 
-<div class="calendar-card">
+<div class="card">
 
 <div class="calendar-header">
 
-<div class="month-title">
-
-July 2026
-
-</div>
+<h2>July 2026</h2>
 
 <div class="month-buttons">
 
-<button onclick="changeMonth(-1)">
+<button>‹</button>
 
-‹
+<button>Today</button>
 
-</button>
-
-<button onclick="changeMonth(1)">
-
-›
-
-</button>
+<button>›</button>
 
 </div>
 
@@ -634,294 +617,52 @@ July 2026
 <div class="day-name">Sat</div>
 
 <div class="day"></div>
-<div class="day"></div>
-<div class="day"></div>
 
 <div class="day">
 
-<div class="date">1</div>
+<div class="day-number">1</div>
 
-<span class="attendance present">
-
-Present
-
-</span>
+<div class="status">Present</div>
 
 </div>
 
 <div class="day">
 
-<div class="date">2</div>
+<div class="day-number">2</div>
 
-<span class="attendance present">
-
-Present
-
-</span>
+<div class="status">Present</div>
 
 </div>
 
 <div class="day">
 
-<div class="date">3</div>
+<div class="day-number">3</div>
 
-<span class="attendance present">
-
-Present
-
-</span>
+<div class="status absent">Absent</div>
 
 </div>
 
 <div class="day">
 
-<div class="date">4</div>
+<div class="day-number">4</div>
 
-<span class="attendance holiday">
-
-Holiday
-
-</span>
+<div class="status">Present</div>
 
 </div>
 
 <div class="day">
 
-<div class="date">5</div>
+<div class="day-number">5</div>
 
-<span class="attendance holiday">
-
-Holiday
-
-</span>
+<div class="status leave">Leave</div>
 
 </div>
 
 <div class="day">
 
-<div class="date">6</div>
+<div class="day-number">6</div>
 
-<span class="attendance present">
-
-Present
-
-</span>
-
-</div>
-
-<div class="day">
-
-<div class="date">7</div>
-
-<span class="attendance present">
-
-Present
-
-</span>
-
-</div>
-
-<div class="day">
-
-<div class="date">8</div>
-
-<span class="attendance absent">
-
-Absent
-
-</span>
-
-</div>
-
-<div class="day">
-
-<div class="date">9</div>
-
-<span class="attendance present">
-
-Present
-
-</span>
-
-</div>
-
-<div class="day">
-
-<div class="date">10</div>
-
-<span class="attendance present">
-
-Present
-
-</span>
-
-</div>
-
-<div class="day">
-
-<div class="date">11</div>
-
-<span class="attendance holiday">
-
-Holiday
-
-</span>
-
-</div>
-
-<div class="day">
-
-<div class="date">12</div>
-
-<span class="attendance holiday">
-
-Holiday
-
-</span>
-
-</div>
-
-<div class="day">
-
-<div class="date">13</div>
-
-<span class="attendance present">
-
-Present
-
-</span>
-
-</div>
-
-<div class="day">
-
-<div class="date">14</div>
-
-<span class="attendance present">
-
-Present
-
-</span>
-
-</div>
-
-<div class="day">
-
-<div class="date">15</div>
-
-<span class="attendance present">
-
-Present
-
-</span>
-
-</div>
-
-<div class="day">
-
-<div class="date">16</div>
-
-<span class="attendance present">
-
-Present
-
-</span>
-
-</div>
-
-<div class="day">
-
-<div class="date">17</div>
-
-<span class="attendance absent">
-
-Absent
-
-</span>
-
-</div>
-
-<div class="day">
-
-<div class="date">18</div>
-
-<span class="attendance holiday">
-
-Holiday
-
-</span>
-
-</div>
-
-<div class="day">
-
-<div class="date">19</div>
-
-<span class="attendance holiday">
-
-Holiday
-
-</span>
-
-</div>
-
-<div class="day">
-
-<div class="date">20</div>
-
-<span class="attendance present">
-
-Present
-
-</span>
-
-</div>
-
-<div class="day">
-
-<div class="date">21</div>
-
-<span class="attendance present">
-
-Present
-
-</span>
-
-</div>
-
-<div class="day">
-
-<div class="date">22</div>
-
-<span class="attendance present">
-
-Present
-
-</span>
-
-</div>
-
-<div class="day">
-
-<div class="date">23</div>
-
-<span class="attendance present">
-
-Present
-
-</span>
-
-</div>
-
-<div class="day today">
-
-<div class="date">25</div>
-
-<span class="attendance present">
-
-Today
-
-</span>
+<div class="status">Present</div>
 
 </div>
 
@@ -935,19 +676,15 @@ Today
 
 <script>
 
-const themeToggle =
+const themeToggle=document.getElementById("themeToggle");
 
-document.getElementById("themeToggle");
+const savedTheme=localStorage.getItem("theme");
 
-const savedTheme =
-
-localStorage.getItem("theme");
-
-if(savedTheme === "light"){
+if(savedTheme==="light"){
 
     document.body.classList.add("light-mode");
 
-    themeToggle.textContent = "☀";
+    themeToggle.textContent="☀";
 
 }
 
@@ -957,33 +694,19 @@ themeToggle.addEventListener("click",function(){
 
     if(document.body.classList.contains("light-mode")){
 
-        themeToggle.textContent = "☀";
+        themeToggle.textContent="☀";
 
         localStorage.setItem("theme","light");
 
     }else{
 
-        themeToggle.textContent = "☾";
+        themeToggle.textContent="☾";
 
         localStorage.setItem("theme","dark");
 
     }
 
 });
-
-function changeMonth(direction){
-
-    alert(
-
-        direction === 1
-
-        ? "Next month"
-
-        : "Previous month"
-
-    );
-
-}
 
 </script>
 

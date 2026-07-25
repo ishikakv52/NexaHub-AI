@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>NEXA HUB AI | Variant Form</title>
+<title>NEXA HUB AI | Add Product Variant</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -21,8 +21,8 @@
 :root{
 
     --bg:#080b14;
-    --card:#101621;
     --sidebar:#0d111c;
+    --card:#101621;
     --border:#222d3e;
     --text:#ffffff;
     --muted:#8995a8;
@@ -33,16 +33,11 @@
 body{
 
     font-family:Poppins,sans-serif;
-
     background:var(--bg);
-
     color:var(--text);
-
     min-height:100vh;
-
-    overflow-x:hidden;
-
     transition:.3s ease;
+    overflow-x:hidden;
 
 }
 
@@ -52,21 +47,13 @@ body::before,
 body::after{
 
     content:"";
-
     position:fixed;
-
-    width:400px;
-
-    height:400px;
-
+    width:430px;
+    height:430px;
     border-radius:50%;
-
-    filter:blur(110px);
-
+    filter:blur(120px);
     opacity:.20;
-
     z-index:-1;
-
     pointer-events:none;
 
 }
@@ -74,11 +61,8 @@ body::after{
 body::before{
 
     background:#00d4ff;
-
-    top:-150px;
-
-    left:-100px;
-
+    top:-160px;
+    left:-120px;
     animation:moveOne 12s infinite alternate ease-in-out;
 
 }
@@ -86,11 +70,8 @@ body::before{
 body::after{
 
     background:#7c3aed;
-
-    right:-150px;
-
-    bottom:-150px;
-
+    right:-160px;
+    bottom:-160px;
     animation:moveTwo 15s infinite alternate ease-in-out;
 
 }
@@ -98,15 +79,11 @@ body::after{
 @keyframes moveOne{
 
     from{
-
         transform:translate(0,0);
-
     }
 
     to{
-
         transform:translate(180px,180px);
-
     }
 
 }
@@ -114,25 +91,20 @@ body::after{
 @keyframes moveTwo{
 
     from{
-
         transform:translate(0,0);
-
     }
 
     to{
-
         transform:translate(-180px,-150px);
-
     }
 
 }
 
-/* LAYOUT */
+/* APP */
 
 .app{
 
     display:flex;
-
     min-height:100vh;
 
 }
@@ -142,27 +114,21 @@ body::after{
 .sidebar{
 
     width:250px;
-
     background:var(--sidebar);
-
     border-right:1px solid var(--border);
-
     padding:25px 15px;
-
     position:fixed;
-
     top:0;
-
     bottom:0;
+    overflow-y:auto;
+    z-index:20;
 
 }
 
 .logo{
 
     font-size:22px;
-
     font-weight:700;
-
     padding:10px 15px 30px;
 
 }
@@ -176,11 +142,8 @@ body::after{
 .nav-title{
 
     color:#748096;
-
-    font-size:11px;
-
+    font-size:12px;
     text-transform:uppercase;
-
     margin:15px;
 
 }
@@ -188,23 +151,14 @@ body::after{
 .sidebar a{
 
     display:flex;
-
-    gap:12px;
-
     align-items:center;
-
-    padding:12px 15px;
-
+    gap:12px;
+    padding:13px 15px;
     margin:5px 0;
-
     border-radius:10px;
-
     text-decoration:none;
-
     color:#9ca8ba;
-
-    font-size:13px;
-
+    font-size:14px;
     transition:.3s;
 
 }
@@ -213,13 +167,13 @@ body::after{
 .sidebar a.active{
 
     background:#18263a;
-
     color:var(--text);
 
 }
 
 .sidebar a span{
 
+    width:22px;
     color:#00d4ff;
 
 }
@@ -229,9 +183,7 @@ body::after{
 .main{
 
     margin-left:250px;
-
     width:calc(100% - 250px);
-
     padding:30px;
 
 }
@@ -241,15 +193,10 @@ body::after{
 .topbar{
 
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     border-bottom:1px solid var(--border);
-
     padding-bottom:22px;
-
     margin-bottom:30px;
 
 }
@@ -257,9 +204,7 @@ body::after{
 .breadcrumb{
 
     color:var(--muted);
-
-    font-size:12px;
-
+    font-size:14px;
     margin-bottom:8px;
 
 }
@@ -272,16 +217,14 @@ body::after{
 
 h1{
 
-    font-size:28px;
+    font-size:30px;
 
 }
 
 .subtitle{
 
     color:var(--muted);
-
-    font-size:13px;
-
+    font-size:14px;
     margin-top:5px;
 
 }
@@ -289,105 +232,84 @@ h1{
 .actions{
 
     display:flex;
-
     align-items:center;
-
     gap:12px;
 
 }
 
-.icon-btn{
+.theme-btn{
 
-    background:var(--card);
-
-    border:1px solid var(--border);
-
-    color:var(--text);
-
-    padding:10px 14px;
-
+    width:42px;
+    height:42px;
     border-radius:9px;
-
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
     cursor:pointer;
-
-    font-size:17px;
+    font-size:18px;
 
 }
 
 .user{
 
     display:flex;
-
     align-items:center;
-
     gap:10px;
-
     background:var(--card);
-
     border:1px solid var(--border);
-
     padding:7px 12px;
-
     border-radius:10px;
+    font-size:14px;
 
 }
 
 .avatar{
 
-    width:32px;
-
-    height:32px;
-
+    width:34px;
+    height:34px;
     border-radius:50%;
-
     display:grid;
-
     place-items:center;
-
     background:linear-gradient(
-
         135deg,
-
         #00d4ff,
-
         #7c3aed
-
     );
-
-    font-weight:bold;
+    font-weight:600;
 
 }
 
-/* FORM CARD */
+/* FORM */
+
+.form-container{
+
+    max-width:950px;
+    margin:auto;
+
+}
 
 .form-card{
 
-    max-width:1000px;
-
     background:var(--card);
-
     border:1px solid var(--border);
-
-    border-radius:15px;
-
+    border-radius:16px;
     padding:28px;
 
 }
 
-.form-card h2{
+.section-title{
 
     font-size:18px;
-
-    margin-bottom:25px;
+    margin-bottom:20px;
+    padding-bottom:15px;
+    border-bottom:1px solid var(--border);
 
 }
 
 .form-grid{
 
     display:grid;
-
     grid-template-columns:repeat(2,1fr);
-
     gap:20px;
 
 }
@@ -395,56 +317,59 @@ h1{
 .form-group{
 
     display:flex;
-
     flex-direction:column;
-
     gap:8px;
 
 }
 
 .form-group.full{
 
-    grid-column:1 / -1;
+    grid-column:1/-1;
 
 }
 
 label{
 
+    font-size:13px;
     color:var(--muted);
-
-    font-size:12px;
 
 }
 
 input,
-select{
+select,
+textarea{
 
     width:100%;
-
     padding:13px 14px;
-
     border-radius:9px;
-
     border:1px solid var(--border);
-
     background:var(--input);
-
     color:var(--text);
-
-    font-family:Poppins,sans-serif;
-
     outline:none;
-
-    transition:.3s;
+    font-family:Poppins,sans-serif;
+    font-size:13px;
 
 }
 
 input:focus,
-select:focus{
+select:focus,
+textarea:focus{
 
     border-color:#00d4ff;
 
-    box-shadow:0 0 0 3px rgba(0,212,255,.08);
+}
+
+select option{
+
+    background:#101621;
+    color:white;
+
+}
+
+textarea{
+
+    min-height:100px;
+    resize:vertical;
 
 }
 
@@ -453,126 +378,89 @@ select:focus{
 .preview{
 
     margin-top:25px;
-
     padding:20px;
-
     border:1px solid var(--border);
-
     border-radius:12px;
-
-    background:rgba(0,212,255,.04);
+    background:rgba(0,212,255,.03);
 
 }
 
-.preview h3{
+.preview-title{
 
-    font-size:15px;
-
+    font-size:14px;
     margin-bottom:15px;
 
 }
 
 .preview-box{
 
-    display:grid;
-
-    grid-template-columns:repeat(4,1fr);
-
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
     gap:15px;
+    flex-wrap:wrap;
 
 }
 
 .preview-item{
 
-    padding:15px;
-
-    border-radius:10px;
-
-    background:var(--input);
-
+    padding:12px 15px;
     border:1px solid var(--border);
+    border-radius:9px;
+    min-width:130px;
 
 }
 
-.preview-item span{
-
-    display:block;
+.preview-label{
 
     color:var(--muted);
-
     font-size:11px;
-
-    margin-bottom:5px;
+    margin-bottom:4px;
 
 }
 
-.preview-item strong{
+.preview-value{
 
     font-size:14px;
+    font-weight:600;
 
 }
 
-/* FORM ACTIONS */
+/* BUTTONS */
 
 .form-actions{
 
     display:flex;
-
     justify-content:flex-end;
-
     gap:12px;
-
     margin-top:28px;
-
     padding-top:22px;
-
     border-top:1px solid var(--border);
 
 }
 
-.cancel-btn{
+.btn{
 
-    padding:12px 22px;
-
-    border:1px solid var(--border);
-
+    padding:12px 20px;
     border-radius:9px;
-
+    border:1px solid var(--border);
     background:transparent;
-
     color:var(--text);
-
     cursor:pointer;
-
     font-family:Poppins,sans-serif;
+    font-size:13px;
 
 }
 
-.save-btn{
-
-    padding:12px 25px;
+.btn.primary{
 
     border:none;
-
-    border-radius:9px;
-
     background:linear-gradient(
-
         135deg,
-
         #00d4ff,
-
         #7c3aed
-
     );
-
     color:white;
-
-    cursor:pointer;
-
-    font-family:Poppins,sans-serif;
-
-    font-weight:500;
 
 }
 
@@ -581,24 +469,18 @@ select:focus{
 body.light-mode{
 
     --bg:#f4f7fb;
-
-    --card:#ffffff;
-
     --sidebar:#ffffff;
-
+    --card:#ffffff;
     --border:#dce3ec;
-
     --text:#172033;
-
-    --muted:#64748b;
-
+    --muted:#334155;
     --input:#ffffff;
 
 }
 
 body.light-mode .sidebar a{
 
-    color:#64748b;
+    color:#334155;
 
 }
 
@@ -606,64 +488,51 @@ body.light-mode .sidebar a:hover,
 body.light-mode .sidebar a.active{
 
     background:#e8f5ff;
-
     color:#172033;
 
 }
 
-body.light-mode .icon-btn,
+body.light-mode .nav-title{
+
+    color:#475569;
+
+}
+
+body.light-mode .theme-btn,
 body.light-mode .user{
 
     background:#ffffff;
+    color:#172033;
+
+}
+
+body.light-mode .btn{
 
     color:#172033;
 
 }
 
-body.light-mode .form-card{
-
-    box-shadow:0 8px 25px rgba(30,50,80,.08);
-
-}
-
-body.light-mode input,
-body.light-mode select{
+body.light-mode select option{
 
     background:#ffffff;
-
-    color:#172033;
-
-}
-
-body.light-mode .cancel-btn{
-
     color:#172033;
 
 }
 
 /* RESPONSIVE */
 
-@media(max-width:900px){
+@media(max-width:850px){
 
-    .preview-box{
+    .sidebar{
 
-        grid-template-columns:repeat(2,1fr);
-
-    }
-
-}
-
-@media(max-width:800px){
-
-    .form-grid{
-
-        grid-template-columns:1fr;
+        width:220px;
 
     }
 
-    .form-group.full{
+    .main{
 
-        grid-column:auto;
+        margin-left:220px;
+        width:calc(100% - 220px);
 
     }
 
@@ -680,32 +549,28 @@ body.light-mode .cancel-btn{
     .main{
 
         margin-left:0;
-
         width:100%;
-
         padding:20px;
 
     }
 
     .topbar{
 
-        flex-direction:column;
-
         align-items:flex-start;
-
+        flex-direction:column;
         gap:18px;
 
     }
 
-    .form-card{
+    .form-grid{
 
-        padding:20px;
+        grid-template-columns:1fr;
 
     }
 
-    .preview-box{
+    .form-group.full{
 
-        grid-template-columns:1fr;
+        grid-column:auto;
 
     }
 
@@ -715,8 +580,7 @@ body.light-mode .cancel-btn{
 
     }
 
-    .cancel-btn,
-    .save-btn{
+    .btn{
 
         width:100%;
 
@@ -732,8 +596,6 @@ body.light-mode .cancel-btn{
 
 <div class="app">
 
-<!-- SIDEBAR -->
-
 <aside class="sidebar">
 
 <div class="logo">
@@ -744,11 +606,11 @@ NEXA <span>HUB</span> AI
 
 <div class="nav-title">
 
-Retail Store
+Business Management
 
 </div>
 
-<a href="portal_dashboard.html">
+<a href="dashboard.html">
 
 <span>⌂</span>
 
@@ -756,67 +618,75 @@ Dashboard
 
 </a>
 
-<a href="product_list.html" class="active">
+<a href="employee_list.html">
+
+<span>♟</span>
+
+Employees
+
+</a>
+
+<a href="inventory_dashboard.html">
 
 <span>▣</span>
+
+Inventory
+
+</a>
+
+<a href="product_list.html">
+
+<span>▦</span>
 
 Products
 
 </a>
 
-<a href="sale_list.html">
+<a href="variant_form.html" class="active">
 
-<span>▤</span>
+<span>◇</span>
 
-Sales
-
-</a>
-
-<a href="sale_pos.html">
-
-<span>▥</span>
-
-POS
-
-</a>
-
-<a href="promotion_dashboard.html">
-
-<span>★</span>
-
-Promotions
-
-</a>
-
-<a href="purchase_order_list.html">
-
-<span>◈</span>
-
-Purchase Orders
+Variants
 
 </a>
 
 <a href="supplier_list.html">
 
-<span>♙</span>
+<span>♜</span>
 
 Suppliers
 
 </a>
 
-<a href="staff_list.html">
+<a href="purchase_order_list.html">
 
-<span>♧</span>
+<span>▤</span>
 
-Staff
+Purchase Orders
 
 </a>
 
 <a href="stock_request_list.html">
 
-<span>▱</span>
+<span>▥</span>
 
 Stock Requests
+
+</a>
+
+<a href="sale_list.html">
+
+<span>▱</span>
+
+Sales
+
+</a>
+
+<a href="salary_management_list.html">
+
+<span>💰</span>
+
+Salary Management
 
 </a>
 
@@ -824,7 +694,23 @@ Stock Requests
 
 <span>◉</span>
 
-Reports
+Reports & Insights
+
+</a>
+
+<a href="storefront.html">
+
+<span>🛍</span>
+
+Storefront
+
+</a>
+
+<a href="storefront_my_orders.html">
+
+<span>📦</span>
+
+My Orders
 
 </a>
 
@@ -838,8 +724,6 @@ Settings
 
 </aside>
 
-<!-- MAIN -->
-
 <main class="main">
 
 <div class="topbar">
@@ -848,9 +732,9 @@ Settings
 
 <div class="breadcrumb">
 
-Retail Store /
+Products /
 
-<span>Variant Form</span>
+<span>Add Variant</span>
 
 </div>
 
@@ -862,7 +746,7 @@ Add Product Variant
 
 <p class="subtitle">
 
-Create different variations for your products.
+Create different variations of your products.
 
 </p>
 
@@ -870,7 +754,13 @@ Create different variations for your products.
 
 <div class="actions">
 
-<button class="icon-btn" id="themeToggle">
+<button
+
+class="theme-btn"
+
+id="themeToggle"
+
+>
 
 ☾
 
@@ -896,11 +786,11 @@ Admin
 
 </div>
 
-<!-- FORM -->
+<div class="form-container">
 
 <div class="form-card">
 
-<h2>
+<h2 class="section-title">
 
 Variant Information
 
@@ -914,11 +804,11 @@ Variant Information
 
 <label>
 
-Product
+Select Product
 
 </label>
 
-<select id="product" required>
+<select id="productName" required>
 
 <option value="">
 
@@ -926,27 +816,27 @@ Select product
 
 </option>
 
-<option>
+<option value="Premium Laptop Pro">
 
-Wireless Mouse
-
-</option>
-
-<option>
-
-USB Keyboard
+Premium Laptop Pro
 
 </option>
 
-<option>
+<option value="Smart Device Pro">
 
-LED Monitor
+Smart Device Pro
 
 </option>
 
-<option>
+<option value="Wireless Headphones">
 
 Wireless Headphones
+
+</option>
+
+<option value="Mechanical Keyboard">
+
+Mechanical Keyboard
 
 </option>
 
@@ -968,7 +858,7 @@ type="text"
 
 id="variantName"
 
-placeholder="Example: Black - Large"
+placeholder="Example: Black - 256GB"
 
 required
 
@@ -990,7 +880,7 @@ type="text"
 
 id="sku"
 
-placeholder="Enter variant SKU"
+placeholder="Enter SKU"
 
 required
 
@@ -1009,8 +899,6 @@ Barcode
 <input
 
 type="text"
-
-id="barcode"
 
 placeholder="Enter barcode"
 
@@ -1042,43 +930,19 @@ placeholder="Example: Black"
 
 <label>
 
-Size
+Size / Storage
 
 </label>
 
-<select id="size">
+<input
 
-<option value="">
+type="text"
 
-Select size
+id="size"
 
-</option>
+placeholder="Example: 256GB / Large"
 
-<option>
-
-Small
-
-</option>
-
-<option>
-
-Medium
-
-</option>
-
-<option>
-
-Large
-
-</option>
-
-<option>
-
-XL
-
-</option>
-
-</select>
+>
 
 </div>
 
@@ -1097,8 +961,6 @@ type="number"
 id="purchasePrice"
 
 placeholder="Enter purchase price"
-
-step="0.01"
 
 >
 
@@ -1120,10 +982,6 @@ id="sellingPrice"
 
 placeholder="Enter selling price"
 
-step="0.01"
-
-required
-
 >
 
 </div>
@@ -1142,33 +1000,7 @@ type="number"
 
 id="stock"
 
-placeholder="Enter quantity"
-
-min="0"
-
-required
-
->
-
-</div>
-
-<div class="form-group">
-
-<label>
-
-Low Stock Alert
-
-</label>
-
-<input
-
-type="number"
-
-id="lowStock"
-
-placeholder="Example: 10"
-
-min="0"
+placeholder="Enter stock quantity"
 
 >
 
@@ -1182,7 +1014,7 @@ Status
 
 </label>
 
-<select id="status">
+<select>
 
 <option>
 
@@ -1200,109 +1032,119 @@ Inactive
 
 </div>
 
-<div class="form-group">
+<div class="form-group full">
 
 <label>
 
-Supplier
+Variant Description
 
 </label>
 
-<select id="supplier">
+<textarea
 
-<option>
+placeholder="Enter variant details..."
 
-Select supplier
-
-</option>
-
-<option>
-
-Tech World Supplies
-
-</option>
-
-<option>
-
-Office Mart
-
-</option>
-
-<option>
-
-Global Wholesale
-
-</option>
-
-<option>
-
-Smart Accessories
-
-</option>
-
-</select>
+></textarea>
 
 </div>
 
 </div>
-
-<!-- PREVIEW -->
 
 <div class="preview">
 
-<h3>
+<div class="preview-title">
 
 Variant Preview
 
-</h3>
+</div>
 
 <div class="preview-box">
 
 <div class="preview-item">
 
-<span>Product</span>
+<div class="preview-label">
 
-<strong id="previewProduct">
+PRODUCT
 
-Not Selected
+</div>
 
-</strong>
+<div
+
+class="preview-value"
+
+id="previewProduct"
+
+>
+
+Not selected
+
+</div>
 
 </div>
 
 <div class="preview-item">
 
-<span>Variant</span>
+<div class="preview-label">
 
-<strong id="previewVariant">
+VARIANT
 
-Not Entered
+</div>
 
-</strong>
+<div
+
+class="preview-value"
+
+id="previewVariant"
+
+>
+
+Not added
+
+</div>
 
 </div>
 
 <div class="preview-item">
 
-<span>SKU</span>
+<div class="preview-label">
 
-<strong id="previewSku">
+PRICE
 
-Not Entered
+</div>
 
-</strong>
+<div
+
+class="preview-value"
+
+id="previewPrice"
+
+>
+
+$0
+
+</div>
 
 </div>
 
 <div class="preview-item">
 
-<span>Selling Price</span>
+<div class="preview-label">
 
-<strong id="previewPrice">
+STOCK
 
-$0.00
+</div>
 
-</strong>
+<div
+
+class="preview-value"
+
+id="previewStock"
+
+>
+
+0
+
+</div>
 
 </div>
 
@@ -1316,9 +1158,9 @@ $0.00
 
 type="button"
 
-class="cancel-btn"
+class="btn"
 
-onclick="location.href='product_list.html'"
+onclick="window.location.href='product_list.html'"
 
 >
 
@@ -1330,7 +1172,7 @@ Cancel
 
 type="submit"
 
-class="save-btn"
+class="btn primary"
 
 >
 
@@ -1344,21 +1186,17 @@ Save Variant
 
 </div>
 
+</div>
+
 </main>
 
 </div>
 
 <script>
 
-/* THEME */
+const themeToggle = document.getElementById("themeToggle");
 
-const themeToggle =
-
-document.getElementById("themeToggle");
-
-const savedTheme =
-
-localStorage.getItem("theme");
+const savedTheme = localStorage.getItem("theme");
 
 if(savedTheme === "light"){
 
@@ -1378,7 +1216,9 @@ themeToggle.addEventListener("click",function(){
 
         localStorage.setItem("theme","light");
 
-    }else{
+    }
+
+    else{
 
         themeToggle.textContent = "☾";
 
@@ -1388,89 +1228,51 @@ themeToggle.addEventListener("click",function(){
 
 });
 
-/* LIVE PREVIEW */
+const productName = document.getElementById("productName");
 
-const product =
+const variantName = document.getElementById("variantName");
 
-document.getElementById("product");
+const sellingPrice = document.getElementById("sellingPrice");
 
-const variantName =
+const stock = document.getElementById("stock");
 
-document.getElementById("variantName");
+productName.addEventListener("change",function(){
 
-const sku =
+    document.getElementById("previewProduct").textContent =
 
-document.getElementById("sku");
-
-const sellingPrice =
-
-document.getElementById("sellingPrice");
-
-product.addEventListener("change",function(){
-
-    document.getElementById(
-
-        "previewProduct"
-
-    ).textContent =
-
-    this.value || "Not Selected";
+    this.value || "Not selected";
 
 });
 
 variantName.addEventListener("input",function(){
 
-    document.getElementById(
+    document.getElementById("previewVariant").textContent =
 
-        "previewVariant"
-
-    ).textContent =
-
-    this.value || "Not Entered";
-
-});
-
-sku.addEventListener("input",function(){
-
-    document.getElementById(
-
-        "previewSku"
-
-    ).textContent =
-
-    this.value || "Not Entered";
+    this.value || "Not added";
 
 });
 
 sellingPrice.addEventListener("input",function(){
 
-    const price =
+    document.getElementById("previewPrice").textContent =
 
-    parseFloat(this.value) || 0;
-
-    document.getElementById(
-
-        "previewPrice"
-
-    ).textContent =
-
-    "$" + price.toFixed(2);
+    "$" + (this.value || "0");
 
 });
 
-/* FORM SUBMIT */
+stock.addEventListener("input",function(){
 
-document.getElementById("variantForm")
+    document.getElementById("previewStock").textContent =
 
-.addEventListener("submit",function(event){
+    this.value || "0";
+
+});
+
+document.getElementById("variantForm").addEventListener("submit",function(event){
 
     event.preventDefault();
 
     alert("Product variant saved successfully!");
-
-    window.location.href =
-
-    "product_list.html";
 
 });
 

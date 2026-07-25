@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>NEXA HUB AI | POS Billing</title>
+<title>NEXA HUB AI | Sale POS</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -33,38 +33,27 @@
 body{
 
     font-family:Poppins,sans-serif;
-
     background:var(--bg);
-
     color:var(--text);
-
     min-height:100vh;
-
     overflow-x:hidden;
-
     transition:.3s ease;
 
 }
+
+/* ANIMATED BACKGROUND */
 
 body::before,
 body::after{
 
     content:"";
-
     position:fixed;
-
     width:400px;
-
     height:400px;
-
     border-radius:50%;
-
     filter:blur(110px);
-
     opacity:.20;
-
     z-index:-1;
-
     pointer-events:none;
 
 }
@@ -72,11 +61,8 @@ body::after{
 body::before{
 
     background:#00d4ff;
-
     top:-150px;
-
     left:-100px;
-
     animation:moveOne 12s infinite alternate ease-in-out;
 
 }
@@ -84,11 +70,8 @@ body::before{
 body::after{
 
     background:#7c3aed;
-
     right:-150px;
-
     bottom:-150px;
-
     animation:moveTwo 15s infinite alternate ease-in-out;
 
 }
@@ -117,38 +100,34 @@ body::after{
 
 }
 
+/* LAYOUT */
+
 .app{
 
     display:flex;
-
     min-height:100vh;
 
 }
 
+/* SIDEBAR */
+
 .sidebar{
 
     width:250px;
-
     background:var(--sidebar);
-
     border-right:1px solid var(--border);
-
     padding:25px 15px;
-
     position:fixed;
-
     top:0;
-
     bottom:0;
+    overflow-y:auto;
 
 }
 
 .logo{
 
     font-size:22px;
-
     font-weight:700;
-
     padding:10px 15px 30px;
 
 }
@@ -162,11 +141,8 @@ body::after{
 .nav-title{
 
     color:#748096;
-
-    font-size:11px;
-
+    font-size:13px;
     text-transform:uppercase;
-
     margin:15px;
 
 }
@@ -174,23 +150,14 @@ body::after{
 .sidebar a{
 
     display:flex;
-
     gap:12px;
-
     align-items:center;
-
-    padding:12px 15px;
-
+    padding:13px 15px;
     margin:5px 0;
-
     border-radius:10px;
-
     text-decoration:none;
-
     color:#9ca8ba;
-
-    font-size:13px;
-
+    font-size:15px;
     transition:.3s;
 
 }
@@ -199,7 +166,6 @@ body::after{
 .sidebar a.active{
 
     background:#18263a;
-
     color:var(--text);
 
 }
@@ -210,28 +176,25 @@ body::after{
 
 }
 
+/* MAIN */
+
 .main{
 
     margin-left:250px;
-
     width:calc(100% - 250px);
-
     padding:30px;
 
 }
 
+/* TOPBAR */
+
 .topbar{
 
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     border-bottom:1px solid var(--border);
-
     padding-bottom:22px;
-
     margin-bottom:30px;
 
 }
@@ -239,9 +202,7 @@ body::after{
 .breadcrumb{
 
     color:var(--muted);
-
-    font-size:12px;
-
+    font-size:14px;
     margin-bottom:8px;
 
 }
@@ -254,16 +215,14 @@ body::after{
 
 h1{
 
-    font-size:28px;
+    font-size:30px;
 
 }
 
 .subtitle{
 
     color:var(--muted);
-
-    font-size:13px;
-
+    font-size:15px;
     margin-top:5px;
 
 }
@@ -271,9 +230,7 @@ h1{
 .actions{
 
     display:flex;
-
     align-items:center;
-
     gap:12px;
 
 }
@@ -281,94 +238,73 @@ h1{
 .icon-btn{
 
     background:var(--card);
-
     border:1px solid var(--border);
-
     color:var(--text);
-
     padding:10px 14px;
-
     border-radius:9px;
-
     cursor:pointer;
-
-    font-size:17px;
+    font-size:18px;
 
 }
 
 .user{
 
     display:flex;
-
     align-items:center;
-
     gap:10px;
-
     background:var(--card);
-
     border:1px solid var(--border);
-
     padding:7px 12px;
-
     border-radius:10px;
+    font-size:15px;
 
 }
 
 .avatar{
 
-    width:32px;
-
-    height:32px;
-
+    width:34px;
+    height:34px;
     border-radius:50%;
-
     display:grid;
-
     place-items:center;
-
     background:linear-gradient(
-
         135deg,
-
         #00d4ff,
-
         #7c3aed
-
     );
-
     font-weight:bold;
 
 }
 
-.pos-layout{
+/* POS GRID */
+
+.pos-grid{
 
     display:grid;
-
     grid-template-columns:1.5fr 1fr;
-
     gap:22px;
 
 }
 
+/* CARD */
+
 .card{
 
     background:var(--card);
-
     border:1px solid var(--border);
-
     border-radius:15px;
-
-    padding:24px;
+    padding:25px;
 
 }
 
 .card h2{
 
-    font-size:18px;
-
+    font-size:20px;
     margin-bottom:20px;
 
 }
+
+/* SEARCH */
 
 .search-box{
 
@@ -379,19 +315,13 @@ h1{
 .search-box input{
 
     width:100%;
-
-    padding:13px 16px;
-
+    padding:14px 16px;
     border-radius:9px;
-
     border:1px solid var(--border);
-
     background:var(--input);
-
     color:var(--text);
-
     font-family:Poppins,sans-serif;
-
+    font-size:14px;
     outline:none;
 
 }
@@ -402,270 +332,281 @@ h1{
 
 }
 
-.product-grid{
+/* PRODUCTS */
+
+.products-grid{
 
     display:grid;
-
     grid-template-columns:repeat(3,1fr);
-
     gap:15px;
 
 }
 
-.product{
-
-    padding:18px;
+.product-card{
 
     border:1px solid var(--border);
-
     border-radius:12px;
-
+    padding:17px;
     cursor:pointer;
-
     transition:.3s;
 
 }
 
-.product:hover{
+.product-card:hover{
 
     border-color:#00d4ff;
-
-    transform:translateY(-4px);
+    transform:translateY(-3px);
 
 }
 
 .product-icon{
 
     width:45px;
-
     height:45px;
-
     display:grid;
-
     place-items:center;
-
     border-radius:10px;
-
     background:rgba(0,212,255,.12);
-
     color:#00d4ff;
-
-    font-size:20px;
-
+    font-size:22px;
     margin-bottom:12px;
 
 }
 
-.product h3{
+.product-card h3{
 
-    font-size:13px;
-
+    font-size:14px;
     margin-bottom:5px;
 
 }
 
-.product p{
+.product-card p{
 
-    color:#00d4ff;
-
-    font-size:13px;
-
-    font-weight:600;
-
-}
-
-.cart-table{
-
-    width:100%;
-
-    border-collapse:collapse;
-
-}
-
-.cart-table th,
-.cart-table td{
-
-    padding:12px 6px;
-
-    text-align:left;
-
-    border-bottom:1px solid var(--border);
-
+    color:var(--muted);
     font-size:12px;
 
 }
 
-.cart-table th{
+.product-price{
 
-    color:var(--muted);
-
-    font-weight:500;
+    color:#22c55e !important;
+    font-size:14px !important;
+    font-weight:600;
 
 }
 
-.qty{
+/* CUSTOMER */
+
+.customer-select{
+
+    width:100%;
+    padding:13px 15px;
+    border-radius:9px;
+    border:1px solid var(--border);
+    background:var(--input);
+    color:var(--text);
+    font-family:Poppins,sans-serif;
+    font-size:14px;
+    outline:none;
+    margin-bottom:20px;
+
+}
+
+/* CART */
+
+.cart-items{
+
+    max-height:350px;
+    overflow-y:auto;
+
+}
+
+.cart-item{
 
     display:flex;
-
     align-items:center;
-
-    gap:7px;
+    gap:12px;
+    padding:15px 0;
+    border-bottom:1px solid var(--border);
 
 }
 
-.qty button{
+.cart-item:last-child{
+
+    border-bottom:none;
+
+}
+
+.cart-icon{
+
+    width:40px;
+    height:40px;
+    display:grid;
+    place-items:center;
+    border-radius:9px;
+    background:rgba(124,58,237,.15);
+    color:#a78bfa;
+
+}
+
+.cart-info{
+
+    flex:1;
+
+}
+
+.cart-info strong{
+
+    display:block;
+    font-size:14px;
+
+}
+
+.cart-info span{
+
+    color:var(--muted);
+    font-size:12px;
+
+}
+
+.quantity{
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+}
+
+.quantity button{
 
     width:25px;
-
     height:25px;
-
-    border-radius:5px;
-
+    border-radius:6px;
     border:1px solid var(--border);
-
     background:transparent;
-
     color:var(--text);
-
     cursor:pointer;
 
 }
 
-.remove{
+.quantity span{
 
-    color:#ff7186;
-
-    cursor:pointer;
-
-    font-size:16px;
+    font-size:13px;
 
 }
+
+.cart-price{
+
+    color:#22c55e;
+    font-weight:600;
+    font-size:14px;
+
+}
+
+/* SUMMARY */
 
 .summary{
 
     margin-top:20px;
+    padding-top:18px;
+    border-top:1px solid var(--border);
 
 }
 
 .summary-row{
 
     display:flex;
-
     justify-content:space-between;
-
-    padding:11px 0;
-
-    border-bottom:1px solid var(--border);
-
-    font-size:13px;
-
-}
-
-.summary-row span{
-
+    padding:8px 0;
     color:var(--muted);
+    font-size:14px;
 
 }
 
 .summary-row.total{
 
+    color:var(--text);
     font-size:20px;
-
     font-weight:600;
-
-    border-bottom:none;
-
-    margin-top:8px;
+    padding-top:16px;
 
 }
 
-.checkout{
+.total-price{
 
-    width:100%;
+    color:#00d4ff;
 
+}
+
+/* PAYMENT */
+
+.payment-method{
+
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
     margin-top:20px;
 
-    padding:14px;
+}
 
-    border:none;
+.payment-btn{
 
+    padding:12px 8px;
+    border:1px solid var(--border);
     border-radius:9px;
-
-    color:white;
-
-    background:linear-gradient(
-
-        135deg,
-
-        #00d4ff,
-
-        #7c3aed
-
-    );
-
-    font-family:Poppins,sans-serif;
-
-    font-weight:600;
-
+    background:transparent;
+    color:var(--text);
     cursor:pointer;
+    font-family:Poppins,sans-serif;
+    font-size:12px;
 
 }
 
-.clear-btn{
+.payment-btn.active,
+.payment-btn:hover{
+
+    border-color:#00d4ff;
+    background:rgba(0,212,255,.08);
+
+}
+
+.complete-btn{
 
     width:100%;
-
-    margin-top:10px;
-
-    padding:12px;
-
-    border:1px solid var(--border);
-
+    margin-top:20px;
+    padding:14px;
+    border:none;
     border-radius:9px;
-
-    background:transparent;
-
-    color:var(--text);
-
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
+    color:white;
     cursor:pointer;
-
     font-family:Poppins,sans-serif;
+    font-size:15px;
+    font-weight:600;
 
 }
 
-.empty{
-
-    text-align:center;
-
-    color:var(--muted);
-
-    padding:35px 10px;
-
-    font-size:13px;
-
-}
+/* LIGHT MODE */
 
 body.light-mode{
 
     --bg:#f4f7fb;
-
     --card:#ffffff;
-
     --sidebar:#ffffff;
-
     --border:#dce3ec;
-
     --text:#172033;
-
-    --muted:#64748b;
-
+    --muted:#334155;
     --input:#ffffff;
 
 }
 
 body.light-mode .sidebar a{
 
-    color:#64748b;
+    color:#1e293b;
 
 }
 
@@ -673,8 +614,25 @@ body.light-mode .sidebar a:hover,
 body.light-mode .sidebar a.active{
 
     background:#e8f5ff;
+    color:#0f172a;
 
-    color:#172033;
+}
+
+body.light-mode .nav-title{
+
+    color:#334155;
+
+}
+
+body.light-mode .breadcrumb{
+
+    color:#475569;
+
+}
+
+body.light-mode .subtitle{
+
+    color:#475569;
 
 }
 
@@ -682,28 +640,30 @@ body.light-mode .icon-btn,
 body.light-mode .user{
 
     background:#ffffff;
-
     color:#172033;
 
 }
 
-body.light-mode .card{
-
-    box-shadow:0 8px 25px rgba(30,50,80,.08);
-
-}
-
-body.light-mode .search-box input{
+body.light-mode .search-box input,
+body.light-mode .customer-select{
 
     background:#ffffff;
+    color:#172033;
+
+}
+
+body.light-mode .quantity button,
+body.light-mode .payment-btn{
 
     color:#172033;
 
 }
+
+/* RESPONSIVE */
 
 @media(max-width:1000px){
 
-    .pos-layout{
+    .pos-grid{
 
         grid-template-columns:1fr;
 
@@ -722,9 +682,7 @@ body.light-mode .search-box input{
     .main{
 
         margin-left:0;
-
         width:100%;
-
         padding:20px;
 
     }
@@ -732,14 +690,12 @@ body.light-mode .search-box input{
     .topbar{
 
         flex-direction:column;
-
         align-items:flex-start;
-
         gap:18px;
 
     }
 
-    .product-grid{
+    .products-grid{
 
         grid-template-columns:repeat(2,1fr);
 
@@ -749,7 +705,13 @@ body.light-mode .search-box input{
 
 @media(max-width:450px){
 
-    .product-grid{
+    .products-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .payment-method{
 
         grid-template-columns:1fr;
 
@@ -775,11 +737,11 @@ NEXA <span>HUB</span> AI
 
 <div class="nav-title">
 
-Retail Store
+Business Management
 
 </div>
 
-<a href="portal_dashboard.html">
+<a href="dashboard.html">
 
 <span>⌂</span>
 
@@ -787,17 +749,65 @@ Dashboard
 
 </a>
 
-<a href="product_list.html">
+<a href="customer_list.html">
+
+<span>♙</span>
+
+Customers
+
+</a>
+
+<a href="employee_list.html">
+
+<span>♟</span>
+
+Employees
+
+</a>
+
+<a href="attendance_daily.html">
+
+<span>◷</span>
+
+Attendance
+
+</a>
+
+<a href="inventory_dashboard.html">
 
 <span>▣</span>
 
-Products
+Inventory
+
+</a>
+
+<a href="finance_asset_list.html">
+
+<span>▤</span>
+
+Assets
+
+</a>
+
+<a href="finance_expense_list.html">
+
+<span>▥</span>
+
+Expenses
+
+</a>
+
+<a href="salary_management_list.html">
+
+<span>💰</span>
+
+Salary Management
 
 </a>
 
 <a href="sale_list.html">
 
-<span>▤</span>
+<span>▱</span>
 
 Sales
 
@@ -805,49 +815,25 @@ Sales
 
 <a href="sale_pos.html" class="active">
 
-<span>▥</span>
+<span>🛒</span>
 
 POS
 
 </a>
 
-<a href="promotion_dashboard.html">
-
-<span>★</span>
-
-Promotions
-
-</a>
-
-<a href="purchase_order_list.html">
+<a href="portal_dashboard.html">
 
 <span>◈</span>
 
-Purchase Orders
+Portal
 
 </a>
 
-<a href="supplier_list.html">
+<a href="product_list.html">
 
-<span>♙</span>
+<span>▦</span>
 
-Suppliers
-
-</a>
-
-<a href="staff_list.html">
-
-<span>♧</span>
-
-Staff
-
-</a>
-
-<a href="stock_request_list.html">
-
-<span>▱</span>
-
-Stock Requests
+Products
 
 </a>
 
@@ -877,21 +863,21 @@ Settings
 
 <div class="breadcrumb">
 
-Retail Store /
+Business Management /
 
-<span>POS Billing</span>
+<span>Sale POS</span>
 
 </div>
 
 <h1>
 
-POS Billing
+Point of Sale
 
 </h1>
 
 <p class="subtitle">
 
-Create a new sale and generate customer invoice.
+Create a new sale and process customer payments.
 
 </p>
 
@@ -925,7 +911,7 @@ Admin
 
 </div>
 
-<div class="pos-layout">
+<div class="pos-grid">
 
 <div class="card">
 
@@ -939,7 +925,7 @@ Select Products
 
 <input
 
-type="search"
+type="text"
 
 id="productSearch"
 
@@ -949,13 +935,13 @@ placeholder="Search products..."
 
 </div>
 
-<div class="product-grid" id="productGrid">
+<div class="products-grid" id="productsGrid">
 
-<div class="product" data-name="Wireless Headphones" data-price="2450">
+<div class="product-card" data-name="Wireless Headphones" data-price="89.99">
 
 <div class="product-icon">
 
-♫
+🎧
 
 </div>
 
@@ -967,83 +953,23 @@ Wireless Headphones
 
 <p>
 
-₹2,450
+SKU: WH-1001
+
+</p>
+
+<p class="product-price">
+
+$89.99
 
 </p>
 
 </div>
 
-<div class="product" data-name="USB-C Cable" data-price="350">
+<div class="product-card" data-name="Smart Watch" data-price="149.99">
 
 <div class="product-icon">
 
-⌁
-
-</div>
-
-<h3>
-
-USB-C Cable
-
-</h3>
-
-<p>
-
-₹350
-
-</p>
-
-</div>
-
-<div class="product" data-name="Phone Stand" data-price="500">
-
-<div class="product-icon">
-
-▣
-
-</div>
-
-<h3>
-
-Phone Stand
-
-</h3>
-
-<p>
-
-₹500
-
-</p>
-
-</div>
-
-<div class="product" data-name="Bluetooth Speaker" data-price="1800">
-
-<div class="product-icon">
-
-♫
-
-</div>
-
-<h3>
-
-Bluetooth Speaker
-
-</h3>
-
-<p>
-
-₹1,800
-
-</p>
-
-</div>
-
-<div class="product" data-name="Smart Watch" data-price="3200">
-
-<div class="product-icon">
-
-◷
+⌚
 
 </div>
 
@@ -1055,29 +981,125 @@ Smart Watch
 
 <p>
 
-₹3,200
+SKU: SW-2001
+
+</p>
+
+<p class="product-price">
+
+$149.99
 
 </p>
 
 </div>
 
-<div class="product" data-name="Power Bank" data-price="1200">
+<div class="product-card" data-name="Bluetooth Speaker" data-price="59.99">
 
 <div class="product-icon">
 
-⚡
+🔊
 
 </div>
 
 <h3>
 
-Power Bank
+Bluetooth Speaker
 
 </h3>
 
 <p>
 
-₹1,200
+SKU: BS-3001
+
+</p>
+
+<p class="product-price">
+
+$59.99
+
+</p>
+
+</div>
+
+<div class="product-card" data-name="USB Keyboard" data-price="39.99">
+
+<div class="product-icon">
+
+⌨️
+
+</div>
+
+<h3>
+
+USB Keyboard
+
+</h3>
+
+<p>
+
+SKU: KB-4001
+
+</p>
+
+<p class="product-price">
+
+$39.99
+
+</p>
+
+</div>
+
+<div class="product-card" data-name="Wireless Mouse" data-price="29.99">
+
+<div class="product-icon">
+
+🖱️
+
+</div>
+
+<h3>
+
+Wireless Mouse
+
+</h3>
+
+<p>
+
+SKU: MS-5001
+
+</p>
+
+<p class="product-price">
+
+$29.99
+
+</p>
+
+</div>
+
+<div class="product-card" data-name="USB Cable" data-price="14.99">
+
+<div class="product-icon">
+
+🔌
+
+</div>
+
+<h3>
+
+USB Cable
+
+</h3>
+
+<p>
+
+SKU: UC-6001
+
+</p>
+
+<p class="product-price">
+
+$14.99
 
 </p>
 
@@ -1091,21 +1113,45 @@ Power Bank
 
 <h2>
 
-Current Cart
+Current Sale
 
 </h2>
 
-<div id="cartContainer">
+<select class="customer-select">
 
-<div class="empty">
+<option>
 
-Your cart is empty.
+Walk-in Customer
 
-<br>
+</option>
 
-Click a product to add it.
+<option>
 
-</div>
+Rahul Sharma
+
+</option>
+
+<option>
+
+Priya Verma
+
+</option>
+
+<option>
+
+Amit Kumar
+
+</option>
+
+</select>
+
+<div class="cart-items" id="cartItems">
+
+<p style="color:var(--muted);font-size:14px;text-align:center;padding:30px 0;">
+
+No products added yet.
+
+</p>
 
 </div>
 
@@ -1113,47 +1159,79 @@ Click a product to add it.
 
 <div class="summary-row">
 
-<span>Subtotal</span>
+<span>
 
-<strong id="subtotal">₹0</strong>
+Subtotal
+
+</span>
+
+<span id="subtotal">
+
+$0.00
+
+</span>
 
 </div>
 
 <div class="summary-row">
 
-<span>Discount</span>
+<span>
 
-<strong id="discount">₹0</strong>
+Tax
 
-</div>
+</span>
 
-<div class="summary-row">
+<span id="tax">
 
-<span>Tax</span>
+$0.00
 
-<strong id="tax">₹0</strong>
+</span>
 
 </div>
 
 <div class="summary-row total">
 
-<span>Total</span>
+<span>
 
-<strong id="total">₹0</strong>
+Total
+
+</span>
+
+<span class="total-price" id="total">
+
+$0.00
+
+</span>
 
 </div>
 
 </div>
 
-<button class="checkout" onclick="checkout()">
+<div class="payment-method">
 
-Complete Sale
+<button class="payment-btn active">
+
+💵 Cash
 
 </button>
 
-<button class="clear-btn" onclick="clearCart()">
+<button class="payment-btn">
 
-Clear Cart
+💳 Card
+
+</button>
+
+<button class="payment-btn">
+
+📱 UPI
+
+</button>
+
+</div>
+
+<button class="complete-btn" id="completeSale">
+
+Complete Sale
 
 </button>
 
@@ -1167,13 +1245,9 @@ Clear Cart
 
 <script>
 
-const themeToggle =
+const themeToggle = document.getElementById("themeToggle");
 
-document.getElementById("themeToggle");
-
-const savedTheme =
-
-localStorage.getItem("theme");
+const savedTheme = localStorage.getItem("theme");
 
 if(savedTheme === "light"){
 
@@ -1193,7 +1267,9 @@ themeToggle.addEventListener("click",function(){
 
         localStorage.setItem("theme","light");
 
-    }else{
+    }
+
+    else{
 
         themeToggle.textContent = "☾";
 
@@ -1203,29 +1279,37 @@ themeToggle.addEventListener("click",function(){
 
 });
 
+/* CART */
+
 let cart = [];
 
-const products =
+const productCards = document.querySelectorAll(".product-card");
 
-document.querySelectorAll(".product");
+const cartItems = document.getElementById("cartItems");
 
-products.forEach(function(product){
+const subtotalElement = document.getElementById("subtotal");
 
-    product.addEventListener("click",function(){
+const taxElement = document.getElementById("tax");
 
-        const name = product.dataset.name;
+const totalElement = document.getElementById("total");
 
-        const price = Number(product.dataset.price);
+productCards.forEach(function(card){
 
-        const existing =
+    card.addEventListener("click",function(){
 
-        cart.find(item => item.name === name);
+        const name = card.dataset.name;
+
+        const price = Number(card.dataset.price);
+
+        const existing = cart.find(item => item.name === name);
 
         if(existing){
 
-            existing.qty++;
+            existing.quantity++;
 
-        }else{
+        }
+
+        else{
 
             cart.push({
 
@@ -1233,7 +1317,7 @@ products.forEach(function(product){
 
                 price:price,
 
-                qty:1
+                quantity:1
 
             });
 
@@ -1247,93 +1331,89 @@ products.forEach(function(product){
 
 function renderCart(){
 
-    const container =
-
-    document.getElementById("cartContainer");
-
     if(cart.length === 0){
 
-        container.innerHTML =
+        cartItems.innerHTML = `
 
-        `<div class="empty">
+        <p style="color:var(--muted);font-size:14px;text-align:center;padding:30px 0;">
 
-        Your cart is empty.
+        No products added yet.
 
-        <br>
+        </p>
 
-        Click a product to add it.
+        `;
 
-        </div>`;
+    }
 
-    }else{
+    else{
 
-        let html =
-
-        `<table class="cart-table">
-
-        <thead>
-
-        <tr>
-
-        <th>Product</th>
-
-        <th>Qty</th>
-
-        <th>Total</th>
-
-        <th></th>
-
-        </tr>
-
-        </thead>
-
-        <tbody>`;
+        cartItems.innerHTML = "";
 
         cart.forEach(function(item,index){
 
-            html += `
+            const itemTotal = item.price * item.quantity;
 
-            <tr>
+            const div = document.createElement("div");
 
-            <td>${item.name}</td>
+            div.className = "cart-item";
 
-            <td>
+            div.innerHTML = `
 
-            <div class="qty">
+            <div class="cart-icon">
 
-            <button onclick="changeQty(${index},-1)">−</button>
-
-            ${item.qty}
-
-            <button onclick="changeQty(${index},1)">+</button>
+            🛍️
 
             </div>
 
-            </td>
+            <div class="cart-info">
 
-            <td>₹${(item.price * item.qty).toLocaleString("en-IN")}</td>
+            <strong>
 
-            <td>
+            ${item.name}
 
-            <span class="remove"
+            </strong>
 
-            onclick="removeItem(${index})">
+            <span>
 
-            ×
+            $${item.price.toFixed(2)}
 
             </span>
 
-            </td>
+            </div>
 
-            </tr>`;
+            <div class="quantity">
+
+            <button onclick="changeQuantity(${index},-1)">
+
+            −
+
+            </button>
+
+            <span>
+
+            ${item.quantity}
+
+            </span>
+
+            <button onclick="changeQuantity(${index},1)">
+
+            +
+
+            </button>
+
+            </div>
+
+            <div class="cart-price">
+
+            $${itemTotal.toFixed(2)}
+
+            </div>
+
+            `;
+
+            cartItems.appendChild(div);
 
         });
-
-        html +=
-
-        `</tbody></table>`;
-
-        container.innerHTML = html;
 
     }
 
@@ -1341,11 +1421,11 @@ function renderCart(){
 
 }
 
-function changeQty(index,value){
+function changeQuantity(index,change){
 
-    cart[index].qty += value;
+    cart[index].quantity += change;
 
-    if(cart[index].qty <= 0){
+    if(cart[index].quantity <= 0){
 
         cart.splice(index,1);
 
@@ -1355,99 +1435,83 @@ function changeQty(index,value){
 
 }
 
-function removeItem(index){
-
-    cart.splice(index,1);
-
-    renderCart();
-
-}
-
-function clearCart(){
-
-    cart = [];
-
-    renderCart();
-
-}
-
 function updateSummary(){
 
-    const subtotal =
+    let subtotal = 0;
 
-    cart.reduce(
+    cart.forEach(function(item){
 
-        (sum,item) =>
+        subtotal += item.price * item.quantity;
 
-        sum + item.price * item.qty,
+    });
 
-        0
+    const tax = subtotal * 0.10;
 
-    );
+    const total = subtotal + tax;
 
-    const discount = 0;
+    subtotalElement.textContent = "$" + subtotal.toFixed(2);
 
-    const tax = Math.round(subtotal * 0.05);
+    taxElement.textContent = "$" + tax.toFixed(2);
 
-    const total = subtotal - discount + tax;
-
-    document.getElementById("subtotal").textContent =
-
-    "₹" + subtotal.toLocaleString("en-IN");
-
-    document.getElementById("discount").textContent =
-
-    "₹" + discount.toLocaleString("en-IN");
-
-    document.getElementById("tax").textContent =
-
-    "₹" + tax.toLocaleString("en-IN");
-
-    document.getElementById("total").textContent =
-
-    "₹" + total.toLocaleString("en-IN");
+    totalElement.textContent = "$" + total.toFixed(2);
 
 }
 
-function checkout(){
-
-    if(cart.length === 0){
-
-        alert("Please add products to cart first.");
-
-        return;
-
-    }
-
-    alert("Sale completed successfully!");
-
-    clearCart();
-
-}
+/* SEARCH */
 
 document.getElementById("productSearch")
 
 .addEventListener("keyup",function(){
 
-    const value =
+    const value = this.value.toLowerCase();
 
-    this.value.toLowerCase();
+    productCards.forEach(function(card){
 
-    products.forEach(function(product){
+        card.style.display =
 
-        const name =
-
-        product.dataset.name.toLowerCase();
-
-        product.style.display =
-
-        name.includes(value)
+        card.textContent.toLowerCase().includes(value)
 
         ? ""
 
         : "none";
 
     });
+
+});
+
+/* PAYMENT */
+
+document.querySelectorAll(".payment-btn")
+
+.forEach(function(button){
+
+    button.addEventListener("click",function(){
+
+        document.querySelectorAll(".payment-btn")
+
+        .forEach(btn => btn.classList.remove("active"));
+
+        this.classList.add("active");
+
+    });
+
+});
+
+/* COMPLETE SALE */
+
+document.getElementById("completeSale")
+
+.addEventListener("click",function(){
+
+    if(cart.length === 0){
+
+        alert("Please add at least one product.");
+
+        return;
+
+    }
+
+    alert("Sale completed successfully!");
 
 });
 

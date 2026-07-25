@@ -19,6 +19,7 @@
 }
 
 :root{
+
     --bg:#080b14;
     --card:#101621;
     --sidebar:#0d111c;
@@ -26,19 +27,25 @@
     --text:#ffffff;
     --muted:#8995a8;
     --input:#0a0f18;
+
 }
 
 body{
+
     font-family:Poppins,sans-serif;
     background:var(--bg);
     color:var(--text);
     min-height:100vh;
     overflow-x:hidden;
     transition:.3s ease;
+
 }
+
+/* ANIMATED BACKGROUND */
 
 body::before,
 body::after{
+
     content:"";
     position:fixed;
     width:400px;
@@ -48,38 +55,64 @@ body::after{
     opacity:.20;
     z-index:-1;
     pointer-events:none;
+
 }
 
 body::before{
+
     background:#00d4ff;
     top:-150px;
     left:-100px;
     animation:moveOne 12s infinite alternate ease-in-out;
+
 }
 
 body::after{
+
     background:#7c3aed;
     right:-150px;
     bottom:-150px;
     animation:moveTwo 15s infinite alternate ease-in-out;
+
 }
 
 @keyframes moveOne{
-    from{transform:translate(0,0);}
-    to{transform:translate(180px,180px);}
+
+    from{
+        transform:translate(0,0);
+    }
+
+    to{
+        transform:translate(180px,180px);
+    }
+
 }
 
 @keyframes moveTwo{
-    from{transform:translate(0,0);}
-    to{transform:translate(-180px,-150px);}
+
+    from{
+        transform:translate(0,0);
+    }
+
+    to{
+        transform:translate(-180px,-150px);
+    }
+
 }
+
+/* LAYOUT */
 
 .app{
+
     display:flex;
     min-height:100vh;
+
 }
 
+/* SIDEBAR */
+
 .sidebar{
+
     width:250px;
     background:var(--sidebar);
     border-right:1px solid var(--border);
@@ -87,100 +120,135 @@ body::after{
     position:fixed;
     top:0;
     bottom:0;
+    overflow-y:auto;
+
 }
 
 .logo{
+
     font-size:22px;
     font-weight:700;
     padding:10px 15px 30px;
+
 }
 
 .logo span{
+
     color:#00d4ff;
+
 }
 
 .nav-title{
+
     color:#748096;
-    font-size:11px;
+    font-size:13px;
     text-transform:uppercase;
     margin:15px;
+
 }
 
 .sidebar a{
+
     display:flex;
     gap:12px;
     align-items:center;
-    padding:12px 15px;
+    padding:13px 15px;
     margin:5px 0;
     border-radius:10px;
     text-decoration:none;
     color:#9ca8ba;
-    font-size:13px;
+    font-size:15px;
     transition:.3s;
+
 }
 
 .sidebar a:hover,
 .sidebar a.active{
+
     background:#18263a;
     color:var(--text);
+
 }
 
 .sidebar a span{
+
     color:#00d4ff;
+
 }
 
+/* MAIN */
+
 .main{
+
     margin-left:250px;
     width:calc(100% - 250px);
     padding:30px;
+
 }
 
+/* TOPBAR */
+
 .topbar{
+
     display:flex;
     justify-content:space-between;
     align-items:center;
     border-bottom:1px solid var(--border);
     padding-bottom:22px;
     margin-bottom:30px;
+
 }
 
 .breadcrumb{
+
     color:var(--muted);
-    font-size:12px;
+    font-size:14px;
     margin-bottom:8px;
+
 }
 
 .breadcrumb span{
+
     color:#00d4ff;
+
 }
 
 h1{
-    font-size:28px;
+
+    font-size:30px;
+
 }
 
 .subtitle{
+
     color:var(--muted);
-    font-size:13px;
+    font-size:15px;
     margin-top:5px;
+
 }
 
 .actions{
+
     display:flex;
     align-items:center;
     gap:12px;
+
 }
 
 .icon-btn{
+
     background:var(--card);
     border:1px solid var(--border);
     color:var(--text);
     padding:10px 14px;
     border-radius:9px;
     cursor:pointer;
-    font-size:17px;
+    font-size:18px;
+
 }
 
 .user{
+
     display:flex;
     align-items:center;
     gap:10px;
@@ -188,228 +256,354 @@ h1{
     border:1px solid var(--border);
     padding:7px 12px;
     border-radius:10px;
+    font-size:15px;
+
 }
 
 .avatar{
-    width:32px;
-    height:32px;
+
+    width:34px;
+    height:34px;
     border-radius:50%;
     display:grid;
     place-items:center;
-    background:linear-gradient(135deg,#00d4ff,#7c3aed);
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
     font-weight:bold;
+
 }
 
-.detail-grid{
-    display:grid;
-    grid-template-columns:2fr 1fr;
-    gap:22px;
+/* SALE HEADER */
+
+.sale-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:22px;
+
 }
 
-.card{
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:15px;
-    padding:24px;
+.sale-id{
+
+    font-size:22px;
+    font-weight:600;
+
 }
 
-.card h2{
-    font-size:18px;
-    margin-bottom:20px;
-}
+.sale-date{
 
-.info-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:18px;
-}
-
-.info-box{
-    padding:16px;
-    border:1px solid var(--border);
-    border-radius:10px;
-    background:rgba(0,212,255,.03);
-}
-
-.info-box span{
-    display:block;
     color:var(--muted);
-    font-size:11px;
-    margin-bottom:6px;
-}
-
-.info-box strong{
     font-size:14px;
-}
+    margin-top:5px;
 
-table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-th,
-td{
-    text-align:left;
-    padding:14px;
-    border-bottom:1px solid var(--border);
-    font-size:13px;
-}
-
-th{
-    color:var(--muted);
-    font-weight:500;
 }
 
 .status{
-    padding:5px 11px;
+
+    padding:8px 16px;
     border-radius:20px;
-    background:#16352d;
-    color:#4de2a5;
-    font-size:11px;
-}
-
-.summary-row{
-    display:flex;
-    justify-content:space-between;
-    padding:13px 0;
-    border-bottom:1px solid var(--border);
     font-size:13px;
+    background:rgba(34,197,94,.15);
+    color:#22c55e;
+
 }
 
-.summary-row span{
-    color:var(--muted);
+/* GRID */
+
+.content-grid{
+
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:22px;
+
 }
 
-.summary-row.total{
-    border-bottom:none;
-    margin-top:10px;
-    font-size:17px;
-    font-weight:600;
+/* CARD */
+
+.card{
+
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:25px;
+    margin-bottom:22px;
+
 }
 
-.customer-card{
-    margin-top:22px;
+.card h2{
+
+    font-size:20px;
+    margin-bottom:20px;
+
 }
+
+/* CUSTOMER */
 
 .customer-info{
-    display:flex;
-    align-items:center;
-    gap:14px;
-}
 
-.customer-avatar{
-    width:48px;
-    height:48px;
-    border-radius:50%;
     display:grid;
-    place-items:center;
-    background:linear-gradient(135deg,#00d4ff,#7c3aed);
-    font-weight:bold;
-    font-size:18px;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+
 }
 
-.customer-info span{
+.info-item label{
+
     display:block;
     color:var(--muted);
-    font-size:12px;
-    margin-top:3px;
+    font-size:13px;
+    margin-bottom:5px;
+
 }
 
-.button-row{
+.info-item p{
+
+    font-size:15px;
+
+}
+
+/* PRODUCTS */
+
+.product-table{
+
+    width:100%;
+    border-collapse:collapse;
+
+}
+
+.product-table th{
+
+    text-align:left;
+    padding:13px 10px;
+    color:var(--muted);
+    font-size:13px;
+    border-bottom:1px solid var(--border);
+
+}
+
+.product-table td{
+
+    padding:16px 10px;
+    font-size:14px;
+    border-bottom:1px solid var(--border);
+
+}
+
+.product-table tr:last-child td{
+
+    border-bottom:none;
+
+}
+
+.product-name{
+
+    font-weight:500;
+
+}
+
+.product-code{
+
+    display:block;
+    color:var(--muted);
+    font-size:11px;
+    margin-top:3px;
+
+}
+
+/* SUMMARY */
+
+.summary-item{
+
+    display:flex;
+    justify-content:space-between;
+    padding:10px 0;
+    color:var(--muted);
+    font-size:14px;
+
+}
+
+.summary-item.total{
+
+    border-top:1px solid var(--border);
+    margin-top:12px;
+    padding-top:17px;
+    color:var(--text);
+    font-size:18px;
+    font-weight:600;
+
+}
+
+.total-amount{
+
+    color:#00d4ff;
+
+}
+
+/* ACTIONS */
+
+.action-buttons{
+
     display:flex;
     gap:12px;
     margin-top:22px;
+
 }
 
 .btn{
-    padding:11px 18px;
+
+    flex:1;
+    padding:12px;
     border-radius:9px;
     cursor:pointer;
     font-family:Poppins,sans-serif;
+    font-size:14px;
+
 }
 
-.btn-primary{
+.primary-btn{
+
     border:none;
     color:white;
-    background:linear-gradient(135deg,#00d4ff,#7c3aed);
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
+
 }
 
-.btn-secondary{
-    background:transparent;
+.secondary-btn{
+
     border:1px solid var(--border);
+    background:transparent;
     color:var(--text);
+
 }
+
+/* LIGHT MODE */
 
 body.light-mode{
+
     --bg:#f4f7fb;
     --card:#ffffff;
     --sidebar:#ffffff;
     --border:#dce3ec;
     --text:#172033;
-    --muted:#64748b;
+    --muted:#334155;
     --input:#ffffff;
+
 }
 
 body.light-mode .sidebar a{
-    color:#64748b;
+
+    color:#1e293b;
+
 }
 
 body.light-mode .sidebar a:hover,
 body.light-mode .sidebar a.active{
+
     background:#e8f5ff;
-    color:#172033;
+    color:#0f172a;
+
+}
+
+body.light-mode .nav-title{
+
+    color:#334155;
+
+}
+
+body.light-mode .breadcrumb{
+
+    color:#475569;
+
+}
+
+body.light-mode .subtitle{
+
+    color:#475569;
+
 }
 
 body.light-mode .icon-btn,
 body.light-mode .user{
+
     background:#ffffff;
     color:#172033;
+
 }
 
-body.light-mode .card{
-    box-shadow:0 8px 25px rgba(30,50,80,.08);
+body.light-mode .secondary-btn{
+
+    color:#172033;
+
 }
 
-@media(max-width:900px){
+/* RESPONSIVE */
 
-    .detail-grid{
+@media(max-width:1000px){
+
+    .content-grid{
+
         grid-template-columns:1fr;
+
     }
 
 }
 
-@media(max-width:600px){
+@media(max-width:700px){
 
     .sidebar{
+
         display:none;
+
     }
 
     .main{
+
         margin-left:0;
         width:100%;
         padding:20px;
+
     }
 
     .topbar{
+
         flex-direction:column;
         align-items:flex-start;
         gap:18px;
+
     }
 
-    .info-grid{
+    .sale-header{
+
+        flex-direction:column;
+        align-items:flex-start;
+        gap:15px;
+
+    }
+
+    .customer-info{
+
         grid-template-columns:1fr;
+
+    }
+
+    .product-table{
+
+        min-width:600px;
+
     }
 
     .card{
+
         overflow-x:auto;
-    }
 
-    .button-row{
-        flex-direction:column;
-    }
-
-    .btn{
-        width:100%;
     }
 
 }
@@ -425,66 +619,127 @@ body.light-mode .card{
 <aside class="sidebar">
 
 <div class="logo">
+
 NEXA <span>HUB</span> AI
+
 </div>
 
 <div class="nav-title">
-Retail Store
+
+Business Management
+
 </div>
 
-<a href="portal_dashboard.html">
+<a href="dashboard.html">
+
 <span>⌂</span>
+
 Dashboard
+
 </a>
 
-<a href="product_list.html">
+<a href="customer_list.html">
+
+<span>♙</span>
+
+Customers
+
+</a>
+
+<a href="employee_list.html">
+
+<span>♟</span>
+
+Employees
+
+</a>
+
+<a href="attendance_daily.html">
+
+<span>◷</span>
+
+Attendance
+
+</a>
+
+<a href="inventory_dashboard.html">
+
 <span>▣</span>
-Products
+
+Inventory
+
+</a>
+
+<a href="finance_asset_list.html">
+
+<span>▤</span>
+
+Assets
+
+</a>
+
+<a href="finance_expense_list.html">
+
+<span>▥</span>
+
+Expenses
+
+</a>
+
+<a href="salary_management_list.html">
+
+<span>💰</span>
+
+Salary Management
+
 </a>
 
 <a href="sale_list.html" class="active">
-<span>▤</span>
+
+<span>▱</span>
+
 Sales
+
 </a>
 
 <a href="sale_pos.html">
-<span>▥</span>
+
+<span>🛒</span>
+
 POS
+
 </a>
 
-<a href="promotion_dashboard.html">
-<span>★</span>
-Promotions
-</a>
+<a href="portal_dashboard.html">
 
-<a href="purchase_order_list.html">
 <span>◈</span>
-Purchase Orders
+
+Portal
+
 </a>
 
-<a href="supplier_list.html">
-<span>♙</span>
-Suppliers
-</a>
+<a href="product_list.html">
 
-<a href="staff_list.html">
-<span>♧</span>
-Staff
-</a>
+<span>▦</span>
 
-<a href="stock_request_list.html">
-<span>▱</span>
-Stock Requests
+Products
+
 </a>
 
 <a href="reports_insights.html">
+
 <span>◉</span>
+
 Reports
+
 </a>
 
 <a href="settings_business.html">
+
 <span>⚙</span>
+
 Settings
+
 </a>
 
 </aside>
@@ -496,16 +751,23 @@ Settings
 <div>
 
 <div class="breadcrumb">
-Retail Store /
+
+Business Management /
+
 <span>Sale Detail</span>
+
 </div>
 
 <h1>
+
 Sale Detail
+
 </h1>
 
 <p class="subtitle">
-View complete information about this sale.
+
+View complete sale and customer information.
+
 </p>
 
 </div>
@@ -513,17 +775,23 @@ View complete information about this sale.
 <div class="actions">
 
 <button class="icon-btn" id="themeToggle">
+
 ☾
+
 </button>
 
 <div class="user">
 
 <div class="avatar">
+
 A
+
 </div>
 
 <span>
+
 Admin
+
 </span>
 
 </div>
@@ -532,69 +800,107 @@ Admin
 
 </div>
 
-<div class="detail-grid">
+<div class="sale-header">
+
+<div>
+
+<div class="sale-id">
+
+Sale #SALE-1001
+
+</div>
+
+<div class="sale-date">
+
+July 25, 2026 • 10:45 AM
+
+</div>
+
+</div>
+
+<div class="status">
+
+Completed
+
+</div>
+
+</div>
+
+<div class="content-grid">
 
 <div>
 
 <div class="card">
 
 <h2>
-Sale Information
-</h2>
 
-<div class="info-grid">
-
-<div class="info-box">
-<span>Sale ID</span>
-<strong>#SALE-1001</strong>
-</div>
-
-<div class="info-box">
-<span>Sale Date</span>
-<strong>25 July 2026</strong>
-</div>
-
-<div class="info-box">
-<span>Payment Method</span>
-<strong>UPI</strong>
-</div>
-
-<div class="info-box">
-<span>Status</span>
-<strong>
-<span class="status">Completed</span>
-</strong>
-</div>
-
-</div>
-
-</div>
-
-<div class="card customer-card">
-
-<h2>
 Customer Information
+
 </h2>
 
 <div class="customer-info">
 
-<div class="customer-avatar">
-R
+<div class="info-item">
+
+<label>
+
+Customer Name
+
+</label>
+
+<p>
+
+Rahul Sharma
+
+</p>
+
 </div>
 
-<div>
+<div class="info-item">
 
-<strong>
-Rahul Kumar
-</strong>
+<label>
 
-<span>
-rahul@example.com
-</span>
+Phone Number
 
-<span>
+</label>
+
+<p>
+
 +91 98765 43210
-</span>
+
+</p>
+
+</div>
+
+<div class="info-item">
+
+<label>
+
+Email Address
+
+</label>
+
+<p>
+
+rahul@example.com
+
+</p>
+
+</div>
+
+<div class="info-item">
+
+<label>
+
+Payment Method
+
+</label>
+
+<p>
+
+Card Payment
+
+</p>
 
 </div>
 
@@ -602,21 +908,46 @@ rahul@example.com
 
 </div>
 
-<div class="card" style="margin-top:22px;">
+<div class="card">
 
 <h2>
-Purchased Products
+
+Sale Items
+
 </h2>
 
-<table>
+<div style="overflow-x:auto;">
+
+<table class="product-table">
 
 <thead>
 
 <tr>
-<th>Product</th>
-<th>Qty</th>
-<th>Price</th>
-<th>Total</th>
+
+<th>
+
+Product
+
+</th>
+
+<th>
+
+Quantity
+
+</th>
+
+<th>
+
+Price
+
+</th>
+
+<th>
+
+Total
+
+</th>
+
 </tr>
 
 </thead>
@@ -624,24 +955,79 @@ Purchased Products
 <tbody>
 
 <tr>
-<td>Wireless Headphones</td>
-<td>1</td>
-<td>₹2,450</td>
-<td>₹2,450</td>
+
+<td>
+
+<div class="product-name">
+
+Wireless Headphones
+
+</div>
+
+<span class="product-code">
+
+SKU: WH-1001
+
+</span>
+
+</td>
+
+<td>
+
+1
+
+</td>
+
+<td>
+
+$89.99
+
+</td>
+
+<td>
+
+$89.99
+
+</td>
+
 </tr>
 
 <tr>
-<td>USB-C Cable</td>
-<td>2</td>
-<td>₹350</td>
-<td>₹700</td>
-</tr>
 
-<tr>
-<td>Phone Stand</td>
-<td>1</td>
-<td>₹500</td>
-<td>₹500</td>
+<td>
+
+<div class="product-name">
+
+Bluetooth Speaker
+
+</div>
+
+<span class="product-code">
+
+SKU: BS-2001
+
+</span>
+
+</td>
+
+<td>
+
+2
+
+</td>
+
+<td>
+
+$59.99
+
+</td>
+
+<td>
+
+$119.98
+
+</td>
+
 </tr>
 
 </tbody>
@@ -652,53 +1038,113 @@ Purchased Products
 
 </div>
 
+</div>
+
 <div>
 
 <div class="card">
 
 <h2>
-Payment Summary
+
+Sale Summary
+
 </h2>
 
-<div class="summary-row">
-<span>Subtotal</span>
-<strong>₹3,650</strong>
-</div>
+<div class="summary-item">
 
-<div class="summary-row">
-<span>Discount</span>
-<strong>₹200</strong>
-</div>
+<span>
 
-<div class="summary-row">
-<span>Tax</span>
-<strong>₹350</strong>
-</div>
+Subtotal
 
-<div class="summary-row total">
-<span>Total Amount</span>
-<strong>₹3,800</strong>
-</div>
+</span>
+
+<span>
+
+$209.97
+
+</span>
 
 </div>
 
-<div class="card" style="margin-top:22px;">
+<div class="summary-item">
+
+<span>
+
+Discount
+
+</span>
+
+<span>
+
+-$10.00
+
+</span>
+
+</div>
+
+<div class="summary-item">
+
+<span>
+
+Tax
+
+</span>
+
+<span>
+
+$19.99
+
+</span>
+
+</div>
+
+<div class="summary-item total">
+
+<span>
+
+Total
+
+</span>
+
+<span class="total-amount">
+
+$219.96
+
+</span>
+
+</div>
+
+<div class="action-buttons">
+
+<button class="btn primary-btn">
+
+Print Receipt
+
+</button>
+
+<button class="btn secondary-btn" onclick="history.back()">
+
+Back
+
+</button>
+
+</div>
+
+</div>
+
+<div class="card">
 
 <h2>
-Actions
+
+Notes
+
 </h2>
 
-<div class="button-row">
+<p style="color:var(--muted);font-size:14px;line-height:1.7;">
 
-<button class="btn btn-primary">
-Print Invoice
-</button>
+Customer requested standard delivery. Payment was successfully received and the order has been completed.
 
-<button class="btn btn-secondary">
-Download
-</button>
-
-</div>
+</p>
 
 </div>
 
@@ -712,11 +1158,9 @@ Download
 
 <script>
 
-const themeToggle =
-document.getElementById("themeToggle");
+const themeToggle = document.getElementById("themeToggle");
 
-const savedTheme =
-localStorage.getItem("theme");
+const savedTheme = localStorage.getItem("theme");
 
 if(savedTheme === "light"){
 
@@ -736,7 +1180,9 @@ themeToggle.addEventListener("click",function(){
 
         localStorage.setItem("theme","light");
 
-    }else{
+    }
+
+    else{
 
         themeToggle.textContent = "☾";
 

@@ -33,38 +33,27 @@
 body{
 
     font-family:Poppins,sans-serif;
-
     background:var(--bg);
-
     color:var(--text);
-
     min-height:100vh;
-
     overflow-x:hidden;
-
     transition:.3s ease;
 
 }
+
+/* ANIMATED BACKGROUND */
 
 body::before,
 body::after{
 
     content:"";
-
     position:fixed;
-
     width:400px;
-
     height:400px;
-
     border-radius:50%;
-
     filter:blur(110px);
-
     opacity:.20;
-
     z-index:-1;
-
     pointer-events:none;
 
 }
@@ -72,11 +61,8 @@ body::after{
 body::before{
 
     background:#00d4ff;
-
     top:-150px;
-
     left:-100px;
-
     animation:moveOne 12s infinite alternate ease-in-out;
 
 }
@@ -84,11 +70,8 @@ body::before{
 body::after{
 
     background:#7c3aed;
-
     right:-150px;
-
     bottom:-150px;
-
     animation:moveTwo 15s infinite alternate ease-in-out;
 
 }
@@ -117,28 +100,25 @@ body::after{
 
 }
 
+/* LAYOUT */
+
 .app{
 
     display:flex;
-
     min-height:100vh;
 
 }
 
+/* SIDEBAR */
+
 .sidebar{
 
     width:250px;
-
     background:var(--sidebar);
-
     border-right:1px solid var(--border);
-
     padding:25px 15px;
-
     position:fixed;
-
     top:0;
-
     bottom:0;
 
 }
@@ -146,9 +126,7 @@ body::after{
 .logo{
 
     font-size:22px;
-
     font-weight:700;
-
     padding:10px 15px 30px;
 
 }
@@ -162,11 +140,8 @@ body::after{
 .nav-title{
 
     color:#748096;
-
-    font-size:11px;
-
+    font-size:13px;
     text-transform:uppercase;
-
     margin:15px;
 
 }
@@ -174,23 +149,14 @@ body::after{
 .sidebar a{
 
     display:flex;
-
     gap:12px;
-
     align-items:center;
-
-    padding:12px 15px;
-
+    padding:13px 15px;
     margin:5px 0;
-
     border-radius:10px;
-
     text-decoration:none;
-
     color:#9ca8ba;
-
-    font-size:13px;
-
+    font-size:15px;
     transition:.3s;
 
 }
@@ -199,7 +165,6 @@ body::after{
 .sidebar a.active{
 
     background:#18263a;
-
     color:var(--text);
 
 }
@@ -210,28 +175,25 @@ body::after{
 
 }
 
+/* MAIN */
+
 .main{
 
     margin-left:250px;
-
     width:calc(100% - 250px);
-
     padding:30px;
 
 }
 
+/* TOPBAR */
+
 .topbar{
 
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     border-bottom:1px solid var(--border);
-
     padding-bottom:22px;
-
     margin-bottom:30px;
 
 }
@@ -239,9 +201,7 @@ body::after{
 .breadcrumb{
 
     color:var(--muted);
-
-    font-size:12px;
-
+    font-size:14px;
     margin-bottom:8px;
 
 }
@@ -254,16 +214,14 @@ body::after{
 
 h1{
 
-    font-size:28px;
+    font-size:30px;
 
 }
 
 .subtitle{
 
     color:var(--muted);
-
-    font-size:13px;
-
+    font-size:15px;
     margin-top:5px;
 
 }
@@ -271,9 +229,7 @@ h1{
 .actions{
 
     display:flex;
-
     align-items:center;
-
     gap:12px;
 
 }
@@ -281,83 +237,58 @@ h1{
 .icon-btn{
 
     background:var(--card);
-
     border:1px solid var(--border);
-
     color:var(--text);
-
     padding:10px 14px;
-
     border-radius:9px;
-
     cursor:pointer;
-
-    font-size:17px;
+    font-size:18px;
 
 }
 
 .user{
 
     display:flex;
-
     align-items:center;
-
     gap:10px;
-
     background:var(--card);
-
     border:1px solid var(--border);
-
     padding:7px 12px;
-
     border-radius:10px;
+    font-size:15px;
 
 }
 
 .avatar{
 
-    width:32px;
-
-    height:32px;
-
+    width:34px;
+    height:34px;
     border-radius:50%;
-
     display:grid;
-
     place-items:center;
-
-    background:linear-gradient(135deg,#00d4ff,#7c3aed);
-
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
     font-weight:bold;
 
 }
 
+/* ORDER HEADER */
+
 .order-header{
 
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
-    gap:20px;
-
-    background:var(--card);
-
-    border:1px solid var(--border);
-
-    border-radius:15px;
-
-    padding:22px;
-
-    margin-bottom:22px;
+    margin-bottom:25px;
 
 }
 
 .order-id{
 
-    font-size:18px;
-
+    font-size:22px;
     font-weight:600;
 
 }
@@ -365,319 +296,202 @@ h1{
 .order-date{
 
     color:var(--muted);
-
-    font-size:12px;
-
+    font-size:14px;
     margin-top:5px;
 
 }
 
 .status{
 
-    padding:7px 14px;
-
+    padding:8px 16px;
     border-radius:20px;
-
-    background:#16352d;
-
-    color:#4de2a5;
-
-    font-size:11px;
+    background:rgba(34,197,94,.15);
+    color:#22c55e;
+    font-size:14px;
 
 }
 
-.grid{
+/* CONTENT GRID */
+
+.content-grid{
 
     display:grid;
-
-    grid-template-columns:1.5fr 1fr;
-
-    gap:22px;
+    grid-template-columns:2fr 1fr;
+    gap:25px;
 
 }
 
 .card{
 
     background:var(--card);
-
     border:1px solid var(--border);
-
     border-radius:15px;
-
-    padding:24px;
-
-    margin-bottom:22px;
+    padding:25px;
 
 }
 
 .card h2{
 
-    font-size:17px;
-
+    font-size:20px;
     margin-bottom:20px;
 
 }
 
-.customer-info{
+/* CUSTOMER INFO */
+
+.info-grid{
 
     display:grid;
-
     grid-template-columns:repeat(2,1fr);
-
-    gap:18px;
-
-}
-
-.info-box{
-
-    padding:14px;
-
-    border:1px solid var(--border);
-
-    border-radius:10px;
+    gap:20px;
 
 }
 
-.info-box span{
+.info-item label{
 
     display:block;
-
     color:var(--muted);
-
-    font-size:11px;
-
-    margin-bottom:5px;
+    font-size:13px;
+    margin-bottom:6px;
 
 }
 
-.info-box strong{
+.info-item p{
 
-    font-size:13px;
+    font-size:15px;
+
+}
+
+/* TABLE */
+
+.table-wrapper{
+
+    overflow-x:auto;
 
 }
 
 table{
 
     width:100%;
-
     border-collapse:collapse;
-
-}
-
-th,
-td{
-
-    text-align:left;
-
-    padding:13px 8px;
-
-    border-bottom:1px solid var(--border);
-
-    font-size:12px;
+    min-width:600px;
 
 }
 
 th{
 
-    color:var(--muted);
-
-    font-weight:500;
-
-}
-
-.product{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-
-}
-
-.product-icon{
-
-    width:36px;
-
-    height:36px;
-
-    border-radius:8px;
-
-    display:grid;
-
-    place-items:center;
-
-    background:rgba(0,212,255,.12);
-
+    text-align:left;
     color:#00d4ff;
+    font-size:14px;
+    padding:14px;
+    border-bottom:1px solid var(--border);
 
 }
 
-.summary{
+td{
 
-    display:flex;
-
-    flex-direction:column;
-
-    gap:14px;
+    padding:16px 14px;
+    font-size:15px;
+    border-bottom:1px solid var(--border);
 
 }
 
-.summary-row{
+.total-row td{
+
+    font-weight:600;
+    font-size:17px;
+    border-bottom:none;
+
+}
+
+/* SUMMARY */
+
+.summary-item{
 
     display:flex;
-
     justify-content:space-between;
-
-    color:var(--muted);
-
-    font-size:12px;
-
-}
-
-.summary-row strong{
-
-    color:var(--text);
-
-}
-
-.total{
-
-    border-top:1px solid var(--border);
-
-    padding-top:15px;
-
-    margin-top:5px;
-
+    padding:13px 0;
+    border-bottom:1px solid var(--border);
     font-size:15px;
 
 }
 
-.total strong{
+.summary-item:last-child{
 
-    color:#00d4ff;
-
-    font-size:18px;
+    border-bottom:none;
 
 }
 
-.timeline{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:18px;
-
-}
-
-.timeline-item{
-
-    display:flex;
-
-    gap:12px;
-
-}
-
-.timeline-dot{
-
-    width:12px;
-
-    height:12px;
-
-    border-radius:50%;
-
-    background:#00d4ff;
-
-    margin-top:4px;
-
-    box-shadow:0 0 12px rgba(0,212,255,.5);
-
-}
-
-.timeline-item strong{
-
-    display:block;
-
-    font-size:12px;
-
-}
-
-.timeline-item span{
-
-    display:block;
+.summary-item span:first-child{
 
     color:var(--muted);
 
-    font-size:10px;
+}
 
-    margin-top:3px;
+.grand-total{
+
+    font-size:20px;
+    font-weight:600;
 
 }
+
+/* BUTTONS */
 
 .action-buttons{
 
     display:flex;
-
-    gap:10px;
-
-    margin-top:20px;
+    gap:12px;
+    margin-top:25px;
 
 }
 
 .btn{
 
-    flex:1;
-
-    padding:11px;
-
+    padding:12px 18px;
     border-radius:9px;
-
+    font-family:Poppins,sans-serif;
+    font-size:14px;
     cursor:pointer;
 
-    font-family:Poppins,sans-serif;
-
-    font-size:11px;
-
-    border:1px solid var(--border);
-
-    background:transparent;
-
-    color:var(--text);
-
 }
 
-.btn-primary{
-
-    background:linear-gradient(135deg,#00d4ff,#7c3aed);
+.primary-btn{
 
     border:none;
-
     color:white;
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
 
 }
+
+.secondary-btn{
+
+    border:1px solid var(--border);
+    color:var(--text);
+    background:transparent;
+
+}
+
+/* LIGHT MODE */
 
 body.light-mode{
 
     --bg:#f4f7fb;
-
     --card:#ffffff;
-
     --sidebar:#ffffff;
-
     --border:#dce3ec;
-
     --text:#172033;
-
-    --muted:#64748b;
-
+    --muted:#334155;
     --input:#ffffff;
 
 }
 
 body.light-mode .sidebar a{
 
-    color:#64748b;
+    color:#1e293b;
 
 }
 
@@ -685,8 +499,25 @@ body.light-mode .sidebar a:hover,
 body.light-mode .sidebar a.active{
 
     background:#e8f5ff;
+    color:#0f172a;
 
-    color:#172033;
+}
+
+body.light-mode .nav-title{
+
+    color:#334155;
+
+}
+
+body.light-mode .breadcrumb{
+
+    color:#475569;
+
+}
+
+body.light-mode .subtitle{
+
+    color:#475569;
 
 }
 
@@ -694,21 +525,21 @@ body.light-mode .icon-btn,
 body.light-mode .user{
 
     background:#ffffff;
+    color:#172033;
+
+}
+
+body.light-mode .secondary-btn{
 
     color:#172033;
 
 }
 
-body.light-mode .card,
-body.light-mode .order-header{
+/* RESPONSIVE */
 
-    box-shadow:0 8px 25px rgba(30,50,80,.08);
+@media(max-width:900px){
 
-}
-
-@media(max-width:1000px){
-
-    .grid{
+    .content-grid{
 
         grid-template-columns:1fr;
 
@@ -727,9 +558,7 @@ body.light-mode .order-header{
     .main{
 
         margin-left:0;
-
         width:100%;
-
         padding:20px;
 
     }
@@ -737,9 +566,7 @@ body.light-mode .order-header{
     .topbar{
 
         flex-direction:column;
-
         align-items:flex-start;
-
         gap:18px;
 
     }
@@ -747,26 +574,26 @@ body.light-mode .order-header{
     .order-header{
 
         flex-direction:column;
-
         align-items:flex-start;
+        gap:15px;
 
     }
 
-    .customer-info{
+    .info-grid{
 
         grid-template-columns:1fr;
 
     }
 
-    .card{
+    .action-buttons{
 
-        overflow:auto;
+        flex-direction:column;
 
     }
 
-    table{
+    .btn{
 
-        min-width:600px;
+        width:100%;
 
     }
 
@@ -790,7 +617,7 @@ NEXA <span>HUB</span> AI
 
 <div class="nav-title">
 
-Order Management
+Business Management
 
 </div>
 
@@ -802,38 +629,6 @@ Dashboard
 
 </a>
 
-<a href="order_list.html">
-
-<span>▤</span>
-
-Orders
-
-</a>
-
-<a href="order_form.html">
-
-<span>＋</span>
-
-Create Order
-
-</a>
-
-<a href="order_detail.html" class="active">
-
-<span>◉</span>
-
-Order Detail
-
-</a>
-
-<a href="manage_inventory.html">
-
-<span>▣</span>
-
-Inventory
-
-</a>
-
 <a href="customer_list.html">
 
 <span>♙</span>
@@ -842,9 +637,57 @@ Customers
 
 </a>
 
+<a href="employee_list.html">
+
+<span>♟</span>
+
+Employees
+
+</a>
+
+<a href="attendance_daily.html">
+
+<span>◷</span>
+
+Attendance
+
+</a>
+
+<a href="inventory_dashboard.html">
+
+<span>▣</span>
+
+Inventory
+
+</a>
+
+<a href="finance_asset_list.html">
+
+<span>▤</span>
+
+Assets
+
+</a>
+
+<a href="finance_expense_list.html">
+
+<span>▥</span>
+
+Expenses
+
+</a>
+
+<a href="order_list.html" class="active">
+
+<span>▱</span>
+
+Orders
+
+</a>
+
 <a href="reports_insights.html">
 
-<span>◈</span>
+<span>◉</span>
 
 Reports
 
@@ -868,7 +711,7 @@ Settings
 
 <div class="breadcrumb">
 
-Order Management /
+Business Management /
 
 <span>Order Detail</span>
 
@@ -882,7 +725,7 @@ Order Detail
 
 <p class="subtitle">
 
-View complete order information and status.
+View complete order information and details.
 
 </p>
 
@@ -928,7 +771,7 @@ Order #ORD-1001
 
 <div class="order-date">
 
-Placed on 25 July 2026 at 10:45 AM
+Placed on July 25, 2026 at 10:30 AM
 
 </div>
 
@@ -942,7 +785,7 @@ Completed
 
 </div>
 
-<div class="grid">
+<div class="content-grid">
 
 <div>
 
@@ -954,37 +797,69 @@ Customer Information
 
 </h2>
 
-<div class="customer-info">
+<div class="info-grid">
 
-<div class="info-box">
+<div class="info-item">
 
-<span>Customer Name</span>
+<label>
 
-<strong>Rahul Kumar</strong>
+Customer Name
 
-</div>
+</label>
 
-<div class="info-box">
+<p>
 
-<span>Phone Number</span>
+Rahul Sharma
 
-<strong>+91 98765 43210</strong>
-
-</div>
-
-<div class="info-box">
-
-<span>Email Address</span>
-
-<strong>rahul@example.com</strong>
+</p>
 
 </div>
 
-<div class="info-box">
+<div class="info-item">
 
-<span>Delivery Address</span>
+<label>
 
-<strong>Gurgaon, Haryana</strong>
+Phone Number
+
+</label>
+
+<p>
+
++91 98765 43210
+
+</p>
+
+</div>
+
+<div class="info-item">
+
+<label>
+
+Email Address
+
+</label>
+
+<p>
+
+rahul@example.com
+
+</p>
+
+</div>
+
+<div class="info-item">
+
+<label>
+
+Delivery Address
+
+</label>
+
+<p>
+
+Meerut, Uttar Pradesh
+
+</p>
 
 </div>
 
@@ -992,7 +867,7 @@ Customer Information
 
 </div>
 
-<div class="card">
+<div class="card" style="margin-top:25px;">
 
 <h2>
 
@@ -1000,17 +875,19 @@ Order Items
 
 </h2>
 
+<div class="table-wrapper">
+
 <table>
 
 <thead>
 
 <tr>
 
-<th>Product</th>
+<th>Item</th>
+
+<th>Quantity</th>
 
 <th>Price</th>
-
-<th>Qty</th>
 
 <th>Total</th>
 
@@ -1024,25 +901,27 @@ Order Items
 
 <td>
 
-<div class="product">
-
-<div class="product-icon">
-
-▣
-
-</div>
-
-Wireless Mouse
-
-</div>
+Classic Burger
 
 </td>
 
-<td>₹850</td>
+<td>
 
-<td>2</td>
+2
 
-<td>₹1,700</td>
+</td>
+
+<td>
+
+$8.00
+
+</td>
+
+<td>
+
+$16.00
+
+</td>
 
 </tr>
 
@@ -1050,31 +929,79 @@ Wireless Mouse
 
 <td>
 
-<div class="product">
-
-<div class="product-icon">
-
-▣
-
-</div>
-
-USB Cable
-
-</div>
+Fresh Juice
 
 </td>
 
-<td>₹250</td>
+<td>
 
-<td>3</td>
+2
 
-<td>₹750</td>
+</td>
+
+<td>
+
+$4.00
+
+</td>
+
+<td>
+
+$8.00
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+French Fries
+
+</td>
+
+<td>
+
+1
+
+</td>
+
+<td>
+
+$5.00
+
+</td>
+
+<td>
+
+$5.00
+
+</td>
+
+</tr>
+
+<tr class="total-row">
+
+<td colspan="3">
+
+Subtotal
+
+</td>
+
+<td>
+
+$29.00
+
+</td>
 
 </tr>
 
 </tbody>
 
 </table>
+
+</div>
 
 </div>
 
@@ -1090,37 +1017,113 @@ Order Summary
 
 </h2>
 
-<div class="summary">
+<div class="summary-item">
 
-<div class="summary-row">
+<span>
 
-<span>Subtotal</span>
+Subtotal
 
-<strong>₹2,450</strong>
+</span>
 
-</div>
+<span>
 
-<div class="summary-row">
+$29.00
 
-<span>Discount</span>
-
-<strong>₹0</strong>
+</span>
 
 </div>
 
-<div class="summary-row">
+<div class="summary-item">
 
-<span>Delivery Fee</span>
+<span>
 
-<strong>₹50</strong>
+Delivery Fee
+
+</span>
+
+<span>
+
+$3.00
+
+</span>
 
 </div>
 
-<div class="summary-row total">
+<div class="summary-item">
 
-<span>Total Amount</span>
+<span>
 
-<strong>₹2,500</strong>
+Discount
+
+</span>
+
+<span>
+
+-$2.00
+
+</span>
+
+</div>
+
+<div class="summary-item grand-total">
+
+<span>
+
+Total
+
+</span>
+
+<span>
+
+$30.00
+
+</span>
+
+</div>
+
+</div>
+
+<div class="card" style="margin-top:25px;">
+
+<h2>
+
+Payment Details
+
+</h2>
+
+<div class="summary-item">
+
+<span>
+
+Payment Method
+
+</span>
+
+<span>
+
+Card
+
+</span>
+
+</div>
+
+<div class="summary-item">
+
+<span>
+
+Payment Status
+
+</span>
+
+<span class="good">
+
+Paid
+
+</span>
+
+</div>
+
+</div>
 
 </div>
 
@@ -1128,93 +1131,23 @@ Order Summary
 
 <div class="action-buttons">
 
-<button class="btn btn-primary">
+<button class="btn primary-btn" onclick="alert('Order updated successfully!')">
 
-Print Invoice
-
-</button>
-
-<button class="btn">
-
-Download
+Update Order
 
 </button>
 
-</div>
+<button class="btn secondary-btn" onclick="window.print()">
 
-</div>
+Print Order
 
-<div class="card">
+</button>
 
-<h2>
+<button class="btn secondary-btn" onclick="history.back()">
 
-Order Timeline
+Back
 
-</h2>
-
-<div class="timeline">
-
-<div class="timeline-item">
-
-<div class="timeline-dot"></div>
-
-<div>
-
-<strong>Order Completed</strong>
-
-<span>25 July 2026 • 11:30 AM</span>
-
-</div>
-
-</div>
-
-<div class="timeline-item">
-
-<div class="timeline-dot"></div>
-
-<div>
-
-<strong>Order Shipped</strong>
-
-<span>25 July 2026 • 11:00 AM</span>
-
-</div>
-
-</div>
-
-<div class="timeline-item">
-
-<div class="timeline-dot"></div>
-
-<div>
-
-<strong>Order Confirmed</strong>
-
-<span>25 July 2026 • 10:50 AM</span>
-
-</div>
-
-</div>
-
-<div class="timeline-item">
-
-<div class="timeline-dot"></div>
-
-<div>
-
-<strong>Order Placed</strong>
-
-<span>25 July 2026 • 10:45 AM</span>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
+</button>
 
 </div>
 
@@ -1246,7 +1179,9 @@ themeToggle.addEventListener("click",function(){
 
         localStorage.setItem("theme","light");
 
-    }else{
+    }
+
+    else{
 
         themeToggle.textContent = "☾";
 

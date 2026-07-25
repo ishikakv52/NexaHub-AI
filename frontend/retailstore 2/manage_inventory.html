@@ -33,38 +33,27 @@
 body{
 
     font-family:Poppins,sans-serif;
-
     background:var(--bg);
-
     color:var(--text);
-
     min-height:100vh;
-
     overflow-x:hidden;
-
     transition:.3s ease;
 
 }
+
+/* ANIMATED BACKGROUND */
 
 body::before,
 body::after{
 
     content:"";
-
     position:fixed;
-
     width:400px;
-
     height:400px;
-
     border-radius:50%;
-
     filter:blur(110px);
-
     opacity:.20;
-
     z-index:-1;
-
     pointer-events:none;
 
 }
@@ -72,11 +61,8 @@ body::after{
 body::before{
 
     background:#00d4ff;
-
     top:-150px;
-
     left:-100px;
-
     animation:moveOne 12s infinite alternate ease-in-out;
 
 }
@@ -84,11 +70,8 @@ body::before{
 body::after{
 
     background:#7c3aed;
-
     right:-150px;
-
     bottom:-150px;
-
     animation:moveTwo 15s infinite alternate ease-in-out;
 
 }
@@ -117,28 +100,25 @@ body::after{
 
 }
 
+/* LAYOUT */
+
 .app{
 
     display:flex;
-
     min-height:100vh;
 
 }
 
+/* SIDEBAR */
+
 .sidebar{
 
     width:250px;
-
     background:var(--sidebar);
-
     border-right:1px solid var(--border);
-
     padding:25px 15px;
-
     position:fixed;
-
     top:0;
-
     bottom:0;
 
 }
@@ -146,9 +126,7 @@ body::after{
 .logo{
 
     font-size:22px;
-
     font-weight:700;
-
     padding:10px 15px 30px;
 
 }
@@ -162,11 +140,8 @@ body::after{
 .nav-title{
 
     color:#748096;
-
-    font-size:11px;
-
+    font-size:13px;
     text-transform:uppercase;
-
     margin:15px;
 
 }
@@ -174,23 +149,14 @@ body::after{
 .sidebar a{
 
     display:flex;
-
     gap:12px;
-
     align-items:center;
-
-    padding:12px 15px;
-
+    padding:13px 15px;
     margin:5px 0;
-
     border-radius:10px;
-
     text-decoration:none;
-
     color:#9ca8ba;
-
-    font-size:13px;
-
+    font-size:15px;
     transition:.3s;
 
 }
@@ -199,7 +165,6 @@ body::after{
 .sidebar a.active{
 
     background:#18263a;
-
     color:var(--text);
 
 }
@@ -210,28 +175,25 @@ body::after{
 
 }
 
+/* MAIN */
+
 .main{
 
     margin-left:250px;
-
     width:calc(100% - 250px);
-
     padding:30px;
 
 }
 
+/* TOPBAR */
+
 .topbar{
 
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     border-bottom:1px solid var(--border);
-
     padding-bottom:22px;
-
     margin-bottom:30px;
 
 }
@@ -239,9 +201,7 @@ body::after{
 .breadcrumb{
 
     color:var(--muted);
-
-    font-size:12px;
-
+    font-size:14px;
     margin-bottom:8px;
 
 }
@@ -254,16 +214,14 @@ body::after{
 
 h1{
 
-    font-size:28px;
+    font-size:30px;
 
 }
 
 .subtitle{
 
     color:var(--muted);
-
-    font-size:13px;
-
+    font-size:15px;
     margin-top:5px;
 
 }
@@ -271,9 +229,7 @@ h1{
 .actions{
 
     display:flex;
-
     align-items:center;
-
     gap:12px;
 
 }
@@ -281,373 +237,247 @@ h1{
 .icon-btn{
 
     background:var(--card);
-
     border:1px solid var(--border);
-
     color:var(--text);
-
     padding:10px 14px;
-
     border-radius:9px;
-
     cursor:pointer;
-
-    font-size:17px;
+    font-size:18px;
 
 }
 
 .user{
 
     display:flex;
-
     align-items:center;
-
     gap:10px;
-
     background:var(--card);
-
     border:1px solid var(--border);
-
     padding:7px 12px;
-
     border-radius:10px;
+    font-size:15px;
 
 }
 
 .avatar{
 
-    width:32px;
-
-    height:32px;
-
+    width:34px;
+    height:34px;
     border-radius:50%;
-
     display:grid;
-
     place-items:center;
-
-    background:linear-gradient(135deg,#00d4ff,#7c3aed);
-
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
     font-weight:bold;
 
 }
 
-.card{
+/* PAGE HEADER */
 
-    background:var(--card);
-
-    border:1px solid var(--border);
-
-    border-radius:15px;
-
-    padding:24px;
-
-    margin-bottom:25px;
-
-}
-
-.card h2{
-
-    font-size:18px;
-
-    margin-bottom:20px;
-
-}
-
-.inventory-grid{
-
-    display:grid;
-
-    grid-template-columns:repeat(4,1fr);
-
-    gap:18px;
-
-}
-
-.inventory-card{
-
-    padding:20px;
-
-    border:1px solid var(--border);
-
-    border-radius:13px;
-
-    transition:.3s;
-
-}
-
-.inventory-card:hover{
-
-    transform:translateY(-4px);
-
-    border-color:#00d4ff;
-
-}
-
-.inventory-icon{
-
-    width:45px;
-
-    height:45px;
-
-    border-radius:11px;
-
-    display:grid;
-
-    place-items:center;
-
-    background:rgba(0,212,255,.12);
-
-    color:#00d4ff;
-
-    font-size:20px;
-
-    margin-bottom:15px;
-
-}
-
-.inventory-card span{
-
-    display:block;
-
-    color:var(--muted);
-
-    font-size:11px;
-
-}
-
-.inventory-card strong{
-
-    display:block;
-
-    font-size:22px;
-
-    margin-top:5px;
-
-}
-
-.toolbar{
+.page-header{
 
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
-    gap:15px;
-
-    margin-bottom:20px;
+    margin-bottom:22px;
 
 }
+
+.add-btn{
+
+    padding:13px 20px;
+    border:none;
+    border-radius:9px;
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
+    color:white;
+    cursor:pointer;
+    font-family:Poppins,sans-serif;
+    font-size:15px;
+
+}
+
+/* SEARCH */
 
 .search-box{
 
-    flex:1;
-
-    max-width:400px;
+    display:flex;
+    gap:12px;
+    margin-bottom:22px;
 
 }
 
-input,
-select{
+.search-box input,
+.search-box select{
 
-    width:100%;
-
-    padding:12px 14px;
-
+    padding:13px 15px;
     border-radius:9px;
-
     border:1px solid var(--border);
-
+    background:var(--input);
+    color:var(--text);
+    font-family:Poppins,sans-serif;
+    font-size:14px;
     outline:none;
 
-    background:var(--input);
+}
 
-    color:var(--text);
+.search-box input{
 
-    font-family:Poppins,sans-serif;
-
-    font-size:13px;
+    flex:1;
 
 }
 
-input:focus,
-select:focus{
+.search-box select{
 
-    border-color:#00d4ff;
-
-}
-
-.btn{
-
-    padding:12px 18px;
-
-    border:none;
-
-    border-radius:9px;
-
-    cursor:pointer;
-
-    font-family:Poppins,sans-serif;
-
-    font-size:12px;
-
-    transition:.3s;
+    width:200px;
 
 }
 
-.btn-primary{
+/* CARD */
 
-    background:linear-gradient(135deg,#00d4ff,#7c3aed);
+.card{
 
-    color:white;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:25px;
 
 }
 
-.btn-primary:hover{
+/* TABLE */
 
-    transform:translateY(-2px);
+.table-wrapper{
+
+    overflow-x:auto;
 
 }
 
 table{
 
     width:100%;
-
     border-collapse:collapse;
-
-}
-
-th,
-td{
-
-    text-align:left;
-
-    padding:14px;
-
-    border-bottom:1px solid var(--border);
-
-    font-size:12px;
+    min-width:900px;
 
 }
 
 th{
 
-    color:var(--muted);
-
-    font-weight:500;
-
-}
-
-.product-name{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
+    text-align:left;
+    color:#00d4ff;
+    font-size:14px;
+    padding:15px;
+    border-bottom:1px solid var(--border);
 
 }
 
-.product-icon{
+td{
 
-    width:35px;
-
-    height:35px;
-
-    display:grid;
-
-    place-items:center;
-
-    border-radius:8px;
-
-    background:rgba(124,58,237,.15);
-
-    color:#a78bfa;
+    padding:16px 15px;
+    font-size:15px;
+    border-bottom:1px solid var(--border);
 
 }
 
-.status{
+.stock-number{
 
-    padding:5px 10px;
-
-    border-radius:20px;
-
-    font-size:10px;
+    font-weight:600;
 
 }
 
 .good{
 
-    background:#16352d;
-
-    color:#4de2a5;
+    color:#22c55e;
 
 }
 
 .low{
 
-    background:#3b321c;
-
-    color:#f5c451;
+    color:#f59e0b;
 
 }
 
 .out{
 
-    background:#3a2027;
-
-    color:#ff879b;
+    color:#ef4444;
 
 }
 
+.status{
+
+    display:inline-block;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:13px;
+
+}
+
+.good-status{
+
+    background:rgba(34,197,94,.15);
+    color:#22c55e;
+
+}
+
+.low-status{
+
+    background:rgba(245,158,11,.15);
+    color:#f59e0b;
+
+}
+
+.out-status{
+
+    background:rgba(239,68,68,.15);
+    color:#ef4444;
+
+}
+
+/* ACTION BUTTONS */
+
 .action-btn{
 
-    padding:7px 10px;
-
+    padding:8px 12px;
     border:1px solid var(--border);
-
     border-radius:7px;
-
     background:transparent;
-
     color:var(--text);
-
     cursor:pointer;
-
-    font-size:11px;
+    font-family:Poppins,sans-serif;
+    font-size:13px;
+    margin-right:5px;
 
 }
 
 .action-btn:hover{
 
     border-color:#00d4ff;
-
     color:#00d4ff;
 
 }
 
+/* LIGHT MODE */
+
 body.light-mode{
 
     --bg:#f4f7fb;
-
     --card:#ffffff;
-
     --sidebar:#ffffff;
-
     --border:#dce3ec;
-
     --text:#172033;
-
-    --muted:#64748b;
-
+    --muted:#334155;
     --input:#ffffff;
 
 }
 
 body.light-mode .sidebar a{
 
-    color:#64748b;
+    color:#1e293b;
 
 }
 
@@ -655,8 +485,25 @@ body.light-mode .sidebar a:hover,
 body.light-mode .sidebar a.active{
 
     background:#e8f5ff;
+    color:#0f172a;
 
-    color:#172033;
+}
+
+body.light-mode .nav-title{
+
+    color:#334155;
+
+}
+
+body.light-mode .breadcrumb{
+
+    color:#475569;
+
+}
+
+body.light-mode .subtitle{
+
+    color:#475569;
 
 }
 
@@ -664,22 +511,37 @@ body.light-mode .icon-btn,
 body.light-mode .user{
 
     background:#ffffff;
+    color:#172033;
+
+}
+
+body.light-mode input,
+body.light-mode select{
+
+    background:#ffffff;
+    color:#172033;
+
+}
+
+body.light-mode .action-btn{
 
     color:#172033;
 
 }
 
-body.light-mode .card{
+/* RESPONSIVE */
 
-    box-shadow:0 8px 25px rgba(30,50,80,.08);
+@media(max-width:800px){
 
-}
+    .search-box{
 
-@media(max-width:1050px){
+        flex-direction:column;
 
-    .inventory-grid{
+    }
 
-        grid-template-columns:repeat(2,1fr);
+    .search-box select{
+
+        width:100%;
 
     }
 
@@ -696,9 +558,7 @@ body.light-mode .card{
     .main{
 
         margin-left:0;
-
         width:100%;
-
         padding:20px;
 
     }
@@ -706,42 +566,22 @@ body.light-mode .card{
     .topbar{
 
         flex-direction:column;
-
         align-items:flex-start;
-
         gap:18px;
 
     }
 
-    .inventory-grid{
-
-        grid-template-columns:1fr;
-
-    }
-
-    .toolbar{
+    .page-header{
 
         flex-direction:column;
-
-        align-items:stretch;
-
-    }
-
-    .search-box{
-
-        max-width:none;
+        align-items:flex-start;
+        gap:15px;
 
     }
 
-    .card{
+    .add-btn{
 
-        overflow:auto;
-
-    }
-
-    table{
-
-        min-width:700px;
+        width:100%;
 
     }
 
@@ -765,7 +605,7 @@ NEXA <span>HUB</span> AI
 
 <div class="nav-title">
 
-Retail Store
+Business Management
 
 </div>
 
@@ -777,35 +617,59 @@ Dashboard
 
 </a>
 
-<a href="manage_inventory.html" class="active">
+<a href="customer_list.html">
 
-<span>▣</span>
+<span>♙</span>
 
-Manage Inventory
+Customers
 
 </a>
 
-<a href="product_list.html">
+<a href="employee_list.html">
 
-<span>◈</span>
+<span>♟</span>
 
-Products
+Employees
+
+</a>
+
+<a href="attendance_daily.html">
+
+<span>◷</span>
+
+Attendance
+
+</a>
+
+<a href="inventory_dashboard.html" class="active">
+
+<span>▣</span>
+
+Inventory
+
+</a>
+
+<a href="finance_asset_list.html">
+
+<span>▤</span>
+
+Assets
+
+</a>
+
+<a href="finance_expense_list.html">
+
+<span>▥</span>
+
+Expenses
 
 </a>
 
 <a href="order_list.html">
 
-<span>▤</span>
+<span>▱</span>
 
 Orders
-
-</a>
-
-<a href="supplier_list.html">
-
-<span>♙</span>
-
-Suppliers
 
 </a>
 
@@ -835,7 +699,7 @@ Settings
 
 <div class="breadcrumb">
 
-Retail Store /
+Business Management /
 
 <span>Manage Inventory</span>
 
@@ -849,7 +713,7 @@ Manage Inventory
 
 <p class="subtitle">
 
-Manage stock levels, products, and inventory activity.
+View, update and manage all inventory products.
 
 </p>
 
@@ -883,107 +747,71 @@ Admin
 
 </div>
 
-<div class="card">
+<div class="page-header">
 
-<h2>
+<div></div>
 
-Inventory Summary
+<button
 
-</h2>
+class="add-btn"
 
-<div class="inventory-grid">
+onclick="location.href='inventory_adjustment.html'"
 
-<div class="inventory-card">
+>
 
-<div class="inventory-icon">
-
-▣
-
-</div>
-
-<span>Total Products</span>
-
-<strong>1,248</strong>
-
-</div>
-
-<div class="inventory-card">
-
-<div class="inventory-icon">
-
-✓
-
-</div>
-
-<span>Available Stock</span>
-
-<strong>1,124</strong>
-
-</div>
-
-<div class="inventory-card">
-
-<div class="inventory-icon">
-
-!
-
-</div>
-
-<span>Low Stock</span>
-
-<strong>86</strong>
-
-</div>
-
-<div class="inventory-card">
-
-<div class="inventory-icon">
-
-×
-
-</div>
-
-<span>Out of Stock</span>
-
-<strong>38</strong>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="toolbar">
-
-<div class="search-box">
-
-<input type="search" placeholder="Search products...">
-
-</div>
-
-<select style="max-width:180px;">
-
-<option>All Categories</option>
-
-<option>Electronics</option>
-
-<option>Accessories</option>
-
-<option>Office Supplies</option>
-
-</select>
-
-<button class="btn btn-primary">
-
-+ Add Stock
+＋ Adjust Inventory
 
 </button>
 
 </div>
 
-<table>
+<div class="search-box">
+
+<input
+
+type="text"
+
+id="searchInput"
+
+placeholder="Search products..."
+
+>
+
+<select id="categoryFilter">
+
+<option value="all">
+
+All Categories
+
+</option>
+
+<option value="Beverages">
+
+Beverages
+
+</option>
+
+<option value="Food">
+
+Food
+
+</option>
+
+<option value="Supplies">
+
+Supplies
+
+</option>
+
+</select>
+
+</div>
+
+<div class="card">
+
+<div class="table-wrapper">
+
+<table id="inventoryTable">
 
 <thead>
 
@@ -1001,7 +829,7 @@ Inventory Summary
 
 <th>Status</th>
 
-<th>Action</th>
+<th>Actions</th>
 
 </tr>
 
@@ -1013,31 +841,157 @@ Inventory Summary
 
 <td>
 
-<div class="product-name">
-
-<div class="product-icon">
-
-▣
-
-</div>
-
-Wireless Mouse
-
-</div>
+Premium Coffee
 
 </td>
 
-<td>WM-1001</td>
+<td>
 
-<td>Accessories</td>
+SKU-1001
 
-<td>8</td>
-
-<td>20</td>
+</td>
 
 <td>
 
-<span class="status low">
+Beverages
+
+</td>
+
+<td class="stock-number good">
+
+1,250
+
+</td>
+
+<td>
+
+200
+
+</td>
+
+<td>
+
+<span class="status good-status">
+
+Good Stock
+
+</span>
+
+</td>
+
+<td>
+
+<button
+
+class="action-btn"
+
+onclick="location.href='inventory_adjustment.html'"
+
+>
+
+Adjust
+
+</button>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+Classic Burger
+
+</td>
+
+<td>
+
+SKU-1002
+
+</td>
+
+<td>
+
+Food
+
+</td>
+
+<td class="stock-number good">
+
+850
+
+</td>
+
+<td>
+
+150
+
+</td>
+
+<td>
+
+<span class="status good-status">
+
+Good Stock
+
+</span>
+
+</td>
+
+<td>
+
+<button
+
+class="action-btn"
+
+onclick="location.href='inventory_adjustment.html'"
+
+>
+
+Adjust
+
+</button>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+Fresh Juice
+
+</td>
+
+<td>
+
+SKU-1003
+
+</td>
+
+<td>
+
+Beverages
+
+</td>
+
+<td class="stock-number low">
+
+120
+
+</td>
+
+<td>
+
+200
+
+</td>
+
+<td>
+
+<span class="status low-status">
 
 Low Stock
 
@@ -1047,7 +1001,13 @@ Low Stock
 
 <td>
 
-<button class="action-btn">
+<button
+
+class="action-btn"
+
+onclick="location.href='inventory_adjustment.html'"
+
+>
 
 Adjust
 
@@ -1061,79 +1021,37 @@ Adjust
 
 <td>
 
-<div class="product-name">
-
-<div class="product-icon">
-
-▣
-
-</div>
-
-Office Laptop
-
-</div>
-
-</td>
-
-<td>LT-1002</td>
-
-<td>Electronics</td>
-
-<td>45</td>
-
-<td>10</td>
-
-<td>
-
-<span class="status good">
-
-In Stock
-
-</span>
+Veg Pizza
 
 </td>
 
 <td>
 
-<button class="action-btn">
-
-Adjust
-
-</button>
+SKU-1004
 
 </td>
 
-</tr>
-
-<tr>
-
 <td>
 
-<div class="product-name">
-
-<div class="product-icon">
-
-▣
-
-</div>
-
-USB Cable
-
-</div>
+Food
 
 </td>
 
-<td>USB-1003</td>
+<td class="stock-number out">
 
-<td>Accessories</td>
+0
 
-<td>0</td>
-
-<td>15</td>
+</td>
 
 <td>
 
-<span class="status out">
+100
+
+</td>
+
+<td>
+
+<span class="status out-status">
 
 Out of Stock
 
@@ -1143,7 +1061,13 @@ Out of Stock
 
 <td>
 
-<button class="action-btn">
+<button
+
+class="action-btn"
+
+onclick="location.href='inventory_adjustment.html'"
+
+>
 
 Adjust
 
@@ -1157,33 +1081,39 @@ Adjust
 
 <td>
 
-<div class="product-name">
-
-<div class="product-icon">
-
-▣
-
-</div>
-
-Keyboard
-
-</div>
+Paper Cups
 
 </td>
 
-<td>KB-1004</td>
+<td>
 
-<td>Accessories</td>
+SKU-1005
 
-<td>32</td>
-
-<td>10</td>
+</td>
 
 <td>
 
-<span class="status good">
+Supplies
 
-In Stock
+</td>
+
+<td class="stock-number good">
+
+2,450
+
+</td>
+
+<td>
+
+500
+
+</td>
+
+<td>
+
+<span class="status good-status">
+
+Good Stock
 
 </span>
 
@@ -1191,7 +1121,13 @@ In Stock
 
 <td>
 
-<button class="action-btn">
+<button
+
+class="action-btn"
+
+onclick="location.href='inventory_adjustment.html'"
+
+>
 
 Adjust
 
@@ -1204,6 +1140,8 @@ Adjust
 </tbody>
 
 </table>
+
+</div>
 
 </div>
 
@@ -1235,7 +1173,9 @@ themeToggle.addEventListener("click",function(){
 
         localStorage.setItem("theme","light");
 
-    }else{
+    }
+
+    else{
 
         themeToggle.textContent = "☾";
 
@@ -1244,6 +1184,50 @@ themeToggle.addEventListener("click",function(){
     }
 
 });
+
+/* SEARCH AND FILTER */
+
+const searchInput = document.getElementById("searchInput");
+
+const categoryFilter = document.getElementById("categoryFilter");
+
+const rows = document.querySelectorAll("#inventoryTable tbody tr");
+
+function filterInventory(){
+
+    const searchValue = searchInput.value.toLowerCase();
+
+    const categoryValue = categoryFilter.value;
+
+    rows.forEach(row => {
+
+        const product = row.cells[0].textContent.toLowerCase();
+
+        const category = row.cells[2].textContent.trim();
+
+        const matchSearch = product.includes(searchValue);
+
+        const matchCategory =
+
+            categoryValue === "all" ||
+
+            category === categoryValue;
+
+        row.style.display =
+
+            matchSearch && matchCategory
+
+            ? ""
+
+            : "none";
+
+    });
+
+}
+
+searchInput.addEventListener("input",filterInventory);
+
+categoryFilter.addEventListener("change",filterInventory);
 
 </script>
 

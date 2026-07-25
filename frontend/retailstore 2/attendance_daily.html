@@ -4,7 +4,6 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>NEXA HUB AI | Daily Attendance</title>
@@ -14,11 +13,9 @@
 <style>
 
 *{
-
     margin:0;
     padding:0;
     box-sizing:border-box;
-
 }
 
 :root{
@@ -39,9 +36,12 @@ body{
     background:var(--bg);
     color:var(--text);
     min-height:100vh;
-    transition:.3s;
+    overflow-x:hidden;
+    transition:.3s ease;
 
 }
+
+/* ANIMATED BACKGROUND */
 
 body::before,
 body::after{
@@ -54,6 +54,7 @@ body::after{
     filter:blur(110px);
     opacity:.20;
     z-index:-1;
+    pointer-events:none;
 
 }
 
@@ -62,7 +63,7 @@ body::before{
     background:#00d4ff;
     top:-150px;
     left:-100px;
-    animation:moveOne 12s infinite alternate;
+    animation:moveOne 12s infinite alternate ease-in-out;
 
 }
 
@@ -71,29 +72,35 @@ body::after{
     background:#7c3aed;
     right:-150px;
     bottom:-150px;
-    animation:moveTwo 15s infinite alternate;
+    animation:moveTwo 15s infinite alternate ease-in-out;
 
 }
 
 @keyframes moveOne{
 
+    from{
+        transform:translate(0,0);
+    }
+
     to{
-
         transform:translate(180px,180px);
-
     }
 
 }
 
 @keyframes moveTwo{
 
+    from{
+        transform:translate(0,0);
+    }
+
     to{
-
         transform:translate(-180px,-150px);
-
     }
 
 }
+
+/* LAYOUT */
 
 .app{
 
@@ -101,6 +108,8 @@ body::after{
     min-height:100vh;
 
 }
+
+/* SIDEBAR */
 
 .sidebar{
 
@@ -131,7 +140,7 @@ body::after{
 .nav-title{
 
     color:#748096;
-    font-size:11px;
+    font-size:13px;
     text-transform:uppercase;
     margin:15px;
 
@@ -142,12 +151,13 @@ body::after{
     display:flex;
     gap:12px;
     align-items:center;
-    padding:12px 15px;
+    padding:13px 15px;
     margin:5px 0;
     border-radius:10px;
     text-decoration:none;
     color:#9ca8ba;
-    font-size:13px;
+    font-size:15px;
+    transition:.3s;
 
 }
 
@@ -165,6 +175,8 @@ body::after{
 
 }
 
+/* MAIN */
+
 .main{
 
     margin-left:250px;
@@ -172,6 +184,8 @@ body::after{
     padding:30px;
 
 }
+
+/* TOPBAR */
 
 .topbar{
 
@@ -187,7 +201,7 @@ body::after{
 .breadcrumb{
 
     color:var(--muted);
-    font-size:12px;
+    font-size:14px;
     margin-bottom:8px;
 
 }
@@ -200,14 +214,14 @@ body::after{
 
 h1{
 
-    font-size:28px;
+    font-size:30px;
 
 }
 
 .subtitle{
 
     color:var(--muted);
-    font-size:13px;
+    font-size:15px;
     margin-top:5px;
 
 }
@@ -228,7 +242,7 @@ h1{
     padding:10px 14px;
     border-radius:9px;
     cursor:pointer;
-    font-size:17px;
+    font-size:18px;
 
 }
 
@@ -241,68 +255,91 @@ h1{
     border:1px solid var(--border);
     padding:7px 12px;
     border-radius:10px;
+    font-size:15px;
 
 }
 
 .avatar{
 
-    width:32px;
-    height:32px;
+    width:34px;
+    height:34px;
     border-radius:50%;
     display:grid;
     place-items:center;
-    background:linear-gradient(135deg,#00d4ff,#7c3aed);
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
     font-weight:bold;
 
 }
 
-.toolbar{
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-    margin-bottom:25px;
-
-}
-
-.date-input{
-
-    padding:12px 15px;
-    background:var(--input);
-    border:1px solid var(--border);
-    border-radius:9px;
-    color:var(--text);
-    font-family:Poppins,sans-serif;
-
-}
-
-.save-btn{
-
-    padding:12px 20px;
-    border:none;
-    border-radius:9px;
-    background:linear-gradient(135deg,#00d4ff,#7c3aed);
-    color:white;
-    cursor:pointer;
-    font-family:Poppins,sans-serif;
-
-}
+/* CONTENT CARD */
 
 .card{
 
     background:var(--card);
     border:1px solid var(--border);
     border-radius:15px;
-    padding:24px;
-    overflow:auto;
+    padding:28px;
+    max-width:1100px;
 
 }
 
-.card h2{
+/* FILTERS */
 
-    font-size:18px;
-    margin-bottom:20px;
+.filters{
+
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+    margin-bottom:28px;
+
+}
+
+.form-group{
+
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+
+}
+
+label{
+
+    color:var(--muted);
+    font-size:14px;
+
+}
+
+input,
+select{
+
+    width:100%;
+    padding:14px 15px;
+    border-radius:9px;
+    border:1px solid var(--border);
+    background:var(--input);
+    color:var(--text);
+    font-family:Poppins,sans-serif;
+    font-size:15px;
+    outline:none;
+
+}
+
+input:focus,
+select:focus{
+
+    border-color:#00d4ff;
+
+}
+
+/* TABLE */
+
+.table-wrapper{
+
+    overflow-x:auto;
 
 }
 
@@ -310,83 +347,60 @@ table{
 
     width:100%;
     border-collapse:collapse;
-    min-width:750px;
-
-}
-
-th,
-td{
-
-    text-align:left;
-    padding:15px;
-    border-bottom:1px solid var(--border);
-    font-size:13px;
+    min-width:700px;
 
 }
 
 th{
 
-    color:var(--muted);
-    font-weight:500;
+    text-align:left;
+    color:#00d4ff;
+    font-size:14px;
+    padding:15px;
+    border-bottom:1px solid var(--border);
 
 }
 
-.employee{
+td{
 
-    font-weight:600;
-
-}
-
-.employee small{
-
-    display:block;
-    color:var(--muted);
-    font-size:10px;
-    margin-top:3px;
+    padding:16px 15px;
+    font-size:15px;
+    border-bottom:1px solid var(--border);
+    color:var(--text);
 
 }
 
 .status{
 
-    padding:5px 10px;
+    display:inline-block;
+    padding:6px 12px;
     border-radius:20px;
-    font-size:11px;
+    font-size:13px;
 
 }
 
 .present{
 
-    background:#16352d;
-    color:#4de2a5;
+    background:rgba(34,197,94,.15);
+    color:#22c55e;
 
 }
 
 .absent{
 
-    background:#3a2028;
-    color:#ff7186;
+    background:rgba(239,68,68,.15);
+    color:#ef4444;
 
 }
 
 .leave{
 
-    background:#3b3218;
-    color:#f5c451;
+    background:rgba(245,158,11,.15);
+    color:#f59e0b;
 
 }
 
-select{
-
-    padding:8px 10px;
-    background:var(--input);
-    border:1px solid var(--border);
-    border-radius:7px;
-    color:var(--text);
-    font-family:Poppins,sans-serif;
-
-}
-
-/* LIGHT */
+/* LIGHT MODE */
 
 body.light-mode{
 
@@ -395,14 +409,14 @@ body.light-mode{
     --sidebar:#ffffff;
     --border:#dce3ec;
     --text:#172033;
-    --muted:#64748b;
+    --muted:#334155;
     --input:#ffffff;
 
 }
 
 body.light-mode .sidebar a{
 
-    color:#64748b;
+    color:#1e293b;
 
 }
 
@@ -410,7 +424,31 @@ body.light-mode .sidebar a:hover,
 body.light-mode .sidebar a.active{
 
     background:#e8f5ff;
-    color:#172033;
+    color:#0f172a;
+
+}
+
+body.light-mode .nav-title{
+
+    color:#334155;
+
+}
+
+body.light-mode .breadcrumb{
+
+    color:#475569;
+
+}
+
+body.light-mode .subtitle{
+
+    color:#475569;
+
+}
+
+body.light-mode label{
+
+    color:#334155;
 
 }
 
@@ -422,16 +460,23 @@ body.light-mode .user{
 
 }
 
-body.light-mode .card{
+body.light-mode input,
+body.light-mode select{
 
-    box-shadow:0 8px 25px rgba(30,50,80,.08);
+    background:#ffffff;
+    color:#172033;
 
 }
 
-body.light-mode .date-input,
-body.light-mode select{
+/* RESPONSIVE */
 
-    color:#172033;
+@media(max-width:800px){
+
+    .filters{
+
+        grid-template-columns:1fr;
+
+    }
 
 }
 
@@ -459,17 +504,9 @@ body.light-mode select{
 
     }
 
-    .toolbar{
+    .card{
 
-        flex-direction:column;
-        align-items:stretch;
-
-    }
-
-    .date-input,
-    .save-btn{
-
-        width:100%;
+        padding:20px;
 
     }
 
@@ -482,6 +519,8 @@ body.light-mode select{
 <body>
 
 <div class="app">
+
+<!-- SIDEBAR -->
 
 <aside class="sidebar">
 
@@ -502,14 +541,6 @@ Business Management
 <span>⌂</span>
 
 Dashboard
-
-</a>
-
-<a href="asset_form.html">
-
-<span>▣</span>
-
-Assets
 
 </a>
 
@@ -555,6 +586,8 @@ Settings
 
 </aside>
 
+<!-- MAIN -->
+
 <main class="main">
 
 <div class="topbar">
@@ -577,7 +610,7 @@ Daily Attendance
 
 <p class="subtitle">
 
-Track employee attendance for today.
+Manage employee attendance for the day.
 
 </p>
 
@@ -611,39 +644,63 @@ Admin
 
 </div>
 
-<div class="toolbar">
-
-<input
-
-type="date"
-
-class="date-input"
-
-value="2026-07-25"
-
->
-
-<button
-
-class="save-btn"
-
-onclick="saveAttendance()"
-
->
-
-Save Attendance
-
-</button>
-
-</div>
+<!-- CARD -->
 
 <div class="card">
 
-<h2>
+<div class="filters">
 
-Employee Attendance
+<div class="form-group">
 
-</h2>
+<label>
+
+Attendance Date
+
+</label>
+
+<input type="date">
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Department
+
+</label>
+
+<select>
+
+<option>All Departments</option>
+
+<option>Management</option>
+
+<option>Sales</option>
+
+<option>Finance</option>
+
+<option>Operations</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Search Employee
+
+</label>
+
+<input type="text" placeholder="Search employee">
+
+</div>
+
+</div>
+
+<div class="table-wrapper">
 
 <table>
 
@@ -669,59 +726,21 @@ Employee Attendance
 
 <tr>
 
-<td>
+<td>Rahul Sharma</td>
 
-<div class="employee">
+<td>Management</td>
 
-Rahul Kumar
+<td>09:00 AM</td>
 
-<small>EMP-1001</small>
-
-</div>
-
-</td>
+<td>06:00 PM</td>
 
 <td>
 
-Sales
-
-</td>
-
-<td>
-
-09:05 AM
-
-</td>
-
-<td>
-
-06:10 PM
-
-</td>
-
-<td>
-
-<select onchange="updateStatus(this)">
-
-<option value="present">
+<span class="status present">
 
 Present
 
-</option>
-
-<option value="absent">
-
-Absent
-
-</option>
-
-<option value="leave">
-
-Leave
-
-</option>
-
-</select>
+</span>
 
 </td>
 
@@ -729,59 +748,21 @@ Leave
 
 <tr>
 
-<td>
+<td>Priya Singh</td>
 
-<div class="employee">
+<td>Finance</td>
 
-Aman Sharma
+<td>09:15 AM</td>
 
-<small>EMP-1002</small>
-
-</div>
-
-</td>
+<td>06:10 PM</td>
 
 <td>
 
-Operations
-
-</td>
-
-<td>
-
-09:20 AM
-
-</td>
-
-<td>
-
-06:00 PM
-
-</td>
-
-<td>
-
-<select onchange="updateStatus(this)">
-
-<option value="present">
+<span class="status present">
 
 Present
 
-</option>
-
-<option value="absent">
-
-Absent
-
-</option>
-
-<option value="leave">
-
-Leave
-
-</option>
-
-</select>
+</span>
 
 </td>
 
@@ -789,59 +770,21 @@ Leave
 
 <tr>
 
-<td>
+<td>Amit Kumar</td>
 
-<div class="employee">
+<td>Operations</td>
 
-Priya Singh
+<td>—</td>
 
-<small>EMP-1003</small>
-
-</div>
-
-</td>
+<td>—</td>
 
 <td>
 
-Finance
-
-</td>
-
-<td>
-
-—
-
-</td>
-
-<td>
-
-—
-
-</td>
-
-<td>
-
-<select onchange="updateStatus(this)">
-
-<option value="absent">
+<span class="status absent">
 
 Absent
 
-</option>
-
-<option value="present">
-
-Present
-
-</option>
-
-<option value="leave">
-
-Leave
-
-</option>
-
-</select>
+</span>
 
 </td>
 
@@ -849,59 +792,21 @@ Leave
 
 <tr>
 
-<td>
+<td>Neha Verma</td>
 
-<div class="employee">
+<td>Sales</td>
 
-Neha Verma
+<td>—</td>
 
-<small>EMP-1004</small>
-
-</div>
-
-</td>
+<td>—</td>
 
 <td>
 
-HR
+<span class="status leave">
 
-</td>
+On Leave
 
-<td>
-
-09:00 AM
-
-</td>
-
-<td>
-
-—
-
-</td>
-
-<td>
-
-<select onchange="updateStatus(this)">
-
-<option value="leave">
-
-Leave
-
-</option>
-
-<option value="present">
-
-Present
-
-</option>
-
-<option value="absent">
-
-Absent
-
-</option>
-
-</select>
+</span>
 
 </td>
 
@@ -913,19 +818,17 @@ Absent
 
 </div>
 
+</div>
+
 </main>
 
 </div>
 
 <script>
 
-const themeToggle =
+const themeToggle = document.getElementById("themeToggle");
 
-document.getElementById("themeToggle");
-
-const savedTheme =
-
-localStorage.getItem("theme");
+const savedTheme = localStorage.getItem("theme");
 
 if(savedTheme === "light"){
 
@@ -945,7 +848,9 @@ themeToggle.addEventListener("click",function(){
 
         localStorage.setItem("theme","light");
 
-    }else{
+    }
+
+    else{
 
         themeToggle.textContent = "☾";
 
@@ -954,28 +859,6 @@ themeToggle.addEventListener("click",function(){
     }
 
 });
-
-function saveAttendance(){
-
-    alert("Attendance saved successfully!");
-
-}
-
-function updateStatus(select){
-
-    select.style.borderColor =
-
-    select.value === "present"
-
-    ? "#4de2a5"
-
-    : select.value === "absent"
-
-    ? "#ff7186"
-
-    : "#f5c451";
-
-}
 
 </script>
 

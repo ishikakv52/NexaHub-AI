@@ -21,27 +21,21 @@
 :root{
 
     --bg:#080b14;
-    --card:#101621;
     --sidebar:#0d111c;
+    --card:#101621;
     --border:#222d3e;
     --text:#ffffff;
     --muted:#8995a8;
-    --input:#0a0f18;
 
 }
 
 body{
 
     font-family:Poppins,sans-serif;
-
     background:var(--bg);
-
     color:var(--text);
-
     min-height:100vh;
-
     overflow-x:hidden;
-
     transition:.3s ease;
 
 }
@@ -52,21 +46,13 @@ body::before,
 body::after{
 
     content:"";
-
     position:fixed;
-
-    width:400px;
-
-    height:400px;
-
+    width:430px;
+    height:430px;
     border-radius:50%;
-
-    filter:blur(110px);
-
+    filter:blur(120px);
     opacity:.20;
-
     z-index:-1;
-
     pointer-events:none;
 
 }
@@ -74,11 +60,8 @@ body::after{
 body::before{
 
     background:#00d4ff;
-
-    top:-150px;
-
-    left:-100px;
-
+    top:-160px;
+    left:-120px;
     animation:moveOne 12s infinite alternate ease-in-out;
 
 }
@@ -86,11 +69,8 @@ body::before{
 body::after{
 
     background:#7c3aed;
-
-    right:-150px;
-
-    bottom:-150px;
-
+    right:-160px;
+    bottom:-160px;
     animation:moveTwo 15s infinite alternate ease-in-out;
 
 }
@@ -98,15 +78,11 @@ body::after{
 @keyframes moveOne{
 
     from{
-
         transform:translate(0,0);
-
     }
 
     to{
-
         transform:translate(180px,180px);
-
     }
 
 }
@@ -114,25 +90,20 @@ body::after{
 @keyframes moveTwo{
 
     from{
-
         transform:translate(0,0);
-
     }
 
     to{
-
         transform:translate(-180px,-150px);
-
     }
 
 }
 
-/* LAYOUT */
+/* APP */
 
 .app{
 
     display:flex;
-
     min-height:100vh;
 
 }
@@ -142,27 +113,21 @@ body::after{
 .sidebar{
 
     width:250px;
-
     background:var(--sidebar);
-
     border-right:1px solid var(--border);
-
     padding:25px 15px;
-
     position:fixed;
-
     top:0;
-
     bottom:0;
+    overflow-y:auto;
+    z-index:20;
 
 }
 
 .logo{
 
     font-size:22px;
-
     font-weight:700;
-
     padding:10px 15px 30px;
 
 }
@@ -176,11 +141,8 @@ body::after{
 .nav-title{
 
     color:#748096;
-
-    font-size:11px;
-
+    font-size:12px;
     text-transform:uppercase;
-
     margin:15px;
 
 }
@@ -188,23 +150,14 @@ body::after{
 .sidebar a{
 
     display:flex;
-
-    gap:12px;
-
     align-items:center;
-
-    padding:12px 15px;
-
+    gap:12px;
+    padding:13px 15px;
     margin:5px 0;
-
     border-radius:10px;
-
     text-decoration:none;
-
     color:#9ca8ba;
-
-    font-size:13px;
-
+    font-size:14px;
     transition:.3s;
 
 }
@@ -213,13 +166,13 @@ body::after{
 .sidebar a.active{
 
     background:#18263a;
-
     color:var(--text);
 
 }
 
 .sidebar a span{
 
+    width:22px;
     color:#00d4ff;
 
 }
@@ -229,9 +182,7 @@ body::after{
 .main{
 
     margin-left:250px;
-
     width:calc(100% - 250px);
-
     padding:30px;
 
 }
@@ -241,15 +192,10 @@ body::after{
 .topbar{
 
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     border-bottom:1px solid var(--border);
-
     padding-bottom:22px;
-
     margin-bottom:30px;
 
 }
@@ -257,9 +203,7 @@ body::after{
 .breadcrumb{
 
     color:var(--muted);
-
-    font-size:12px;
-
+    font-size:14px;
     margin-bottom:8px;
 
 }
@@ -272,16 +216,14 @@ body::after{
 
 h1{
 
-    font-size:28px;
+    font-size:30px;
 
 }
 
 .subtitle{
 
     color:var(--muted);
-
-    font-size:13px;
-
+    font-size:14px;
     margin-top:5px;
 
 }
@@ -289,333 +231,214 @@ h1{
 .actions{
 
     display:flex;
-
     align-items:center;
-
     gap:12px;
 
 }
 
-.icon-btn{
+.theme-btn{
 
-    background:var(--card);
-
-    border:1px solid var(--border);
-
-    color:var(--text);
-
-    padding:10px 14px;
-
+    width:42px;
+    height:42px;
     border-radius:9px;
-
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
     cursor:pointer;
-
-    font-size:17px;
+    font-size:18px;
 
 }
 
 .user{
 
     display:flex;
-
     align-items:center;
-
     gap:10px;
-
     background:var(--card);
-
     border:1px solid var(--border);
-
     padding:7px 12px;
-
     border-radius:10px;
+    font-size:14px;
 
 }
 
 .avatar{
 
-    width:32px;
-
-    height:32px;
-
+    width:34px;
+    height:34px;
     border-radius:50%;
-
     display:grid;
-
     place-items:center;
-
     background:linear-gradient(
-
         135deg,
-
         #00d4ff,
-
         #7c3aed
-
     );
-
-    font-weight:bold;
+    font-weight:600;
 
 }
 
 /* CONTENT */
 
-.content-grid{
+.content{
 
-    display:grid;
-
-    grid-template-columns:2fr 1fr;
-
-    gap:25px;
-
-}
-
-/* CARD */
-
-.card{
-
-    background:var(--card);
-
-    border:1px solid var(--border);
-
-    border-radius:15px;
-
-    padding:25px;
-
-    margin-bottom:25px;
-
-}
-
-.card h2{
-
-    font-size:18px;
-
-    margin-bottom:20px;
+    max-width:900px;
+    margin:auto;
 
 }
 
 /* SUCCESS */
 
-.success-box{
+.success-card{
 
     text-align:center;
-
-    padding:20px 10px 30px;
-
-    border-bottom:1px solid var(--border);
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:45px 30px;
+    margin-bottom:25px;
 
 }
 
 .success-icon{
 
-    width:75px;
-
-    height:75px;
-
-    margin:0 auto 18px;
-
+    width:85px;
+    height:85px;
+    margin:0 auto 20px;
     border-radius:50%;
-
     display:grid;
-
     place-items:center;
-
-    font-size:35px;
-
-    color:#4de2a5;
-
-    background:#16352d;
-
-    border:1px solid #4de2a5;
+    font-size:42px;
+    color:#22c55e;
+    background:rgba(34,197,94,.15);
+    border:2px solid #22c55e;
 
 }
 
-.success-box h2{
+.success-card h2{
 
-    margin-bottom:8px;
+    font-size:28px;
+    margin-bottom:10px;
 
 }
 
-.success-box p{
+.success-card p{
 
     color:var(--muted);
-
-    font-size:13px;
+    font-size:14px;
+    margin:5px 0;
 
 }
 
 .order-number{
 
     color:#00d4ff;
-
     font-weight:600;
 
 }
 
-/* TRACKING */
+/* DETAILS */
 
-.tracking{
+.details-card{
 
-    display:flex;
-
-    justify-content:space-between;
-
-    position:relative;
-
-    margin:35px 10px 15px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:25px;
 
 }
 
-.tracking::before{
+.card-title{
 
-    content:"";
-
-    position:absolute;
-
-    top:18px;
-
-    left:8%;
-
-    right:8%;
-
-    height:3px;
-
-    background:#263348;
-
-    z-index:0;
+    font-size:19px;
+    margin-bottom:20px;
 
 }
 
-.step{
-
-    position:relative;
-
-    z-index:1;
-
-    text-align:center;
-
-    width:25%;
-
-}
-
-.step-icon{
-
-    width:38px;
-
-    height:38px;
-
-    margin:0 auto 10px;
-
-    border-radius:50%;
+.info-grid{
 
     display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
 
-    place-items:center;
+}
 
-    background:#263348;
+.info-box{
+
+    padding:16px;
+    border:1px solid var(--border);
+    border-radius:10px;
+
+}
+
+.info-label{
 
     color:var(--muted);
-
-    border:3px solid var(--card);
-
-}
-
-.step.completed .step-icon{
-
-    background:#00d4ff;
-
-    color:#080b14;
+    font-size:12px;
+    margin-bottom:5px;
 
 }
 
-.step.active .step-icon{
+.info-value{
 
-    background:#7c3aed;
-
-    color:white;
-
-}
-
-.step span{
-
-    color:var(--muted);
-
-    font-size:11px;
+    font-size:14px;
+    font-weight:600;
 
 }
 
-.step.completed span,
-.step.active span{
+/* PRODUCT */
 
-    color:var(--text);
-
-}
-
-/* ORDER ITEMS */
-
-.item{
+.product{
 
     display:flex;
-
     align-items:center;
-
-    gap:15px;
-
-    padding:15px 0;
-
-    border-bottom:1px solid var(--border);
+    justify-content:space-between;
+    padding:20px 0;
+    border-top:1px solid var(--border);
+    margin-top:20px;
 
 }
 
-.item:last-child{
+.product-info{
 
-    border-bottom:none;
+    display:flex;
+    align-items:center;
+    gap:14px;
 
 }
 
-.item-icon{
+.product-image{
 
-    width:50px;
-
-    height:50px;
-
+    width:58px;
+    height:58px;
     border-radius:11px;
-
     display:grid;
-
     place-items:center;
-
-    background:rgba(0,212,255,.12);
-
-    color:#00d4ff;
-
-    font-size:22px;
-
-}
-
-.item-info{
-
-    flex:1;
+    font-size:23px;
+    background:linear-gradient(
+        135deg,
+        #172b40,
+        #251947
+    );
 
 }
 
-.item-name{
+.product-name{
 
-    font-weight:500;
+    font-weight:600;
+    font-size:14px;
 
 }
 
-.item-meta{
+.product-meta{
 
     color:var(--muted);
-
-    font-size:11px;
-
+    font-size:12px;
     margin-top:4px;
 
 }
 
-.item-price{
+.price{
 
     font-weight:600;
 
@@ -623,143 +446,72 @@ h1{
 
 /* SUMMARY */
 
+.summary{
+
+    border-top:1px solid var(--border);
+    padding-top:18px;
+
+}
+
 .summary-row{
 
     display:flex;
-
     justify-content:space-between;
-
-    padding:10px 0;
-
+    margin:10px 0;
     color:var(--muted);
-
-    font-size:13px;
+    font-size:14px;
 
 }
 
-.summary-row strong{
+.summary-row.total{
 
     color:var(--text);
-
-}
-
-.total-row{
-
-    display:flex;
-
-    justify-content:space-between;
-
+    font-size:18px;
+    font-weight:600;
+    padding-top:12px;
     border-top:1px solid var(--border);
 
-    padding-top:18px;
-
-    margin-top:12px;
-
-    font-size:18px;
-
-    font-weight:600;
-
 }
 
-.total-row span:last-child{
+.summary-row.total span:last-child{
 
-    color:#00d4ff;
-
-}
-
-/* INFO */
-
-.info-list{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:16px;
-
-}
-
-.info-item{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    gap:15px;
-
-    font-size:13px;
-
-}
-
-.info-item span:first-child{
-
-    color:var(--muted);
-
-}
-
-.info-item span:last-child{
-
-    text-align:right;
+    color:#22c55e;
 
 }
 
 /* BUTTONS */
 
-.button-group{
+.actions-bottom{
 
     display:flex;
-
-    gap:10px;
-
-    margin-top:25px;
+    justify-content:center;
+    gap:12px;
+    margin-top:28px;
 
 }
 
-.primary-btn{
+.btn{
 
-    flex:1;
+    padding:13px 22px;
+    border-radius:9px;
+    border:1px solid var(--border);
+    background:transparent;
+    color:var(--text);
+    cursor:pointer;
+    font-family:Poppins,sans-serif;
+    font-size:13px;
 
-    padding:12px;
+}
+
+.btn.primary{
 
     border:none;
-
-    border-radius:9px;
-
-    color:white;
-
-    cursor:pointer;
-
-    font-family:Poppins,sans-serif;
-
     background:linear-gradient(
-
         135deg,
-
         #00d4ff,
-
         #7c3aed
-
     );
-
-}
-
-.secondary-btn{
-
-    flex:1;
-
-    padding:12px;
-
-    border:1px solid var(--border);
-
-    border-radius:9px;
-
-    background:transparent;
-
-    color:var(--text);
-
-    cursor:pointer;
-
-    font-family:Poppins,sans-serif;
+    color:white;
 
 }
 
@@ -768,24 +520,17 @@ h1{
 body.light-mode{
 
     --bg:#f4f7fb;
-
-    --card:#ffffff;
-
     --sidebar:#ffffff;
-
+    --card:#ffffff;
     --border:#dce3ec;
-
     --text:#172033;
-
-    --muted:#64748b;
-
-    --input:#ffffff;
+    --muted:#334155;
 
 }
 
 body.light-mode .sidebar a{
 
-    color:#64748b;
+    color:#334155;
 
 }
 
@@ -793,45 +538,44 @@ body.light-mode .sidebar a:hover,
 body.light-mode .sidebar a.active{
 
     background:#e8f5ff;
-
     color:#172033;
 
 }
 
-body.light-mode .icon-btn,
+body.light-mode .nav-title{
+
+    color:#475569;
+
+}
+
+body.light-mode .theme-btn,
 body.light-mode .user{
 
     background:#ffffff;
-
     color:#172033;
 
 }
 
-body.light-mode .card{
-
-    box-shadow:0 8px 25px rgba(30,50,80,.08);
-
-}
-
-body.light-mode .secondary-btn{
+body.light-mode .btn{
 
     color:#172033;
-
-}
-
-body.light-mode .step-icon{
-
-    border-color:#ffffff;
 
 }
 
 /* RESPONSIVE */
 
-@media(max-width:1000px){
+@media(max-width:850px){
 
-    .content-grid{
+    .sidebar{
 
-        grid-template-columns:1fr;
+        width:220px;
+
+    }
+
+    .main{
+
+        margin-left:220px;
+        width:calc(100% - 220px);
 
     }
 
@@ -848,40 +592,40 @@ body.light-mode .step-icon{
     .main{
 
         margin-left:0;
-
         width:100%;
-
         padding:20px;
 
     }
 
     .topbar{
 
-        flex-direction:column;
-
         align-items:flex-start;
-
+        flex-direction:column;
         gap:18px;
 
     }
 
-    .tracking{
+    .info-grid{
 
-        margin-left:0;
-
-        margin-right:0;
+        grid-template-columns:1fr;
 
     }
 
-    .step span{
+    .product{
 
-        font-size:9px;
+        gap:15px;
 
     }
 
-    .button-group{
+    .actions-bottom{
 
         flex-direction:column;
+
+    }
+
+    .btn{
+
+        width:100%;
 
     }
 
@@ -895,8 +639,6 @@ body.light-mode .step-icon{
 
 <div class="app">
 
-<!-- SIDEBAR -->
-
 <aside class="sidebar">
 
 <div class="logo">
@@ -907,11 +649,11 @@ NEXA <span>HUB</span> AI
 
 <div class="nav-title">
 
-Retail Store
+Business Management
 
 </div>
 
-<a href="portal_dashboard.html">
+<a href="dashboard.html">
 
 <span>⌂</span>
 
@@ -919,67 +661,75 @@ Dashboard
 
 </a>
 
-<a href="product_list.html">
+<a href="employee_list.html">
+
+<span>♟</span>
+
+Employees
+
+</a>
+
+<a href="inventory_dashboard.html">
 
 <span>▣</span>
+
+Inventory
+
+</a>
+
+<a href="product_list.html">
+
+<span>▦</span>
 
 Products
 
 </a>
 
-<a href="sale_list.html">
+<a href="variant_form.html">
 
-<span>▤</span>
+<span>◇</span>
 
-Sales
-
-</a>
-
-<a href="sale_pos.html">
-
-<span>▥</span>
-
-POS
-
-</a>
-
-<a href="promotion_dashboard.html">
-
-<span>★</span>
-
-Promotions
-
-</a>
-
-<a href="purchase_order_list.html">
-
-<span>◈</span>
-
-Purchase Orders
+Variants
 
 </a>
 
 <a href="supplier_list.html">
 
-<span>♙</span>
+<span>♜</span>
 
 Suppliers
 
 </a>
 
-<a href="staff_list.html">
+<a href="purchase_order_list.html">
 
-<span>♧</span>
+<span>▤</span>
 
-Staff
+Purchase Orders
 
 </a>
 
 <a href="stock_request_list.html">
 
-<span>▱</span>
+<span>▥</span>
 
 Stock Requests
+
+</a>
+
+<a href="sale_list.html">
+
+<span>▱</span>
+
+Sales
+
+</a>
+
+<a href="salary_management_list.html">
+
+<span>💰</span>
+
+Salary Management
 
 </a>
 
@@ -987,7 +737,31 @@ Stock Requests
 
 <span>◉</span>
 
-Reports
+Reports & Insights
+
+</a>
+
+<a href="storefront.html">
+
+<span>🛍</span>
+
+Storefront
+
+</a>
+
+<a href="storefront_my_orders.html">
+
+<span>📦</span>
+
+My Orders
+
+</a>
+
+<a href="storefront_order_confirmation.html" class="active">
+
+<span>✓</span>
+
+Order Confirmation
 
 </a>
 
@@ -1001,8 +775,6 @@ Settings
 
 </aside>
 
-<!-- MAIN -->
-
 <main class="main">
 
 <div class="topbar">
@@ -1011,7 +783,7 @@ Settings
 
 <div class="breadcrumb">
 
-Retail Store /
+Storefront /
 
 <span>Order Confirmation</span>
 
@@ -1033,7 +805,13 @@ Your order has been successfully placed.
 
 <div class="actions">
 
-<button class="icon-btn" id="themeToggle">
+<button
+
+class="theme-btn"
+
+id="themeToggle"
+
+>
 
 ☾
 
@@ -1059,15 +837,9 @@ Admin
 
 </div>
 
-<div class="content-grid">
+<div class="content">
 
-<div>
-
-<!-- SUCCESS CARD -->
-
-<div class="card">
-
-<div class="success-box">
+<div class="success-card">
 
 <div class="success-icon">
 
@@ -1077,7 +849,7 @@ Admin
 
 <h2>
 
-Order Placed Successfully!
+Order Confirmed!
 
 </h2>
 
@@ -1089,223 +861,193 @@ Thank you for your order.
 
 <p>
 
-Order Number:
+Your order
 
 <span class="order-number">
 
-#ORD-1001
+#NX-1003
 
 </span>
+
+has been successfully placed.
 
 </p>
 
 </div>
 
-<!-- TRACKING -->
+<div class="details-card">
 
-<div class="tracking">
+<h2 class="card-title">
 
-<div class="step completed">
-
-<div class="step-icon">
-
-✓
-
-</div>
-
-<span>
-
-Order Placed
-
-</span>
-
-</div>
-
-<div class="step completed">
-
-<div class="step-icon">
-
-✓
-
-</div>
-
-<span>
-
-Processing
-
-</span>
-
-</div>
-
-<div class="step active">
-
-<div class="step-icon">
-
-▣
-
-</div>
-
-<span>
-
-Shipped
-
-</span>
-
-</div>
-
-<div class="step">
-
-<div class="step-icon">
-
-✓
-
-</div>
-
-<span>
-
-Delivered
-
-</span>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- ITEMS -->
-
-<div class="card">
-
-<h2>
-
-Order Items
+Order Details
 
 </h2>
 
-<div class="item">
+<div class="info-grid">
 
-<div class="item-icon">
+<div class="info-box">
 
-▣
+<div class="info-label">
 
-</div>
-
-<div class="item-info">
-
-<div class="item-name">
-
-Wireless Mouse
+Order Date
 
 </div>
 
-<div class="item-meta">
+<div class="info-value">
 
-Quantity: 2 • SKU: WM-1001
+July 25, 2026
 
 </div>
 
 </div>
 
-<div class="item-price">
+<div class="info-box">
 
-$45.99
+<div class="info-label">
+
+Payment Method
+
+</div>
+
+<div class="info-value">
+
+Card Payment
 
 </div>
 
 </div>
 
-<div class="item">
+<div class="info-box">
 
-<div class="item-icon">
+<div class="info-label">
 
-▣
-
-</div>
-
-<div class="item-info">
-
-<div class="item-name">
-
-USB Keyboard
+Delivery Address
 
 </div>
 
-<div class="item-meta">
+<div class="info-value">
 
-Quantity: 1 • SKU: KB-2001
+Meerut, Uttar Pradesh
 
 </div>
 
 </div>
 
-<div class="item-price">
+<div class="info-box">
 
-$29.99
+<div class="info-label">
+
+Estimated Delivery
+
+</div>
+
+<div class="info-value">
+
+July 28, 2026
 
 </div>
 
 </div>
 
 </div>
+
+<div class="product">
+
+<div class="product-info">
+
+<div class="product-image">
+
+💻
 
 </div>
 
 <div>
 
-<!-- ORDER SUMMARY -->
+<div class="product-name">
 
-<div class="card">
-
-<h2>
-
-Order Summary
-
-</h2>
-
-<div class="summary-row">
-
-<span>Subtotal</span>
-
-<strong>
-
-$75.98
-
-</strong>
+Premium Laptop Pro
 
 </div>
 
-<div class="summary-row">
+<div class="product-meta">
 
-<span>Shipping</span>
-
-<strong>
-
-$0.00
-
-</strong>
+Quantity: 1
 
 </div>
 
-<div class="summary-row">
-
-<span>Tax</span>
-
-<strong>
-
-$0.00
-
-</strong>
+</div>
 
 </div>
 
-<div class="total-row">
+<div class="price">
 
-<span>Total</span>
+$899.00
+
+</div>
+
+</div>
+
+<div class="summary">
+
+<div class="summary-row">
 
 <span>
 
-$75.98
+Subtotal
+
+</span>
+
+<span>
+
+$899.00
+
+</span>
+
+</div>
+
+<div class="summary-row">
+
+<span>
+
+Shipping
+
+</span>
+
+<span>
+
+$15.00
+
+</span>
+
+</div>
+
+<div class="summary-row">
+
+<span>
+
+Tax
+
+</span>
+
+<span>
+
+$72.00
+
+</span>
+
+</div>
+
+<div class="summary-row total">
+
+<span>
+
+Total
+
+</span>
+
+<span>
+
+$986.00
 
 </span>
 
@@ -1313,79 +1055,31 @@ $75.98
 
 </div>
 
-<!-- DELIVERY INFO -->
-
-<div class="card">
-
-<h2>
-
-Delivery Information
-
-</h2>
-
-<div class="info-list">
-
-<div class="info-item">
-
-<span>Customer</span>
-
-<span>Admin User</span>
-
-</div>
-
-<div class="info-item">
-
-<span>Payment Method</span>
-
-<span>UPI</span>
-
-</div>
-
-<div class="info-item">
-
-<span>Expected Delivery</span>
-
-<span>28 July 2026</span>
-
-</div>
-
-<div class="info-item">
-
-<span>Order Date</span>
-
-<span>25 July 2026</span>
-
-</div>
-
-</div>
-
-<div class="button-group">
+<div class="actions-bottom">
 
 <button
 
-class="primary-btn"
+class="btn"
 
-onclick="window.print()"
+onclick="window.location.href='storefront_my_orders.html'"
 
 >
 
-Print Order
+View My Orders
 
 </button>
 
 <button
 
-class="secondary-btn"
+class="btn primary"
 
-onclick="location.href='storefront_my_orders.html'"
+onclick="window.location.href='storefront.html'"
 
 >
 
-My Orders
+Continue Shopping
 
 </button>
-
-</div>
 
 </div>
 
@@ -1399,15 +1093,9 @@ My Orders
 
 <script>
 
-/* THEME */
+const themeToggle = document.getElementById("themeToggle");
 
-const themeToggle =
-
-document.getElementById("themeToggle");
-
-const savedTheme =
-
-localStorage.getItem("theme");
+const savedTheme = localStorage.getItem("theme");
 
 if(savedTheme === "light"){
 
@@ -1427,7 +1115,9 @@ themeToggle.addEventListener("click",function(){
 
         localStorage.setItem("theme","light");
 
-    }else{
+    }
+
+    else{
 
         themeToggle.textContent = "☾";
 

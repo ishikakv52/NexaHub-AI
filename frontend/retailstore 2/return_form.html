@@ -33,15 +33,10 @@
 body{
 
     font-family:Poppins,sans-serif;
-
     background:var(--bg);
-
     color:var(--text);
-
     min-height:100vh;
-
     overflow-x:hidden;
-
     transition:.3s ease;
 
 }
@@ -52,21 +47,13 @@ body::before,
 body::after{
 
     content:"";
-
     position:fixed;
-
     width:400px;
-
     height:400px;
-
     border-radius:50%;
-
     filter:blur(110px);
-
     opacity:.20;
-
     z-index:-1;
-
     pointer-events:none;
 
 }
@@ -74,11 +61,8 @@ body::after{
 body::before{
 
     background:#00d4ff;
-
     top:-150px;
-
     left:-100px;
-
     animation:moveOne 12s infinite alternate ease-in-out;
 
 }
@@ -86,11 +70,8 @@ body::before{
 body::after{
 
     background:#7c3aed;
-
     right:-150px;
-
     bottom:-150px;
-
     animation:moveTwo 15s infinite alternate ease-in-out;
 
 }
@@ -124,7 +105,6 @@ body::after{
 .app{
 
     display:flex;
-
     min-height:100vh;
 
 }
@@ -134,17 +114,11 @@ body::after{
 .sidebar{
 
     width:250px;
-
     background:var(--sidebar);
-
     border-right:1px solid var(--border);
-
     padding:25px 15px;
-
     position:fixed;
-
     top:0;
-
     bottom:0;
 
 }
@@ -152,9 +126,7 @@ body::after{
 .logo{
 
     font-size:22px;
-
     font-weight:700;
-
     padding:10px 15px 30px;
 
 }
@@ -168,11 +140,8 @@ body::after{
 .nav-title{
 
     color:#748096;
-
-    font-size:11px;
-
+    font-size:13px;
     text-transform:uppercase;
-
     margin:15px;
 
 }
@@ -180,23 +149,14 @@ body::after{
 .sidebar a{
 
     display:flex;
-
     gap:12px;
-
     align-items:center;
-
-    padding:12px 15px;
-
+    padding:13px 15px;
     margin:5px 0;
-
     border-radius:10px;
-
     text-decoration:none;
-
     color:#9ca8ba;
-
-    font-size:13px;
-
+    font-size:15px;
     transition:.3s;
 
 }
@@ -205,7 +165,6 @@ body::after{
 .sidebar a.active{
 
     background:#18263a;
-
     color:var(--text);
 
 }
@@ -221,9 +180,7 @@ body::after{
 .main{
 
     margin-left:250px;
-
     width:calc(100% - 250px);
-
     padding:30px;
 
 }
@@ -233,15 +190,10 @@ body::after{
 .topbar{
 
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     border-bottom:1px solid var(--border);
-
     padding-bottom:22px;
-
     margin-bottom:30px;
 
 }
@@ -249,9 +201,7 @@ body::after{
 .breadcrumb{
 
     color:var(--muted);
-
-    font-size:12px;
-
+    font-size:14px;
     margin-bottom:8px;
 
 }
@@ -264,16 +214,14 @@ body::after{
 
 h1{
 
-    font-size:28px;
+    font-size:30px;
 
 }
 
 .subtitle{
 
     color:var(--muted);
-
-    font-size:13px;
-
+    font-size:15px;
     margin-top:5px;
 
 }
@@ -281,9 +229,7 @@ h1{
 .actions{
 
     display:flex;
-
     align-items:center;
-
     gap:12px;
 
 }
@@ -291,101 +237,75 @@ h1{
 .icon-btn{
 
     background:var(--card);
-
     border:1px solid var(--border);
-
     color:var(--text);
-
     padding:10px 14px;
-
     border-radius:9px;
-
     cursor:pointer;
-
-    font-size:17px;
+    font-size:18px;
 
 }
 
 .user{
 
     display:flex;
-
     align-items:center;
-
     gap:10px;
-
     background:var(--card);
-
     border:1px solid var(--border);
-
     padding:7px 12px;
-
     border-radius:10px;
+    font-size:15px;
 
 }
 
 .avatar{
 
-    width:32px;
-
-    height:32px;
-
+    width:34px;
+    height:34px;
     border-radius:50%;
-
     display:grid;
-
     place-items:center;
-
     background:linear-gradient(
-
         135deg,
-
         #00d4ff,
-
         #7c3aed
-
     );
-
     font-weight:bold;
 
 }
 
-/* FORM CARD */
+/* FORM */
 
 .form-card{
 
-    max-width:1000px;
-
-    margin:auto;
-
+    max-width:1100px;
     background:var(--card);
-
     border:1px solid var(--border);
-
     border-radius:15px;
-
-    padding:30px;
+    padding:28px;
 
 }
 
-/* FORM GRID */
+.form-card h2{
+
+    font-size:21px;
+    margin-bottom:25px;
+
+}
 
 .form-grid{
 
     display:grid;
-
     grid-template-columns:repeat(2,1fr);
-
-    gap:22px;
+    gap:20px;
 
 }
 
 .form-group{
 
     display:flex;
-
     flex-direction:column;
-
     gap:8px;
 
 }
@@ -398,9 +318,8 @@ h1{
 
 label{
 
-    font-size:13px;
-
     color:var(--muted);
+    font-size:14px;
 
 }
 
@@ -409,22 +328,14 @@ select,
 textarea{
 
     width:100%;
-
-    padding:13px 15px;
-
+    padding:14px 15px;
     border-radius:9px;
-
     border:1px solid var(--border);
-
     background:var(--input);
-
     color:var(--text);
-
     font-family:Poppins,sans-serif;
-
+    font-size:15px;
     outline:none;
-
-    transition:.3s;
 
 }
 
@@ -434,61 +345,12 @@ textarea:focus{
 
     border-color:#00d4ff;
 
-    box-shadow:0 0 0 3px rgba(0,212,255,.10);
-
 }
 
 textarea{
 
     min-height:120px;
-
     resize:vertical;
-
-}
-
-/* RETURN SUMMARY */
-
-.return-summary{
-
-    grid-column:1/-1;
-
-    display:grid;
-
-    grid-template-columns:repeat(3,1fr);
-
-    gap:15px;
-
-    margin-top:5px;
-
-}
-
-.summary-box{
-
-    padding:18px;
-
-    border:1px solid var(--border);
-
-    border-radius:12px;
-
-    background:rgba(0,212,255,.04);
-
-}
-
-.summary-box span{
-
-    display:block;
-
-    color:var(--muted);
-
-    font-size:12px;
-
-    margin-bottom:6px;
-
-}
-
-.summary-box strong{
-
-    font-size:20px;
 
 }
 
@@ -497,58 +359,41 @@ textarea{
 .form-actions{
 
     display:flex;
-
     justify-content:flex-end;
-
     gap:12px;
-
-    margin-top:30px;
-
+    margin-top:28px;
     padding-top:22px;
-
     border-top:1px solid var(--border);
 
 }
 
-.btn{
+.cancel-btn{
 
-    padding:12px 22px;
-
-    border-radius:9px;
-
-    cursor:pointer;
-
-    font-family:Poppins,sans-serif;
-
-    font-weight:500;
-
-}
-
-.btn-primary{
-
-    background:linear-gradient(
-
-        135deg,
-
-        #00d4ff,
-
-        #7c3aed
-
-    );
-
-    color:white;
-
-    border:none;
-
-}
-
-.btn-secondary{
-
-    background:transparent;
-
+    padding:13px 22px;
     border:1px solid var(--border);
-
+    border-radius:9px;
+    background:transparent;
     color:var(--text);
+    cursor:pointer;
+    font-family:Poppins,sans-serif;
+    font-size:15px;
+
+}
+
+.save-btn{
+
+    padding:13px 25px;
+    border:none;
+    border-radius:9px;
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
+    color:white;
+    cursor:pointer;
+    font-family:Poppins,sans-serif;
+    font-size:15px;
 
 }
 
@@ -557,30 +402,18 @@ textarea{
 body.light-mode{
 
     --bg:#f4f7fb;
-
     --card:#ffffff;
-
     --sidebar:#ffffff;
-
     --border:#dce3ec;
-
     --text:#172033;
-
-    --muted:#64748b;
-
+    --muted:#334155;
     --input:#ffffff;
-
-}
-
-body.light-mode .sidebar{
-
-    background:var(--sidebar);
 
 }
 
 body.light-mode .sidebar a{
 
-    color:#64748b;
+    color:#1e293b;
 
 }
 
@@ -588,8 +421,25 @@ body.light-mode .sidebar a:hover,
 body.light-mode .sidebar a.active{
 
     background:#e8f5ff;
+    color:#0f172a;
 
-    color:#172033;
+}
+
+body.light-mode .nav-title{
+
+    color:#334155;
+
+}
+
+body.light-mode .breadcrumb{
+
+    color:#475569;
+
+}
+
+body.light-mode .subtitle{
+
+    color:#475569;
 
 }
 
@@ -597,16 +447,7 @@ body.light-mode .icon-btn,
 body.light-mode .user{
 
     background:#ffffff;
-
     color:#172033;
-
-    border-color:var(--border);
-
-}
-
-body.light-mode .form-card{
-
-    box-shadow:0 8px 25px rgba(30,50,80,.08);
 
 }
 
@@ -615,6 +456,11 @@ body.light-mode select,
 body.light-mode textarea{
 
     background:#ffffff;
+    color:#172033;
+
+}
+
+body.light-mode .cancel-btn{
 
     color:#172033;
 
@@ -636,17 +482,9 @@ body.light-mode textarea{
 
     }
 
-    .return-summary{
-
-        grid-column:auto;
-
-        grid-template-columns:1fr;
-
-    }
-
 }
 
-@media(max-width:600px){
+@media(max-width:700px){
 
     .sidebar{
 
@@ -657,9 +495,7 @@ body.light-mode textarea{
     .main{
 
         margin-left:0;
-
         width:100%;
-
         padding:20px;
 
     }
@@ -667,16 +503,8 @@ body.light-mode textarea{
     .topbar{
 
         flex-direction:column;
-
         align-items:flex-start;
-
         gap:18px;
-
-    }
-
-    .form-card{
-
-        padding:20px;
 
     }
 
@@ -686,7 +514,8 @@ body.light-mode textarea{
 
     }
 
-    .btn{
+    .cancel-btn,
+    .save-btn{
 
         width:100%;
 
@@ -702,8 +531,6 @@ body.light-mode textarea{
 
 <div class="app">
 
-<!-- SIDEBAR -->
-
 <aside class="sidebar">
 
 <div class="logo">
@@ -714,11 +541,11 @@ NEXA <span>HUB</span> AI
 
 <div class="nav-title">
 
-Retail Store
+Business Management
 
 </div>
 
-<a href="portal_dashboard.html">
+<a href="dashboard.html">
 
 <span>⌂</span>
 
@@ -726,33 +553,81 @@ Dashboard
 
 </a>
 
-<a href="product_list.html">
+<a href="customer_list.html">
+
+<span>♙</span>
+
+Customers
+
+</a>
+
+<a href="employee_list.html">
+
+<span>♟</span>
+
+Employees
+
+</a>
+
+<a href="attendance_daily.html">
+
+<span>◷</span>
+
+Attendance
+
+</a>
+
+<a href="inventory_dashboard.html">
 
 <span>▣</span>
+
+Inventory
+
+</a>
+
+<a href="finance_asset_list.html">
+
+<span>▤</span>
+
+Assets
+
+</a>
+
+<a href="finance_expense_list.html">
+
+<span>▥</span>
+
+Expenses
+
+</a>
+
+<a href="order_list.html">
+
+<span>▱</span>
+
+Orders
+
+</a>
+
+<a href="portal_dashboard.html">
+
+<span>◈</span>
+
+Portal
+
+</a>
+
+<a href="product_list.html">
+
+<span>▦</span>
 
 Products
 
 </a>
 
-<a href="sale_list.html">
-
-<span>▤</span>
-
-Sales
-
-</a>
-
-<a href="sale_pos.html">
-
-<span>▥</span>
-
-POS
-
-</a>
-
 <a href="promotion_dashboard.html">
 
-<span>★</span>
+<span>％</span>
 
 Promotions
 
@@ -760,25 +635,9 @@ Promotions
 
 <a href="purchase_order_list.html">
 
-<span>◈</span>
+<span>▤</span>
 
 Purchase Orders
-
-</a>
-
-<a href="supplier_list.html">
-
-<span>♙</span>
-
-Suppliers
-
-</a>
-
-<a href="staff_list.html">
-
-<span>♧</span>
-
-Staff
 
 </a>
 
@@ -798,7 +657,7 @@ Reports
 
 </a>
 
-<a href="return_list.html" class="active">
+<a href="return_form.html" class="active">
 
 <span>↩</span>
 
@@ -816,8 +675,6 @@ Settings
 
 </aside>
 
-<!-- MAIN -->
-
 <main class="main">
 
 <div class="topbar">
@@ -826,7 +683,7 @@ Settings
 
 <div class="breadcrumb">
 
-Retail Store /
+Business Management /
 
 <span>Return Form</span>
 
@@ -840,7 +697,7 @@ Create Return
 
 <p class="subtitle">
 
-Create and manage product return requests.
+Create and manage product returns.
 
 </p>
 
@@ -874,11 +731,15 @@ Admin
 
 </div>
 
-<!-- FORM -->
-
 <div class="form-card">
 
-<form>
+<h2>
+
+Return Information
+
+</h2>
+
+<form id="returnForm">
 
 <div class="form-grid">
 
@@ -886,7 +747,7 @@ Admin
 
 <label>
 
-Sale ID
+Order ID
 
 </label>
 
@@ -894,23 +755,9 @@ Sale ID
 
 type="text"
 
-placeholder="Enter sale ID e.g. SALE-1001"
+placeholder="ORD-1001"
 
->
-
-</div>
-
-<div class="form-group">
-
-<label>
-
-Return Date
-
-</label>
-
-<input
-
-type="date"
+required
 
 >
 
@@ -930,6 +777,8 @@ type="text"
 
 placeholder="Enter customer name"
 
+required
+
 >
 
 </div>
@@ -938,23 +787,19 @@ placeholder="Enter customer name"
 
 <label>
 
-Product
+Product Name
 
 </label>
 
-<select>
+<input
 
-<option>Select Product</option>
+type="text"
 
-<option>Wireless Headphones</option>
+placeholder="Enter product name"
 
-<option>Smart Watch</option>
+required
 
-<option>Bluetooth Speaker</option>
-
-<option>Premium T-Shirt</option>
-
-</select>
+>
 
 </div>
 
@@ -970,9 +815,29 @@ Quantity
 
 type="number"
 
+placeholder="Enter quantity"
+
 min="1"
 
-placeholder="Enter quantity"
+required
+
+>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Return Date
+
+</label>
+
+<input
+
+type="date"
+
+required
 
 >
 
@@ -986,43 +851,43 @@ Return Reason
 
 </label>
 
-<select>
+<select required>
 
-<option>Select Return Reason</option>
+<option value="">
 
-<option>Damaged Product</option>
+Select reason
 
-<option>Wrong Product</option>
+</option>
 
-<option>Defective Product</option>
+<option>
 
-<option>Customer Changed Mind</option>
+Damaged Product
 
-<option>Other</option>
+</option>
 
-</select>
+<option>
 
-</div>
+Wrong Product
 
-<div class="form-group">
+</option>
 
-<label>
+<option>
 
-Refund Method
+Defective Product
 
-</label>
+</option>
 
-<select>
+<option>
 
-<option>Select Refund Method</option>
+Customer Changed Mind
 
-<option>Original Payment Method</option>
+</option>
 
-<option>Cash</option>
+<option>
 
-<option>UPI</option>
+Other
 
-<option>Bank Transfer</option>
+</option>
 
 </select>
 
@@ -1042,7 +907,47 @@ type="number"
 
 placeholder="Enter refund amount"
 
+step="0.01"
+
 >
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Status
+
+</label>
+
+<select>
+
+<option>
+
+Pending
+
+</option>
+
+<option>
+
+Approved
+
+</option>
+
+<option>
+
+Rejected
+
+</option>
+
+<option>
+
+Completed
+
+</option>
+
+</select>
 
 </div>
 
@@ -1050,43 +955,15 @@ placeholder="Enter refund amount"
 
 <label>
 
-Return Description
+Additional Notes
 
 </label>
 
 <textarea
 
-placeholder="Enter additional return details..."
+placeholder="Enter return details"
 
 ></textarea>
-
-</div>
-
-<div class="return-summary">
-
-<div class="summary-box">
-
-<span>Return Status</span>
-
-<strong>Pending</strong>
-
-</div>
-
-<div class="summary-box">
-
-<span>Product Condition</span>
-
-<strong>Review Required</strong>
-
-</div>
-
-<div class="summary-box">
-
-<span>Refund Status</span>
-
-<strong>Not Processed</strong>
-
-</div>
 
 </div>
 
@@ -1098,9 +975,9 @@ placeholder="Enter additional return details..."
 
 type="button"
 
-class="btn btn-secondary"
+class="cancel-btn"
 
-onclick="location.href='return_list.html'"
+onclick="history.back()"
 
 >
 
@@ -1112,7 +989,7 @@ Cancel
 
 type="submit"
 
-class="btn btn-primary"
+class="save-btn"
 
 >
 
@@ -1130,17 +1007,11 @@ Save Return
 
 </div>
 
-<!-- THEME SCRIPT -->
-
 <script>
 
-const themeToggle =
+const themeToggle = document.getElementById("themeToggle");
 
-document.getElementById("themeToggle");
-
-const savedTheme =
-
-localStorage.getItem("theme");
+const savedTheme = localStorage.getItem("theme");
 
 if(savedTheme === "light"){
 
@@ -1160,13 +1031,25 @@ themeToggle.addEventListener("click",function(){
 
         localStorage.setItem("theme","light");
 
-    }else{
+    }
+
+    else{
 
         themeToggle.textContent = "☾";
 
         localStorage.setItem("theme","dark");
 
     }
+
+});
+
+document.getElementById("returnForm")
+
+.addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    alert("Return saved successfully!");
 
 });
 

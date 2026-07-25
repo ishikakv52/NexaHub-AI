@@ -33,15 +33,10 @@
 body{
 
     font-family:Poppins,sans-serif;
-
     background:var(--bg);
-
     color:var(--text);
-
     min-height:100vh;
-
     overflow-x:hidden;
-
     transition:.3s ease;
 
 }
@@ -52,21 +47,13 @@ body::before,
 body::after{
 
     content:"";
-
     position:fixed;
-
     width:400px;
-
     height:400px;
-
     border-radius:50%;
-
     filter:blur(110px);
-
     opacity:.20;
-
     z-index:-1;
-
     pointer-events:none;
 
 }
@@ -74,11 +61,8 @@ body::after{
 body::before{
 
     background:#00d4ff;
-
     top:-150px;
-
     left:-100px;
-
     animation:moveOne 12s infinite alternate ease-in-out;
 
 }
@@ -86,11 +70,8 @@ body::before{
 body::after{
 
     background:#7c3aed;
-
     right:-150px;
-
     bottom:-150px;
-
     animation:moveTwo 15s infinite alternate ease-in-out;
 
 }
@@ -124,7 +105,6 @@ body::after{
 .app{
 
     display:flex;
-
     min-height:100vh;
 
 }
@@ -134,17 +114,11 @@ body::after{
 .sidebar{
 
     width:250px;
-
     background:var(--sidebar);
-
     border-right:1px solid var(--border);
-
     padding:25px 15px;
-
     position:fixed;
-
     top:0;
-
     bottom:0;
 
 }
@@ -152,9 +126,7 @@ body::after{
 .logo{
 
     font-size:22px;
-
     font-weight:700;
-
     padding:10px 15px 30px;
 
 }
@@ -168,11 +140,8 @@ body::after{
 .nav-title{
 
     color:#748096;
-
-    font-size:11px;
-
+    font-size:13px;
     text-transform:uppercase;
-
     margin:15px;
 
 }
@@ -180,23 +149,14 @@ body::after{
 .sidebar a{
 
     display:flex;
-
     gap:12px;
-
     align-items:center;
-
-    padding:12px 15px;
-
+    padding:13px 15px;
     margin:5px 0;
-
     border-radius:10px;
-
     text-decoration:none;
-
     color:#9ca8ba;
-
-    font-size:13px;
-
+    font-size:15px;
     transition:.3s;
 
 }
@@ -205,7 +165,6 @@ body::after{
 .sidebar a.active{
 
     background:#18263a;
-
     color:var(--text);
 
 }
@@ -221,9 +180,7 @@ body::after{
 .main{
 
     margin-left:250px;
-
     width:calc(100% - 250px);
-
     padding:30px;
 
 }
@@ -233,15 +190,10 @@ body::after{
 .topbar{
 
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     border-bottom:1px solid var(--border);
-
     padding-bottom:22px;
-
     margin-bottom:30px;
 
 }
@@ -249,9 +201,7 @@ body::after{
 .breadcrumb{
 
     color:var(--muted);
-
-    font-size:12px;
-
+    font-size:14px;
     margin-bottom:8px;
 
 }
@@ -264,16 +214,14 @@ body::after{
 
 h1{
 
-    font-size:28px;
+    font-size:30px;
 
 }
 
 .subtitle{
 
     color:var(--muted);
-
-    font-size:13px;
-
+    font-size:15px;
     margin-top:5px;
 
 }
@@ -281,9 +229,7 @@ h1{
 .actions{
 
     display:flex;
-
     align-items:center;
-
     gap:12px;
 
 }
@@ -291,105 +237,72 @@ h1{
 .icon-btn{
 
     background:var(--card);
-
     border:1px solid var(--border);
-
     color:var(--text);
-
     padding:10px 14px;
-
     border-radius:9px;
-
     cursor:pointer;
-
-    font-size:17px;
+    font-size:18px;
 
 }
 
 .user{
 
     display:flex;
-
     align-items:center;
-
     gap:10px;
-
     background:var(--card);
-
     border:1px solid var(--border);
-
     padding:7px 12px;
-
     border-radius:10px;
+    font-size:15px;
 
 }
 
 .avatar{
 
-    width:32px;
-
-    height:32px;
-
+    width:34px;
+    height:34px;
     border-radius:50%;
-
     display:grid;
-
     place-items:center;
-
     background:linear-gradient(
-
         135deg,
-
         #00d4ff,
-
         #7c3aed
-
     );
-
     font-weight:bold;
 
 }
 
-/* TOOLBAR */
+/* PAGE ACTIONS */
 
-.toolbar{
+.page-actions{
 
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
-    gap:15px;
-
     margin-bottom:22px;
 
 }
 
 .search-box{
 
-    flex:1;
-
-    max-width:450px;
+    display:flex;
+    gap:10px;
 
 }
 
 .search-box input{
 
-    width:100%;
-
-    padding:13px 16px;
-
+    width:280px;
+    padding:13px 15px;
     border-radius:9px;
-
     border:1px solid var(--border);
-
     background:var(--input);
-
     color:var(--text);
-
     font-family:Poppins,sans-serif;
-
+    font-size:14px;
     outline:none;
 
 }
@@ -403,201 +316,161 @@ h1{
 .add-btn{
 
     padding:13px 20px;
-
     border:none;
-
     border-radius:9px;
-
-    cursor:pointer;
-
-    color:white;
-
-    font-family:Poppins,sans-serif;
-
-    font-weight:500;
-
     background:linear-gradient(
-
         135deg,
-
         #00d4ff,
-
         #7c3aed
-
     );
-
-}
-
-/* CARD */
-
-.card{
-
-    background:var(--card);
-
-    border:1px solid var(--border);
-
-    border-radius:15px;
-
-    padding:24px;
-
-    overflow-x:auto;
-
-}
-
-.card h2{
-
-    font-size:18px;
-
-    margin-bottom:20px;
+    color:white;
+    cursor:pointer;
+    font-family:Poppins,sans-serif;
+    font-size:14px;
 
 }
 
 /* TABLE */
 
-table{
+.table-card{
 
-    width:100%;
-
-    min-width:800px;
-
-    border-collapse:collapse;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:15px;
+    overflow:hidden;
 
 }
 
-th,
-td{
+.table-wrapper{
 
-    text-align:left;
+    overflow-x:auto;
 
-    padding:15px;
+}
 
-    border-bottom:1px solid var(--border);
+table{
 
-    font-size:13px;
+    width:100%;
+    border-collapse:collapse;
+    min-width:850px;
 
 }
 
 th{
 
+    text-align:left;
+    padding:18px 20px;
     color:var(--muted);
-
+    font-size:13px;
     font-weight:500;
+    border-bottom:1px solid var(--border);
 
 }
 
 td{
 
-    color:var(--text);
+    padding:18px 20px;
+    font-size:14px;
+    border-bottom:1px solid var(--border);
 
 }
 
-.product{
+tr:last-child td{
 
-    display:flex;
-
-    align-items:center;
-
-    gap:12px;
-
-}
-
-.product-icon{
-
-    width:40px;
-
-    height:40px;
-
-    border-radius:10px;
-
-    display:grid;
-
-    place-items:center;
-
-    background:rgba(0,212,255,.12);
-
-    font-size:20px;
+    border-bottom:none;
 
 }
 
 .product-name{
 
-    font-weight:500;
+    display:flex;
+    align-items:center;
+    gap:12px;
 
 }
 
-.product-code{
+.product-image{
+
+    width:42px;
+    height:42px;
+    border-radius:10px;
+    display:grid;
+    place-items:center;
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
+    font-size:20px;
+
+}
+
+.product-name strong{
+
+    display:block;
+    font-size:14px;
+
+}
+
+.product-name small{
 
     color:var(--muted);
-
-    font-size:11px;
-
-    margin-top:3px;
+    font-size:12px;
 
 }
-
-/* STATUS */
 
 .status{
 
-    padding:5px 11px;
-
+    display:inline-block;
+    padding:6px 12px;
     border-radius:20px;
-
-    font-size:11px;
-
-}
-
-.in-stock{
-
-    background:#16352d;
-
-    color:#4de2a5;
+    font-size:12px;
 
 }
 
-.low-stock{
+.status.active{
 
-    background:#3b2d16;
-
-    color:#ffbf5a;
-
-}
-
-.out-stock{
-
-    background:#3b1c24;
-
-    color:#ff7186;
+    background:rgba(34,197,94,.15);
+    color:#22c55e;
 
 }
 
-/* ACTION BUTTONS */
+.status.low{
+
+    background:rgba(245,158,11,.15);
+    color:#f59e0b;
+
+}
+
+.status.out{
+
+    background:rgba(239,68,68,.15);
+    color:#ef4444;
+
+}
+
+.actions-cell{
+
+    display:flex;
+    gap:8px;
+
+}
 
 .action-btn{
 
-    border:1px solid var(--border);
-
-    background:transparent;
-
-    color:var(--text);
-
-    padding:7px 10px;
-
+    padding:8px 12px;
     border-radius:7px;
-
+    border:1px solid var(--border);
+    background:transparent;
+    color:var(--text);
     cursor:pointer;
-
-    margin-right:5px;
-
-    transition:.3s;
+    font-family:Poppins,sans-serif;
+    font-size:12px;
 
 }
 
 .action-btn:hover{
 
     border-color:#00d4ff;
-
-    color:#00d4ff;
 
 }
 
@@ -606,30 +479,18 @@ td{
 body.light-mode{
 
     --bg:#f4f7fb;
-
     --card:#ffffff;
-
     --sidebar:#ffffff;
-
     --border:#dce3ec;
-
     --text:#172033;
-
-    --muted:#64748b;
-
+    --muted:#334155;
     --input:#ffffff;
-
-}
-
-body.light-mode .sidebar{
-
-    background:var(--sidebar);
 
 }
 
 body.light-mode .sidebar a{
 
-    color:#64748b;
+    color:#1e293b;
 
 }
 
@@ -637,8 +498,25 @@ body.light-mode .sidebar a:hover,
 body.light-mode .sidebar a.active{
 
     background:#e8f5ff;
+    color:#0f172a;
 
-    color:#172033;
+}
+
+body.light-mode .nav-title{
+
+    color:#334155;
+
+}
+
+body.light-mode .breadcrumb{
+
+    color:#475569;
+
+}
+
+body.light-mode .subtitle{
+
+    color:#475569;
 
 }
 
@@ -646,28 +524,42 @@ body.light-mode .icon-btn,
 body.light-mode .user{
 
     background:#ffffff;
-
     color:#172033;
-
-    border-color:var(--border);
-
-}
-
-body.light-mode .card{
-
-    box-shadow:0 8px 25px rgba(30,50,80,.08);
 
 }
 
 body.light-mode .search-box input{
 
     background:#ffffff;
+    color:#172033;
+
+}
+
+body.light-mode .action-btn{
 
     color:#172033;
 
 }
 
 /* RESPONSIVE */
+
+@media(max-width:800px){
+
+    .page-actions{
+
+        flex-direction:column;
+        align-items:stretch;
+        gap:15px;
+
+    }
+
+    .search-box input{
+
+        width:100%;
+
+    }
+
+}
 
 @media(max-width:700px){
 
@@ -680,9 +572,7 @@ body.light-mode .search-box input{
     .main{
 
         margin-left:0;
-
         width:100%;
-
         padding:20px;
 
     }
@@ -690,24 +580,14 @@ body.light-mode .search-box input{
     .topbar{
 
         flex-direction:column;
-
         align-items:flex-start;
-
         gap:18px;
-
-    }
-
-    .toolbar{
-
-        flex-direction:column;
-
-        align-items:stretch;
 
     }
 
     .search-box{
 
-        max-width:none;
+        width:100%;
 
     }
 
@@ -727,8 +607,6 @@ body.light-mode .search-box input{
 
 <div class="app">
 
-<!-- SIDEBAR -->
-
 <aside class="sidebar">
 
 <div class="logo">
@@ -739,11 +617,11 @@ NEXA <span>HUB</span> AI
 
 <div class="nav-title">
 
-Retail Store
+Business Management
 
 </div>
 
-<a href="portal_dashboard.html">
+<a href="dashboard.html">
 
 <span>⌂</span>
 
@@ -751,59 +629,75 @@ Dashboard
 
 </a>
 
-<a href="product_list.html" class="active">
-
-<span>▣</span>
-
-Products
-
-</a>
-
-<a href="sale_list.html">
-
-<span>▤</span>
-
-Sales
-
-</a>
-
-<a href="sale_pos.html">
-
-<span>▥</span>
-
-POS
-
-</a>
-
-<a href="promotion_dashboard.html">
-
-<span>★</span>
-
-Promotions
-
-</a>
-
-<a href="purchase_order_list.html">
-
-<span>◈</span>
-
-Purchase Orders
-
-</a>
-
-<a href="supplier_list.html">
+<a href="customer_list.html">
 
 <span>♙</span>
 
-Suppliers
+Customers
 
 </a>
 
-<a href="staff_list.html">
+<a href="employee_list.html">
 
-<span>♧</span>
+<span>♟</span>
 
-Staff
+Employees
+
+</a>
+
+<a href="attendance_daily.html">
+
+<span>◷</span>
+
+Attendance
+
+</a>
+
+<a href="inventory_dashboard.html">
+
+<span>▣</span>
+
+Inventory
+
+</a>
+
+<a href="finance_asset_list.html">
+
+<span>▤</span>
+
+Assets
+
+</a>
+
+<a href="finance_expense_list.html">
+
+<span>▥</span>
+
+Expenses
+
+</a>
+
+<a href="order_list.html">
+
+<span>▱</span>
+
+Orders
+
+</a>
+
+<a href="portal_dashboard.html">
+
+<span>◈</span>
+
+Portal
+
+</a>
+
+<a href="product_list.html" class="active">
+
+<span>▦</span>
+
+Products
 
 </a>
 
@@ -825,8 +719,6 @@ Settings
 
 </aside>
 
-<!-- MAIN -->
-
 <main class="main">
 
 <div class="topbar">
@@ -835,7 +727,7 @@ Settings
 
 <div class="breadcrumb">
 
-Retail Store /
+Business Management /
 
 <span>Product List</span>
 
@@ -849,7 +741,7 @@ Products
 
 <p class="subtitle">
 
-Manage all your retail store products and inventory.
+Manage all your business products.
 
 </p>
 
@@ -883,15 +775,13 @@ Admin
 
 </div>
 
-<!-- TOOLBAR -->
-
-<div class="toolbar">
+<div class="page-actions">
 
 <div class="search-box">
 
 <input
 
-type="search"
+type="text"
 
 id="searchInput"
 
@@ -905,25 +795,19 @@ placeholder="Search products..."
 
 class="add-btn"
 
-onclick="location.href='product_form.html'"
+onclick="window.location.href='product_form.html'"
 
 >
 
-+ Add Product
+＋ Add Product
 
 </button>
 
 </div>
 
-<!-- PRODUCT TABLE -->
+<div class="table-card">
 
-<div class="card">
-
-<h2>
-
-All Products
-
-</h2>
+<div class="table-wrapper">
 
 <table>
 
@@ -931,17 +815,41 @@ All Products
 
 <tr>
 
-<th>Product</th>
+<th>
 
-<th>Category</th>
+Product
 
-<th>Price</th>
+</th>
 
-<th>Stock</th>
+<th>
 
-<th>Status</th>
+Category
 
-<th>Actions</th>
+</th>
+
+<th>
+
+Price
+
+</th>
+
+<th>
+
+Stock
+
+</th>
+
+<th>
+
+Status
+
+</th>
+
+<th>
+
+Actions
+
+</th>
 
 </tr>
 
@@ -953,27 +861,27 @@ All Products
 
 <td>
 
-<div class="product">
+<div class="product-name">
 
-<div class="product-icon">
+<div class="product-image">
 
-📱
+🍔
 
 </div>
 
 <div>
 
-<div class="product-name">
+<strong>
 
-Samsung Galaxy S24
+Classic Burger
 
-</div>
+</strong>
 
-<div class="product-code">
+<small>
 
-#PROD-1001
+SKU-1001
 
-</div>
+</small>
 
 </div>
 
@@ -981,17 +889,29 @@ Samsung Galaxy S24
 
 </td>
 
-<td>Electronics</td>
+<td>
 
-<td>₹74,999</td>
+Food
 
-<td>48</td>
+</td>
 
 <td>
 
-<span class="status in-stock">
+$8.00
 
-In Stock
+</td>
+
+<td>
+
+125
+
+</td>
+
+<td>
+
+<span class="status active">
+
+Active
 
 </span>
 
@@ -999,11 +919,13 @@ In Stock
 
 <td>
 
+<div class="actions-cell">
+
 <button
 
 class="action-btn"
 
-onclick="location.href='product_detail.html'"
+onclick="window.location.href='product_detail.html'"
 
 >
 
@@ -1015,13 +937,15 @@ View
 
 class="action-btn"
 
-onclick="location.href='product_form.html'"
+onclick="window.location.href='product_form.html'"
 
 >
 
 Edit
 
 </button>
+
+</div>
 
 </td>
 
@@ -1031,27 +955,27 @@ Edit
 
 <td>
 
-<div class="product">
+<div class="product-name">
 
-<div class="product-icon">
+<div class="product-image">
 
-💻
+🥤
 
 </div>
 
 <div>
 
-<div class="product-name">
+<strong>
 
-Dell Inspiron Laptop
+Fresh Juice
 
-</div>
+</strong>
 
-<div class="product-code">
+<small>
 
-#PROD-1002
+SKU-1002
 
-</div>
+</small>
 
 </div>
 
@@ -1059,15 +983,27 @@ Dell Inspiron Laptop
 
 </td>
 
-<td>Electronics</td>
+<td>
 
-<td>₹65,500</td>
+Beverages
 
-<td>8</td>
+</td>
 
 <td>
 
-<span class="status low-stock">
+$4.50
+
+</td>
+
+<td>
+
+15
+
+</td>
+
+<td>
+
+<span class="status low">
 
 Low Stock
 
@@ -1077,29 +1013,21 @@ Low Stock
 
 <td>
 
-<button
+<div class="actions-cell">
 
-class="action-btn"
-
-onclick="location.href='product_detail.html'"
-
->
+<button class="action-btn">
 
 View
 
 </button>
 
-<button
-
-class="action-btn"
-
-onclick="location.href='product_form.html'"
-
->
+<button class="action-btn">
 
 Edit
 
 </button>
+
+</div>
 
 </td>
 
@@ -1109,27 +1037,26 @@ Edit
 
 <td>
 
-<div class="product">
+<div class="product-name">
 
-<div class="product-icon">
+<div class="product-image">
 
-🎧
-
+🍕
 </div>
 
 <div>
 
-<div class="product-name">
+<strong>
 
-Wireless Headphones
+Cheese Pizza
 
-</div>
+</strong>
 
-<div class="product-code">
+<small>
 
-#PROD-1003
+SKU-1003
 
-</div>
+</small>
 
 </div>
 
@@ -1137,15 +1064,27 @@ Wireless Headphones
 
 </td>
 
-<td>Accessories</td>
+<td>
 
-<td>₹2,499</td>
+Food
 
-<td>0</td>
+</td>
 
 <td>
 
-<span class="status out-stock">
+$12.00
+
+</td>
+
+<td>
+
+0
+
+</td>
+
+<td>
+
+<span class="status out">
 
 Out of Stock
 
@@ -1155,107 +1094,21 @@ Out of Stock
 
 <td>
 
-<button
+<div class="actions-cell">
 
-class="action-btn"
-
-onclick="location.href='product_detail.html'"
-
->
+<button class="action-btn">
 
 View
 
 </button>
 
-<button
-
-class="action-btn"
-
-onclick="location.href='product_form.html'"
-
->
+<button class="action-btn">
 
 Edit
 
 </button>
 
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-<div class="product">
-
-<div class="product-icon">
-
-⌚
-
 </div>
-
-<div>
-
-<div class="product-name">
-
-Smart Watch Pro
-
-</div>
-
-<div class="product-code">
-
-#PROD-1004
-
-</div>
-
-</div>
-
-</div>
-
-</td>
-
-<td>Accessories</td>
-
-<td>₹5,999</td>
-
-<td>32</td>
-
-<td>
-
-<span class="status in-stock">
-
-In Stock
-
-</span>
-
-</td>
-
-<td>
-
-<button
-
-class="action-btn"
-
-onclick="location.href='product_detail.html'"
-
->
-
-View
-
-</button>
-
-<button
-
-class="action-btn"
-
-onclick="location.href='product_form.html'"
-
->
-
-Edit
-
-</button>
 
 </td>
 
@@ -1267,21 +1120,17 @@ Edit
 
 </div>
 
+</div>
+
 </main>
 
 </div>
 
-<!-- THEME SCRIPT -->
-
 <script>
 
-const themeToggle =
+const themeToggle = document.getElementById("themeToggle");
 
-document.getElementById("themeToggle");
-
-const savedTheme =
-
-localStorage.getItem("theme");
+const savedTheme = localStorage.getItem("theme");
 
 if(savedTheme === "light"){
 
@@ -1301,7 +1150,9 @@ themeToggle.addEventListener("click",function(){
 
         localStorage.setItem("theme","light");
 
-    }else{
+    }
+
+    else{
 
         themeToggle.textContent = "☾";
 
@@ -1313,29 +1164,19 @@ themeToggle.addEventListener("click",function(){
 
 /* SEARCH */
 
-const searchInput =
+document.getElementById("searchInput")
 
-document.getElementById("searchInput");
+.addEventListener("keyup",function(){
 
-searchInput.addEventListener("keyup",function(){
+    let value = this.value.toLowerCase();
 
-    const searchValue =
-
-    searchInput.value.toLowerCase();
-
-    const rows =
-
-    document.querySelectorAll("#productTable tr");
+    let rows = document.querySelectorAll("#productTable tr");
 
     rows.forEach(function(row){
 
-        const text =
-
-        row.textContent.toLowerCase();
-
         row.style.display =
 
-        text.includes(searchValue)
+        row.textContent.toLowerCase().includes(value)
 
         ? ""
 
