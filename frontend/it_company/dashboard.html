@@ -155,6 +155,29 @@
         {% endif %}
     {% endfor %}
 {% endif %}
+{% if my_employee %}
+<div class="card p-4 text-center mb-3">
+    <h6 class="fw-bold mb-3">My Attendance Today</h6>
+    <div class="row g-3 align-items-center">
+        <div class="col-md-4">
+            <div class="small text-muted">Check In</div>
+            <div class="fw-bold">{{ my_today_attendance.check_in_time|default:"—" }}</div>
+        </div>
+        <div class="col-md-4">
+            <div class="small text-muted">Check Out</div>
+            <div class="fw-bold">{{ my_today_attendance.check_out_time|default:"—" }}</div>
+        </div>
+        <div class="col-md-4">
+            <form method="post" action="{% url 'attendance' %}" class="d-flex gap-2">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="dashboard">
+                <button type="submit" name="action" value="check_in" class="btn btn-accent text-white w-100">Check In</button>
+                <button type="submit" name="action" value="check_out" class="btn btn-outline-primary w-100">Check Out</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
 {% if dashboard_variant == 'owner' %}
 <div class="row g-3 mb-3">
     <div class="col-md-3 col-6">
@@ -186,7 +209,7 @@
 <div class="row g-3 mb-3">
     <div class="col-md-3 col-6"><div class="card p-3"><div class="small text-muted">Revenue (Paid)</div><div class="fs-4 fw-bold text-success">₹{{ total_revenue }}</div></div></div>
     <div class="col-md-3 col-6"><div class="card p-3"><div class="small text-muted">Expenses</div><div class="fs-4 fw-bold text-danger">₹{{ total_expenses }}</div></div></div>
-    <div class="col-md-3 col-6"><div class="card p-3"><div class="small text-muted">Profit</div><div class="fs-4 fw-bold {% if profit >= 0 %}text-success{% else %}text-danger{% endif %}">₹{{ profit }}</div></div></div>
+    <div class="col-md-3 col-6"><div class="card p-3"><div class="small text-muted">Income</div><div class="fs-4 fw-bold text-success">₹{{ total_revenue }}</div></div></div>
     <div class="col-md-3 col-6"><div class="card p-3"><div class="small text-muted">Pending Invoices</div><div class="fs-4 fw-bold text-warning">₹{{ pending_invoice_amount }}</div></div></div>
 </div>
 <div class="row g-3 mb-3">
