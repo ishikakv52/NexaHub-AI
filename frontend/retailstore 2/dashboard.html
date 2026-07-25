@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Dashboard</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+
+/* =========================
+   RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+
+    --bg:#080b14;
+    --card:#101621;
+    --sidebar:#0d111c;
+    --border:#222d3e;
+
+    --text:#ffffff;
+    --muted:#8995a8;
+
+    --primary:#00d4ff;
+    --secondary:#7c3aed;
+
+    --success:#4de2a5;
+    --warning:#f5b942;
+    --danger:#ff6575;
+
+}
+
+body{
+
+    font-family:Poppins,sans-serif;
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    min-height:100vh;
+
+    transition:.3s ease;
+
+}
+
+/* =========================
+   ANIMATED BACKGROUND
+========================= */
+
+body::before,
+body::after{
+
+    content:"";
+
+    position:fixed;
+
+    width:430px;
+    height:430px;
+
+    border-radius:50%;
+
+    filter:blur(120px);
+
+    opacity:.18;
+
+    z-index:-1;
+
+    pointer-events:none;
+
+}
+
+body::before{
+
+    background:var(--primary);
+
+    top:-180px;
+    left:-150px;
+
+    animation:moveOne 13s infinite alternate ease-in-out;
+
+}
+
+body::after{
+
+    background:var(--secondary);
+
+    right:-180px;
+    bottom:-180px;
+
+    animation:moveTwo 16s infinite alternate ease-in-out;
+
+}
+
+@keyframes moveOne{
+
+    from{
+        transform:translate(0,0);
+    }
+
+    to{
+        transform:translate(180px,160px);
+    }
+
+}
+
+@keyframes moveTwo{
+
+    from{
+        transform:translate(0,0);
+    }
+
+    to{
+        transform:translate(-180px,-160px);
+    }
+
+}
+
+/* =========================
+   APP
+========================= */
+
+.app{
+
+    display:flex;
+
+    min-height:100vh;
+
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+
+    width:255px;
+
+    position:fixed;
+
+    top:0;
+    left:0;
+    bottom:0;
+
+    background:rgba(13,17,28,.96);
+
+    border-right:1px solid var(--border);
+
+    padding:22px 14px;
+
+    overflow-y:auto;
+
+    z-index:1000;
+
+    transition:.3s ease;
+
+}
+
+.logo{
+
+    padding:10px 14px 28px;
+
+    font-size:22px;
+
+    font-weight:700;
+
+    letter-spacing:.5px;
+
+}
+
+.logo span{
+
+    color:var(--primary);
+
+}
+
+.nav-title{
+
+    color:#66738a;
+
+    font-size:10px;
+
+    font-weight:600;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+
+    margin:16px 14px 10px;
+
+}
+
+.sidebar a{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:13px;
+
+    padding:12px 14px;
+
+    margin:5px 0;
+
+    border-radius:10px;
+
+    text-decoration:none;
+
+    color:#9ca8ba;
+
+    font-size:13px;
+
+    transition:.25s ease;
+
+}
+
+.sidebar a i{
+
+    width:20px;
+
+    text-align:center;
+
+    color:var(--primary);
+
+}
+
+.sidebar a:hover{
+
+    background:rgba(0,212,255,.08);
+
+    color:var(--text);
+
+    transform:translateX(3px);
+
+}
+
+.sidebar a.active{
+
+    background:linear-gradient(
+
+        135deg,
+
+        rgba(0,212,255,.16),
+
+        rgba(124,58,237,.12)
+
+    );
+
+    color:var(--text);
+
+    border:1px solid rgba(0,212,255,.18);
+
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+
+    margin-left:255px;
+
+    width:calc(100% - 255px);
+
+    padding:28px;
+
+}
+
+/* =========================
+   TOPBAR
+========================= */
+
+.topbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
+
+    padding-bottom:24px;
+
+    margin-bottom:28px;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.breadcrumb{
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    margin-bottom:7px;
+
+}
+
+.breadcrumb span{
+
+    color:var(--primary);
+
+}
+
+h1{
+
+    font-size:28px;
+
+    font-weight:700;
+
+}
+
+.subtitle{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    margin-top:5px;
+
+}
+
+.actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.icon-btn{
+
+    width:42px;
+
+    height:42px;
+
+    display:grid;
+
+    place-items:center;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:10px;
+
+    color:var(--text);
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    transition:.3s;
+
+}
+
+.icon-btn:hover{
+
+    border-color:var(--primary);
+
+    color:var(--primary);
+
+    transform:rotate(12deg);
+
+}
+
+.user{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    padding:6px 12px 6px 7px;
+
+    border-radius:12px;
+
+    font-size:12px;
+
+}
+
+.avatar{
+
+    width:32px;
+
+    height:32px;
+
+    border-radius:50%;
+
+    display:grid;
+
+    place-items:center;
+
+    background:linear-gradient(
+
+        135deg,
+
+        var(--primary),
+
+        var(--secondary)
+
+    );
+
+    color:white;
+
+    font-weight:700;
+
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:18px;
+
+}
+
+.stat{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:15px;
+
+    padding:20px;
+
+    transition:.3s ease;
+
+}
+
+.stat:hover{
+
+    transform:translateY(-5px);
+
+    border-color:var(--primary);
+
+    box-shadow:0 12px 35px rgba(0,212,255,.08);
+
+}
+
+.stat-icon{
+
+    width:48px;
+
+    height:48px;
+
+    display:grid;
+
+    place-items:center;
+
+    border-radius:13px;
+
+    background:rgba(0,212,255,.12);
+
+    color:var(--primary);
+
+    font-size:20px;
+
+}
+
+.stat span{
+
+    display:block;
+
+    color:var(--muted);
+
+    font-size:11px;
+
+}
+
+.stat strong{
+
+    display:block;
+
+    font-size:22px;
+
+    margin-top:4px;
+
+}
+
+/* =========================
+   QUICK ACTIONS
+========================= */
+
+.quick-actions{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+    margin-top:22px;
+
+}
+
+.quick-btn{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:10px 15px;
+
+    border-radius:9px;
+
+    border:1px solid var(--border);
+
+    background:var(--card);
+
+    color:var(--text);
+
+    text-decoration:none;
+
+    font-size:11px;
+
+    transition:.3s;
+
+}
+
+.quick-btn i{
+
+    color:var(--primary);
+
+}
+
+.quick-btn:hover{
+
+    border-color:var(--primary);
+
+    transform:translateY(-2px);
+
+}
+
+/* =========================
+   CONTENT GRID
+========================= */
+
+.content-grid{
+
+    display:grid;
+
+    grid-template-columns:2fr 1fr;
+
+    gap:22px;
+
+    margin-top:25px;
+
+}
+
+.card{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:15px;
+
+    padding:22px;
+
+}
+
+.card-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:18px;
+
+}
+
+.card h2{
+
+    font-size:16px;
+
+}
+
+.view-all{
+
+    color:var(--primary);
+
+    font-size:11px;
+
+    text-decoration:none;
+
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.table-wrapper{
+
+    width:100%;
+
+    overflow-x:auto;
+
+}
+
+table{
+
+    width:100%;
+
+    min-width:600px;
+
+    border-collapse:collapse;
+
+}
+
+th,
+td{
+
+    text-align:left;
+
+    padding:13px 10px;
+
+    border-bottom:1px solid var(--border);
+
+    font-size:11px;
+
+}
+
+th{
+
+    color:var(--muted);
+
+    font-size:10px;
+
+    font-weight:500;
+
+    text-transform:uppercase;
+
+}
+
+td{
+
+    color:var(--text);
+
+}
+
+.status{
+
+    display:inline-block;
+
+    padding:5px 10px;
+
+    border-radius:20px;
+
+    font-size:9px;
+
+    font-weight:600;
+
+}
+
+.status.completed{
+
+    background:rgba(77,226,165,.12);
+
+    color:var(--success);
+
+}
+
+.status.pending{
+
+    background:rgba(245,185,66,.12);
+
+    color:var(--warning);
+
+}
+
+.status.cancelled{
+
+    background:rgba(255,101,117,.12);
+
+    color:var(--danger);
+
+}
+
+/* =========================
+   ACTIVITY
+========================= */
+
+.activity{
+
+    display:flex;
+
+    gap:12px;
+
+    padding:14px 0;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.activity:last-child{
+
+    border-bottom:none;
+
+}
+
+.activity-icon{
+
+    width:34px;
+
+    height:34px;
+
+    flex-shrink:0;
+
+    display:grid;
+
+    place-items:center;
+
+    border-radius:10px;
+
+    background:rgba(0,212,255,.12);
+
+    color:var(--primary);
+
+}
+
+.activity p{
+
+    font-size:11px;
+
+}
+
+.activity span{
+
+    display:block;
+
+    color:var(--muted);
+
+    font-size:9px;
+
+    margin-top:3px;
+
+}
+
+/* =========================
+   ALERT CARD
+========================= */
+
+.alert-card{
+
+    margin-top:22px;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:15px;
+
+    padding:20px;
+
+}
+
+.alert-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    font-size:15px;
+
+    margin-bottom:14px;
+
+}
+
+.alert-title i{
+
+    color:var(--warning);
+
+}
+
+.stock-item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:11px 0;
+
+    border-bottom:1px solid var(--border);
+
+    font-size:11px;
+
+}
+
+.stock-item:last-child{
+
+    border-bottom:none;
+
+}
+
+.stock-count{
+
+    color:var(--danger);
+
+    font-weight:600;
+
+}
+
+/* =========================
+   LIGHT MODE
+========================= */
+
+body.light-mode{
+
+    --bg:#f4f7fb;
+
+    --card:#ffffff;
+
+    --sidebar:#ffffff;
+
+    --border:#dce3ec;
+
+    --text:#172033;
+
+    --muted:#64748b;
+
+}
+
+body.light-mode .sidebar{
+
+    background:#ffffff;
+
+}
+
+body.light-mode .sidebar a{
+
+    color:#64748b;
+
+}
+
+body.light-mode .sidebar a:hover,
+
+body.light-mode .sidebar a.active{
+
+    background:#e8f5ff;
+
+    color:#172033;
+
+}
+
+body.light-mode .stat,
+
+body.light-mode .card,
+
+body.light-mode .alert-card,
+
+body.light-mode .quick-btn,
+
+body.light-mode .icon-btn,
+
+body.light-mode .user{
+
+    box-shadow:0 8px 25px rgba(30,50,80,.06);
+
+}
+
+/* =========================
+   MOBILE BUTTON
+========================= */
+
+.mobile-menu{
+
+    display:none;
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:10px;
+
+    border:1px solid var(--border);
+
+    background:var(--card);
+
+    color:var(--text);
+
+    cursor:pointer;
+
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1100px){
+
+    .stats{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+    .content-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+@media(max-width:750px){
+
+    .sidebar{
+
+        transform:translateX(-100%);
+
+    }
+
+    .sidebar.show{
+
+        transform:translateX(0);
+
+    }
+
+    .main{
+
+        margin-left:0;
+
+        width:100%;
+
+        padding:20px;
+
+    }
+
+    .mobile-menu{
+
+        display:grid;
+
+        place-items:center;
+
+    }
+
+    .topbar{
+
+        align-items:flex-start;
+
+    }
+
+    .topbar-left{
+
+        display:flex;
+
+        gap:12px;
+
+        align-items:flex-start;
+
+    }
+
+    h1{
+
+        font-size:23px;
+
+    }
+
+}
+
+@media(max-width:550px){
+
+    .stats{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .topbar{
+
+        flex-direction:column;
+
+    }
+
+    .actions{
+
+        width:100%;
+
+        justify-content:space-between;
+
+    }
+
+    .quick-actions{
+
+        display:grid;
+
+        grid-template-columns:1fr 1fr;
+
+    }
+
+    .quick-btn{
+
+        justify-content:center;
+
+    }
+
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+::-webkit-scrollbar{
+
+    width:7px;
+    height:7px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#354158;
+
+    border-radius:10px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar" id="sidebar">
+
+<div class="logo">
+
+NEXA <span>HUB</span> AI
+
+</div>
+
+<div class="nav-title">
+
+Business Management
+
+</div>
+
+<a href="dashboard.html" class="active">
+
+<i class="fa-solid fa-house"></i>
+
+Dashboard
+
+</a>
+
+<a href="product_list.html">
+
+<i class="fa-solid fa-box"></i>
+
+Products
+
+</a>
+
+<a href="inventory_dashboard.html">
+
+<i class="fa-solid fa-boxes-stacked"></i>
+
+Inventory
+
+</a>
+
+<a href="sale_list.html">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+Sales
+
+</a>
+
+<a href="customer_list.html">
+
+<i class="fa-solid fa-users"></i>
+
+Customers
+
+</a>
+
+<a href="order_list.html">
+
+<i class="fa-solid fa-clipboard-list"></i>
+
+Orders
+
+</a>
+
+<a href="delivery_dashboard.html">
+
+<i class="fa-solid fa-truck-fast"></i>
+
+Delivery
+
+</a>
+
+<div class="nav-title">
+
+Management
+
+</div>
+
+<a href="employee_list.html">
+
+<i class="fa-solid fa-user-tie"></i>
+
+Employees
+
+</a>
+
+<a href="supplier_list.html">
+
+<i class="fa-solid fa-building"></i>
+
+Suppliers
+
+</a>
+
+<a href="finance_expense_list.html">
+
+<i class="fa-solid fa-wallet"></i>
+
+Finance
+
+</a>
+
+<a href="reports_insights.html">
+
+<i class="fa-solid fa-chart-line"></i>
+
+Reports
+
+</a>
+
+<a href="settings_business.html">
+
+<i class="fa-solid fa-gear"></i>
+
+Settings
+
+</a>
+
+</aside>
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main">
+
+<!-- TOPBAR -->
+
+<div class="topbar">
+
+<div class="topbar-left">
+
+<button class="mobile-menu" id="mobileMenu">
+
+<i class="fa-solid fa-bars"></i>
+
+</button>
+
+<div>
+
+<div class="breadcrumb">
+
+Business Management /
+
+<span>Dashboard</span>
+
+</div>
+
+<h1>Dashboard</h1>
+
+<p class="subtitle">
+
+Welcome back! Here's your business overview.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="actions">
+
+<button class="icon-btn" id="themeToggle">
+
+<i class="fa-solid fa-moon"></i>
+
+</button>
+
+<div class="user">
+
+<div class="avatar">
+
+A
+
+</div>
+
+<span>Admin</span>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- STATS -->
+
+<div class="stats">
+
+<div class="stat">
+
+<div class="stat-icon">
+
+<i class="fa-solid fa-users"></i>
+
+</div>
+
+<div>
+
+<span>Total Customers</span>
+
+<strong>2,845</strong>
+
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-icon">
+
+<i class="fa-solid fa-box"></i>
+
+</div>
+
+<div>
+
+<span>Total Products</span>
+
+<strong>1,248</strong>
+
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-icon">
+
+<i class="fa-solid fa-indian-rupee-sign"></i>
+
+</div>
+
+<div>
+
+<span>Today's Revenue</span>
+
+<strong>₹48,650</strong>
+
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-icon">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+</div>
+
+<div>
+
+<span>Total Orders</span>
+
+<strong>356</strong>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- QUICK ACTIONS -->
+
+<div class="quick-actions">
+
+<a href="sale_pos.html" class="quick-btn">
+
+<i class="fa-solid fa-cash-register"></i>
+
+New Sale
+
+</a>
+
+<a href="product_form.html" class="quick-btn">
+
+<i class="fa-solid fa-plus"></i>
+
+Add Product
+
+</a>
+
+<a href="customer_form.html" class="quick-btn">
+
+<i class="fa-solid fa-user-plus"></i>
+
+Add Customer
+
+</a>
+
+<a href="expense_form.html" class="quick-btn">
+
+<i class="fa-solid fa-money-bill"></i>
+
+Add Expense
+
+</a>
+
+</div>
+
+<!-- MAIN CONTENT -->
+
+<div class="content-grid">
+
+<!-- RECENT ORDERS -->
+
+<div class="card">
+
+<div class="card-header">
+
+<h2>
+
+<i class="fa-solid fa-clock-rotate-left"></i>
+
+Recent Orders
+
+</h2>
+
+<a href="order_list.html" class="view-all">
+
+View All
+
+</a>
+
+</div>
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Order ID</th>
+
+<th>Customer</th>
+
+<th>Date</th>
+
+<th>Total</th>
+
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>#ORD-1001</td>
+
+<td>Rahul Kumar</td>
+
+<td>25 July 2026</td>
+
+<td>₹245</td>
+
+<td>
+
+<span class="status completed">
+
+Completed
+
+</span>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>#ORD-1002</td>
+
+<td>Aman Sharma</td>
+
+<td>25 July 2026</td>
+
+<td>₹185</td>
+
+<td>
+
+<span class="status pending">
+
+Pending
+
+</span>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>#ORD-1003</td>
+
+<td>Priya Singh</td>
+
+<td>24 July 2026</td>
+
+<td>₹420</td>
+
+<td>
+
+<span class="status completed">
+
+Completed
+
+</span>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>#ORD-1004</td>
+
+<td>Rohit Verma</td>
+
+<td>24 July 2026</td>
+
+<td>₹890</td>
+
+<td>
+
+<span class="status cancelled">
+
+Cancelled
+
+</span>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<!-- RECENT ACTIVITY -->
+
+<div class="card">
+
+<div class="card-header">
+
+<h2>
+
+<i class="fa-solid fa-bolt"></i>
+
+Recent Activity
+
+</h2>
+
+</div>
+
+<div class="activity">
+
+<div class="activity-icon">
+
+<i class="fa-solid fa-check"></i>
+
+</div>
+
+<div>
+
+<p>New order received</p>
+
+<span>5 minutes ago</span>
+
+</div>
+
+</div>
+
+<div class="activity">
+
+<div class="activity-icon">
+
+<i class="fa-solid fa-user-plus"></i>
+
+</div>
+
+<div>
+
+<p>New customer registered</p>
+
+<span>25 minutes ago</span>
+
+</div>
+
+</div>
+
+<div class="activity">
+
+<div class="activity-icon">
+
+<i class="fa-solid fa-box"></i>
+
+</div>
+
+<div>
+
+<p>Product stock updated</p>
+
+<span>1 hour ago</span>
+
+</div>
+
+</div>
+
+<div class="activity">
+
+<div class="activity-icon">
+
+<i class="fa-solid fa-indian-rupee-sign"></i>
+
+</div>
+
+<div>
+
+<p>Payment completed</p>
+
+<span>2 hours ago</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- LOW STOCK -->
+
+<div class="alert-card">
+
+<div class="alert-title">
+
+<i class="fa-solid fa-triangle-exclamation"></i>
+
+Low Stock Alert
+
+</div>
+
+<div class="stock-item">
+
+<span>Wireless Keyboard</span>
+
+<span class="stock-count">3 left</span>
+
+</div>
+
+<div class="stock-item">
+
+<span>USB Type-C Cable</span>
+
+<span class="stock-count">5 left</span>
+
+</div>
+
+<div class="stock-item">
+
+<span>Bluetooth Mouse</span>
+
+<span class="stock-count">2 left</span>
+
+</div>
+
+</div>
+
+</main>
+
+</div>
+
+<script>
+
+/* =========================
+   THEME TOGGLE
+========================= */
+
+const themeToggle = document.getElementById("themeToggle");
+
+const savedTheme = localStorage.getItem("theme");
+
+if(savedTheme === "light"){
+
+    document.body.classList.add("light-mode");
+
+    themeToggle.innerHTML =
+
+    '<i class="fa-solid fa-sun"></i>';
+
+}
+
+themeToggle.addEventListener("click",function(){
+
+    document.body.classList.toggle("light-mode");
+
+    if(document.body.classList.contains("light-mode")){
+
+        themeToggle.innerHTML =
+
+        '<i class="fa-solid fa-sun"></i>';
+
+        localStorage.setItem("theme","light");
+
+    }
+
+    else{
+
+        themeToggle.innerHTML =
+
+        '<i class="fa-solid fa-moon"></i>';
+
+        localStorage.setItem("theme","dark");
+
+    }
+
+});
+
+/* =========================
+   MOBILE SIDEBAR
+========================= */
+
+const mobileMenu = document.getElementById("mobileMenu");
+
+const sidebar = document.getElementById("sidebar");
+
+mobileMenu.addEventListener("click",function(){
+
+    sidebar.classList.toggle("show");
+
+});
+
+/* CLOSE SIDEBAR WHEN LINK CLICKED */
+
+document.querySelectorAll(".sidebar a").forEach(function(link){
+
+    link.addEventListener("click",function(){
+
+        if(window.innerWidth <= 750){
+
+            sidebar.classList.remove("show");
+
+        }
+
+    });
+
+});
+
+</script>
+
+</body>
+
+</html>

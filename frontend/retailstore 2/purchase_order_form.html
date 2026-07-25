@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Purchase Order Form</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+
+    --bg:#080b14;
+    --card:#101621;
+    --sidebar:#0d111c;
+    --border:#222d3e;
+    --text:#ffffff;
+    --muted:#8995a8;
+    --input:#0a0f18;
+
+}
+
+body{
+
+    font-family:Poppins,sans-serif;
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    min-height:100vh;
+
+    overflow-x:hidden;
+
+    transition:.3s ease;
+
+}
+
+/* ANIMATED BACKGROUND */
+
+body::before,
+body::after{
+
+    content:"";
+
+    position:fixed;
+
+    width:400px;
+
+    height:400px;
+
+    border-radius:50%;
+
+    filter:blur(110px);
+
+    opacity:.20;
+
+    z-index:-1;
+
+    pointer-events:none;
+
+}
+
+body::before{
+
+    background:#00d4ff;
+
+    top:-150px;
+
+    left:-100px;
+
+    animation:moveOne 12s infinite alternate ease-in-out;
+
+}
+
+body::after{
+
+    background:#7c3aed;
+
+    right:-150px;
+
+    bottom:-150px;
+
+    animation:moveTwo 15s infinite alternate ease-in-out;
+
+}
+
+@keyframes moveOne{
+
+    from{
+        transform:translate(0,0);
+    }
+
+    to{
+        transform:translate(180px,180px);
+    }
+
+}
+
+@keyframes moveTwo{
+
+    from{
+        transform:translate(0,0);
+    }
+
+    to{
+        transform:translate(-180px,-150px);
+    }
+
+}
+
+/* LAYOUT */
+
+.app{
+
+    display:flex;
+
+    min-height:100vh;
+
+}
+
+/* SIDEBAR */
+
+.sidebar{
+
+    width:250px;
+
+    background:var(--sidebar);
+
+    border-right:1px solid var(--border);
+
+    padding:25px 15px;
+
+    position:fixed;
+
+    top:0;
+
+    bottom:0;
+
+}
+
+.logo{
+
+    font-size:22px;
+
+    font-weight:700;
+
+    padding:10px 15px 30px;
+
+}
+
+.logo span{
+
+    color:#00d4ff;
+
+}
+
+.nav-title{
+
+    color:#748096;
+
+    font-size:11px;
+
+    text-transform:uppercase;
+
+    margin:15px;
+
+}
+
+.sidebar a{
+
+    display:flex;
+
+    gap:12px;
+
+    align-items:center;
+
+    padding:12px 15px;
+
+    margin:5px 0;
+
+    border-radius:10px;
+
+    text-decoration:none;
+
+    color:#9ca8ba;
+
+    font-size:13px;
+
+    transition:.3s;
+
+}
+
+.sidebar a:hover,
+.sidebar a.active{
+
+    background:#18263a;
+
+    color:var(--text);
+
+}
+
+.sidebar a span{
+
+    color:#00d4ff;
+
+}
+
+/* MAIN */
+
+.main{
+
+    margin-left:250px;
+
+    width:calc(100% - 250px);
+
+    padding:30px;
+
+}
+
+/* TOPBAR */
+
+.topbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    border-bottom:1px solid var(--border);
+
+    padding-bottom:22px;
+
+    margin-bottom:30px;
+
+}
+
+.breadcrumb{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    margin-bottom:8px;
+
+}
+
+.breadcrumb span{
+
+    color:#00d4ff;
+
+}
+
+h1{
+
+    font-size:28px;
+
+}
+
+.subtitle{
+
+    color:var(--muted);
+
+    font-size:13px;
+
+    margin-top:5px;
+
+}
+
+.actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.icon-btn{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    color:var(--text);
+
+    padding:10px 14px;
+
+    border-radius:9px;
+
+    cursor:pointer;
+
+    font-size:17px;
+
+}
+
+.user{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    padding:7px 12px;
+
+    border-radius:10px;
+
+}
+
+.avatar{
+
+    width:32px;
+
+    height:32px;
+
+    border-radius:50%;
+
+    display:grid;
+
+    place-items:center;
+
+    background:linear-gradient(
+
+        135deg,
+
+        #00d4ff,
+
+        #7c3aed
+
+    );
+
+    font-weight:bold;
+
+}
+
+/* FORM CARD */
+
+.form-card{
+
+    max-width:1050px;
+
+    margin:auto;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:15px;
+
+    padding:30px;
+
+}
+
+/* FORM GRID */
+
+.form-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:22px;
+
+}
+
+.form-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+.form-group.full{
+
+    grid-column:1/-1;
+
+}
+
+label{
+
+    font-size:13px;
+
+    color:var(--muted);
+
+}
+
+input,
+select,
+textarea{
+
+    width:100%;
+
+    padding:13px 15px;
+
+    border-radius:9px;
+
+    border:1px solid var(--border);
+
+    background:var(--input);
+
+    color:var(--text);
+
+    font-family:Poppins,sans-serif;
+
+    outline:none;
+
+    transition:.3s;
+
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+
+    border-color:#00d4ff;
+
+    box-shadow:0 0 0 3px rgba(0,212,255,.10);
+
+}
+
+textarea{
+
+    min-height:110px;
+
+    resize:vertical;
+
+}
+
+/* ORDER ITEMS */
+
+.items-section{
+
+    grid-column:1/-1;
+
+    border-top:1px solid var(--border);
+
+    padding-top:22px;
+
+}
+
+.items-section h2{
+
+    font-size:18px;
+
+    margin-bottom:18px;
+
+}
+
+.item-row{
+
+    display:grid;
+
+    grid-template-columns:2fr 1fr 1fr 1fr auto;
+
+    gap:12px;
+
+    margin-bottom:12px;
+
+}
+
+.remove-btn{
+
+    border:1px solid #5b2631;
+
+    background:#321820;
+
+    color:#ff7186;
+
+    padding:10px 13px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+}
+
+.add-item{
+
+    border:1px dashed #34445a;
+
+    background:transparent;
+
+    color:#00d4ff;
+
+    padding:10px 15px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-family:Poppins,sans-serif;
+
+}
+
+/* TOTAL */
+
+.total-box{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    margin-top:22px;
+
+    padding-top:18px;
+
+    border-top:1px solid var(--border);
+
+}
+
+.total-box strong{
+
+    font-size:22px;
+
+}
+
+/* BUTTONS */
+
+.form-actions{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:12px;
+
+    margin-top:30px;
+
+    padding-top:22px;
+
+    border-top:1px solid var(--border);
+
+}
+
+.btn{
+
+    padding:12px 22px;
+
+    border-radius:9px;
+
+    cursor:pointer;
+
+    font-family:Poppins,sans-serif;
+
+    font-weight:500;
+
+    border:none;
+
+}
+
+.btn-primary{
+
+    background:linear-gradient(
+
+        135deg,
+
+        #00d4ff,
+
+        #7c3aed
+
+    );
+
+    color:white;
+
+}
+
+.btn-secondary{
+
+    background:transparent;
+
+    border:1px solid var(--border);
+
+    color:var(--text);
+
+}
+
+/* LIGHT MODE */
+
+body.light-mode{
+
+    --bg:#f4f7fb;
+
+    --card:#ffffff;
+
+    --sidebar:#ffffff;
+
+    --border:#dce3ec;
+
+    --text:#172033;
+
+    --muted:#64748b;
+
+    --input:#ffffff;
+
+}
+
+body.light-mode .sidebar{
+
+    background:var(--sidebar);
+
+}
+
+body.light-mode .sidebar a{
+
+    color:#64748b;
+
+}
+
+body.light-mode .sidebar a:hover,
+body.light-mode .sidebar a.active{
+
+    background:#e8f5ff;
+
+    color:#172033;
+
+}
+
+body.light-mode .icon-btn,
+body.light-mode .user{
+
+    background:#ffffff;
+
+    color:#172033;
+
+    border-color:var(--border);
+
+}
+
+body.light-mode .form-card{
+
+    box-shadow:0 8px 25px rgba(30,50,80,.08);
+
+}
+
+body.light-mode input,
+body.light-mode select,
+body.light-mode textarea{
+
+    background:#ffffff;
+
+    color:#172033;
+
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+    .item-row{
+
+        grid-template-columns:1fr 1fr;
+
+    }
+
+}
+
+@media(max-width:800px){
+
+    .form-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .form-group.full,
+    .items-section{
+
+        grid-column:auto;
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    .sidebar{
+
+        display:none;
+
+    }
+
+    .main{
+
+        margin-left:0;
+
+        width:100%;
+
+        padding:20px;
+
+    }
+
+    .topbar{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:18px;
+
+    }
+
+    .form-card{
+
+        padding:20px;
+
+    }
+
+    .item-row{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .form-actions{
+
+        flex-direction:column;
+
+    }
+
+    .btn{
+
+        width:100%;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+<div class="logo">
+
+NEXA <span>HUB</span> AI
+
+</div>
+
+<div class="nav-title">
+
+Retail Store
+
+</div>
+
+<a href="portal_dashboard.html">
+
+<span>⌂</span>
+
+Dashboard
+
+</a>
+
+<a href="product_list.html">
+
+<span>▣</span>
+
+Products
+
+</a>
+
+<a href="sale_list.html">
+
+<span>▤</span>
+
+Sales
+
+</a>
+
+<a href="sale_pos.html">
+
+<span>▥</span>
+
+POS
+
+</a>
+
+<a href="promotion_dashboard.html">
+
+<span>★</span>
+
+Promotions
+
+</a>
+
+<a href="purchase_order_list.html" class="active">
+
+<span>◈</span>
+
+Purchase Orders
+
+</a>
+
+<a href="supplier_list.html">
+
+<span>♙</span>
+
+Suppliers
+
+</a>
+
+<a href="staff_list.html">
+
+<span>♧</span>
+
+Staff
+
+</a>
+
+<a href="reports_insights.html">
+
+<span>◉</span>
+
+Reports
+
+</a>
+
+<a href="settings_business.html">
+
+<span>⚙</span>
+
+Settings
+
+</a>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+<div class="topbar">
+
+<div>
+
+<div class="breadcrumb">
+
+Retail Store /
+
+<span>Purchase Order Form</span>
+
+</div>
+
+<h1>
+
+Create Purchase Order
+
+</h1>
+
+<p class="subtitle">
+
+Create a new purchase order for your retail inventory.
+
+</p>
+
+</div>
+
+<div class="actions">
+
+<button class="icon-btn" id="themeToggle">
+
+☾
+
+</button>
+
+<div class="user">
+
+<div class="avatar">
+
+A
+
+</div>
+
+<span>
+
+Admin
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- FORM -->
+
+<div class="form-card">
+
+<form>
+
+<div class="form-grid">
+
+<div class="form-group">
+
+<label>
+
+Supplier
+
+</label>
+
+<select>
+
+<option>Select Supplier</option>
+
+<option>Tech Supplier India</option>
+
+<option>Global Traders</option>
+
+<option>Smart Distributors</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Order Date
+
+</label>
+
+<input
+
+type="date"
+
+value="2026-07-25"
+
+>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Expected Delivery Date
+
+</label>
+
+<input
+
+type="date"
+
+>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Payment Terms
+
+</label>
+
+<select>
+
+<option>Select Payment Terms</option>
+
+<option>Cash</option>
+
+<option>Credit - 15 Days</option>
+
+<option>Credit - 30 Days</option>
+
+<option>Credit - 60 Days</option>
+
+</select>
+
+</div>
+
+<div class="form-group full">
+
+<label>
+
+Shipping Address
+
+</label>
+
+<textarea
+
+placeholder="Enter delivery address"
+
+></textarea>
+
+</div>
+
+<div class="items-section">
+
+<h2>
+
+Order Items
+
+</h2>
+
+<div id="itemsContainer">
+
+<div class="item-row">
+
+<select>
+
+<option>Select Product</option>
+
+<option>Samsung Galaxy S24</option>
+
+<option>Dell Inspiron Laptop</option>
+
+<option>Wireless Headphones</option>
+
+<option>Smart Watch Pro</option>
+
+</select>
+
+<input
+
+type="number"
+
+placeholder="Quantity"
+
+value="1"
+
+>
+
+<input
+
+type="number"
+
+placeholder="Unit Price"
+
+value="0"
+
+>
+
+<input
+
+type="number"
+
+placeholder="Total"
+
+value="0"
+
+>
+
+<button
+
+type="button"
+
+class="remove-btn"
+
+onclick="removeItem(this)"
+
+>
+
+× Remove
+
+</button>
+
+</div>
+
+</div>
+
+<button
+
+type="button"
+
+class="add-item"
+
+onclick="addItem()"
+
+>
+
++ Add Item
+
+</button>
+
+</div>
+
+<div class="form-group full">
+
+<label>
+
+Notes
+
+</label>
+
+<textarea
+
+placeholder="Add any additional notes..."
+
+></textarea>
+
+</div>
+
+</div>
+
+<div class="total-box">
+
+<strong>
+
+Total: ₹0
+
+</strong>
+
+</div>
+
+<div class="form-actions">
+
+<button
+
+type="button"
+
+class="btn btn-secondary"
+
+onclick="location.href='purchase_order_list.html'"
+
+>
+
+Cancel
+
+</button>
+
+<button
+
+type="submit"
+
+class="btn btn-primary"
+
+>
+
+Create Purchase Order
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</main>
+
+</div>
+
+<script>
+
+const themeToggle =
+
+document.getElementById("themeToggle");
+
+const savedTheme =
+
+localStorage.getItem("theme");
+
+if(savedTheme === "light"){
+
+    document.body.classList.add("light-mode");
+
+    themeToggle.textContent = "☀";
+
+}
+
+themeToggle.addEventListener("click",function(){
+
+    document.body.classList.toggle("light-mode");
+
+    if(document.body.classList.contains("light-mode")){
+
+        themeToggle.textContent = "☀";
+
+        localStorage.setItem("theme","light");
+
+    }else{
+
+        themeToggle.textContent = "☾";
+
+        localStorage.setItem("theme","dark");
+
+    }
+
+});
+
+function addItem(){
+
+    const container =
+
+    document.getElementById("itemsContainer");
+
+    const row = document.createElement("div");
+
+    row.className = "item-row";
+
+    row.innerHTML = `
+
+        <select>
+
+            <option>Select Product</option>
+
+            <option>Samsung Galaxy S24</option>
+
+            <option>Dell Inspiron Laptop</option>
+
+            <option>Wireless Headphones</option>
+
+            <option>Smart Watch Pro</option>
+
+        </select>
+
+        <input type="number" placeholder="Quantity">
+
+        <input type="number" placeholder="Unit Price">
+
+        <input type="number" placeholder="Total">
+
+        <button
+
+            type="button"
+
+            class="remove-btn"
+
+            onclick="removeItem(this)"
+
+        >
+
+            × Remove
+
+        </button>
+
+    `;
+
+    container.appendChild(row);
+
+}
+
+function removeItem(button){
+
+    const rows =
+
+    document.querySelectorAll(".item-row");
+
+    if(rows.length > 1){
+
+        button.parentElement.remove();
+
+    }
+
+}
+
+</script>
+
+</body>
+
+</html>

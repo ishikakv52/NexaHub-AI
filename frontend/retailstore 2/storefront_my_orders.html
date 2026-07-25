@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | My Orders</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+
+    --bg:#080b14;
+    --card:#101621;
+    --sidebar:#0d111c;
+    --border:#222d3e;
+    --text:#ffffff;
+    --muted:#8995a8;
+    --input:#0a0f18;
+
+}
+
+body{
+
+    font-family:Poppins,sans-serif;
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    min-height:100vh;
+
+    overflow-x:hidden;
+
+    transition:.3s ease;
+
+}
+
+/* ANIMATED BACKGROUND */
+
+body::before,
+body::after{
+
+    content:"";
+
+    position:fixed;
+
+    width:400px;
+
+    height:400px;
+
+    border-radius:50%;
+
+    filter:blur(110px);
+
+    opacity:.20;
+
+    z-index:-1;
+
+    pointer-events:none;
+
+}
+
+body::before{
+
+    background:#00d4ff;
+
+    top:-150px;
+
+    left:-100px;
+
+    animation:moveOne 12s infinite alternate ease-in-out;
+
+}
+
+body::after{
+
+    background:#7c3aed;
+
+    right:-150px;
+
+    bottom:-150px;
+
+    animation:moveTwo 15s infinite alternate ease-in-out;
+
+}
+
+@keyframes moveOne{
+
+    from{
+
+        transform:translate(0,0);
+
+    }
+
+    to{
+
+        transform:translate(180px,180px);
+
+    }
+
+}
+
+@keyframes moveTwo{
+
+    from{
+
+        transform:translate(0,0);
+
+    }
+
+    to{
+
+        transform:translate(-180px,-150px);
+
+    }
+
+}
+
+/* LAYOUT */
+
+.app{
+
+    display:flex;
+
+    min-height:100vh;
+
+}
+
+/* SIDEBAR */
+
+.sidebar{
+
+    width:250px;
+
+    background:var(--sidebar);
+
+    border-right:1px solid var(--border);
+
+    padding:25px 15px;
+
+    position:fixed;
+
+    top:0;
+
+    bottom:0;
+
+}
+
+.logo{
+
+    font-size:22px;
+
+    font-weight:700;
+
+    padding:10px 15px 30px;
+
+}
+
+.logo span{
+
+    color:#00d4ff;
+
+}
+
+.nav-title{
+
+    color:#748096;
+
+    font-size:11px;
+
+    text-transform:uppercase;
+
+    margin:15px;
+
+}
+
+.sidebar a{
+
+    display:flex;
+
+    gap:12px;
+
+    align-items:center;
+
+    padding:12px 15px;
+
+    margin:5px 0;
+
+    border-radius:10px;
+
+    text-decoration:none;
+
+    color:#9ca8ba;
+
+    font-size:13px;
+
+    transition:.3s;
+
+}
+
+.sidebar a:hover,
+.sidebar a.active{
+
+    background:#18263a;
+
+    color:var(--text);
+
+}
+
+.sidebar a span{
+
+    color:#00d4ff;
+
+}
+
+/* MAIN */
+
+.main{
+
+    margin-left:250px;
+
+    width:calc(100% - 250px);
+
+    padding:30px;
+
+}
+
+/* TOPBAR */
+
+.topbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    border-bottom:1px solid var(--border);
+
+    padding-bottom:22px;
+
+    margin-bottom:30px;
+
+}
+
+.breadcrumb{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    margin-bottom:8px;
+
+}
+
+.breadcrumb span{
+
+    color:#00d4ff;
+
+}
+
+h1{
+
+    font-size:28px;
+
+}
+
+.subtitle{
+
+    color:var(--muted);
+
+    font-size:13px;
+
+    margin-top:5px;
+
+}
+
+.actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.icon-btn{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    color:var(--text);
+
+    padding:10px 14px;
+
+    border-radius:9px;
+
+    cursor:pointer;
+
+    font-size:17px;
+
+}
+
+.user{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    padding:7px 12px;
+
+    border-radius:10px;
+
+}
+
+.avatar{
+
+    width:32px;
+
+    height:32px;
+
+    border-radius:50%;
+
+    display:grid;
+
+    place-items:center;
+
+    background:linear-gradient(
+
+        135deg,
+
+        #00d4ff,
+
+        #7c3aed
+
+    );
+
+    font-weight:bold;
+
+}
+
+/* TOOLBAR */
+
+.toolbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-bottom:22px;
+
+}
+
+.search-box{
+
+    flex:1;
+
+    max-width:450px;
+
+}
+
+.search-box input{
+
+    width:100%;
+
+    padding:13px 16px;
+
+    border-radius:9px;
+
+    border:1px solid var(--border);
+
+    background:var(--input);
+
+    color:var(--text);
+
+    font-family:Poppins,sans-serif;
+
+    outline:none;
+
+}
+
+.search-box input:focus{
+
+    border-color:#00d4ff;
+
+}
+
+.filter-select{
+
+    padding:13px 15px;
+
+    border-radius:9px;
+
+    border:1px solid var(--border);
+
+    background:var(--input);
+
+    color:var(--text);
+
+    font-family:Poppins,sans-serif;
+
+    outline:none;
+
+}
+
+/* CARD */
+
+.card{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:15px;
+
+    padding:24px;
+
+    margin-bottom:25px;
+
+    overflow-x:auto;
+
+}
+
+.card h2{
+
+    font-size:18px;
+
+    margin-bottom:20px;
+
+}
+
+/* ORDER TABLE */
+
+table{
+
+    width:100%;
+
+    min-width:900px;
+
+    border-collapse:collapse;
+
+}
+
+th,
+td{
+
+    text-align:left;
+
+    padding:15px;
+
+    border-bottom:1px solid var(--border);
+
+    font-size:13px;
+
+}
+
+th{
+
+    color:var(--muted);
+
+    font-weight:500;
+
+}
+
+td{
+
+    color:var(--text);
+
+}
+
+.order-id{
+
+    color:#00d4ff;
+
+    font-weight:600;
+
+}
+
+.product-info{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+.product-icon{
+
+    width:38px;
+
+    height:38px;
+
+    border-radius:10px;
+
+    display:grid;
+
+    place-items:center;
+
+    background:rgba(0,212,255,.12);
+
+    color:#00d4ff;
+
+}
+
+.product-name{
+
+    font-weight:500;
+
+}
+
+.product-count{
+
+    color:var(--muted);
+
+    font-size:11px;
+
+}
+
+.status{
+
+    padding:5px 11px;
+
+    border-radius:20px;
+
+    font-size:11px;
+
+}
+
+.delivered{
+
+    background:#16352d;
+
+    color:#4de2a5;
+
+}
+
+.processing{
+
+    background:#172b45;
+
+    color:#63b8ff;
+
+}
+
+.shipped{
+
+    background:#2d2145;
+
+    color:#c29aff;
+
+}
+
+.cancelled{
+
+    background:#3b1c24;
+
+    color:#ff7186;
+
+}
+
+.action-btn{
+
+    border:1px solid var(--border);
+
+    background:transparent;
+
+    color:var(--text);
+
+    padding:7px 11px;
+
+    border-radius:7px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.action-btn:hover{
+
+    border-color:#00d4ff;
+
+    color:#00d4ff;
+
+}
+
+/* LIGHT MODE */
+
+body.light-mode{
+
+    --bg:#f4f7fb;
+
+    --card:#ffffff;
+
+    --sidebar:#ffffff;
+
+    --border:#dce3ec;
+
+    --text:#172033;
+
+    --muted:#64748b;
+
+    --input:#ffffff;
+
+}
+
+body.light-mode .sidebar a{
+
+    color:#64748b;
+
+}
+
+body.light-mode .sidebar a:hover,
+body.light-mode .sidebar a.active{
+
+    background:#e8f5ff;
+
+    color:#172033;
+
+}
+
+body.light-mode .icon-btn,
+body.light-mode .user{
+
+    background:#ffffff;
+
+    color:#172033;
+
+}
+
+body.light-mode .card{
+
+    box-shadow:0 8px 25px rgba(30,50,80,.08);
+
+}
+
+body.light-mode .search-box input,
+body.light-mode .filter-select{
+
+    background:#ffffff;
+
+    color:#172033;
+
+}
+
+body.light-mode .action-btn{
+
+    color:#172033;
+
+}
+
+/* RESPONSIVE */
+
+@media(max-width:750px){
+
+    .sidebar{
+
+        display:none;
+
+    }
+
+    .main{
+
+        margin-left:0;
+
+        width:100%;
+
+        padding:20px;
+
+    }
+
+    .topbar{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:18px;
+
+    }
+
+    .toolbar{
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+    }
+
+    .search-box{
+
+        max-width:none;
+
+    }
+
+    .filter-select{
+
+        width:100%;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+<div class="logo">
+
+NEXA <span>HUB</span> AI
+
+</div>
+
+<div class="nav-title">
+
+Retail Store
+
+</div>
+
+<a href="portal_dashboard.html">
+
+<span>⌂</span>
+
+Dashboard
+
+</a>
+
+<a href="product_list.html">
+
+<span>▣</span>
+
+Products
+
+</a>
+
+<a href="sale_list.html">
+
+<span>▤</span>
+
+Sales
+
+</a>
+
+<a href="sale_pos.html">
+
+<span>▥</span>
+
+POS
+
+</a>
+
+<a href="promotion_dashboard.html">
+
+<span>★</span>
+
+Promotions
+
+</a>
+
+<a href="purchase_order_list.html">
+
+<span>◈</span>
+
+Purchase Orders
+
+</a>
+
+<a href="supplier_list.html">
+
+<span>♙</span>
+
+Suppliers
+
+</a>
+
+<a href="staff_list.html">
+
+<span>♧</span>
+
+Staff
+
+</a>
+
+<a href="stock_request_list.html">
+
+<span>▱</span>
+
+Stock Requests
+
+</a>
+
+<a href="reports_insights.html">
+
+<span>◉</span>
+
+Reports
+
+</a>
+
+<a href="settings_business.html">
+
+<span>⚙</span>
+
+Settings
+
+</a>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+<div class="topbar">
+
+<div>
+
+<div class="breadcrumb">
+
+Retail Store /
+
+<span>My Orders</span>
+
+</div>
+
+<h1>
+
+My Orders
+
+</h1>
+
+<p class="subtitle">
+
+View and track all your recent orders.
+
+</p>
+
+</div>
+
+<div class="actions">
+
+<button class="icon-btn" id="themeToggle">
+
+☾
+
+</button>
+
+<div class="user">
+
+<div class="avatar">
+
+A
+
+</div>
+
+<span>
+
+Admin
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- TOOLBAR -->
+
+<div class="toolbar">
+
+<div class="search-box">
+
+<input
+
+type="search"
+
+id="searchInput"
+
+placeholder="Search order ID or product..."
+
+>
+
+</div>
+
+<select
+
+class="filter-select"
+
+id="statusFilter"
+
+>
+
+<option value="all">
+
+All Orders
+
+</option>
+
+<option value="processing">
+
+Processing
+
+</option>
+
+<option value="shipped">
+
+Shipped
+
+</option>
+
+<option value="delivered">
+
+Delivered
+
+</option>
+
+<option value="cancelled">
+
+Cancelled
+
+</option>
+
+</select>
+
+</div>
+
+<!-- ORDERS -->
+
+<div class="card">
+
+<h2>
+
+Order History
+
+</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Order ID</th>
+
+<th>Products</th>
+
+<th>Order Date</th>
+
+<th>Total</th>
+
+<th>Payment</th>
+
+<th>Status</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="orderTable">
+
+<tr data-status="delivered">
+
+<td>
+
+<span class="order-id">
+
+#ORD-1001
+
+</span>
+
+</td>
+
+<td>
+
+<div class="product-info">
+
+<div class="product-icon">
+
+▣
+
+</div>
+
+<div>
+
+<div class="product-name">
+
+Wireless Mouse
+
+</div>
+
+<div class="product-count">
+
+2 Items
+
+</div>
+
+</div>
+
+</div>
+
+</td>
+
+<td>
+
+25 July 2026
+
+</td>
+
+<td>
+
+$45.99
+
+</td>
+
+<td>
+
+UPI
+
+</td>
+
+<td>
+
+<span class="status delivered">
+
+Delivered
+
+</span>
+
+</td>
+
+<td>
+
+<button
+
+class="action-btn"
+
+onclick="location.href='storefront_order_confirmation.html'"
+
+>
+
+View
+
+</button>
+
+</td>
+
+</tr>
+
+<tr data-status="shipped">
+
+<td>
+
+<span class="order-id">
+
+#ORD-1002
+
+</span>
+
+</td>
+
+<td>
+
+<div class="product-info">
+
+<div class="product-icon">
+
+▣
+
+</div>
+
+<div>
+
+<div class="product-name">
+
+USB Keyboard
+
+</div>
+
+<div class="product-count">
+
+1 Item
+
+</div>
+
+</div>
+
+</div>
+
+</td>
+
+<td>
+
+24 July 2026
+
+</td>
+
+<td>
+
+$29.99
+
+</td>
+
+<td>
+
+Card
+
+</td>
+
+<td>
+
+<span class="status shipped">
+
+Shipped
+
+</span>
+
+</td>
+
+<td>
+
+<button
+
+class="action-btn"
+
+onclick="location.href='storefront_order_confirmation.html'"
+
+>
+
+View
+
+</button>
+
+</td>
+
+</tr>
+
+<tr data-status="processing">
+
+<td>
+
+<span class="order-id">
+
+#ORD-1003
+
+</span>
+
+</td>
+
+<td>
+
+<div class="product-info">
+
+<div class="product-icon">
+
+▣
+
+</div>
+
+<div>
+
+<div class="product-name">
+
+LED Monitor
+
+</div>
+
+<div class="product-count">
+
+1 Item
+
+</div>
+
+</div>
+
+</div>
+
+</td>
+
+<td>
+
+23 July 2026
+
+</td>
+
+<td>
+
+$249.99
+
+</td>
+
+<td>
+
+UPI
+
+</td>
+
+<td>
+
+<span class="status processing">
+
+Processing
+
+</span>
+
+</td>
+
+<td>
+
+<button
+
+class="action-btn"
+
+onclick="location.href='storefront_order_confirmation.html'"
+
+>
+
+View
+
+</button>
+
+</td>
+
+</tr>
+
+<tr data-status="cancelled">
+
+<td>
+
+<span class="order-id">
+
+#ORD-1004
+
+</span>
+
+</td>
+
+<td>
+
+<div class="product-info">
+
+<div class="product-icon">
+
+▣
+
+</div>
+
+<div>
+
+<div class="product-name">
+
+Printer Ink
+
+</div>
+
+<div class="product-count">
+
+3 Items
+
+</div>
+
+</div>
+
+</div>
+
+</td>
+
+<td>
+
+20 July 2026
+
+</td>
+
+<td>
+
+$39.99
+
+</td>
+
+<td>
+
+Cash
+
+</td>
+
+<td>
+
+<span class="status cancelled">
+
+Cancelled
+
+</span>
+
+</td>
+
+<td>
+
+<button
+
+class="action-btn"
+
+onclick="location.href='storefront_order_confirmation.html'"
+
+>
+
+View
+
+</button>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</main>
+
+</div>
+
+<script>
+
+/* THEME */
+
+const themeToggle =
+
+document.getElementById("themeToggle");
+
+const savedTheme =
+
+localStorage.getItem("theme");
+
+if(savedTheme === "light"){
+
+    document.body.classList.add("light-mode");
+
+    themeToggle.textContent = "☀";
+
+}
+
+themeToggle.addEventListener("click",function(){
+
+    document.body.classList.toggle("light-mode");
+
+    if(document.body.classList.contains("light-mode")){
+
+        themeToggle.textContent = "☀";
+
+        localStorage.setItem("theme","light");
+
+    }else{
+
+        themeToggle.textContent = "☾";
+
+        localStorage.setItem("theme","dark");
+
+    }
+
+});
+
+/* SEARCH + FILTER */
+
+const searchInput =
+
+document.getElementById("searchInput");
+
+const statusFilter =
+
+document.getElementById("statusFilter");
+
+function filterOrders(){
+
+    const searchValue =
+
+    searchInput.value.toLowerCase();
+
+    const statusValue =
+
+    statusFilter.value;
+
+    const rows =
+
+    document.querySelectorAll("#orderTable tr");
+
+    rows.forEach(function(row){
+
+        const text =
+
+        row.textContent.toLowerCase();
+
+        const status =
+
+        row.dataset.status;
+
+        const matchesSearch =
+
+        text.includes(searchValue);
+
+        const matchesStatus =
+
+        statusValue === "all" ||
+
+        status === statusValue;
+
+        row.style.display =
+
+        matchesSearch && matchesStatus
+
+        ? ""
+
+        : "none";
+
+    });
+
+}
+
+searchInput.addEventListener(
+
+"keyup",
+
+filterOrders
+
+);
+
+statusFilter.addEventListener(
+
+"change",
+
+filterOrders
+
+);
+
+</script>
+
+</body>
+
+</html>

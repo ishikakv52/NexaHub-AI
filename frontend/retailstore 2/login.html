@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Login</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+
+    --bg:#080b14;
+    --card:#101621;
+    --border:#222d3e;
+    --text:#ffffff;
+    --muted:#8995a8;
+    --input:#0a0f18;
+
+}
+
+body{
+
+    font-family:Poppins,sans-serif;
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    min-height:100vh;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    overflow:hidden;
+
+    transition:.3s ease;
+
+}
+
+/* ANIMATED BACKGROUND */
+
+body::before,
+body::after{
+
+    content:"";
+
+    position:fixed;
+
+    width:450px;
+
+    height:450px;
+
+    border-radius:50%;
+
+    filter:blur(120px);
+
+    opacity:.25;
+
+    z-index:-1;
+
+    pointer-events:none;
+
+}
+
+body::before{
+
+    background:#00d4ff;
+
+    top:-180px;
+
+    left:-150px;
+
+    animation:moveOne 12s infinite alternate ease-in-out;
+
+}
+
+body::after{
+
+    background:#7c3aed;
+
+    right:-180px;
+
+    bottom:-180px;
+
+    animation:moveTwo 15s infinite alternate ease-in-out;
+
+}
+
+@keyframes moveOne{
+
+    from{
+
+        transform:translate(0,0);
+
+    }
+
+    to{
+
+        transform:translate(180px,180px);
+
+    }
+
+}
+
+@keyframes moveTwo{
+
+    from{
+
+        transform:translate(0,0);
+
+    }
+
+    to{
+
+        transform:translate(-180px,-150px);
+
+    }
+
+}
+
+/* THEME TOGGLE */
+
+.theme-toggle{
+
+    position:fixed;
+
+    top:25px;
+
+    right:25px;
+
+    width:45px;
+
+    height:45px;
+
+    border-radius:50%;
+
+    border:1px solid var(--border);
+
+    background:var(--card);
+
+    color:var(--text);
+
+    cursor:pointer;
+
+    font-size:20px;
+
+    transition:.3s;
+
+}
+
+.theme-toggle:hover{
+
+    border-color:#00d4ff;
+
+    transform:rotate(15deg);
+
+}
+
+/* LOGIN WRAPPER */
+
+.login-wrapper{
+
+    width:100%;
+
+    max-width:440px;
+
+    padding:20px;
+
+}
+
+/* LOGIN CARD */
+
+.login-card{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:20px;
+
+    padding:40px 35px;
+
+    box-shadow:0 20px 70px rgba(0,0,0,.35);
+
+    animation:cardShow .7s ease;
+
+}
+
+@keyframes cardShow{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(30px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* LOGO */
+
+.logo{
+
+    text-align:center;
+
+    font-size:25px;
+
+    font-weight:700;
+
+    margin-bottom:10px;
+
+}
+
+.logo span{
+
+    color:#00d4ff;
+
+}
+
+.login-subtitle{
+
+    text-align:center;
+
+    color:var(--muted);
+
+    font-size:13px;
+
+    margin-bottom:30px;
+
+}
+
+/* FORM */
+
+.form-group{
+
+    margin-bottom:20px;
+
+}
+
+label{
+
+    display:block;
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    margin-bottom:8px;
+
+}
+
+.input-box{
+
+    position:relative;
+
+}
+
+.input-box > span:first-child{
+
+    position:absolute;
+
+    left:14px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:#00d4ff;
+
+    font-size:16px;
+
+}
+
+input{
+
+    width:100%;
+
+    padding:14px 44px 14px 44px;
+
+    border-radius:10px;
+
+    border:1px solid var(--border);
+
+    outline:none;
+
+    background:var(--input);
+
+    color:var(--text);
+
+    font-family:Poppins,sans-serif;
+
+    font-size:13px;
+
+    transition:.3s;
+
+}
+
+input:focus{
+
+    border-color:#00d4ff;
+
+    box-shadow:0 0 0 3px rgba(0,212,255,.10);
+
+}
+
+/* PASSWORD TOGGLE */
+
+.password-toggle{
+
+    position:absolute;
+
+    right:14px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:var(--muted);
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    user-select:none;
+
+}
+
+.password-toggle:hover{
+
+    color:#00d4ff;
+
+}
+
+/* FORM OPTIONS */
+
+.form-options{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin:5px 0 22px;
+
+    font-size:11px;
+
+}
+
+.remember{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    color:var(--muted);
+
+}
+
+.remember input{
+
+    width:auto;
+
+    padding:0;
+
+    accent-color:#00d4ff;
+
+}
+
+.forgot{
+
+    color:#00d4ff;
+
+    text-decoration:none;
+
+}
+
+.forgot:hover{
+
+    text-decoration:underline;
+
+}
+
+/* LOGIN BUTTON */
+
+.login-btn{
+
+    width:100%;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:linear-gradient(
+
+        135deg,
+
+        #00d4ff,
+
+        #7c3aed
+
+    );
+
+    color:white;
+
+    font-family:Poppins,sans-serif;
+
+    font-size:13px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.login-btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 10px 25px rgba(0,212,255,.20);
+
+}
+
+/* DIVIDER */
+
+.divider{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin:25px 0;
+
+    color:var(--muted);
+
+    font-size:11px;
+
+}
+
+.divider::before,
+.divider::after{
+
+    content:"";
+
+    height:1px;
+
+    flex:1;
+
+    background:var(--border);
+
+}
+
+/* GOOGLE LOGIN */
+
+.social-login{
+
+    display:grid;
+
+    grid-template-columns:1fr;
+
+}
+
+.social-btn{
+
+    width:100%;
+
+    padding:12px;
+
+    border:1px solid var(--border);
+
+    border-radius:9px;
+
+    background:transparent;
+
+    color:var(--text);
+
+    cursor:pointer;
+
+    font-family:Poppins,sans-serif;
+
+    font-size:12px;
+
+    transition:.3s;
+
+}
+
+.social-btn:hover{
+
+    border-color:#00d4ff;
+
+    background:rgba(0,212,255,.05);
+
+    transform:translateY(-2px);
+
+}
+
+.google-btn{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+}
+
+.google-logo{
+
+    width:19px;
+
+    height:19px;
+
+    flex-shrink:0;
+
+}
+
+/* SIGNUP */
+
+.signup-text{
+
+    text-align:center;
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    margin-top:25px;
+
+}
+
+.signup-text a{
+
+    color:#00d4ff;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+}
+
+.signup-text a:hover{
+
+    text-decoration:underline;
+
+}
+
+/* LIGHT MODE */
+
+body.light-mode{
+
+    --bg:#f4f7fb;
+
+    --card:#ffffff;
+
+    --border:#dce3ec;
+
+    --text:#172033;
+
+    --muted:#64748b;
+
+    --input:#ffffff;
+
+}
+
+body.light-mode .login-card{
+
+    box-shadow:0 20px 60px rgba(30,50,80,.12);
+
+}
+
+body.light-mode .theme-toggle{
+
+    background:#ffffff;
+
+    color:#172033;
+
+}
+
+/* RESPONSIVE */
+
+@media(max-width:500px){
+
+    .login-card{
+
+        padding:30px 22px;
+
+    }
+
+    .theme-toggle{
+
+        top:18px;
+
+        right:18px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- THEME TOGGLE -->
+
+<button class="theme-toggle" id="themeToggle">
+
+    ☾
+
+</button>
+
+<!-- LOGIN -->
+
+<div class="login-wrapper">
+
+    <div class="login-card">
+
+        <div class="logo">
+
+            NEXA <span>HUB</span> AI
+
+        </div>
+
+        <p class="login-subtitle">
+
+            Welcome back! Login to your account.
+
+        </p>
+
+        <form>
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+                <label>
+
+                    Email Address
+
+                </label>
+
+                <div class="input-box">
+
+                    <span>✉</span>
+
+                    <input
+
+                        type="email"
+
+                        placeholder="Enter your email"
+
+                        required
+
+                    >
+
+                </div>
+
+            </div>
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+                <label>
+
+                    Password
+
+                </label>
+
+                <div class="input-box">
+
+                    <span>🔒</span>
+
+                    <input
+
+                        type="password"
+
+                        id="password"
+
+                        placeholder="Enter your password"
+
+                        required
+
+                    >
+
+                    <span
+
+                        class="password-toggle"
+
+                        id="passwordToggle"
+
+                    >
+
+                        ◉
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <!-- OPTIONS -->
+
+            <div class="form-options">
+
+                <label class="remember">
+
+                    <input type="checkbox">
+
+                    Remember me
+
+                </label>
+
+                <a href="#" class="forgot">
+
+                    Forgot Password?
+
+                </a>
+
+            </div>
+
+            <!-- LOGIN -->
+
+            <button
+
+                type="submit"
+
+                class="login-btn"
+
+            >
+
+                Login to Account
+
+            </button>
+
+        </form>
+
+        <!-- DIVIDER -->
+
+        <div class="divider">
+
+            OR CONTINUE WITH
+
+        </div>
+
+        <!-- GOOGLE ONLY -->
+
+        <div class="social-login">
+
+            <button
+
+                type="button"
+
+                class="social-btn google-btn"
+
+            >
+
+                <!-- REAL GOOGLE LOGO -->
+
+                <svg
+
+                    class="google-logo"
+
+                    viewBox="0 0 24 24"
+
+                    aria-hidden="true"
+
+                >
+
+                    <path
+
+                        fill="#4285F4"
+
+                        d="M21.35 12.27c0-.71-.06-1.4-.18-2.05H12v3.88h5.24a4.48 4.48 0 0 1-1.94 2.94v2.45h3.14c1.84-1.69 2.91-4.18 2.91-7.22z"
+
+                    />
+
+                    <path
+
+                        fill="#34A853"
+
+                        d="M12 21.5c2.63 0 4.84-.87 6.45-2.36l-3.14-2.45c-.87.58-1.98.92-3.31.92-2.54 0-4.69-1.72-5.46-4.03H3.3v2.53A9.75 9.75 0 0 0 12 21.5z"
+
+                    />
+
+                    <path
+
+                        fill="#FBBC05"
+
+                        d="M6.54 13.58A5.86 5.86 0 0 1 6.23 12c0-.55.1-1.08.31-1.58V7.89H3.3A9.75 9.75 0 0 0 2.25 12c0 1.57.38 3.05 1.05 4.11l3.24-2.53z"
+
+                    />
+
+                    <path
+
+                        fill="#EA4335"
+
+                        d="M12 6.39c1.43 0 2.71.49 3.72 1.45l2.79-2.79C16.84 3.47 14.63 2.5 12 2.5a9.75 9.75 0 0 0-8.7 5.39l3.24 2.53C7.31 8.11 9.46 6.39 12 6.39z"
+
+                    />
+
+                </svg>
+
+                Continue with Google
+
+            </button>
+
+        </div>
+
+        <!-- SIGNUP -->
+
+        <p class="signup-text">
+
+            Don't have an account?
+
+            <a href="signup.html">
+
+                Create Account
+
+            </a>
+
+        </p>
+
+    </div>
+
+</div>
+
+<script>
+
+/* ============================
+   THEME TOGGLE
+============================ */
+
+const themeToggle = document.getElementById(
+
+    "themeToggle"
+
+);
+
+const savedTheme = localStorage.getItem(
+
+    "theme"
+
+);
+
+if(savedTheme === "light"){
+
+    document.body.classList.add(
+
+        "light-mode"
+
+    );
+
+    themeToggle.textContent = "☀";
+
+}
+
+themeToggle.addEventListener(
+
+    "click",
+
+    function(){
+
+        document.body.classList.toggle(
+
+            "light-mode"
+
+        );
+
+        if(
+
+            document.body.classList.contains(
+
+                "light-mode"
+
+            )
+
+        ){
+
+            themeToggle.textContent = "☀";
+
+            localStorage.setItem(
+
+                "theme",
+
+                "light"
+
+            );
+
+        }
+
+        else{
+
+            themeToggle.textContent = "☾";
+
+            localStorage.setItem(
+
+                "theme",
+
+                "dark"
+
+            );
+
+        }
+
+    }
+
+);
+
+/* ============================
+   PASSWORD SHOW / HIDE
+============================ */
+
+const password = document.getElementById(
+
+    "password"
+
+);
+
+const passwordToggle = document.getElementById(
+
+    "passwordToggle"
+
+);
+
+passwordToggle.addEventListener(
+
+    "click",
+
+    function(){
+
+        if(
+
+            password.type === "password"
+
+        ){
+
+            password.type = "text";
+
+        }
+
+        else{
+
+            password.type = "password";
+
+        }
+
+    }
+
+);
+
+</script>
+
+</body>
+
+</html>

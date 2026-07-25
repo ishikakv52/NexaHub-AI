@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Variant Form</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+
+    --bg:#080b14;
+    --card:#101621;
+    --sidebar:#0d111c;
+    --border:#222d3e;
+    --text:#ffffff;
+    --muted:#8995a8;
+    --input:#0a0f18;
+
+}
+
+body{
+
+    font-family:Poppins,sans-serif;
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    min-height:100vh;
+
+    overflow-x:hidden;
+
+    transition:.3s ease;
+
+}
+
+/* ANIMATED BACKGROUND */
+
+body::before,
+body::after{
+
+    content:"";
+
+    position:fixed;
+
+    width:400px;
+
+    height:400px;
+
+    border-radius:50%;
+
+    filter:blur(110px);
+
+    opacity:.20;
+
+    z-index:-1;
+
+    pointer-events:none;
+
+}
+
+body::before{
+
+    background:#00d4ff;
+
+    top:-150px;
+
+    left:-100px;
+
+    animation:moveOne 12s infinite alternate ease-in-out;
+
+}
+
+body::after{
+
+    background:#7c3aed;
+
+    right:-150px;
+
+    bottom:-150px;
+
+    animation:moveTwo 15s infinite alternate ease-in-out;
+
+}
+
+@keyframes moveOne{
+
+    from{
+
+        transform:translate(0,0);
+
+    }
+
+    to{
+
+        transform:translate(180px,180px);
+
+    }
+
+}
+
+@keyframes moveTwo{
+
+    from{
+
+        transform:translate(0,0);
+
+    }
+
+    to{
+
+        transform:translate(-180px,-150px);
+
+    }
+
+}
+
+/* LAYOUT */
+
+.app{
+
+    display:flex;
+
+    min-height:100vh;
+
+}
+
+/* SIDEBAR */
+
+.sidebar{
+
+    width:250px;
+
+    background:var(--sidebar);
+
+    border-right:1px solid var(--border);
+
+    padding:25px 15px;
+
+    position:fixed;
+
+    top:0;
+
+    bottom:0;
+
+}
+
+.logo{
+
+    font-size:22px;
+
+    font-weight:700;
+
+    padding:10px 15px 30px;
+
+}
+
+.logo span{
+
+    color:#00d4ff;
+
+}
+
+.nav-title{
+
+    color:#748096;
+
+    font-size:11px;
+
+    text-transform:uppercase;
+
+    margin:15px;
+
+}
+
+.sidebar a{
+
+    display:flex;
+
+    gap:12px;
+
+    align-items:center;
+
+    padding:12px 15px;
+
+    margin:5px 0;
+
+    border-radius:10px;
+
+    text-decoration:none;
+
+    color:#9ca8ba;
+
+    font-size:13px;
+
+    transition:.3s;
+
+}
+
+.sidebar a:hover,
+.sidebar a.active{
+
+    background:#18263a;
+
+    color:var(--text);
+
+}
+
+.sidebar a span{
+
+    color:#00d4ff;
+
+}
+
+/* MAIN */
+
+.main{
+
+    margin-left:250px;
+
+    width:calc(100% - 250px);
+
+    padding:30px;
+
+}
+
+/* TOPBAR */
+
+.topbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    border-bottom:1px solid var(--border);
+
+    padding-bottom:22px;
+
+    margin-bottom:30px;
+
+}
+
+.breadcrumb{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    margin-bottom:8px;
+
+}
+
+.breadcrumb span{
+
+    color:#00d4ff;
+
+}
+
+h1{
+
+    font-size:28px;
+
+}
+
+.subtitle{
+
+    color:var(--muted);
+
+    font-size:13px;
+
+    margin-top:5px;
+
+}
+
+.actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.icon-btn{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    color:var(--text);
+
+    padding:10px 14px;
+
+    border-radius:9px;
+
+    cursor:pointer;
+
+    font-size:17px;
+
+}
+
+.user{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    padding:7px 12px;
+
+    border-radius:10px;
+
+}
+
+.avatar{
+
+    width:32px;
+
+    height:32px;
+
+    border-radius:50%;
+
+    display:grid;
+
+    place-items:center;
+
+    background:linear-gradient(
+
+        135deg,
+
+        #00d4ff,
+
+        #7c3aed
+
+    );
+
+    font-weight:bold;
+
+}
+
+/* FORM CARD */
+
+.form-card{
+
+    max-width:1000px;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:15px;
+
+    padding:28px;
+
+}
+
+.form-card h2{
+
+    font-size:18px;
+
+    margin-bottom:25px;
+
+}
+
+.form-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:20px;
+
+}
+
+.form-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+.form-group.full{
+
+    grid-column:1 / -1;
+
+}
+
+label{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+}
+
+input,
+select{
+
+    width:100%;
+
+    padding:13px 14px;
+
+    border-radius:9px;
+
+    border:1px solid var(--border);
+
+    background:var(--input);
+
+    color:var(--text);
+
+    font-family:Poppins,sans-serif;
+
+    outline:none;
+
+    transition:.3s;
+
+}
+
+input:focus,
+select:focus{
+
+    border-color:#00d4ff;
+
+    box-shadow:0 0 0 3px rgba(0,212,255,.08);
+
+}
+
+/* VARIANT PREVIEW */
+
+.preview{
+
+    margin-top:25px;
+
+    padding:20px;
+
+    border:1px solid var(--border);
+
+    border-radius:12px;
+
+    background:rgba(0,212,255,.04);
+
+}
+
+.preview h3{
+
+    font-size:15px;
+
+    margin-bottom:15px;
+
+}
+
+.preview-box{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:15px;
+
+}
+
+.preview-item{
+
+    padding:15px;
+
+    border-radius:10px;
+
+    background:var(--input);
+
+    border:1px solid var(--border);
+
+}
+
+.preview-item span{
+
+    display:block;
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    margin-bottom:5px;
+
+}
+
+.preview-item strong{
+
+    font-size:14px;
+
+}
+
+/* FORM ACTIONS */
+
+.form-actions{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:12px;
+
+    margin-top:28px;
+
+    padding-top:22px;
+
+    border-top:1px solid var(--border);
+
+}
+
+.cancel-btn{
+
+    padding:12px 22px;
+
+    border:1px solid var(--border);
+
+    border-radius:9px;
+
+    background:transparent;
+
+    color:var(--text);
+
+    cursor:pointer;
+
+    font-family:Poppins,sans-serif;
+
+}
+
+.save-btn{
+
+    padding:12px 25px;
+
+    border:none;
+
+    border-radius:9px;
+
+    background:linear-gradient(
+
+        135deg,
+
+        #00d4ff,
+
+        #7c3aed
+
+    );
+
+    color:white;
+
+    cursor:pointer;
+
+    font-family:Poppins,sans-serif;
+
+    font-weight:500;
+
+}
+
+/* LIGHT MODE */
+
+body.light-mode{
+
+    --bg:#f4f7fb;
+
+    --card:#ffffff;
+
+    --sidebar:#ffffff;
+
+    --border:#dce3ec;
+
+    --text:#172033;
+
+    --muted:#64748b;
+
+    --input:#ffffff;
+
+}
+
+body.light-mode .sidebar a{
+
+    color:#64748b;
+
+}
+
+body.light-mode .sidebar a:hover,
+body.light-mode .sidebar a.active{
+
+    background:#e8f5ff;
+
+    color:#172033;
+
+}
+
+body.light-mode .icon-btn,
+body.light-mode .user{
+
+    background:#ffffff;
+
+    color:#172033;
+
+}
+
+body.light-mode .form-card{
+
+    box-shadow:0 8px 25px rgba(30,50,80,.08);
+
+}
+
+body.light-mode input,
+body.light-mode select{
+
+    background:#ffffff;
+
+    color:#172033;
+
+}
+
+body.light-mode .cancel-btn{
+
+    color:#172033;
+
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+    .preview-box{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+}
+
+@media(max-width:800px){
+
+    .form-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .form-group.full{
+
+        grid-column:auto;
+
+    }
+
+}
+
+@media(max-width:700px){
+
+    .sidebar{
+
+        display:none;
+
+    }
+
+    .main{
+
+        margin-left:0;
+
+        width:100%;
+
+        padding:20px;
+
+    }
+
+    .topbar{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:18px;
+
+    }
+
+    .form-card{
+
+        padding:20px;
+
+    }
+
+    .preview-box{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .form-actions{
+
+        flex-direction:column;
+
+    }
+
+    .cancel-btn,
+    .save-btn{
+
+        width:100%;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+<div class="logo">
+
+NEXA <span>HUB</span> AI
+
+</div>
+
+<div class="nav-title">
+
+Retail Store
+
+</div>
+
+<a href="portal_dashboard.html">
+
+<span>⌂</span>
+
+Dashboard
+
+</a>
+
+<a href="product_list.html" class="active">
+
+<span>▣</span>
+
+Products
+
+</a>
+
+<a href="sale_list.html">
+
+<span>▤</span>
+
+Sales
+
+</a>
+
+<a href="sale_pos.html">
+
+<span>▥</span>
+
+POS
+
+</a>
+
+<a href="promotion_dashboard.html">
+
+<span>★</span>
+
+Promotions
+
+</a>
+
+<a href="purchase_order_list.html">
+
+<span>◈</span>
+
+Purchase Orders
+
+</a>
+
+<a href="supplier_list.html">
+
+<span>♙</span>
+
+Suppliers
+
+</a>
+
+<a href="staff_list.html">
+
+<span>♧</span>
+
+Staff
+
+</a>
+
+<a href="stock_request_list.html">
+
+<span>▱</span>
+
+Stock Requests
+
+</a>
+
+<a href="reports_insights.html">
+
+<span>◉</span>
+
+Reports
+
+</a>
+
+<a href="settings_business.html">
+
+<span>⚙</span>
+
+Settings
+
+</a>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+<div class="topbar">
+
+<div>
+
+<div class="breadcrumb">
+
+Retail Store /
+
+<span>Variant Form</span>
+
+</div>
+
+<h1>
+
+Add Product Variant
+
+</h1>
+
+<p class="subtitle">
+
+Create different variations for your products.
+
+</p>
+
+</div>
+
+<div class="actions">
+
+<button class="icon-btn" id="themeToggle">
+
+☾
+
+</button>
+
+<div class="user">
+
+<div class="avatar">
+
+A
+
+</div>
+
+<span>
+
+Admin
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- FORM -->
+
+<div class="form-card">
+
+<h2>
+
+Variant Information
+
+</h2>
+
+<form id="variantForm">
+
+<div class="form-grid">
+
+<div class="form-group">
+
+<label>
+
+Product
+
+</label>
+
+<select id="product" required>
+
+<option value="">
+
+Select product
+
+</option>
+
+<option>
+
+Wireless Mouse
+
+</option>
+
+<option>
+
+USB Keyboard
+
+</option>
+
+<option>
+
+LED Monitor
+
+</option>
+
+<option>
+
+Wireless Headphones
+
+</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Variant Name
+
+</label>
+
+<input
+
+type="text"
+
+id="variantName"
+
+placeholder="Example: Black - Large"
+
+required
+
+>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+SKU
+
+</label>
+
+<input
+
+type="text"
+
+id="sku"
+
+placeholder="Enter variant SKU"
+
+required
+
+>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Barcode
+
+</label>
+
+<input
+
+type="text"
+
+id="barcode"
+
+placeholder="Enter barcode"
+
+>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Color
+
+</label>
+
+<input
+
+type="text"
+
+id="color"
+
+placeholder="Example: Black"
+
+>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Size
+
+</label>
+
+<select id="size">
+
+<option value="">
+
+Select size
+
+</option>
+
+<option>
+
+Small
+
+</option>
+
+<option>
+
+Medium
+
+</option>
+
+<option>
+
+Large
+
+</option>
+
+<option>
+
+XL
+
+</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Purchase Price
+
+</label>
+
+<input
+
+type="number"
+
+id="purchasePrice"
+
+placeholder="Enter purchase price"
+
+step="0.01"
+
+>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Selling Price
+
+</label>
+
+<input
+
+type="number"
+
+id="sellingPrice"
+
+placeholder="Enter selling price"
+
+step="0.01"
+
+required
+
+>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Stock Quantity
+
+</label>
+
+<input
+
+type="number"
+
+id="stock"
+
+placeholder="Enter quantity"
+
+min="0"
+
+required
+
+>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Low Stock Alert
+
+</label>
+
+<input
+
+type="number"
+
+id="lowStock"
+
+placeholder="Example: 10"
+
+min="0"
+
+>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Status
+
+</label>
+
+<select id="status">
+
+<option>
+
+Active
+
+</option>
+
+<option>
+
+Inactive
+
+</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Supplier
+
+</label>
+
+<select id="supplier">
+
+<option>
+
+Select supplier
+
+</option>
+
+<option>
+
+Tech World Supplies
+
+</option>
+
+<option>
+
+Office Mart
+
+</option>
+
+<option>
+
+Global Wholesale
+
+</option>
+
+<option>
+
+Smart Accessories
+
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+<!-- PREVIEW -->
+
+<div class="preview">
+
+<h3>
+
+Variant Preview
+
+</h3>
+
+<div class="preview-box">
+
+<div class="preview-item">
+
+<span>Product</span>
+
+<strong id="previewProduct">
+
+Not Selected
+
+</strong>
+
+</div>
+
+<div class="preview-item">
+
+<span>Variant</span>
+
+<strong id="previewVariant">
+
+Not Entered
+
+</strong>
+
+</div>
+
+<div class="preview-item">
+
+<span>SKU</span>
+
+<strong id="previewSku">
+
+Not Entered
+
+</strong>
+
+</div>
+
+<div class="preview-item">
+
+<span>Selling Price</span>
+
+<strong id="previewPrice">
+
+$0.00
+
+</strong>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="form-actions">
+
+<button
+
+type="button"
+
+class="cancel-btn"
+
+onclick="location.href='product_list.html'"
+
+>
+
+Cancel
+
+</button>
+
+<button
+
+type="submit"
+
+class="save-btn"
+
+>
+
+Save Variant
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</main>
+
+</div>
+
+<script>
+
+/* THEME */
+
+const themeToggle =
+
+document.getElementById("themeToggle");
+
+const savedTheme =
+
+localStorage.getItem("theme");
+
+if(savedTheme === "light"){
+
+    document.body.classList.add("light-mode");
+
+    themeToggle.textContent = "☀";
+
+}
+
+themeToggle.addEventListener("click",function(){
+
+    document.body.classList.toggle("light-mode");
+
+    if(document.body.classList.contains("light-mode")){
+
+        themeToggle.textContent = "☀";
+
+        localStorage.setItem("theme","light");
+
+    }else{
+
+        themeToggle.textContent = "☾";
+
+        localStorage.setItem("theme","dark");
+
+    }
+
+});
+
+/* LIVE PREVIEW */
+
+const product =
+
+document.getElementById("product");
+
+const variantName =
+
+document.getElementById("variantName");
+
+const sku =
+
+document.getElementById("sku");
+
+const sellingPrice =
+
+document.getElementById("sellingPrice");
+
+product.addEventListener("change",function(){
+
+    document.getElementById(
+
+        "previewProduct"
+
+    ).textContent =
+
+    this.value || "Not Selected";
+
+});
+
+variantName.addEventListener("input",function(){
+
+    document.getElementById(
+
+        "previewVariant"
+
+    ).textContent =
+
+    this.value || "Not Entered";
+
+});
+
+sku.addEventListener("input",function(){
+
+    document.getElementById(
+
+        "previewSku"
+
+    ).textContent =
+
+    this.value || "Not Entered";
+
+});
+
+sellingPrice.addEventListener("input",function(){
+
+    const price =
+
+    parseFloat(this.value) || 0;
+
+    document.getElementById(
+
+        "previewPrice"
+
+    ).textContent =
+
+    "$" + price.toFixed(2);
+
+});
+
+/* FORM SUBMIT */
+
+document.getElementById("variantForm")
+
+.addEventListener("submit",function(event){
+
+    event.preventDefault();
+
+    alert("Product variant saved successfully!");
+
+    window.location.href =
+
+    "product_list.html";
+
+});
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Employee Detail</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --bg:#080b14;
+    --card:#101621;
+    --sidebar:#0d111c;
+    --border:#222d3e;
+    --text:#ffffff;
+    --muted:#8995a8;
+    --input:#0a0f18;
+}
+
+body{
+    font-family:Poppins,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    overflow-x:hidden;
+    transition:.3s ease;
+}
+
+body::before,
+body::after{
+    content:"";
+    position:fixed;
+    width:400px;
+    height:400px;
+    border-radius:50%;
+    filter:blur(110px);
+    opacity:.20;
+    z-index:-1;
+    pointer-events:none;
+}
+
+body::before{
+    background:#00d4ff;
+    top:-150px;
+    left:-100px;
+    animation:moveOne 12s infinite alternate ease-in-out;
+}
+
+body::after{
+    background:#7c3aed;
+    right:-150px;
+    bottom:-150px;
+    animation:moveTwo 15s infinite alternate ease-in-out;
+}
+
+@keyframes moveOne{
+    to{
+        transform:translate(180px,180px);
+    }
+}
+
+@keyframes moveTwo{
+    to{
+        transform:translate(-180px,-150px);
+    }
+}
+
+.app{
+    display:flex;
+    min-height:100vh;
+}
+
+.sidebar{
+    width:250px;
+    background:var(--sidebar);
+    border-right:1px solid var(--border);
+    padding:25px 15px;
+    position:fixed;
+    top:0;
+    bottom:0;
+}
+
+.logo{
+    font-size:22px;
+    font-weight:700;
+    padding:10px 15px 30px;
+}
+
+.logo span{
+    color:#00d4ff;
+}
+
+.nav-title{
+    color:#748096;
+    font-size:11px;
+    text-transform:uppercase;
+    margin:15px;
+}
+
+.sidebar a{
+    display:flex;
+    gap:12px;
+    align-items:center;
+    padding:12px 15px;
+    margin:5px 0;
+    border-radius:10px;
+    text-decoration:none;
+    color:#9ca8ba;
+    font-size:13px;
+    transition:.3s;
+}
+
+.sidebar a:hover,
+.sidebar a.active{
+    background:#18263a;
+    color:var(--text);
+}
+
+.sidebar a span{
+    color:#00d4ff;
+}
+
+.main{
+    margin-left:250px;
+    width:calc(100% - 250px);
+    padding:30px;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid var(--border);
+    padding-bottom:22px;
+    margin-bottom:30px;
+}
+
+.breadcrumb{
+    color:var(--muted);
+    font-size:12px;
+    margin-bottom:8px;
+}
+
+.breadcrumb span{
+    color:#00d4ff;
+}
+
+h1{
+    font-size:28px;
+}
+
+.subtitle{
+    color:var(--muted);
+    font-size:13px;
+    margin-top:5px;
+}
+
+.actions{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.icon-btn{
+    background:var(--card);
+    border:1px solid var(--border);
+    color:var(--text);
+    padding:10px 14px;
+    border-radius:9px;
+    cursor:pointer;
+    font-size:17px;
+}
+
+.user{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:var(--card);
+    border:1px solid var(--border);
+    padding:7px 12px;
+    border-radius:10px;
+}
+
+.avatar{
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    background:linear-gradient(135deg,#00d4ff,#7c3aed);
+    font-weight:bold;
+}
+
+.profile-grid{
+    display:grid;
+    grid-template-columns:280px 1fr;
+    gap:25px;
+}
+
+.card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:25px;
+}
+
+.profile-card{
+    text-align:center;
+}
+
+.profile-avatar{
+    width:100px;
+    height:100px;
+    margin:0 auto 15px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    background:linear-gradient(135deg,#00d4ff,#7c3aed);
+    font-size:38px;
+    font-weight:700;
+}
+
+.profile-card h2{
+    font-size:20px;
+}
+
+.profile-card p{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:5px;
+}
+
+.status{
+    display:inline-block;
+    margin-top:15px;
+    padding:6px 14px;
+    border-radius:20px;
+    background:#16352d;
+    color:#4de2a5;
+    font-size:11px;
+}
+
+.info-title{
+    font-size:18px;
+    margin-bottom:20px;
+}
+
+.info-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+.info-item{
+    padding:15px;
+    border:1px solid var(--border);
+    border-radius:10px;
+}
+
+.info-item span{
+    display:block;
+    color:var(--muted);
+    font-size:11px;
+    margin-bottom:5px;
+}
+
+.info-item strong{
+    font-size:13px;
+}
+
+.activity{
+    margin-top:25px;
+}
+
+.activity-item{
+    display:flex;
+    gap:12px;
+    padding:14px 0;
+    border-bottom:1px solid var(--border);
+}
+
+.activity-icon{
+    width:35px;
+    height:35px;
+    display:grid;
+    place-items:center;
+    border-radius:10px;
+    background:rgba(0,212,255,.12);
+    color:#00d4ff;
+}
+
+.activity-item p{
+    font-size:12px;
+}
+
+.activity-item span{
+    display:block;
+    color:var(--muted);
+    font-size:10px;
+    margin-top:3px;
+}
+
+body.light-mode{
+    --bg:#f4f7fb;
+    --card:#ffffff;
+    --sidebar:#ffffff;
+    --border:#dce3ec;
+    --text:#172033;
+    --muted:#64748b;
+    --input:#ffffff;
+}
+
+body.light-mode .sidebar a{
+    color:#64748b;
+}
+
+body.light-mode .sidebar a:hover,
+body.light-mode .sidebar a.active{
+    background:#e8f5ff;
+    color:#172033;
+}
+
+body.light-mode .icon-btn,
+body.light-mode .user{
+    background:#ffffff;
+    color:#172033;
+}
+
+body.light-mode .card{
+    box-shadow:0 8px 25px rgba(30,50,80,.08);
+}
+
+@media(max-width:900px){
+
+    .profile-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:700px){
+
+    .sidebar{
+        display:none;
+    }
+
+    .main{
+        margin-left:0;
+        width:100%;
+        padding:20px;
+    }
+
+    .topbar{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:18px;
+    }
+
+    .info-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+
+<div class="logo">
+
+NEXA <span>HUB</span> AI
+
+</div>
+
+<div class="nav-title">
+
+Business Management
+
+</div>
+
+<a href="dashboard.html">
+
+<span>⌂</span>
+
+Dashboard
+
+</a>
+
+<a href="employee_list.html" class="active">
+
+<span>♙</span>
+
+Employees
+
+</a>
+
+<a href="attendance_daily.html">
+
+<span>✓</span>
+
+Attendance
+
+</a>
+
+<a href="salary_management_list.html">
+
+<span>₹</span>
+
+Salary
+
+</a>
+
+<a href="customer_list.html">
+
+<span>♧</span>
+
+Customers
+
+</a>
+
+<a href="reports_insights.html">
+
+<span>◉</span>
+
+Reports
+
+</a>
+
+<a href="settings_business.html">
+
+<span>⚙</span>
+
+Settings
+
+</a>
+
+</aside>
+
+<main class="main">
+
+<div class="topbar">
+
+<div>
+
+<div class="breadcrumb">
+
+Business Management /
+
+<span>Employee Detail</span>
+
+</div>
+
+<h1>
+
+Employee Detail
+
+</h1>
+
+<p class="subtitle">
+
+View complete employee information and activity.
+
+</p>
+
+</div>
+
+<div class="actions">
+
+<button class="icon-btn" id="themeToggle">☾</button>
+
+<div class="user">
+
+<div class="avatar">A</div>
+
+<span>Admin</span>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="profile-grid">
+
+<div class="card profile-card">
+
+<div class="profile-avatar">
+
+RK
+
+</div>
+
+<h2>
+
+Rahul Kumar
+
+</h2>
+
+<p>
+
+Senior Sales Executive
+
+</p>
+
+<p>
+
+EMP-1001
+
+</p>
+
+<span class="status">
+
+Active
+
+</span>
+
+</div>
+
+<div class="card">
+
+<h2 class="info-title">
+
+Employee Information
+
+</h2>
+
+<div class="info-grid">
+
+<div class="info-item">
+
+<span>Full Name</span>
+
+<strong>Rahul Kumar</strong>
+
+</div>
+
+<div class="info-item">
+
+<span>Email</span>
+
+<strong>rahul.kumar@email.com</strong>
+
+</div>
+
+<div class="info-item">
+
+<span>Phone</span>
+
+<strong>+91 98765 43210</strong>
+
+</div>
+
+<div class="info-item">
+
+<span>Department</span>
+
+<strong>Sales</strong>
+
+</div>
+
+<div class="info-item">
+
+<span>Joining Date</span>
+
+<strong>15 January 2024</strong>
+
+</div>
+
+<div class="info-item">
+
+<span>Monthly Salary</span>
+
+<strong>$2,850</strong>
+
+</div>
+
+</div>
+
+<div class="activity">
+
+<h2 class="info-title">
+
+Recent Activity
+
+</h2>
+
+<div class="activity-item">
+
+<div class="activity-icon">✓</div>
+
+<div>
+
+<p>Attendance marked for today</p>
+
+<span>Today, 9:05 AM</span>
+
+</div>
+
+</div>
+
+<div class="activity-item">
+
+<div class="activity-icon">₹</div>
+
+<div>
+
+<p>Salary processed successfully</p>
+
+<span>5 days ago</span>
+
+</div>
+
+</div>
+
+<div class="activity-item">
+
+<div class="activity-icon">★</div>
+
+<div>
+
+<p>Performance review completed</p>
+
+<span>12 days ago</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</main>
+
+</div>
+
+<script>
+
+const themeToggle = document.getElementById("themeToggle");
+
+const savedTheme = localStorage.getItem("theme");
+
+if(savedTheme === "light"){
+
+    document.body.classList.add("light-mode");
+
+    themeToggle.textContent = "☀";
+
+}
+
+themeToggle.addEventListener("click",function(){
+
+    document.body.classList.toggle("light-mode");
+
+    if(document.body.classList.contains("light-mode")){
+
+        themeToggle.textContent = "☀";
+
+        localStorage.setItem("theme","light");
+
+    }else{
+
+        themeToggle.textContent = "☾";
+
+        localStorage.setItem("theme","dark");
+
+    }
+
+});
+
+</script>
+
+</body>
+
+</html>

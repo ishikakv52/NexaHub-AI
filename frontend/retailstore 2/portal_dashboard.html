@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Portal Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================
+   RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* =========================
+   THEME VARIABLES
+========================= */
+
+:root{
+
+    --bg:#080b14;
+    --card:#101621;
+    --sidebar:#0d111c;
+    --border:#222d3e;
+    --text:#ffffff;
+    --muted:#8995a8;
+    --input:#0a0f18;
+
+}
+
+/* =========================
+   BODY
+========================= */
+
+body{
+
+    font-family:Poppins,sans-serif;
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    min-height:100vh;
+
+    overflow-x:hidden;
+
+    transition:.3s ease;
+
+}
+
+/* =========================
+   ANIMATED BACKGROUND
+========================= */
+
+body::before,
+body::after{
+
+    content:"";
+
+    position:fixed;
+
+    width:400px;
+
+    height:400px;
+
+    border-radius:50%;
+
+    filter:blur(110px);
+
+    opacity:.20;
+
+    z-index:-1;
+
+    pointer-events:none;
+
+}
+
+body::before{
+
+    background:#00d4ff;
+
+    top:-150px;
+
+    left:-100px;
+
+    animation:moveOne 12s infinite alternate ease-in-out;
+
+}
+
+body::after{
+
+    background:#7c3aed;
+
+    right:-150px;
+
+    bottom:-150px;
+
+    animation:moveTwo 15s infinite alternate ease-in-out;
+
+}
+
+@keyframes moveOne{
+
+    from{
+        transform:translate(0,0);
+    }
+
+    to{
+        transform:translate(180px,180px);
+    }
+
+}
+
+@keyframes moveTwo{
+
+    from{
+        transform:translate(0,0);
+    }
+
+    to{
+        transform:translate(-180px,-150px);
+    }
+
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.app{
+
+    display:flex;
+
+    min-height:100vh;
+
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+
+    width:250px;
+
+    background:var(--sidebar);
+
+    border-right:1px solid var(--border);
+
+    padding:25px 15px;
+
+    position:fixed;
+
+    top:0;
+
+    bottom:0;
+
+    transition:.3s;
+
+}
+
+.logo{
+
+    font-size:22px;
+
+    font-weight:700;
+
+    padding:10px 15px 30px;
+
+}
+
+.logo span{
+
+    color:#00d4ff;
+
+}
+
+.nav-title{
+
+    color:#748096;
+
+    font-size:11px;
+
+    text-transform:uppercase;
+
+    margin:15px;
+
+}
+
+.sidebar a{
+
+    display:flex;
+
+    gap:12px;
+
+    align-items:center;
+
+    padding:12px 15px;
+
+    margin:5px 0;
+
+    border-radius:10px;
+
+    text-decoration:none;
+
+    color:#9ca8ba;
+
+    font-size:13px;
+
+    transition:.3s;
+
+}
+
+.sidebar a:hover,
+.sidebar a.active{
+
+    background:#18263a;
+
+    color:var(--text);
+
+}
+
+.sidebar a span{
+
+    color:#00d4ff;
+
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+
+    margin-left:250px;
+
+    width:calc(100% - 250px);
+
+    padding:30px;
+
+}
+
+/* =========================
+   TOPBAR
+========================= */
+
+.topbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    border-bottom:1px solid var(--border);
+
+    padding-bottom:22px;
+
+    margin-bottom:30px;
+
+}
+
+.breadcrumb{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    margin-bottom:8px;
+
+}
+
+.breadcrumb span{
+
+    color:#00d4ff;
+
+}
+
+h1{
+
+    font-size:28px;
+
+}
+
+.subtitle{
+
+    color:var(--muted);
+
+    font-size:13px;
+
+    margin-top:5px;
+
+}
+
+.actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.icon-btn{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    color:var(--text);
+
+    padding:10px 14px;
+
+    border-radius:9px;
+
+    cursor:pointer;
+
+    font-size:17px;
+
+}
+
+.user{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    padding:7px 12px;
+
+    border-radius:10px;
+
+}
+
+.avatar{
+
+    width:32px;
+
+    height:32px;
+
+    border-radius:50%;
+
+    display:grid;
+
+    place-items:center;
+
+    background:linear-gradient(
+        135deg,
+        #00d4ff,
+        #7c3aed
+    );
+
+    font-weight:bold;
+
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:18px;
+
+}
+
+.stat{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:15px;
+
+    padding:22px;
+
+    display:flex;
+
+    gap:15px;
+
+    align-items:center;
+
+    transition:.3s;
+
+}
+
+.stat:hover{
+
+    transform:translateY(-5px);
+
+    border-color:#00d4ff;
+
+}
+
+.stat-icon{
+
+    width:48px;
+
+    height:48px;
+
+    display:grid;
+
+    place-items:center;
+
+    border-radius:12px;
+
+    background:rgba(0,212,255,.12);
+
+    color:#00d4ff;
+
+    font-size:22px;
+
+}
+
+.stat span{
+
+    color:var(--muted);
+
+    display:block;
+
+    font-size:12px;
+
+}
+
+.stat strong{
+
+    display:block;
+
+    font-size:23px;
+
+    margin-top:4px;
+
+}
+
+/* =========================
+   CARD
+========================= */
+
+.card{
+
+    margin-top:25px;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:15px;
+
+    padding:24px;
+
+}
+
+.card h2{
+
+    font-size:18px;
+
+    margin-bottom:20px;
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+th,
+td{
+
+    text-align:left;
+
+    padding:14px;
+
+    border-bottom:1px solid var(--border);
+
+    font-size:13px;
+
+}
+
+th{
+
+    color:var(--muted);
+
+    font-weight:500;
+
+}
+
+td{
+
+    color:var(--text);
+
+}
+
+.status{
+
+    padding:5px 10px;
+
+    border-radius:20px;
+
+    background:#16352d;
+
+    color:#4de2a5;
+
+    font-size:11px;
+
+}
+
+/* =========================
+   LIGHT MODE
+========================= */
+
+body.light-mode{
+
+    --bg:#f4f7fb;
+
+    --card:#ffffff;
+
+    --sidebar:#ffffff;
+
+    --border:#dce3ec;
+
+    --text:#172033;
+
+    --muted:#64748b;
+
+    --input:#ffffff;
+
+}
+
+/* SIDEBAR */
+
+body.light-mode .sidebar{
+
+    background:var(--sidebar);
+
+    border-right-color:var(--border);
+
+}
+
+body.light-mode .sidebar a{
+
+    color:#64748b;
+
+}
+
+body.light-mode .sidebar a:hover,
+body.light-mode .sidebar a.active{
+
+    background:#e8f5ff;
+
+    color:#172033;
+
+}
+
+/* TOPBAR */
+
+body.light-mode .topbar{
+
+    border-bottom-color:var(--border);
+
+}
+
+/* CARDS */
+
+body.light-mode .stat,
+body.light-mode .card{
+
+    background:var(--card);
+
+    border-color:var(--border);
+
+    box-shadow:0 8px 25px rgba(30,50,80,.08);
+
+}
+
+/* TEXT */
+
+body.light-mode h1,
+body.light-mode h2,
+body.light-mode strong,
+body.light-mode td{
+
+    color:var(--text);
+
+}
+
+body.light-mode .subtitle,
+body.light-mode .breadcrumb,
+body.light-mode .stat span,
+body.light-mode th{
+
+    color:var(--muted);
+
+}
+
+/* BUTTON + USER */
+
+body.light-mode .icon-btn,
+body.light-mode .user{
+
+    background:#ffffff;
+
+    color:#172033;
+
+    border-color:var(--border);
+
+}
+
+/* STATUS */
+
+body.light-mode .status{
+
+    background:#dff8ed;
+
+    color:#16845b;
+
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:900px){
+
+    .stats{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    .sidebar{
+
+        display:none;
+
+    }
+
+    .main{
+
+        margin-left:0;
+
+        width:100%;
+
+        padding:20px;
+
+    }
+
+    .stats{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .topbar{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:18px;
+
+    }
+
+    .card{
+
+        overflow:auto;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+<div class="logo">
+
+NEXA <span>HUB</span> AI
+
+</div>
+
+<div class="nav-title">
+
+Retail Store
+
+</div>
+
+<a href="portal_dashboard.html" class="active">
+
+<span>⌂</span>
+
+Dashboard
+
+</a>
+
+<a href="product_list.html">
+
+<span>▣</span>
+
+Products
+
+</a>
+
+<a href="sale_list.html">
+
+<span>▤</span>
+
+Sales
+
+</a>
+
+<a href="sale_pos.html">
+
+<span>▥</span>
+
+POS
+
+</a>
+
+<a href="promotion_dashboard.html">
+
+<span>★</span>
+
+Promotions
+
+</a>
+
+<a href="purchase_order_list.html">
+
+<span>◈</span>
+
+Purchase Orders
+
+</a>
+
+<a href="supplier_list.html">
+
+<span>♙</span>
+
+Suppliers
+
+</a>
+
+<a href="staff_list.html">
+
+<span>♧</span>
+
+Staff
+
+</a>
+
+<a href="reports_insights.html">
+
+<span>◉</span>
+
+Reports
+
+</a>
+
+<a href="settings_business.html">
+
+<span>⚙</span>
+
+Settings
+
+</a>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+<div class="topbar">
+
+<div>
+
+<div class="breadcrumb">
+
+Retail Store /
+
+<span>Portal Dashboard</span>
+
+</div>
+
+<h1>
+
+Portal Dashboard
+
+</h1>
+
+<p class="subtitle">
+
+Welcome back! Here's your retail store overview.
+
+</p>
+
+</div>
+
+<div class="actions">
+
+<button class="icon-btn" id="themeToggle">
+
+☾
+
+</button>
+
+<div class="user">
+
+<div class="avatar">
+
+A
+
+</div>
+
+<span>
+
+Admin
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- STATS -->
+
+<div class="stats">
+
+<div class="stat">
+
+<div class="stat-icon">
+
+▣
+
+</div>
+
+<div>
+
+<span>Total Products</span>
+
+<strong>1,248</strong>
+
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-icon">
+
+₹
+
+</div>
+
+<div>
+
+<span>Today's Sales</span>
+
+<strong>₹48,650</strong>
+
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-icon">
+
+!
+
+</div>
+
+<div>
+
+<span>Low Stock Items</span>
+
+<strong>24</strong>
+
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-icon">
+
+◈
+
+</div>
+
+<div>
+
+<span>Pending Orders</span>
+
+<strong>18</strong>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- RECENT SALES -->
+
+<div class="card">
+
+<h2>
+
+Recent Sales
+
+</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Sale ID</th>
+
+<th>Customer</th>
+
+<th>Date</th>
+
+<th>Payment</th>
+
+<th>Total</th>
+
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>#SALE-1001</td>
+
+<td>Rahul Kumar</td>
+
+<td>25 July 2026</td>
+
+<td>UPI</td>
+
+<td>₹2,450</td>
+
+<td>
+
+<span class="status">
+
+Completed
+
+</span>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>#SALE-1002</td>
+
+<td>Aman Sharma</td>
+
+<td>25 July 2026</td>
+
+<td>Cash</td>
+
+<td>₹1,850</td>
+
+<td>
+
+<span class="status">
+
+Completed
+
+</span>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>#SALE-1003</td>
+
+<td>Priya Singh</td>
+
+<td>24 July 2026</td>
+
+<td>Card</td>
+
+<td>₹4,200</td>
+
+<td>
+
+<span class="status">
+
+Completed
+
+</span>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</main>
+
+</div>
+
+<!-- THEME SCRIPT -->
+
+<script>
+
+const themeToggle =
+document.getElementById("themeToggle");
+
+const savedTheme =
+localStorage.getItem("theme");
+
+if(savedTheme === "light"){
+
+    document.body.classList.add("light-mode");
+
+    themeToggle.textContent = "☀";
+
+}
+
+themeToggle.addEventListener("click",function(){
+
+    document.body.classList.toggle("light-mode");
+
+    if(document.body.classList.contains("light-mode")){
+
+        themeToggle.textContent = "☀";
+
+        localStorage.setItem("theme","light");
+
+    }else{
+
+        themeToggle.textContent = "☾";
+
+        localStorage.setItem("theme","dark");
+
+    }
+
+});
+
+</script>
+
+</body>
+
+</html> 

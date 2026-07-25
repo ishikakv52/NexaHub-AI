@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Reports & Insights</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+
+    --bg:#080b14;
+    --card:#101621;
+    --sidebar:#0d111c;
+    --border:#222d3e;
+    --text:#ffffff;
+    --muted:#8995a8;
+    --input:#0a0f18;
+
+}
+
+body{
+
+    font-family:Poppins,sans-serif;
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    min-height:100vh;
+
+    overflow-x:hidden;
+
+    transition:.3s ease;
+
+}
+
+/* =========================
+   ANIMATED BACKGROUND
+========================= */
+
+body::before,
+body::after{
+
+    content:"";
+
+    position:fixed;
+
+    width:400px;
+
+    height:400px;
+
+    border-radius:50%;
+
+    filter:blur(110px);
+
+    opacity:.20;
+
+    z-index:-1;
+
+    pointer-events:none;
+
+}
+
+body::before{
+
+    background:#00d4ff;
+
+    top:-150px;
+
+    left:-100px;
+
+    animation:moveOne 12s infinite alternate ease-in-out;
+
+}
+
+body::after{
+
+    background:#7c3aed;
+
+    right:-150px;
+
+    bottom:-150px;
+
+    animation:moveTwo 15s infinite alternate ease-in-out;
+
+}
+
+@keyframes moveOne{
+
+    from{
+        transform:translate(0,0);
+    }
+
+    to{
+        transform:translate(180px,180px);
+    }
+
+}
+
+@keyframes moveTwo{
+
+    from{
+        transform:translate(0,0);
+    }
+
+    to{
+        transform:translate(-180px,-150px);
+    }
+
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.app{
+
+    display:flex;
+
+    min-height:100vh;
+
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+
+    width:250px;
+
+    background:var(--sidebar);
+
+    border-right:1px solid var(--border);
+
+    padding:25px 15px;
+
+    position:fixed;
+
+    top:0;
+
+    bottom:0;
+
+}
+
+.logo{
+
+    font-size:22px;
+
+    font-weight:700;
+
+    padding:10px 15px 30px;
+
+}
+
+.logo span{
+
+    color:#00d4ff;
+
+}
+
+.nav-title{
+
+    color:#748096;
+
+    font-size:11px;
+
+    text-transform:uppercase;
+
+    margin:15px;
+
+}
+
+.sidebar a{
+
+    display:flex;
+
+    gap:12px;
+
+    align-items:center;
+
+    padding:12px 15px;
+
+    margin:5px 0;
+
+    border-radius:10px;
+
+    text-decoration:none;
+
+    color:#9ca8ba;
+
+    font-size:13px;
+
+    transition:.3s;
+
+}
+
+.sidebar a:hover,
+.sidebar a.active{
+
+    background:#18263a;
+
+    color:var(--text);
+
+}
+
+.sidebar a span{
+
+    color:#00d4ff;
+
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+
+    margin-left:250px;
+
+    width:calc(100% - 250px);
+
+    padding:30px;
+
+}
+
+/* =========================
+   TOPBAR
+========================= */
+
+.topbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    border-bottom:1px solid var(--border);
+
+    padding-bottom:22px;
+
+    margin-bottom:30px;
+
+}
+
+.breadcrumb{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    margin-bottom:8px;
+
+}
+
+.breadcrumb span{
+
+    color:#00d4ff;
+
+}
+
+h1{
+
+    font-size:28px;
+
+}
+
+.subtitle{
+
+    color:var(--muted);
+
+    font-size:13px;
+
+    margin-top:5px;
+
+}
+
+.actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.icon-btn{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    color:var(--text);
+
+    padding:10px 14px;
+
+    border-radius:9px;
+
+    cursor:pointer;
+
+    font-size:17px;
+
+}
+
+.user{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    padding:7px 12px;
+
+    border-radius:10px;
+
+}
+
+.avatar{
+
+    width:32px;
+
+    height:32px;
+
+    border-radius:50%;
+
+    display:grid;
+
+    place-items:center;
+
+    background:linear-gradient(
+
+        135deg,
+
+        #00d4ff,
+
+        #7c3aed
+
+    );
+
+    font-weight:bold;
+
+}
+
+/* =========================
+   FILTER BAR
+========================= */
+
+.filter-bar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-bottom:25px;
+
+}
+
+.filter-group{
+
+    display:flex;
+
+    gap:12px;
+
+}
+
+select{
+
+    padding:12px 15px;
+
+    border-radius:9px;
+
+    border:1px solid var(--border);
+
+    background:var(--input);
+
+    color:var(--text);
+
+    font-family:Poppins,sans-serif;
+
+    outline:none;
+
+}
+
+.export-btn{
+
+    padding:12px 20px;
+
+    border:none;
+
+    border-radius:9px;
+
+    cursor:pointer;
+
+    color:white;
+
+    font-family:Poppins,sans-serif;
+
+    font-weight:500;
+
+    background:linear-gradient(
+
+        135deg,
+
+        #00d4ff,
+
+        #7c3aed
+
+    );
+
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:18px;
+
+}
+
+.stat{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:15px;
+
+    padding:22px;
+
+    transition:.3s;
+
+}
+
+.stat:hover{
+
+    transform:translateY(-5px);
+
+    border-color:#00d4ff;
+
+}
+
+.stat-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:15px;
+
+}
+
+.stat-icon{
+
+    width:45px;
+
+    height:45px;
+
+    display:grid;
+
+    place-items:center;
+
+    border-radius:12px;
+
+    background:rgba(0,212,255,.12);
+
+    color:#00d4ff;
+
+    font-size:20px;
+
+}
+
+.stat-change{
+
+    color:#4de2a5;
+
+    font-size:11px;
+
+}
+
+.stat span{
+
+    color:var(--muted);
+
+    display:block;
+
+    font-size:12px;
+
+}
+
+.stat strong{
+
+    display:block;
+
+    font-size:24px;
+
+    margin-top:5px;
+
+}
+
+/* =========================
+   GRID
+========================= */
+
+.dashboard-grid{
+
+    display:grid;
+
+    grid-template-columns:2fr 1fr;
+
+    gap:22px;
+
+    margin-top:25px;
+
+}
+
+/* =========================
+   CARD
+========================= */
+
+.card{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:15px;
+
+    padding:24px;
+
+}
+
+.card h2{
+
+    font-size:18px;
+
+    margin-bottom:20px;
+
+}
+
+/* =========================
+   CHART
+========================= */
+
+.chart{
+
+    height:280px;
+
+    display:flex;
+
+    align-items:flex-end;
+
+    justify-content:space-around;
+
+    gap:12px;
+
+    padding:20px 10px 10px;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.bar{
+
+    width:35px;
+
+    border-radius:7px 7px 0 0;
+
+    background:linear-gradient(
+
+        to top,
+
+        #00d4ff,
+
+        #7c3aed
+
+    );
+
+    transition:.3s;
+
+    position:relative;
+
+}
+
+.bar:hover{
+
+    opacity:.75;
+
+    transform:scaleY(1.04);
+
+}
+
+.bar-label{
+
+    position:absolute;
+
+    bottom:-30px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    font-size:11px;
+
+    color:var(--muted);
+
+}
+
+/* =========================
+   INSIGHTS
+========================= */
+
+.insight{
+
+    padding:16px 0;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.insight:last-child{
+
+    border-bottom:none;
+
+}
+
+.insight-title{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:7px;
+
+}
+
+.insight-title strong{
+
+    font-size:13px;
+
+}
+
+.insight-title span{
+
+    color:#00d4ff;
+
+    font-size:12px;
+
+}
+
+.insight p{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    line-height:1.6;
+
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.table-card{
+
+    margin-top:25px;
+
+    overflow-x:auto;
+
+}
+
+table{
+
+    width:100%;
+
+    min-width:750px;
+
+    border-collapse:collapse;
+
+}
+
+th,
+td{
+
+    text-align:left;
+
+    padding:14px;
+
+    border-bottom:1px solid var(--border);
+
+    font-size:13px;
+
+}
+
+th{
+
+    color:var(--muted);
+
+    font-weight:500;
+
+}
+
+td{
+
+    color:var(--text);
+
+}
+
+/* =========================
+   PROGRESS
+========================= */
+
+.progress{
+
+    width:120px;
+
+    height:7px;
+
+    background:#202b3c;
+
+    border-radius:10px;
+
+    overflow:hidden;
+
+}
+
+.progress-bar{
+
+    height:100%;
+
+    border-radius:10px;
+
+    background:linear-gradient(
+
+        90deg,
+
+        #00d4ff,
+
+        #7c3aed
+
+    );
+
+}
+
+/* =========================
+   LIGHT MODE
+========================= */
+
+body.light-mode{
+
+    --bg:#f4f7fb;
+
+    --card:#ffffff;
+
+    --sidebar:#ffffff;
+
+    --border:#dce3ec;
+
+    --text:#172033;
+
+    --muted:#64748b;
+
+    --input:#ffffff;
+
+}
+
+body.light-mode .sidebar{
+
+    background:var(--sidebar);
+
+}
+
+body.light-mode .sidebar a{
+
+    color:#64748b;
+
+}
+
+body.light-mode .sidebar a:hover,
+body.light-mode .sidebar a.active{
+
+    background:#e8f5ff;
+
+    color:#172033;
+
+}
+
+body.light-mode .icon-btn,
+body.light-mode .user{
+
+    background:#ffffff;
+
+    color:#172033;
+
+    border-color:var(--border);
+
+}
+
+body.light-mode .stat,
+body.light-mode .card{
+
+    box-shadow:0 8px 25px rgba(30,50,80,.08);
+
+}
+
+body.light-mode select{
+
+    background:#ffffff;
+
+    color:#172033;
+
+}
+
+body.light-mode .progress{
+
+    background:#e3e8ef;
+
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1050px){
+
+    .stats{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+    .dashboard-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+@media(max-width:700px){
+
+    .sidebar{
+
+        display:none;
+
+    }
+
+    .main{
+
+        margin-left:0;
+
+        width:100%;
+
+        padding:20px;
+
+    }
+
+    .topbar{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:18px;
+
+    }
+
+    .stats{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .filter-bar{
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+    }
+
+    .filter-group{
+
+        flex-direction:column;
+
+    }
+
+    select,
+    .export-btn{
+
+        width:100%;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+<div class="logo">
+
+NEXA <span>HUB</span> AI
+
+</div>
+
+<div class="nav-title">
+
+Retail Store
+
+</div>
+
+<a href="portal_dashboard.html">
+
+<span>⌂</span>
+
+Dashboard
+
+</a>
+
+<a href="product_list.html">
+
+<span>▣</span>
+
+Products
+
+</a>
+
+<a href="sale_list.html">
+
+<span>▤</span>
+
+Sales
+
+</a>
+
+<a href="sale_pos.html">
+
+<span>▥</span>
+
+POS
+
+</a>
+
+<a href="promotion_dashboard.html">
+
+<span>★</span>
+
+Promotions
+
+</a>
+
+<a href="purchase_order_list.html">
+
+<span>◈</span>
+
+Purchase Orders
+
+</a>
+
+<a href="supplier_list.html">
+
+<span>♙</span>
+
+Suppliers
+
+</a>
+
+<a href="staff_list.html">
+
+<span>♧</span>
+
+Staff
+
+</a>
+
+<a href="reminder_list.html">
+
+<span>⏰</span>
+
+Reminders
+
+</a>
+
+<a href="reports_insights.html" class="active">
+
+<span>◉</span>
+
+Reports
+
+</a>
+
+<a href="settings_business.html">
+
+<span>⚙</span>
+
+Settings
+
+</a>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+<div class="topbar">
+
+<div>
+
+<div class="breadcrumb">
+
+Retail Store /
+
+<span>Reports & Insights</span>
+
+</div>
+
+<h1>
+
+Reports & Insights
+
+</h1>
+
+<p class="subtitle">
+
+Understand your store performance with detailed business insights.
+
+</p>
+
+</div>
+
+<div class="actions">
+
+<button class="icon-btn" id="themeToggle">
+
+☾
+
+</button>
+
+<div class="user">
+
+<div class="avatar">
+
+A
+
+</div>
+
+<span>
+
+Admin
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- FILTER -->
+
+<div class="filter-bar">
+
+<div class="filter-group">
+
+<select id="periodSelect">
+
+<option>Last 7 Days</option>
+
+<option>Last 30 Days</option>
+
+<option>Last 3 Months</option>
+
+<option>This Year</option>
+
+</select>
+
+<select>
+
+<option>All Categories</option>
+
+<option>Electronics</option>
+
+<option>Clothing</option>
+
+<option>Grocery</option>
+
+<option>Accessories</option>
+
+</select>
+
+</div>
+
+<button
+
+class="export-btn"
+
+onclick="exportReport()"
+
+>
+
+↓ Export Report
+
+</button>
+
+</div>
+
+<!-- STATS -->
+
+<div class="stats">
+
+<div class="stat">
+
+<div class="stat-top">
+
+<div class="stat-icon">
+
+₹
+
+</div>
+
+<div class="stat-change">
+
++18.4%
+
+</div>
+
+</div>
+
+<span>Total Revenue</span>
+
+<strong>₹14.8L</strong>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-top">
+
+<div class="stat-icon">
+
+▤
+
+</div>
+
+<div class="stat-change">
+
++12.8%
+
+</div>
+
+</div>
+
+<span>Total Sales</span>
+
+<strong>3,842</strong>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-top">
+
+<div class="stat-icon">
+
+▣
+
+</div>
+
+<div class="stat-change">
+
++8.6%
+
+</div>
+
+</div>
+
+<span>Products Sold</span>
+
+<strong>8,924</strong>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-top">
+
+<div class="stat-icon">
+
+↗
+
+</div>
+
+<div class="stat-change">
+
++6.2%
+
+</div>
+
+</div>
+
+<span>Growth Rate</span>
+
+<strong>24.8%</strong>
+
+</div>
+
+</div>
+
+<!-- CHART + INSIGHTS -->
+
+<div class="dashboard-grid">
+
+<div class="card">
+
+<h2>
+
+Sales Performance
+
+</h2>
+
+<div class="chart">
+
+<div class="bar" style="height:45%;">
+
+<span class="bar-label">Mon</span>
+
+</div>
+
+<div class="bar" style="height:65%;">
+
+<span class="bar-label">Tue</span>
+
+</div>
+
+<div class="bar" style="height:52%;">
+
+<span class="bar-label">Wed</span>
+
+</div>
+
+<div class="bar" style="height:78%;">
+
+<span class="bar-label">Thu</span>
+
+</div>
+
+<div class="bar" style="height:68%;">
+
+<span class="bar-label">Fri</span>
+
+</div>
+
+<div class="bar" style="height:92%;">
+
+<span class="bar-label">Sat</span>
+
+</div>
+
+<div class="bar" style="height:75%;">
+
+<span class="bar-label">Sun</span>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>
+
+Business Insights
+
+</h2>
+
+<div class="insight">
+
+<div class="insight-title">
+
+<strong>Best Sales Day</strong>
+
+<span>Saturday</span>
+
+</div>
+
+<p>
+
+Saturday generated the highest sales revenue this week.
+
+</p>
+
+</div>
+
+<div class="insight">
+
+<div class="insight-title">
+
+<strong>Top Category</strong>
+
+<span>Electronics</span>
+
+</div>
+
+<p>
+
+Electronics contributed the most revenue to your store.
+
+</p>
+
+</div>
+
+<div class="insight">
+
+<div class="insight-title">
+
+<strong>Stock Alert</strong>
+
+<span>24 Items</span>
+
+</div>
+
+<p>
+
+Several products need restocking to avoid missed sales.
+
+</p>
+
+</div>
+
+<div class="insight">
+
+<div class="insight-title">
+
+<strong>Customer Growth</strong>
+
+<span>+18.5%</span>
+
+</div>
+
+<p>
+
+Your customer base is growing steadily this month.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- CATEGORY PERFORMANCE -->
+
+<div class="card table-card">
+
+<h2>
+
+Category Performance
+
+</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Category</th>
+
+<th>Products Sold</th>
+
+<th>Revenue</th>
+
+<th>Growth</th>
+
+<th>Performance</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>Electronics</td>
+
+<td>2,840</td>
+
+<td>₹6,84,500</td>
+
+<td>+24.5%</td>
+
+<td>
+
+<div class="progress">
+
+<div
+
+class="progress-bar"
+
+style="width:88%;"
+
+></div>
+
+</div>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>Clothing</td>
+
+<td>2,120</td>
+
+<td>₹3,92,800</td>
+
+<td>+18.2%</td>
+
+<td>
+
+<div class="progress">
+
+<div
+
+class="progress-bar"
+
+style="width:72%;"
+
+></div>
+
+</div>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>Grocery</td>
+
+<td>2,450</td>
+
+<td>₹2,76,400</td>
+
+<td>+12.6%</td>
+
+<td>
+
+<div class="progress">
+
+<div
+
+class="progress-bar"
+
+style="width:65%;"
+
+></div>
+
+</div>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>Accessories</td>
+
+<td>1,514</td>
+
+<td>₹1,26,300</td>
+
+<td>+9.8%</td>
+
+<td>
+
+<div class="progress">
+
+<div
+
+class="progress-bar"
+
+style="width:48%;"
+
+></div>
+
+</div>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</main>
+
+</div>
+
+<!-- THEME SCRIPT -->
+
+<script>
+
+const themeToggle =
+
+document.getElementById("themeToggle");
+
+const savedTheme =
+
+localStorage.getItem("theme");
+
+if(savedTheme === "light"){
+
+    document.body.classList.add("light-mode");
+
+    themeToggle.textContent = "☀";
+
+}
+
+themeToggle.addEventListener("click",function(){
+
+    document.body.classList.toggle("light-mode");
+
+    if(document.body.classList.contains("light-mode")){
+
+        themeToggle.textContent = "☀";
+
+        localStorage.setItem("theme","light");
+
+    }else{
+
+        themeToggle.textContent = "☾";
+
+        localStorage.setItem("theme","dark");
+
+    }
+
+});
+
+function exportReport(){
+
+    alert("Report export feature is ready to connect with your backend.");
+
+}
+
+</script>
+
+</body>
+
+</html>

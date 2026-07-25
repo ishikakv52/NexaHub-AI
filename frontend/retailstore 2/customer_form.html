@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Customer Form</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --bg:#080b14;
+    --card:#101621;
+    --sidebar:#0d111c;
+    --border:#222d3e;
+    --text:#ffffff;
+    --muted:#8995a8;
+    --input:#0a0f18;
+}
+
+body{
+    font-family:Poppins,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    transition:.3s ease;
+}
+
+body::before,
+body::after{
+    content:"";
+    position:fixed;
+    width:400px;
+    height:400px;
+    border-radius:50%;
+    filter:blur(110px);
+    opacity:.20;
+    z-index:-1;
+    pointer-events:none;
+}
+
+body::before{
+    background:#00d4ff;
+    top:-150px;
+    left:-100px;
+    animation:moveOne 12s infinite alternate ease-in-out;
+}
+
+body::after{
+    background:#7c3aed;
+    right:-150px;
+    bottom:-150px;
+    animation:moveTwo 15s infinite alternate ease-in-out;
+}
+
+@keyframes moveOne{
+    to{
+        transform:translate(180px,180px);
+    }
+}
+
+@keyframes moveTwo{
+    to{
+        transform:translate(-180px,-150px);
+    }
+}
+
+.app{
+    display:flex;
+    min-height:100vh;
+}
+
+.sidebar{
+    width:250px;
+    background:var(--sidebar);
+    border-right:1px solid var(--border);
+    padding:25px 15px;
+    position:fixed;
+    top:0;
+    bottom:0;
+}
+
+.logo{
+    font-size:22px;
+    font-weight:700;
+    padding:10px 15px 30px;
+}
+
+.logo span{
+    color:#00d4ff;
+}
+
+.nav-title{
+    color:#748096;
+    font-size:11px;
+    text-transform:uppercase;
+    margin:15px;
+}
+
+.sidebar a{
+    display:flex;
+    gap:12px;
+    align-items:center;
+    padding:12px 15px;
+    margin:5px 0;
+    border-radius:10px;
+    text-decoration:none;
+    color:#9ca8ba;
+    font-size:13px;
+    transition:.3s;
+}
+
+.sidebar a:hover,
+.sidebar a.active{
+    background:#18263a;
+    color:var(--text);
+}
+
+.sidebar a span{
+    color:#00d4ff;
+}
+
+.main{
+    margin-left:250px;
+    width:calc(100% - 250px);
+    padding:30px;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid var(--border);
+    padding-bottom:22px;
+    margin-bottom:30px;
+}
+
+.breadcrumb{
+    color:var(--muted);
+    font-size:12px;
+    margin-bottom:8px;
+}
+
+.breadcrumb span{
+    color:#00d4ff;
+}
+
+h1{
+    font-size:28px;
+}
+
+.subtitle{
+    color:var(--muted);
+    font-size:13px;
+    margin-top:5px;
+}
+
+.actions{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.icon-btn{
+    background:var(--card);
+    border:1px solid var(--border);
+    color:var(--text);
+    padding:10px 14px;
+    border-radius:9px;
+    cursor:pointer;
+    font-size:17px;
+}
+
+.user{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:var(--card);
+    border:1px solid var(--border);
+    padding:7px 12px;
+    border-radius:10px;
+}
+
+.avatar{
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    background:linear-gradient(135deg,#00d4ff,#7c3aed);
+    font-weight:bold;
+}
+
+.card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:25px;
+    max-width:1000px;
+}
+
+.form-title{
+    font-size:19px;
+    margin-bottom:25px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.form-group.full{
+    grid-column:1 / -1;
+}
+
+label{
+    color:var(--muted);
+    font-size:12px;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:12px 14px;
+    background:var(--input);
+    border:1px solid var(--border);
+    border-radius:9px;
+    color:var(--text);
+    outline:none;
+    font-family:Poppins,sans-serif;
+}
+
+textarea{
+    resize:vertical;
+    min-height:100px;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#00d4ff;
+}
+
+.form-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:12px;
+    margin-top:25px;
+}
+
+.btn{
+    padding:11px 22px;
+    border-radius:9px;
+    cursor:pointer;
+    font-family:Poppins,sans-serif;
+    font-size:13px;
+}
+
+.cancel-btn{
+    background:transparent;
+    color:var(--text);
+    border:1px solid var(--border);
+}
+
+.save-btn{
+    background:linear-gradient(135deg,#00d4ff,#7c3aed);
+    color:white;
+    border:none;
+}
+
+body.light-mode{
+    --bg:#f4f7fb;
+    --card:#ffffff;
+    --sidebar:#ffffff;
+    --border:#dce3ec;
+    --text:#172033;
+    --muted:#64748b;
+    --input:#ffffff;
+}
+
+body.light-mode .sidebar a{
+    color:#64748b;
+}
+
+body.light-mode .sidebar a:hover,
+body.light-mode .sidebar a.active{
+    background:#e8f5ff;
+    color:#172033;
+}
+
+body.light-mode .icon-btn,
+body.light-mode .user{
+    background:#ffffff;
+    color:#172033;
+}
+
+body.light-mode .card{
+    box-shadow:0 8px 25px rgba(30,50,80,.08);
+}
+
+body.light-mode input,
+body.light-mode select,
+body.light-mode textarea{
+    color:#172033;
+    background:#ffffff;
+}
+
+body.light-mode .cancel-btn{
+    color:#172033;
+}
+
+@media(max-width:700px){
+
+    .sidebar{
+        display:none;
+    }
+
+    .main{
+        margin-left:0;
+        width:100%;
+        padding:20px;
+    }
+
+    .topbar{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:18px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-group.full{
+        grid-column:auto;
+    }
+
+    .form-actions{
+        flex-direction:column;
+    }
+
+    .btn{
+        width:100%;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+
+<div class="logo">
+
+NEXA <span>HUB</span> AI
+
+</div>
+
+<div class="nav-title">
+
+Business Management
+
+</div>
+
+<a href="dashboard.html">
+
+<span>⌂</span>
+
+Dashboard
+
+</a>
+
+<a href="product_list.html">
+
+<span>▣</span>
+
+Products
+
+</a>
+
+<a href="sale_list.html">
+
+<span>▤</span>
+
+Sales
+
+</a>
+
+<a href="customer_list.html" class="active">
+
+<span>♙</span>
+
+Customers
+
+</a>
+
+<a href="delivery_dashboard.html">
+
+<span>▱</span>
+
+Delivery
+
+</a>
+
+<a href="reports_insights.html">
+
+<span>◉</span>
+
+Reports
+
+</a>
+
+<a href="settings_business.html">
+
+<span>⚙</span>
+
+Settings
+
+</a>
+
+</aside>
+
+<main class="main">
+
+<div class="topbar">
+
+<div>
+
+<div class="breadcrumb">
+
+Business Management /
+
+<span>Customer Form</span>
+
+</div>
+
+<h1>
+
+Add Customer
+
+</h1>
+
+<p class="subtitle">
+
+Create a new customer profile.
+
+</p>
+
+</div>
+
+<div class="actions">
+
+<button class="icon-btn" id="themeToggle">☾</button>
+
+<div class="user">
+
+<div class="avatar">A</div>
+
+<span>Admin</span>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2 class="form-title">
+
+Customer Information
+
+</h2>
+
+<form>
+
+<div class="form-grid">
+
+<div class="form-group">
+
+<label>First Name</label>
+
+<input type="text" placeholder="Enter first name">
+
+</div>
+
+<div class="form-group">
+
+<label>Last Name</label>
+
+<input type="text" placeholder="Enter last name">
+
+</div>
+
+<div class="form-group">
+
+<label>Email Address</label>
+
+<input type="email" placeholder="Enter email address">
+
+</div>
+
+<div class="form-group">
+
+<label>Phone Number</label>
+
+<input type="tel" placeholder="Enter phone number">
+
+</div>
+
+<div class="form-group">
+
+<label>Customer Type</label>
+
+<select>
+
+<option>Regular</option>
+
+<option>Premium</option>
+
+<option>VIP</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Status</label>
+
+<select>
+
+<option>Active</option>
+
+<option>Inactive</option>
+
+</select>
+
+</div>
+
+<div class="form-group full">
+
+<label>Address</label>
+
+<textarea placeholder="Enter complete address"></textarea>
+
+</div>
+
+<div class="form-group">
+
+<label>City</label>
+
+<input type="text" placeholder="Enter city">
+
+</div>
+
+<div class="form-group">
+
+<label>Postal Code</label>
+
+<input type="text" placeholder="Enter postal code">
+
+</div>
+
+</div>
+
+<div class="form-actions">
+
+<button type="button" class="btn cancel-btn">
+
+Cancel
+
+</button>
+
+<button type="submit" class="btn save-btn">
+
+Save Customer
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</main>
+
+</div>
+
+<script>
+
+const themeToggle = document.getElementById("themeToggle");
+
+const savedTheme = localStorage.getItem("theme");
+
+if(savedTheme === "light"){
+
+    document.body.classList.add("light-mode");
+
+    themeToggle.textContent = "☀";
+
+}
+
+themeToggle.addEventListener("click",function(){
+
+    document.body.classList.toggle("light-mode");
+
+    if(document.body.classList.contains("light-mode")){
+
+        themeToggle.textContent = "☀";
+
+        localStorage.setItem("theme","light");
+
+    }else{
+
+        themeToggle.textContent = "☾";
+
+        localStorage.setItem("theme","dark");
+
+    }
+
+});
+
+</script>
+
+</body>
+
+</html>

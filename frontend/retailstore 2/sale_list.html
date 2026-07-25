@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Sale List</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+
+    --bg:#080b14;
+    --card:#101621;
+    --sidebar:#0d111c;
+    --border:#222d3e;
+    --text:#ffffff;
+    --muted:#8995a8;
+    --input:#0a0f18;
+
+}
+
+body{
+
+    font-family:Poppins,sans-serif;
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    min-height:100vh;
+
+    overflow-x:hidden;
+
+    transition:.3s ease;
+
+}
+
+body::before,
+body::after{
+
+    content:"";
+
+    position:fixed;
+
+    width:400px;
+
+    height:400px;
+
+    border-radius:50%;
+
+    filter:blur(110px);
+
+    opacity:.20;
+
+    z-index:-1;
+
+    pointer-events:none;
+
+}
+
+body::before{
+
+    background:#00d4ff;
+
+    top:-150px;
+
+    left:-100px;
+
+    animation:moveOne 12s infinite alternate ease-in-out;
+
+}
+
+body::after{
+
+    background:#7c3aed;
+
+    right:-150px;
+
+    bottom:-150px;
+
+    animation:moveTwo 15s infinite alternate ease-in-out;
+
+}
+
+@keyframes moveOne{
+
+    from{
+        transform:translate(0,0);
+    }
+
+    to{
+        transform:translate(180px,180px);
+    }
+
+}
+
+@keyframes moveTwo{
+
+    from{
+        transform:translate(0,0);
+    }
+
+    to{
+        transform:translate(-180px,-150px);
+    }
+
+}
+
+.app{
+
+    display:flex;
+
+    min-height:100vh;
+
+}
+
+.sidebar{
+
+    width:250px;
+
+    background:var(--sidebar);
+
+    border-right:1px solid var(--border);
+
+    padding:25px 15px;
+
+    position:fixed;
+
+    top:0;
+
+    bottom:0;
+
+}
+
+.logo{
+
+    font-size:22px;
+
+    font-weight:700;
+
+    padding:10px 15px 30px;
+
+}
+
+.logo span{
+
+    color:#00d4ff;
+
+}
+
+.nav-title{
+
+    color:#748096;
+
+    font-size:11px;
+
+    text-transform:uppercase;
+
+    margin:15px;
+
+}
+
+.sidebar a{
+
+    display:flex;
+
+    gap:12px;
+
+    align-items:center;
+
+    padding:12px 15px;
+
+    margin:5px 0;
+
+    border-radius:10px;
+
+    text-decoration:none;
+
+    color:#9ca8ba;
+
+    font-size:13px;
+
+    transition:.3s;
+
+}
+
+.sidebar a:hover,
+.sidebar a.active{
+
+    background:#18263a;
+
+    color:var(--text);
+
+}
+
+.sidebar a span{
+
+    color:#00d4ff;
+
+}
+
+.main{
+
+    margin-left:250px;
+
+    width:calc(100% - 250px);
+
+    padding:30px;
+
+}
+
+.topbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    border-bottom:1px solid var(--border);
+
+    padding-bottom:22px;
+
+    margin-bottom:30px;
+
+}
+
+.breadcrumb{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    margin-bottom:8px;
+
+}
+
+.breadcrumb span{
+
+    color:#00d4ff;
+
+}
+
+h1{
+
+    font-size:28px;
+
+}
+
+.subtitle{
+
+    color:var(--muted);
+
+    font-size:13px;
+
+    margin-top:5px;
+
+}
+
+.actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.icon-btn{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    color:var(--text);
+
+    padding:10px 14px;
+
+    border-radius:9px;
+
+    cursor:pointer;
+
+    font-size:17px;
+
+}
+
+.user{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    padding:7px 12px;
+
+    border-radius:10px;
+
+}
+
+.avatar{
+
+    width:32px;
+
+    height:32px;
+
+    border-radius:50%;
+
+    display:grid;
+
+    place-items:center;
+
+    background:linear-gradient(
+
+        135deg,
+
+        #00d4ff,
+
+        #7c3aed
+
+    );
+
+    font-weight:bold;
+
+}
+
+.stats{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:18px;
+
+    margin-bottom:25px;
+
+}
+
+.stat{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:15px;
+
+    padding:22px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    transition:.3s;
+
+}
+
+.stat:hover{
+
+    transform:translateY(-5px);
+
+    border-color:#00d4ff;
+
+}
+
+.stat-icon{
+
+    width:48px;
+
+    height:48px;
+
+    display:grid;
+
+    place-items:center;
+
+    border-radius:12px;
+
+    background:rgba(0,212,255,.12);
+
+    color:#00d4ff;
+
+    font-size:22px;
+
+}
+
+.stat span{
+
+    color:var(--muted);
+
+    display:block;
+
+    font-size:12px;
+
+}
+
+.stat strong{
+
+    display:block;
+
+    font-size:23px;
+
+    margin-top:4px;
+
+}
+
+.toolbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-bottom:22px;
+
+}
+
+.search-box{
+
+    flex:1;
+
+    max-width:450px;
+
+}
+
+.search-box input{
+
+    width:100%;
+
+    padding:13px 16px;
+
+    border-radius:9px;
+
+    border:1px solid var(--border);
+
+    background:var(--input);
+
+    color:var(--text);
+
+    font-family:Poppins,sans-serif;
+
+    outline:none;
+
+}
+
+.search-box input:focus{
+
+    border-color:#00d4ff;
+
+}
+
+.add-btn{
+
+    padding:13px 20px;
+
+    border:none;
+
+    border-radius:9px;
+
+    cursor:pointer;
+
+    color:white;
+
+    font-family:Poppins,sans-serif;
+
+    font-weight:500;
+
+    background:linear-gradient(
+
+        135deg,
+
+        #00d4ff,
+
+        #7c3aed
+
+    );
+
+}
+
+.card{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:15px;
+
+    padding:24px;
+
+    overflow-x:auto;
+
+}
+
+.card h2{
+
+    font-size:18px;
+
+    margin-bottom:20px;
+
+}
+
+table{
+
+    width:100%;
+
+    min-width:1100px;
+
+    border-collapse:collapse;
+
+}
+
+th,
+td{
+
+    text-align:left;
+
+    padding:15px;
+
+    border-bottom:1px solid var(--border);
+
+    font-size:13px;
+
+}
+
+th{
+
+    color:var(--muted);
+
+    font-weight:500;
+
+}
+
+td{
+
+    color:var(--text);
+
+}
+
+.status{
+
+    padding:5px 11px;
+
+    border-radius:20px;
+
+    font-size:11px;
+
+}
+
+.completed{
+
+    background:#16352d;
+
+    color:#4de2a5;
+
+}
+
+.pending{
+
+    background:#3b2d16;
+
+    color:#ffbf5a;
+
+}
+
+.refunded{
+
+    background:#3b1c24;
+
+    color:#ff7186;
+
+}
+
+.action-btn{
+
+    border:1px solid var(--border);
+
+    background:transparent;
+
+    color:var(--text);
+
+    padding:7px 10px;
+
+    border-radius:7px;
+
+    cursor:pointer;
+
+    margin-right:5px;
+
+    transition:.3s;
+
+}
+
+.action-btn:hover{
+
+    border-color:#00d4ff;
+
+    color:#00d4ff;
+
+}
+
+body.light-mode{
+
+    --bg:#f4f7fb;
+
+    --card:#ffffff;
+
+    --sidebar:#ffffff;
+
+    --border:#dce3ec;
+
+    --text:#172033;
+
+    --muted:#64748b;
+
+    --input:#ffffff;
+
+}
+
+body.light-mode .sidebar a{
+
+    color:#64748b;
+
+}
+
+body.light-mode .sidebar a:hover,
+body.light-mode .sidebar a.active{
+
+    background:#e8f5ff;
+
+    color:#172033;
+
+}
+
+body.light-mode .icon-btn,
+body.light-mode .user{
+
+    background:#ffffff;
+
+    color:#172033;
+
+    border-color:var(--border);
+
+}
+
+body.light-mode .stat,
+body.light-mode .card{
+
+    box-shadow:0 8px 25px rgba(30,50,80,.08);
+
+}
+
+body.light-mode .search-box input{
+
+    background:#ffffff;
+
+    color:#172033;
+
+}
+
+@media(max-width:1000px){
+
+    .stats{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+}
+
+@media(max-width:700px){
+
+    .sidebar{
+
+        display:none;
+
+    }
+
+    .main{
+
+        margin-left:0;
+
+        width:100%;
+
+        padding:20px;
+
+    }
+
+    .topbar{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:18px;
+
+    }
+
+    .stats{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .toolbar{
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+    }
+
+    .search-box{
+
+        max-width:none;
+
+    }
+
+    .add-btn{
+
+        width:100%;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+
+<div class="logo">
+
+NEXA <span>HUB</span> AI
+
+</div>
+
+<div class="nav-title">
+
+Retail Store
+
+</div>
+
+<a href="portal_dashboard.html">
+
+<span>⌂</span>
+
+Dashboard
+
+</a>
+
+<a href="product_list.html">
+
+<span>▣</span>
+
+Products
+
+</a>
+
+<a href="sale_list.html" class="active">
+
+<span>▤</span>
+
+Sales
+
+</a>
+
+<a href="sale_pos.html">
+
+<span>▥</span>
+
+POS
+
+</a>
+
+<a href="promotion_dashboard.html">
+
+<span>★</span>
+
+Promotions
+
+</a>
+
+<a href="purchase_order_list.html">
+
+<span>◈</span>
+
+Purchase Orders
+
+</a>
+
+<a href="supplier_list.html">
+
+<span>♙</span>
+
+Suppliers
+
+</a>
+
+<a href="staff_list.html">
+
+<span>♧</span>
+
+Staff
+
+</a>
+
+<a href="stock_request_list.html">
+
+<span>▱</span>
+
+Stock Requests
+
+</a>
+
+<a href="reports_insights.html">
+
+<span>◉</span>
+
+Reports
+
+</a>
+
+<a href="settings_business.html">
+
+<span>⚙</span>
+
+Settings
+
+</a>
+
+</aside>
+
+<main class="main">
+
+<div class="topbar">
+
+<div>
+
+<div class="breadcrumb">
+
+Retail Store /
+
+<span>Sale List</span>
+
+</div>
+
+<h1>
+
+Sales Management
+
+</h1>
+
+<p class="subtitle">
+
+Track and manage all retail store sales.
+
+</p>
+
+</div>
+
+<div class="actions">
+
+<button class="icon-btn" id="themeToggle">
+
+☾
+
+</button>
+
+<div class="user">
+
+<div class="avatar">
+
+A
+
+</div>
+
+<span>
+
+Admin
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="stats">
+
+<div class="stat">
+
+<div class="stat-icon">
+
+▤
+
+</div>
+
+<div>
+
+<span>Total Sales</span>
+
+<strong>2,486</strong>
+
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-icon">
+
+₹
+
+</div>
+
+<div>
+
+<span>Today's Revenue</span>
+
+<strong>₹48,650</strong>
+
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-icon">
+
+✓
+
+</div>
+
+<div>
+
+<span>Completed</span>
+
+<strong>2,421</strong>
+
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-icon">
+
+↩
+
+</div>
+
+<div>
+
+<span>Refunded</span>
+
+<strong>65</strong>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="toolbar">
+
+<div class="search-box">
+
+<input
+
+type="search"
+
+id="searchInput"
+
+placeholder="Search sales..."
+
+>
+
+</div>
+
+<button
+
+class="add-btn"
+
+onclick="location.href='sale_pos.html'"
+
+>
+
++ New Sale
+
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>
+
+All Sales
+
+</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Sale ID</th>
+
+<th>Customer</th>
+
+<th>Date</th>
+
+<th>Payment</th>
+
+<th>Items</th>
+
+<th>Total</th>
+
+<th>Status</th>
+
+<th>Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody id="saleTable">
+
+<tr>
+
+<td>#SALE-1001</td>
+
+<td>Rahul Kumar</td>
+
+<td>25 July 2026</td>
+
+<td>UPI</td>
+
+<td>4</td>
+
+<td>₹2,450</td>
+
+<td>
+
+<span class="status completed">
+
+Completed
+
+</span>
+
+</td>
+
+<td>
+
+<button
+
+class="action-btn"
+
+onclick="location.href='sale_detail.html'"
+
+>
+
+View
+
+</button>
+
+<button class="action-btn">
+
+Print
+
+</button>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>#SALE-1002</td>
+
+<td>Aman Sharma</td>
+
+<td>25 July 2026</td>
+
+<td>Cash</td>
+
+<td>3</td>
+
+<td>₹1,850</td>
+
+<td>
+
+<span class="status completed">
+
+Completed
+
+</span>
+
+</td>
+
+<td>
+
+<button class="action-btn">
+
+View
+
+</button>
+
+<button class="action-btn">
+
+Print
+
+</button>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>#SALE-1003</td>
+
+<td>Priya Singh</td>
+
+<td>24 July 2026</td>
+
+<td>Card</td>
+
+<td>6</td>
+
+<td>₹4,200</td>
+
+<td>
+
+<span class="status pending">
+
+Pending
+
+</span>
+
+</td>
+
+<td>
+
+<button class="action-btn">
+
+View
+
+</button>
+
+<button class="action-btn">
+
+Print
+
+</button>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>#SALE-1004</td>
+
+<td>Vikas Gupta</td>
+
+<td>24 July 2026</td>
+
+<td>UPI</td>
+
+<td>2</td>
+
+<td>₹980</td>
+
+<td>
+
+<span class="status refunded">
+
+Refunded
+
+</span>
+
+</td>
+
+<td>
+
+<button class="action-btn">
+
+View
+
+</button>
+
+<button class="action-btn">
+
+Print
+
+</button>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</main>
+
+</div>
+
+<script>
+
+const themeToggle =
+
+document.getElementById("themeToggle");
+
+const savedTheme =
+
+localStorage.getItem("theme");
+
+if(savedTheme === "light"){
+
+    document.body.classList.add("light-mode");
+
+    themeToggle.textContent = "☀";
+
+}
+
+themeToggle.addEventListener("click",function(){
+
+    document.body.classList.toggle("light-mode");
+
+    if(document.body.classList.contains("light-mode")){
+
+        themeToggle.textContent = "☀";
+
+        localStorage.setItem("theme","light");
+
+    }else{
+
+        themeToggle.textContent = "☾";
+
+        localStorage.setItem("theme","dark");
+
+    }
+
+});
+
+const searchInput =
+
+document.getElementById("searchInput");
+
+searchInput.addEventListener("keyup",function(){
+
+    const searchValue =
+
+    searchInput.value.toLowerCase();
+
+    const rows =
+
+    document.querySelectorAll("#saleTable tr");
+
+    rows.forEach(function(row){
+
+        const text =
+
+        row.textContent.toLowerCase();
+
+        row.style.display =
+
+        text.includes(searchValue)
+
+        ? ""
+
+        : "none";
+
+    });
+
+});
+
+</script>
+
+</body>
+
+</html>

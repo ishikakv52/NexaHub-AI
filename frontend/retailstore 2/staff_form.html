@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Staff Form</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+
+    --bg:#080b14;
+    --card:#101621;
+    --sidebar:#0d111c;
+    --border:#222d3e;
+    --text:#ffffff;
+    --muted:#8995a8;
+    --input:#0a0f18;
+
+}
+
+body{
+
+    font-family:Poppins,sans-serif;
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    min-height:100vh;
+
+    overflow-x:hidden;
+
+    transition:.3s ease;
+
+}
+
+/* ANIMATED BACKGROUND */
+
+body::before,
+body::after{
+
+    content:"";
+
+    position:fixed;
+
+    width:400px;
+
+    height:400px;
+
+    border-radius:50%;
+
+    filter:blur(110px);
+
+    opacity:.20;
+
+    z-index:-1;
+
+    pointer-events:none;
+
+}
+
+body::before{
+
+    background:#00d4ff;
+
+    top:-150px;
+
+    left:-100px;
+
+    animation:moveOne 12s infinite alternate ease-in-out;
+
+}
+
+body::after{
+
+    background:#7c3aed;
+
+    right:-150px;
+
+    bottom:-150px;
+
+    animation:moveTwo 15s infinite alternate ease-in-out;
+
+}
+
+@keyframes moveOne{
+
+    from{
+
+        transform:translate(0,0);
+
+    }
+
+    to{
+
+        transform:translate(180px,180px);
+
+    }
+
+}
+
+@keyframes moveTwo{
+
+    from{
+
+        transform:translate(0,0);
+
+    }
+
+    to{
+
+        transform:translate(-180px,-150px);
+
+    }
+
+}
+
+/* LAYOUT */
+
+.app{
+
+    display:flex;
+
+    min-height:100vh;
+
+}
+
+/* SIDEBAR */
+
+.sidebar{
+
+    width:250px;
+
+    background:var(--sidebar);
+
+    border-right:1px solid var(--border);
+
+    padding:25px 15px;
+
+    position:fixed;
+
+    top:0;
+
+    bottom:0;
+
+}
+
+.logo{
+
+    font-size:22px;
+
+    font-weight:700;
+
+    padding:10px 15px 30px;
+
+}
+
+.logo span{
+
+    color:#00d4ff;
+
+}
+
+.nav-title{
+
+    color:#748096;
+
+    font-size:11px;
+
+    text-transform:uppercase;
+
+    margin:15px;
+
+}
+
+.sidebar a{
+
+    display:flex;
+
+    gap:12px;
+
+    align-items:center;
+
+    padding:12px 15px;
+
+    margin:5px 0;
+
+    border-radius:10px;
+
+    text-decoration:none;
+
+    color:#9ca8ba;
+
+    font-size:13px;
+
+    transition:.3s;
+
+}
+
+.sidebar a:hover,
+.sidebar a.active{
+
+    background:#18263a;
+
+    color:var(--text);
+
+}
+
+.sidebar a span{
+
+    color:#00d4ff;
+
+}
+
+/* MAIN */
+
+.main{
+
+    margin-left:250px;
+
+    width:calc(100% - 250px);
+
+    padding:30px;
+
+}
+
+/* TOPBAR */
+
+.topbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    border-bottom:1px solid var(--border);
+
+    padding-bottom:22px;
+
+    margin-bottom:30px;
+
+}
+
+.breadcrumb{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    margin-bottom:8px;
+
+}
+
+.breadcrumb span{
+
+    color:#00d4ff;
+
+}
+
+h1{
+
+    font-size:28px;
+
+}
+
+.subtitle{
+
+    color:var(--muted);
+
+    font-size:13px;
+
+    margin-top:5px;
+
+}
+
+.actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.icon-btn{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    color:var(--text);
+
+    padding:10px 14px;
+
+    border-radius:9px;
+
+    cursor:pointer;
+
+    font-size:17px;
+
+}
+
+.user{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    padding:7px 12px;
+
+    border-radius:10px;
+
+}
+
+.avatar{
+
+    width:32px;
+
+    height:32px;
+
+    border-radius:50%;
+
+    display:grid;
+
+    place-items:center;
+
+    background:linear-gradient(
+
+        135deg,
+
+        #00d4ff,
+
+        #7c3aed
+
+    );
+
+    font-weight:bold;
+
+}
+
+/* FORM CARD */
+
+.form-card{
+
+    max-width:1000px;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:15px;
+
+    padding:28px;
+
+}
+
+.form-card h2{
+
+    font-size:18px;
+
+    margin-bottom:8px;
+
+}
+
+.form-description{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    margin-bottom:28px;
+
+}
+
+/* PROFILE */
+
+.profile-section{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+    padding-bottom:25px;
+
+    margin-bottom:25px;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.profile-avatar{
+
+    width:85px;
+
+    height:85px;
+
+    border-radius:50%;
+
+    display:grid;
+
+    place-items:center;
+
+    background:linear-gradient(
+
+        135deg,
+
+        #00d4ff,
+
+        #7c3aed
+
+    );
+
+    font-size:30px;
+
+    font-weight:700;
+
+}
+
+.upload-btn{
+
+    padding:10px 16px;
+
+    border:1px solid var(--border);
+
+    background:transparent;
+
+    color:var(--text);
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-family:Poppins,sans-serif;
+
+    margin-top:8px;
+
+}
+
+/* FORM GRID */
+
+.form-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:20px;
+
+}
+
+.form-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+.form-group.full{
+
+    grid-column:1 / -1;
+
+}
+
+.form-group label{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+
+    width:100%;
+
+    padding:12px 14px;
+
+    border-radius:9px;
+
+    border:1px solid var(--border);
+
+    background:var(--input);
+
+    color:var(--text);
+
+    font-family:Poppins,sans-serif;
+
+    outline:none;
+
+}
+
+.form-group textarea{
+
+    min-height:100px;
+
+    resize:vertical;
+
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+
+    border-color:#00d4ff;
+
+}
+
+/* BUTTONS */
+
+.form-actions{
+
+    display:flex;
+
+    gap:12px;
+
+    margin-top:28px;
+
+    padding-top:22px;
+
+    border-top:1px solid var(--border);
+
+}
+
+.save-btn{
+
+    padding:13px 25px;
+
+    border:none;
+
+    border-radius:9px;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-family:Poppins,sans-serif;
+
+    font-weight:500;
+
+    background:linear-gradient(
+
+        135deg,
+
+        #00d4ff,
+
+        #7c3aed
+
+    );
+
+}
+
+.cancel-btn{
+
+    padding:13px 25px;
+
+    border:1px solid var(--border);
+
+    border-radius:9px;
+
+    background:transparent;
+
+    color:var(--text);
+
+    cursor:pointer;
+
+    font-family:Poppins,sans-serif;
+
+}
+
+/* LIGHT MODE */
+
+body.light-mode{
+
+    --bg:#f4f7fb;
+
+    --card:#ffffff;
+
+    --sidebar:#ffffff;
+
+    --border:#dce3ec;
+
+    --text:#172033;
+
+    --muted:#64748b;
+
+    --input:#ffffff;
+
+}
+
+body.light-mode .sidebar a{
+
+    color:#64748b;
+
+}
+
+body.light-mode .sidebar a:hover,
+body.light-mode .sidebar a.active{
+
+    background:#e8f5ff;
+
+    color:#172033;
+
+}
+
+body.light-mode .icon-btn,
+body.light-mode .user{
+
+    background:#ffffff;
+
+    color:#172033;
+
+}
+
+body.light-mode .form-card{
+
+    box-shadow:0 8px 25px rgba(30,50,80,.08);
+
+}
+
+body.light-mode .form-group input,
+body.light-mode .form-group select,
+body.light-mode .form-group textarea{
+
+    background:#ffffff;
+
+    color:#172033;
+
+}
+
+body.light-mode .cancel-btn,
+body.light-mode .upload-btn{
+
+    color:#172033;
+
+}
+
+/* RESPONSIVE */
+
+@media(max-width:700px){
+
+    .sidebar{
+
+        display:none;
+
+    }
+
+    .main{
+
+        margin-left:0;
+
+        width:100%;
+
+        padding:20px;
+
+    }
+
+    .topbar{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:18px;
+
+    }
+
+    .form-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .form-group.full{
+
+        grid-column:auto;
+
+    }
+
+    .profile-section{
+
+        align-items:flex-start;
+
+        flex-direction:column;
+
+    }
+
+    .form-actions{
+
+        flex-direction:column;
+
+    }
+
+    .save-btn,
+    .cancel-btn{
+
+        width:100%;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+<div class="logo">
+
+NEXA <span>HUB</span> AI
+
+</div>
+
+<div class="nav-title">
+
+Retail Store
+
+</div>
+
+<a href="portal_dashboard.html">
+
+<span>⌂</span>
+
+Dashboard
+
+</a>
+
+<a href="product_list.html">
+
+<span>▣</span>
+
+Products
+
+</a>
+
+<a href="sale_list.html">
+
+<span>▤</span>
+
+Sales
+
+</a>
+
+<a href="sale_pos.html">
+
+<span>▥</span>
+
+POS
+
+</a>
+
+<a href="promotion_dashboard.html">
+
+<span>★</span>
+
+Promotions
+
+</a>
+
+<a href="purchase_order_list.html">
+
+<span>◈</span>
+
+Purchase Orders
+
+</a>
+
+<a href="supplier_list.html">
+
+<span>♙</span>
+
+Suppliers
+
+</a>
+
+<a href="staff_list.html" class="active">
+
+<span>♧</span>
+
+Staff
+
+</a>
+
+<a href="stock_request_list.html">
+
+<span>▱</span>
+
+Stock Requests
+
+</a>
+
+<a href="reports_insights.html">
+
+<span>◉</span>
+
+Reports
+
+</a>
+
+<a href="settings_business.html">
+
+<span>⚙</span>
+
+Settings
+
+</a>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+<div class="topbar">
+
+<div>
+
+<div class="breadcrumb">
+
+Retail Store /
+
+<span>Staff Form</span>
+
+</div>
+
+<h1>
+
+Add New Staff
+
+</h1>
+
+<p class="subtitle">
+
+Create and manage employee information.
+
+</p>
+
+</div>
+
+<div class="actions">
+
+<button class="icon-btn" id="themeToggle">
+
+☾
+
+</button>
+
+<div class="user">
+
+<div class="avatar">
+
+A
+
+</div>
+
+<span>
+
+Admin
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="form-card">
+
+<h2>
+
+Staff Information
+
+</h2>
+
+<p class="form-description">
+
+Enter the staff member's personal and employment details.
+
+</p>
+
+<div class="profile-section">
+
+<div class="profile-avatar">
+
+S
+
+</div>
+
+<div>
+
+<strong>
+
+Staff Profile Photo
+
+</strong>
+
+<br>
+
+<button class="upload-btn">
+
+Upload Photo
+
+</button>
+
+</div>
+
+</div>
+
+<form id="staffForm">
+
+<div class="form-grid">
+
+<div class="form-group">
+
+<label>
+
+First Name
+
+</label>
+
+<input
+
+type="text"
+
+placeholder="Enter first name"
+
+required
+
+>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Last Name
+
+</label>
+
+<input
+
+type="text"
+
+placeholder="Enter last name"
+
+required
+
+>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Email Address
+
+</label>
+
+<input
+
+type="email"
+
+placeholder="staff@example.com"
+
+required
+
+>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Phone Number
+
+</label>
+
+<input
+
+type="tel"
+
+placeholder="+91 98765 43210"
+
+required
+
+>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Department
+
+</label>
+
+<select required>
+
+<option value="">
+
+Select Department
+
+</option>
+
+<option>
+
+Sales
+
+</option>
+
+<option>
+
+Inventory
+
+</option>
+
+<option>
+
+Finance
+
+</option>
+
+<option>
+
+Management
+
+</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Job Role
+
+</label>
+
+<select required>
+
+<option value="">
+
+Select Job Role
+
+</option>
+
+<option>
+
+Sales Executive
+
+</option>
+
+<option>
+
+Store Manager
+
+</option>
+
+<option>
+
+Cashier
+
+</option>
+
+<option>
+
+Inventory Manager
+
+</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Joining Date
+
+</label>
+
+<input
+
+type="date"
+
+required
+
+>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Employment Status
+
+</label>
+
+<select>
+
+<option>
+
+Active
+
+</option>
+
+<option>
+
+Inactive
+
+</option>
+
+<option>
+
+On Leave
+
+</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Salary
+
+</label>
+
+<input
+
+type="number"
+
+placeholder="Enter salary"
+
+>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Employee ID
+
+</label>
+
+<input
+
+type="text"
+
+placeholder="EMP-1001"
+
+>
+
+</div>
+
+<div class="form-group full">
+
+<label>
+
+Address
+
+</label>
+
+<textarea
+
+placeholder="Enter staff address"
+
+></textarea>
+
+</div>
+
+</div>
+
+<div class="form-actions">
+
+<button
+
+type="submit"
+
+class="save-btn"
+
+>
+
+Save Staff
+
+</button>
+
+<button
+
+type="button"
+
+class="cancel-btn"
+
+onclick="location.href='staff_list.html'"
+
+>
+
+Cancel
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</main>
+
+</div>
+
+<script>
+
+/* THEME */
+
+const themeToggle =
+
+document.getElementById("themeToggle");
+
+const savedTheme =
+
+localStorage.getItem("theme");
+
+if(savedTheme === "light"){
+
+    document.body.classList.add("light-mode");
+
+    themeToggle.textContent = "☀";
+
+}
+
+themeToggle.addEventListener("click",function(){
+
+    document.body.classList.toggle("light-mode");
+
+    if(document.body.classList.contains("light-mode")){
+
+        themeToggle.textContent = "☀";
+
+        localStorage.setItem("theme","light");
+
+    }else{
+
+        themeToggle.textContent = "☾";
+
+        localStorage.setItem("theme","dark");
+
+    }
+
+});
+
+/* FORM */
+
+document.getElementById("staffForm")
+
+.addEventListener("submit",function(event){
+
+    event.preventDefault();
+
+    alert("Staff member saved successfully!");
+
+    window.location.href = "staff_list.html";
+
+});
+
+</script>
+
+</body>
+
+</html>

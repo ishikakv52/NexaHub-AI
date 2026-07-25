@@ -1,0 +1,1872 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Storefront</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+
+    --bg:#080b14;
+    --card:#101621;
+    --sidebar:#0d111c;
+    --border:#222d3e;
+    --text:#ffffff;
+    --muted:#8995a8;
+    --input:#0a0f18;
+
+}
+
+body{
+
+    font-family:Poppins,sans-serif;
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    min-height:100vh;
+
+    overflow-x:hidden;
+
+    transition:.3s ease;
+
+}
+
+/* ANIMATED BACKGROUND */
+
+body::before,
+body::after{
+
+    content:"";
+
+    position:fixed;
+
+    width:400px;
+
+    height:400px;
+
+    border-radius:50%;
+
+    filter:blur(110px);
+
+    opacity:.20;
+
+    z-index:-1;
+
+    pointer-events:none;
+
+}
+
+body::before{
+
+    background:#00d4ff;
+
+    top:-150px;
+
+    left:-100px;
+
+    animation:moveOne 12s infinite alternate ease-in-out;
+
+}
+
+body::after{
+
+    background:#7c3aed;
+
+    right:-150px;
+
+    bottom:-150px;
+
+    animation:moveTwo 15s infinite alternate ease-in-out;
+
+}
+
+@keyframes moveOne{
+
+    from{
+
+        transform:translate(0,0);
+
+    }
+
+    to{
+
+        transform:translate(180px,180px);
+
+    }
+
+}
+
+@keyframes moveTwo{
+
+    from{
+
+        transform:translate(0,0);
+
+    }
+
+    to{
+
+        transform:translate(-180px,-150px);
+
+    }
+
+}
+
+/* LAYOUT */
+
+.app{
+
+    display:flex;
+
+    min-height:100vh;
+
+}
+
+/* SIDEBAR */
+
+.sidebar{
+
+    width:250px;
+
+    background:var(--sidebar);
+
+    border-right:1px solid var(--border);
+
+    padding:25px 15px;
+
+    position:fixed;
+
+    top:0;
+
+    bottom:0;
+
+}
+
+.logo{
+
+    font-size:22px;
+
+    font-weight:700;
+
+    padding:10px 15px 30px;
+
+}
+
+.logo span{
+
+    color:#00d4ff;
+
+}
+
+.nav-title{
+
+    color:#748096;
+
+    font-size:11px;
+
+    text-transform:uppercase;
+
+    margin:15px;
+
+}
+
+.sidebar a{
+
+    display:flex;
+
+    gap:12px;
+
+    align-items:center;
+
+    padding:12px 15px;
+
+    margin:5px 0;
+
+    border-radius:10px;
+
+    text-decoration:none;
+
+    color:#9ca8ba;
+
+    font-size:13px;
+
+    transition:.3s;
+
+}
+
+.sidebar a:hover,
+.sidebar a.active{
+
+    background:#18263a;
+
+    color:var(--text);
+
+}
+
+.sidebar a span{
+
+    color:#00d4ff;
+
+}
+
+/* MAIN */
+
+.main{
+
+    margin-left:250px;
+
+    width:calc(100% - 250px);
+
+    padding:30px;
+
+}
+
+/* TOPBAR */
+
+.topbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    border-bottom:1px solid var(--border);
+
+    padding-bottom:22px;
+
+    margin-bottom:30px;
+
+}
+
+.breadcrumb{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    margin-bottom:8px;
+
+}
+
+.breadcrumb span{
+
+    color:#00d4ff;
+
+}
+
+h1{
+
+    font-size:28px;
+
+}
+
+.subtitle{
+
+    color:var(--muted);
+
+    font-size:13px;
+
+    margin-top:5px;
+
+}
+
+.actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.icon-btn{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    color:var(--text);
+
+    padding:10px 14px;
+
+    border-radius:9px;
+
+    cursor:pointer;
+
+    font-size:17px;
+
+}
+
+.user{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    padding:7px 12px;
+
+    border-radius:10px;
+
+}
+
+.avatar{
+
+    width:32px;
+
+    height:32px;
+
+    border-radius:50%;
+
+    display:grid;
+
+    place-items:center;
+
+    background:linear-gradient(
+
+        135deg,
+
+        #00d4ff,
+
+        #7c3aed
+
+    );
+
+    font-weight:bold;
+
+}
+
+/* STORE TOOLBAR */
+
+.store-toolbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-bottom:25px;
+
+}
+
+.search-box{
+
+    flex:1;
+
+    max-width:500px;
+
+}
+
+.search-box input{
+
+    width:100%;
+
+    padding:13px 16px;
+
+    border-radius:9px;
+
+    border:1px solid var(--border);
+
+    background:var(--input);
+
+    color:var(--text);
+
+    outline:none;
+
+    font-family:Poppins,sans-serif;
+
+}
+
+.search-box input:focus{
+
+    border-color:#00d4ff;
+
+}
+
+.category-select{
+
+    padding:13px 15px;
+
+    border-radius:9px;
+
+    border:1px solid var(--border);
+
+    background:var(--input);
+
+    color:var(--text);
+
+    font-family:Poppins,sans-serif;
+
+    outline:none;
+
+}
+
+.cart-btn{
+
+    padding:13px 20px;
+
+    border:none;
+
+    border-radius:9px;
+
+    background:linear-gradient(
+
+        135deg,
+
+        #00d4ff,
+
+        #7c3aed
+
+    );
+
+    color:white;
+
+    font-family:Poppins,sans-serif;
+
+    cursor:pointer;
+
+    font-weight:500;
+
+}
+
+/* PRODUCT GRID */
+
+.product-grid{
+
+    display:grid;
+
+    grid-template-columns:
+
+    repeat(4,1fr);
+
+    gap:20px;
+
+}
+
+.product-card{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:15px;
+
+    padding:15px;
+
+    transition:.3s;
+
+}
+
+.product-card:hover{
+
+    transform:translateY(-6px);
+
+    border-color:#00d4ff;
+
+}
+
+.product-image{
+
+    height:180px;
+
+    border-radius:12px;
+
+    display:grid;
+
+    place-items:center;
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        rgba(0,212,255,.12),
+
+        rgba(124,58,237,.15)
+
+    );
+
+    font-size:55px;
+
+    color:#00d4ff;
+
+    margin-bottom:15px;
+
+}
+
+.product-category{
+
+    color:#00d4ff;
+
+    font-size:10px;
+
+    text-transform:uppercase;
+
+    margin-bottom:6px;
+
+}
+
+.product-name{
+
+    font-size:15px;
+
+    font-weight:600;
+
+}
+
+.product-description{
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    margin-top:5px;
+
+    min-height:34px;
+
+}
+
+.product-bottom{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-top:15px;
+
+}
+
+.price{
+
+    font-size:17px;
+
+    font-weight:600;
+
+}
+
+.add-btn{
+
+    padding:8px 12px;
+
+    border:1px solid #00d4ff;
+
+    background:transparent;
+
+    color:#00d4ff;
+
+    border-radius:7px;
+
+    cursor:pointer;
+
+    font-family:Poppins,sans-serif;
+
+    transition:.3s;
+
+}
+
+.add-btn:hover{
+
+    background:#00d4ff;
+
+    color:#080b14;
+
+}
+
+/* CART PANEL */
+
+.cart-panel{
+
+    position:fixed;
+
+    right:-380px;
+
+    top:0;
+
+    bottom:0;
+
+    width:360px;
+
+    background:var(--card);
+
+    border-left:1px solid var(--border);
+
+    padding:25px;
+
+    z-index:10;
+
+    transition:.4s;
+
+    box-shadow:-10px 0 30px rgba(0,0,0,.3);
+
+}
+
+.cart-panel.open{
+
+    right:0;
+
+}
+
+.cart-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    border-bottom:1px solid var(--border);
+
+    padding-bottom:18px;
+
+    margin-bottom:20px;
+
+}
+
+.close-cart{
+
+    border:none;
+
+    background:transparent;
+
+    color:var(--text);
+
+    font-size:22px;
+
+    cursor:pointer;
+
+}
+
+.cart-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:14px 0;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.cart-icon{
+
+    width:42px;
+
+    height:42px;
+
+    display:grid;
+
+    place-items:center;
+
+    border-radius:9px;
+
+    background:rgba(0,212,255,.12);
+
+    color:#00d4ff;
+
+}
+
+.cart-info{
+
+    flex:1;
+
+}
+
+.cart-name{
+
+    font-size:13px;
+
+    font-weight:500;
+
+}
+
+.cart-price{
+
+    color:var(--muted);
+
+    font-size:11px;
+
+}
+
+.cart-total{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    margin-top:25px;
+
+}
+
+.checkout-btn{
+
+    width:100%;
+
+    padding:13px;
+
+    margin-top:20px;
+
+    border:none;
+
+    border-radius:9px;
+
+    background:linear-gradient(
+
+        135deg,
+
+        #00d4ff,
+
+        #7c3aed
+
+    );
+
+    color:white;
+
+    cursor:pointer;
+
+    font-family:Poppins,sans-serif;
+
+}
+
+/* LIGHT MODE */
+
+body.light-mode{
+
+    --bg:#f4f7fb;
+
+    --card:#ffffff;
+
+    --sidebar:#ffffff;
+
+    --border:#dce3ec;
+
+    --text:#172033;
+
+    --muted:#64748b;
+
+    --input:#ffffff;
+
+}
+
+body.light-mode .sidebar a{
+
+    color:#64748b;
+
+}
+
+body.light-mode .sidebar a:hover,
+body.light-mode .sidebar a.active{
+
+    background:#e8f5ff;
+
+    color:#172033;
+
+}
+
+body.light-mode .icon-btn,
+body.light-mode .user{
+
+    background:#ffffff;
+
+    color:#172033;
+
+}
+
+body.light-mode .search-box input,
+body.light-mode .category-select{
+
+    background:#ffffff;
+
+    color:#172033;
+
+}
+
+body.light-mode .cart-panel{
+
+    box-shadow:-10px 0 30px rgba(30,50,80,.15);
+
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+
+    .product-grid{
+
+        grid-template-columns:
+
+        repeat(3,1fr);
+
+    }
+
+}
+
+@media(max-width:850px){
+
+    .product-grid{
+
+        grid-template-columns:
+
+        repeat(2,1fr);
+
+    }
+
+}
+
+@media(max-width:700px){
+
+    .sidebar{
+
+        display:none;
+
+    }
+
+    .main{
+
+        margin-left:0;
+
+        width:100%;
+
+        padding:20px;
+
+    }
+
+    .topbar{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:18px;
+
+    }
+
+    .store-toolbar{
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+    }
+
+    .search-box{
+
+        max-width:none;
+
+    }
+
+    .category-select,
+    .cart-btn{
+
+        width:100%;
+
+    }
+
+}
+
+@media(max-width:500px){
+
+    .product-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .cart-panel{
+
+        width:100%;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+<div class="logo">
+
+NEXA <span>HUB</span> AI
+
+</div>
+
+<div class="nav-title">
+
+Retail Store
+
+</div>
+
+<a href="portal_dashboard.html">
+
+<span>⌂</span>
+
+Dashboard
+
+</a>
+
+<a href="product_list.html">
+
+<span>▣</span>
+
+Products
+
+</a>
+
+<a href="sale_list.html">
+
+<span>▤</span>
+
+Sales
+
+</a>
+
+<a href="sale_pos.html">
+
+<span>▥</span>
+
+POS
+
+</a>
+
+<a href="promotion_dashboard.html">
+
+<span>★</span>
+
+Promotions
+
+</a>
+
+<a href="purchase_order_list.html">
+
+<span>◈</span>
+
+Purchase Orders
+
+</a>
+
+<a href="supplier_list.html">
+
+<span>♙</span>
+
+Suppliers
+
+</a>
+
+<a href="staff_list.html">
+
+<span>♧</span>
+
+Staff
+
+</a>
+
+<a href="stock_request_list.html">
+
+<span>▱</span>
+
+Stock Requests
+
+</a>
+
+<a href="reports_insights.html">
+
+<span>◉</span>
+
+Reports
+
+</a>
+
+<a href="settings_business.html">
+
+<span>⚙</span>
+
+Settings
+
+</a>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+<div class="topbar">
+
+<div>
+
+<div class="breadcrumb">
+
+Retail Store /
+
+<span>Storefront</span>
+
+</div>
+
+<h1>
+
+Online Store
+
+</h1>
+
+<p class="subtitle">
+
+Browse products and shop from your retail store.
+
+</p>
+
+</div>
+
+<div class="actions">
+
+<button class="icon-btn" id="themeToggle">
+
+☾
+
+</button>
+
+<div class="user">
+
+<div class="avatar">
+
+A
+
+</div>
+
+<span>
+
+Admin
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- TOOLBAR -->
+
+<div class="store-toolbar">
+
+<div class="search-box">
+
+<input
+
+type="search"
+
+id="searchInput"
+
+placeholder="Search products..."
+
+>
+
+</div>
+
+<select
+
+class="category-select"
+
+id="categoryFilter"
+
+>
+
+<option value="all">
+
+All Categories
+
+</option>
+
+<option value="electronics">
+
+Electronics
+
+</option>
+
+<option value="accessories">
+
+Accessories
+
+</option>
+
+<option value="office">
+
+Office
+
+</option>
+
+</select>
+
+<button
+
+class="cart-btn"
+
+id="cartBtn"
+
+>
+
+🛒 Cart
+
+<span id="cartCount">
+
+0
+
+</span>
+
+</button>
+
+</div>
+
+<!-- PRODUCTS -->
+
+<div
+
+class="product-grid"
+
+id="productGrid"
+
+>
+
+<div
+
+class="product-card"
+
+data-category="electronics"
+
+data-name="wireless mouse"
+
+>
+
+<div class="product-image">
+
+🖱️
+
+</div>
+
+<div class="product-category">
+
+Electronics
+
+</div>
+
+<div class="product-name">
+
+Wireless Mouse
+
+</div>
+
+<div class="product-description">
+
+Smooth wireless mouse for everyday work.
+
+</div>
+
+<div class="product-bottom">
+
+<div class="price">
+
+$22.99
+
+</div>
+
+<button
+
+class="add-btn"
+
+onclick="addToCart('Wireless Mouse',22.99,'🖱️')"
+
+>
+
+Add
+
+</button>
+
+</div>
+
+</div>
+
+<div
+
+class="product-card"
+
+data-category="accessories"
+
+data-name="usb keyboard"
+
+>
+
+<div class="product-image">
+
+⌨️
+
+</div>
+
+<div class="product-category">
+
+Accessories
+
+</div>
+
+<div class="product-name">
+
+USB Keyboard
+
+</div>
+
+<div class="product-description">
+
+Comfortable keyboard for daily productivity.
+
+</div>
+
+<div class="product-bottom">
+
+<div class="price">
+
+$29.99
+
+</div>
+
+<button
+
+class="add-btn"
+
+onclick="addToCart('USB Keyboard',29.99,'⌨️')"
+
+>
+
+Add
+
+</button>
+
+</div>
+
+</div>
+
+<div
+
+class="product-card"
+
+data-category="electronics"
+
+data-name="led monitor"
+
+>
+
+<div class="product-image">
+
+🖥️
+
+</div>
+
+<div class="product-category">
+
+Electronics
+
+</div>
+
+<div class="product-name">
+
+LED Monitor
+
+</div>
+
+<div class="product-description">
+
+High-quality display for work and entertainment.
+
+</div>
+
+<div class="product-bottom">
+
+<div class="price">
+
+$249.99
+
+</div>
+
+<button
+
+class="add-btn"
+
+onclick="addToCart('LED Monitor',249.99,'🖥️')"
+
+>
+
+Add
+
+</button>
+
+</div>
+
+</div>
+
+<div
+
+class="product-card"
+
+data-category="office"
+
+data-name="printer ink"
+
+>
+
+<div class="product-image">
+
+🖨️
+
+</div>
+
+<div class="product-category">
+
+Office
+
+</div>
+
+<div class="product-name">
+
+Printer Ink
+
+</div>
+
+<div class="product-description">
+
+High-quality ink for everyday printing.
+
+</div>
+
+<div class="product-bottom">
+
+<div class="price">
+
+$39.99
+
+</div>
+
+<button
+
+class="add-btn"
+
+onclick="addToCart('Printer Ink',39.99,'🖨️')"
+
+>
+
+Add
+
+</button>
+
+</div>
+
+</div>
+
+<div
+
+class="product-card"
+
+data-category="electronics"
+
+data-name="headphones"
+
+>
+
+<div class="product-image">
+
+🎧
+
+</div>
+
+<div class="product-category">
+
+Electronics
+
+</div>
+
+<div class="product-name">
+
+Wireless Headphones
+
+</div>
+
+<div class="product-description">
+
+Enjoy clear sound with wireless connectivity.
+
+</div>
+
+<div class="product-bottom">
+
+<div class="price">
+
+$79.99
+
+</div>
+
+<button
+
+class="add-btn"
+
+onclick="addToCart('Wireless Headphones',79.99,'🎧')"
+
+>
+
+Add
+
+</button>
+
+</div>
+
+</div>
+
+<div
+
+class="product-card"
+
+data-category="accessories"
+
+data-name="usb cable"
+
+>
+
+<div class="product-image">
+
+🔌
+
+</div>
+
+<div class="product-category">
+
+Accessories
+
+</div>
+
+<div class="product-name">
+
+USB Cable
+
+</div>
+
+<div class="product-description">
+
+Fast charging and data transfer cable.
+
+</div>
+
+<div class="product-bottom">
+
+<div class="price">
+
+$12.99
+
+</div>
+
+<button
+
+class="add-btn"
+
+onclick="addToCart('USB Cable',12.99,'🔌')"
+
+>
+
+Add
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</main>
+
+</div>
+
+<!-- CART PANEL -->
+
+<div
+
+class="cart-panel"
+
+id="cartPanel"
+
+>
+
+<div class="cart-header">
+
+<h2>
+
+Shopping Cart
+
+</h2>
+
+<button
+
+class="close-cart"
+
+id="closeCart"
+
+>
+
+×
+</button>
+
+</div>
+
+<div id="cartItems">
+
+<p style="color:var(--muted);font-size:13px;">
+
+Your cart is empty.
+
+</p>
+
+</div>
+
+<div class="cart-total">
+
+<span>Total</span>
+
+<span id="cartTotal">
+
+$0.00
+
+</span>
+
+</div>
+
+<button
+
+class="checkout-btn"
+
+onclick="checkout()"
+
+>
+
+Proceed to Checkout
+
+</button>
+
+</div>
+
+<script>
+
+/* THEME */
+
+const themeToggle =
+
+document.getElementById("themeToggle");
+
+const savedTheme =
+
+localStorage.getItem("theme");
+
+if(savedTheme === "light"){
+
+    document.body.classList.add("light-mode");
+
+    themeToggle.textContent = "☀";
+
+}
+
+themeToggle.addEventListener("click",function(){
+
+    document.body.classList.toggle("light-mode");
+
+    if(document.body.classList.contains("light-mode")){
+
+        themeToggle.textContent = "☀";
+
+        localStorage.setItem("theme","light");
+
+    }else{
+
+        themeToggle.textContent = "☾";
+
+        localStorage.setItem("theme","dark");
+
+    }
+
+});
+
+/* SEARCH */
+
+const searchInput =
+
+document.getElementById("searchInput");
+
+const categoryFilter =
+
+document.getElementById("categoryFilter");
+
+const products =
+
+document.querySelectorAll(".product-card");
+
+function filterProducts(){
+
+    const search =
+
+    searchInput.value.toLowerCase();
+
+    const category =
+
+    categoryFilter.value;
+
+    products.forEach(function(product){
+
+        const name =
+
+        product.dataset.name;
+
+        const productCategory =
+
+        product.dataset.category;
+
+        const matchSearch =
+
+        name.includes(search);
+
+        const matchCategory =
+
+        category === "all" ||
+
+        productCategory === category;
+
+        product.style.display =
+
+        matchSearch && matchCategory
+
+        ? ""
+
+        : "none";
+
+    });
+
+}
+
+searchInput.addEventListener(
+
+"keyup",
+
+filterProducts
+
+);
+
+categoryFilter.addEventListener(
+
+"change",
+
+filterProducts
+
+);
+
+/* CART */
+
+let cart = [];
+
+function addToCart(name,price,icon){
+
+    cart.push({
+
+        name:name,
+
+        price:price,
+
+        icon:icon
+
+    });
+
+    updateCart();
+
+    document.getElementById(
+
+        "cartPanel"
+
+    ).classList.add("open");
+
+}
+
+function updateCart(){
+
+    const cartItems =
+
+    document.getElementById("cartItems");
+
+    const cartCount =
+
+    document.getElementById("cartCount");
+
+    const cartTotal =
+
+    document.getElementById("cartTotal");
+
+    cartCount.textContent = cart.length;
+
+    if(cart.length === 0){
+
+        cartItems.innerHTML =
+
+        `<p style="color:var(--muted);font-size:13px;">
+
+        Your cart is empty.
+
+        </p>`;
+
+        cartTotal.textContent = "$0.00";
+
+        return;
+
+    }
+
+    let total = 0;
+
+    cartItems.innerHTML = "";
+
+    cart.forEach(function(item,index){
+
+        total += item.price;
+
+        cartItems.innerHTML += `
+
+        <div class="cart-item">
+
+            <div class="cart-icon">
+
+                ${item.icon}
+
+            </div>
+
+            <div class="cart-info">
+
+                <div class="cart-name">
+
+                    ${item.name}
+
+                </div>
+
+                <div class="cart-price">
+
+                    $${item.price.toFixed(2)}
+
+                </div>
+
+            </div>
+
+            <button
+
+            onclick="removeFromCart(${index})"
+
+            style="background:none;border:none;color:#ff7186;cursor:pointer;font-size:18px;"
+
+            >
+
+            ×
+
+            </button>
+
+        </div>
+
+        `;
+
+    });
+
+    cartTotal.textContent =
+
+    "$" + total.toFixed(2);
+
+}
+
+function removeFromCart(index){
+
+    cart.splice(index,1);
+
+    updateCart();
+
+}
+
+document.getElementById("cartBtn")
+
+.addEventListener("click",function(){
+
+    document.getElementById(
+
+        "cartPanel"
+
+    ).classList.add("open");
+
+});
+
+document.getElementById("closeCart")
+
+.addEventListener("click",function(){
+
+    document.getElementById(
+
+        "cartPanel"
+
+    ).classList.remove("open");
+
+});
+
+function checkout(){
+
+    if(cart.length === 0){
+
+        alert("Your cart is empty!");
+
+        return;
+
+    }
+
+    window.location.href =
+
+    "storefront_order_confirmation.html";
+
+}
+
+</script>
+
+</body>
+
+</html>

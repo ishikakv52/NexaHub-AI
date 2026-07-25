@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXA HUB AI | Promotion Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================
+   RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* =========================
+   THEME VARIABLES
+========================= */
+
+:root{
+
+    --bg:#080b14;
+    --card:#101621;
+    --sidebar:#0d111c;
+    --border:#222d3e;
+    --text:#ffffff;
+    --muted:#8995a8;
+    --input:#0a0f18;
+
+}
+
+/* =========================
+   BODY
+========================= */
+
+body{
+
+    font-family:Poppins,sans-serif;
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    min-height:100vh;
+
+    overflow-x:hidden;
+
+    transition:.3s ease;
+
+}
+
+/* =========================
+   ANIMATED BACKGROUND
+========================= */
+
+body::before,
+body::after{
+
+    content:"";
+
+    position:fixed;
+
+    width:400px;
+
+    height:400px;
+
+    border-radius:50%;
+
+    filter:blur(110px);
+
+    opacity:.20;
+
+    z-index:-1;
+
+    pointer-events:none;
+
+}
+
+body::before{
+
+    background:#00d4ff;
+
+    top:-150px;
+
+    left:-100px;
+
+    animation:moveOne 12s infinite alternate ease-in-out;
+
+}
+
+body::after{
+
+    background:#7c3aed;
+
+    right:-150px;
+
+    bottom:-150px;
+
+    animation:moveTwo 15s infinite alternate ease-in-out;
+
+}
+
+@keyframes moveOne{
+
+    from{
+        transform:translate(0,0);
+    }
+
+    to{
+        transform:translate(180px,180px);
+    }
+
+}
+
+@keyframes moveTwo{
+
+    from{
+        transform:translate(0,0);
+    }
+
+    to{
+        transform:translate(-180px,-150px);
+    }
+
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.app{
+
+    display:flex;
+
+    min-height:100vh;
+
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+
+    width:250px;
+
+    background:var(--sidebar);
+
+    border-right:1px solid var(--border);
+
+    padding:25px 15px;
+
+    position:fixed;
+
+    top:0;
+
+    bottom:0;
+
+}
+
+.logo{
+
+    font-size:22px;
+
+    font-weight:700;
+
+    padding:10px 15px 30px;
+
+}
+
+.logo span{
+
+    color:#00d4ff;
+
+}
+
+.nav-title{
+
+    color:#748096;
+
+    font-size:11px;
+
+    text-transform:uppercase;
+
+    margin:15px;
+
+}
+
+.sidebar a{
+
+    display:flex;
+
+    gap:12px;
+
+    align-items:center;
+
+    padding:12px 15px;
+
+    margin:5px 0;
+
+    border-radius:10px;
+
+    text-decoration:none;
+
+    color:#9ca8ba;
+
+    font-size:13px;
+
+    transition:.3s;
+
+}
+
+.sidebar a:hover,
+.sidebar a.active{
+
+    background:#18263a;
+
+    color:var(--text);
+
+}
+
+.sidebar a span{
+
+    color:#00d4ff;
+
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+
+    margin-left:250px;
+
+    width:calc(100% - 250px);
+
+    padding:30px;
+
+}
+
+/* =========================
+   TOPBAR
+========================= */
+
+.topbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    border-bottom:1px solid var(--border);
+
+    padding-bottom:22px;
+
+    margin-bottom:30px;
+
+}
+
+.breadcrumb{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    margin-bottom:8px;
+
+}
+
+.breadcrumb span{
+
+    color:#00d4ff;
+
+}
+
+h1{
+
+    font-size:28px;
+
+}
+
+.subtitle{
+
+    color:var(--muted);
+
+    font-size:13px;
+
+    margin-top:5px;
+
+}
+
+.actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.icon-btn{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    color:var(--text);
+
+    padding:10px 14px;
+
+    border-radius:9px;
+
+    cursor:pointer;
+
+    font-size:17px;
+
+}
+
+.user{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    padding:7px 12px;
+
+    border-radius:10px;
+
+}
+
+.avatar{
+
+    width:32px;
+
+    height:32px;
+
+    border-radius:50%;
+
+    display:grid;
+
+    place-items:center;
+
+    background:linear-gradient(
+
+        135deg,
+
+        #00d4ff,
+
+        #7c3aed
+
+    );
+
+    font-weight:bold;
+
+}
+
+/* =========================
+   PROMOTION STATS
+========================= */
+
+.stats{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:18px;
+
+}
+
+.stat{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:15px;
+
+    padding:22px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    transition:.3s;
+
+}
+
+.stat:hover{
+
+    transform:translateY(-5px);
+
+    border-color:#00d4ff;
+
+}
+
+.stat-icon{
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:12px;
+
+    display:grid;
+
+    place-items:center;
+
+    background:rgba(0,212,255,.12);
+
+    color:#00d4ff;
+
+    font-size:22px;
+
+}
+
+.stat span{
+
+    color:var(--muted);
+
+    display:block;
+
+    font-size:12px;
+
+}
+
+.stat strong{
+
+    display:block;
+
+    font-size:23px;
+
+    margin-top:4px;
+
+}
+
+/* =========================
+   TOOLBAR
+========================= */
+
+.toolbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-top:25px;
+
+    margin-bottom:20px;
+
+}
+
+.toolbar h2{
+
+    font-size:18px;
+
+}
+
+.add-btn{
+
+    padding:12px 20px;
+
+    border:none;
+
+    border-radius:9px;
+
+    cursor:pointer;
+
+    color:white;
+
+    font-family:Poppins,sans-serif;
+
+    font-weight:500;
+
+    background:linear-gradient(
+
+        135deg,
+
+        #00d4ff,
+
+        #7c3aed
+
+    );
+
+}
+
+/* =========================
+   PROMOTION GRID
+========================= */
+
+.promotion-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:20px;
+
+}
+
+/* =========================
+   PROMOTION CARD
+========================= */
+
+.promotion-card{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:15px;
+
+    padding:22px;
+
+    transition:.3s;
+
+}
+
+.promotion-card:hover{
+
+    transform:translateY(-5px);
+
+    border-color:#00d4ff;
+
+}
+
+.promotion-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:18px;
+
+}
+
+.promotion-icon{
+
+    width:48px;
+
+    height:48px;
+
+    display:grid;
+
+    place-items:center;
+
+    border-radius:12px;
+
+    background:rgba(124,58,237,.15);
+
+    color:#b78cff;
+
+    font-size:22px;
+
+}
+
+.promotion-status{
+
+    padding:5px 11px;
+
+    border-radius:20px;
+
+    font-size:11px;
+
+}
+
+.active-status{
+
+    background:#16352d;
+
+    color:#4de2a5;
+
+}
+
+.scheduled-status{
+
+    background:#162e42;
+
+    color:#5cc8ff;
+
+}
+
+.expired-status{
+
+    background:#3b1c24;
+
+    color:#ff7186;
+
+}
+
+.promotion-card h3{
+
+    font-size:17px;
+
+    margin-bottom:8px;
+
+}
+
+.promotion-card p{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    line-height:1.7;
+
+    margin-bottom:18px;
+
+}
+
+.promotion-info{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    padding:12px 0;
+
+    border-top:1px solid var(--border);
+
+    font-size:12px;
+
+}
+
+.promotion-info span:first-child{
+
+    color:var(--muted);
+
+}
+
+.promotion-info span:last-child{
+
+    font-weight:500;
+
+}
+
+.card-actions{
+
+    display:flex;
+
+    gap:10px;
+
+    margin-top:18px;
+
+}
+
+.action-btn{
+
+    flex:1;
+
+    padding:9px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-family:Poppins,sans-serif;
+
+    font-size:12px;
+
+    background:transparent;
+
+    border:1px solid var(--border);
+
+    color:var(--text);
+
+}
+
+.action-btn:hover{
+
+    border-color:#00d4ff;
+
+    color:#00d4ff;
+
+}
+
+/* =========================
+   LIGHT MODE
+========================= */
+
+body.light-mode{
+
+    --bg:#f4f7fb;
+
+    --card:#ffffff;
+
+    --sidebar:#ffffff;
+
+    --border:#dce3ec;
+
+    --text:#172033;
+
+    --muted:#64748b;
+
+    --input:#ffffff;
+
+}
+
+body.light-mode .sidebar{
+
+    background:var(--sidebar);
+
+}
+
+body.light-mode .sidebar a{
+
+    color:#64748b;
+
+}
+
+body.light-mode .sidebar a:hover,
+body.light-mode .sidebar a.active{
+
+    background:#e8f5ff;
+
+    color:#172033;
+
+}
+
+body.light-mode .icon-btn,
+body.light-mode .user{
+
+    background:#ffffff;
+
+    color:#172033;
+
+    border-color:var(--border);
+
+}
+
+body.light-mode .stat,
+body.light-mode .promotion-card{
+
+    box-shadow:0 8px 25px rgba(30,50,80,.08);
+
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1000px){
+
+    .stats{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+    .promotion-grid{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+}
+
+@media(max-width:700px){
+
+    .sidebar{
+
+        display:none;
+
+    }
+
+    .main{
+
+        margin-left:0;
+
+        width:100%;
+
+        padding:20px;
+
+    }
+
+    .topbar{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:18px;
+
+    }
+
+    .stats{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .promotion-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .toolbar{
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+        gap:15px;
+
+    }
+
+    .add-btn{
+
+        width:100%;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+<div class="logo">
+
+NEXA <span>HUB</span> AI
+
+</div>
+
+<div class="nav-title">
+
+Retail Store
+
+</div>
+
+<a href="portal_dashboard.html">
+
+<span>⌂</span>
+
+Dashboard
+
+</a>
+
+<a href="product_list.html">
+
+<span>▣</span>
+
+Products
+
+</a>
+
+<a href="sale_list.html">
+
+<span>▤</span>
+
+Sales
+
+</a>
+
+<a href="sale_pos.html">
+
+<span>▥</span>
+
+POS
+
+</a>
+
+<a href="promotion_dashboard.html" class="active">
+
+<span>★</span>
+
+Promotions
+
+</a>
+
+<a href="purchase_order_list.html">
+
+<span>◈</span>
+
+Purchase Orders
+
+</a>
+
+<a href="supplier_list.html">
+
+<span>♙</span>
+
+Suppliers
+
+</a>
+
+<a href="staff_list.html">
+
+<span>♧</span>
+
+Staff
+
+</a>
+
+<a href="reports_insights.html">
+
+<span>◉</span>
+
+Reports
+
+</a>
+
+<a href="settings_business.html">
+
+<span>⚙</span>
+
+Settings
+
+</a>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+<div class="topbar">
+
+<div>
+
+<div class="breadcrumb">
+
+Retail Store /
+
+<span>Promotion Dashboard</span>
+
+</div>
+
+<h1>
+
+Promotions
+
+</h1>
+
+<p class="subtitle">
+
+Create and manage promotional campaigns for your retail store.
+
+</p>
+
+</div>
+
+<div class="actions">
+
+<button class="icon-btn" id="themeToggle">
+
+☾
+
+</button>
+
+<div class="user">
+
+<div class="avatar">
+
+A
+
+</div>
+
+<span>
+
+Admin
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- STATS -->
+
+<div class="stats">
+
+<div class="stat">
+
+<div class="stat-icon">
+
+★
+    
+</div>
+
+<div>
+
+<span>Active Promotions</span>
+
+<strong>12</strong>
+
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-icon">
+
+%</div>
+
+<div>
+
+<span>Total Discounts</span>
+
+<strong>₹86,450</strong>
+
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-icon">
+
+↗
+
+</div>
+
+<div>
+
+<span>Conversions</span>
+
+<strong>1,248</strong>
+
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-icon">
+
+◈
+
+</div>
+
+<div>
+
+<span>Scheduled</span>
+
+<strong>8</strong>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- TOOLBAR -->
+
+<div class="toolbar">
+
+<h2>
+
+All Promotions
+
+</h2>
+
+<button class="add-btn">
+
++ Create Promotion
+
+</button>
+
+</div>
+
+<!-- PROMOTIONS -->
+
+<div class="promotion-grid">
+
+<div class="promotion-card">
+
+<div class="promotion-top">
+
+<div class="promotion-icon">
+
+%</div>
+
+<span class="promotion-status active-status">
+
+Active
+
+</span>
+
+</div>
+
+<h3>
+
+Summer Mega Sale
+
+</h3>
+
+<p>
+
+Get exciting discounts on selected electronics and accessories.
+
+</p>
+
+<div class="promotion-info">
+
+<span>Discount</span>
+
+<span>25% OFF</span>
+
+</div>
+
+<div class="promotion-info">
+
+<span>Valid Until</span>
+
+<span>31 July 2026</span>
+
+</div>
+
+<div class="card-actions">
+
+<button class="action-btn">
+
+View
+
+</button>
+
+<button class="action-btn">
+
+Edit
+
+</button>
+
+</div>
+
+</div>
+
+<div class="promotion-card">
+
+<div class="promotion-top">
+
+<div class="promotion-icon">
+
+🎁
+
+</div>
+
+<span class="promotion-status scheduled-status">
+
+Scheduled
+
+</span>
+
+</div>
+
+<h3>
+
+Independence Day Offer
+
+</h3>
+
+<p>
+
+Special offers and discounts for the upcoming celebration.
+
+</p>
+
+<div class="promotion-info">
+
+<span>Discount</span>
+
+<span>30% OFF</span>
+
+</div>
+
+<div class="promotion-info">
+
+<span>Starts On</span>
+
+<span>10 Aug 2026</span>
+
+</div>
+
+<div class="card-actions">
+
+<button class="action-btn">
+
+View
+
+</button>
+
+<button class="action-btn">
+
+Edit
+
+</button>
+
+</div>
+
+</div>
+
+<div class="promotion-card">
+
+<div class="promotion-top">
+
+<div class="promotion-icon">
+
+🔥
+
+</div>
+
+<span class="promotion-status active-status">
+
+Active
+
+</span>
+
+</div>
+
+<h3>
+
+Flash Weekend Sale
+
+</h3>
+
+<p>
+
+Limited-time discount available on selected products.
+
+</p>
+
+<div class="promotion-info">
+
+<span>Discount</span>
+
+<span>40% OFF</span>
+
+</div>
+
+<div class="promotion-info">
+
+<span>Valid Until</span>
+
+<span>27 July 2026</span>
+
+</div>
+
+<div class="card-actions">
+
+<button class="action-btn">
+
+View
+
+</button>
+
+<button class="action-btn">
+
+Edit
+
+</button>
+
+</div>
+
+</div>
+
+<div class="promotion-card">
+
+<div class="promotion-top">
+
+<div class="promotion-icon">
+
+💳
+
+</div>
+
+<span class="promotion-status expired-status">
+
+Expired
+
+</span>
+
+</div>
+
+<h3>
+
+New Customer Offer
+
+</h3>
+
+<p>
+
+Special discount for customers making their first purchase.
+
+</p>
+
+<div class="promotion-info">
+
+<span>Discount</span>
+
+<span>15% OFF</span>
+
+</div>
+
+<div class="promotion-info">
+
+<span>Ended On</span>
+
+<span>20 July 2026</span>
+
+</div>
+
+<div class="card-actions">
+
+<button class="action-btn">
+
+View
+
+</button>
+
+<button class="action-btn">
+
+Edit
+
+</button>
+
+</div>
+
+</div>
+
+<div class="promotion-card">
+
+<div class="promotion-top">
+
+<div class="promotion-icon">
+
+🛍️
+
+</div>
+
+<span class="promotion-status scheduled-status">
+
+Scheduled
+
+</span>
+
+</div>
+
+<h3>
+
+Back To School Sale
+
+</h3>
+
+<p>
+
+Exclusive deals on laptops, accessories and student products.
+
+</p>
+
+<div class="promotion-info">
+
+<span>Discount</span>
+
+<span>20% OFF</span>
+
+</div>
+
+<div class="promotion-info">
+
+<span>Starts On</span>
+
+<span>01 Aug 2026</span>
+
+</div>
+
+<div class="card-actions">
+
+<button class="action-btn">
+
+View
+
+</button>
+
+<button class="action-btn">
+
+Edit
+
+</button>
+
+</div>
+
+</div>
+
+<div class="promotion-card">
+
+<div class="promotion-top">
+
+<div class="promotion-icon">
+
+⚡
+
+</div>
+
+<span class="promotion-status active-status">
+
+Active
+
+</span>
+
+</div>
+
+<h3>
+
+Weekend Special
+
+</h3>
+
+<p>
+
+Enjoy special weekend discounts across multiple categories.
+
+</p>
+
+<div class="promotion-info">
+
+<span>Discount</span>
+
+<span>10% OFF</span>
+
+</div>
+
+<div class="promotion-info">
+
+<span>Valid Until</span>
+
+<span>28 July 2026</span>
+
+</div>
+
+<div class="card-actions">
+
+<button class="action-btn">
+
+View
+
+</button>
+
+<button class="action-btn">
+
+Edit
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</main>
+
+</div>
+
+<!-- THEME SCRIPT -->
+
+<script>
+
+const themeToggle =
+
+document.getElementById("themeToggle");
+
+const savedTheme =
+
+localStorage.getItem("theme");
+
+if(savedTheme === "light"){
+
+    document.body.classList.add("light-mode");
+
+    themeToggle.textContent = "☀";
+
+}
+
+themeToggle.addEventListener("click",function(){
+
+    document.body.classList.toggle("light-mode");
+
+    if(document.body.classList.contains("light-mode")){
+
+        themeToggle.textContent = "☀";
+
+        localStorage.setItem("theme","light");
+
+    }else{
+
+        themeToggle.textContent = "☾";
+
+        localStorage.setItem("theme","dark");
+
+    }
+
+});
+
+</script>
+
+</body>
+
+</html>
