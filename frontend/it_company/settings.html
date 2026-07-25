@@ -1,0 +1,206 @@
+{% load core_extras %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Settings · {{ company_name }}</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+<style>
+    :root {
+        --sidebar-w: 250px;
+        --navy: #101a2b;
+        --navy-light: #16233a;
+        --accent: #4f7cff;
+        --accent-soft: #eaf0ff;
+        --bg: #f4f6fb;
+    }
+    * { box-sizing: border-box; }
+    body { background: var(--bg); font-family: 'Segoe UI', Roboto, Arial, sans-serif; }
+    .sidebar {
+        position: fixed; top: 0; left: 0; bottom: 0; width: var(--sidebar-w);
+        background: var(--navy); color: #cfd7e6; overflow-y: auto; transition: width .2s ease; z-index: 1030;
+    }
+    .sidebar.collapsed { width: 70px; }
+    .sidebar.collapsed .sidebar-label, .sidebar.collapsed .sidebar-brand-text { display: none; }
+    .sidebar-brand { display: flex; align-items: center; gap: .6rem; padding: 1.1rem 1rem; color: #fff; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,.08); }
+    .sidebar-brand i { color: var(--accent); font-size: 1.4rem; }
+    .sidebar-toggle { background: none; border: none; color: #cfd7e6; margin-left: auto; }
+    .sidebar-link {
+        display: flex; align-items: center; gap: .75rem; padding: .55rem 1.1rem; color: #b8c2d9; text-decoration: none;
+        font-size: .89rem; white-space: nowrap; border-left: 3px solid transparent;
+    }
+    .sidebar-link i { width: 18px; text-align: center; }
+    .sidebar-link:hover { background: var(--navy-light); color: #fff; }
+    .sidebar-link.active { background: var(--navy-light); color: #fff; border-left-color: var(--accent); font-weight: 600; }
+    .sidebar-section { font-size: .68rem; text-transform: uppercase; letter-spacing: .08em; color: #6e7c99; padding: 1rem 1.1rem .3rem; }
+    .main-content { margin-left: var(--sidebar-w); padding: 1.6rem 1.8rem 3rem; transition: margin-left .2s ease; min-height: 100vh; }
+    .main-content.expanded { margin-left: 70px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.4rem; }
+    .page-title { font-weight: 700; color: #1c2b45; }
+    .card { border: none; border-radius: 14px; box-shadow: 0 2px 14px rgba(20,30,60,.06); }
+    .stat-card { border-radius: 16px; padding: 1.2rem 1.4rem; color: #fff; }
+    .btn-accent { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .btn-accent:hover { background: #3d68e8; border-color: #3d68e8; color: #fff; }
+    .badge-soft { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+    table.table thead { background: #f0f3fa; }
+    .table > :not(caption) > * > * { vertical-align: middle; }
+    @media (max-width: 900px) {
+        .sidebar { width: 70px; }
+        .sidebar .sidebar-label, .sidebar .sidebar-brand-text { display: none; }
+        .main-content { margin-left: 70px; }
+    }
+</style>
+
+</head>
+<body>
+<div class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <i class="fas fa-cubes"></i>
+            <span class="sidebar-brand-text">{{ company_name }}</span>
+            <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+        </div>
+        {% if role_has_all_access or 'dashboard' in accessible_modules %}<a href="{% url 'dashboard' %}" class="sidebar-link{% if active_page == 'dashboard' %} active{% endif %}"><i class="fas fa-gauge-high"></i><span class="sidebar-label">Dashboard</span></a>{% endif %}
+            <div class="sidebar-section">People</div>
+            {% if role_has_all_access or 'employees' in accessible_modules %}<a href="{% url 'employees' %}" class="sidebar-link{% if active_page == 'employees' %} active{% endif %}"><i class="fas fa-users"></i><span class="sidebar-label">Employees</span></a>{% endif %}
+            {% if role_has_all_access or 'attendance' in accessible_modules %}<a href="{% url 'attendance' %}" class="sidebar-link{% if active_page == 'attendance' %} active{% endif %}"><i class="fas fa-fingerprint"></i><span class="sidebar-label">Attendance</span></a>{% endif %}
+            {% if show_my_salary_link %}<a href="{% url 'my_salary' %}" class="sidebar-link{% if active_page == 'my_salary' %} active{% endif %}"><i class="fas fa-wallet"></i><span class="sidebar-label">My Salary</span></a>{% endif %}
+            {% if role_has_all_access or 'leave_requests' in accessible_modules %}<a href="{% url 'leave_requests' %}" class="sidebar-link{% if active_page == 'leave_requests' %} active{% endif %}"><i class="fas fa-plane-departure"></i><span class="sidebar-label">Leave Requests</span></a>{% endif %}
+            {% if role_has_all_access or 'departments' in accessible_modules or 'designations' in accessible_modules or 'skills' in accessible_modules %}
+            <a href="#manageOptionsMenu" data-bs-toggle="collapse" role="button" aria-expanded="{% if active_page == 'departments' or active_page == 'designations' or active_page == 'skills' %}true{% else %}false{% endif %}" class="sidebar-link d-flex align-items-center{% if active_page == 'departments' or active_page == 'designations' or active_page == 'skills' %} active{% endif %}">
+                <i class="fas fa-sliders"></i><span class="sidebar-label">Manage Options</span><i class="fas fa-chevron-down ms-auto small sidebar-label"></i>
+            </a>
+            <div class="collapse{% if active_page == 'departments' or active_page == 'designations' or active_page == 'skills' %} show{% endif %}" id="manageOptionsMenu">
+                {% if role_has_all_access or 'departments' in accessible_modules %}<a href="{% url 'departments' %}" class="sidebar-link ps-4{% if active_page == 'departments' %} active{% endif %}"><i class="fas fa-building"></i><span class="sidebar-label">Departments</span></a>{% endif %}
+                {% if role_has_all_access or 'designations' in accessible_modules %}<a href="{% url 'module' key='designations' %}" class="sidebar-link ps-4{% if active_page == 'designations' %} active{% endif %}"><i class="fas fa-id-badge"></i><span class="sidebar-label">Designations</span></a>{% endif %}
+                {% if role_has_all_access or 'skills' in accessible_modules %}<a href="{% url 'module' key='skills' %}" class="sidebar-link ps-4{% if active_page == 'skills' %} active{% endif %}"><i class="fas fa-star"></i><span class="sidebar-label">Skills</span></a>{% endif %}
+            </div>
+            {% endif %}
+            {% if role_has_all_access or 'teams' in accessible_modules %}<a href="{% url 'teams' %}" class="sidebar-link{% if active_page == 'teams' %} active{% endif %}"><i class="fas fa-user-group"></i><span class="sidebar-label">Teams</span></a>{% endif %}
+            {% if role_has_all_access or 'hr' in accessible_modules %}<a href="{% url 'hr' %}" class="sidebar-link{% if active_page == 'hr' %} active{% endif %}"><i class="fas fa-people-arrows"></i><span class="sidebar-label">HR Management</span></a>{% endif %}
+            {% if role_has_all_access or 'workforce' in accessible_modules %}<a href="{% url 'module' key='workforce' %}" class="sidebar-link{% if active_page == 'workforce' %} active{% endif %}"><i class="fas fa-user-clock"></i><span class="sidebar-label">Extended Workforce</span></a>{% endif %}
+            <div class="sidebar-section">Work</div>
+            {% if role_has_all_access or 'clients' in accessible_modules %}<a href="{% url 'clients' %}" class="sidebar-link{% if active_page == 'clients' %} active{% endif %}"><i class="fas fa-handshake"></i><span class="sidebar-label">Clients</span></a>{% endif %}
+            {% if role_has_all_access or 'projects' in accessible_modules %}<a href="{% url 'projects' %}" class="sidebar-link{% if active_page == 'projects' %} active{% endif %}"><i class="fas fa-diagram-project"></i><span class="sidebar-label">Projects</span></a>{% endif %}
+            {% if role_has_all_access or 'tasks' in accessible_modules %}<a href="{% url 'tasks' %}" class="sidebar-link{% if active_page == 'tasks' %} active{% endif %}"><i class="fas fa-list-check"></i><span class="sidebar-label">Tasks</span></a>{% endif %}
+            {% if role_has_all_access or 'bugs' in accessible_modules %}<a href="{% url 'module' key='bugs' %}" class="sidebar-link{% if active_page == 'bugs' %} active{% endif %}"><i class="fas fa-bug"></i><span class="sidebar-label">Bug Tracking</span></a>{% endif %}
+            {% if role_has_all_access or 'releases' in accessible_modules %}<a href="{% url 'module' key='releases' %}" class="sidebar-link{% if active_page == 'releases' %} active{% endif %}"><i class="fas fa-rocket"></i><span class="sidebar-label">Releases</span></a>{% endif %}
+            {% if role_has_all_access or 'pipelines' in accessible_modules %}<a href="{% url 'module' key='pipelines' %}" class="sidebar-link{% if active_page == 'pipelines' %} active{% endif %}"><i class="fas fa-server"></i><span class="sidebar-label">DevOps Pipelines</span></a>{% endif %}
+            <div class="sidebar-section">Business</div>
+            {% if role_has_all_access or 'meetings' in accessible_modules %}<a href="{% url 'module' key='meetings' %}" class="sidebar-link{% if active_page == 'meetings' %} active{% endif %}"><i class="fas fa-calendar-check"></i><span class="sidebar-label">Meetings</span></a>{% endif %}
+            {% if role_has_all_access or 'support' in accessible_modules %}<a href="{% url 'module' key='support' %}" class="sidebar-link{% if active_page == 'support' %} active{% endif %}"><i class="fas fa-headset"></i><span class="sidebar-label">Support Desk</span></a>{% endif %}
+            {% if role_has_all_access or 'asset_requests' in accessible_modules %}<a href="{% url 'module' key='asset_requests' %}" class="sidebar-link{% if active_page == 'asset_requests' %} active{% endif %}"><i class="fas fa-boxes-stacked"></i><span class="sidebar-label">Asset Requests</span></a>{% endif %}
+            {% if role_has_all_access or 'documents' in accessible_modules %}<a href="{% url 'module' key='documents' %}" class="sidebar-link{% if active_page == 'documents' %} active{% endif %}"><i class="fas fa-file-alt"></i><span class="sidebar-label">Documents</span></a>{% endif %}
+            <div class="sidebar-section">Finance & Admin</div>
+            {% if role_has_all_access or 'finance' in accessible_modules %}<a href="{% url 'finance' %}" class="sidebar-link{% if active_page == 'finance' %} active{% endif %}"><i class="fas fa-sack-dollar"></i><span class="sidebar-label">Finance</span></a>{% endif %}
+            {% if role_has_all_access or 'reminders' in accessible_modules %}<a href="{% url 'module' key='reminders' %}" class="sidebar-link{% if active_page == 'reminders' %} active{% endif %}"><i class="fas fa-bell"></i><span class="sidebar-label">Reminders</span></a>{% endif %}
+            {% if role_has_all_access or 'reports' in accessible_modules %}<a href="{% url 'reports' %}" class="sidebar-link{% if active_page == 'reports' %} active{% endif %}"><i class="fas fa-chart-column"></i><span class="sidebar-label">Reports</span></a>{% endif %}
+            {% if role_has_all_access or 'salary_payments' in accessible_modules %}<a href="{% url 'salary_payments' %}" class="sidebar-link{% if active_page == 'salary_payments' %} active{% endif %}"><i class="fas fa-money-check-dollar"></i><span class="sidebar-label">Salary Payments</span></a>{% endif %}
+            {% if role_has_all_access or 'activity_log' in accessible_modules %}<a href="{% url 'activity_log' %}" class="sidebar-link{% if active_page == 'activity_log' %} active{% endif %}"><i class="fas fa-clock-rotate-left"></i><span class="sidebar-label">Activity Log</span></a>{% endif %}
+            {% if role_has_all_access or 'settings' in accessible_modules %}<a href="{% url 'settings' %}" class="sidebar-link{% if active_page == 'settings' %} active{% endif %}"><i class="fas fa-gears"></i><span class="sidebar-label">Business Settings</span></a>{% endif %}
+        <div class="sidebar-section">Account</div>
+        <div class="px-3 pb-2 sidebar-label" style="color:#8492ab; font-size:.75rem;">
+            <i class="fas fa-user-shield me-1"></i>{{ role_label }}
+        </div>
+        <a href="{% url 'logout' %}" class="sidebar-link"><i class="fas fa-right-from-bracket"></i><span class="sidebar-label">Logout</span></a>
+    </div>
+
+<div class="main-content" id="mainContent">
+<div class="topbar">
+    <div>
+        <h3 class="page-title mb-0"><i class="fas fa-gears me-2 text-primary"></i>Business Settings</h3>
+    </div>
+    <div class="text-muted small">{{ request.user.get_full_name|default:request.user.username }}</div>
+</div>
+{% if messages %}
+    {% for msg in messages %}
+        {% if 'CREDENTIALS::' in msg.message %}
+            {% with parts=msg.message|cut:"CREDENTIALS::"|split:"::" %}
+            <div class="alert alert-success border border-success-subtle" role="alert" style="background:#f2fbf6;">
+                <div class="fw-bold mb-2"><i class="fas fa-key me-1"></i>Login created for {{ parts.2 }}</div>
+                <div class="row g-2">
+                    <div class="col-md-6">
+                        <label class="small text-muted mb-1">Username</label>
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control" value="{{ parts.0 }}" readonly id="credUsername{{ forloop.counter }}">
+                            <button class="btn btn-outline-secondary" type="button" onclick="copyCred('credUsername{{ forloop.counter }}')"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="small text-muted mb-1">Password</label>
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control" value="{{ parts.1 }}" readonly id="credPassword{{ forloop.counter }}">
+                            <button class="btn btn-outline-secondary" type="button" onclick="copyCred('credPassword{{ forloop.counter }}')"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="small text-danger mt-2 mb-0"><i class="fas fa-triangle-exclamation me-1"></i>Copy these now — for security, this password will not be shown again after you leave this page.</div>
+            </div>
+            {% endwith %}
+        {% else %}
+        <div class="alert alert-{% if msg.tags == 'error' %}danger{% else %}{{ msg.tags }}{% endif %} alert-dismissible fade show" role="alert">
+            {{ msg }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+<ul class="nav nav-pills mb-3">
+    <li class="nav-item"><a class="nav-link active" data-bs-toggle="pill" href="#company">Company Profile</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#designations">Designations</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#leave">Leave Policies</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#roles">Roles &amp; Permissions</a></li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane fade show active" id="company">
+        <div class="card p-4">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row g-3">
+                {% for field in form %}<div class="col-md-6"><label class="form-label small fw-semibold">{{ field.label }}</label>{{ field }}</div>{% endfor %}
+                </div>
+                <button type="submit" class="btn btn-accent text-white mt-3">Save Company Profile</button>
+            </form>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="designations">
+        <div class="card p-3">
+            <div class="d-flex justify-content-between mb-3"><h6 class="fw-bold mb-0">Designations</h6><a href="{% url 'module' key='designations' %}" class="btn btn-sm btn-accent text-white">Manage</a></div>
+            {% for d in designations %}<div class="small mb-2">{{ d.title }} — {{ d.department|default:"—" }}</div>{% empty %}<div class="text-muted small">No designations yet.</div>{% endfor %}
+        </div>
+    </div>
+    <div class="tab-pane fade" id="leave">
+        <div class="card p-3">
+            <div class="d-flex justify-content-between mb-3"><h6 class="fw-bold mb-0">Leave Policies</h6><a href="{% url 'module' key='leave_policies' %}" class="btn btn-sm btn-accent text-white">Manage</a></div>
+            {% for lp in leave_policies %}<div class="small mb-2">{{ lp.leave_type }} — {{ lp.days_per_year }} days/year</div>{% empty %}<div class="text-muted small">No leave policies configured.</div>{% endfor %}
+        </div>
+    </div>
+    <div class="tab-pane fade" id="roles">
+        <div class="card p-3">
+            <h6 class="fw-bold mb-3">Roles &amp; Permissions</h6>
+            {% for r in roles %}<div class="small mb-2">{{ r.role_name }}</div>{% empty %}<div class="text-muted small">Default roles: Admin, Manager, Employee (set per-employee under User Type).</div>{% endfor %}
+        </div>
+    </div>
+</div>
+
+</div>
+
+<script>
+function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('collapsed');
+    document.getElementById('mainContent').classList.toggle('expanded');
+}
+function copyCred(inputId) {
+    const el = document.getElementById(inputId);
+    if (!el) return;
+    el.select();
+    el.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(el.value).catch(() => document.execCommand('copy'));
+}
+
+</script>
+</body>
+</html>

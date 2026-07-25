@@ -1,0 +1,406 @@
+{% load core_extras %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard · {{ company_name }}</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+<style>
+    :root {
+        --sidebar-w: 250px;
+        --navy: #101a2b;
+        --navy-light: #16233a;
+        --accent: #4f7cff;
+        --accent-soft: #eaf0ff;
+        --bg: #f4f6fb;
+    }
+    * { box-sizing: border-box; }
+    body { background: var(--bg); font-family: 'Segoe UI', Roboto, Arial, sans-serif; }
+    .sidebar {
+        position: fixed; top: 0; left: 0; bottom: 0; width: var(--sidebar-w);
+        background: var(--navy); color: #cfd7e6; overflow-y: auto; transition: width .2s ease; z-index: 1030;
+    }
+    .sidebar.collapsed { width: 70px; }
+    .sidebar.collapsed .sidebar-label, .sidebar.collapsed .sidebar-brand-text { display: none; }
+    .sidebar-brand { display: flex; align-items: center; gap: .6rem; padding: 1.1rem 1rem; color: #fff; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,.08); }
+    .sidebar-brand i { color: var(--accent); font-size: 1.4rem; }
+    .sidebar-toggle { background: none; border: none; color: #cfd7e6; margin-left: auto; }
+    .sidebar-link {
+        display: flex; align-items: center; gap: .75rem; padding: .55rem 1.1rem; color: #b8c2d9; text-decoration: none;
+        font-size: .89rem; white-space: nowrap; border-left: 3px solid transparent;
+    }
+    .sidebar-link i { width: 18px; text-align: center; }
+    .sidebar-link:hover { background: var(--navy-light); color: #fff; }
+    .sidebar-link.active { background: var(--navy-light); color: #fff; border-left-color: var(--accent); font-weight: 600; }
+    .sidebar-section { font-size: .68rem; text-transform: uppercase; letter-spacing: .08em; color: #6e7c99; padding: 1rem 1.1rem .3rem; }
+    .main-content { margin-left: var(--sidebar-w); padding: 1.6rem 1.8rem 3rem; transition: margin-left .2s ease; min-height: 100vh; }
+    .main-content.expanded { margin-left: 70px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.4rem; }
+    .page-title { font-weight: 700; color: #1c2b45; }
+    .card { border: none; border-radius: 14px; box-shadow: 0 2px 14px rgba(20,30,60,.06); }
+    .stat-card { border-radius: 16px; padding: 1.2rem 1.4rem; color: #fff; }
+    .btn-accent { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .btn-accent:hover { background: #3d68e8; border-color: #3d68e8; color: #fff; }
+    .badge-soft { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+    table.table thead { background: #f0f3fa; }
+    .table > :not(caption) > * > * { vertical-align: middle; }
+    @media (max-width: 900px) {
+        .sidebar { width: 70px; }
+        .sidebar .sidebar-label, .sidebar .sidebar-brand-text { display: none; }
+        .main-content { margin-left: 70px; }
+    }
+</style>
+
+</head>
+<body>
+<div class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <i class="fas fa-cubes"></i>
+            <span class="sidebar-brand-text">{{ company_name }}</span>
+            <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+        </div>
+        {% if role_has_all_access or 'dashboard' in accessible_modules %}<a href="{% url 'dashboard' %}" class="sidebar-link{% if active_page == 'dashboard' %} active{% endif %}"><i class="fas fa-gauge-high"></i><span class="sidebar-label">Dashboard</span></a>{% endif %}
+            <div class="sidebar-section">People</div>
+            {% if role_has_all_access or 'employees' in accessible_modules %}<a href="{% url 'employees' %}" class="sidebar-link{% if active_page == 'employees' %} active{% endif %}"><i class="fas fa-users"></i><span class="sidebar-label">Employees</span></a>{% endif %}
+            {% if role_has_all_access or 'attendance' in accessible_modules %}<a href="{% url 'attendance' %}" class="sidebar-link{% if active_page == 'attendance' %} active{% endif %}"><i class="fas fa-fingerprint"></i><span class="sidebar-label">Attendance</span></a>{% endif %}
+            {% if show_my_salary_link %}<a href="{% url 'my_salary' %}" class="sidebar-link{% if active_page == 'my_salary' %} active{% endif %}"><i class="fas fa-wallet"></i><span class="sidebar-label">My Salary</span></a>{% endif %}
+            {% if role_has_all_access or 'leave_requests' in accessible_modules %}<a href="{% url 'leave_requests' %}" class="sidebar-link{% if active_page == 'leave_requests' %} active{% endif %}"><i class="fas fa-plane-departure"></i><span class="sidebar-label">Leave Requests</span></a>{% endif %}
+            {% if role_has_all_access or 'departments' in accessible_modules or 'designations' in accessible_modules or 'skills' in accessible_modules %}
+            <a href="#manageOptionsMenu" data-bs-toggle="collapse" role="button" aria-expanded="{% if active_page == 'departments' or active_page == 'designations' or active_page == 'skills' %}true{% else %}false{% endif %}" class="sidebar-link d-flex align-items-center{% if active_page == 'departments' or active_page == 'designations' or active_page == 'skills' %} active{% endif %}">
+                <i class="fas fa-sliders"></i><span class="sidebar-label">Manage Options</span><i class="fas fa-chevron-down ms-auto small sidebar-label"></i>
+            </a>
+            <div class="collapse{% if active_page == 'departments' or active_page == 'designations' or active_page == 'skills' %} show{% endif %}" id="manageOptionsMenu">
+                {% if role_has_all_access or 'departments' in accessible_modules %}<a href="{% url 'departments' %}" class="sidebar-link ps-4{% if active_page == 'departments' %} active{% endif %}"><i class="fas fa-building"></i><span class="sidebar-label">Departments</span></a>{% endif %}
+                {% if role_has_all_access or 'designations' in accessible_modules %}<a href="{% url 'module' key='designations' %}" class="sidebar-link ps-4{% if active_page == 'designations' %} active{% endif %}"><i class="fas fa-id-badge"></i><span class="sidebar-label">Designations</span></a>{% endif %}
+                {% if role_has_all_access or 'skills' in accessible_modules %}<a href="{% url 'module' key='skills' %}" class="sidebar-link ps-4{% if active_page == 'skills' %} active{% endif %}"><i class="fas fa-star"></i><span class="sidebar-label">Skills</span></a>{% endif %}
+            </div>
+            {% endif %}
+            {% if role_has_all_access or 'teams' in accessible_modules %}<a href="{% url 'teams' %}" class="sidebar-link{% if active_page == 'teams' %} active{% endif %}"><i class="fas fa-user-group"></i><span class="sidebar-label">Teams</span></a>{% endif %}
+            {% if role_has_all_access or 'hr' in accessible_modules %}<a href="{% url 'hr' %}" class="sidebar-link{% if active_page == 'hr' %} active{% endif %}"><i class="fas fa-people-arrows"></i><span class="sidebar-label">HR Management</span></a>{% endif %}
+            {% if role_has_all_access or 'workforce' in accessible_modules %}<a href="{% url 'module' key='workforce' %}" class="sidebar-link{% if active_page == 'workforce' %} active{% endif %}"><i class="fas fa-user-clock"></i><span class="sidebar-label">Extended Workforce</span></a>{% endif %}
+            <div class="sidebar-section">Work</div>
+            {% if role_has_all_access or 'clients' in accessible_modules %}<a href="{% url 'clients' %}" class="sidebar-link{% if active_page == 'clients' %} active{% endif %}"><i class="fas fa-handshake"></i><span class="sidebar-label">Clients</span></a>{% endif %}
+            {% if role_has_all_access or 'projects' in accessible_modules %}<a href="{% url 'projects' %}" class="sidebar-link{% if active_page == 'projects' %} active{% endif %}"><i class="fas fa-diagram-project"></i><span class="sidebar-label">Projects</span></a>{% endif %}
+            {% if role_has_all_access or 'tasks' in accessible_modules %}<a href="{% url 'tasks' %}" class="sidebar-link{% if active_page == 'tasks' %} active{% endif %}"><i class="fas fa-list-check"></i><span class="sidebar-label">Tasks</span></a>{% endif %}
+            {% if role_has_all_access or 'bugs' in accessible_modules %}<a href="{% url 'module' key='bugs' %}" class="sidebar-link{% if active_page == 'bugs' %} active{% endif %}"><i class="fas fa-bug"></i><span class="sidebar-label">Bug Tracking</span></a>{% endif %}
+            {% if role_has_all_access or 'releases' in accessible_modules %}<a href="{% url 'module' key='releases' %}" class="sidebar-link{% if active_page == 'releases' %} active{% endif %}"><i class="fas fa-rocket"></i><span class="sidebar-label">Releases</span></a>{% endif %}
+            {% if role_has_all_access or 'pipelines' in accessible_modules %}<a href="{% url 'module' key='pipelines' %}" class="sidebar-link{% if active_page == 'pipelines' %} active{% endif %}"><i class="fas fa-server"></i><span class="sidebar-label">DevOps Pipelines</span></a>{% endif %}
+            <div class="sidebar-section">Business</div>
+            {% if role_has_all_access or 'meetings' in accessible_modules %}<a href="{% url 'module' key='meetings' %}" class="sidebar-link{% if active_page == 'meetings' %} active{% endif %}"><i class="fas fa-calendar-check"></i><span class="sidebar-label">Meetings</span></a>{% endif %}
+            {% if role_has_all_access or 'support' in accessible_modules %}<a href="{% url 'module' key='support' %}" class="sidebar-link{% if active_page == 'support' %} active{% endif %}"><i class="fas fa-headset"></i><span class="sidebar-label">Support Desk</span></a>{% endif %}
+            {% if role_has_all_access or 'asset_requests' in accessible_modules %}<a href="{% url 'module' key='asset_requests' %}" class="sidebar-link{% if active_page == 'asset_requests' %} active{% endif %}"><i class="fas fa-boxes-stacked"></i><span class="sidebar-label">Asset Requests</span></a>{% endif %}
+            {% if role_has_all_access or 'documents' in accessible_modules %}<a href="{% url 'module' key='documents' %}" class="sidebar-link{% if active_page == 'documents' %} active{% endif %}"><i class="fas fa-file-alt"></i><span class="sidebar-label">Documents</span></a>{% endif %}
+            <div class="sidebar-section">Finance & Admin</div>
+            {% if role_has_all_access or 'finance' in accessible_modules %}<a href="{% url 'finance' %}" class="sidebar-link{% if active_page == 'finance' %} active{% endif %}"><i class="fas fa-sack-dollar"></i><span class="sidebar-label">Finance</span></a>{% endif %}
+            {% if role_has_all_access or 'reminders' in accessible_modules %}<a href="{% url 'module' key='reminders' %}" class="sidebar-link{% if active_page == 'reminders' %} active{% endif %}"><i class="fas fa-bell"></i><span class="sidebar-label">Reminders</span></a>{% endif %}
+            {% if role_has_all_access or 'reports' in accessible_modules %}<a href="{% url 'reports' %}" class="sidebar-link{% if active_page == 'reports' %} active{% endif %}"><i class="fas fa-chart-column"></i><span class="sidebar-label">Reports</span></a>{% endif %}
+            {% if role_has_all_access or 'salary_payments' in accessible_modules %}<a href="{% url 'salary_payments' %}" class="sidebar-link{% if active_page == 'salary_payments' %} active{% endif %}"><i class="fas fa-money-check-dollar"></i><span class="sidebar-label">Salary Payments</span></a>{% endif %}
+            {% if role_has_all_access or 'activity_log' in accessible_modules %}<a href="{% url 'activity_log' %}" class="sidebar-link{% if active_page == 'activity_log' %} active{% endif %}"><i class="fas fa-clock-rotate-left"></i><span class="sidebar-label">Activity Log</span></a>{% endif %}
+            {% if role_has_all_access or 'settings' in accessible_modules %}<a href="{% url 'settings' %}" class="sidebar-link{% if active_page == 'settings' %} active{% endif %}"><i class="fas fa-gears"></i><span class="sidebar-label">Business Settings</span></a>{% endif %}
+        <div class="sidebar-section">Account</div>
+        <div class="px-3 pb-2 sidebar-label" style="color:#8492ab; font-size:.75rem;">
+            <i class="fas fa-user-shield me-1"></i>{{ role_label }}
+        </div>
+        <a href="{% url 'logout' %}" class="sidebar-link"><i class="fas fa-right-from-bracket"></i><span class="sidebar-label">Logout</span></a>
+    </div>
+
+<div class="main-content" id="mainContent">
+<div class="topbar">
+    <div>
+        <h3 class="page-title mb-0"><i class="fas fa-gauge-high me-2 text-primary"></i>Dashboard</h3>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+        {% if new_ticket_replies %}
+        <a href="{% url 'module' key='support' %}" class="btn btn-sm btn-outline-danger d-flex align-items-center gap-2">
+            <i class="fas fa-headset"></i> {{ new_ticket_replies }} new repl{{ new_ticket_replies|pluralize:"y,ies" }} on your ticket{{ new_ticket_replies|pluralize }}
+        </a>
+        {% endif %}
+        <div class="text-muted small">{{ request.user.get_full_name|default:request.user.username }}</div>
+    </div>
+</div>
+{% if messages %}
+    {% for msg in messages %}
+        {% if 'CREDENTIALS::' in msg.message %}
+            {% with parts=msg.message|cut:"CREDENTIALS::"|split:"::" %}
+            <div class="alert alert-success border border-success-subtle" role="alert" style="background:#f2fbf6;">
+                <div class="fw-bold mb-2"><i class="fas fa-key me-1"></i>Login created for {{ parts.2 }}</div>
+                <div class="row g-2">
+                    <div class="col-md-6">
+                        <label class="small text-muted mb-1">Username</label>
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control" value="{{ parts.0 }}" readonly id="credUsername{{ forloop.counter }}">
+                            <button class="btn btn-outline-secondary" type="button" onclick="copyCred('credUsername{{ forloop.counter }}')"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="small text-muted mb-1">Password</label>
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control" value="{{ parts.1 }}" readonly id="credPassword{{ forloop.counter }}">
+                            <button class="btn btn-outline-secondary" type="button" onclick="copyCred('credPassword{{ forloop.counter }}')"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="small text-danger mt-2 mb-0"><i class="fas fa-triangle-exclamation me-1"></i>Copy these now — for security, this password will not be shown again after you leave this page.</div>
+            </div>
+            {% endwith %}
+        {% else %}
+        <div class="alert alert-{% if msg.tags == 'error' %}danger{% else %}{{ msg.tags }}{% endif %} alert-dismissible fade show" role="alert">
+            {{ msg }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+{% if dashboard_variant == 'owner' %}
+<div class="row g-3 mb-3">
+    <div class="col-md-3 col-6">
+        <div class="stat-card" style="background:linear-gradient(135deg,#4f7cff,#3d5fd6);">
+            <div class="small opacity-75">Total Employees</div>
+            <div class="fs-2 fw-bold">{{ total_employees }}</div>
+            <i class="fas fa-users position-absolute" style="right:1.2rem; top:1.2rem; opacity:.35; font-size:1.8rem;"></i>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="stat-card" style="background:linear-gradient(135deg,#22b573,#1a9a5f);">
+            <div class="small opacity-75">Active Projects</div>
+            <div class="fs-2 fw-bold">{{ active_projects }}</div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="stat-card" style="background:linear-gradient(135deg,#f5a623,#e0910f);">
+            <div class="small opacity-75">Open Tasks</div>
+            <div class="fs-2 fw-bold">{{ open_tasks }}</div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="stat-card" style="background:linear-gradient(135deg,#8e5cff,#7440e0);">
+            <div class="small opacity-75">Today's Attendance</div>
+            <div class="fs-2 fw-bold">{{ today_attendance }}</div>
+        </div>
+    </div>
+</div>
+<div class="row g-3 mb-3">
+    <div class="col-md-3 col-6"><div class="card p-3"><div class="small text-muted">Revenue (Paid)</div><div class="fs-4 fw-bold text-success">₹{{ total_revenue }}</div></div></div>
+    <div class="col-md-3 col-6"><div class="card p-3"><div class="small text-muted">Expenses</div><div class="fs-4 fw-bold text-danger">₹{{ total_expenses }}</div></div></div>
+    <div class="col-md-3 col-6"><div class="card p-3"><div class="small text-muted">Profit</div><div class="fs-4 fw-bold {% if profit >= 0 %}text-success{% else %}text-danger{% endif %}">₹{{ profit }}</div></div></div>
+    <div class="col-md-3 col-6"><div class="card p-3"><div class="small text-muted">Pending Invoices</div><div class="fs-4 fw-bold text-warning">₹{{ pending_invoice_amount }}</div></div></div>
+</div>
+<div class="row g-3 mb-3">
+    <div class="col-md-3 col-6"><div class="card p-3"><div class="small text-muted">Open Bugs</div><div class="fs-4 fw-bold text-danger">{{ open_bugs }}</div></div></div>
+    <div class="col-md-3 col-6"><div class="card p-3"><div class="small text-muted">Open Support Tickets</div><div class="fs-4 fw-bold text-warning">{{ open_tickets }}</div></div></div>
+    <div class="col-md-3 col-6"><div class="card p-3"><div class="small text-muted">Pending Leave Requests</div><div class="fs-4 fw-bold">{{ pending_leaves }}</div></div></div>
+    <div class="col-md-3 col-6"><div class="card p-3"><div class="small text-muted">Your Role</div><div class="fs-6 fw-bold text-primary mt-1"><i class="fas fa-user-shield me-1"></i>{{ role_label }}</div></div></div>
+</div>
+<div class="row g-3 mb-3">
+    <div class="col-lg-6">
+        <div class="card p-3"><h6 class="fw-bold mb-3">Revenue Trend</h6><canvas id="revenueChart" height="130"></canvas></div>
+    </div>
+    <div class="col-lg-3">
+        <div class="card p-3"><h6 class="fw-bold mb-3">Bug Status</h6><canvas id="bugChart" height="130"></canvas></div>
+    </div>
+    <div class="col-lg-3">
+        <div class="card p-3"><h6 class="fw-bold mb-3">Task Status</h6><canvas id="taskChart" height="130"></canvas></div>
+    </div>
+</div>
+<div class="row g-3">
+    <div class="col-lg-4">
+        <div class="card p-3">
+            <h6 class="fw-bold mb-3">Recent Projects</h6>
+            <table class="table table-sm"><tbody>
+                {% for p in recent_projects %}<tr><td><a href="{% url 'project_detail' p.pk %}">{{ p.name }}</a></td><td class="text-muted small">{{ p.get_status_display }}</td></tr>
+                {% empty %}<tr><td class="text-muted">No projects yet.</td></tr>{% endfor %}
+            </tbody></table>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card p-3">
+            <h6 class="fw-bold mb-3">Recent Tasks</h6>
+            <table class="table table-sm"><tbody>
+                {% for t in recent_tasks %}<tr><td>{{ t.title }}</td><td class="text-muted small">{{ t.get_status_display }}</td></tr>
+                {% empty %}<tr><td class="text-muted">No tasks yet.</td></tr>{% endfor %}
+            </tbody></table>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card p-3">
+            <h6 class="fw-bold mb-3">Recent Activity</h6>
+            {% for a in recent_activity %}<div class="small mb-2"><i class="fas fa-circle text-primary me-1" style="font-size:.4rem;"></i>{{ a.action }} <span class="text-muted">— {{ a.timestamp|timesince }} ago</span></div>
+            {% empty %}<div class="text-muted small">No activity logged yet.</div>{% endfor %}
+        </div>
+    </div>
+</div>
+{% elif dashboard_variant == 'hr' %}
+<div class="row g-3 mb-3">
+    <div class="col-md-3 col-6"><div class="stat-card" style="background:linear-gradient(135deg,#4f7cff,#3d5fd6);"><div class="small opacity-75">Active Employees</div><div class="fs-2 fw-bold">{{ total_employees }}</div></div></div>
+    <div class="col-md-3 col-6"><div class="stat-card" style="background:linear-gradient(135deg,#22b573,#1a9a5f);"><div class="small opacity-75">Present Today</div><div class="fs-2 fw-bold">{{ today_attendance }}</div></div></div>
+    <div class="col-md-3 col-6"><div class="stat-card" style="background:linear-gradient(135deg,#f5a623,#e0910f);"><div class="small opacity-75">Pending Leave Requests</div><div class="fs-2 fw-bold">{{ pending_leaves_count }}</div></div></div>
+    <div class="col-md-3 col-6"><div class="stat-card" style="background:linear-gradient(135deg,#8e5cff,#7440e0);"><div class="small opacity-75">Open Contracts</div><div class="fs-2 fw-bold">{{ contracts_count }}</div></div></div>
+</div>
+<div class="row g-3">
+    <div class="col-lg-6">
+        <div class="card p-3"><h6 class="fw-bold mb-3">New Employees</h6>
+            {% for e in new_employees %}<div class="small mb-2 d-flex justify-content-between"><a href="{% url 'employee_profile' e.pk %}">{{ e.first_name }} {{ e.last_name }}</a><span class="text-muted">{{ e.joining_date }}</span></div>{% empty %}<div class="text-muted small">No employees yet.</div>{% endfor %}
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card p-3"><h6 class="fw-bold mb-3">Pending Leave Requests</h6>
+            {% for l in pending_leaves %}<div class="small mb-2 d-flex justify-content-between"><span>{{ l.employee }}</span><span class="text-muted">{{ l.start_date }} – {{ l.end_date }}</span></div>{% empty %}<div class="text-muted small">No pending requests.</div>{% endfor %}
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card p-3"><h6 class="fw-bold mb-3">Open Positions</h6>
+            {% for r in open_recruitments %}<div class="small mb-2">{{ r.job_title }}</div>{% empty %}<div class="text-muted small">No open positions.</div>{% endfor %}
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card p-3"><h6 class="fw-bold mb-3">Upcoming Interviews</h6>
+            {% for i in upcoming_interviews %}<div class="small mb-2 d-flex justify-content-between"><span>{{ i.candidate_name }}</span><span class="text-muted">{{ i.date }}</span></div>{% empty %}<div class="text-muted small">No interviews scheduled.</div>{% endfor %}
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card p-3"><div class="small text-muted">Payroll Processed This Month</div><div class="fs-3 fw-bold">{{ payroll_processed }} / {{ total_employees }}</div></div>
+    </div>
+</div>
+{% elif dashboard_variant == 'finance' %}
+<div class="row g-3 mb-3">
+    <div class="col-md-4"><div class="stat-card" style="background:linear-gradient(135deg,#22b573,#1a9a5f);"><div class="small opacity-75">Income</div><div class="fs-3 fw-bold">₹{{ total_income }}</div></div></div>
+    <div class="col-md-4"><div class="stat-card" style="background:linear-gradient(135deg,#e04f5f,#c93f4f);"><div class="small opacity-75">Expenses</div><div class="fs-3 fw-bold">₹{{ total_expense }}</div></div></div>
+    <div class="col-md-4"><div class="stat-card" style="background:linear-gradient(135deg,#4f7cff,#3d5fd6);"><div class="small opacity-75">Payroll (this month)</div><div class="fs-3 fw-bold">₹{{ total_payroll }}</div></div></div>
+</div>
+<div class="card p-3 mb-3"><canvas id="financeChart" height="90"></canvas></div>
+<div class="row g-3">
+    <div class="col-lg-6">
+        <div class="card p-3"><h6 class="fw-bold mb-3">Pending Payments — ₹{{ pending_invoice_total }}</h6>
+            {% for i in pending_invoices %}<div class="small mb-2 d-flex justify-content-between"><span>{{ i.client }}</span><span class="text-muted">₹{{ i.amount }} due {{ i.due_date }}</span></div>{% empty %}<div class="text-muted small">Nothing pending.</div>{% endfor %}
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card p-3"><h6 class="fw-bold mb-3">Recent Expenses</h6>
+            {% for e in recent_expenses %}<div class="small mb-2 d-flex justify-content-between"><span>{{ e.category }}</span><span class="text-muted">₹{{ e.amount }}</span></div>{% empty %}<div class="text-muted small">No expenses recorded.</div>{% endfor %}
+        </div>
+    </div>
+</div>
+{% elif dashboard_variant == 'pm' %}
+<div class="row g-3 mb-3">
+    <div class="col-md-3 col-6"><div class="stat-card" style="background:linear-gradient(135deg,#4f7cff,#3d5fd6);"><div class="small opacity-75">Team Progress</div><div class="fs-2 fw-bold">{{ team_progress }}%</div></div></div>
+    <div class="col-md-3 col-6"><div class="stat-card" style="background:linear-gradient(135deg,#22b573,#1a9a5f);"><div class="small opacity-75">Active Projects</div><div class="fs-2 fw-bold">{{ active_projects|length }}</div></div></div>
+    <div class="col-md-3 col-6"><div class="stat-card" style="background:linear-gradient(135deg,#f5a623,#e0910f);"><div class="small opacity-75">Tasks Done</div><div class="fs-2 fw-bold">{{ done_tasks }}/{{ total_tasks }}</div></div></div>
+    <div class="col-md-3 col-6"><div class="stat-card" style="background:linear-gradient(135deg,#e04f5f,#c93f4f);"><div class="small opacity-75">Open Bugs</div><div class="fs-2 fw-bold">{{ open_bugs|length }}</div></div></div>
+</div>
+<div class="row g-3">
+    <div class="col-lg-6">
+        <div class="card p-3"><h6 class="fw-bold mb-3">Sprint Status</h6>
+            {% for s in sprints %}<div class="small mb-2 d-flex justify-content-between"><span>{{ s.name }}</span><span class="text-muted">velocity {{ s.velocity }}</span></div>{% empty %}<div class="text-muted small">No sprints yet.</div>{% endfor %}
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card p-3"><h6 class="fw-bold mb-3">Upcoming Deadlines (7 days)</h6>
+            {% for t in upcoming_deadlines %}<div class="small mb-2 d-flex justify-content-between"><span>{{ t.title }}</span><span class="text-muted">{{ t.deadline }}</span></div>{% empty %}<div class="text-muted small">Nothing due soon.</div>{% endfor %}
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card p-3"><h6 class="fw-bold mb-3">Projects With Milestones</h6>
+            {% for p in milestone_projects %}<div class="small mb-2"><a href="{% url 'project_detail' p.pk %}">{{ p.name }}</a> — {{ p.milestones|length }} milestone(s)</div>{% empty %}<div class="text-muted small">No milestones set.</div>{% endfor %}
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card p-3"><h6 class="fw-bold mb-3">Open Bugs</h6>
+            {% for b in open_bugs %}<div class="small mb-2 d-flex justify-content-between"><span>{{ b.title }}</span><span class="text-muted">{{ b.get_severity_display }}</span></div>{% empty %}<div class="text-muted small">No open bugs.</div>{% endfor %}
+        </div>
+    </div>
+</div>
+{% else %}
+{% if my_employee %}
+<div class="row g-3 mb-3">
+    <div class="col-md-3 col-6"><div class="stat-card" style="background:linear-gradient(135deg,#4f7cff,#3d5fd6);"><div class="small opacity-75">My Open Tasks</div><div class="fs-2 fw-bold">{{ my_tasks|length }}</div></div></div>
+    <div class="col-md-3 col-6"><div class="stat-card" style="background:linear-gradient(135deg,#22b573,#1a9a5f);"><div class="small opacity-75">My Projects</div><div class="fs-2 fw-bold">{{ my_projects|length }}</div></div></div>
+    <div class="col-md-3 col-6"><div class="stat-card" style="background:linear-gradient(135deg,#f5a623,#e0910f);"><div class="small opacity-75">Upcoming Meetings</div><div class="fs-2 fw-bold">{{ my_meetings|length }}</div></div></div>
+    <div class="col-md-3 col-6"><div class="stat-card" style="background:linear-gradient(135deg,#8e5cff,#7440e0);"><div class="small opacity-75">Latest Salary</div><div class="fs-6 fw-bold mt-1">{% if my_salary %}₹{{ my_salary.net }}{% else %}—{% endif %}</div></div></div>
+</div>
+<div class="row g-3">
+    <div class="col-lg-6">
+        <div class="card p-3"><h6 class="fw-bold mb-3">My Tasks</h6>
+            {% for t in my_tasks %}<div class="small mb-2 d-flex justify-content-between"><span>{{ t.title }}</span><span class="text-muted">{{ t.get_status_display }}</span></div>{% empty %}<div class="text-muted small">No open tasks. 🎉</div>{% endfor %}
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card p-3"><h6 class="fw-bold mb-3">My Attendance</h6>
+            {% for a in my_attendance %}<div class="small mb-2 d-flex justify-content-between"><span>{{ a.date }}</span><span class="text-muted">{{ a.get_status_display }}</span></div>{% empty %}<div class="text-muted small">No records yet.</div>{% endfor %}
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card p-3"><h6 class="fw-bold mb-3">My Leave</h6>
+            {% for l in my_leave %}<div class="small mb-2 d-flex justify-content-between"><span>{{ l.get_type_display }}</span><span class="text-muted">{{ l.get_status_display }}</span></div>{% empty %}<div class="text-muted small">No leave requests.</div>{% endfor %}
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card p-3"><h6 class="fw-bold mb-3">My Meetings</h6>
+            {% for mt in my_meetings %}<div class="small mb-2 d-flex justify-content-between"><span>{{ mt.title }}</span><span class="text-muted">{{ mt.date }}</span></div>{% empty %}<div class="text-muted small">Nothing scheduled.</div>{% endfor %}
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card p-3"><h6 class="fw-bold mb-3">My Documents</h6>
+            {% for d in my_documents %}<div class="small mb-2">{{ d.name }}</div>{% empty %}<div class="text-muted small">No documents.</div>{% endfor %}
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card p-3"><h6 class="fw-bold mb-3">My Timesheet</h6>
+            {% for te in my_timesheet %}<div class="small mb-2 d-flex justify-content-between"><span>{{ te.project }}</span><span class="text-muted">{{ te.start_time|date:"d M" }}</span></div>{% empty %}<div class="text-muted small">No time logged.</div>{% endfor %}
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="card p-4 text-center text-muted">
+    No employee profile is linked to your account yet — ask your Owner/HR to link one so your personal dashboard can populate.
+</div>
+{% endif %}
+{% endif %}
+
+</div>
+
+<script>
+function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('collapsed');
+    document.getElementById('mainContent').classList.toggle('expanded');
+}
+function copyCred(inputId) {
+    const el = document.getElementById(inputId);
+    if (!el) return;
+    el.select();
+    el.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(el.value).catch(() => document.execCommand('copy'));
+}
+
+{% if dashboard_variant == 'owner' %}
+const revenueData = JSON.parse('{{ revenue_trend|escapejs }}');
+new Chart(document.getElementById('revenueChart'), {
+    type: 'line',
+    data: { labels: revenueData.map(d => d.label), datasets: [{ label: 'Revenue', data: revenueData.map(d => d.value), borderColor: '#4f7cff', backgroundColor: 'rgba(79,124,255,.15)', fill: true, tension: .35 }] },
+    options: { plugins: { legend: { display: false } } }
+});
+const bugData = JSON.parse('{{ bug_status_json|escapejs }}');
+new Chart(document.getElementById('bugChart'), {
+    type: 'doughnut',
+    data: { labels: bugData.map(d => d.status), datasets: [{ data: bugData.map(d => d.c), backgroundColor: ['#4f7cff','#f5a623','#22b573','#e04f5f','#8e5cff'] }] }
+});
+const taskData = JSON.parse('{{ task_status_json|escapejs }}');
+new Chart(document.getElementById('taskChart'), {
+    type: 'pie',
+    data: { labels: taskData.map(d => d.status), datasets: [{ data: taskData.map(d => d.c), backgroundColor: ['#4f7cff','#f5a623','#8e5cff','#22b573'] }] }
+});
+{% elif dashboard_variant == 'finance' %}
+const fin = JSON.parse('{{ chart_data|escapejs }}');
+new Chart(document.getElementById('financeChart'), {
+    type: 'bar',
+    data: { labels: ['Income', 'Expenses', 'Payroll'], datasets: [{ data: [fin.income, fin.expense, fin.payroll], backgroundColor: ['#22b573','#e04f5f','#4f7cff'] }] },
+    options: { plugins: { legend: { display: false } } }
+});
+{% endif %}
+
+</script>
+</body>
+</html>
