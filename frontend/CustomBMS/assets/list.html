@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assets | {{ company_name }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+      :root{
+        --bms-primary:#0f1424;--bms-primary-light:#1c2340;--bms-accent:#7c6cf0;--bms-accent-2:#5b4fe8;
+        --bms-accent-light:#eeecfe;--bms-bg:#f5f6fb;--bms-surface:#ffffff;
+        --bms-border:#e9e9f2;--bms-text:#161a2e;--bms-muted:#6b7280;
+        --bms-radius:18px;--bms-radius-sm:12px;
+        --bms-shadow:0 1px 2px rgba(15,20,36,.04),0 10px 28px rgba(15,20,36,.06);
+        --bms-shadow-hover:0 14px 32px rgba(91,79,232,.18);
+      }
+      *{box-sizing:border-box;}
+      body{
+        background:
+          radial-gradient(1100px 480px at 8% -8%, rgba(124,108,240,.08), transparent 60%),
+          var(--bms-bg);
+        color:var(--bms-text);
+        font-family:'Plus Jakarta Sans','Segoe UI',Roboto,'Noto Sans',Arial,sans-serif;
+        -webkit-font-smoothing:antialiased;font-size:.95rem;
+      }
+      .bms-navbar{
+        background:rgba(15,20,36,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+        box-shadow:0 4px 24px rgba(15,20,36,.2);padding:.7rem 0;
+        position:sticky;top:0;z-index:1030;border-bottom:1px solid rgba(255,255,255,.06);
+      }
+      .bms-navbar .navbar-brand{
+        font-weight:800;letter-spacing:.1px;font-size:1.3rem;
+        background:linear-gradient(95deg,#ffffff,#c6bfff);
+        -webkit-background-clip:text;background-clip:text;color:transparent;
+      }
+      .bms-navbar .nav-link{
+        border-radius:999px;padding:.42rem .95rem !important;margin:0 .12rem;
+        font-size:.85rem;font-weight:500;color:rgba(255,255,255,.75) !important;
+        transition:background .15s,color .15s;
+      }
+      .bms-navbar .nav-link:hover{background:rgba(255,255,255,.08);color:#fff !important;}
+      .bms-navbar .nav-link.active{
+        background:linear-gradient(95deg,var(--bms-accent-2),var(--bms-accent));color:#fff !important;
+        font-weight:700;box-shadow:0 4px 14px rgba(91,79,232,.45);
+      }
+      .card{
+        border:1px solid var(--bms-border);border-radius:var(--bms-radius);
+        box-shadow:var(--bms-shadow);background:var(--bms-surface);
+      }
+      .card-header{
+        background:linear-gradient(100deg,var(--bms-primary),var(--bms-primary-light));color:#fff;
+        border-radius:var(--bms-radius) var(--bms-radius) 0 0 !important;
+        font-weight:600;border-bottom:none;padding:.9rem 1.3rem;letter-spacing:.2px;
+      }
+      .btn{border-radius:var(--bms-radius-sm);font-weight:600;padding:.55rem 1.2rem;font-size:.9rem;transition:all .15s ease;}
+      .btn-sm{padding:.4rem .85rem;font-size:.82rem;border-radius:10px;}
+      .btn-primary{
+        background:linear-gradient(135deg,var(--bms-accent-2),var(--bms-accent));border:none;
+        box-shadow:0 6px 16px rgba(91,79,232,.32);
+      }
+      .btn-primary:hover,.btn-primary:focus{filter:brightness(1.08);box-shadow:0 8px 22px rgba(91,79,232,.42);transform:translateY(-1px);}
+      .btn-outline-primary{color:var(--bms-accent-2);border-color:var(--bms-border);background:#fff;}
+      .btn-outline-primary:hover{background:var(--bms-accent-light);border-color:var(--bms-accent);color:var(--bms-accent-2);}
+      .btn-success{background:linear-gradient(135deg,#0ea472,#12b981);border:none;}
+      .btn-add-module{border-radius:999px;}
+      .form-control,.form-select{
+        border-radius:var(--bms-radius-sm);border:1px solid var(--bms-border);
+        padding:.6rem .85rem;font-size:.92rem;background:#fbfbfe;
+      }
+      .form-control:focus,.form-select:focus{
+        border-color:var(--bms-accent);box-shadow:0 0 0 .2rem var(--bms-accent-light);background:#fff;
+      }
+      .form-label{font-weight:600;font-size:.86rem;color:var(--bms-primary);margin-bottom:.35rem;}
+      table{font-size:.9rem;}
+      table thead{background:linear-gradient(100deg,var(--bms-primary),var(--bms-primary-light));color:#fff;}
+      table thead th{font-weight:600;border:none;padding:.8rem 1rem;white-space:nowrap;letter-spacing:.2px;}
+      table tbody td{padding:.75rem 1rem;vertical-align:middle;border-color:var(--bms-border);}
+      table tbody tr:nth-child(even){background:#f8f8fd;}
+      table tbody tr:hover{background:var(--bms-accent-light);}
+      .table-responsive{border-radius:0 0 var(--bms-radius) var(--bms-radius);}
+      .page-title{font-weight:800;color:var(--bms-primary);margin-bottom:1.2rem;letter-spacing:-.4px;}
+      .page-title i{color:var(--bms-accent-2);margin-right:.35rem;}
+      .stat-card{transition:transform .2s ease,box-shadow .2s ease;border:1px solid var(--bms-border);border-left:4px solid var(--bms-accent);}
+      .stat-card:hover{transform:translateY(-4px);box-shadow:var(--bms-shadow-hover);}
+      .module-card{transition:transform .2s ease,box-shadow .2s ease;text-align:center;}
+      .module-card:hover{transform:translateY(-4px);box-shadow:var(--bms-shadow-hover);}
+      .module-card i.mod-icon{font-size:2.2rem;color:var(--bms-accent-2);}
+      .badge{font-weight:600;padding:.42em .75em;border-radius:8px;letter-spacing:.2px;}
+      .alert{border-radius:var(--bms-radius-sm);border:none;box-shadow:var(--bms-shadow);}
+      footer{color:var(--bms-muted);font-size:.82rem;text-align:center;padding:2.5rem 0 1.2rem;}
+      @media (max-width:767.98px){
+        body{font-size:.9rem;}
+        .page-title{font-size:1.3rem;}
+        .container,.container-fluid{padding-left:.9rem;padding-right:.9rem;}
+        table{font-size:.82rem;}
+        table thead th,table tbody td{padding:.55rem .6rem;}
+        .card-body{padding:1rem;}
+        .btn{padding:.45rem .9rem;font-size:.85rem;}
+      }
+      .sidebar{
+        position:fixed;top:0;left:0;bottom:0;width:264px;z-index:1040;
+        background:linear-gradient(180deg,#0f1424,#171d34 70%,#141a30);
+        border-right:1px solid rgba(255,255,255,.06);
+        display:flex;flex-direction:column;padding:1.15rem .9rem;
+        overflow-y:auto;transition:transform .25s ease;
+      }
+      .sidebar-brand{padding:.4rem .5rem 1.3rem;}
+      .sidebar-brand a{
+        font-weight:800;font-size:1.15rem;text-decoration:none;letter-spacing:.1px;
+        background:linear-gradient(95deg,#ffffff,#c6bfff);-webkit-background-clip:text;
+        background-clip:text;color:transparent;display:flex;align-items:center;gap:.5rem;
+      }
+      .sidebar-nav{display:flex;flex-direction:column;gap:.15rem;}
+      .sidebar-link{
+        display:flex;align-items:center;gap:.7rem;color:rgba(255,255,255,.72);
+        padding:.62rem .8rem;border-radius:12px;font-size:.86rem;font-weight:500;
+        text-decoration:none;transition:background .15s,color .15s;
+      }
+      .sidebar-link i{width:18px;text-align:center;font-size:.95rem;}
+      .sidebar-link:hover{background:rgba(255,255,255,.07);color:#fff;}
+      .sidebar-link.active{
+        background:linear-gradient(95deg,var(--bms-accent-2),var(--bms-accent));color:#fff;font-weight:700;
+        box-shadow:0 4px 14px rgba(91,79,232,.4);
+      }
+      .sidebar-link.sidebar-hint{color:rgba(255,255,255,.45);font-size:.78rem;font-style:italic;}
+      .sidebar-divider{height:1px;background:rgba(255,255,255,.08);margin:.75rem .3rem;}
+      .topbar{
+        position:fixed;top:0;left:264px;right:0;height:64px;z-index:1030;
+        background:rgba(255,255,255,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+        border-bottom:1px solid var(--bms-border);
+        display:flex;align-items:center;justify-content:flex-end;gap:.75rem;padding:0 1.4rem;
+      }
+      .sidebar-toggle-btn{background:none;border:none;font-size:1.2rem;color:var(--bms-primary);margin-right:auto;}
+      .topbar-user{display:flex;align-items:center;}
+      .topbar-username{font-size:.86rem;font-weight:600;color:var(--bms-text);}
+      .main-content{margin-left:264px;padding-top:88px;min-height:100vh;}
+      @media (max-width:991.98px){
+        .sidebar{transform:translateX(-100%);}
+        .sidebar.open{transform:translateX(0);box-shadow:0 0 50px rgba(0,0,0,.45);}
+        .topbar{left:0;}
+        .main-content{margin-left:0;}
+      }
+    </style>
+</head>
+<body>
+
+{% include 'core/_sidebar.html' %}
+<div class="main-content">
+    {% if messages %}
+    <div class="container mt-3">
+      {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="container mb-5">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+        <h3 class="page-title mb-0"><i class="fa-solid fa-toolbox"></i> Assets</h3>
+        <a href="{% url 'core:assets_create' %}" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add Asset</a>
+      </div>
+
+      <form method="get" class="mb-3">
+        <div class="input-group" style="max-width:340px;">
+          <input type="text" name="q" value="{{ q }}" class="form-control" placeholder="Search assets...">
+          <button class="btn btn-outline-secondary" type="submit"><i class="fa-solid fa-search"></i></button>
+        </div>
+      </form>
+
+      <div class="card">
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead><tr><th>Asset</th><th>Category</th><th>Status</th><th>Value</th><th>Assigned To</th><th class="text-end">Actions</th></tr></thead>
+              <tbody>
+                {% for obj in items %}
+                <tr>
+                  <td>{{ obj.name }}</td><td>{{ obj.category }}</td><td>{{ obj.status }}</td><td>{{ obj.value }}</td><td>{{ obj.assigned_to }}</td>
+                  <td class="text-end">
+                    <a href="{% url 'core:assets_update' obj.pk %}" class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-pen"></i></a>
+                    <a href="{% url 'core:assets_delete' obj.pk %}" class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash"></i></a>
+                  </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="6" class="text-center text-muted py-4">No records found.</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </div>
+
+    <footer>{{ company_name }} &copy; 2026</footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<aside class="sidebar" id="sidebarNav">
+  <div class="sidebar-brand">
+    <a href="{% url 'core:dashboard' %}"><i class="fa-solid fa-cube"></i> {{ company_name }}</a>
+  </div>
+  <nav class="sidebar-nav">
+    <a class="sidebar-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"
+       href="{% url 'core:dashboard' %}">
+      <i class="fa-solid fa-gauge"></i><span>Dashboard</span>
+    </a>
+
+    {% for item in sidebar_items %}
+    {% url item.url_name as item_href %}
+    <a class="sidebar-link {% if request.path == item_href %}active{% endif %}" href="{{ item_href }}">
+      <i class="{{ item.icon }}"></i><span>{{ item.label }}</span>
+    </a>
+    {% endfor %}
+
+    {% if not sidebar_items %}
+    <a class="sidebar-link sidebar-hint" href="{% url 'core:settings_home' %}">
+      <i class="fa-solid fa-circle-info"></i><span>No modules yet &mdash; add some</span>
+    </a>
+    {% endif %}
+
+    <div class="sidebar-divider"></div>
+
+    <a class="sidebar-link {% if request.resolver_match.url_name == 'settings_home' or request.resolver_match.url_name == 'module_picker' %}active{% endif %}"
+       href="{% url 'core:settings_home' %}">
+      <i class="fa-solid fa-gear"></i><span>Settings</span>
+    </a>
+  </nav>
+</aside>
+
+<header class="topbar">
+  <button class="sidebar-toggle-btn d-lg-none" type="button" onclick="document.getElementById('sidebarNav').classList.toggle('open')">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="topbar-user">
+    {% if user.is_authenticated %}
+    <span class="topbar-username"><i class="fa-solid fa-circle-user"></i> {{ user.username }}</span>
+    <form method="post" action="{% url 'core:logout' %}" class="d-inline">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-sm btn-outline-primary ms-2">Logout</button>
+    </form>
+    {% endif %}
+  </div>
+</header>
