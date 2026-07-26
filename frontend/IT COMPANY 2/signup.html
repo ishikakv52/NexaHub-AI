@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sign Up | IT Company</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================
+RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+/* =========================
+VARIABLES
+========================= */
+
+:root{
+
+    --bg:#020617;
+
+    --card:rgba(15,23,42,.90);
+
+    --text:#f8fafc;
+
+    --muted:#94a3b8;
+
+    --border:rgba(148,163,184,.20);
+
+    --input:#0f172a;
+
+    --primary:#06b6d4;
+
+    --secondary:#7c3aed;
+
+}
+
+/* =========================
+LIGHT MODE
+========================= */
+
+body.light{
+
+    --bg:#eef6ff;
+
+    --card:rgba(255,255,255,.94);
+
+    --text:#172033;
+
+    --muted:#475569;
+
+    --border:rgba(15,23,42,.12);
+
+    --input:#f8fafc;
+
+}
+
+/* =========================
+BODY
+========================= */
+
+body{
+
+    min-height:100vh;
+
+    padding:20px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:var(--text);
+
+    background:var(--bg);
+
+    overflow-x:hidden;
+
+    transition:.3s ease;
+
+}
+
+/* =========================
+ANIMATED BACKGROUND
+========================= */
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    width:420px;
+
+    height:420px;
+
+    border-radius:50%;
+
+    background:#06b6d4;
+
+    filter:blur(120px);
+
+    opacity:.22;
+
+    top:-150px;
+
+    left:-150px;
+
+    z-index:-2;
+
+    animation:moveOne 10s infinite alternate ease-in-out;
+
+}
+
+body::after{
+
+    content:"";
+
+    position:fixed;
+
+    width:420px;
+
+    height:420px;
+
+    border-radius:50%;
+
+    background:#7c3aed;
+
+    filter:blur(120px);
+
+    opacity:.22;
+
+    right:-150px;
+
+    bottom:-150px;
+
+    z-index:-2;
+
+    animation:moveTwo 12s infinite alternate ease-in-out;
+
+}
+
+@keyframes moveOne{
+
+    from{
+
+        transform:translate(0,0) scale(1);
+
+    }
+
+    to{
+
+        transform:translate(120px,100px) scale(1.25);
+
+    }
+
+}
+
+@keyframes moveTwo{
+
+    from{
+
+        transform:translate(0,0) scale(1);
+
+    }
+
+    to{
+
+        transform:translate(-100px,-80px) scale(1.25);
+
+    }
+
+}
+
+/* =========================
+PARTICLES
+========================= */
+
+.particles{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:-1;
+
+    pointer-events:none;
+
+}
+
+.particles span{
+
+    position:absolute;
+
+    width:4px;
+
+    height:4px;
+
+    border-radius:50%;
+
+    background:#06b6d4;
+
+    opacity:.5;
+
+    animation:particle 8s infinite linear;
+
+}
+
+.particles span:nth-child(1){
+
+    left:10%;
+
+    top:80%;
+
+}
+
+.particles span:nth-child(2){
+
+    left:25%;
+
+    top:60%;
+
+    animation-delay:2s;
+
+}
+
+.particles span:nth-child(3){
+
+    left:50%;
+
+    top:90%;
+
+    animation-delay:4s;
+
+}
+
+.particles span:nth-child(4){
+
+    left:75%;
+
+    top:70%;
+
+    animation-delay:1s;
+
+}
+
+.particles span:nth-child(5){
+
+    left:90%;
+
+    top:85%;
+
+    animation-delay:3s;
+
+}
+
+@keyframes particle{
+
+    from{
+
+        transform:translateY(0);
+
+        opacity:.2;
+
+    }
+
+    to{
+
+        transform:translateY(-250px);
+
+        opacity:0;
+
+    }
+
+}
+
+/* =========================
+MAIN CONTAINER
+========================= */
+
+.signup-container{
+
+    width:100%;
+
+    max-width:950px;
+
+    min-height:570px;
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    border:1px solid var(--border);
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    background:var(--card);
+
+    backdrop-filter:blur(25px);
+
+    box-shadow:0 25px 80px rgba(0,0,0,.25);
+
+}
+
+/* =========================
+LEFT PANEL
+========================= */
+
+.left-panel{
+
+    padding:38px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        rgba(6,182,212,.13),
+
+        rgba(124,58,237,.16)
+
+    );
+
+}
+
+.brand{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:25px;
+
+}
+
+.brand-icon{
+
+    width:44px;
+
+    height:44px;
+
+    display:grid;
+
+    place-items:center;
+
+    color:white;
+
+    font-size:19px;
+
+    border-radius:13px;
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        var(--primary),
+
+        var(--secondary)
+
+    );
+
+}
+
+.brand h2{
+
+    font-size:19px;
+
+    font-weight:800;
+
+}
+
+.left-panel h1{
+
+    font-size:34px;
+
+    line-height:1.2;
+
+    margin-bottom:14px;
+
+}
+
+.left-panel h1 span{
+
+    display:block;
+
+    background:
+
+    linear-gradient(
+
+        90deg,
+
+        var(--primary),
+
+        #a78bfa
+
+    );
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
+
+}
+
+.left-panel p{
+
+    color:var(--muted);
+
+    line-height:1.7;
+
+    font-size:13px;
+
+    max-width:390px;
+
+}
+
+.features{
+
+    margin-top:24px;
+
+    display:grid;
+
+    gap:12px;
+
+}
+
+.feature{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    color:var(--muted);
+
+    font-size:12px;
+
+}
+
+.feature-icon{
+
+    width:30px;
+
+    height:30px;
+
+    display:grid;
+
+    place-items:center;
+
+    color:var(--primary);
+
+    border-radius:8px;
+
+    background:rgba(6,182,212,.12);
+
+}
+
+/* =========================
+RIGHT PANEL
+========================= */
+
+.right-panel{
+
+    padding:32px 38px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+}
+
+/* =========================
+THEME BUTTON
+========================= */
+
+.top-actions{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    margin-bottom:10px;
+
+}
+
+.theme-btn{
+
+    width:38px;
+
+    height:38px;
+
+    border:1px solid var(--border);
+
+    border-radius:10px;
+
+    background:var(--card);
+
+    color:var(--text);
+
+    cursor:pointer;
+
+    font-size:16px;
+
+}
+
+/* =========================
+HEADER
+========================= */
+
+.form-header{
+
+    margin-bottom:18px;
+
+}
+
+.form-header h2{
+
+    font-size:25px;
+
+    margin-bottom:4px;
+
+}
+
+.form-header p{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+}
+
+/* =========================
+FORM
+========================= */
+
+.form-group{
+
+    margin-bottom:11px;
+
+}
+
+.form-group label{
+
+    display:block;
+
+    font-size:11px;
+
+    font-weight:600;
+
+    margin-bottom:5px;
+
+}
+
+.input-box{
+
+    position:relative;
+
+}
+
+.input-icon{
+
+    position:absolute;
+
+    left:13px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:var(--muted);
+
+    font-size:13px;
+
+}
+
+.input-box input{
+
+    width:100%;
+
+    height:42px;
+
+    padding:0 40px;
+
+    color:var(--text);
+
+    background:var(--input);
+
+    border:1px solid var(--border);
+
+    border-radius:9px;
+
+    outline:none;
+
+    font-size:12px;
+
+    transition:.3s;
+
+}
+
+.input-box input:focus{
+
+    border-color:var(--primary);
+
+    box-shadow:0 0 0 3px rgba(6,182,212,.10);
+
+}
+
+.password-toggle{
+
+    position:absolute;
+
+    right:13px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:var(--muted);
+
+    cursor:pointer;
+
+    font-size:13px;
+
+}
+
+/* =========================
+TERMS
+========================= */
+
+.terms{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:7px;
+
+    color:var(--muted);
+
+    font-size:10px;
+
+    margin:5px 0 14px;
+
+}
+
+.terms input{
+
+    margin-top:2px;
+
+    accent-color:var(--primary);
+
+}
+
+.terms a{
+
+    color:var(--primary);
+
+    text-decoration:none;
+
+}
+
+/* =========================
+SIGNUP BUTTON
+========================= */
+
+.signup-btn{
+
+    width:100%;
+
+    height:44px;
+
+    border:none;
+
+    border-radius:10px;
+
+    color:white;
+
+    font-size:13px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        var(--primary),
+
+        var(--secondary)
+
+    );
+
+    transition:.3s;
+
+}
+
+.signup-btn:hover{
+
+    transform:translateY(-2px);
+
+}
+
+/* =========================
+DIVIDER
+========================= */
+
+.divider{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    color:var(--muted);
+
+    font-size:9px;
+
+    margin:15px 0;
+
+}
+
+.divider::before,
+
+.divider::after{
+
+    content:"";
+
+    flex:1;
+
+    height:1px;
+
+    background:var(--border);
+
+}
+
+/* =========================
+GOOGLE BUTTON
+========================= */
+
+.social-btn{
+
+    width:100%;
+
+    height:40px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:8px;
+
+    border:1px solid var(--border);
+
+    border-radius:9px;
+
+    color:var(--text);
+
+    background:var(--card);
+
+    cursor:pointer;
+
+    font-size:12px;
+
+    transition:.3s;
+
+}
+
+.social-btn:hover{
+
+    border-color:var(--primary);
+
+    transform:translateY(-2px);
+
+}
+
+.google-logo{
+
+    width:18px;
+
+    height:18px;
+
+    flex-shrink:0;
+
+}
+
+/* =========================
+LOGIN
+========================= */
+
+.login-text{
+
+    text-align:center;
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    margin-top:15px;
+
+}
+
+.login-text a{
+
+    color:var(--primary);
+
+    text-decoration:none;
+
+    font-weight:600;
+
+}
+
+/* =========================
+RESPONSIVE
+========================= */
+
+@media(max-width:800px){
+
+    body{
+
+        align-items:flex-start;
+
+        padding:15px;
+
+    }
+
+    .signup-container{
+
+        grid-template-columns:1fr;
+
+        max-width:520px;
+
+    }
+
+    .left-panel{
+
+        padding:30px;
+
+    }
+
+    .right-panel{
+
+        padding:30px;
+
+    }
+
+}
+
+@media(max-width:500px){
+
+    .left-panel{
+
+        padding:25px 20px;
+
+    }
+
+    .right-panel{
+
+        padding:25px 20px;
+
+    }
+
+    .left-panel h1{
+
+        font-size:29px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- PARTICLES -->
+
+<div class="particles">
+
+    <span></span>
+
+    <span></span>
+
+    <span></span>
+
+    <span></span>
+
+    <span></span>
+
+</div>
+
+<!-- MAIN CONTAINER -->
+
+<div class="signup-container">
+
+    <!-- LEFT PANEL -->
+
+    <div class="left-panel">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+
+                <span>✦</span>
+
+            </div>
+
+            <h2>IT COMPANY</h2>
+
+        </div>
+
+        <h1>
+
+            Build Your Future
+
+            <span>With Us.</span>
+
+        </h1>
+
+        <p>
+
+            Join our modern IT company platform and manage your work, projects, teams and business operations from one powerful system.
+
+        </p>
+
+        <div class="features">
+
+            <div class="feature">
+
+                <div class="feature-icon">🚀</div>
+
+                <span>Powerful business management tools</span>
+
+            </div>
+
+            <div class="feature">
+
+                <div class="feature-icon">🛡</div>
+
+                <span>Secure and reliable platform</span>
+
+            </div>
+
+            <div class="feature">
+
+                <div class="feature-icon">📈</div>
+
+                <span>Smart analytics and insights</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- RIGHT PANEL -->
+
+    <div class="right-panel">
+
+        <div class="top-actions">
+
+            <button
+
+                class="theme-btn"
+
+                id="themeBtn"
+
+                onclick="toggleTheme()">
+
+                ☾
+
+            </button>
+
+        </div>
+
+        <div class="form-header">
+
+            <h2>Create Account</h2>
+
+            <p>Start your journey with IT Company today.</p>
+
+        </div>
+
+        <form onsubmit="signupUser(event)">
+
+            <div class="form-group">
+
+                <label>Full Name</label>
+
+                <div class="input-box">
+
+                    <span class="input-icon">👤</span>
+
+                    <input
+
+                        type="text"
+
+                        id="name"
+
+                        placeholder="Enter your full name"
+
+                        required>
+
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Email Address</label>
+
+                <div class="input-box">
+
+                    <span class="input-icon">✉</span>
+
+                    <input
+
+                        type="email"
+
+                        id="email"
+
+                        placeholder="Enter your email"
+
+                        required>
+
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Username</label>
+
+                <div class="input-box">
+
+                    <span class="input-icon">@</span>
+
+                    <input
+
+                        type="text"
+
+                        id="username"
+
+                        placeholder="Create a username"
+
+                        required>
+
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Password</label>
+
+                <div class="input-box">
+
+                    <span class="input-icon">🔒</span>
+
+                    <input
+
+                        type="password"
+
+                        id="password"
+
+                        placeholder="Create a password"
+
+                        required>
+
+                    <span
+
+                        class="password-toggle"
+
+                        onclick="togglePassword('password',this)">
+
+                        👁
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Confirm Password</label>
+
+                <div class="input-box">
+
+                    <span class="input-icon">🔒</span>
+
+                    <input
+
+                        type="password"
+
+                        id="confirmPassword"
+
+                        placeholder="Confirm your password"
+
+                        required>
+
+                    <span
+
+                        class="password-toggle"
+
+                        onclick="togglePassword('confirmPassword',this)">
+
+                        👁
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="terms">
+
+                <input type="checkbox" required>
+
+                <span>
+
+                    I agree to the
+
+                    <a href="#">Terms & Conditions</a>
+
+                    and
+
+                    <a href="#">Privacy Policy</a>
+
+                </span>
+
+            </div>
+
+            <button
+
+                class="signup-btn"
+
+                type="submit">
+
+                Create Account →
+
+            </button>
+
+        </form>
+
+        <div class="divider">
+
+            <span>OR CONTINUE WITH</span>
+
+        </div>
+
+        <!-- REAL GOOGLE LOGO -->
+
+        <button class="social-btn">
+
+            <svg
+
+                class="google-logo"
+
+                viewBox="0 0 24 24"
+
+                aria-hidden="true">
+
+                <path
+
+                    fill="#4285F4"
+
+                    d="M21.35 12.27c0-.78-.07-1.53-.22-2.27H12v4.3h5.24a4.48 4.48 0 0 1-1.94 2.94v2.45h3.14c1.84-1.69 2.91-4.18 2.91-7.42z"/>
+
+                <path
+
+                    fill="#34A853"
+
+                    d="M12 21.99c2.63 0 4.84-.87 6.45-2.36l-3.14-2.45c-.87.58-1.98.92-3.31.92-2.54 0-4.69-1.72-5.46-4.03H3.3v2.53A9.74 9.74 0 0 0 12 21.99z"/>
+
+                <path
+
+                    fill="#FBBC05"
+
+                    d="M6.54 14.07A5.85 5.85 0 0 1 6.23 12c0-.72.12-1.42.31-2.07V7.4H3.3A9.75 9.75 0 0 0 2.25 12c0 1.57.38 3.05 1.05 4.6l3.24-2.53z"/>
+
+                <path
+
+                    fill="#EA4335"
+
+                    d="M12 5.9c1.43 0 2.72.49 3.73 1.45l2.8-2.8C16.83 2.98 14.63 2 12 2a9.74 9.74 0 0 0-8.7 5.4l3.24 2.53C7.31 7.62 9.46 5.9 12 5.9z"/>
+
+            </svg>
+
+            Continue with Google
+
+        </button>
+
+        <div class="login-text">
+
+            Already have an account?
+
+            <a href="login.html">
+
+                Login Now
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* =========================
+THEME TOGGLE
+========================= */
+
+function toggleTheme(){
+
+    document.body.classList.toggle("light");
+
+    const btn = document.getElementById("themeBtn");
+
+    if(document.body.classList.contains("light")){
+
+        btn.innerHTML = "☀";
+
+        localStorage.setItem("theme","light");
+
+    }else{
+
+        btn.innerHTML = "☾";
+
+        localStorage.setItem("theme","dark");
+
+    }
+
+}
+
+/* =========================
+LOAD SAVED THEME
+========================= */
+
+if(localStorage.getItem("theme") === "light"){
+
+    document.body.classList.add("light");
+
+    document.getElementById("themeBtn").innerHTML = "☀";
+
+}
+
+/* =========================
+PASSWORD TOGGLE
+========================= */
+
+function togglePassword(id, icon){
+
+    const input = document.getElementById(id);
+
+    if(input.type === "password"){
+
+        input.type = "text";
+
+        icon.innerHTML = "🙈";
+
+    }else{
+
+        input.type = "password";
+
+        icon.innerHTML = "👁";
+
+    }
+
+}
+
+/* =========================
+SIGNUP
+========================= */
+
+function signupUser(event){
+
+    event.preventDefault();
+
+    const password =
+
+        document.getElementById("password").value;
+
+    const confirmPassword =
+
+        document.getElementById("confirmPassword").value;
+
+    if(password !== confirmPassword){
+
+        alert("Passwords do not match!");
+
+        return;
+
+    }
+
+    alert("Account created successfully!");
+
+    window.location.href = "login.html";
+
+}
+
+</script>
+
+</body>
+
+</html>

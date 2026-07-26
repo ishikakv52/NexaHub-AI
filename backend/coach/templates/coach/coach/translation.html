@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Translation — NEXA HUB ENGLISH COACH</title>
+    <style>
+        /* =============================================
+           LUXURY / PREMIUM THEME – Deep Navy, Gold, Elegant
+           WITH LEFT SIDEBAR LAYOUT
+           ============================================= */
+
+        /* ─── RESET & VARIABLES ─── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            /* Deep navy base */
+            --bg: #0a0c1a;
+            --surface: rgba(255, 255, 255, 0.03);
+            --surface-hover: rgba(212, 175, 55, 0.06);
+            --border: rgba(212, 175, 55, 0.15);
+            --border-glow: rgba(212, 175, 55, 0.3);
+
+            /* Gold palette */
+            --gold: #d4af37;
+            --gold-light: #f5d76e;
+            --gold-dark: #b8962e;
+            --gold-gradient: linear-gradient(135deg, #f5d76e, #d4af37, #b8962e);
+
+            /* Text */
+            --text: #f0ece4;
+            --text-secondary: #d6cfb5;
+            --muted: #8a867a;
+
+            /* Typography */
+            --font-heading: 'Playfair Display', 'Georgia', serif;
+            --font-body: 'Lora', 'Segoe UI', serif;
+
+            --radius: 16px;
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(212, 175, 55, 0.05);
+            --transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+
+            /* Sidebar width */
+            --sidebar-width: 240px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.7;
+            min-height: 100vh;
+            letter-spacing: 0.02em;
+            display: flex;
+        }
+
+        /* ─── BACKGROUND BLOBS (for main content) ─── */
+        .bg-blobs {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(160px);
+            opacity: 0.10;
+            animation: floatBlob 20s ease-in-out infinite alternate;
+        }
+        .b1 {
+            width: 800px;
+            height: 800px;
+            background: #d4af37;
+            top: -300px;
+            left: -250px;
+            opacity: 0.06;
+        }
+        .b2 {
+            width: 600px;
+            height: 600px;
+            background: #b8962e;
+            bottom: -200px;
+            right: -200px;
+            animation-delay: 7s;
+            opacity: 0.05;
+        }
+        @keyframes floatBlob {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                transform: translate(50px, -50px) scale(1.1);
+            }
+        }
+
+        /* ─── PARTICLES CANVAS ─── */
+        #particles-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* ─── SIDEBAR ─── */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            z-index: 200;
+            background: rgba(10, 12, 26, 0.92);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-right: 1px solid var(--border);
+            padding: 24px 0 20px;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+            overflow-y: auto;
+        }
+        .sidebar:hover {
+            border-right-color: var(--border-glow);
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 20px 24px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: var(--font-heading);
+            text-decoration: none;
+            letter-spacing: 0.05em;
+            color: var(--gold-light);
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+        .sidebar-brand span {
+            -webkit-text-fill-color: initial;
+            font-size: 1.6rem;
+            background: none;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 20px 12px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .sidebar-nav .nav-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            padding: 8px 12px 4px;
+            font-weight: 700;
+        }
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            font-weight: 500;
+            font-family: var(--font-body);
+        }
+        .sidebar-link:hover {
+            color: var(--gold-light);
+            background: var(--surface-hover);
+        }
+        .sidebar-link.active {
+            color: var(--gold-light);
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid var(--border);
+        }
+        .sidebar-link .icon {
+            font-size: 1.1rem;
+        }
+
+        .sidebar-user {
+            border-top: 1px solid var(--border);
+            padding: 16px 20px 0;
+            margin-top: auto;
+        }
+        .sidebar-user .user-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+        }
+        .sidebar-user .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gold-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: #0a0c1a;
+            flex-shrink: 0;
+        }
+        .sidebar-user .user-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .sidebar-user .user-stats {
+            display: flex;
+            gap: 14px;
+            font-size: 0.7rem;
+            color: var(--muted);
+            padding: 4px 0 8px;
+        }
+        .sidebar-user .user-stats span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* ─── MAIN CONTENT ─── */
+        .main {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            position: relative;
+            z-index: 1;
+            padding: 40px 32px 56px;
+            min-height: 100vh;
+        }
+
+        /* ─── PAGE HEADER ─── */
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .ph-icon {
+            font-size: 3.4rem;
+            display: block;
+            margin-bottom: 4px;
+            animation: bounceIcon 2.8s ease infinite;
+        }
+        @keyframes bounceIcon {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        .page-header h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
+            font-weight: 700;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.04em;
+            line-height: 1.2;
+        }
+        .page-header p {
+            color: var(--muted);
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin: 8px auto 0;
+            font-weight: 400;
+            font-family: var(--font-body);
+        }
+
+        /* ─── DIRECTION TOGGLE ─── */
+        .dir-toggle {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+        .dir-inner {
+            display: flex;
+            background: var(--surface);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 5px;
+            transition: var(--transition);
+        }
+        .dir-inner:hover {
+            border-color: var(--border-glow);
+        }
+        .dir-btn {
+            padding: 9px 24px;
+            border-radius: 12px;
+            border: none;
+            background: none;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 0.88rem;
+            font-weight: 700;
+            transition: var(--transition);
+            font-family: var(--font-body);
+            letter-spacing: 0.04em;
+        }
+        .dir-btn:hover {
+            color: var(--text-secondary);
+        }
+        .dir-btn.active {
+            background: var(--gold-gradient);
+            color: #0a0c1a;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
+        }
+
+        /* ─── TRANSLATION GRID ─── */
+        .trans-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 18px;
+            align-items: start;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 700px) {
+            .trans-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+            .arrow-btn {
+                margin: 8px auto;
+                transform: rotate(90deg);
+            }
+        }
+
+        .trans-box {
+            background: var(--surface);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+        .trans-box:hover {
+            border-color: var(--border-glow);
+            box-shadow: var(--shadow);
+        }
+
+        .trans-box-hdr {
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--gold-light);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-family: var(--font-heading);
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.02), rgba(184, 150, 46, 0.01));
+        }
+
+        .trans-ta {
+            width: 100%;
+            min-height: 160px;
+            background: none;
+            border: none;
+            color: var(--text);
+            padding: 16px 18px;
+            font-size: 0.97rem;
+            font-family: var(--font-body);
+            outline: none;
+            resize: none;
+            line-height: 1.7;
+        }
+        .trans-ta::placeholder {
+            color: var(--muted);
+            opacity: 0.6;
+        }
+
+        .trans-foot {
+            padding: 10px 16px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .char-c {
+            font-size: 0.72rem;
+            color: var(--muted);
+            font-family: var(--font-body);
+        }
+
+        .mini-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--muted);
+            padding: 4px 12px;
+            cursor: pointer;
+            font-size: 0.73rem;
+            transition: var(--transition);
+            font-family: var(--font-body);
+        }
+        .mini-btn:hover {
+            color: var(--gold-light);
+            border-color: var(--gold);
+            background: var(--surface-hover);
+        }
+
+        .quick-res {
+            padding: 16px 18px;
+            min-height: 160px;
+            font-size: 0.97rem;
+            line-height: 1.7;
+            color: var(--muted);
+            font-style: italic;
+            font-family: var(--font-body);
+        }
+
+        /* ─── ARROW BUTTON ─── */
+        .arrow-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--gold-gradient);
+            border: none;
+            color: #0a0c1a;
+            font-size: 1.3rem;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-top: 100px;
+            transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
+        }
+        .arrow-btn:hover {
+            transform: scale(1.1) rotate(180deg);
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.3);
+        }
+        @media (max-width: 700px) {
+            .arrow-btn {
+                margin: 8px auto;
+                transform: rotate(90deg);
+            }
+            .arrow-btn:hover {
+                transform: rotate(90deg) scale(1.1);
+            }
+        }
+
+        /* ─── TRANSLATE BUTTON ─── */
+        .btn-translate {
+            display: block;
+            width: fit-content;
+            margin: 0 auto 24px;
+            padding: 13px 36px;
+            background: var(--gold-gradient);
+            border: none;
+            border-radius: 12px;
+            color: #0a0c1a;
+            font-weight: 800;
+            font-size: 0.98rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
+            font-family: var(--font-body);
+            letter-spacing: 0.04em;
+        }
+        .btn-translate:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.3);
+        }
+        .btn-translate:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ─── RESULT CARD ─── */
+        .result-card {
+            background: var(--surface);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            display: none;
+            margin-bottom: 24px;
+            transition: var(--transition);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+        .result-card:hover {
+            border-color: var(--border-glow);
+            box-shadow: var(--shadow);
+        }
+        .result-card.show {
+            display: block;
+            animation: slideUp 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .res-hdr {
+            padding: 14px 22px;
+            border-bottom: 1px solid var(--border);
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.04), rgba(184, 150, 46, 0.02));
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .res-hdr strong {
+            color: var(--gold-light);
+            font-family: var(--font-heading);
+            font-size: 0.9rem;
+            letter-spacing: 0.04em;
+        }
+
+        .res-body {
+            padding: 22px 26px;
+            font-size: 0.93rem;
+            line-height: 1.85;
+            color: var(--text-secondary);
+            white-space: pre-wrap;
+            font-family: var(--font-body);
+        }
+        .res-body strong {
+            color: var(--gold-light);
+        }
+        .res-body em {
+            color: var(--gold);
+            font-style: italic;
+        }
+        .res-body code {
+            background: rgba(212, 175, 55, 0.08);
+            padding: 1px 7px;
+            border-radius: 5px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.82em;
+            color: var(--gold-light);
+        }
+
+        .act-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--muted);
+            padding: 6px 14px;
+            cursor: pointer;
+            font-size: 0.77rem;
+            transition: var(--transition);
+            text-decoration: none;
+            font-family: var(--font-body);
+        }
+        .act-btn:hover {
+            color: var(--gold-light);
+            border-color: var(--gold);
+            background: var(--surface-hover);
+        }
+
+        /* ─── LOADING ─── */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 30px;
+        }
+        .loading.show {
+            display: block;
+        }
+        .spinner {
+            width: 44px;
+            height: 44px;
+            border: 3px solid var(--border);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin: 0 auto 14px;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .loading p {
+            color: var(--muted);
+            font-size: 0.9rem;
+            font-family: var(--font-body);
+        }
+
+        /* ─── SCROLLBAR ─── */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold);
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 60px;
+                padding: 16px 0;
+            }
+            .sidebar-brand {
+                font-size: 0;
+                padding: 0 0 16px;
+                justify-content: center;
+            }
+            .sidebar-brand span {
+                font-size: 1.8rem;
+            }
+            .sidebar-link {
+                padding: 10px 0;
+                justify-content: center;
+                font-size: 0;
+            }
+            .sidebar-link .icon {
+                font-size: 1.4rem;
+            }
+            .sidebar-link .link-text {
+                display: none;
+            }
+            .sidebar-user .user-row {
+                flex-direction: column;
+                align-items: center;
+                gap: 4px;
+            }
+            .sidebar-user .user-name {
+                font-size: 0.7rem;
+                text-align: center;
+            }
+            .sidebar-user .user-stats {
+                flex-direction: column;
+                align-items: center;
+                gap: 2px;
+                font-size: 0.6rem;
+            }
+            .sidebar-user .avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 0.9rem;
+            }
+            .main {
+                margin-left: 60px;
+                padding: 24px 16px 40px;
+            }
+            .nav-label {
+                display: none;
+            }
+            .dir-btn {
+                padding: 7px 16px;
+                font-size: 0.8rem;
+            }
+            .trans-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+            .arrow-btn {
+                margin: 8px auto;
+                transform: rotate(90deg);
+            }
+            .btn-translate {
+                width: 100%;
+                text-align: center;
+            }
+            .res-hdr {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 6px;
+            }
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main {
+                padding: 20px 12px 30px;
+            }
+            .page-header h1 {
+                font-size: 1.5rem;
+            }
+            .dir-inner {
+                flex-direction: column;
+                gap: 4px;
+            }
+            .dir-btn {
+                width: 100%;
+                text-align: center;
+            }
+            .trans-ta,
+            .quick-res {
+                min-height: 120px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ─── PARTICLES CANVAS ─── -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- ─── BG BLOBS ─── -->
+    <div class="bg-blobs">
+        <div class="blob b1"></div>
+        <div class="blob b2"></div>
+    </div>
+
+    <!-- ─── SIDEBAR ─── -->
+    <aside class="sidebar">
+        <a class="sidebar-brand" href="{% url 'home' %}">
+            <span>🎓</span> NEXA HUB
+        </a>
+
+        <nav class="sidebar-nav">
+            <div class="nav-label">Main</div>
+            <a href="{% url 'dashboard' %}" class="sidebar-link">
+                <span class="icon">📊</span>
+                <span class="link-text">Dashboard</span>
+            </a>
+            <a href="{% url 'grammar_coach' %}" class="sidebar-link">
+                <span class="icon">📖</span>
+                <span class="link-text">Grammar</span>
+            </a>
+            <a href="{% url 'speaking_practice' %}" class="sidebar-link">
+                <span class="icon">🗣️</span>
+                <span class="link-text">Speaking</span>
+            </a>
+            <a href="{% url 'interview_practice' %}" class="sidebar-link">
+                <span class="icon">💼</span>
+                <span class="link-text">Interview</span>
+            </a>
+            <a href="{% url 'translation' %}" class="sidebar-link active">
+                <span class="icon">🔄</span>
+                <span class="link-text">Translate</span>
+            </a>
+            <a href="{% url 'pronunciation_coach' %}" class="sidebar-link">
+                <span class="icon">🎵</span>
+                <span class="link-text">Pronunciation</span>
+            </a>
+            <div class="nav-label" style="margin-top:12px;">Engage</div>
+            <a href="{% url 'daily_challenge' %}" class="sidebar-link">
+                <span class="icon">🏆</span>
+                <span class="link-text">Challenge</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-user">
+            <div class="user-row">
+                <div class="avatar">J</div>
+                <div class="user-name">Jaat</div>
+            </div>
+            <div class="user-stats">
+                <span>🏅 438 XP</span>
+                <span>🔥 2 day streak</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ─── MAIN CONTENT ─── -->
+    <main class="main">
+
+        <!-- HEADER -->
+        <div class="page-header">
+            <span class="ph-icon">🔄</span>
+            <h1>Translation</h1>
+            <p>Hindi ↔ English with grammar notes, alternatives &amp; learning tips!</p>
+        </div>
+
+        <!-- DIRECTION TOGGLE -->
+        <div class="dir-toggle">
+            <div class="dir-inner">
+                <button class="dir-btn active" id="btnHiEn" onclick="setDir('hi_to_en')">🇮🇳 Hindi → English</button>
+                <button class="dir-btn" id="btnEnHi" onclick="setDir('en_to_hi')">🇬🇧 English → Hindi</button>
+            </div>
+        </div>
+
+        <!-- TRANSLATION GRID -->
+        <div class="trans-grid">
+            <div class="trans-box">
+                <div class="trans-box-hdr" id="srcLabel">🇮🇳 Hindi (Source)</div>
+                <textarea class="trans-ta" id="srcText" placeholder="यहाँ हिंदी में लिखें…" oninput="document.getElementById('charC').textContent=this.value.length"></textarea>
+                <div class="trans-foot">
+                    <span class="char-c"><span id="charC">0</span> chars</span>
+                    <button class="mini-btn" onclick="clearAll()">Clear</button>
+                </div>
+            </div>
+            <button class="arrow-btn" onclick="swapDir()" title="Swap">⇄</button>
+            <div class="trans-box">
+                <div class="trans-box-hdr" id="tgtLabel">🇬🇧 English (Translation)</div>
+                <div class="quick-res" id="quickRes">Translation will appear here…</div>
+                <div class="trans-foot">
+                    <span></span>
+                    <button class="mini-btn" onclick="copyQuick()">📋 Copy</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TRANSLATE BUTTON -->
+        <button class="btn-translate" id="transBtn">🔄 Translate &amp; Teach Me</button>
+
+        <!-- LOADING -->
+        <div class="loading" id="loadingDiv">
+            <div class="spinner"></div>
+            <p>Nexa is translating and preparing your lesson…</p>
+        </div>
+
+        <!-- RESULT CARD -->
+        <div class="result-card" id="resultCard">
+            <div class="res-hdr">
+                <strong>📚 Translation &amp; Language Lesson by Nexa</strong>
+                <div style="display:flex;gap:7px;flex-wrap:wrap;">
+                    <button class="act-btn" onclick="speakRes()">🔊 Read</button>
+                    <button class="act-btn" onclick="copyRes()">📋 Copy</button>
+                </div>
+            </div>
+            <div class="res-body" id="resBody"></div>
+        </div>
+
+    </main>
+
+    <!-- ─── SCRIPT (100% UNCHANGED — all functions preserved) ──── -->
+    <script>
+        let direction = 'hi_to_en';
+
+        function setDir(dir) {
+            direction = dir;
+            document.getElementById('btnHiEn').classList.toggle('active', dir === 'hi_to_en');
+            document.getElementById('btnEnHi').classList.toggle('active', dir === 'en_to_hi');
+            if (dir === 'hi_to_en') {
+                document.getElementById('srcLabel').textContent = '🇮🇳 Hindi (Source)';
+                document.getElementById('tgtLabel').textContent = '🇬🇧 English (Translation)';
+                document.getElementById('srcText').placeholder = 'यहाँ हिंदी में लिखें…';
+            } else {
+                document.getElementById('srcLabel').textContent = '🇬🇧 English (Source)';
+                document.getElementById('tgtLabel').textContent = '🇮🇳 Hindi (Translation)';
+                document.getElementById('srcText').placeholder = 'Type in English here…';
+            }
+            clearAll();
+        }
+
+        function swapDir() {
+            setDir(direction === 'hi_to_en' ? 'en_to_hi' : 'hi_to_en');
+        }
+
+        function clearAll() {
+            document.getElementById('srcText').value = '';
+            document.getElementById('charC').textContent = '0';
+            document.getElementById('quickRes').textContent = 'Translation will appear here…';
+            document.getElementById('quickRes').style.color = 'var(--muted)';
+            document.getElementById('quickRes').style.fontStyle = 'italic';
+            document.getElementById('resultCard').classList.remove('show');
+        }
+
+        function copyQuick() {
+            navigator.clipboard.writeText(document.getElementById('quickRes').innerText).then(() => alert('✅ Copied!'));
+        }
+
+        async function translate() {
+            const text = document.getElementById('srcText').value.trim();
+            if (!text) { alert('Please enter text to translate.'); return; }
+            document.getElementById('transBtn').disabled = true;
+            document.getElementById('loadingDiv').classList.add('show');
+            document.getElementById('resultCard').classList.remove('show');
+            try {
+                const r = await fetch('{% url "ajax_translate" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({ text, direction })
+                });
+                const d = await r.json();
+                document.getElementById('loadingDiv').classList.remove('show');
+                if (d.result) {
+                    const lines = d.result.split('\n');
+                    let quick = '';
+                    for (const l of lines) {
+                        const clean = l.replace(/[*#]/g, '').trim();
+                        if (clean && clean.length > 5 && !clean.includes('Translation') && !clean.includes('##')) {
+                            quick = clean;
+                            break;
+                        }
+                    }
+                    const qr = document.getElementById('quickRes');
+                    qr.textContent = quick || 'See full lesson below ↓';
+                    qr.style.color = 'var(--text)';
+                    qr.style.fontStyle = 'normal';
+                    document.getElementById('resBody').innerHTML = fmt(d.result);
+                    document.getElementById('resultCard').classList.add('show');
+                    document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    alert('Error: ' + (d.error || 'Unknown'));
+                }
+            } catch (e) {
+                document.getElementById('loadingDiv').classList.remove('show');
+                alert('Network error.');
+            }
+            document.getElementById('transBtn').disabled = false;
+        }
+
+        function speakRes() {
+            window.speechSynthesis.cancel();
+            const u = new SpeechSynthesisUtterance(document.getElementById('resBody').innerText.substring(0, 2200));
+            u.lang = 'en-IN';
+            u.rate = 0.84;
+            speechSynthesis.speak(u);
+        }
+
+        function copyRes() {
+            navigator.clipboard.writeText(document.getElementById('resBody').innerText).then(() => alert('✅ Copied!'));
+        }
+
+        function fmt(t) {
+            return t.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/`(.*?)`/g, '<code>$1</code>')
+                .replace(/^## (.*?)$/gm, '<br/><strong style="color:var(--gold-light);display:block;margin-top:13px;">$1</strong>');
+        }
+
+        function getCookie(n) {
+            const v = document.cookie.match('(^|;)\\s*' + n + '\\s*=\\s*([^;]+)');
+            return v ? v.pop() : '';
+        }
+
+        // Attach translate to button
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById('transBtn').addEventListener('click', translate);
+        });
+    </script>
+
+    <!-- ─── PARTICLE SCRIPT ──────────────────────────────────────────── -->
+    <script>
+        (function() {
+            const c = document.getElementById('particles-canvas'),
+                ctx = c.getContext('2d');
+            let W, H, pts = [];
+
+            function resize() {
+                W = c.width = window.innerWidth;
+                H = c.height = window.innerHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            function rand(a, b) { return Math.random() * (b - a) + a; }
+            const COLORS = ['212,175,55', '245,215,110', '184,150,46', '212,175,55'];
+            for (let i = 0; i < 110; i++) {
+                pts.push({
+                    x: rand(0, W),
+                    y: rand(0, H),
+                    r: rand(0.5, 2.2),
+                    vx: rand(-0.25, 0.25),
+                    vy: rand(-0.25, 0.25),
+                    a: rand(0.1, 0.45),
+                    c: COLORS[Math.floor(Math.random() * COLORS.length)]
+                });
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, W, H);
+                pts.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0 || p.x > W) p.vx *= -1;
+                    if (p.y < 0 || p.y > H) p.vy *= -1;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${p.c},${p.a})`;
+                    ctx.fill();
+                });
+                requestAnimationFrame(draw);
+            }
+            draw();
+        })();
+    </script>
+
+</body>
+</html>

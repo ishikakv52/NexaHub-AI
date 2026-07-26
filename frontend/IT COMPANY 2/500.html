@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>500 - Server Error | NEXA HUB AI</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+}
+
+:root{
+
+    --bg:#020617;
+
+    --card:rgba(15,23,42,.75);
+
+    --text:#fff;
+
+    --text-light:#94a3b8;
+
+    --border:rgba(255,255,255,.12);
+
+    --button:linear-gradient(135deg,#06b6d4,#7c3aed);
+
+}
+
+body.light{
+
+    --bg:#f1f5f9;
+
+    --card:rgba(255,255,255,.8);
+
+    --text:#0f172a;
+
+    --text-light:#475569;
+
+    --border:rgba(15,23,42,.12);
+
+}
+
+body{
+
+    min-height:100vh;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:25px;
+
+    font-family:'Poppins',sans-serif;
+
+    color:var(--text);
+
+    background:var(--bg);
+
+    overflow:hidden;
+
+    transition:.4s;
+
+}
+
+.animated-bg{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:-1;
+
+    overflow:hidden;
+
+}
+
+.animated-bg span{
+
+    position:absolute;
+
+    width:320px;
+
+    height:320px;
+
+    border-radius:50%;
+
+    filter:blur(90px);
+
+    opacity:.28;
+
+    animation:floating 12s infinite alternate ease-in-out;
+
+}
+
+.animated-bg span:nth-child(1){
+
+    background:#06b6d4;
+
+    top:-100px;
+
+    left:-100px;
+
+}
+
+.animated-bg span:nth-child(2){
+
+    background:#7c3aed;
+
+    right:-100px;
+
+    top:20%;
+
+    animation-delay:2s;
+
+}
+
+.animated-bg span:nth-child(3){
+
+    background:#0891b2;
+
+    bottom:-150px;
+
+    left:25%;
+
+    animation-delay:4s;
+
+}
+
+.animated-bg span:nth-child(4){
+
+    background:#4f46e5;
+
+    top:40%;
+
+    right:30%;
+
+    animation-delay:6s;
+
+}
+
+@keyframes floating{
+
+    0%{
+
+        transform:translate(0,0) scale(1);
+
+    }
+
+    50%{
+
+        transform:translate(80px,-50px) scale(1.15);
+
+    }
+
+    100%{
+
+        transform:translate(-50px,70px) scale(.9);
+
+    }
+
+}
+
+.theme-toggle{
+
+    position:fixed;
+
+    top:25px;
+
+    right:25px;
+
+    width:48px;
+
+    height:48px;
+
+    border:none;
+
+    border-radius:50%;
+
+    color:var(--text);
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    cursor:pointer;
+
+    font-size:19px;
+
+    z-index:5;
+
+}
+
+.error-box{
+
+    width:100%;
+
+    max-width:680px;
+
+    padding:60px 40px;
+
+    text-align:center;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:30px;
+
+    backdrop-filter:blur(22px);
+
+}
+
+.icon{
+
+    width:105px;
+
+    height:105px;
+
+    margin:auto;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:50%;
+
+    font-size:45px;
+
+    color:#fb7185;
+
+    background:rgba(251,113,133,.12);
+
+    border:1px solid rgba(251,113,133,.3);
+
+    animation:pulse 2.5s infinite;
+
+}
+
+@keyframes pulse{
+
+    0%{
+
+        box-shadow:0 0 0 0 rgba(251,113,133,.35);
+
+    }
+
+    70%{
+
+        box-shadow:0 0 0 22px rgba(251,113,133,0);
+
+    }
+
+    100%{
+
+        box-shadow:0 0 0 0 rgba(251,113,133,0);
+
+    }
+
+}
+
+h1{
+
+    margin-top:22px;
+
+    font-size:90px;
+
+    font-weight:800;
+
+    background:linear-gradient(90deg,#06b6d4,#7c3aed);
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
+
+}
+
+h2{
+
+    margin-top:15px;
+
+    font-size:26px;
+
+}
+
+p{
+
+    max-width:480px;
+
+    margin:15px auto 30px;
+
+    color:var(--text-light);
+
+    line-height:1.8;
+
+}
+
+.home-btn{
+
+    border:none;
+
+    padding:15px 28px;
+
+    border-radius:13px;
+
+    color:#fff;
+
+    background:var(--button);
+
+    font-family:inherit;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+}
+
+.home-btn:hover{
+
+    transform:translateY(-4px);
+
+}
+
+@media(max-width:600px){
+
+    .error-box{
+
+        padding:45px 22px;
+
+    }
+
+    h1{
+
+        font-size:68px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="animated-bg">
+
+    <span></span>
+
+    <span></span>
+
+    <span></span>
+
+    <span></span>
+
+</div>
+
+<button class="theme-toggle" id="themeToggle">
+
+    <i class="fa-solid fa-moon"></i>
+
+</button>
+
+<div class="error-box">
+
+    <div class="icon">
+
+        <i class="fa-solid fa-server"></i>
+
+    </div>
+
+    <h1>500</h1>
+
+    <h2>Internal Server Error</h2>
+
+    <p>
+
+        Something went wrong on our server.
+
+        Please try again later.
+
+    </p>
+
+    <button class="home-btn"
+
+    onclick="location.reload()">
+
+        <i class="fa-solid fa-rotate"></i>
+
+        Try Again
+
+    </button>
+
+</div>
+
+<script>
+
+const themeToggle =
+
+document.getElementById("themeToggle");
+
+const icon =
+
+themeToggle.querySelector("i");
+
+function applyTheme(theme){
+
+    if(theme==="light"){
+
+        document.body.classList.add("light");
+
+        icon.className="fa-solid fa-sun";
+
+    }
+
+    else{
+
+        document.body.classList.remove("light");
+
+        icon.className="fa-solid fa-moon";
+
+    }
+
+    localStorage.setItem("nexaTheme",theme);
+
+}
+
+themeToggle.addEventListener("click",function(){
+
+    const theme =
+
+    document.body.classList.contains("light")
+
+    ? "dark"
+
+    : "light";
+
+    applyTheme(theme);
+
+});
+
+applyTheme(
+
+localStorage.getItem("nexaTheme") || "dark"
+
+);
+
+</script>
+
+</body>
+
+</html>

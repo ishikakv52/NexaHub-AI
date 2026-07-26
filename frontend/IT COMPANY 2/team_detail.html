@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Team Detail | NEXA HUB AI</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+:root{
+
+--bg:#020617;
+--sidebar:#07122e;
+--card:rgba(15,23,42,.90);
+--text:#f8fafc;
+--muted:#a8b4c5;
+--border:rgba(148,163,184,.20);
+--input:#0f172a;
+--primary:#06b6d4;
+--secondary:#7c3aed;
+--hover:rgba(6,182,212,.13);
+
+}
+
+body.light{
+
+--bg:#eef6ff;
+--sidebar:#ffffff;
+--card:#ffffff;
+--text:#111827;
+--muted:#374151;
+--border:rgba(15,23,42,.16);
+--input:#f8fafc;
+--hover:rgba(6,182,212,.12);
+
+}
+
+body{
+
+min-height:100vh;
+background:var(--bg);
+color:var(--text);
+font-size:14px;
+transition:.3s;
+overflow-x:hidden;
+
+}
+
+body::before,
+body::after{
+
+content:"";
+position:fixed;
+width:450px;
+height:450px;
+border-radius:50%;
+filter:blur(130px);
+opacity:.20;
+z-index:-1;
+animation:float 12s infinite alternate ease-in-out;
+
+}
+
+body::before{
+
+background:#06b6d4;
+top:-180px;
+left:-160px;
+
+}
+
+body::after{
+
+background:#7c3aed;
+right:-180px;
+bottom:-180px;
+animation-delay:3s;
+
+}
+
+@keyframes float{
+
+to{
+
+transform:translate(130px,100px) scale(1.25);
+
+}
+
+}
+
+.sidebar{
+
+position:fixed;
+left:0;
+top:0;
+width:250px;
+height:100vh;
+padding:25px 16px;
+background:var(--sidebar);
+border-right:1px solid var(--border);
+z-index:100;
+
+}
+
+.logo{
+
+margin:0 12px 32px;
+font-size:21px;
+font-weight:800;
+background:linear-gradient(90deg,#06b6d4,#7c3aed);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
+}
+
+.nav-title{
+
+margin:22px 12px 9px;
+color:var(--muted);
+font-size:11px;
+font-weight:700;
+letter-spacing:1px;
+text-transform:uppercase;
+
+}
+
+.nav-link{
+
+display:flex;
+align-items:center;
+gap:12px;
+padding:13px 12px;
+margin:5px 0;
+color:var(--muted);
+text-decoration:none;
+font-size:14px;
+font-weight:600;
+border-radius:10px;
+transition:.3s;
+
+}
+
+.nav-link:hover,
+.nav-link.active{
+
+color:var(--primary);
+background:var(--hover);
+
+}
+
+.main{
+
+margin-left:250px;
+min-height:100vh;
+
+}
+
+.topbar{
+
+height:75px;
+padding:0 32px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+border-bottom:1px solid var(--border);
+background:rgba(2,6,23,.25);
+backdrop-filter:blur(15px);
+
+}
+
+body.light .topbar{
+
+background:rgba(255,255,255,.45);
+
+}
+
+.topbar h2{
+
+font-size:22px;
+font-weight:800;
+
+}
+
+.top-actions{
+
+display:flex;
+align-items:center;
+gap:14px;
+
+}
+
+.theme-btn{
+
+width:42px;
+height:42px;
+border:1px solid var(--border);
+border-radius:10px;
+background:var(--card);
+color:var(--text);
+font-size:18px;
+cursor:pointer;
+
+}
+
+.profile{
+
+width:40px;
+height:40px;
+display:grid;
+place-items:center;
+border-radius:50%;
+color:white;
+font-weight:700;
+background:linear-gradient(135deg,#06b6d4,#7c3aed);
+
+}
+
+.content{
+
+padding:32px;
+
+}
+
+.page-header{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:28px;
+
+}
+
+.page-header h1{
+
+font-size:32px;
+font-weight:800;
+
+}
+
+.page-header p{
+
+margin-top:6px;
+color:var(--muted);
+font-size:14px;
+font-weight:500;
+
+}
+
+.primary-btn{
+
+padding:12px 20px;
+border:0;
+border-radius:9px;
+color:white;
+font-size:14px;
+font-weight:700;
+cursor:pointer;
+background:linear-gradient(135deg,#06b6d4,#7c3aed);
+
+}
+
+.team-header{
+
+display:flex;
+align-items:center;
+gap:20px;
+padding:25px;
+margin-bottom:22px;
+border:1px solid var(--border);
+border-radius:16px;
+background:var(--card);
+
+}
+
+.team-icon{
+
+width:75px;
+height:75px;
+display:grid;
+place-items:center;
+border-radius:18px;
+font-size:35px;
+background:linear-gradient(135deg,#06b6d4,#7c3aed);
+
+}
+
+.team-header h2{
+
+font-size:23px;
+font-weight:800;
+
+}
+
+.team-header p{
+
+color:var(--muted);
+font-size:14px;
+margin-top:5px;
+
+}
+
+.grid{
+
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+
+}
+
+.card{
+
+padding:23px;
+border:1px solid var(--border);
+border-radius:16px;
+background:var(--card);
+
+}
+
+.card h3{
+
+font-size:18px;
+font-weight:700;
+margin-bottom:15px;
+
+}
+
+.card p{
+
+color:var(--muted);
+font-size:14px;
+line-height:1.7;
+
+}
+
+.member{
+
+display:flex;
+align-items:center;
+gap:12px;
+padding:13px 0;
+border-bottom:1px solid var(--border);
+
+}
+
+.member:last-child{
+
+border-bottom:0;
+
+}
+
+.avatar{
+
+width:38px;
+height:38px;
+display:grid;
+place-items:center;
+border-radius:50%;
+color:white;
+font-weight:700;
+background:linear-gradient(135deg,#06b6d4,#7c3aed);
+
+}
+
+.member h4{
+
+font-size:14px;
+
+}
+
+.member p{
+
+font-size:12px;
+
+}
+
+.progress-bar{
+
+height:10px;
+margin-top:12px;
+border-radius:10px;
+background:var(--input);
+overflow:hidden;
+
+}
+
+.progress-fill{
+
+width:78%;
+height:100%;
+border-radius:10px;
+background:linear-gradient(90deg,#06b6d4,#7c3aed);
+
+}
+
+@media(max-width:1000px){
+
+.sidebar{
+
+width:80px;
+
+}
+
+.logo{
+
+font-size:0;
+text-align:center;
+
+}
+
+.logo::after{
+
+content:"N";
+font-size:27px;
+
+}
+
+.nav-link{
+
+justify-content:center;
+font-size:0;
+
+}
+
+.nav-title{
+
+font-size:0;
+
+}
+
+.main{
+
+margin-left:80px;
+
+}
+
+.grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+@media(max-width:700px){
+
+.sidebar{
+
+display:none;
+
+}
+
+.main{
+
+margin-left:0;
+
+}
+
+.content{
+
+padding:20px;
+
+}
+
+.page-header{
+
+align-items:flex-start;
+flex-direction:column;
+gap:15px;
+
+}
+
+.team-header{
+
+align-items:flex-start;
+flex-direction:column;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+<div class="logo">NEXA HUB AI</div>
+
+<div class="nav-title">Main</div>
+
+<a href="dashboard.html" class="nav-link">🏠 Dashboard</a>
+
+<a href="tasks.html" class="nav-link">✓ Tasks</a>
+
+<a href="teams.html" class="nav-link active">👥 Teams</a>
+
+<a href="employees.html" class="nav-link">👨‍💼 Employees</a>
+
+<div class="nav-title">Management</div>
+
+<a href="projects.html" class="nav-link">📁 Projects</a>
+
+<a href="reports.html" class="nav-link">📊 Reports</a>
+
+<a href="settings.html" class="nav-link">⚙ Settings</a>
+
+<div class="nav-title">Support</div>
+
+<a href="support.html" class="nav-link">🎧 Support</a>
+
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+
+<h2>Team Details</h2>
+
+<div class="top-actions">
+
+<button class="theme-btn" id="themeBtn" onclick="toggleTheme()">☾</button>
+
+<div class="profile">A</div>
+
+</div>
+
+</header>
+
+<section class="content">
+
+<div class="page-header">
+
+<div>
+
+<h1>Development Team</h1>
+
+<p>View team information and performance.</p>
+
+</div>
+
+<button class="primary-btn">Edit Team</button>
+
+</div>
+
+<div class="team-header">
+
+<div class="team-icon">💻</div>
+
+<div>
+
+<h2>Development Team</h2>
+
+<p>Software Development • 12 Members</p>
+
+</div>
+
+</div>
+
+<div class="grid">
+
+<div class="card">
+
+<h3>Team Overview</h3>
+
+<p>
+
+This team manages website development, application development, testing and deployment activities.
+
+</p>
+
+<br>
+
+<p><b>Team Lead:</b> Rahul Sharma</p>
+
+<p><b>Created:</b> January 2026</p>
+
+</div>
+
+<div class="card">
+
+<h3>Team Members</h3>
+
+<div class="member">
+
+<div class="avatar">R</div>
+
+<div>
+
+<h4>Rahul Sharma</h4>
+
+<p>Team Lead</p>
+
+</div>
+
+</div>
+
+<div class="member">
+
+<div class="avatar">A</div>
+
+<div>
+
+<h4>Anmol Kumar</h4>
+
+<p>Frontend Developer</p>
+
+</div>
+
+</div>
+
+<div class="member">
+
+<div class="avatar">S</div>
+
+<div>
+
+<h4>Shivam Verma</h4>
+
+<p>Backend Developer</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>Team Progress</h3>
+
+<p>Project Completion</p>
+
+<div class="progress-bar">
+
+<div class="progress-fill"></div>
+
+</div>
+
+<br>
+
+<p>78% completed this month.</p>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+<script>
+
+function toggleTheme(){
+
+document.body.classList.toggle("light");
+
+const btn=document.getElementById("themeBtn");
+
+if(document.body.classList.contains("light")){
+
+btn.innerHTML="☀";
+
+localStorage.setItem("theme","light");
+
+}else{
+
+btn.innerHTML="☾";
+
+localStorage.setItem("theme","dark");
+
+}
+
+}
+
+if(localStorage.getItem("theme")==="light"){
+
+document.body.classList.add("light");
+
+document.getElementById("themeBtn").innerHTML="☀";
+
+}
+
+</script>
+
+</body>
+
+</html>

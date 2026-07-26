@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Support | NEXA HUB AI</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================
+RESET
+========================= */
+
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+    font-family:'Poppins',sans-serif;
+
+}
+
+/* =========================
+THEME VARIABLES
+========================= */
+
+:root{
+
+    --bg:#020617;
+
+    --sidebar:#07122e;
+
+    --card:rgba(15,23,42,.90);
+
+    --text:#f8fafc;
+
+    --muted:#a8b4c5;
+
+    --border:rgba(148,163,184,.20);
+
+    --input:#0f172a;
+
+    --primary:#06b6d4;
+
+    --secondary:#7c3aed;
+
+    --hover:rgba(6,182,212,.13);
+
+}
+
+/* =========================
+LIGHT MODE
+========================= */
+
+body.light{
+
+    --bg:#eef6ff;
+
+    --sidebar:#ffffff;
+
+    --card:#ffffff;
+
+    --text:#111827;
+
+    --muted:#374151;
+
+    --border:rgba(15,23,42,.16);
+
+    --input:#f8fafc;
+
+    --hover:rgba(6,182,212,.12);
+
+}
+
+/* =========================
+BODY
+========================= */
+
+body{
+
+    min-height:100vh;
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    font-size:14px;
+
+    transition:.3s ease;
+
+    overflow-x:hidden;
+
+}
+
+/* =========================
+ANIMATED BACKGROUND
+========================= */
+
+body::before,
+
+body::after{
+
+    content:"";
+
+    position:fixed;
+
+    width:450px;
+
+    height:450px;
+
+    border-radius:50%;
+
+    filter:blur(130px);
+
+    opacity:.20;
+
+    z-index:-1;
+
+    animation:float 12s infinite alternate ease-in-out;
+
+}
+
+body::before{
+
+    background:#06b6d4;
+
+    top:-180px;
+
+    left:-160px;
+
+}
+
+body::after{
+
+    background:#7c3aed;
+
+    right:-180px;
+
+    bottom:-180px;
+
+    animation-delay:3s;
+
+}
+
+@keyframes float{
+
+    from{
+
+        transform:translate(0,0) scale(1);
+
+    }
+
+    to{
+
+        transform:translate(130px,100px) scale(1.25);
+
+    }
+
+}
+
+/* =========================
+SIDEBAR
+========================= */
+
+.sidebar{
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    width:250px;
+
+    height:100vh;
+
+    padding:25px 16px;
+
+    background:var(--sidebar);
+
+    border-right:1px solid var(--border);
+
+    z-index:100;
+
+}
+
+/* =========================
+LOGO
+========================= */
+
+.logo{
+
+    margin:0 12px 32px;
+
+    font-size:21px;
+
+    font-weight:800;
+
+    letter-spacing:.3px;
+
+    background:
+
+    linear-gradient(
+
+        90deg,
+
+        #06b6d4,
+
+        #7c3aed
+
+    );
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
+
+}
+
+/* =========================
+NAVIGATION
+========================= */
+
+.nav-title{
+
+    margin:22px 12px 9px;
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    font-weight:700;
+
+    letter-spacing:1px;
+
+    text-transform:uppercase;
+
+}
+
+.nav-link{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:13px 12px;
+
+    margin:5px 0;
+
+    color:var(--muted);
+
+    text-decoration:none;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    border-radius:10px;
+
+    transition:.3s ease;
+
+}
+
+.nav-link:hover,
+
+.nav-link.active{
+
+    color:var(--primary);
+
+    background:var(--hover);
+
+}
+
+/* =========================
+MAIN
+========================= */
+
+.main{
+
+    min-height:100vh;
+
+    margin-left:250px;
+
+}
+
+/* =========================
+TOPBAR
+========================= */
+
+.topbar{
+
+    height:75px;
+
+    padding:0 32px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    border-bottom:1px solid var(--border);
+
+    background:rgba(2,6,23,.25);
+
+    backdrop-filter:blur(15px);
+
+}
+
+body.light .topbar{
+
+    background:rgba(255,255,255,.45);
+
+}
+
+.topbar h2{
+
+    font-size:22px;
+
+    font-weight:800;
+
+}
+
+.top-actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+}
+
+/* =========================
+THEME BUTTON
+========================= */
+
+.theme-btn{
+
+    width:42px;
+
+    height:42px;
+
+    border:1px solid var(--border);
+
+    border-radius:10px;
+
+    background:var(--card);
+
+    color:var(--text);
+
+    font-size:18px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.theme-btn:hover{
+
+    transform:rotate(15deg);
+
+    border-color:var(--primary);
+
+}
+
+/* =========================
+PROFILE
+========================= */
+
+.profile{
+
+    width:40px;
+
+    height:40px;
+
+    display:grid;
+
+    place-items:center;
+
+    border-radius:50%;
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:700;
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        #06b6d4,
+
+        #7c3aed
+
+    );
+
+}
+
+/* =========================
+CONTENT
+========================= */
+
+.content{
+
+    padding:32px;
+
+}
+
+/* =========================
+PAGE HEADER
+========================= */
+
+.page-header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:28px;
+
+}
+
+.page-header h1{
+
+    font-size:32px;
+
+    font-weight:800;
+
+}
+
+.page-header p{
+
+    margin-top:6px;
+
+    color:var(--muted);
+
+    font-size:14px;
+
+    font-weight:500;
+
+}
+
+/* =========================
+BUTTON
+========================= */
+
+.primary-btn{
+
+    padding:12px 20px;
+
+    border:0;
+
+    border-radius:9px;
+
+    color:white;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        #06b6d4,
+
+        #7c3aed
+
+    );
+
+    transition:.3s;
+
+}
+
+.primary-btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 8px 25px rgba(6,182,212,.20);
+
+}
+
+/* =========================
+SUPPORT CARDS
+========================= */
+
+.support-grid{
+
+    display:grid;
+
+    grid-template-columns:
+
+    repeat(3,1fr);
+
+    gap:22px;
+
+    margin-bottom:24px;
+
+}
+
+.card{
+
+    padding:24px;
+
+    border:1px solid var(--border);
+
+    border-radius:16px;
+
+    background:var(--card);
+
+    backdrop-filter:blur(15px);
+
+    transition:.3s ease;
+
+}
+
+.card:hover{
+
+    transform:translateY(-5px);
+
+    border-color:var(--primary);
+
+}
+
+.card-icon{
+
+    margin-bottom:15px;
+
+    font-size:32px;
+
+}
+
+.card h3{
+
+    margin-bottom:9px;
+
+    font-size:18px;
+
+    font-weight:700;
+
+}
+
+.card p{
+
+    color:var(--muted);
+
+    font-size:14px;
+
+    font-weight:500;
+
+    line-height:1.7;
+
+}
+
+/* =========================
+SUPPORT LAYOUT
+========================= */
+
+.support-layout{
+
+    display:grid;
+
+    grid-template-columns:
+
+    1.2fr .8fr;
+
+    gap:22px;
+
+}
+
+/* =========================
+FORM
+========================= */
+
+.form-group{
+
+    margin-bottom:16px;
+
+}
+
+label{
+
+    display:block;
+
+    margin-bottom:7px;
+
+    font-size:13px;
+
+    font-weight:700;
+
+}
+
+input,
+
+textarea,
+
+select{
+
+    width:100%;
+
+    padding:13px;
+
+    color:var(--text);
+
+    background:var(--input);
+
+    border:1px solid var(--border);
+
+    border-radius:9px;
+
+    outline:none;
+
+    font-size:14px;
+
+    font-weight:500;
+
+    transition:.3s;
+
+}
+
+input:focus,
+
+textarea:focus,
+
+select:focus{
+
+    border-color:var(--primary);
+
+    box-shadow:
+
+    0 0 0 3px
+
+    rgba(6,182,212,.10);
+
+}
+
+textarea{
+
+    height:135px;
+
+    resize:none;
+
+}
+
+/* =========================
+FAQ
+========================= */
+
+.faq{
+
+    padding:15px 0;
+
+    border-bottom:1px solid var(--border);
+
+    color:var(--text);
+
+    font-size:14px;
+
+    font-weight:600;
+
+}
+
+.faq:last-child{
+
+    border-bottom:0;
+
+}
+
+/* =========================
+TABLET
+========================= */
+
+@media(max-width:1000px){
+
+    .sidebar{
+
+        width:80px;
+
+    }
+
+    .logo{
+
+        margin:0 0 30px;
+
+        text-align:center;
+
+        font-size:0;
+
+    }
+
+    .logo::after{
+
+        content:"N";
+
+        font-size:27px;
+
+        font-weight:800;
+
+    }
+
+    .nav-link{
+
+        justify-content:center;
+
+        font-size:0;
+
+    }
+
+    .nav-title{
+
+        text-align:center;
+
+        font-size:0;
+
+    }
+
+    .main{
+
+        margin-left:80px;
+
+    }
+
+    .support-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+/* =========================
+MOBILE
+========================= */
+
+@media(max-width:700px){
+
+    .sidebar{
+
+        display:none;
+
+    }
+
+    .main{
+
+        margin-left:0;
+
+    }
+
+    .topbar{
+
+        padding:0 18px;
+
+    }
+
+    .content{
+
+        padding:20px;
+
+    }
+
+    .page-header{
+
+        align-items:flex-start;
+
+        flex-direction:column;
+
+        gap:16px;
+
+    }
+
+    .page-header h1{
+
+        font-size:28px;
+
+    }
+
+    .support-layout{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- =========================
+SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        NEXA HUB AI
+
+    </div>
+
+    <div class="nav-title">
+
+        Main
+
+    </div>
+
+    <a href="dashboard.html" class="nav-link">
+
+        🏠 Dashboard
+
+    </a>
+
+    <a href="tasks.html" class="nav-link">
+
+        ✓ Tasks
+
+    </a>
+
+    <a href="teams.html" class="nav-link">
+
+        👥 Teams
+
+    </a>
+
+    <a href="employees.html" class="nav-link">
+
+        👨‍💼 Employees
+
+    </a>
+
+    <div class="nav-title">
+
+        Management
+
+    </div>
+
+    <a href="projects.html" class="nav-link">
+
+        📁 Projects
+
+    </a>
+
+    <a href="reports.html" class="nav-link">
+
+        📊 Reports
+
+    </a>
+
+    <a href="settings.html" class="nav-link">
+
+        ⚙ Settings
+
+    </a>
+
+    <div class="nav-title">
+
+        Support
+
+    </div>
+
+    <a href="support.html" class="nav-link active">
+
+        🎧 Support
+
+    </a>
+
+</aside>
+
+<!-- =========================
+MAIN
+========================= -->
+
+<main class="main">
+
+    <header class="topbar">
+
+        <h2>
+
+            Support Center
+
+        </h2>
+
+        <div class="top-actions">
+
+            <button
+
+                class="theme-btn"
+
+                id="themeBtn"
+
+                onclick="toggleTheme()">
+
+                ☾
+
+            </button>
+
+            <div class="profile">
+
+                A
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <section class="content">
+
+        <div class="page-header">
+
+            <div>
+
+                <h1>
+
+                    How Can We Help?
+
+                </h1>
+
+                <p>
+
+                    Get support and find answers to your questions.
+
+                </p>
+
+            </div>
+
+            <button class="primary-btn">
+
+                Create Ticket
+
+            </button>
+
+        </div>
+
+        <div class="support-grid">
+
+            <div class="card">
+
+                <div class="card-icon">
+
+                    💬
+
+                </div>
+
+                <h3>
+
+                    Live Chat
+
+                </h3>
+
+                <p>
+
+                    Chat with our support team and get quick assistance for your problems.
+
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <div class="card-icon">
+
+                    📚
+
+                </div>
+
+                <h3>
+
+                    Knowledge Base
+
+                </h3>
+
+                <p>
+
+                    Find helpful guides, documentation and answers to common questions.
+
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <div class="card-icon">
+
+                    🎫
+
+                </div>
+
+                <h3>
+
+                    Support Tickets
+
+                </h3>
+
+                <p>
+
+                    Create and track your support requests from one place.
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="support-layout">
+
+            <div class="card">
+
+                <h3>
+
+                    Submit a Support Request
+
+                </h3>
+
+                <br>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Subject
+
+                    </label>
+
+                    <input
+
+                        type="text"
+
+                        placeholder="Enter your issue subject">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Category
+
+                    </label>
+
+                    <select>
+
+                        <option>
+
+                            Select Category
+
+                        </option>
+
+                        <option>
+
+                            Technical Issue
+
+                        </option>
+
+                        <option>
+
+                            Account Problem
+
+                        </option>
+
+                        <option>
+
+                            Billing
+
+                        </option>
+
+                        <option>
+
+                            Other
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Message
+
+                    </label>
+
+                    <textarea
+
+                        placeholder="Describe your issue...">
+
+                    </textarea>
+
+                </div>
+
+                <button class="primary-btn">
+
+                    Submit Request
+
+                </button>
+
+            </div>
+
+            <div class="card">
+
+                <h3>
+
+                    Frequently Asked Questions
+
+                </h3>
+
+                <div class="faq">
+
+                    How do I reset my password?
+
+                </div>
+
+                <div class="faq">
+
+                    How can I update my profile?
+
+                </div>
+
+                <div class="faq">
+
+                    How do I contact my administrator?
+
+                </div>
+
+                <div class="faq">
+
+                    Where can I view my tasks?
+
+                </div>
+
+                <div class="faq">
+
+                    How do I create a support ticket?
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script>
+
+/* =========================
+THEME TOGGLE
+========================= */
+
+function toggleTheme(){
+
+    document.body.classList.toggle("light");
+
+    const button =
+
+        document.getElementById("themeBtn");
+
+    if(
+
+        document.body.classList.contains("light")
+
+    ){
+
+        button.innerHTML = "☀";
+
+        localStorage.setItem(
+
+            "theme",
+
+            "light"
+
+        );
+
+    }else{
+
+        button.innerHTML = "☾";
+
+        localStorage.setItem(
+
+            "theme",
+
+            "dark"
+
+        );
+
+    }
+
+}
+
+/* =========================
+LOAD THEME
+========================= */
+
+if(
+
+    localStorage.getItem("theme")
+
+    ===
+
+    "light"
+
+){
+
+    document.body.classList.add("light");
+
+    document.getElementById(
+
+        "themeBtn"
+
+    ).innerHTML = "☀";
+
+}
+
+</script>
+
+</body>
+
+</html>

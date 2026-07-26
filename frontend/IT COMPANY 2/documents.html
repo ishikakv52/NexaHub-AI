@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Documents | NEXA HUB AI</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --bg:#020617;
+    --sidebar:#07122e;
+    --card:#0f172a;
+    --text:#ffffff;
+    --muted:#94a3b8;
+    --border:rgba(255,255,255,.08);
+    --input:#020617;
+}
+
+body.light{
+    --bg:#f1f5f9;
+    --sidebar:#ffffff;
+    --card:#ffffff;
+    --text:#0f172a;
+    --muted:#475569;
+    --border:rgba(15,23,42,.12);
+    --input:#f8fafc;
+}
+
+body{
+    min-height:100vh;
+    font-family:'Poppins',sans-serif;
+    color:var(--text);
+    background:var(--bg);
+    transition:.4s;
+}
+
+.animated-bg{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    pointer-events:none;
+    z-index:-1;
+}
+
+.animated-bg span{
+    position:absolute;
+    width:350px;
+    height:350px;
+    border-radius:50%;
+    filter:blur(100px);
+    opacity:.20;
+    animation:float 14s infinite alternate ease-in-out;
+}
+
+.animated-bg span:nth-child(1){
+    background:#06b6d4;
+    top:-150px;
+    left:-100px;
+}
+
+.animated-bg span:nth-child(2){
+    background:#7c3aed;
+    right:-120px;
+    top:20%;
+    animation-delay:3s;
+}
+
+.animated-bg span:nth-child(3){
+    background:#0891b2;
+    bottom:-150px;
+    left:30%;
+    animation-delay:5s;
+}
+
+@keyframes float{
+
+    0%{
+        transform:translate(0,0);
+    }
+
+    100%{
+        transform:translate(100px,70px);
+    }
+
+}
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    padding:25px 18px;
+    background:var(--sidebar);
+    border-right:1px solid var(--border);
+}
+
+.logo{
+    font-size:22px;
+    font-weight:700;
+    margin-bottom:35px;
+}
+
+.logo span{
+    color:#06b6d4;
+}
+
+.nav-title{
+    color:var(--muted);
+    font-size:11px;
+    margin:20px 12px 10px;
+    text-transform:uppercase;
+}
+
+.nav a{
+    display:flex;
+    align-items:center;
+    gap:13px;
+    color:var(--muted);
+    text-decoration:none;
+    padding:13px 14px;
+    border-radius:10px;
+    margin:5px 0;
+    transition:.3s;
+}
+
+.nav a:hover,
+.nav a.active{
+    color:#fff;
+    background:linear-gradient(135deg,#0891b2,#4f46e5);
+}
+
+.main{
+    margin-left:260px;
+    padding:30px;
+}
+
+.topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:30px;
+}
+
+h1{
+    font-size:28px;
+}
+
+.subtitle{
+    color:var(--muted);
+    font-size:14px;
+}
+
+.theme-toggle{
+    width:44px;
+    height:44px;
+    border:none;
+    border-radius:50%;
+    color:var(--text);
+    background:var(--card);
+    border:1px solid var(--border);
+    cursor:pointer;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:25px;
+}
+
+.stat{
+    padding:22px;
+    border-radius:18px;
+    background:var(--card);
+    border:1px solid var(--border);
+}
+
+.stat i{
+    color:#06b6d4;
+    font-size:22px;
+}
+
+.stat h2{
+    margin:12px 0 4px;
+}
+
+.stat p{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.document-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.document-card{
+    padding:22px;
+    border-radius:18px;
+    background:var(--card);
+    border:1px solid var(--border);
+    transition:.3s;
+}
+
+.document-card:hover{
+    transform:translateY(-6px);
+}
+
+.file-icon{
+    width:55px;
+    height:55px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:18px;
+    border-radius:15px;
+    color:#fff;
+    font-size:22px;
+    background:linear-gradient(135deg,#06b6d4,#4f46e5);
+}
+
+.document-card h2{
+    font-size:16px;
+    margin-bottom:8px;
+}
+
+.document-card p{
+    color:var(--muted);
+    font-size:12px;
+}
+
+.document-footer{
+    display:flex;
+    justify-content:space-between;
+    margin-top:20px;
+    padding-top:15px;
+    border-top:1px solid var(--border);
+    color:var(--muted);
+    font-size:11px;
+}
+
+@media(max-width:1100px){
+
+    .document-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:800px){
+
+    .sidebar{
+        width:70px;
+    }
+
+    .logo{
+        font-size:0;
+    }
+
+    .logo span{
+        font-size:20px;
+    }
+
+    .nav a span,
+    .nav-title{
+        display:none;
+    }
+
+    .main{
+        margin-left:70px;
+        padding:20px;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .document-grid,
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="animated-bg">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<aside class="sidebar">
+
+    <div class="logo">
+        NEXA <span>HUB AI</span>
+    </div>
+
+    <div class="nav-title">
+        Main Menu
+    </div>
+
+    <nav class="nav">
+
+        <a href="dashboard.html">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="employees.html">
+            <i class="fa-solid fa-users"></i>
+            <span>Employees</span>
+        </a>
+
+        <a href="clients.html">
+            <i class="fa-solid fa-building"></i>
+            <span>Clients</span>
+        </a>
+
+        <a href="documents.html" class="active">
+            <i class="fa-solid fa-file"></i>
+            <span>Documents</span>
+        </a>
+
+    </nav>
+
+    <div class="nav-title">
+        System
+    </div>
+
+    <nav class="nav">
+
+        <a href="contracts.html">
+            <i class="fa-solid fa-file-contract"></i>
+            <span>Contracts</span>
+        </a>
+
+        <a href="403.html">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Logout</span>
+        </a>
+
+    </nav>
+
+</aside>
+
+<main class="main">
+
+    <div class="topbar">
+
+        <div>
+
+            <h1>Documents</h1>
+
+            <div class="subtitle">
+                Manage company and employee documents
+            </div>
+
+        </div>
+
+        <button class="theme-toggle" id="themeToggle">
+
+            <i class="fa-solid fa-moon"></i>
+
+        </button>
+
+    </div>
+
+    <section class="stats">
+
+        <div class="stat">
+
+            <i class="fa-solid fa-file"></i>
+
+            <h2>1,248</h2>
+
+            <p>Total Documents</p>
+
+        </div>
+
+        <div class="stat">
+
+            <i class="fa-solid fa-file-circle-check"></i>
+
+            <h2>1,120</h2>
+
+            <p>Verified</p>
+
+        </div>
+
+        <div class="stat">
+
+            <i class="fa-solid fa-clock"></i>
+
+            <h2>86</h2>
+
+            <p>Pending Review</p>
+
+        </div>
+
+        <div class="stat">
+
+            <i class="fa-solid fa-cloud"></i>
+
+            <h2>4.8 GB</h2>
+
+            <p>Storage Used</p>
+
+        </div>
+
+    </section>
+
+    <section class="document-grid">
+
+        <div class="document-card">
+
+            <div class="file-icon">
+
+                <i class="fa-solid fa-file-pdf"></i>
+
+            </div>
+
+            <h2>Employee Handbook.pdf</h2>
+
+            <p>Company policies and employee guidelines.</p>
+
+            <div class="document-footer">
+
+                <span>PDF • 2.4 MB</span>
+
+                <span>Today</span>
+
+            </div>
+
+        </div>
+
+        <div class="document-card">
+
+            <div class="file-icon">
+
+                <i class="fa-solid fa-file-contract"></i>
+
+            </div>
+
+            <h2>Client Agreement.docx</h2>
+
+            <p>Client service agreement document.</p>
+
+            <div class="document-footer">
+
+                <span>DOCX • 1.8 MB</span>
+
+                <span>Yesterday</span>
+
+            </div>
+
+        </div>
+
+        <div class="document-card">
+
+            <div class="file-icon">
+
+                <i class="fa-solid fa-file-excel"></i>
+
+            </div>
+
+            <h2>Financial Report.xlsx</h2>
+
+            <p>Monthly company financial report.</p>
+
+            <div class="document-footer">
+
+                <span>XLSX • 3.2 MB</span>
+
+                <span>2 Days Ago</span>
+
+            </div>
+
+        </div>
+
+        <div class="document-card">
+
+            <div class="file-icon">
+
+                <i class="fa-solid fa-file-image"></i>
+
+            </div>
+
+            <h2>Brand Guidelines.png</h2>
+
+            <p>Company logo and brand identity guidelines.</p>
+
+            <div class="document-footer">
+
+                <span>PNG • 4.1 MB</span>
+
+                <span>5 Days Ago</span>
+
+            </div>
+
+        </div>
+
+        <div class="document-card">
+
+            <div class="file-icon">
+
+                <i class="fa-solid fa-file-word"></i>
+
+            </div>
+
+            <h2>Project Proposal.docx</h2>
+
+            <p>Project proposal and business requirements.</p>
+
+            <div class="document-footer">
+
+                <span>DOCX • 980 KB</span>
+
+                <span>1 Week Ago</span>
+
+            </div>
+
+        </div>
+
+        <div class="document-card">
+
+            <div class="file-icon">
+
+                <i class="fa-solid fa-file-zipper"></i>
+
+            </div>
+
+            <h2>Project Assets.zip</h2>
+
+            <p>Complete project design and development assets.</p>
+
+            <div class="document-footer">
+
+                <span>ZIP • 124 MB</span>
+
+                <span>2 Weeks Ago</span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script>
+
+const themeToggle =
+document.getElementById("themeToggle");
+
+const icon =
+themeToggle.querySelector("i");
+
+function applyTheme(theme){
+
+    if(theme === "light"){
+
+        document.body.classList.add("light");
+
+        icon.className =
+        "fa-solid fa-sun";
+
+    }
+
+    else{
+
+        document.body.classList.remove("light");
+
+        icon.className =
+        "fa-solid fa-moon";
+
+    }
+
+    localStorage.setItem(
+        "nexaTheme",
+        theme
+    );
+
+}
+
+themeToggle.addEventListener(
+    "click",
+    function(){
+
+        const theme =
+        document.body.classList.contains("light")
+        ? "dark"
+        : "light";
+
+        applyTheme(theme);
+
+    }
+);
+
+applyTheme(
+    localStorage.getItem("nexaTheme")
+    || "dark"
+);
+
+</script>
+
+</body>
+</html>

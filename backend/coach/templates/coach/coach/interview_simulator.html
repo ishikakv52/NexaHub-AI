@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Interview Simulator — NEXA HUB</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+        :root{
+            --bg:#0a0c1a;
+            --surface:rgba(255,255,255,0.03);
+            --surface-hover:rgba(212,175,55,0.06);
+            --border:rgba(212,175,55,0.15);
+            --border-glow:rgba(212,175,55,0.3);
+            --gold:#d4af37;
+            --gold-light:#f5d76e;
+            --gold-dark:#b8962e;
+            --gold-gradient:linear-gradient(135deg,#f5d76e,#d4af37,#b8962e);
+            --text:#f0ece4;
+            --text-secondary:#d6cfb5;
+            --muted:#8a867a;
+            --green:#4ade80;
+            --yellow:#fbbf24;
+            --red:#f87171;
+            --font-heading:'Playfair Display','Georgia',serif;
+            --font-body:'Lora','Segoe UI',serif;
+            --radius:16px;
+            --shadow:0 20px 60px rgba(0,0,0,0.7),0 0 0 1px rgba(212,175,55,0.05);
+            --transition:0.4s cubic-bezier(0.22,1,0.36,1);
+            --sidebar-width:240px;
+        }
+
+        html{scroll-behavior:smooth}
+        body{background:var(--bg);color:var(--text);font-family:var(--font-body);overflow-x:hidden;line-height:1.7;min-height:100vh;display:flex}
+
+        /* ── SIDEBAR ── */
+        .sidebar{position:fixed;top:0;left:0;bottom:0;z-index:200;width:var(--sidebar-width);background:rgba(10,12,26,0.94);backdrop-filter:blur(28px);border-right:1px solid var(--border);padding:28px 18px 24px;display:flex;flex-direction:column;transition:transform var(--transition),opacity var(--transition);box-shadow:4px 0 40px rgba(0,0,0,0.6)}
+        .sidebar.collapsed{transform:translateX(-100%);opacity:0}
+        .sidebar-brand{display:flex;align-items:center;gap:12px;font-size:1.15rem;font-weight:700;font-family:var(--font-heading);letter-spacing:0.04em;background:var(--gold-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;padding-bottom:24px;border-bottom:1px solid var(--border);margin-bottom:20px}
+        .sidebar-brand span{-webkit-text-fill-color:initial;font-size:1.6rem;background:none}
+        .sidebar-nav{flex:1;display:flex;flex-direction:column;gap:3px}
+        .sidebar-nav .sn-label{font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);padding:12px 14px 4px;font-weight:600}
+        .sidebar-nav a{display:flex;align-items:center;gap:14px;padding:12px 16px;border-radius:12px;color:var(--muted);text-decoration:none;font-size:0.88rem;font-weight:500;transition:var(--transition);border:1px solid transparent}
+        .sidebar-nav a:hover{color:var(--gold-light);background:var(--surface-hover);border-color:var(--border)}
+        .sidebar-nav a.active{color:var(--gold-light);background:rgba(212,175,55,0.08);border-color:rgba(212,175,55,0.2)}
+        .sidebar-nav a .sn-icon{font-size:1.25rem;width:28px;text-align:center;flex-shrink:0}
+        .sidebar-footer{border-top:1px solid var(--border);padding-top:16px;margin-top:8px}
+        .sidebar-footer .user-row{display:flex;align-items:center;gap:12px;padding:8px 6px;border-radius:12px;cursor:default}
+        .sidebar-footer .user-avatar{width:40px;height:40px;border-radius:50%;background:var(--gold-gradient);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;color:#0a0c1a;flex-shrink:0}
+        .sidebar-footer .uname{font-weight:600;font-size:0.9rem;color:var(--text-secondary)}
+        .sidebar-footer .uemail{font-size:0.7rem;color:var(--muted)}
+        .sidebar-footer .user-stats{display:flex;gap:12px;font-size:0.7rem;color:var(--muted);padding:4px 6px 8px}
+        .sidebar-footer .logout-btn{display:flex;align-items:center;gap:12px;padding:10px 16px;border-radius:12px;color:var(--muted);text-decoration:none;font-size:0.82rem;transition:var(--transition);border:1px solid transparent}
+        .sidebar-footer .logout-btn:hover{color:#f87171;background:rgba(239,68,68,0.06);border-color:rgba(239,68,68,0.15)}
+
+        .sidebar-toggle{position:fixed;top:18px;left:18px;z-index:210;background:rgba(10,12,26,0.8);backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:12px;color:var(--gold-light);width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;cursor:pointer;transition:var(--transition);box-shadow:0 4px 20px rgba(0,0,0,0.4)}
+        .sidebar-toggle:hover{border-color:var(--gold);transform:scale(1.04)}
+        .sidebar-toggle.shifted{left:calc(var(--sidebar-width) + 18px)}
+        .sidebar-overlay{position:fixed;inset:0;z-index:195;background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity var(--transition)}
+        .sidebar-overlay.show{opacity:1;pointer-events:auto}
+
+        .main-wrap{flex:1;margin-left:var(--sidebar-width);transition:margin-left var(--transition);min-height:100vh;position:relative}
+        .main-wrap.sidebar-collapsed{margin-left:0}
+
+        /* ── BG ── */
+        #particles-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+        .bg-blobs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+        .blob{position:absolute;border-radius:50%;filter:blur(160px);animation:floatBlob 20s ease-in-out infinite alternate}
+        .b1{width:800px;height:800px;background:#d4af37;top:-300px;right:-250px;opacity:0.06}
+        .b2{width:600px;height:600px;background:#b8962e;bottom:-200px;left:-200px;animation-delay:7s;opacity:0.05}
+        @keyframes floatBlob{0%{transform:translate(0,0) scale(1)}100%{transform:translate(50px,-50px) scale(1.1)}}
+
+        /* ── NAVBAR ── */
+        .navbar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:flex-end;padding:0 36px;height:76px;background:rgba(10,12,26,0.85);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding-left:80px}
+        .navbar .nav-links{display:flex;align-items:center;gap:6px}
+        .navbar .nl{color:var(--muted);text-decoration:none;font-size:0.85rem;padding:8px 18px;border-radius:30px;border:1px solid transparent;font-weight:500;transition:var(--transition)}
+        .navbar .nl:hover{color:var(--gold-light);border-color:var(--border);background:var(--surface-hover)}
+        .navbar .nl.active{color:var(--gold-light);border-color:var(--border);background:rgba(212,175,55,0.08)}
+
+        .page{position:relative;z-index:1;padding:100px 40px 60px;max-width:1100px;margin:0 auto}
+
+        /* ══════════ SETUP SCREEN ══════════ */
+        .setup-screen{display:block}
+        .setup-header{text-align:center;margin-bottom:48px}
+        .setup-header .sh-icon{font-size:3.5rem;display:block;margin-bottom:16px;filter:drop-shadow(0 0 24px rgba(212,175,55,0.4))}
+        .setup-header h1{font-family:var(--font-heading);font-size:2.6rem;background:var(--gold-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:10px}
+        .setup-header p{color:var(--muted);font-size:1rem;max-width:520px;margin:0 auto}
+
+        .setup-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:40px;box-shadow:var(--shadow);backdrop-filter:blur(12px)}
+
+        .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+        .form-group{display:flex;flex-direction:column;gap:8px}
+        .form-group.full{grid-column:1/-1}
+        .form-group label{font-size:0.82rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);font-weight:600}
+        .form-group select,
+        .form-group input,
+        .form-group textarea{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;color:var(--text);padding:12px 16px;font-size:0.92rem;font-family:var(--font-body);transition:var(--transition);outline:none;resize:vertical}
+        .form-group select:focus,
+        .form-group input:focus,
+        .form-group textarea:focus{border-color:var(--gold);background:rgba(212,175,55,0.04);box-shadow:0 0 0 3px rgba(212,175,55,0.08)}
+        .form-group select option{background:#0e1224;color:var(--text)}
+
+        .upload-area{border:2px dashed var(--border);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:var(--transition);font-size:0.85rem;color:var(--muted)}
+        .upload-area:hover{border-color:var(--gold);background:var(--surface-hover)}
+        .upload-area.has-file{border-color:var(--gold);background:rgba(212,175,55,0.05);color:var(--gold-light)}
+        .upload-area input[type=file]{display:none}
+
+        .optional-badge{font-size:0.68rem;background:rgba(212,175,55,0.1);color:var(--gold);padding:2px 8px;border-radius:20px;margin-left:8px;vertical-align:middle}
+
+        .start-btn{width:100%;margin-top:28px;padding:18px 32px;border:none;border-radius:12px;background:var(--gold-gradient);color:#0a0c1a;font-size:1rem;font-weight:700;font-family:var(--font-heading);cursor:pointer;transition:var(--transition);letter-spacing:0.05em;box-shadow:0 8px 32px rgba(212,175,55,0.3)}
+        .start-btn:hover{transform:translateY(-2px);box-shadow:0 16px 48px rgba(212,175,55,0.4)}
+        .start-btn:active{transform:translateY(0)}
+        .start-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+
+        /* ══════════ INTERVIEW SCREEN ══════════ */
+        .interview-screen{display:none}
+
+        .interview-header{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 28px;margin-bottom:28px;gap:16px;flex-wrap:wrap}
+        .ih-left{display:flex;align-items:center;gap:16px}
+        .ih-badge{background:rgba(212,175,55,0.12);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:0.78rem;font-weight:600;color:var(--gold-light);letter-spacing:0.06em;text-transform:uppercase}
+        .ih-role{color:var(--text-secondary);font-size:0.92rem}
+        .ih-right{display:flex;align-items:center;gap:20px}
+        .progress-wrap{display:flex;align-items:center;gap:10px;font-size:0.82rem;color:var(--muted)}
+        .progress-bar{width:120px;height:6px;background:rgba(255,255,255,0.06);border-radius:99px;overflow:hidden}
+        .progress-fill{height:100%;background:var(--gold-gradient);border-radius:99px;transition:width 0.6s ease}
+        .timer-display{display:flex;align-items:center;gap:6px;font-size:0.88rem;font-weight:600;color:var(--gold-light);font-family:monospace}
+        .q-counter{font-size:0.82rem;color:var(--muted);white-space:nowrap}
+
+        /* Chat area */
+        .chat-area{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;min-height:420px;max-height:55vh;overflow-y:auto;margin-bottom:20px;display:flex;flex-direction:column;gap:20px}
+        .chat-area::-webkit-scrollbar{width:5px}
+        .chat-area::-webkit-scrollbar-track{background:transparent}
+        .chat-area::-webkit-scrollbar-thumb{background:var(--border);border-radius:8px}
+
+        /* Interviewer bubble */
+        .bubble-interviewer{display:flex;gap:14px;align-items:flex-start;animation:bubbleIn 0.4s ease}
+        .bubble-interviewer .avatar{width:42px;height:42px;border-radius:50%;background:var(--gold-gradient);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;box-shadow:0 4px 16px rgba(212,175,55,0.25)}
+        .bubble-interviewer .bubble-body{max-width:75%}
+        .bubble-interviewer .bubble-name{font-size:0.72rem;color:var(--muted);margin-bottom:5px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase}
+        .bubble-interviewer .bubble-text{background:rgba(212,175,55,0.07);border:1px solid rgba(212,175,55,0.12);border-radius:0 16px 16px 16px;padding:14px 18px;font-size:0.95rem;line-height:1.7;color:var(--text)}
+        .bubble-interviewer .bubble-question{background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.25);border-radius:0 16px 16px 16px;padding:16px 20px;font-size:1rem;font-weight:600;color:var(--gold-light);font-family:var(--font-heading);line-height:1.5;margin-top:6px;position:relative}
+        .bubble-interviewer .bubble-question::before{content:'❓';position:absolute;top:-10px;left:14px;font-size:0.9rem}
+
+        /* User bubble */
+        .bubble-user{display:flex;gap:14px;align-items:flex-start;justify-content:flex-end;animation:bubbleIn 0.4s ease}
+        .bubble-user .bubble-body{max-width:75%;text-align:right}
+        .bubble-user .bubble-name{font-size:0.72rem;color:var(--muted);margin-bottom:5px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;text-align:right}
+        .bubble-user .bubble-text{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:16px 0 16px 16px;padding:14px 18px;font-size:0.92rem;line-height:1.7;color:var(--text-secondary);text-align:left}
+        .bubble-user .avatar{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+
+        /* Typing indicator */
+        .typing-bubble{display:flex;gap:14px;align-items:flex-start;animation:bubbleIn 0.3s ease}
+        .typing-dots{display:flex;gap:5px;align-items:center;padding:14px 18px;background:rgba(212,175,55,0.07);border:1px solid rgba(212,175,55,0.12);border-radius:0 16px 16px 16px}
+        .typing-dots span{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:typingDot 1.2s infinite}
+        .typing-dots span:nth-child(2){animation-delay:0.2s}
+        .typing-dots span:nth-child(3){animation-delay:0.4s}
+        @keyframes typingDot{0%,100%{opacity:0.3;transform:translateY(0)}50%{opacity:1;transform:translateY(-4px)}}
+        @keyframes bubbleIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+        /* Input area */
+        .input-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;display:flex;flex-direction:column;gap:14px}
+        .answer-textarea{width:100%;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;color:var(--text);padding:16px 18px;font-size:0.95rem;font-family:var(--font-body);resize:vertical;min-height:110px;outline:none;transition:var(--transition);line-height:1.7}
+        .answer-textarea:focus{border-color:var(--gold);background:rgba(212,175,55,0.03);box-shadow:0 0 0 3px rgba(212,175,55,0.08)}
+        .answer-textarea::placeholder{color:var(--muted)}
+        .input-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+        .btn-send{padding:12px 32px;background:var(--gold-gradient);border:none;border-radius:10px;color:#0a0c1a;font-weight:700;font-size:0.9rem;cursor:pointer;transition:var(--transition);font-family:var(--font-body);box-shadow:0 4px 16px rgba(212,175,55,0.25)}
+        .btn-send:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(212,175,55,0.4)}
+        .btn-send:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+        .btn-mic{padding:12px 20px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;color:var(--muted);font-size:0.88rem;cursor:pointer;transition:var(--transition);display:flex;align-items:center;gap:7px}
+        .btn-mic:hover{border-color:var(--gold);color:var(--gold-light);background:var(--surface-hover)}
+        .btn-mic.recording{background:rgba(239,68,68,0.08);border-color:rgba(239,68,68,0.3);color:#fca5a5}
+        .btn-end{margin-left:auto;padding:12px 20px;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.2);border-radius:10px;color:#f87171;font-size:0.85rem;cursor:pointer;transition:var(--transition)}
+        .btn-end:hover{background:rgba(239,68,68,0.12);border-color:rgba(239,68,68,0.4)}
+        .word-count{font-size:0.76rem;color:var(--muted);align-self:center}
+
+        /* ══════════ EVALUATION CARD ══════════ */
+        .eval-card{background:var(--surface);border:1px solid rgba(212,175,55,0.2);border-radius:var(--radius);overflow:hidden;animation:bubbleIn 0.5s ease;margin:8px 0}
+        .eval-header{background:rgba(212,175,55,0.06);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+        .eval-header strong{color:var(--gold-light);font-family:var(--font-heading);font-size:0.92rem}
+        .eval-score-badge{background:var(--gold-gradient);color:#0a0c1a;font-weight:800;font-size:0.88rem;padding:4px 14px;border-radius:20px}
+        .eval-body{padding:18px 22px;display:flex;flex-direction:column;gap:14px}
+        .eval-row{display:flex;gap:20px;flex-wrap:wrap}
+        .eval-mini-scores{display:flex;gap:10px;flex-wrap:wrap}
+        .score-pill{display:flex;flex-direction:column;align-items:center;gap:3px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:8px 14px;min-width:70px}
+        .score-pill .sp-val{font-size:1.1rem;font-weight:700;color:var(--gold-light)}
+        .score-pill .sp-label{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted)}
+        .eval-section{display:flex;flex-direction:column;gap:5px}
+        .eval-section .es-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);font-weight:600;margin-bottom:2px}
+        .eval-section .es-item{font-size:0.88rem;color:var(--text-secondary);padding:3px 0;display:flex;gap:8px}
+        .eval-section .es-item::before{content:'•';color:var(--gold);flex-shrink:0}
+        .eval-section.green .es-item::before{color:var(--green)}
+        .eval-section.red .es-item::before{color:var(--red)}
+        .eval-section.yellow .es-item::before{color:var(--yellow)}
+        .better-answer-box{background:rgba(212,175,55,0.06);border:1px solid rgba(212,175,55,0.15);border-radius:10px;padding:12px 16px;font-size:0.87rem;color:var(--text-secondary);line-height:1.6}
+        .better-answer-box strong{color:var(--gold-light);display:block;margin-bottom:4px;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.07em}
+
+        /* ══════════ FINAL REPORT ══════════ */
+        .report-screen{display:none}
+        .report-wrap{max-width:900px;margin:0 auto}
+        .report-hero{text-align:center;padding:40px 20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:28px;position:relative;overflow:hidden}
+        .report-hero::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:var(--gold);opacity:0.04;pointer-events:none}
+        .report-company{font-size:0.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px}
+        .report-title{font-family:var(--font-heading);font-size:2rem;color:var(--gold-light);margin-bottom:6px}
+        .report-sub{color:var(--muted);font-size:0.9rem;margin-bottom:28px}
+        .big-score{font-family:var(--font-heading);font-size:5rem;font-weight:700;line-height:1;margin:12px 0}
+        .big-score.green{background:linear-gradient(135deg,#4ade80,#22c55e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .big-score.yellow{background:linear-gradient(135deg,#fbbf24,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .big-score.red{background:linear-gradient(135deg,#f87171,#ef4444);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .hiring-badge{display:inline-block;padding:8px 24px;border-radius:99px;font-weight:700;font-size:0.92rem;letter-spacing:0.07em;margin-top:10px}
+        .hiring-badge.green{background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.3);color:#4ade80}
+        .hiring-badge.yellow{background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.3);color:#fbbf24}
+        .hiring-badge.red{background:rgba(248,113,113,0.12);border:1px solid rgba(248,113,113,0.3);color:#f87171}
+
+        .report-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
+        .report-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px}
+        .report-card h3{font-family:var(--font-heading);font-size:1rem;color:var(--gold-light);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+        .report-card.full{grid-column:1/-1}
+
+        .skill-bar-row{display:flex;flex-direction:column;gap:12px}
+        .skill-bar{display:flex;flex-direction:column;gap:5px}
+        .skill-bar-top{display:flex;justify-content:space-between;align-items:center}
+        .skill-bar-label{font-size:0.82rem;color:var(--text-secondary)}
+        .skill-bar-val{font-size:0.82rem;font-weight:700;color:var(--gold-light)}
+        .skill-bar-track{height:8px;background:rgba(255,255,255,0.05);border-radius:99px;overflow:hidden}
+        .skill-bar-fill{height:100%;border-radius:99px;background:var(--gold-gradient);transition:width 1s ease 0.3s}
+        .skill-bar-fill.green{background:linear-gradient(90deg,#4ade80,#22c55e)}
+        .skill-bar-fill.yellow{background:linear-gradient(90deg,#fbbf24,#f59e0b)}
+        .skill-bar-fill.red{background:linear-gradient(90deg,#f87171,#ef4444)}
+
+        .report-list{display:flex;flex-direction:column;gap:6px}
+        .report-list .rl-item{display:flex;gap:10px;font-size:0.88rem;color:var(--text-secondary);line-height:1.5;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.03)}
+        .report-list .rl-item:last-child{border-bottom:none}
+        .report-list .rl-icon{flex-shrink:0;font-size:1rem}
+
+        .summary-box{background:rgba(212,175,55,0.04);border:1px solid var(--border);border-radius:12px;padding:20px;font-size:0.92rem;line-height:1.8;color:var(--text-secondary)}
+
+        .report-actions{display:flex;gap:12px;justify-content:center;margin-top:28px;flex-wrap:wrap}
+        .ra-btn{padding:12px 28px;border-radius:10px;font-size:0.9rem;cursor:pointer;transition:var(--transition);border:1px solid var(--border);background:transparent;color:var(--muted);font-family:var(--font-body)}
+        .ra-btn:hover{border-color:var(--gold);color:var(--gold-light);background:var(--surface-hover)}
+        .ra-btn.primary{background:var(--gold-gradient);border:none;color:#0a0c1a;font-weight:700;box-shadow:0 4px 16px rgba(212,175,55,0.25)}
+        .ra-btn.primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(212,175,55,0.4)}
+
+        /* Confetti effect */
+        .confetti-piece{position:fixed;width:8px;height:8px;opacity:0;pointer-events:none;z-index:999;animation:confettiFall 3s ease-in forwards}
+        @keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+
+        /* Loading overlay */
+        .loading-overlay{display:none;position:fixed;inset:0;z-index:300;background:rgba(10,12,26,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;flex-direction:column;gap:18px}
+        .loading-overlay.show{display:flex}
+        .spinner-gold{width:52px;height:52px;border:3px solid rgba(212,175,55,0.2);border-top-color:var(--gold);border-radius:50%;animation:spinG 0.7s linear infinite}
+        @keyframes spinG{to{transform:rotate(360deg)}}
+        .loading-overlay p{color:var(--text-secondary);font-size:0.95rem;font-family:var(--font-heading)}
+
+        /* ── RESPONSIVE ── */
+        @media(max-width:992px){
+            .sidebar{transform:translateX(-100%);opacity:0}
+            .sidebar.open{transform:translateX(0);opacity:1}
+            .main-wrap{margin-left:0!important}
+            .sidebar-toggle.shifted{left:18px}
+        }
+        @media(max-width:768px){
+            .page{padding:90px 16px 40px}
+            .form-grid{grid-template-columns:1fr}
+            .report-grid{grid-template-columns:1fr}
+            .interview-header{flex-direction:column;align-items:stretch}
+            .input-actions{flex-direction:column;align-items:stretch}
+            .btn-end{margin-left:0}
+            .eval-mini-scores{gap:6px}
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand"><span>🎓</span> NEXA HUB</div>
+    <nav class="sidebar-nav">
+        <div class="sn-label">Main</div>
+        <a href="{% url 'dashboard' %}"><span class="sn-icon">📊</span> Dashboard</a>
+        <a href="{% url 'grammar_coach' %}"><span class="sn-icon">📖</span> Grammar</a>
+        <a href="{% url 'speaking_practice' %}"><span class="sn-icon">🗣️</span> Speaking</a>
+        <a href="{% url 'interview_simulator' %}" class="active"><span class="sn-icon">💼</span> Interview</a>
+        <a href="{% url 'translation' %}"><span class="sn-icon">🔄</span> Translate</a>
+        <a href="{% url 'pronunciation_coach' %}"><span class="sn-icon">🔊</span> Pronunciation</a>
+        <div class="sn-label" style="margin-top:12px;">Engage</div>
+        <a href="{% url 'daily_challenge' %}"><span class="sn-icon">🏆</span> Challenge</a>
+    </nav>
+    <div class="sidebar-footer">
+        <div class="user-row">
+            <div class="user-avatar">{{ request.user.first_name|first|upper|default:request.user.username|first|upper }}</div>
+            <div>
+                <div class="uname">{{ request.user.get_full_name|default:request.user.username }}</div>
+                <div class="uemail">{{ request.user.email|default:"" }}</div>
+            </div>
+        </div>
+        <div class="user-stats">
+            <span>🏅 {{ profile.total_xp|default:"0" }} XP</span>
+            <span>🔥 {{ profile.current_streak|default:"0" }} day streak</span>
+        </div>
+        <a href="{% url 'logout' %}" class="logout-btn"><span>🚪</span> Sign Out</a>
+    </div>
+</aside>
+
+<button class="sidebar-toggle shifted" id="sidebarToggle">☰</button>
+
+<div class="main-wrap" id="mainWrap">
+    <canvas id="particles-canvas"></canvas>
+    <div class="bg-blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="{% url 'speaking_practice' %}" class="nl">🗣️ Speaking</a>
+            <a href="{% url 'daily_challenge' %}" class="nl">🏆 Challenge</a>
+            <a href="{% url 'dashboard' %}" class="nl">📊 Dashboard</a>
+            <a href="{% url 'interview_simulator' %}" class="nl active">💼 Interview</a>
+        </div>
+    </nav>
+
+    <div class="page">
+
+        <!-- ════════ SETUP SCREEN ════════ -->
+        <div class="setup-screen" id="setupScreen">
+            <div class="setup-header">
+                <span class="sh-icon">💼</span>
+                <h1>AI Interview Simulator</h1>
+                <p>Experience a real interview. AI adapts questions to your answers, evaluates every response, and gives you a detailed report.</p>
+            </div>
+
+            <div class="setup-card">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Interview Type</label>
+                        <select id="setupType">
+                            <option value="hr">👔 HR Interview</option>
+                            <option value="behavioral">🧠 Behavioral</option>
+                            <option value="technical">💻 Technical</option>
+                            <option value="mixed" selected>🔀 Mixed (Recommended)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Experience Level</label>
+                        <select id="setupExp">
+                            <option value="fresher">🌱 Fresher (0-1 year)</option>
+                            <option value="experienced" selected>💼 Experienced (2+ years)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Job Role</label>
+                        <input type="text" id="setupRole" placeholder="e.g. Software Engineer, Product Manager…" />
+                    </div>
+                    <div class="form-group">
+                        <label>Company Name <span class="optional-badge">Optional</span></label>
+                        <input type="text" id="setupCompany" placeholder="e.g. Google, TCS, Infosys…" />
+                    </div>
+                    <div class="form-group">
+                        <label>Years of Experience</label>
+                        <input type="text" id="setupYears" placeholder="e.g. 3 years" />
+                    </div>
+                    <div class="form-group">
+                        <label>Resume <span class="optional-badge">Optional</span></label>
+                        <div class="upload-area" id="resumeUploadArea" onclick="document.getElementById('resumeFile').click()">
+                            <input type="file" id="resumeFile" accept=".pdf,.txt,.doc,.docx" onchange="handleResumeUpload(event)">
+                            <div id="resumeLabel">📄 Click to upload Resume (PDF/TXT)</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Job Description <span class="optional-badge">Optional</span></label>
+                        <textarea id="setupJD" placeholder="Paste job description here to get tailored questions…" rows="3"></textarea>
+                    </div>
+                </div>
+                <button class="start-btn" id="startBtn" onclick="startInterview()">
+                    🚀 Begin Interview
+                </button>
+            </div>
+        </div>
+
+        <!-- ════════ INTERVIEW SCREEN ════════ -->
+        <div class="interview-screen" id="interviewScreen">
+
+            <div class="interview-header">
+                <div class="ih-left">
+                    <div class="ih-badge" id="ihBadge">HR Interview</div>
+                    <div class="ih-role" id="ihRole">Job Role</div>
+                </div>
+                <div class="ih-right">
+                    <div class="q-counter" id="qCounter">Question 1 / 12</div>
+                    <div class="progress-wrap">
+                        <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:8%"></div></div>
+                    </div>
+                    <div class="timer-display">⏱ <span id="timerDisplay">00:00</span></div>
+                </div>
+            </div>
+
+            <div class="chat-area" id="chatArea"></div>
+
+            <div class="input-section">
+                <textarea class="answer-textarea" id="answerInput" placeholder="Type your answer here… or use the mic to speak." oninput="updateWordCount()"></textarea>
+                <div class="input-actions">
+                    <button class="btn-send" id="sendBtn" onclick="submitAnswer()">📨 Submit Answer</button>
+                    <button class="btn-mic" id="micBtn" onclick="toggleMic()">🎤 Speak</button>
+                    <span class="word-count" id="wordCount">0 words</span>
+                    <button class="btn-end" onclick="endInterviewEarly()">⏹ End Interview</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ════════ REPORT SCREEN ════════ -->
+        <div class="report-screen" id="reportScreen">
+            <div class="report-wrap" id="reportWrap"></div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner-gold"></div>
+    <p id="loadingText">Preparing your interview…</p>
+</div>
+
+<script>
+// ─── STATE ───────────────────────────────────────────────────────────────────
+let state = {
+    sessionId: null,
+    questionNumber: 0,
+    maxQuestions: 12,
+    askedQuestions: [],
+    evaluations: [],
+    questionsAsked: [],
+    currentQuestion: null,
+    currentQType: 'general',
+    config: {},
+    timerInterval: null,
+    timerSeconds: 0,
+    recognition: null,
+    isRecording: false,
+    interviewActive: false,
+    resumeText: '',
+};
+
+function getCookie(n){const v=document.cookie.match('(^|;)\\s*'+n+'\\s*=\\s*([^;]+)');return v?v.pop():'';}
+
+// ─── SETUP ───────────────────────────────────────────────────────────────────
+function handleResumeUpload(e){
+    const file=e.target.files[0];
+    if(!file)return;
+    const label=document.getElementById('resumeLabel');
+    const area=document.getElementById('resumeUploadArea');
+    label.textContent='✅ '+file.name;
+    area.classList.add('has-file');
+    if(file.type==='text/plain'){
+        const reader=new FileReader();
+        reader.onload=ev=>{state.resumeText=ev.target.result.substring(0,3000);};
+        reader.readAsText(file);
+    }
+}
+
+async function startInterview(){
+    const role=document.getElementById('setupRole').value.trim();
+    if(!role){document.getElementById('setupRole').focus();showToast('Please enter a job role');return;}
+
+    const config={
+        interview_type:document.getElementById('setupType').value,
+        experience_level:document.getElementById('setupExp').value,
+        job_role:role,
+        company:document.getElementById('setupCompany').value.trim(),
+        years_experience:document.getElementById('setupYears').value.trim(),
+        resume_text:state.resumeText,
+        jd_text:document.getElementById('setupJD').value.trim(),
+    };
+    state.config=config;
+
+    document.getElementById('startBtn').disabled=true;
+    showLoading('Starting your interview…');
+
+    try{
+        const r=await fetch('{% url "ajax_interview_start" %}',{
+            method:'POST',
+            headers:{'Content-Type':'application/json','X-CSRFToken':getCookie('csrftoken')},
+            body:JSON.stringify(config)
+        });
+        const d=await r.json();
+        if(d.error){alert('Error: '+d.error);hideLoading();document.getElementById('startBtn').disabled=false;return;}
+
+        state.sessionId=d.session_id;
+        state.askedQuestions=d.asked_questions||[d.question];
+        state.questionNumber=1;
+        state.interviewActive=true;
+
+        // Switch screens
+        document.getElementById('setupScreen').style.display='none';
+        document.getElementById('interviewScreen').style.display='block';
+
+        // Update header
+        const typeLabels={hr:'👔 HR Interview',behavioral:'🧠 Behavioral',technical:'💻 Technical',mixed:'🔀 Mixed Interview'};
+        document.getElementById('ihBadge').textContent=typeLabels[config.interview_type]||'Interview';
+        document.getElementById('ihRole').textContent=config.job_role+(config.company?' @ '+config.company:'');
+
+        startTimer();
+        hideLoading();
+
+        // Show interviewer greeting
+        await showTyping();
+        appendInterviewerMessage(d.interviewer_message,d.question);
+        state.currentQuestion=d.question;
+        state.currentQType=d.question_type||'opening';
+        state.questionsAsked.push(d.question);
+        updateProgress();
+
+    }catch(err){
+        hideLoading();
+        alert('Network error: '+err.message);
+        document.getElementById('startBtn').disabled=false;
+    }
+}
+
+// ─── INTERVIEW FLOW ──────────────────────────────────────────────────────────
+async function submitAnswer(){
+    const answer=document.getElementById('answerInput').value.trim();
+    if(!answer){showToast('Please type or speak your answer first.');return;}
+    if(!state.currentQuestion){return;}
+
+    stopMic();
+    document.getElementById('sendBtn').disabled=true;
+    appendUserMessage(answer);
+    document.getElementById('answerInput').value='';
+    updateWordCount();
+
+    showLoading('Evaluating your answer…');
+
+    try{
+        const r=await fetch('{% url "ajax_interview_answer" %}',{
+            method:'POST',
+            headers:{'Content-Type':'application/json','X-CSRFToken':getCookie('csrftoken')},
+            body:JSON.stringify({
+                session_id:state.sessionId,
+                question:state.currentQuestion,
+                answer:answer,
+                question_type:state.currentQType,
+                asked_questions:state.askedQuestions,
+            })
+        });
+        const d=await r.json();
+        hideLoading();
+
+        if(d.error){alert('Error: '+d.error);document.getElementById('sendBtn').disabled=false;return;}
+
+        // Store evaluation
+        const eval_data={...d.evaluation, question:state.currentQuestion};
+        state.evaluations.push(eval_data);
+
+        // Show evaluation card
+        appendEvalCard(d.evaluation, state.questionNumber);
+
+        if(d.interview_complete || !d.next_question){
+            // Interview done
+            await delay(1200);
+            await showTyping();
+            appendInterviewerMessage('That concludes our interview. Thank you for your time — you did well to get through all the questions.','');
+            await delay(1200);
+            await endInterview();
+        } else {
+            // Next question
+            state.questionNumber++;
+            updateProgress();
+            await delay(1500);
+            await showTyping();
+            const nq=d.next_question;
+            appendInterviewerMessage(nq.interviewer_message,nq.question);
+            state.currentQuestion=nq.question;
+            state.currentQType=nq.question_type||'general';
+            state.askedQuestions.push(nq.question);
+            state.questionsAsked.push(nq.question);
+            document.getElementById('sendBtn').disabled=false;
+            scrollChat();
+        }
+    }catch(err){
+        hideLoading();
+        alert('Network error: '+err.message);
+        document.getElementById('sendBtn').disabled=false;
+    }
+}
+
+function endInterviewEarly(){
+    if(!confirm('End the interview now and see your report?'))return;
+    endInterview();
+}
+
+async function endInterview(){
+    state.interviewActive=false;
+    clearInterval(state.timerInterval);
+    stopMic();
+
+    if(state.evaluations.length===0){
+        document.getElementById('interviewScreen').style.display='none';
+        document.getElementById('setupScreen').style.display='block';
+        showToast('No answers evaluated yet.');
+        return;
+    }
+
+    showLoading('Generating your report…');
+
+    try{
+        const r=await fetch('{% url "ajax_interview_report" %}',{
+            method:'POST',
+            headers:{'Content-Type':'application/json','X-CSRFToken':getCookie('csrftoken')},
+            body:JSON.stringify({
+                session_id:state.sessionId,
+                evaluations:state.evaluations,
+                questions:state.questionsAsked,
+            })
+        });
+        const d=await r.json();
+        hideLoading();
+        if(d.error){alert('Report error: '+d.error);return;}
+        renderReport(d.report);
+    }catch(err){
+        hideLoading();
+        alert('Report error: '+err.message);
+    }
+}
+
+// ─── CHAT RENDERING ──────────────────────────────────────────────────────────
+function appendInterviewerMessage(prefix,question){
+    const ca=document.getElementById('chatArea');
+    const el=document.createElement('div');
+    el.className='bubble-interviewer';
+    el.innerHTML=`
+        <div class="avatar">🧑‍💼</div>
+        <div class="bubble-body">
+            <div class="bubble-name">AI Interviewer</div>
+            ${prefix?`<div class="bubble-text">${esc(prefix)}</div>`:''}
+            ${question?`<div class="bubble-question">${esc(question)}</div>`:''}
+        </div>`;
+    ca.appendChild(el);
+    scrollChat();
+}
+
+function appendUserMessage(text){
+    const ca=document.getElementById('chatArea');
+    const el=document.createElement('div');
+    el.className='bubble-user';
+    el.innerHTML=`
+        <div class="bubble-body">
+            <div class="bubble-name">You</div>
+            <div class="bubble-text">${esc(text)}</div>
+        </div>
+        <div class="avatar">👤</div>`;
+    ca.appendChild(el);
+    scrollChat();
+}
+
+function appendEvalCard(ev,qNum){
+    const ca=document.getElementById('chatArea');
+    const scoreColor=ev.score>=7?'green':ev.score>=5?'yellow':'red';
+    const scores=ev.scores||{};
+
+    const miniScores=[
+        {l:'Grammar',v:scores.grammar||5},
+        {l:'Vocab',v:scores.vocabulary||5},
+        {l:'Confidence',v:scores.confidence||5},
+        {l:'Structure',v:scores.structure||5},
+        {l:'Tone',v:scores.professionalism||5},
+    ];
+
+    const el=document.createElement('div');
+    el.className='eval-card';
+    el.innerHTML=`
+        <div class="eval-header">
+            <strong>📊 Q${qNum} Evaluation</strong>
+            <div class="eval-score-badge">${ev.score}/10</div>
+        </div>
+        <div class="eval-body">
+            <div class="eval-mini-scores">
+                ${miniScores.map(s=>`<div class="score-pill"><div class="sp-val">${s.v}</div><div class="sp-label">${s.l}</div></div>`).join('')}
+            </div>
+            ${ev.strengths?.length?`<div class="eval-section green"><div class="es-title">✅ Strengths</div>${ev.strengths.map(s=>`<div class="es-item">${esc(s)}</div>`).join('')}</div>`:''}
+            ${ev.weaknesses?.length?`<div class="eval-section red"><div class="es-title">⚠️ Weaknesses</div>${ev.weaknesses.map(s=>`<div class="es-item">${esc(s)}</div>`).join('')}</div>`:''}
+            ${ev.missing_points?.length?`<div class="eval-section yellow"><div class="es-title">💡 Missing</div>${ev.missing_points.map(s=>`<div class="es-item">${esc(s)}</div>`).join('')}</div>`:''}
+            <div class="better-answer-box"><strong>💬 Better Answer Structure</strong>${esc(ev.better_answer||'')}</div>
+            <div class="eval-section"><div class="es-title">🗣️ Communication</div><div class="es-item">${esc(ev.communication_feedback||'')}</div><div class="es-item">${esc(ev.grammar_feedback||'')}</div><div class="es-item">${esc(ev.confidence_feedback||'')}</div></div>
+        </div>`;
+    ca.appendChild(el);
+    scrollChat();
+}
+
+// ─── REPORT RENDERING ────────────────────────────────────────────────────────
+function renderReport(r){
+    document.getElementById('interviewScreen').style.display='none';
+    document.getElementById('reportScreen').style.display='block';
+
+    const c=state.config;
+    const ss=r.skill_scores||{};
+    const scoreColor=r.hiring_color||'yellow';
+
+    const skillBars=[
+        {l:'HR Skills',v:ss.hr_skills||5},
+        {l:'Technical Skills',v:ss.technical_skills||5},
+        {l:'Communication',v:ss.communication||5},
+        {l:'Grammar',v:ss.grammar||5},
+        {l:'Confidence',v:ss.confidence||5},
+        {l:'Problem Solving',v:ss.problem_solving||5},
+        {l:'Professionalism',v:ss.professionalism||5},
+    ];
+
+    function barColor(v){return v>=7?'green':v>=5?'yellow':'red';}
+
+    const html=`
+    <div class="report-hero">
+        ${c.company?`<div class="report-company">${esc(c.company)}</div>`:''}
+        <div class="report-title">Interview Report${c.job_role?' — '+esc(c.job_role):''}</div>
+        <div class="report-sub">${r.total_questions} questions answered • ${c.experience_level}</div>
+        <div class="big-score ${scoreColor}">${r.overall_score}/10</div>
+        <div class="hiring-badge ${scoreColor}">
+            ${r.hiring_recommendation==='Ready'?'✅ Ready to Hire':r.hiring_recommendation==='Needs Improvement'?'⚡ Needs Improvement':'❌ Not Ready'}
+        </div>
+        <p style="margin-top:14px;color:var(--muted);font-size:0.9rem;max-width:520px;margin-left:auto;margin-right:auto;">${esc(r.hiring_message||'')}</p>
+    </div>
+
+    <div class="report-grid">
+        <div class="report-card">
+            <h3>📈 Skill Breakdown</h3>
+            <div class="skill-bar-row">
+                ${skillBars.map(sb=>`
+                <div class="skill-bar">
+                    <div class="skill-bar-top"><span class="skill-bar-label">${sb.l}</span><span class="skill-bar-val">${sb.v}/10</span></div>
+                    <div class="skill-bar-track"><div class="skill-bar-fill ${barColor(sb.v)}" style="width:${sb.v*10}%"></div></div>
+                </div>`).join('')}
+            </div>
+        </div>
+
+        <div class="report-card">
+            <h3>💪 Strengths</h3>
+            <div class="report-list">
+                ${(r.strengths||[]).map(s=>`<div class="rl-item"><span class="rl-icon">✅</span>${esc(s)}</div>`).join('')||'<div class="rl-item"><span class="rl-icon">📌</span>Keep practicing to build on your strengths.</div>'}
+            </div>
+        </div>
+
+        <div class="report-card">
+            <h3>⚠️ Weaknesses</h3>
+            <div class="report-list">
+                ${(r.weaknesses||[]).map(s=>`<div class="rl-item"><span class="rl-icon">⚠️</span>${esc(s)}</div>`).join('')||'<div class="rl-item"><span class="rl-icon">👍</span>No major weaknesses found.</div>'}
+            </div>
+        </div>
+
+        <div class="report-card">
+            <h3>🎯 Areas to Improve</h3>
+            <div class="report-list">
+                ${(r.areas_to_improve||[]).map(s=>`<div class="rl-item"><span class="rl-icon">🎯</span>${esc(s)}</div>`).join('')}
+            </div>
+        </div>
+
+        <div class="report-card">
+            <h3>❌ Top Mistakes</h3>
+            <div class="report-list">
+                ${(r.top_mistakes||[]).map(s=>`<div class="rl-item"><span class="rl-icon">📌</span>${esc(s)}</div>`).join('')||'<div class="rl-item"><span class="rl-icon">🎉</span>No major mistakes — great job!</div>'}
+            </div>
+        </div>
+
+        <div class="report-card">
+            <h3>📚 Recommended Topics</h3>
+            <div class="report-list">
+                ${(r.recommended_topics||[]).map(s=>`<div class="rl-item"><span class="rl-icon">📘</span>${esc(s)}</div>`).join('')}
+            </div>
+        </div>
+
+        <div class="report-card full">
+            <h3>📝 Detailed Summary</h3>
+            <div class="summary-box">${esc(r.summary||'')}</div>
+        </div>
+    </div>
+
+    <div class="report-actions">
+        <button class="ra-btn" onclick="window.print()">🖨️ Print Report</button>
+        <button class="ra-btn" onclick="copyReport()">📋 Copy Summary</button>
+        <button class="ra-btn primary" onclick="restartInterview()">🔄 New Interview</button>
+    </div>`;
+
+    document.getElementById('reportWrap').innerHTML=html;
+    document.getElementById('reportScreen').scrollIntoView({behavior:'smooth'});
+
+    if(r.hiring_color==='green') launchConfetti();
+}
+
+// ─── UTILITIES ───────────────────────────────────────────────────────────────
+function showTyping(){
+    return new Promise(resolve=>{
+        const ca=document.getElementById('chatArea');
+        const el=document.createElement('div');
+        el.className='typing-bubble';
+        el.id='typingBubble';
+        el.innerHTML=`<div class="avatar">🧑‍💼</div><div class="typing-dots"><span></span><span></span><span></span></div>`;
+        ca.appendChild(el);
+        scrollChat();
+        setTimeout(()=>{el.remove();resolve();},1200);
+    });
+}
+
+function scrollChat(){
+    const ca=document.getElementById('chatArea');
+    ca.scrollTop=ca.scrollHeight;
+}
+
+function updateProgress(){
+    const pct=Math.min(100,Math.round((state.questionNumber/state.maxQuestions)*100));
+    document.getElementById('progressFill').style.width=pct+'%';
+    document.getElementById('qCounter').textContent=`Question ${state.questionNumber} / ${state.maxQuestions}`;
+}
+
+function updateWordCount(){
+    const words=document.getElementById('answerInput').value.trim().split(/\s+/).filter(Boolean).length;
+    const el=document.getElementById('wordCount');
+    el.textContent=words+' words';
+    el.style.color=words>=60?'var(--green)':words>=30?'var(--yellow)':'var(--muted)';
+}
+
+function startTimer(){
+    state.timerSeconds=0;
+    clearInterval(state.timerInterval);
+    state.timerInterval=setInterval(()=>{
+        state.timerSeconds++;
+        const m=Math.floor(state.timerSeconds/60).toString().padStart(2,'0');
+        const s=(state.timerSeconds%60).toString().padStart(2,'0');
+        document.getElementById('timerDisplay').textContent=m+':'+s;
+    },1000);
+}
+
+function toggleMic(){
+    const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(!SR){showToast('Speech recognition requires Chrome browser.');return;}
+    if(state.isRecording){stopMic();}
+    else{startMic();}
+}
+
+function startMic(){
+    const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    state.recognition=new SR();
+    state.recognition.lang='en-IN';
+    state.recognition.continuous=true;
+    state.recognition.interimResults=true;
+    let final='';
+    state.recognition.onresult=e=>{
+        let interim='';
+        for(let i=e.resultIndex;i<e.results.length;i++){
+            if(e.results[i].isFinal)final+=e.results[i][0].transcript+' ';
+            else interim=e.results[i][0].transcript;
+        }
+        document.getElementById('answerInput').value=final+interim;
+        updateWordCount();
+    };
+    state.recognition.onend=()=>stopMic();
+    state.recognition.start();
+    state.isRecording=true;
+    const btn=document.getElementById('micBtn');
+    btn.textContent='⏹ Stop';
+    btn.classList.add('recording');
+}
+
+function stopMic(){
+    if(state.recognition){try{state.recognition.stop();}catch(e){}}
+    state.isRecording=false;
+    const btn=document.getElementById('micBtn');
+    if(btn){btn.textContent='🎤 Speak';btn.classList.remove('recording');}
+}
+
+function showLoading(msg){
+    document.getElementById('loadingText').textContent=msg||'Loading…';
+    document.getElementById('loadingOverlay').classList.add('show');
+}
+function hideLoading(){document.getElementById('loadingOverlay').classList.remove('show');}
+
+function esc(s){
+    if(!s)return'';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function delay(ms){return new Promise(r=>setTimeout(r,ms));}
+
+function showToast(msg){
+    const t=document.createElement('div');
+    t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(212,175,55,0.1);border:1px solid var(--border);color:var(--gold-light);padding:10px 22px;border-radius:99px;font-size:0.88rem;z-index:999;animation:bubbleIn 0.3s ease';
+    t.textContent=msg;
+    document.body.appendChild(t);
+    setTimeout(()=>t.remove(),3000);
+}
+
+function launchConfetti(){
+    const colors=['#d4af37','#f5d76e','#4ade80','#60a5fa','#f472b6'];
+    for(let i=0;i<60;i++){
+        const c=document.createElement('div');
+        c.className='confetti-piece';
+        c.style.cssText=`left:${Math.random()*100}vw;top:0;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${Math.random()>0.5?'50%':'2px'};width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;animation-duration:${2+Math.random()*2}s;animation-delay:${Math.random()*0.8}s`;
+        document.body.appendChild(c);
+        setTimeout(()=>c.remove(),4000);
+    }
+}
+
+function copyReport(){
+    const summary=document.querySelector('.summary-box');
+    if(summary)navigator.clipboard.writeText(summary.innerText).then(()=>showToast('✅ Summary copied!'));
+}
+
+function restartInterview(){
+    state={...state,sessionId:null,questionNumber:0,askedQuestions:[],evaluations:[],questionsAsked:[],currentQuestion:null,interviewActive:false,resumeText:'',timerSeconds:0};
+    clearInterval(state.timerInterval);
+    document.getElementById('chatArea').innerHTML='';
+    document.getElementById('answerInput').value='';
+    document.getElementById('reportScreen').style.display='none';
+    document.getElementById('interviewScreen').style.display='none';
+    document.getElementById('setupScreen').style.display='block';
+    document.getElementById('startBtn').disabled=false;
+    document.getElementById('timerDisplay').textContent='00:00';
+    window.scrollTo(0,0);
+}
+
+// ─── SIDEBAR ─────────────────────────────────────────────────────────────────
+(function(){
+    const sidebar=document.getElementById('sidebar');
+    const toggle=document.getElementById('sidebarToggle');
+    const overlay=document.getElementById('sidebarOverlay');
+    const mainWrap=document.getElementById('mainWrap');
+    const isMobile=()=>window.innerWidth<=992;
+
+    function updateState(open){
+        if(isMobile()){sidebar.classList.toggle('open',open);overlay.classList.toggle('show',open);}
+        else{sidebar.classList.toggle('collapsed',!open);mainWrap.classList.toggle('sidebar-collapsed',!open);toggle.classList.toggle('shifted',open);}
+    }
+
+    if(!isMobile()){sidebar.classList.remove('collapsed');mainWrap.classList.remove('sidebar-collapsed');toggle.classList.add('shifted');}
+
+    toggle.addEventListener('click',e=>{
+        e.stopPropagation();
+        const open=isMobile()?sidebar.classList.contains('open'):!sidebar.classList.contains('collapsed');
+        updateState(!open);
+    });
+    overlay.addEventListener('click',()=>{if(isMobile())updateState(false);});
+    document.querySelectorAll('.sidebar-nav a').forEach(a=>a.addEventListener('click',()=>{if(isMobile())updateState(false);}));
+})();
+
+// ─── PARTICLES ───────────────────────────────────────────────────────────────
+(function(){
+    const c=document.getElementById('particles-canvas'),ctx=c.getContext('2d');
+    let W,H,pts=[];
+    function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
+    resize();window.addEventListener('resize',resize);
+    function rand(a,b){return Math.random()*(b-a)+a;}
+    const COLORS=['212,175,55','245,215,110','184,150,46'];
+    for(let i=0;i<90;i++)pts.push({x:rand(0,W),y:rand(0,H),r:rand(0.5,2),vx:rand(-0.2,0.2),vy:rand(-0.2,0.2),a:rand(0.1,0.4),c:COLORS[Math.floor(Math.random()*COLORS.length)]});
+    function draw(){ctx.clearRect(0,0,W,H);pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(${p.c},${p.a})`;ctx.fill();});requestAnimationFrame(draw);}
+    draw();
+})();
+</script>
+</body>
+</html>
