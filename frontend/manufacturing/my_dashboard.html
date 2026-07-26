@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard | ManufacturingERP</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        :root {
+            --sidebar-w: 245px;
+            --brand: #2954e6;
+            --brand-dark: #1e3fb8;
+            --bg-soft: #f4f6fb;
+            --card-radius: 16px;
+            --text-main: #1b2a55;
+        }
+        [data-theme="dark"] {
+            --bg-soft: #10162b;
+            --text-main: #e7ebff;
+        }
+        [data-theme="dark"] body { color: #d7ddf5; }
+        [data-theme="dark"] .card { background: #171f3d; }
+        [data-theme="dark"] .table thead th { background: #1e2748; color: #9aa6d6; }
+        [data-theme="dark"] .table { color: #d7ddf5; }
+        [data-theme="dark"] .kpi-label { color: #8f9ad0; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg-soft); margin: 0; transition: background .2s ease; }
+        .sidebar {
+            position: fixed; top: 0; left: 0; bottom: 0; width: var(--sidebar-w);
+            background: linear-gradient(180deg, #101935 0%, #1b2a55 100%);
+            color: #cfd7f5; overflow-y: auto; z-index: 1030;
+        }
+        .sidebar .brand { padding: 20px; font-size: 1.2rem; font-weight: 700; color: #fff; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .sidebar .brand i { color: var(--brand); margin-right: 8px; }
+        .sidebar a.nav-link { color: #b9c3e8; padding: 10px 20px; font-size: .9rem; border-left: 3px solid transparent; transition: all .15s ease-in-out; }
+        .sidebar a.nav-link i { width: 20px; }
+        .sidebar a.nav-link:hover, .sidebar a.nav-link.active { background: rgba(41,84,230,0.18); color: #fff; border-left-color: var(--brand); }
+        .main-content { margin-left: var(--sidebar-w); padding: 0 0 60px; min-height: 100vh; }
+        .topbar {
+            background: #fff; padding: 14px 28px; display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 1px 6px rgba(23,43,99,0.06); position: sticky; top: 0; z-index: 1000;
+        }
+        [data-theme="dark"] .topbar { background: #171f3d; }
+        .topbar h5 { margin: 0; font-weight: 700; color: var(--text-main); }
+        .content-pad { padding: 24px 28px; }
+        .card { border: none; border-radius: var(--card-radius); box-shadow: 0 2px 12px rgba(23,43,99,0.07); }
+        .kpi-card { padding: 18px 20px; }
+        .kpi-icon { width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #fff; }
+        .kpi-value { font-size: 1.5rem; font-weight: 700; color: var(--text-main); }
+        .kpi-label { font-size: .8rem; color: #7a869e; }
+        .section-title { font-weight: 700; color: var(--text-main); margin: 30px 0 14px; }
+        .table thead th { background: #eef1fb; font-size: .76rem; text-transform: uppercase; color: #56618a; border: none; }
+        .badge-status { padding: 5px 10px; border-radius: 20px; font-size: .72rem; font-weight: 600; }
+        .badge-present, .badge-approved, .badge-resolved, .badge-fulfilled { background: #e3f7ec; color: #1a9c5c; }
+        .badge-absent, .badge-rejected { background: #fce8e8; color: #d64545; }
+        .badge-half_day, .badge-pending { background: #fff4e0; color: #b8790a; }
+        .badge-leave, .badge-in_progress, .badge-cancelled { background: #eaeefc; color: #3f52b5; }
+        .btn-primary { background: var(--brand); border-color: var(--brand); }
+        .btn-primary:hover { background: var(--brand-dark); border-color: var(--brand-dark); }
+        .notif-dot { width: 8px; height: 8px; border-radius: 50%; background: #d64545; position: absolute; top: 6px; right: 8px; }
+        .quick-btn { border-radius: 14px; padding: 16px 10px; text-align: center; border: 1px solid #e5e9f5; background: #fff; transition: all .15s; }
+        [data-theme="dark"] .quick-btn { background: #171f3d; border-color: #262f52; color: #d7ddf5; }
+        .quick-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(23,43,99,0.1); }
+        .quick-btn i { font-size: 1.3rem; color: var(--brand); display: block; margin-bottom: 6px; }
+        @media (max-width: 991px) { .sidebar { transform: translateX(-100%); } .main-content { margin-left: 0; } }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="sidebar">
+        <div class="brand"><i class="fa-solid fa-industry"></i>{{ company_profile.name|default:"ManufacturingERP" }}</div>
+        <nav class="nav flex-column py-2">
+            <a href="#overview" class="nav-link active"><i class="fa-solid fa-gauge"></i>&nbsp; Dashboard</a>
+            <a href="#work" class="nav-link"><i class="fa-solid fa-list-check"></i>&nbsp; My Work</a>
+            <a href="#attendance" class="nav-link"><i class="fa-solid fa-clock"></i>&nbsp; Attendance</a>
+            <a href="#leave" class="nav-link"><i class="fa-solid fa-calendar-days"></i>&nbsp; Leave</a>
+            <a href="#salary" class="nav-link"><i class="fa-solid fa-sack-dollar"></i>&nbsp; Salary</a>
+            <a href="#material" class="nav-link"><i class="fa-solid fa-boxes-packing"></i>&nbsp; Material Requests</a>
+            <a href="#maintenance" class="nav-link"><i class="fa-solid fa-screwdriver-wrench"></i>&nbsp; Maintenance</a>
+            {% if role == 'employee' %}<a href="#quality" class="nav-link"><i class="fa-solid fa-magnifying-glass"></i>&nbsp; Quality</a>{% endif %}
+            <a href="#safety" class="nav-link"><i class="fa-solid fa-shield-halved"></i>&nbsp; Safety</a>
+            <a href="#profile" class="nav-link"><i class="fa-solid fa-id-card"></i>&nbsp; Profile</a>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <div class="topbar">
+            <h5><i class="fa-solid fa-gauge me-2"></i>My Dashboard</h5>
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-sm btn-outline-secondary position-relative" id="themeToggle" title="Toggle theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-outline-secondary position-relative dropdown-toggle" data-bs-toggle="dropdown">
+                        <i class="fa-solid fa-bell"></i>
+                        {% if unread_count %}<span class="notif-dot"></span>{% endif %}
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end p-2" style="width: 320px; max-height: 360px; overflow-y: auto;">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <strong>Notifications</strong>
+                            {% if unread_count %}
+                            <form method="post" action="{% url 'my-notifications-read-all' %}">{% csrf_token %}
+                                <button class="btn btn-sm btn-link p-0" type="submit">Mark all read</button>
+                            </form>
+                            {% endif %}
+                        </div>
+                        {% for n in notifications %}
+                        <div class="border-bottom py-2 {% if not n.is_read %}fw-semibold{% endif %}">
+                            <div>{{ n.title }}</div>
+                            <small class="text-muted">{{ n.message|truncatechars:60 }}</small>
+                        </div>
+                        {% empty %}
+                        <div class="text-muted small">No notifications yet.</div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <form method="post" action="{% url 'logout' %}" class="m-0">
+                    {% csrf_token %}
+                    <button class="btn btn-sm btn-outline-danger" type="submit"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="content-pad">
+            {% if messages %}{% for message in messages %}<div class="alert alert-success">{{ message }}</div>{% endfor %}{% endif %}
+
+            <div id="overview">
+                <p class="text-muted mb-3">Welcome back, <strong>{{ request.user.first_name|default:request.user.username }}</strong> &middot; {{ role|title }}{% if role == 'worker' %} &middot; {{ profile.worker_id }}{% elif role == 'employee' %} &middot; {{ profile.employee_id }}{% endif %}</p>
+
+                <!-- KPI cards -->
+                <div class="row g-3">
+                    <div class="col-6 col-md-3">
+                        <div class="card kpi-card">
+                            <div class="kpi-icon mb-2" style="background:#2954e6;"><i class="fa-solid fa-clock"></i></div>
+                            <div class="kpi-value">{% if today_attendance.check_in %}Punched In{% else %}Not Marked{% endif %}</div>
+                            <div class="kpi-label">Today's Attendance</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="card kpi-card">
+                            <div class="kpi-icon mb-2" style="background:#1a9c5c;"><i class="fa-solid fa-calendar-check"></i></div>
+                            <div class="kpi-value">{{ present_days }}</div>
+                            <div class="kpi-label">Present Days (This Month)</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="card kpi-card">
+                            <div class="kpi-icon mb-2" style="background:#b8790a;"><i class="fa-solid fa-umbrella-beach"></i></div>
+                            <div class="kpi-value">{{ leave_balance }}</div>
+                            <div class="kpi-label">Leave Balance</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="card kpi-card">
+                            <div class="kpi-icon mb-2" style="background:#3f52b5;"><i class="fa-solid fa-bell"></i></div>
+                            <div class="kpi-value">{{ unread_count }}</div>
+                            <div class="kpi-label">Unread Notifications</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick actions -->
+                <div class="row g-3 mt-1">
+                    <div class="col-4 col-md-2">
+                        <form method="post" action="{% url 'my-punch' %}">{% csrf_token %}
+                            <input type="hidden" name="action" value="punch_in">
+                            <button class="quick-btn w-100 border-0" type="submit" {% if today_attendance.check_in %}disabled{% endif %}>
+                                <i class="fa-solid fa-right-to-bracket"></i>Punch In
+                            </button>
+                        </form>
+                    </div>
+                    <div class="col-4 col-md-2">
+                        <form method="post" action="{% url 'my-punch' %}">{% csrf_token %}
+                            <input type="hidden" name="action" value="punch_out">
+                            <button class="quick-btn w-100 border-0" type="submit" {% if not today_attendance.check_in or today_attendance.check_out %}disabled{% endif %}>
+                                <i class="fa-solid fa-right-from-bracket"></i>Punch Out
+                            </button>
+                        </form>
+                    </div>
+                    <a href="#leave" class="col-4 col-md-2 text-decoration-none"><div class="quick-btn"><i class="fa-solid fa-calendar-plus"></i>Apply Leave</div></a>
+                    <a href="{% url 'my-payslip' %}" class="col-4 col-md-2 text-decoration-none"><div class="quick-btn"><i class="fa-solid fa-file-invoice-dollar"></i>Download Payslip</div></a>
+                    <a href="#maintenance" class="col-4 col-md-2 text-decoration-none"><div class="quick-btn"><i class="fa-solid fa-triangle-exclamation"></i>Report Issue</div></a>
+                    <a href="#material" class="col-4 col-md-2 text-decoration-none"><div class="quick-btn"><i class="fa-solid fa-boxes-packing"></i>Request Material</div></a>
+                </div>
+            </div>
+
+            <!-- My Work -->
+            <div id="work">
+                <h6 class="section-title"><i class="fa-solid fa-list-check me-2"></i>My Work</h6>
+                <div class="card p-3">
+                    {% if role == 'employee' %}
+                        <p class="text-muted small mb-2">Production orders you supervise:</p>
+                        <div class="table-responsive">
+                            <table class="table table-sm align-middle">
+                                <thead><tr><th>Order #</th><th>Product</th><th>Deadline</th><th>Priority</th><th>Progress</th><th>Status</th></tr></thead>
+                                <tbody>
+                                {% for o in supervised_orders %}
+                                    <tr>
+                                        <td>{{ o.order_number }}</td><td>{{ o.product_name }}</td><td>{{ o.deadline }}</td>
+                                        <td><span class='badge bg-{% if o.priority == "high" %}danger{% elif o.priority == "medium" %}warning{% else %}secondary{% endif %}'>{{ o.get_priority_display }}</span></td>
+                                        <td>{{ o.completion_percentage }}%</td>
+                                        <td><span class="badge-status badge-pending">{{ o.get_status_display }}</span></td>
+                                    </tr>
+                                {% empty %}
+                                    <tr><td colspan="6" class="text-center text-muted py-3">No active production orders assigned.</td></tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% if supervised_lines %}
+                        <p class="text-muted small mt-3 mb-1">Production lines you supervise: {% for l in supervised_lines %}<span class="badge bg-secondary me-1">{{ l.name }}</span>{% endfor %}</p>
+                        {% endif %}
+                    {% else %}
+                        <p class="text-muted small mb-2">Work orders assigned to you:</p>
+                        <div class="table-responsive">
+                            <table class="table table-sm align-middle">
+                                <thead><tr><th>Work Order #</th><th>Product</th><th>Machine</th><th>Start</th><th>Status</th></tr></thead>
+                                <tbody>
+                                {% for wo in work_orders %}
+                                    <tr>
+                                        <td>{{ wo.work_order_number }}</td><td>{{ wo.production_order.product_name }}</td>
+                                        <td>{{ wo.assigned_machine|default:"—" }}</td><td>{{ wo.start_date }}</td>
+                                        <td><span class="badge-status badge-pending">{{ wo.get_status_display }}</span></td>
+                                    </tr>
+                                {% empty %}
+                                    <tr><td colspan="5" class="text-center text-muted py-3">No active work orders assigned.</td></tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-muted small mt-3 mb-0">
+                            Assigned Line: <strong>{{ assigned_line|default:"—" }}</strong> &middot;
+                            Assigned Machine: <strong>{{ assigned_machine|default:"—" }}</strong> &middot;
+                            Shift: <strong>{{ shift|default:"—" }}</strong>
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Attendance -->
+            <div id="attendance">
+                <h6 class="section-title"><i class="fa-solid fa-clock me-2"></i>Attendance</h6>
+                <div class="card p-3">
+                    <div class="row mb-3 text-center">
+                        <div class="col-3"><div class="kpi-value">{{ present_days }}</div><div class="kpi-label">Present</div></div>
+                        <div class="col-3"><div class="kpi-value">{{ absent_days }}</div><div class="kpi-label">Absent</div></div>
+                        <div class="col-3"><div class="kpi-value">{{ half_days }}</div><div class="kpi-label">Half Day</div></div>
+                        <div class="col-3"><div class="kpi-value">{{ leave_days_taken }}</div><div class="kpi-label">On Leave</div></div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-sm align-middle">
+                            <thead><tr><th>Date</th><th>Status</th><th>Check-In</th><th>Check-Out</th></tr></thead>
+                            <tbody>
+                            {% for a in attendances %}
+                                <tr>
+                                    <td>{{ a.date }}</td>
+                                    <td><span class="badge-status badge-{{ a.status }}">{{ a.get_status_display }}</span></td>
+                                    <td>{{ a.check_in|default:"—" }}</td>
+                                    <td>{{ a.check_out|default:"—" }}</td>
+                                </tr>
+                            {% empty %}
+                                <tr><td colspan="4" class="text-center text-muted py-3">No attendance records yet.</td></tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leave -->
+            <div id="leave">
+                <h6 class="section-title"><i class="fa-solid fa-calendar-days me-2"></i>Leave</h6>
+                <div class="row g-3">
+                    <div class="col-lg-5">
+                        <div class="card p-3">
+                            <h6 class="fw-bold mb-3">Apply for Leave</h6>
+                            <form method="post" action="{% url 'my-leave-apply' %}">
+                                {% csrf_token %}
+                                {{ leave_form.as_p }}
+                                <button class="btn btn-primary w-100" type="submit">Apply Leave</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="card p-3">
+                            <h6 class="fw-bold mb-3">Leave History</h6>
+                            <div class="table-responsive">
+                                <table class="table table-sm align-middle">
+                                    <thead><tr><th>Type</th><th>From</th><th>To</th><th>Status</th><th></th></tr></thead>
+                                    <tbody>
+                                    {% for lv in leaves %}
+                                        <tr>
+                                            <td>{{ lv.get_leave_type_display }}</td><td>{{ lv.from_date }}</td><td>{{ lv.to_date }}</td>
+                                            <td><span class="badge-status badge-{{ lv.status }}">{{ lv.get_status_display }}</span></td>
+                                            <td>
+                                                {% if lv.status == 'pending' %}
+                                                <form method="post" action="{% url 'my-leave-cancel' pk=lv.pk %}">{% csrf_token %}
+                                                    <button class="btn btn-sm btn-outline-danger" type="submit">Cancel</button>
+                                                </form>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% empty %}
+                                        <tr><td colspan="5" class="text-center text-muted py-3">No leave requests yet.</td></tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Salary -->
+            <div id="salary">
+                <h6 class="section-title"><i class="fa-solid fa-sack-dollar me-2"></i>Salary Snapshot</h6>
+                <div class="card p-3">
+                    <div class="row text-center">
+                        <div class="col-6 col-md-4">
+                            <div class="kpi-value">₹{{ salary }}</div>
+                            <div class="kpi-label">{% if role == 'employee' %}Monthly Salary{% else %}This Month's Estimate{% endif %}</div>
+                        </div>
+                        <div class="col-6 col-md-4">
+                            <div class="kpi-value">{{ present_days }}</div>
+                            <div class="kpi-label">Present Days This Month</div>
+                        </div>
+                        <div class="col-12 col-md-4 mt-2 mt-md-0">
+                            <a href="{% url 'my-payslip' %}" class="btn btn-primary"><i class="fa-solid fa-download me-1"></i>Download Payslip (PDF)</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Material Requests -->
+            <div id="material">
+                <h6 class="section-title"><i class="fa-solid fa-boxes-packing me-2"></i>Material Requests</h6>
+                <div class="row g-3">
+                    <div class="col-lg-5">
+                        <div class="card p-3">
+                            <h6 class="fw-bold mb-3">Request Raw Material / Tool / Spare Part</h6>
+                            <form method="post" action="{% url 'my-material-request' %}">
+                                {% csrf_token %}
+                                {{ material_form.as_p }}
+                                <button class="btn btn-primary w-100" type="submit">Submit Request</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="card p-3">
+                            <h6 class="fw-bold mb-3">Request History</h6>
+                            <div class="table-responsive">
+                                <table class="table table-sm align-middle">
+                                    <thead><tr><th>Item</th><th>Qty</th><th>Priority</th><th>Status</th></tr></thead>
+                                    <tbody>
+                                    {% for req in material_requests %}
+                                        <tr>
+                                            <td>{{ req.item_name }}</td><td>{{ req.quantity }}</td>
+                                            <td><span class='badge bg-{% if req.priority == "high" %}danger{% elif req.priority == "medium" %}warning{% else %}secondary{% endif %}'>{{ req.get_priority_display }}</span></td>
+                                            <td><span class="badge-status badge-{{ req.status }}">{{ req.get_status_display }}</span></td>
+                                        </tr>
+                                    {% empty %}
+                                        <tr><td colspan="4" class="text-center text-muted py-3">No requests yet.</td></tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Maintenance -->
+            <div id="maintenance">
+                <h6 class="section-title"><i class="fa-solid fa-screwdriver-wrench me-2"></i>Maintenance Requests</h6>
+                <div class="row g-3">
+                    <div class="col-lg-5">
+                        <div class="card p-3">
+                            <h6 class="fw-bold mb-3">Report a Machine Issue</h6>
+                            <form method="post" action="{% url 'my-maintenance-request' %}" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{ maintenance_form.as_p }}
+                                <button class="btn btn-primary w-100" type="submit">Report Issue</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="card p-3">
+                            <h6 class="fw-bold mb-3">My Reports</h6>
+                            <div class="table-responsive">
+                                <table class="table table-sm align-middle">
+                                    <thead><tr><th>Machine</th><th>Problem</th><th>Priority</th><th>Status</th></tr></thead>
+                                    <tbody>
+                                    {% for req in maintenance_requests %}
+                                        <tr>
+                                            <td>{{ req.machine }}</td><td>{{ req.get_problem_type_display }}</td>
+                                            <td><span class='badge bg-{% if req.priority == "high" %}danger{% elif req.priority == "medium" %}warning{% else %}secondary{% endif %}'>{{ req.get_priority_display }}</span></td>
+                                            <td><span class="badge-status badge-{{ req.status }}">{{ req.get_status_display }}</span></td>
+                                        </tr>
+                                    {% empty %}
+                                        <tr><td colspan="4" class="text-center text-muted py-3">No reports yet.</td></tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% if role == 'employee' %}
+            <!-- Quality -->
+            <div id="quality">
+                <h6 class="section-title"><i class="fa-solid fa-magnifying-glass me-2"></i>Quality Inspections</h6>
+                <div class="card p-3">
+                    <div class="row text-center mb-3">
+                        <div class="col-6"><div class="kpi-value text-success">{{ passed_qty }}</div><div class="kpi-label">Passed Units Inspected</div></div>
+                        <div class="col-6"><div class="kpi-value text-danger">{{ failed_qty }}</div><div class="kpi-label">Failed Units Inspected</div></div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-sm align-middle">
+                            <thead><tr><th>Order</th><th>Type</th><th>Date</th><th>Passed</th><th>Failed</th><th>Status</th></tr></thead>
+                            <tbody>
+                            {% for qc in quality_checks %}
+                                <tr>
+                                    <td>{{ qc.production_order.order_number }}</td><td>{{ qc.get_inspection_type_display }}</td>
+                                    <td>{{ qc.date }}</td><td>{{ qc.passed_quantity }}</td><td>{{ qc.failed_quantity }}</td>
+                                    <td><span class="badge-status badge-{{ qc.status }}">{{ qc.get_status_display }}</span></td>
+                                </tr>
+                            {% empty %}
+                                <tr><td colspan="6" class="text-center text-muted py-3">No inspection records yet.</td></tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Safety -->
+            <div id="safety">
+                <h6 class="section-title"><i class="fa-solid fa-shield-halved me-2"></i>Safety</h6>
+                <div class="card p-3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="mb-1"><strong>Last Safety Training:</strong> {% if role == 'worker' %}{{ profile.safety_training_date|default:"Not recorded" }}{% else %}Not tracked for employees{% endif %}</p>
+                            <p class="text-muted small">Contact your supervisor if a refresher is due.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="fw-bold mb-2">Daily Safety Checklist</p>
+                            <ul class="small text-muted mb-0">
+                                <li>Wear assigned PPE (helmet, gloves, safety shoes)</li>
+                                <li>Inspect machine guards before starting work</li>
+                                <li>Report any unsafe condition immediately via Maintenance Requests</li>
+                                <li>Know your nearest emergency exit and assembly point</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile -->
+            <div id="profile">
+                <h6 class="section-title"><i class="fa-solid fa-id-card me-2"></i>My Profile</h6>
+                <div class="card p-3">
+                    <div class="row">
+                        {% if role == 'employee' %}
+                            <div class="col-md-6"><p><strong>Employee ID:</strong> {{ profile.employee_id }}</p></div>
+                            <div class="col-md-6"><p><strong>Name:</strong> {{ request.user.get_full_name|default:request.user.username }}</p></div>
+                            <div class="col-md-6"><p><strong>Department:</strong> {{ profile.department|default:"—" }}</p></div>
+                            <div class="col-md-6"><p><strong>Designation:</strong> {{ profile.designation|default:"—" }}</p></div>
+                            <div class="col-md-6"><p><strong>Phone:</strong> {{ profile.phone }}</p></div>
+                            <div class="col-md-6"><p><strong>Date Joined:</strong> {{ profile.date_joined }}</p></div>
+                            <div class="col-md-6"><p><strong>Emergency Contact:</strong> {{ profile.emergency_contact|default:"—" }}</p></div>
+                        {% else %}
+                            <div class="col-md-6"><p><strong>Worker ID:</strong> {{ profile.worker_id }}</p></div>
+                            <div class="col-md-6"><p><strong>Name:</strong> {{ profile.name }}</p></div>
+                            <div class="col-md-6"><p><strong>Category:</strong> {{ profile.get_worker_category_display }}</p></div>
+                            <div class="col-md-6"><p><strong>Phone:</strong> {{ profile.phone }}</p></div>
+                            <div class="col-md-6"><p><strong>Shift:</strong> {{ profile.shift|default:"—" }}</p></div>
+                            <div class="col-md-6"><p><strong>Skills:</strong> {{ profile.skills|default:"—" }}</p></div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('themeToggle').addEventListener('click', function () {
+            const body = document.body;
+            const isDark = body.getAttribute('data-theme') === 'dark';
+            body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            this.innerHTML = isDark ? '<i class="fa-solid fa-moon"></i>' : '<i class="fa-solid fa-sun"></i>';
+        });
+        // sidebar active-link on scroll
+        const sections = document.querySelectorAll('.main-content [id]');
+        const navLinks = document.querySelectorAll('.sidebar .nav-link');
+        window.addEventListener('scroll', function () {
+            let current = '';
+            sections.forEach(sec => { if (window.scrollY >= sec.offsetTop - 120) current = sec.id; });
+            navLinks.forEach(link => {
+                link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+            });
+        });
+    </script>
+</body>
+</html>

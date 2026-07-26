@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice {{ so.order_number }} | ManufacturingERP</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f4f6fb;
+            margin: 0;
+            padding: 30px 0;
+        }
+        .invoice-sheet {
+            max-width: 820px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(23,43,99,0.08);
+            padding: 40px;
+        }
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid #2954e6;
+            padding-bottom: 18px;
+            margin-bottom: 24px;
+        }
+        .company-name { font-size: 1.4rem; font-weight: 700; color: #1b2a55; }
+        .invoice-title { font-size: 1.6rem; font-weight: 700; color: #2954e6; text-align: right; }
+        .meta-block { margin-bottom: 22px; }
+        .meta-block .label { font-size: .75rem; text-transform: uppercase; color: #7a869e; }
+        .table thead th {
+            background: #eef1fb; font-size: .78rem; text-transform: uppercase;
+            color: #56618a; border: none;
+        }
+        .total-row td { font-weight: 700; font-size: 1.05rem; }
+        .no-print { }
+        @media print {
+            body { background: #fff; padding: 0; }
+            .invoice-sheet { box-shadow: none; border-radius: 0; max-width: 100%; padding: 20px; }
+            .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-sheet">
+        <div class="text-end no-print mb-3">
+            <button class="btn btn-primary btn-sm" onclick="window.print()"><i class="fa-solid fa-print"></i> Print / Save as PDF</button>
+            <a href="{% url 'salesorder-list' %}" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-arrow-left"></i> Back</a>
+        </div>
+
+        <div class="invoice-header">
+            <div class="d-flex align-items-start gap-3">
+                {% if company.logo %}<img src="{{ company.logo.url }}" alt="logo" style="height:56px;width:auto;border-radius:6px;">{% endif %}
+                <div>
+                    <div class="company-name">{{ company.name }}</div>
+                    {% if company.address %}<div class="text-muted" style="font-size:.85rem;">{{ company.address }}</div>{% endif %}
+                    <div class="text-muted" style="font-size:.85rem;">
+                        {% if company.phone %}{{ company.phone }}{% endif %}
+                        {% if company.phone and company.email %} · {% endif %}
+                        {% if company.email %}{{ company.email }}{% endif %}
+                    </div>
+                    {% if company.gstin %}<div class="text-muted" style="font-size:.85rem;">GSTIN: {{ company.gstin }}</div>{% endif %}
+                </div>
+            </div>
+            <div>
+                <div class="invoice-title">INVOICE</div>
+                <div class="text-muted" style="font-size:.85rem;">#{{ so.order_number }}</div>
+            </div>
+        </div>
+
+        <div class="row meta-block">
+            <div class="col-6">
+                <div class="label">Billed To</div>
+                <div style="font-weight:600;">{{ so.customer.company_name }}</div>
+                <div>{{ so.customer.contact_person }}</div>
+                <div>{{ so.customer.phone }}</div>
+                {% if so.customer.email %}<div>{{ so.customer.email }}</div>{% endif %}
+                {% if so.customer.gst %}<div>GSTIN: {{ so.customer.gst }}</div>{% endif %}
+                {% if so.customer.address %}<div>{{ so.customer.address }}</div>{% endif %}
+            </div>
+            <div class="col-6 text-end">
+                <div><span class="label">Order Date:</span> {{ so.order_date }}</div>
+                <div><span class="label">Delivery Date:</span> {{ so.delivery_date }}</div>
+                <div><span class="label">Status:</span> {{ so.get_status_display }}</div>
+            </div>
+        </div>
+
+        <table class="table table-bordered align-middle">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Item</th>
+                    <th>Unit</th>
+                    <th class="text-end">Qty</th>
+                    <th class="text-end">Rate (₹)</th>
+                    <th class="text-end">Amount (₹)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in so.items.all %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.product.get_unit_display }}</td>
+                    <td class="text-end">{{ item.quantity }}</td>
+                    <td class="text-end">{{ item.rate }}</td>
+                    <td class="text-end">{{ item.subtotal }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="6" class="text-center text-muted py-3">No items added to this order.</td></tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5" class="text-end">Subtotal</td>
+                    <td class="text-end">₹{{ so.subtotal_amount }}</td>
+                </tr>
+                {% if so.discount_percentage %}
+                <tr>
+                    <td colspan="5" class="text-end">Discount ({{ so.discount_percentage }}%)</td>
+                    <td class="text-end">-₹{{ so.discount_amount }}</td>
+                </tr>
+                {% endif %}
+                {% if so.gst_percentage %}
+                <tr>
+                    <td colspan="5" class="text-end">GST ({{ so.gst_percentage }}%)</td>
+                    <td class="text-end">+₹{{ so.gst_amount }}</td>
+                </tr>
+                {% endif %}
+                <tr class="total-row">
+                    <td colspan="5" class="text-end">Grand Total</td>
+                    <td class="text-end">₹{{ so.total_amount }}</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="text-muted mt-4" style="font-size:.8rem;">This is a system-generated invoice.</div>
+    </div>
+</body>
+</html>

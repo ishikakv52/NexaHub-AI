@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | ManufacturingERP</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        :root {
+            --sidebar-w: 250px;
+            --brand: #2954e6;
+            --brand-dark: #1e3fb8;
+            --bg-soft: #f4f6fb;
+            --card-radius: 14px;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-soft);
+            margin: 0;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0; left: 0; bottom: 0;
+            width: var(--sidebar-w);
+            background: linear-gradient(180deg, #101935 0%, #1b2a55 100%);
+            color: #cfd7f5;
+            overflow-y: auto;
+            z-index: 1030;
+        }
+        .sidebar .brand {
+            padding: 22px 20px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .sidebar .brand i { color: var(--brand); margin-right: 8px; }
+        .sidebar a.nav-link {
+            color: #b9c3e8;
+            padding: 11px 20px;
+            font-size: .92rem;
+            border-left: 3px solid transparent;
+            transition: all .15s ease-in-out;
+        }
+        .sidebar a.nav-link i { width: 22px; }
+        .sidebar a.nav-link:hover {
+            background: rgba(255,255,255,0.06);
+            color: #fff;
+        }
+        .sidebar a.nav-link.active {
+            background: rgba(41,84,230,0.18);
+            color: #fff;
+            border-left-color: var(--brand);
+            font-weight: 600;
+        }
+        .main-content {
+            margin-left: var(--sidebar-w);
+            padding: 26px 30px 60px;
+            min-height: 100vh;
+        }
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+        .topbar h3 { font-weight: 700; margin: 0; color: #1b2a55; }
+        .card {
+            border: none;
+            border-radius: var(--card-radius);
+            box-shadow: 0 2px 10px rgba(23,43,99,0.06);
+        }
+        .kpi-card { padding: 18px 20px; }
+        .kpi-card .kpi-icon {
+            width: 46px; height: 46px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; color: #fff;
+        }
+        .kpi-value { font-size: 1.6rem; font-weight: 700; color: #1b2a55; }
+        .kpi-label { font-size: .82rem; color: #7a869e; }
+        .btn-primary { background: var(--brand); border-color: var(--brand); }
+        .btn-primary:hover { background: var(--brand-dark); border-color: var(--brand-dark); }
+        .table thead th {
+            background: #eef1fb; font-size: .78rem; text-transform: uppercase;
+            color: #56618a; border: none;
+        }
+        .badge-status { padding: 5px 10px; border-radius: 20px; font-size: .72rem; font-weight: 600; }
+        @media (max-width: 991px) {
+            .sidebar { transform: translateX(-100%); }
+            .main-content { margin-left: 0; }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="brand"><i class="fa-solid fa-industry"></i>{{ company_profile.name|default:"ManufacturingERP" }}</div>
+        <nav class="nav flex-column py-2">
+            <a href="/dashboard/" class="nav-link active">🏠&nbsp; Dashboard</a>
+            <a href="/employees/" class="nav-link">👥&nbsp; Employees</a>
+            <a href="/workers/" class="nav-link">👨‍🏭&nbsp; Workers</a>
+            <a href="/attendance/" class="nav-link">⏰&nbsp; Attendance</a>
+            <a href="/production/orders/" class="nav-link">🏭&nbsp; Production</a>
+            <a href="/inventory/" class="nav-link">📦&nbsp; Inventory</a>
+            <a href="/warehouse/" class="nav-link">🏢&nbsp; Warehouse</a>
+            <a href="/purchase/orders/" class="nav-link">🚚&nbsp; Purchase</a>
+            <a href="/sales/orders/" class="nav-link">📦&nbsp; Sales</a>
+            <a href="/machines/" class="nav-link">🛠&nbsp; Machines</a>
+            <a href="/quality/checks/" class="nav-link">🔍&nbsp; QC</a>
+            <a href="/bom/" class="nav-link">📄&nbsp; BOM</a>
+            <a href="/work-orders/" class="nav-link">⚙&nbsp; Work Orders</a>
+            <a href="/customers/" class="nav-link">👤&nbsp; Customers</a>
+            <a href="/finance/expenses/" class="nav-link">💰&nbsp; Finance</a>
+            <a href="/reports/" class="nav-link">📊&nbsp; Reports</a>
+            <a href="/reminders/" class="nav-link">🔔&nbsp; Reminders</a>
+            <a href="/leave-requests/" class="nav-link">🗓&nbsp; Leave Requests</a>
+            <a href="/material-requests/" class="nav-link">📥&nbsp; Material Requests</a>
+            <a href="/maintenance-requests/" class="nav-link">🧰&nbsp; Maintenance Requests</a>
+            <a href="/settings/" class="nav-link">⚙&nbsp; Settings</a>
+        </nav>
+    </div>
+    <div class="main-content">
+        <div class="topbar">
+            <h3><i class="fa-solid fa-gauge-high me-2"></i>Dashboard</h3>
+            <span class="text-muted">{% now "l, d M Y" %}</span>
+        </div>
+
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <div class="card kpi-card d-flex flex-row align-items-center gap-3">
+                    <div class="kpi-icon" style="background:#2954e6;"><i class="fa-solid fa-users"></i></div>
+                    <div><div class="kpi-value">{{ total_employees }}</div><div class="kpi-label">Total Employees</div></div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card kpi-card d-flex flex-row align-items-center gap-3">
+                    <div class="kpi-icon" style="background:#16a34a;"><i class="fa-solid fa-people-carry-box"></i></div>
+                    <div><div class="kpi-value">{{ active_workers }}</div><div class="kpi-label">Active Workers</div></div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card kpi-card d-flex flex-row align-items-center gap-3">
+                    <div class="kpi-icon" style="background:#f59e0b;"><i class="fa-solid fa-industry"></i></div>
+                    <div><div class="kpi-value">{{ running_orders }}</div><div class="kpi-label">Running Production Orders</div></div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card kpi-card d-flex flex-row align-items-center gap-3">
+                    <div class="kpi-icon" style="background:#e11d48;"><i class="fa-solid fa-warehouse"></i></div>
+                    <div><div class="kpi-value">₹{{ inventory_value|floatformat:0 }}</div><div class="kpi-label">Inventory Value</div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <div class="card p-3">
+                    <h6 class="mb-3">Production vs Target</h6>
+                    <canvas id="prodChart" height="160"></canvas>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3">
+                    <h6 class="mb-3">Expense Breakdown</h6>
+                    <canvas id="expenseChart" height="160"></canvas>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3">
+                    <h6 class="mb-3">Machine Status</h6>
+                    <canvas id="machineChart" height="160"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <div class="card p-3">
+                    <h6 class="mb-3">Monthly Profit / Loss</h6>
+                    <canvas id="profitChart" height="140"></canvas>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3">
+                    <h6 class="mb-3"><i class="fa-solid fa-triangle-exclamation text-danger me-1"></i>Low Stock Alerts</h6>
+                    <ul class="list-group list-group-flush">
+                    {% for item in low_stock_items %}
+                        <li class="list-group-item d-flex justify-content-between px-0">
+                            <span>{{ item.name }}</span>
+                            <span class="badge bg-danger">{{ item.current_stock }} {{ item.unit }}</span>
+                        </li>
+                    {% empty %}<li class="list-group-item px-0 text-muted">All stock levels healthy.</li>{% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3">
+                    <h6 class="mb-3"><i class="fa-solid fa-screwdriver-wrench text-warning me-1"></i>Upcoming Maintenance</h6>
+                    <ul class="list-group list-group-flush">
+                    {% for log in upcoming_maintenance %}
+                        <li class="list-group-item px-0">
+                            <div class="fw-semibold">{{ log.machine.name }}</div>
+                            <small class="text-muted">Due {{ log.next_due_date }}</small>
+                        </li>
+                    {% empty %}<li class="list-group-item px-0 text-muted">Nothing scheduled soon.</li>{% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        const prodCtx = document.getElementById('prodChart');
+        new Chart(prodCtx, {
+            type: 'bar',
+            data: {
+                labels: {{ prod_labels|safe }},
+                datasets: [
+                    { label: 'Target', data: {{ prod_target|safe }}, backgroundColor: '#c7d2fe' },
+                    { label: 'Actual', data: {{ prod_actual|safe }}, backgroundColor: '#2954e6' }
+                ]
+            },
+            options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+        });
+
+        new Chart(document.getElementById('expenseChart'), {
+            type: 'pie',
+            data: {
+                labels: {{ expense_labels|safe }},
+                datasets: [{ data: {{ expense_values|safe }}, backgroundColor: ['#2954e6','#16a34a','#f59e0b','#e11d48','#7c3aed','#0891b2'] }]
+            },
+            options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+        });
+
+        new Chart(document.getElementById('machineChart'), {
+            type: 'doughnut',
+            data: {
+                labels: {{ machine_status_labels|safe }},
+                datasets: [{ data: {{ machine_status_values|safe }}, backgroundColor: ['#16a34a','#f59e0b','#e11d48','#64748b'] }]
+            },
+            options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+        });
+
+        new Chart(document.getElementById('profitChart'), {
+            type: 'line',
+            data: {
+                labels: {{ profit_labels|safe }},
+                datasets: [{ label: 'Profit / Loss', data: {{ profit_values|safe }}, borderColor: '#2954e6', backgroundColor: 'rgba(41,84,230,0.12)', fill: true, tension: 0.3 }]
+            },
+            options: { responsive: true, plugins: { legend: { display: false } } }
+        });
+    </script>
+
+</body>
+</html>
